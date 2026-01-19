@@ -334,7 +334,7 @@ const EventRegistrationForm = ({
 
                   <FormField control={form.control} name="captchaToken" render={() => <FormItem>
                         <div className="flex justify-center">
-                          <HCaptcha ref={captchaRef} sitekey="10000000-ffff-ffff-ffff-000000000001" // Test key - replace with real key
+                          <HCaptcha ref={captchaRef} sitekey="6Lf-fU8sAAAAAENoSVSlsz22r6IX5VXjHs6k-QIm"
                   onVerify={handleCaptchaVerify} onExpire={handleCaptchaExpire} />
                         </div>
                         <FormMessage className="text-center" />
