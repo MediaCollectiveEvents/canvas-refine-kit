@@ -339,6 +339,13 @@ const EventRegistrationForm = ({
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Consent & Verification</h3>
                   </div>
 
+                  {/* Dev-only: Display hostname for reCAPTCHA debugging */}
+                  {import.meta.env.DEV && (
+                    <div className="p-2 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded text-xs text-yellow-800 dark:text-yellow-200 font-mono">
+                      <strong>DEV:</strong> window.location.hostname = <code>{typeof window !== 'undefined' ? window.location.hostname : 'N/A'}</code>
+                    </div>
+                  )}
+
                   <div className="p-4 bg-muted/50 rounded-lg text-sm text-muted-foreground leading-relaxed">
                     <p>
                       We respect your privacy. By submitting this form, you agree that we may store and process your personal data to manage your event registration and notify you about relevant opportunities. Your data will not be shared with third parties without your consent. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
