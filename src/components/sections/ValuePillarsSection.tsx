@@ -22,7 +22,11 @@ const pillars = [
   },
 ];
 
-const ValuePillarsSection = () => {
+interface ValuePillarsSectionProps {
+  onRegisterClick?: () => void;
+}
+
+const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
   return (
     <section className="py-24 md:py-32 bg-card relative overflow-hidden">
       {/* Background decoration */}
@@ -61,6 +65,7 @@ const ValuePillarsSection = () => {
         {/* Centralized CTA */}
         <div className="flex justify-center mt-12">
           <Button
+            onClick={onRegisterClick}
             className="bg-primary text-primary-foreground hover:bg-primary/90 font-body uppercase tracking-wider text-sm px-10 py-6"
           >
             Join Our Community

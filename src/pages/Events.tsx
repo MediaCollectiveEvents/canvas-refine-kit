@@ -238,12 +238,12 @@ const Events = () => {
             <p className="text-muted-foreground/70 font-body text-sm mb-8 max-w-lg mx-auto">
               All events are free and by invitation only. Registering interest does not guarantee entry.
             </p>
-            <a
-              href="/#contact"
+            <button
+              onClick={() => setIsFormOpen(true)}
               className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full font-body uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors"
             >
-              Get in Touch
-            </a>
+              Register Interest
+            </button>
           </motion.div>
         </div>
       </section>
