@@ -357,7 +357,7 @@ const EventRegistrationForm = ({
                         <div className="flex justify-center">
                           <ReCAPTCHA 
                             ref={captchaRef} 
-                            sitekey="6Lf-fU8sAAAAAENoSVSlsz22r6IX5VXjHs6k-QIm"
+                            sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc"
                             onChange={handleCaptchaChange} 
                           />
                         </div>
