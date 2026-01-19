@@ -220,10 +220,8 @@ const EventRegistrationForm = ({
   };
   return <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[540px] max-h-[90vh] overflow-y-auto bg-background border-border">
-        <DialogHeader className="pb-4">
-          <DialogTitle className="font-script text-3xl text-center text-foreground">
-            Register Interest
-          </DialogTitle>
+        <DialogHeader className="sr-only">
+          <DialogTitle>Register Interest</DialogTitle>
         </DialogHeader>
 
         <ProgressIndicator currentStage={currentStage} totalStages={4} />
