@@ -67,7 +67,7 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
                 <Button 
                   size="lg" 
                   onClick={onRegisterClick}
-                  className="bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground font-body uppercase tracking-wider text-sm px-10 py-7 shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
+                  className="bg-muted text-primary hover:bg-muted/80 font-body uppercase tracking-wider text-sm px-10 py-7 shadow-lg hover:shadow-xl transition-all duration-300 border border-border"
                 >
                   Register Interest
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
