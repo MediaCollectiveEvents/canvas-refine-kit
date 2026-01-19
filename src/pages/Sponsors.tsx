@@ -2,6 +2,7 @@ import { motion, useMotionValue, useTransform, useAnimationFrame } from "framer-
 import { useRef, useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import EventRegistrationForm from "@/components/EventRegistrationForm";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Eye, Mic, Star } from "lucide-react";
 
@@ -143,7 +144,10 @@ const SponsorLogo = ({
 };
 const Sponsors = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  
   return <div className="min-h-screen bg-background">
+      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
       <Header />
 
       {/* Hero Section */}
@@ -346,9 +350,12 @@ const Sponsors = () => {
               Contact us to discuss a bespoke sponsorship package tailored to
               your brand's objectives and budget.
             </p>
-            <a href="/#contact" className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full font-body uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors">
-              Contact Us
-            </a>
+            <button 
+              onClick={() => setIsFormOpen(true)}
+              className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full font-body uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors"
+            >
+              Register Interest
+            </button>
           </motion.div>
         </div>
       </section>

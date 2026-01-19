@@ -17,7 +17,7 @@ const Index = () => {
       <main>
         <HeroSection onRegisterClick={() => setIsFormOpen(true)} />
         <AboutSection />
-        <ValuePillarsSection />
+        <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
         <TestimonialsSection />
       </main>
       <Footer />
