@@ -60,7 +60,7 @@ const Header = () => {
                 onClick={() => setIsFormOpen(true)}
                 className="bg-primary text-primary-foreground hover:bg-primary/90 font-body uppercase tracking-wider text-sm px-6"
               >
-                Join Now
+                Contact Us
               </Button>
             </div>
 
@@ -106,7 +106,7 @@ const Header = () => {
                   }}
                   className="bg-primary text-primary-foreground hover:bg-primary/90 font-body uppercase tracking-wider text-sm mt-2"
                 >
-                  Join Now
+                  Contact Us
                 </Button>
               </div>
             </nav>
