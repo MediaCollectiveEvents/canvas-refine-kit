@@ -1,9 +1,9 @@
-import { MapPin, Calendar } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-import nabReviewImg from "@/assets/events/nab-review.png";
-import mptsDrinksImg from "@/assets/events/mpts-drinks.png";
+import broadcasterImg from "@/assets/events/broadcaster.png";
+import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 
 interface Event {
@@ -19,15 +19,15 @@ const events: Event[] = [
     id: 1,
     title: "NAB Review",
     location: "White City, London, UK",
-    venue: "White City",
-    image: nabReviewImg,
+    venue: "The Broadcaster",
+    image: broadcasterImg,
   },
   {
     id: 2,
     title: "Post MPTS Drinks Reception",
     location: "Olympia London, UK",
-    venue: "Olympia",
-    image: mptsDrinksImg,
+    venue: "The Hand & Flower",
+    image: handandflowerImg,
   },
   {
     id: 3,
