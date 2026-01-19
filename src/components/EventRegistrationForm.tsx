@@ -140,18 +140,41 @@ const EventRegistrationForm = ({
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      // Create submission data with timestamp
-      const submissionData = {
-        ...data,
-        consentTimestamp: new Date().toISOString(),
-        captchaVerified: !!data.captchaToken
+      // Map form fields to Google Sheet headers
+      const eventLabels = data.interestedEvents
+        .map(id => upcomingEvents.find(e => e.id === id)?.label || id)
+        .join(", ");
+      
+      const engagementLabels = data.engagementTypes
+        .map(id => engagementOptions.find(e => e.id === id)?.label || id)
+        .join(", ");
+
+      const webhookData = {
+        fullName: data.fullName,
+        companyName: data.companyName,
+        emailAddress: data.email,
+        event: eventLabels,
+        howEngage: engagementLabels,
+        consent: data.gdprConsent ? "Y" : "N"
       };
 
-      // TODO: Integrate with CRM/backend - for now log to console
-      console.log("Form submission:", submissionData);
+      // Submit to Google Sheet webhook
+      const response = await fetch(
+        "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(webhookData),
+        }
+      );
+
+      // Show thank-you message
       toast({
-        title: "Registration Successful!",
-        description: "Thank you for your interest. We'll be in touch soon."
+        title: "Thank You for Registering!",
+        description: "Your registration has been received. We'll be in touch with event details soon."
       });
 
       // Reset form and close dialog
@@ -160,6 +183,7 @@ const EventRegistrationForm = ({
       captchaRef.current?.resetCaptcha();
       onOpenChange(false);
     } catch (error) {
+      console.error("Webhook submission error:", error);
       toast({
         title: "Submission Failed",
         description: "Please try again later.",
