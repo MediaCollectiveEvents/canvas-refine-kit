@@ -59,15 +59,14 @@ const EventsSection = ({ onRegisterClick }: EventsSectionProps) => {
           {events.map((event) => (
             <Card
               key={event.id}
-              className="bg-card border-border overflow-hidden group hover:border-primary/50 transition-all duration-300"
+              className="bg-transparent border-border overflow-hidden group hover:border-primary/50 transition-all duration-300"
             >
               <div className="relative h-48 overflow-hidden">
                 <img
                   src={event.image}
                   alt={event.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-card/90 to-transparent" />
               </div>
               <CardContent className="p-6">
                 <h3 className="text-xl font-semibold text-foreground mb-3">
