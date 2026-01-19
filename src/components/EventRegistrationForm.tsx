@@ -162,7 +162,8 @@ const EventRegistrationForm = ({
         event: eventLabels,
         howEngage: engagementLabels,
         consent: data.gdprConsent ? "Y" : "N",
-        captchaToken
+        "g-recaptcha-response": captchaToken,
+        token: "3Fv9XqT7bLpK2zR8YwS6dN1mHjUaV5eG"
       };
 
       await fetch(
