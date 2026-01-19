@@ -17,7 +17,6 @@ const Header = () => {
     { label: "Events", href: "/events" },
     { label: "Sponsors", href: "/sponsors" },
     { label: "Blog", href: "/blog" },
-    { label: "Contact", href: isHomePage ? "#contact" : "/#contact" },
   ];
 
   return (
