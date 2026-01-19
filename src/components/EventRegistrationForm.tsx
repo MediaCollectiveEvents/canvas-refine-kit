@@ -53,8 +53,7 @@ const stage3Schema = z.object({
   engagementTypes: z.array(z.string()).min(1, "Please select at least one engagement type")
 });
 const stage4Schema = z.object({
-  gdprConsent: z.boolean().refine(val => val === true, "You must consent to continue"),
-  captchaToken: z.string().min(1, "Please complete the CAPTCHA verification")
+  gdprConsent: z.boolean().refine(val => val === true, "You must consent to continue")
 });
 const fullSchema = stage1Schema.merge(stage2Schema).merge(stage3Schema).merge(stage4Schema);
 type FormData = z.infer<typeof fullSchema>;
@@ -101,8 +100,7 @@ const EventRegistrationForm = ({
       email: "",
       engagementTypes: [],
       interestedEvents: preselectedEvent ? [preselectedEvent] : [],
-      gdprConsent: false,
-      captchaToken: ""
+      gdprConsent: false
     },
     mode: "onChange"
   });
@@ -115,7 +113,7 @@ const EventRegistrationForm = ({
     } else if (currentStage === 3) {
       isValid = await form.trigger(["engagementTypes"]);
     } else if (currentStage === 4) {
-      isValid = await form.trigger(["gdprConsent", "captchaToken"]);
+      isValid = await form.trigger(["gdprConsent"]);
     }
     return isValid;
   };
@@ -131,13 +129,24 @@ const EventRegistrationForm = ({
     }
   };
   const handleCaptchaChange = (token: string | null) => {
-    form.setValue("captchaToken", token || "");
-    form.trigger("captchaToken");
+    if (token) {
+      // Execute the actual form submission after captcha verification
+      const formData = form.getValues();
+      submitForm(formData, token);
+    }
   };
-  const onSubmit = async (data: FormData) => {
+
+  const handleFormSubmit = async () => {
+    const isValid = await form.trigger();
+    if (isValid) {
+      // Execute invisible reCAPTCHA
+      captchaRef.current?.execute();
+    }
+  };
+
+  const submitForm = async (data: Omit<FormData, 'captchaToken'>, captchaToken: string) => {
     setIsSubmitting(true);
     try {
-      // Map form fields to Google Sheet headers
       const eventLabels = data.interestedEvents
         .map(id => upcomingEvents.find(e => e.id === id)?.label || id)
         .join(", ");
@@ -152,11 +161,11 @@ const EventRegistrationForm = ({
         emailAddress: data.email,
         event: eventLabels,
         howEngage: engagementLabels,
-        consent: data.gdprConsent ? "Y" : "N"
+        consent: data.gdprConsent ? "Y" : "N",
+        captchaToken
       };
 
-      // Submit to Google Sheet webhook
-      const response = await fetch(
+      await fetch(
         "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec",
         {
           method: "POST",
@@ -168,13 +177,11 @@ const EventRegistrationForm = ({
         }
       );
 
-      // Show thank-you message
       toast({
         title: "Thank You for Registering!",
         description: "Your registration has been received. We'll be in touch with event details soon."
       });
 
-      // Reset form and close dialog
       form.reset();
       setCurrentStage(1);
       captchaRef.current?.reset();
@@ -221,7 +228,7 @@ const EventRegistrationForm = ({
         <ProgressIndicator currentStage={currentStage} totalStages={4} />
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }} className="space-y-6">
             <AnimatePresence mode="wait" custom={currentStage}>
               {/* Stage 1: Personal Details */}
               {currentStage === 1 && <motion.div key="stage1" custom={1} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
@@ -353,16 +360,12 @@ const EventRegistrationForm = ({
                         </div>
                       </FormItem>} />
 
-                  <FormField control={form.control} name="captchaToken" render={() => <FormItem>
-                        <div className="flex justify-center">
-                          <ReCAPTCHA 
-                            ref={captchaRef} 
-                            sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc"
-                            onChange={handleCaptchaChange} 
-                          />
-                        </div>
-                        <FormMessage className="text-center" />
-                      </FormItem>} />
+                  <ReCAPTCHA 
+                    ref={captchaRef} 
+                    sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc"
+                    size="invisible"
+                    onChange={handleCaptchaChange} 
+                  />
                 </motion.div>}
             </AnimatePresence>
 
