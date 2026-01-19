@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
+import ReCAPTCHA from "react-google-recaptcha";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ChevronRight, ChevronLeft, X } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -92,7 +92,7 @@ const EventRegistrationForm = ({
 }: EventRegistrationFormProps) => {
   const [currentStage, setCurrentStage] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const captchaRef = useRef<HCaptcha>(null);
+  const captchaRef = useRef<ReCAPTCHA>(null);
   const form = useForm<FormData>({
     resolver: zodResolver(fullSchema),
     defaultValues: {
@@ -130,12 +130,9 @@ const EventRegistrationForm = ({
       setCurrentStage(prev => prev - 1);
     }
   };
-  const handleCaptchaVerify = (token: string) => {
-    form.setValue("captchaToken", token);
+  const handleCaptchaChange = (token: string | null) => {
+    form.setValue("captchaToken", token || "");
     form.trigger("captchaToken");
-  };
-  const handleCaptchaExpire = () => {
-    form.setValue("captchaToken", "");
   };
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -180,7 +177,7 @@ const EventRegistrationForm = ({
       // Reset form and close dialog
       form.reset();
       setCurrentStage(1);
-      captchaRef.current?.resetCaptcha();
+      captchaRef.current?.reset();
       onOpenChange(false);
     } catch (error) {
       console.error("Webhook submission error:", error);
@@ -196,7 +193,7 @@ const EventRegistrationForm = ({
   const handleClose = () => {
     form.reset();
     setCurrentStage(1);
-    captchaRef.current?.resetCaptcha();
+    captchaRef.current?.reset();
     onOpenChange(false);
   };
   const slideVariants = {
@@ -358,8 +355,11 @@ const EventRegistrationForm = ({
 
                   <FormField control={form.control} name="captchaToken" render={() => <FormItem>
                         <div className="flex justify-center">
-                          <HCaptcha ref={captchaRef} sitekey="6Lf-fU8sAAAAAENoSVSlsz22r6IX5VXjHs6k-QIm"
-                  onVerify={handleCaptchaVerify} onExpire={handleCaptchaExpire} />
+                          <ReCAPTCHA 
+                            ref={captchaRef} 
+                            sitekey="6Lf-fU8sAAAAAENoSVSlsz22r6IX5VXjHs6k-QIm"
+                            onChange={handleCaptchaChange} 
+                          />
                         </div>
                         <FormMessage className="text-center" />
                       </FormItem>} />
