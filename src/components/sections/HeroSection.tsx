@@ -49,9 +49,7 @@ const HeroSection = ({
             </h1>
 
             {/* Subheadline */}
-            <p className="text-primary-foreground/80 font-body text-lg max-w-xl animate-fade-in leading-relaxed mx-0 mb-0 md:text-3xl text-center" style={{
-            animationDelay: "0.5s"
-          }}>                      Connect, engage, and enjoy great company.</p>
+            
 
             {/* CTA Buttons */}
             <motion.div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start" initial={{

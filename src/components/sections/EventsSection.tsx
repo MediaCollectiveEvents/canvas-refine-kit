@@ -56,15 +56,11 @@ const EventsSection = ({
       }} transition={{
         duration: 0.6
       }}>
-          <span className="text-primary font-medium tracking-widest uppercase text-sm mb-4 block">
-            Connect & Network
-          </span>
+          
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Upcoming <span className="text-gradient">Events</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed">
-            Join us at our exclusive industry events designed to connect media professionals and foster meaningful relationships
-          </p>
+          
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
