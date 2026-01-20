@@ -5,7 +5,7 @@ const AboutSection = () => {
           
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
             Connecting the{" "}
-            <span className="text-primary italic">Media Industry</span>
+            <span className="text-primary italic">Us</span>
           </h2>
           <div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed">
             <p>We bring together a community of senior executives, innovators, and thought leaders from across the global media landscape. Our exclusive events provide a welcoming environment to connect, catch up and expand your network.
