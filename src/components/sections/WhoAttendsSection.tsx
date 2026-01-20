@@ -61,7 +61,7 @@ const WhoAttendsSection = () => {
             </p>
           </motion.div>
 
-          {/* Stat Columns - Premium 3-column layout, left aligned */}
+          {/* Stat Columns - Premium 3-column layout, centered content */}
           <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 pt-12 border-t border-border"
             initial={{ opacity: 0, y: 20 }}
@@ -72,14 +72,14 @@ const WhoAttendsSection = () => {
             {statColumns.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                className="flex flex-col items-start text-left p-4"
+                className="flex flex-col items-center text-center p-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
               >
-                <div className={`w-12 h-12 rounded-full ${stat.bgColor} flex items-center justify-center mb-4`}>
-                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
+                <div className={`w-20 h-20 rounded-full ${stat.bgColor} flex items-center justify-center mb-5`}>
+                  <stat.icon className={`w-10 h-10 ${stat.color}`} />
                 </div>
                 <p className="font-display text-2xl md:text-3xl text-foreground mb-2 tracking-tight">
                   {stat.number}
