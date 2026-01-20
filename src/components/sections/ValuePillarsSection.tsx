@@ -62,16 +62,6 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
           ))}
         </div>
 
-        {/* Centralized CTA */}
-        <div className="flex justify-center mt-12">
-          <Button
-            onClick={onRegisterClick}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 font-body uppercase tracking-wider text-sm px-10 py-6"
-          >
-            Join Our Community
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
       </div>
     </section>
   );
