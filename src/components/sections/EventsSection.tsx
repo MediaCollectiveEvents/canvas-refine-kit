@@ -82,7 +82,7 @@ const EventsSection = ({
         }}>
               <Card className="bg-card/50 backdrop-blur-sm border-border/50 overflow-hidden group hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 h-full">
                 <div className="relative h-56 overflow-hidden bg-gradient-to-br from-muted/30 to-muted/10">
-                  <img src={event.image} alt={event.title} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out" />
+                  <img src={event.image} alt={event.title} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out border-none my-0 mx-[2px] px-[2px]" />
                   {/* Subtle overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mx-[24px] my-[24px]" />
                 </div>
