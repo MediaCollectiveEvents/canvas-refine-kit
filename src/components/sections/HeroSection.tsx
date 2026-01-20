@@ -49,7 +49,7 @@ const HeroSection = ({
             </h1>
 
             {/* Subheadline */}
-            <p className="text-primary-foreground/80 font-body text-lg max-w-xl mb-12 animate-fade-in leading-relaxed text-center mx-0 md:text-3xl" style={{
+            <p className="text-primary-foreground/80 font-body text-lg max-w-xl mb-12 animate-fade-in leading-relaxed text-center mx-auto lg:mx-0 lg:text-left md:text-3xl" style={{
             animationDelay: "0.5s"
           }}>Connect, engage, and enjoy great company.</p>
 
