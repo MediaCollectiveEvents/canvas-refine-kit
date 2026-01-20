@@ -45,11 +45,11 @@ const HeroSection = ({
               <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl" style={{
               animationDelay: "0.3s",
               color: "hsl(35 65% 35%)"
-            }}>FOR MEDIA & ENTERTAINMENT INNOVATORS</span>
+            }}> MEDIA & ENTERTAINMENT INNOVATORS</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-primary-foreground/80 font-body text-lg max-w-xl mb-12 animate-fade-in leading-relaxed text-center md:text-2xl" style={{
+            <p className="text-primary-foreground/80 font-body text-lg max-w-xl mb-12 animate-fade-in leading-relaxed text-center mx-0 md:text-3xl" style={{
             animationDelay: "0.5s"
           }}>Connect, engage, and enjoy great company.</p>
 
