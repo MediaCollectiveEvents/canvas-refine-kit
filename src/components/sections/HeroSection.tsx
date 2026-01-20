@@ -51,28 +51,6 @@ const HeroSection = ({
             {/* Subheadline */}
             
 
-            {/* CTA Buttons */}
-            <motion.div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start" initial={{
-            opacity: 0,
-            y: 20
-          }} animate={{
-            opacity: 1,
-            y: 0
-          }} transition={{
-            delay: 0.6,
-            duration: 0.5
-          }}>
-              <motion.div whileHover={{
-              scale: 1.05
-            }} whileTap={{
-              scale: 0.98
-            }}>
-                <Button size="lg" onClick={onRegisterClick} className="bg-muted text-primary hover:bg-muted/80 font-body uppercase tracking-wider text-sm px-10 py-7 shadow-lg hover:shadow-xl transition-all duration-300 border border-border">
-                  Join Us at the Next Event
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </motion.div>
-            </motion.div>
           </div>
 
           {/* People illustration - right side with parallax */}
