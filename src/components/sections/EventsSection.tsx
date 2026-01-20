@@ -20,7 +20,7 @@ const events: Event[] = [{
   image: broadcasterImg
 }, {
   id: 2,
-  title: "MPTS Drinks Reception",
+  title: "MPTS Reception",
   location: "Olympia London, UK",
   venue: "The Hand & Flower",
   image: handandflowerImg
