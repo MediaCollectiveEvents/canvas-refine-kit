@@ -82,7 +82,7 @@ const EventsSection = ({
                   {/* Subtle overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
-                <CardContent className="p-6 space-y-4">
+                <CardContent className="p-6 space-y-4 flex flex-col h-full">
                   <div className="space-y-2">
                     <p className="text-xs font-medium tracking-wider uppercase text-primary/80">
                       {event.venue}
@@ -95,7 +95,7 @@ const EventsSection = ({
                     <MapPin className="h-4 w-4 mt-0.5 text-primary/70 flex-shrink-0" />
                     <span className="text-sm leading-relaxed">{event.location}</span>
                   </div>
-                  <Button onClick={onRegisterClick} className="w-full bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary group/btn transition-all duration-300">
+                  <Button onClick={onRegisterClick} className="w-full mt-auto bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary group/btn transition-all duration-300">
                     <span>Register Interest</span>
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
                   </Button>
