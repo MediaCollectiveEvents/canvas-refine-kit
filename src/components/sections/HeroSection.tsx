@@ -24,7 +24,7 @@ const HeroSection = ({
       <div className="container mx-auto px-8 md:px-12 lg:px-16 relative z-10">
         <div className="flex flex-col lg:flex-row items-center lg:items-center gap-1.5 lg:gap-2 pt-32 lg:pt-36 pb-24 lg:pb-28">
           {/* Text content - left side */}
-          <div className="lg:w-[45%] text-center lg:text-left lg:pl-8">
+          <div className="lg:w-[45%] text-center lg:text-left lg:pl-8 rounded-lg shadow-none">
             {/* Eyebrow text */}
             <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-12 animate-fade-in"> </p>
 
@@ -49,9 +49,9 @@ const HeroSection = ({
             </h1>
 
             {/* Subheadline */}
-            <p className="text-primary-foreground/80 font-body text-lg max-w-xl mb-12 animate-fade-in leading-relaxed text-center mx-auto lg:mx-0 lg:text-left md:text-3xl" style={{
+            <p className="text-primary-foreground/80 font-body text-lg max-w-xl animate-fade-in leading-relaxed mx-0 mb-0 md:text-3xl text-right" style={{
             animationDelay: "0.5s"
-          }}>Connect, engage, and enjoy great company.</p>
+          }}>                      Connect, engage, and enjoy great company.</p>
 
             {/* CTA Buttons */}
             <motion.div className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start" initial={{
