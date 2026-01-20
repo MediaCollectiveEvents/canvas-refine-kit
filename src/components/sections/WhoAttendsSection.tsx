@@ -7,38 +7,44 @@ const WhoAttendsSection = () => {
       icon: Rocket,
       number: "The Top 3",
       label: "Global Tech Giants",
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
     },
     {
       icon: Clapperboard,
       number: "The Major 5",
       label: "Hollywood Studios",
+      color: "text-rose-500",
+      bgColor: "bg-rose-500/10",
     },
     {
       icon: Tv,
       number: "The Leading 8",
       label: "Streaming Platforms",
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
     },
   ];
 
   return (
     <section className="py-24 md:py-32 relative bg-muted/30">
       <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Headline - matching About Us typography */}
+        <div className="max-w-4xl mx-auto lg:mx-0">
+          {/* Headline - matching About Us typography, left aligned */}
           <motion.h2
-            className="font-display text-4xl md:text-5xl lg:text-6xl mb-10 leading-tight uppercase tracking-wide"
+            className="font-display text-4xl md:text-5xl lg:text-6xl mb-10 leading-tight"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
             Who{" "}
-            <span className="text-primary italic normal-case">Attends</span>
+            <span className="text-primary italic">Attends</span>
           </motion.h2>
 
-          {/* Body Copy */}
+          {/* Body Copy - left aligned */}
           <motion.div
-            className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mx-auto mb-16"
+            className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -53,16 +59,11 @@ const WhoAttendsSection = () => {
             <p>
               This includes over <span className="text-foreground font-medium">100 board‑level executives</span> and <span className="text-foreground font-medium">34 startup founders</span> to date.
             </p>
-            <p className="text-sm text-muted-foreground/70">
-              <a href="https://wingding.tv" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors underline underline-offset-2">wingding.tv</a>
-              {" · "}
-              <a href="https://thewrap.com" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors underline underline-offset-2">thewrap.com</a>
-            </p>
           </motion.div>
 
-          {/* Stat Columns - Premium 3-column layout */}
+          {/* Stat Columns - Premium 3-column layout, left aligned */}
           <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 pt-12 border-t border-border"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 pt-12 border-t border-border"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -71,16 +72,16 @@ const WhoAttendsSection = () => {
             {statColumns.map((stat, index) => (
               <motion.div
                 key={stat.label}
-                className="flex flex-col items-center text-center p-6"
+                className="flex flex-col items-start text-left p-4"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
               >
-                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
-                  <stat.icon className="w-8 h-8 text-primary" />
+                <div className={`w-12 h-12 rounded-full ${stat.bgColor} flex items-center justify-center mb-4`}>
+                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
-                <p className="font-display text-3xl md:text-4xl text-primary mb-3 tracking-tight">
+                <p className="font-display text-2xl md:text-3xl text-foreground mb-2 tracking-tight">
                   {stat.number}
                 </p>
                 <p className="text-muted-foreground font-body text-sm uppercase tracking-wider">
