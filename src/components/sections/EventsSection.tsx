@@ -81,10 +81,10 @@ const EventsSection = ({
           delay: index * 0.15
         }}>
               <Card className="bg-card/50 backdrop-blur-sm border-border/50 overflow-hidden group hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 h-full">
-                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-muted/30 to-muted/10">
-                  <img src={event.image} alt={event.title} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out" />
+                <div className="relative h-56 overflow-hidden bg-gradient-to-br from-muted/30 to-muted/10 flex items-center justify-center px-6">
+                  <img src={event.image} alt={event.title} className="max-w-full max-h-full object-contain group-hover:scale-110 transition-transform duration-700 ease-out" />
                   {/* Subtle overlay on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 mx-[24px] my-[24px]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
                 <CardContent className="p-6 space-y-4">
                   <div className="space-y-2">
