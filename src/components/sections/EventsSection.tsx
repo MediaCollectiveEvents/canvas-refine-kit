@@ -14,7 +14,7 @@ interface Event {
 }
 const events: Event[] = [{
   id: 1,
-  title: "NAB Review",
+  title: "NAB Review 2026",
   location: "White City, London, UK",
   venue: "The Broadcaster",
   image: broadcasterImg
