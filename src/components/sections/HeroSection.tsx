@@ -30,7 +30,7 @@ const HeroSection = ({
 
             {/* Main headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-10">
-            <span className="text-white animate-fade-in font-script not-italic block text-6xl md:text-7xl lg:text-8xl mb-4 font-normal" style={{
+            <span className="text-white animate-fade-in font-script not-italic block md:text-7xl lg:text-8xl mb-4 font-normal text-9xl" style={{
               animationDelay: "0.1s",
               fontFamily: "'Playlist Script', cursive",
               textShadow: "0 2px 8px rgba(0, 0, 0, 0.3)"
@@ -45,7 +45,7 @@ const HeroSection = ({
               <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl" style={{
               animationDelay: "0.3s",
               color: "hsl(35 65% 35%)"
-            }}>MEDIA INDUSTRY INNOVATORS AND LEADERS</span>
+            }}>MEDIA INNOVATORS AND LEADERS</span>
             </h1>
 
             {/* Subheadline */}
