@@ -4,7 +4,7 @@ const AboutSection = () => {
         <div className="max-w-3xl mx-auto lg:mx-0">
           
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-6 leading-tight">
-            Connecting the{" "}
+            About{" "}
             <span className="text-primary italic">Us</span>
           </h2>
           <div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed">
