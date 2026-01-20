@@ -27,7 +27,7 @@ const events: Event[] = [{
 }, {
   id: 3,
   title: "IBC Breakfast",
-  location: "The Traveller, RAI, Amsterdam, Netherlands",
+  location: "RAI, Amsterdam, Netherlands",
   venue: "The Traveller",
   image: travellerImg
 }];
