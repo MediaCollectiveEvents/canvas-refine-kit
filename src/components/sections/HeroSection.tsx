@@ -45,7 +45,7 @@ const HeroSection = ({
               <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl" style={{
               animationDelay: "0.3s",
               color: "hsl(35 65% 35%)"
-            }}>THE MEDIA & ENTERTAINMENT COMMUNITY</span>
+            }}>MEDIA INNOVATORS AND LEADERS</span>
             </h1>
 
             {/* Subheadline */}

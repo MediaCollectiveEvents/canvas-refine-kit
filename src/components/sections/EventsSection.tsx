@@ -96,7 +96,7 @@ const EventsSection = ({
                     <span className="text-sm leading-relaxed">{event.location}</span>
                   </div>
                   <Button onClick={onRegisterClick} className="w-full mt-auto bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary group/btn transition-all duration-300">
-                    <span>Register Interest</span>
+                    <span>M Register Interest</span>
                     <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform duration-300" />
                   </Button>
                 </CardContent>

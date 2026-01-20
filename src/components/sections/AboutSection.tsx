@@ -1,5 +1,5 @@
 const AboutSection = () => {
-  return <section id="about" className="py-24 md:py-32 relative">
+  return <section id="about" className="py-24 md:py-32 relative pb-[80px] pt-[80px]">
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto lg:mx-0">
           
@@ -24,20 +24,7 @@ Who Attends
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-12 pt-12 border-t border-border">
-            <div>
-              <p className="font-display text-4xl text-primary mb-2">500+</p>
-              <p className="text-muted-foreground font-body text-sm uppercase tracking-wider">Executives</p>
-            </div>
-            <div>
-              <p className="font-display text-4xl text-primary mb-2">50+</p>
-              <p className="text-muted-foreground font-body text-sm uppercase tracking-wider">Events</p>
-            </div>
-            <div>
-              <p className="font-display text-4xl text-primary mb-2">25+</p>
-              <p className="text-muted-foreground font-body text-sm uppercase tracking-wider">Countries</p>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>;
