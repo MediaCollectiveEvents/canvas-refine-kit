@@ -30,7 +30,7 @@ const HeroSection = ({
 
             {/* Main headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-10">
-            <span className="text-white animate-fade-in font-script not-italic block text-6xl md:text-7xl lg:text-8xl mb-4" style={{
+            <span className="text-white animate-fade-in font-script not-italic block text-6xl md:text-7xl lg:text-8xl mb-4 font-normal" style={{
               animationDelay: "0.1s",
               fontFamily: "'Playlist Script', cursive",
               textShadow: "0 2px 8px rgba(0, 0, 0, 0.3)"
