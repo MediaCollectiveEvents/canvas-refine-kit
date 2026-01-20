@@ -1,5 +1,6 @@
 import { Users, Lightbulb, Megaphone, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 const pillars = [
   {
@@ -36,6 +37,22 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
+        <motion.div className="text-center mb-16" initial={{
+          opacity: 0,
+          y: 20
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.6
+        }}>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Why <span className="text-gradient">Attend</span>
+          </h2>
+        </motion.div>
+
         {/* Pillars grid */}
         <div className="grid md:grid-cols-3 gap-8">
           {pillars.map((pillar, index) => (
