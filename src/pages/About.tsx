@@ -1,33 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Heart, Star, Linkedin } from "lucide-react";
+import { Users, Heart, Star } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import { Button } from "@/components/ui/button";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
-
-const teamMembers = [
-  {
-    name: "Team Member",
-    role: "Co-Founder",
-    bio: "Decades of experience in media technology and strategy.",
-    linkedin: "#",
-  },
-  {
-    name: "Team Member",
-    role: "Co-Founder",
-    bio: "Background in membership organisations, sales, and marketing.",
-    linkedin: "#",
-  },
-  {
-    name: "Team Member",
-    role: "Head of Events",
-    bio: "Expert in curating meaningful industry connections.",
-    linkedin: "#",
-  },
-];
 
 const values = [
   {
@@ -194,62 +173,6 @@ const About = () => {
 
         {/* 5. Testimonials */}
         <TestimonialsSection />
-
-        {/* 6. The Team */}
-        <section className="py-24 md:py-32 relative bg-muted/30">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <motion.h2
-                className="font-display text-4xl md:text-5xl mb-6 leading-tight"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >
-                The <span className="text-primary italic">Team</span>
-              </motion.h2>
-              <motion.p
-                className="text-muted-foreground font-body text-lg leading-relaxed max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                By the industry, for the industry. Our team brings decades of combined experience 
-                across media technology, strategy, and community building.
-              </motion.p>
-            </div>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              {teamMembers.map((member, index) => (
-                <motion.div
-                  key={member.name + index}
-                  className="text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  {/* Placeholder avatar */}
-                  <div className="w-32 h-32 rounded-full bg-muted border-2 border-border mx-auto mb-5 flex items-center justify-center">
-                    <Users className="w-12 h-12 text-muted-foreground/50" />
-                  </div>
-                  <h3 className="font-display text-xl mb-1">{member.name}</h3>
-                  <p className="text-primary font-body text-sm mb-3">{member.role}</p>
-                  <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
-                    {member.bio}
-                  </p>
-                  <a
-                    href={member.linkedin}
-                    className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-border hover:border-primary hover:text-primary transition-colors"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
 
         {/* 7. CTA Banner */}
         <section className="py-24 md:py-32 relative">
