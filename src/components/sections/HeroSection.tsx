@@ -40,7 +40,7 @@ const HeroSection = ({
               <span className="text-primary-foreground animate-fade-in font-body text-3xl md:text-4xl lg:text-5xl" style={{
               animationDelay: "0.2s"
             }}>
-                for{" "}
+                connecting{" "}
               </span>
               <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl italic" style={{
               animationDelay: "0.3s",
