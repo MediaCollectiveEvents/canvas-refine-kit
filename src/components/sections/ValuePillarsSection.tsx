@@ -67,7 +67,7 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
           {pillars.map((pillar, index) => (
             <div
               key={pillar.title}
-              className="group bg-background border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1"
+              className="group bg-background border border-border rounded-2xl p-8 hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 flex flex-col items-center"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Icon */}
