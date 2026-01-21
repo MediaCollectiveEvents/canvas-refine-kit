@@ -1,5 +1,8 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
+
 const About = () => {
   return <div className="min-h-screen bg-background">
       <Header />
@@ -94,10 +97,11 @@ const About = () => {
               </div>
             </div>
 
-            {/* Stats */}
-            
           </div>
         </section>
+        
+        <WhoAttendsSection />
+        <TestimonialsSection />
       </main>
       <Footer />
     </div>;
