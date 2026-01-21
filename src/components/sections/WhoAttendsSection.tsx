@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Rocket, Clapperboard, Tv } from "lucide-react";
+import { Radio, Clapperboard, Tv } from "lucide-react";
 const WhoAttendsSection = () => {
   const statColumns = [{
-    icon: Rocket,
+    icon: Radio,
     number: "The Top 3",
     label: "Global Tech Giants",
     color: "text-[hsl(var(--icon-lime))]",
