@@ -22,9 +22,9 @@ const WhoAttendsSection = () => {
   }];
   return <section className="py-24 relative bg-muted/30 md:py-[80px]">
       <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto lg:mx-0">
-          {/* Headline - matching About Us typography, left aligned */}
-          <motion.h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-10 leading-tight mx-[24px]" initial={{
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Headline - centralized */}
+          <motion.h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-10 leading-tight" initial={{
           opacity: 0,
           y: 20
         }} whileInView={{
@@ -39,8 +39,8 @@ const WhoAttendsSection = () => {
             <span className="text-primary italic">Attends</span>
           </motion.h2>
 
-          {/* Body Copy - left aligned */}
-          <motion.div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mb-16 mx-[24px]" initial={{
+          {/* Body Copy - centralized */}
+          <motion.div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mx-auto mb-16" initial={{
           opacity: 0,
           y: 20
         }} whileInView={{
@@ -55,7 +55,7 @@ const WhoAttendsSection = () => {
             <p>
               Over 300 companies across media, entertainment and technology have attended our events.
             </p>
-            <p>Our events are free, invite‑only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes over 100 board‑level executives and 34 startup founders to date.</p>
+            <p>Our events are free, invite‑only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes over 100 board‑level executives and 34 startup founders to date.</p>
             
           </motion.div>
 
