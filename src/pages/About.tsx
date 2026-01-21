@@ -20,30 +20,29 @@ const About = () => {
             </div>
 
             {/* Mission */}
-            <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
-              <div>
-                <h2 className="font-display text-3xl md:text-4xl mb-6">
-                  Our <span className="text-primary italic">Mission</span>
-                </h2>
-                <p className="text-muted-foreground font-body text-lg leading-relaxed">We create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities.</p>
-              </div>
+            <div className="mb-20 text-center">
+              <h2 className="font-display text-3xl md:text-4xl mb-6">
+                Our <span className="text-primary italic">Mission</span>
+              </h2>
+              <p className="text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mx-auto">We create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities.</p>
+            </div>
 
-              {/* Ethos */}
-              <div>
-                <h2 className="font-display text-3xl md:text-4xl mb-6">
-                  Our <span className="text-primary italic">Ethos</span>
-                </h2>
-                <ul className="space-y-4 text-muted-foreground font-body text-lg leading-relaxed">
-                  <li>
-                    <span className="text-foreground font-semibold">Community First:</span> Encouraging genuine connections and shared learning.
-                  </li>
-                  <li>
-                    <span className="text-foreground font-semibold">Inclusivity and Balance:</span> Bringing together a mix of voices and perspectives for well-rounded conversations.
-                  </li>
-                  <li>Quality Over Quantity: Limited numbers and curated guestlists to enusure a comfortable relaxing environment<span className="text-foreground font-semibold">Quality Over Quantity:</span> Limited numbers and curated participants for impact.
-                  </li>
-                </ul>
-              </div>
+            {/* Ethos */}
+            <div className="mb-20 text-center">
+              <h2 className="font-display text-3xl md:text-4xl mb-6">
+                Our <span className="text-primary italic">Ethos</span>
+              </h2>
+              <ul className="space-y-4 text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mx-auto">
+                <li>
+                  <span className="text-foreground font-semibold">Community First:</span> Encouraging genuine connections and shared learning.
+                </li>
+                <li>
+                  <span className="text-foreground font-semibold">Inclusivity and Balance:</span> Bringing together a mix of voices and perspectives for well-rounded conversations.
+                </li>
+                <li>
+                  <span className="text-foreground font-semibold">Quality Over Quantity:</span> Limited numbers and curated guestlists to ensure a comfortable relaxing environment.
+                </li>
+              </ul>
             </div>
 
             {/* Approach */}
