@@ -46,7 +46,9 @@ const HeroSection = ({
               animationDelay: "0.3s",
               color: "#6b7280",
               textShadow: "0 2px 10px rgba(255, 255, 255, 0.6), 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.3)"
-            }}>MEDIA, ENTERTAINMENT, AND TECHNOLGY</span>
+            }}>MEDIA, ENTERTAINMENT, AND TECHNOLOGY
+
+            </span>
             </h1>
 
             {/* Subheadline */}
