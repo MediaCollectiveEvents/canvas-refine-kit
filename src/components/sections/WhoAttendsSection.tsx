@@ -55,7 +55,7 @@ const WhoAttendsSection = () => {
             <p>
               Over 300 companies across media, entertainment and technology have attended our events.
             </p>
-            <p>Our events are free, invite‑only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes over 100 board‑level executives and 34 startup founders to date.</p>
+            <p>Our events are free, invite‑only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes over 100 board‑level executives and 34 startup founders.</p>
             
           </motion.div>
 

@@ -8,18 +8,7 @@ const AboutSection = () => {
             <span className="text-primary italic">Us</span>
           </h2>
           <div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed">
-            <p>We bring together a community of senior executives, innovators, and thought leaders from across the global media landscape. Our exclusive events provide a welcoming environment to connect, catch up and expand your network.
-
-
-Our Events
-From relaxed breakfast events to lively networking receptions, exclusive screenings, talks and panel discussions, each event is carefully curated to ensure great company, diversity and lively discussion. 
-
-
-Who Attends
-
-
-
-          </p>
+            <p>We bring together a community of senior executives, innovators, and thought leaders from across the global media landscape. Our exclusive events provide a welcoming environment to connect, catch up and expand your network. Our Events From relaxed breakfast events to lively networking receptions, exclusive screenings, talks and panel discussions, each event is carefully curated to ensure great company, diversity and lively discussion.</p>
             
           </div>
 
