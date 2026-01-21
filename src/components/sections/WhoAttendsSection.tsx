@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Radio, Clapperboard } from "lucide-react";
+import { Rocket, Clapperboard, Tv } from "lucide-react";
 const WhoAttendsSection = () => {
   const statColumns = [{
-    icon: Radio,
+    icon: Rocket,
     number: "The Top 3",
     label: "Global Tech Giants",
     color: "text-[hsl(var(--icon-lime))]",
@@ -14,7 +14,7 @@ const WhoAttendsSection = () => {
     color: "text-[hsl(var(--icon-magenta))]",
     bgColor: "bg-[hsl(var(--icon-magenta)/0.1)]"
   }, {
-    icon: Radio,
+    icon: Tv,
     number: "The Leading 8",
     label: "Streaming Platforms",
     color: "text-[hsl(var(--icon-red))]",
