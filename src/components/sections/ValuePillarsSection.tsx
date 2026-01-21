@@ -8,18 +8,27 @@ const pillars = [
     title: "Grow Your Network",
     description: "Connect with industry leaders and decision-makers from the world's leading media companies. Build relationships that accelerate your career and business.",
     cta: "Join Community",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
+    hoverBgColor: "group-hover:bg-[hsl(var(--icon-lime)/0.2)]",
   },
   {
     icon: Lightbulb,
     title: "Keep Informed",
     description: "Stay ahead of industry trends with exclusive insights from thought leaders. Access knowledge that shapes the future of media and entertainment.",
     cta: "Explore Events",
+    color: "text-[hsl(var(--icon-magenta))]",
+    bgColor: "bg-[hsl(var(--icon-magenta)/0.1)]",
+    hoverBgColor: "group-hover:bg-[hsl(var(--icon-magenta)/0.2)]",
   },
   {
     icon: Megaphone,
     title: "Share Your Vision",
     description: "Platform your ideas and innovations to an engaged audience of media professionals. Showcase your expertise and influence the industry conversation.",
     cta: "Support Our Events",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
+    hoverBgColor: "group-hover:bg-[hsl(var(--icon-red)/0.2)]",
   },
 ];
 
@@ -62,8 +71,8 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Icon */}
-              <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors mx-auto">
-                <pillar.icon className="w-8 h-8 text-primary" />
+              <div className={`w-16 h-16 rounded-xl ${pillar.bgColor} flex items-center justify-center mb-6 ${pillar.hoverBgColor} transition-colors mx-auto`}>
+                <pillar.icon className={`w-8 h-8 ${pillar.color}`} />
               </div>
 
               {/* Title */}
