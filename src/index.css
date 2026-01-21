@@ -53,6 +53,11 @@
     --dark-bg: 200 15% 12%;
     --dark-card: 200 12% 16%;
     --dark-elevated: 200 10% 20%;
+    
+    /* Icon accent colors */
+    --icon-lime: 68 82% 50%;
+    --icon-magenta: 308 82% 50%;
+    --icon-red: 8 77% 50%;
 
     --sidebar-background: 200 12% 14%;
     --sidebar-foreground: 0 0% 98%;

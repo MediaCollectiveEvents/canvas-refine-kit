@@ -5,20 +5,20 @@ const WhoAttendsSection = () => {
     icon: Rocket,
     number: "The Top 3",
     label: "Global Tech Giants",
-    color: "text-amber-500",
-    bgColor: "bg-amber-500/10"
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]"
   }, {
     icon: Clapperboard,
     number: "The Major 5",
     label: "Hollywood Studios",
-    color: "text-rose-500",
-    bgColor: "bg-rose-500/10"
+    color: "text-[hsl(var(--icon-magenta))]",
+    bgColor: "bg-[hsl(var(--icon-magenta)/0.1)]"
   }, {
     icon: Tv,
     number: "The Leading 8",
     label: "Streaming Platforms",
-    color: "text-emerald-500",
-    bgColor: "bg-emerald-500/10"
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]"
   }];
   return <section className="py-24 relative bg-muted/30 md:py-[80px]">
       <div className="container mx-auto px-6">
