@@ -33,7 +33,7 @@ const HeroSection = ({
             <span className="text-white animate-fade-in font-script not-italic block md:text-7xl lg:text-8xl mb-4 font-normal text-9xl" style={{
               animationDelay: "0.1s",
               fontFamily: "'Playlist Script', cursive",
-              textShadow: "0 2px 8px rgba(0, 0, 0, 0.3)"
+              textShadow: "0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)"
             }}>
               Curated Events
               </span>
