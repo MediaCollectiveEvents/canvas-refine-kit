@@ -44,7 +44,7 @@ const HeroSection = ({
               </span>
               <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl" style={{
               animationDelay: "0.3s",
-              color: "#ff8b4b",
+              color: "#333b3d",
               textShadow: "0 4px 20px rgba(255, 255, 255, 0.4), 0 8px 40px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(255, 255, 255, 0.2)"
             }}>MEDIA INNOVATORS AND LEADERS</span>
             </h1>
