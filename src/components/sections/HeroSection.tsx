@@ -42,7 +42,7 @@ const HeroSection = ({
             }}>
                 for{" "}
               </span>
-              <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl" style={{
+              <span className="animate-fade-in font-body uppercase md:text-4xl lg:text-5xl text-3xl italic" style={{
               animationDelay: "0.3s",
               color: "#6b7280",
               textShadow: "0 2px 10px rgba(255, 255, 255, 0.6), 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.3)"

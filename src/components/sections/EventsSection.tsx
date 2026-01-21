@@ -58,7 +58,7 @@ const EventsSection = ({
       }}>
           
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Upcoming <span className="text-gradient">Events</span>
+            Upcoming <span className="text-gradient italic">Events</span>
           </h2>
           
         </motion.div>
