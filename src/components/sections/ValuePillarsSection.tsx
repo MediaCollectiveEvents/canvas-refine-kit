@@ -58,7 +58,7 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
           duration: 0.6
         }}>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Why <span className="text-gradient italic pr-1">Attend</span>
+            Why <span className="text-gradient font-script pr-2">Attend</span>
           </h2>
         </motion.div>
 
