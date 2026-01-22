@@ -30,9 +30,9 @@ const HeroSection = ({
 
             {/* Main headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-10">
-            <span className="text-white animate-fade-in font-satisfy not-italic block md:text-7xl lg:text-8xl mb-4 font-normal text-9xl" style={{
+            <span className="text-white animate-fade-in font-script not-italic block md:text-7xl lg:text-8xl mb-4 font-normal text-9xl" style={{
               animationDelay: "0.1s",
-              fontFamily: "'Satisfy', cursive",
+              fontFamily: "'Playlist Script', cursive",
               textShadow: "0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)"
             }}>
               Curated Events
