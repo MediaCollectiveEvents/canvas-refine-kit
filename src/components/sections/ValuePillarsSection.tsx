@@ -17,9 +17,9 @@ const pillars = [
     title: "Keep Informed",
     description: "Stay ahead of industry trends with exclusive insights from thought leaders. Access knowledge that shapes the future of media and entertainment.",
     cta: "Explore Events",
-    color: "text-[hsl(var(--icon-magenta))]",
-    bgColor: "bg-[hsl(var(--icon-magenta)/0.1)]",
-    hoverBgColor: "group-hover:bg-[hsl(var(--icon-magenta)/0.2)]",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
+    hoverBgColor: "group-hover:bg-[hsl(var(--icon-cyan)/0.2)]",
   },
   {
     icon: Megaphone,
