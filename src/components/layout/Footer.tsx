@@ -1,5 +1,7 @@
+import { forwardRef } from "react";
 import { Linkedin } from "lucide-react";
-const Footer = () => {
+
+const Footer = forwardRef<HTMLElement>((_, ref) => {
   const currentYear = new Date().getFullYear();
   const socialLinks = [{
     icon: Linkedin,
@@ -19,7 +21,7 @@ const Footer = () => {
     label: "View All Events",
     href: "/events"
   }];
-  return <footer id="contact" className="bg-muted border-t border-border">
+  return <footer ref={ref} id="contact" className="bg-muted border-t border-border">
       <div className="container mx-auto px-6 py-16">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           {/* Events */}
@@ -61,5 +63,8 @@ const Footer = () => {
         </div>
       </div>
     </footer>;
-};
+});
+
+Footer.displayName = "Footer";
+
 export default Footer;
