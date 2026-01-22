@@ -1,7 +1,6 @@
-import { forwardRef } from "react";
 import { Linkedin } from "lucide-react";
 
-const Footer = forwardRef<HTMLElement>((_, ref) => {
+const Footer = () => {
   const currentYear = new Date().getFullYear();
   const socialLinks = [{
     icon: Linkedin,
@@ -21,18 +20,22 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
     label: "View All Events",
     href: "/events"
   }];
-  return <footer ref={ref} id="contact" className="bg-muted border-t border-border">
+  
+  return (
+    <footer id="contact" className="bg-muted border-t border-border">
       <div className="container mx-auto px-6 py-16">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           {/* Events */}
           <div>
             <h4 className="font-display text-lg mb-4">Events</h4>
             <ul className="flex flex-wrap gap-x-6 gap-y-2">
-              {eventLinks.map(link => <li key={link.label}>
+              {eventLinks.map(link => (
+                <li key={link.label}>
                   <a href={link.href} className="text-muted-foreground hover:text-primary transition-colors font-body text-sm">
                     {link.label}
                   </a>
-                </li>)}
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -40,9 +43,19 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           <div className="flex flex-col items-start md:items-end">
             <h4 className="font-display text-lg mb-4">Connect With Us</h4>
             <div className="flex gap-4">
-              {socialLinks.map(social => <a key={social.label} href={social.href} aria-label={social.label} className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors">
-                  <social.icon className="w-[200px] h-px" />
-                </a>)}
+              {socialLinks.map(social => {
+                const IconComponent = social.icon;
+                return (
+                  <a 
+                    key={social.label} 
+                    href={social.href} 
+                    aria-label={social.label} 
+                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-colors"
+                  >
+                    <IconComponent className="w-5 h-5" />
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -62,9 +75,8 @@ const Footer = forwardRef<HTMLElement>((_, ref) => {
           </div>
         </div>
       </div>
-    </footer>;
-});
-
-Footer.displayName = "Footer";
+    </footer>
+  );
+};
 
 export default Footer;
