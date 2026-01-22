@@ -2,7 +2,7 @@ import { MapPin, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import broadcasterImg from "@/assets/events/broadcaster.png";
+import broadcasterImg from "@/assets/events/broadcaster-cyan.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 interface Event {
