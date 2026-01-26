@@ -130,7 +130,12 @@ const About = () => {
         </div>
       </section>
 
-      <main className="pt-32 lg:pt-40">
+      {/* Decorative Divider after Hero */}
+      <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      </div>
+
+      <main className="pt-16 lg:pt-20">
         {/* Who Attends */}
         <WhoAttendsSection />
 
@@ -166,7 +171,17 @@ const About = () => {
               </div>
             ))}
           </div>
-        </section>
+      </section>
+
+        {/* Decorative Divider */}
+        <div className="relative py-8">
+          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+          <div className="flex justify-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
+          </div>
+        </div>
 
         {/* Event Formats */}
         <section className="py-32 bg-gradient-to-br from-muted/30 via-background to-muted/10">
@@ -198,11 +213,29 @@ const About = () => {
           </div>
         </section>
 
+        {/* Decorative Divider */}
+        <div className="relative py-8">
+          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+          <div className="flex justify-center">
+            <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
+          </div>
+        </div>
+
         {/* Testimonials */}
         <TestimonialsSection />
 
+        {/* Decorative Divider */}
+        <div className="relative py-12">
+          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+          <div className="flex justify-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
+          </div>
+        </div>
+
         {/* CTA */}
-        <section className="py-32 relative">
+        <section className="py-32 relative bg-gradient-to-b from-background via-muted/20 to-background">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-primary/10 via-background to-primary/5 rounded-3xl border border-primary/20 p-16 md:p-20">
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">
