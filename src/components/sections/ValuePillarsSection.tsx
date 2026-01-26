@@ -2,6 +2,7 @@
 import { Users, Lightbulb, Megaphone } from "lucide-react";
 import { motion } from "framer-motion";
 import SectionHeader from "@/components/shared/SectionHeader";
+import { Button } from "@/components/ui/button";
 
 const pillars = [
   {
@@ -83,6 +84,37 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA Section - matching About page "Ready to Join Us?" design */}
+        {onRegisterClick && (
+          <motion.div
+            className="mt-24"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-primary/10 via-background to-primary/5 rounded-3xl border border-primary/20 p-16 md:p-20">
+              <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">
+                Ready to <span className="text-primary">Join Us?</span>
+              </h2>
+
+              <p className="text-muted-foreground font-body text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
+                Be part of the next generation of media industry connections.
+                Our events are free, invite‑only, and designed for high‑value
+                networking.
+              </p>
+
+              <Button
+                size="lg"
+                className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
+                onClick={onRegisterClick}
+              >
+                Register Your Interest
+              </Button>
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );
