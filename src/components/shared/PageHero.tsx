@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface PageHeroProps {
   eyebrow: string;
@@ -8,6 +9,8 @@ interface PageHeroProps {
   variant?: "primary" | "image" | "muted";
   backgroundImage?: string;
   className?: string;
+  ctaText?: string;
+  onCtaClick?: () => void;
 }
 
 const PageHero = ({
@@ -17,6 +20,8 @@ const PageHero = ({
   variant = "primary",
   backgroundImage,
   className,
+  ctaText,
+  onCtaClick,
 }: PageHeroProps) => {
   const baseClasses = "pt-40 pb-16 px-6 relative";
 
@@ -94,6 +99,23 @@ const PageHero = ({
           >
             {description}
           </motion.p>
+
+          {ctaText && onCtaClick && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-8"
+            >
+              <Button
+                size="lg"
+                className="rounded-full font-body uppercase tracking-wider text-sm bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8"
+                onClick={onCtaClick}
+              >
+                {ctaText}
+              </Button>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>
