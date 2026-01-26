@@ -1,6 +1,6 @@
 
-import React, { useRef, useState } from "react";
-import { motion, useAnimationFrame } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
@@ -109,61 +109,29 @@ const currentSponsors = [
   { name: "Wagada Digital", logo: wagadaDigitalLogo },
 ];
 
-// Logo card component with center-based fade effect
+// Logo card component
 const SponsorLogo = ({
   sponsor,
-  containerRef,
 }: {
   sponsor: {
     name: string;
     logo: string;
   };
-  containerRef: React.RefObject<HTMLDivElement>;
 }) => {
-  const elementRef = useRef<HTMLDivElement>(null);
-  const [style, setStyle] = useState({
-    opacity: 0.4,
-    y: 15,
-  });
-
-  useAnimationFrame(() => {
-    if (!elementRef.current || !containerRef.current) return;
-
-    const containerRect = containerRef.current.getBoundingClientRect();
-    const elementRect = elementRef.current.getBoundingClientRect();
-    const containerCenter = containerRect.left + containerRect.width / 2;
-    const elementCenter = elementRect.left + elementRect.width / 2;
-    const distanceFromCenter = Math.abs(containerCenter - elementCenter);
-    const maxDistance = containerRect.width / 2;
-
-    const normalizedDistance = Math.min(distanceFromCenter / maxDistance, 1);
-    const opacity = 1 - normalizedDistance * 0.6;
-    const y = normalizedDistance * 15;
-
-    setStyle({ opacity, y });
-  });
-
   return (
-    <div
-      ref={elementRef}
-      className="flex-shrink-0 mx-4 flex items-center justify-center"
-    >
-      <motion.div
-        className="w-auto h-44 bg-white backdrop-blur-sm rounded-lg border border-border flex items-center justify-center px-14 py-6 hover:border-primary/50 transition-colors"
-        style={{ opacity: style.opacity, y: style.y }}
-      >
+    <div className="flex-shrink-0 mx-4 flex items-center justify-center">
+      <div className="w-auto h-44 bg-white backdrop-blur-sm rounded-lg border border-border flex items-center justify-center px-14 py-6 hover:border-primary/50 transition-colors">
         <img
           src={sponsor.logo}
           alt={sponsor.name}
           className="h-28 w-auto object-contain"
         />
-      </motion.div>
+      </div>
     </div>
   );
 };
 
 const Partners: React.FC = () => {
-  const carouselRef = useRef<HTMLDivElement>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
@@ -215,13 +183,12 @@ const Partners: React.FC = () => {
           </motion.div>
         </div>
 
-        <div className="relative" ref={carouselRef}>
+        <div className="relative">
           <div className="flex animate-scroll py-4">
             {[...currentSponsors, ...currentSponsors].map((sponsor, index) => (
               <SponsorLogo
                 key={`${sponsor.name}-${index}`}
                 sponsor={sponsor}
-                containerRef={carouselRef}
               />
             ))}
           </div>
