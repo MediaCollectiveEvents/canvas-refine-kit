@@ -1,231 +1,160 @@
 
-# CTA Styling Consistency Plan
+# Home Hero Standardization Options
 
-## Overview
-This plan standardizes all call-to-action (CTA) buttons across the site to create a unified visual language. Currently, there are inconsistencies in button shape, typography, color schemes, and icon usage that detract from the professional feel of the site.
-
----
-
-## Current Issues Identified
-
-### Shape Inconsistencies
-- Some buttons use `rounded-full` (pill shape), others use default `rounded-md`
-- Mixed usage creates visual fragmentation
-
-### Typography Inconsistencies  
-- Some CTAs use `uppercase tracking-wider text-sm`
-- Others use normal sentence case
-- Font family not always specified
-
-### Color/Style Inconsistencies
-- Home Hero uses inverted colors (appropriate for primary background)
-- About page CTA lacks the rounded-full styling
-- EventsSection cards use a ghost/outline style
-
-### Icon Usage Inconsistencies
-- Some CTAs have `ArrowRight` icons, others don't
-- No clear pattern for when icons should appear
+The Home page hero is currently a unique, elaborate design with a two-column grid layout and parallax image. Bringing it in line with the other pages' `PageHero` component requires a decision on how much of the current design to preserve.
 
 ---
 
-## Proposed Standardization
+## Option A: Full Standardization (Recommended for Consistency)
 
-### Primary CTA Pattern (Page-Level CTAs)
-Used for main page call-to-actions in CTA sections:
+Replace the custom `HeroSection` with the `PageHero` component, matching the About/Events/Partners/Blog pages exactly.
 
-```text
-<Button
-  size="lg"
-  className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
->
-  Register Interest
-</Button>
+### Changes Required
+
+**1. Update `src/pages/Home.tsx`:**
+- Remove the `HeroSection` import
+- Add `PageHero` import and `heroImage` import
+- Replace `<HeroSection>` with `<PageHero>` using the image variant
+- Add the gradient transition divider after the hero
+- Move the CTA button to a separate section below (or extend PageHero to support optional CTA)
+
+**2. Extend `src/components/shared/PageHero.tsx`:**
+- Add optional `ctaText` and `onCtaClick` props to support a CTA button within the hero
+- This allows the Home page to have a registration button while maintaining the standardized layout
+
+**3. Delete or archive `src/components/sections/HeroSection.tsx`:**
+- No longer needed once Home uses PageHero
+
+### Result
+```
+Home Hero will look like:
+┌─────────────────────────────────────────┐
+│         [Background Image]              │
+│                                         │
+│     THE MEDIA COLLECTIVE (eyebrow)      │
+│                                         │
+│       Curated Events (title)            │
+│                                         │
+│   Exclusive networking events for...    │
+│                                         │
+│     [Register Your Interest]            │
+│                                         │
+└─────────────────────────────────────────┘
+│ Gradient transition from-black/60       │
+└─────────────────────────────────────────┘
 ```
 
-**Characteristics:**
-- Pill shape (`rounded-full`)
-- Uppercase with letter spacing
-- Large size with generous horizontal padding
-- No icon (clean, prominent appearance)
+---
 
-### Secondary CTA Pattern (Card-Level CTAs)
-Used within cards, event listings, and inline actions:
+## Option B: Hybrid Approach (Preserve Uniqueness)
 
-```text
-<Button
-  className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
->
-  Register Interest
-  <ArrowRight className="ml-2 h-4 w-4" />
-</Button>
+Keep the Home hero's elaborate design but apply visual consistency with PageHero styling.
+
+### Changes Required
+
+**1. Update `src/components/sections/HeroSection.tsx`:**
+- Change background from solid `bg-primary` to image-based with overlay (like PageHero)
+- Keep the two-column layout with parallax image
+- Keep the multi-line headline structure
+- Apply the same eyebrow styling (`tracking-[0.3em]`)
+- Keep the CTA button in place
+
+**2. Update `src/pages/Home.tsx`:**
+- Add the gradient transition divider after HeroSection (matching other pages)
+
+### Result
+The Home page retains its unique layout but uses the same background treatment and post-hero gradient as other pages.
+
+---
+
+## Recommendation
+
+**Option A (Full Standardization)** is recommended for maximum consistency. The Home page will feel cohesive with the rest of the site while the CTA button ensures it still drives registrations effectively.
+
+---
+
+## Technical Implementation (Option A)
+
+### File: `src/components/shared/PageHero.tsx`
+
+Add optional CTA support:
+
+```tsx
+interface PageHeroProps {
+  eyebrow: string;
+  title: string;
+  description: string;
+  variant?: "primary" | "image" | "muted";
+  backgroundImage?: string;
+  className?: string;
+  ctaText?: string;           // NEW
+  onCtaClick?: () => void;    // NEW
+}
 ```
 
-**Characteristics:**
-- Pill shape (`rounded-full`)
-- Uppercase with letter spacing
-- Includes arrow icon for action indication
-- Slightly smaller horizontal padding
+Add button rendering after the description:
 
-### Hero CTA Pattern (On Primary Backgrounds)
-Used in hero sections where background is primary color:
-
-```text
-<Button
-  size="lg"
-  className="rounded-full font-body uppercase tracking-wider text-sm bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8"
->
-  Register Your Interest
-</Button>
+```tsx
+{ctaText && onCtaClick && (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.6, delay: 0.3 }}
+    className="mt-8"
+  >
+    <Button
+      size="lg"
+      className="rounded-full font-body uppercase tracking-wider text-sm bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8"
+      onClick={onCtaClick}
+    >
+      {ctaText}
+    </Button>
+  </motion.div>
+)}
 ```
 
-**Characteristics:**
-- Inverted colors for contrast
-- Same shape and typography as Primary CTA
-- Maintains readability against turquoise background
+### File: `src/pages/Home.tsx`
 
-### Ghost CTA Pattern (Subtle Actions)
-Used for secondary actions within cards:
+```tsx
+import PageHero from "@/components/shared/PageHero";
+import heroImage from "@/assets/hero-placeholder.jpg";
 
-```text
-<Button
-  className="w-full rounded-full font-body uppercase tracking-wider text-sm bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary transition-all duration-300"
->
-  Learn More
-  <ArrowRight className="ml-2 h-4 w-4" />
-</Button>
+// In the component:
+<PageHero
+  eyebrow="The Media Collective"
+  title="Curated Events"
+  description="Exclusive networking events for senior executives and innovators across the global media landscape."
+  variant="image"
+  backgroundImage={heroImage}
+  ctaText="Register Your Interest"
+  onCtaClick={() => setIsFormOpen(true)}
+/>
+
+{/* Gradient transition divider */}
+<div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
+  <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+</div>
 ```
 
-**Characteristics:**
-- Transparent background with border
-- Transitions to solid on hover
-- Includes arrow icon
+### File: `src/components/sections/HeroSection.tsx`
+
+This file can be deleted once the changes are complete, as it will no longer be used.
 
 ---
 
 ## Files to Modify
 
-### 1. Home Hero Section
-**File:** `src/components/sections/HeroSection.tsx`
-
-**Current:**
-```tsx
-<Button
-  size="lg"
-  className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-4 text-base"
-  onClick={onRegisterClick}
->
-  Register Your Interest
-</Button>
-```
-
-**Updated:**
-```tsx
-<Button
-  size="lg"
-  className="rounded-full font-body uppercase tracking-wider text-sm bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8"
-  onClick={onRegisterClick}
->
-  Register Your Interest
-</Button>
-```
-
-### 2. About Page CTA
-**File:** `src/pages/About.tsx`
-
-**Current:**
-```tsx
-<Button
-  size="lg"
-  className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-6 text-base"
-  onClick={() => setIsFormOpen(true)}
->
-  Register Your Interest
-</Button>
-```
-
-**Updated:**
-```tsx
-<Button
-  size="lg"
-  className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
-  onClick={() => setIsFormOpen(true)}
->
-  Register Your Interest
-</Button>
-```
-
-### 3. Events Section Cards
-**File:** `src/components/sections/EventsSection.tsx`
-
-**Current:**
-```tsx
-<Button
-  onClick={onRegisterClick}
-  className="w-full mt-auto bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary transition-all duration-300"
->
-  <span>LEARN MORE</span>
-  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-</Button>
-```
-
-**Updated:**
-```tsx
-<Button
-  onClick={onRegisterClick}
-  className="w-full mt-auto rounded-full font-body uppercase tracking-wider text-sm bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary transition-all duration-300"
->
-  Learn More
-  <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-</Button>
-```
-
-### 4. Partners Page "Book a Meeting" Button
-**File:** `src/pages/Partners.tsx`
-
-**Current:**
-```tsx
-<Button
-  size="lg"
-  className="font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90"
->
-  Book a Meeting
-  <ArrowRight className="ml-2 h-4 w-4" />
-</Button>
-```
-
-**Updated:**
-```tsx
-<Button
-  size="lg"
-  className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
->
-  Book a Meeting
-  <ArrowRight className="ml-2 h-4 w-4" />
-</Button>
-```
-
----
-
-## Summary of Changes
-
-| File | Component/Section | Change |
-|------|-------------------|--------|
-| `HeroSection.tsx` | Home Hero CTA | Add `rounded-full`, `uppercase tracking-wider text-sm`, remove custom `py-4 text-base` |
-| `About.tsx` | Bottom CTA | Add `rounded-full`, `uppercase tracking-wider text-sm`, standardize padding |
-| `EventsSection.tsx` | Card buttons | Add `rounded-full`, clean up inline uppercase text |
-| `Partners.tsx` | "Book a Meeting" button | Add `rounded-full` and `px-8` padding |
-
-**No changes needed for:**
-- `Events.tsx` - EventCard and page CTA already use correct pattern
-- `Blog.tsx` - CTA already uses correct pattern
-- `Partners.tsx` - Page CTA already uses correct pattern
+| File | Action |
+|------|--------|
+| `src/components/shared/PageHero.tsx` | Add optional `ctaText` and `onCtaClick` props with button rendering |
+| `src/pages/Home.tsx` | Replace HeroSection with PageHero, add gradient divider |
+| `src/components/sections/HeroSection.tsx` | Delete (no longer needed) |
 
 ---
 
 ## Benefits
 
-1. **Visual Cohesion**: All CTAs share the same pill shape and typography
-2. **Brand Recognition**: Consistent styling reinforces brand identity
-3. **User Experience**: Predictable button appearance improves usability
-4. **Maintainability**: Clear patterns make future development easier
-5. **Professional Polish**: Unified design elevates perceived quality
+1. **Complete Visual Consistency**: Every page now uses the same hero pattern
+2. **Simplified Codebase**: One less component to maintain
+3. **Reusable CTA Pattern**: PageHero can now optionally include CTAs on any page
+4. **Unified Animations**: Same Framer Motion entrance effects across all heroes
