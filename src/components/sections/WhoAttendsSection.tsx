@@ -1,102 +1,88 @@
+
 import { motion } from "framer-motion";
-import { Rocket, Clapperboard, Radio } from "lucide-react";
-const WhoAttendsSection = () => {
-  const statColumns = [{
-    icon: Rocket,
-    number: "The Top 3",
-    label: "Global Tech Giants",
+import { Cpu, Clapperboard, Wifi } from "lucide-react";
+
+const stats = [
+  {
+    icon: Cpu,
+    title: "The Top 3",
+    subtitle: "Global Tech Giants",
     color: "text-[hsl(var(--icon-lime))]",
-    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]"
-  }, {
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
+  },
+  {
     icon: Clapperboard,
-    number: "The Major 5",
-    label: "Hollywood Studios",
-    color: "text-[hsl(var(--icon-magenta))]",
-    bgColor: "bg-[hsl(var(--icon-magenta)/0.1)]"
-  }, {
-    icon: Radio,
-    number: "The Leading 8",
-    label: "Streaming Platforms",
+    title: "The Major 5",
+    subtitle: "Hollywood Studios",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
+  },
+  {
+    icon: Wifi,
+    title: "The Leading 8",
+    subtitle: "Streaming Platforms",
     color: "text-[hsl(var(--icon-red))]",
-    bgColor: "bg-[hsl(var(--icon-red)/0.1)]"
-  }];
-  return <section className="py-24 relative bg-muted/30 md:py-[80px]">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Headline - centralized */}
-          <motion.h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-10 leading-tight" initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.6
-        }}>
-            Who{" "}
-            <span className="text-primary italic">Attends</span>
-          </motion.h2>
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
+  },
+];
 
-          {/* Body Copy - centralized */}
-          <motion.div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed max-w-3xl mx-auto mb-16" initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.6,
-          delay: 0.1
-        }}>
-            <p>
-              Over 300 companies across media, entertainment and technology have attended our events.
-            </p>
-            <p>Our events are free, invite‑only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes over 100 board‑level executives and 34 startup founders.</p>
-            
-          </motion.div>
+const WhoAttendsSection = () => {
+  return (
+    <section className="py-24 md:py-32 relative">
+      <div className="container mx-auto px-6 text-center max-w-6xl">
 
-          {/* Stat Columns - Premium 3-column layout, centered content */}
-          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 pt-12 border-t border-border" initial={{
-          opacity: 0,
-          y: 20
-        }} whileInView={{
-          opacity: 1,
-          y: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.6,
-          delay: 0.2
-        }}>
-            {statColumns.map((stat, index) => <motion.div key={stat.label} className="flex flex-col items-center text-center p-4" initial={{
-            opacity: 0,
-            y: 20
-          }} whileInView={{
-            opacity: 1,
-            y: 0
-          }} viewport={{
-            once: true
-          }} transition={{
-            duration: 0.5,
-            delay: 0.3 + index * 0.1
-          }}>
-                <div className={`w-20 h-20 rounded-full ${stat.bgColor} flex items-center justify-center mb-5`}>
-                  <stat.icon className={`w-10 h-10 ${stat.color}`} />
-                </div>
-                <p className="font-display text-2xl md:text-3xl text-foreground mb-2 tracking-tight">
-                  {stat.number}
-                </p>
-                <p className="text-muted-foreground font-body text-sm uppercase tracking-wider">
-                  {stat.label}
-                </p>
-              </motion.div>)}
-          </motion.div>
+        {/* Updated section header */}
+        <motion.h2
+          className="font-display text-4xl md:text-5xl mb-6 leading-tight"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          Who <span className="text-primary italic">Attends</span>
+        </motion.h2>
+
+        <p className="text-muted-foreground font-body text-lg mb-4">
+          Over 300 companies across media, entertainment and technology have attended our events.
+        </p>
+
+        <p className="text-muted-foreground font-body text-lg mb-12">
+          Our events are free, invite-only and curated for a maximum of 120 guests,
+          attracting industry leaders and innovators. This includes over 
+          100 board-level executives and 34 startup founders.
+        </p>
+
+        <hr className="border-border mb-12" />
+
+        <div className="grid md:grid-cols-3 gap-12">
+          {stats.map((stat, index) => (
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="text-center p-8 bg-card rounded-2xl border border-border"
+            >
+              <div
+                className={`w-16 h-16 rounded-full ${stat.bgColor} flex items-center justify-center mx-auto mb-5`}
+              >
+                <stat.icon className={`w-8 h-8 ${stat.color}`} />
+              </div>
+
+              <h3 className="font-display text-xl mb-2">{stat.title}</h3>
+
+              <p className="text-muted-foreground font-body text-sm uppercase tracking-wide">
+                {stat.subtitle}
+              </p>
+            </motion.div>
+          ))}
         </div>
+
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default WhoAttendsSection;
+``

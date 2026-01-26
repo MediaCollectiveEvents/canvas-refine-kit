@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -13,16 +14,31 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+
+      {/* Shared registration modal */}
+      <EventRegistrationForm
+        open={isFormOpen}
+        onOpenChange={setIsFormOpen}
+      />
+
       <main>
+        {/* HERO */}
         <HeroSection onRegisterClick={() => setIsFormOpen(true)} />
+
+        {/* ABOUT SECTION */}
         <AboutSection />
+
+        {/* UPCOMING EVENTS */}
         <EventsSection onRegisterClick={() => setIsFormOpen(true)} />
+
+        {/* VALUE PILLARS */}
         <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
       </main>
+
       <Footer />
     </div>
   );
 };
 
 export default Index;
+``
