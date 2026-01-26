@@ -43,8 +43,6 @@ const Home = () => {
         {/* ABOUT SECTION */}
         <AboutSection />
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="triple" />
 
         {/* UPCOMING EVENTS */}
         <EventsSection onRegisterClick={() => setIsFormOpen(true)} />
