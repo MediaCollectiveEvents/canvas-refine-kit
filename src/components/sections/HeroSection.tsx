@@ -27,10 +27,10 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
       <div className="container mx-auto px-6 md:px-8 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-4 pt-40 lg:pt-32 pb-24">
           {/* Text content - left side */}
-          <div className="text-center lg:text-left order-2 lg:order-1 space-y-8">
+          <div className="text-center lg:text-left order-2 lg:order-1">
             {/* Eyebrow text */}
             <motion.p 
-              className="text-primary-foreground/80 font-body text-xs md:text-sm uppercase tracking-[0.3em]"
+              className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-6"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -38,47 +38,39 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
               The Media Collective
             </motion.p>
 
-            {/* Main headline - restructured for better flow */}
-            <div className="space-y-4">
-              <motion.h1
-                className="font-script text-5xl md:text-7xl lg:text-8xl text-white pr-2"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
+            {/* Main headline */}
+            <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-10">
+              <span
+                className="font-script text-white animate-fade-in block md:text-7xl lg:text-8xl mb-4"
                 style={{
+                  animationDelay: "0.1s",
                   textShadow:
-                    "0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.3)",
+                    "0 4px 20px rgba(0, 0, 0, 0.4), 0 8px 40px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2)",
                 }}
               >
                 Curated Events
-              </motion.h1>
-              
-              <motion.p
-                className="font-body text-2xl md:text-3xl lg:text-4xl text-primary-foreground"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
+              </span>
+              <span
+                className="text-primary-foreground animate-fade-in font-body text-3xl md:text-4xl lg:text-5xl"
+                style={{ animationDelay: "0.2s" }}
               >
-                connecting
-              </motion.p>
-              
-              <motion.p
-                className="font-body text-xl md:text-2xl lg:text-3xl uppercase italic tracking-wide"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                connecting{" "}
+              </span>
+              <span
+                className="animate-fade-in font-body uppercase text-3xl md:text-4xl lg:text-5xl italic text-muted-foreground"
+                style={{
+                  animationDelay: "0.3s",
+                  textShadow:
+                    "0 2px 10px rgba(255, 255, 255, 0.6), 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.3)",
+                }}
               >
-                <span className="text-[hsl(var(--icon-lime))]">Media</span>
-                <span className="text-primary-foreground/60">, </span>
-                <span className="text-[hsl(var(--icon-cyan))]">Entertainment</span>
-                <span className="text-primary-foreground/60">, and </span>
-                <span className="text-[hsl(var(--icon-red))]">Technology</span>
-              </motion.p>
-            </div>
+                MEDIA, ENTERTAINMENT, AND TECHNOLOGY
+              </span>
+            </h1>
 
             {/* Description */}
             <motion.p
-              className="text-primary-foreground/70 font-body text-base md:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed"
+              className="text-primary-foreground/70 font-body text-base md:text-lg mb-8 max-w-lg mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
@@ -87,20 +79,15 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
             </motion.p>
 
             {/* CTA */}
-            <motion.div 
-              className="flex justify-center lg:justify-start pt-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
+            <div className="flex justify-center lg:justify-start">
               <Button
                 size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-6 text-base font-body uppercase tracking-wider"
+                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-4 text-base"
                 onClick={onRegisterClick}
               >
                 Register Your Interest
               </Button>
-            </motion.div>
+            </div>
           </div>
 
           {/* People illustration - right side with parallax */}
