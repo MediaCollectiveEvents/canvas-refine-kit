@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { Button } from "@/components/ui/button";
 
 import greenline from "@/assets/events/greenline.png";
 import broadcaster from "@/assets/events/broadcaster.png";
@@ -309,12 +310,13 @@ const Events = () => {
               All events are free and by invitation only. Registering interest
               does not guarantee entry.
             </p>
-            <button
+            <Button
+              size="lg"
+              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
               onClick={() => setIsFormOpen(true)}
-              className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full font-body uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors"
             >
               Register Interest
-            </button>
+            </Button>
           </motion.div>
         </div>
       </section>
