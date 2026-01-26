@@ -139,6 +139,14 @@ const About = () => {
         {/* Who Attends */}
         <WhoAttendsSection />
 
+        {/* Decorative Divider */}
+        <div className="relative py-8">
+          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+          <div className="flex justify-center">
+            <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
+          </div>
+        </div>
+
         {/* Mission & Values */}
         <section className="py-32 md:py-40 relative">
           <div className="container mx-auto px-6 text-center max-w-4xl mb-20">
