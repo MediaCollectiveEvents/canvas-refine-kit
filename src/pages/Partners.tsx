@@ -183,7 +183,7 @@ const Partners: React.FC = () => {
             <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-widest mb-6">
               Partnership Opportunities
             </p>
-            <h1 className="font-script text-6xl md:text-8xl text-primary-foreground mb-6">
+            <h1 className="font-script text-6xl md:text-8xl text-white mb-6" style={{ textShadow: '0 4px 12px rgba(0, 0, 0, 0.4)' }}>
               Become a Partner
             </h1>
             <p className="text-primary-foreground/80 font-body text-lg max-w-2xl mx-auto">
