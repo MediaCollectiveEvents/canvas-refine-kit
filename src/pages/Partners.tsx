@@ -254,7 +254,7 @@ const Partners: React.FC = () => {
             </h2>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-12 max-w-4xl mx-auto">
             {benefits.map((benefit, index) => (
               <motion.div
                 key={benefit.title}
