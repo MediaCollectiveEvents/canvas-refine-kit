@@ -308,7 +308,7 @@ const Partners: React.FC = () => {
           >
             <Button
               size="lg"
-              className="font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90"
+              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
             >
               Book a Meeting
               <ArrowRight className="ml-2 h-4 w-4" />

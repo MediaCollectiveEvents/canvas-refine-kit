@@ -223,7 +223,7 @@ const About = () => {
 
               <Button
                 size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 px-10 py-6 text-base"
+                className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
                 onClick={() => setIsFormOpen(true)}
               >
                 Register Your Interest
