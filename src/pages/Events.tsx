@@ -193,7 +193,7 @@ const Events = () => {
       />
 
       {/* Hero Section */}
-      <section className="pt-40 px-6 bg-turquoise pb-[40px]">
+      <section className="pt-40 pb-16 px-6 bg-turquoise">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -201,9 +201,15 @@ const Events = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
+            <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-6">
+              Upcoming Gatherings
+            </p>
             <h1 className="font-script text-6xl md:text-8xl text-foreground mb-6">
               Our Events
             </h1>
+            <p className="text-primary-foreground/80 font-body text-lg max-w-2xl mx-auto">
+              Join us at our carefully curated events designed to connect media, entertainment, and technology professionals.
+            </p>
           </motion.div>
         </div>
       </section>

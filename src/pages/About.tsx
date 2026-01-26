@@ -107,17 +107,26 @@ const About = () => {
       >
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 text-center px-6 py-16 md:py-24">
+          <motion.p
+            className="text-white/80 font-body text-sm uppercase tracking-[0.3em] mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Our Community
+          </motion.p>
+          
           <motion.h1
             className="font-script text-5xl md:text-6xl lg:text-7xl mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
           >
             Our Story
           </motion.h1>
 
           <motion.p
-            className="text-lg md:text-xl max-w-3xl mx-auto font-body text-muted-foreground"
+            className="text-lg md:text-xl max-w-3xl mx-auto font-body text-white/80"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
