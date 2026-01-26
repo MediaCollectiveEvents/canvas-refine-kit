@@ -202,6 +202,11 @@ const Sponsors: React.FC = () => {
         </div>
       </section>
 
+      {/* Decorative Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-primary to-muted overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      </div>
+
       {/* Scrolling Sponsor Logos */}
       <section className="py-16 bg-muted overflow-hidden">
         <div className="container mx-auto max-w-6xl mb-12 text-center">
@@ -230,6 +235,14 @@ const Sponsors: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Decorative Divider */}
+      <div className="relative py-8 bg-gradient-to-b from-muted to-background">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="flex justify-center">
+          <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
+        </div>
+      </div>
 
       {/* Benefits Section */}
       <section className="py-24 px-6">
@@ -273,6 +286,16 @@ const Sponsors: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Decorative Divider */}
+      <div className="relative py-8">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="flex justify-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
+        </div>
+      </div>
 
       {/* Sponsorship Tiers */}
       <section className="py-24 px-6 bg-muted/30">
@@ -380,8 +403,18 @@ const Sponsors: React.FC = () => {
         </div>
       </section>
 
+      {/* Decorative Divider */}
+      <div className="relative py-12">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="flex justify-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
+        </div>
+      </div>
+
       {/* CTA Section */}
-      <section className="py-24 px-6">
+      <section className="py-24 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
