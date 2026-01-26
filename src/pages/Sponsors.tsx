@@ -272,7 +272,7 @@ const Sponsors: React.FC = () => {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className={`w-16 h-16 rounded-xl ${benefit.bgColor} flex items-center justify-center mb-6 mx-auto`}>
+                <div className={`w-16 h-16 rounded-full ${benefit.bgColor} flex items-center justify-center mb-6 mx-auto`}>
                   <benefit.icon className={`w-8 h-8 ${benefit.color}`} />
                 </div>
                 <h3 className="font-display text-xl mb-3">
@@ -290,10 +290,8 @@ const Sponsors: React.FC = () => {
       {/* Decorative Divider */}
       <div className="relative py-8">
         <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="flex justify-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
+        <div className="flex justify-center">
+          <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
         </div>
       </div>
 
@@ -430,12 +428,13 @@ const Sponsors: React.FC = () => {
               Contact us to discuss a bespoke sponsorship package tailored to
               your objectives and budget.
             </p>
-            <button
+            <Button
+              size="lg"
+              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
               onClick={() => setIsFormOpen(true)}
-              className="inline-block bg-primary text-primary-foreground px-8 py-4 rounded-full font-body uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors"
             >
               Register Interest
-            </button>
+            </Button>
           </motion.div>
         </div>
       </section>
