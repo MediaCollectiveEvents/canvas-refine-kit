@@ -40,6 +40,7 @@ const sponsorshipTiers = [
       "Post-event content collaboration",
     ],
     highlighted: false,
+    accentColor: "lime" as const,
   },
   {
     name: "Sponsor",
@@ -53,6 +54,7 @@ const sponsorshipTiers = [
       "Networking access",
     ],
     highlighted: true,
+    accentColor: "cyan" as const,
   },
   {
     name: "Custom Event",
@@ -66,8 +68,33 @@ const sponsorshipTiers = [
       "Complete creative control",
     ],
     highlighted: false,
+    accentColor: "red" as const,
   },
 ];
+
+const colorStyles = {
+  lime: {
+    card: "bg-[hsl(var(--icon-lime)/0.05)] border border-[hsl(var(--icon-lime)/0.3)]",
+    check: "text-[hsl(var(--icon-lime))]",
+    checkBg: "bg-[hsl(var(--icon-lime)/0.1)]",
+    text: "",
+    description: "text-muted-foreground",
+  },
+  cyan: {
+    card: "bg-primary ring-4 ring-primary/20",
+    check: "text-white",
+    checkBg: "bg-white/20",
+    text: "text-white",
+    description: "text-primary-foreground/80",
+  },
+  red: {
+    card: "bg-[hsl(var(--icon-red)/0.05)] border border-[hsl(var(--icon-red)/0.3)]",
+    check: "text-[hsl(var(--icon-red))]",
+    checkBg: "bg-[hsl(var(--icon-red)/0.1)]",
+    text: "",
+    description: "text-muted-foreground",
+  },
+};
 
 const benefits = [
   {
@@ -227,76 +254,61 @@ const Partners: React.FC = () => {
           />
 
           <div className="grid md:grid-cols-3 gap-8">
-            {sponsorshipTiers.map((tier, index) => (
-              <motion.div
-                key={tier.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className={`rounded-2xl p-8 ${
-                  tier.highlighted
-                    ? "bg-primary text-primary-foreground ring-4 ring-primary/20"
-                    : "bg-background border border-border"
-                }`}
-              >
-                <div className="text-center mb-8">
-                  <h3
-                    className={`font-display text-2xl mb-4 ${
-                      tier.highlighted ? "text-white" : ""
-                    }`}
-                  >
-                    {tier.name}
-                  </h3>
-                  <p
-                    className={`font-body text-sm ${
-                      tier.highlighted
-                        ? "text-primary-foreground/80"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {tier.description}
-                  </p>
-                </div>
+            {sponsorshipTiers.map((tier, index) => {
+              const styles = colorStyles[tier.accentColor];
+              return (
+                <motion.div
+                  key={tier.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className={`rounded-2xl p-8 ${styles.card}`}
+                >
+                  <div className="text-center mb-8">
+                    <h3 className={`font-display text-2xl mb-4 ${styles.text}`}>
+                      {tier.name}
+                    </h3>
+                    <p className={`font-body text-sm ${styles.description}`}>
+                      {tier.description}
+                    </p>
+                  </div>
 
-                <ul className="space-y-4">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3">
-                      <div
-                        className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-                          tier.highlighted ? "bg-white/20" : "bg-primary/10"
-                        }`}
-                      >
-                        <svg
-                          className={`w-3 h-3 ${
-                            tier.highlighted ? "text-white" : "text-primary"
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+                  <ul className="space-y-4">
+                    {tier.features.map((feature) => (
+                      <li key={feature} className="flex items-start gap-3">
+                        <div
+                          className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${styles.checkBg}`}
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <span
-                        className={`font-body text-sm ${
-                          tier.highlighted
-                            ? "text-primary-foreground/90"
-                            : "text-muted-foreground"
-                        }`}
-                      >
-                        {feature}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+                          <svg
+                            className={`w-3 h-3 ${styles.check}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        </div>
+                        <span
+                          className={`font-body text-sm ${
+                            tier.highlighted
+                              ? "text-primary-foreground/90"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {feature}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              );
+            })}
           </div>
 
           <motion.div
