@@ -29,9 +29,14 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
           {/* Text content - left side */}
           <div className="lg:w-[45%] text-center lg:text-left lg:pl-8">
             {/* Eyebrow text */}
-            <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-12">
-              &nbsp;
-            </p>
+            <motion.p 
+              className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              The Media Collective
+            </motion.p>
 
             {/* Main headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-10">
@@ -62,6 +67,16 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
                 MEDIA, ENTERTAINMENT, AND TECHNOLOGY
               </span>
             </h1>
+
+            {/* Description */}
+            <motion.p
+              className="text-primary-foreground/70 font-body text-base md:text-lg mb-8 max-w-lg"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+            >
+              Exclusive networking events for senior executives and innovators across the global media landscape.
+            </motion.p>
 
             {/* CTA */}
             <div className="flex justify-center lg:justify-start">
