@@ -99,9 +99,9 @@ const EventsSection = ({ onRegisterClick }: EventsSectionProps) => {
 
                   <Button
                     onClick={onRegisterClick}
-                    className="w-full mt-auto bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary transition-all duration-300"
+                    className="w-full mt-auto rounded-full font-body uppercase tracking-wider text-sm bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary transition-all duration-300"
                   >
-                    <span>LEARN MORE</span>
+                    Learn More
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </Button>
                 </CardContent>

@@ -82,7 +82,7 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
             <div className="flex justify-center lg:justify-start">
               <Button
                 size="lg"
-                className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8 py-4 text-base"
+                className="rounded-full font-body uppercase tracking-wider text-sm bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8"
                 onClick={onRegisterClick}
               >
                 Register Your Interest
