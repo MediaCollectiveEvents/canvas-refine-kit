@@ -207,6 +207,11 @@ const Events = () => {
         </div>
       </section>
 
+      {/* Decorative Divider */}
+      <div className="relative h-24 bg-gradient-to-b from-turquoise to-background overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      </div>
+
       {/* Upcoming Events */}
       <section className="py-20 px-6">
         <div className="container mx-auto max-w-6xl">
@@ -234,6 +239,14 @@ const Events = () => {
           </div>
         </div>
       </section>
+
+      {/* Decorative Divider before CTA */}
+      <div className="relative py-8">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="flex justify-center">
+          <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
+        </div>
+      </div>
 
       {/* Past Events - only show if there are any */}
       {pastEvents.length > 0 && (
@@ -265,8 +278,18 @@ const Events = () => {
         </section>
       )}
 
+      {/* Decorative Divider before CTA */}
+      <div className="relative py-12">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+        <div className="flex justify-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
+          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
+        </div>
+      </div>
+
       {/* CTA Section */}
-      <section className="py-24 px-6">
+      <section className="py-24 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
