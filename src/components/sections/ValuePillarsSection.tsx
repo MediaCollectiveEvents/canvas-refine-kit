@@ -69,7 +69,7 @@ const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
             >
               {/* Icon */}
               <div
-                className={`w-16 h-16 rounded-xl ${pillar.bgColor} ${pillar.hoverBgColor} flex items-center justify-center mb-6 transition-colors mx-auto`}
+                className={`w-16 h-16 rounded-full ${pillar.bgColor} ${pillar.hoverBgColor} flex items-center justify-center mb-6 transition-colors mx-auto`}
               >
                 <pillar.icon className={`w-8 h-8 ${pillar.color}`} />
               </div>

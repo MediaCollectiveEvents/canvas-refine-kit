@@ -36,7 +36,7 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
             {/* Main headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] mb-10">
               <span
-                className="font-satisfy text-white animate-fade-in block md:text-7xl lg:text-8xl mb-4"
+                className="font-script text-white animate-fade-in block md:text-7xl lg:text-8xl mb-4"
                 style={{
                   animationDelay: "0.1s",
                   textShadow:
@@ -52,10 +52,9 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
                 connecting{" "}
               </span>
               <span
-                className="animate-fade-in font-body uppercase text-3xl md:text-4xl lg:text-5xl italic"
+                className="animate-fade-in font-body uppercase text-3xl md:text-4xl lg:text-5xl italic text-muted-foreground"
                 style={{
                   animationDelay: "0.3s",
-                  color: "#6b7280",
                   textShadow:
                     "0 2px 10px rgba(255, 255, 255, 0.6), 0 4px 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(255, 255, 255, 0.3)",
                 }}
