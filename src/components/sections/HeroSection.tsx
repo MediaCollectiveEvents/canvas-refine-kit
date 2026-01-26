@@ -22,12 +22,12 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
   return (
     <section
       ref={sectionRef}
-      className="min-h-[85vh] flex items-center relative overflow-hidden bg-primary"
+      className="min-h-screen flex items-center relative overflow-hidden bg-primary"
     >
-      <div className="container mx-auto px-8 md:px-12 lg:px-16 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-1.5 lg:gap-2 pt-32 lg:pt-36 pb-24 lg:pb-28">
+      <div className="container mx-auto px-6 md:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-4 pt-40 lg:pt-32 pb-24">
           {/* Text content - left side */}
-          <div className="lg:w-[45%] text-center lg:text-left lg:pl-8">
+          <div className="text-center lg:text-left order-2 lg:order-1">
             {/* Eyebrow text */}
             <motion.p 
               className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-6"
@@ -70,7 +70,7 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
 
             {/* Description */}
             <motion.p
-              className="text-primary-foreground/70 font-body text-base md:text-lg mb-8 max-w-lg"
+              className="text-primary-foreground/70 font-body text-base md:text-lg mb-8 max-w-lg mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
@@ -92,24 +92,32 @@ const HeroSection = ({ onRegisterClick }: HeroSectionProps) => {
 
           {/* People illustration - right side with parallax */}
           <motion.div
-            className="lg:w-[55%] w-full origin-center lg:ml-8"
+            className="w-full flex justify-center lg:justify-end order-1 lg:order-2"
             style={{ y, scale }}
           >
             <img
               src={heroPeople}
               alt="People networking at events"
-              className="w-full h-auto"
+              className="w-full max-w-md lg:max-w-none lg:w-[110%] h-auto drop-shadow-2xl"
             />
           </motion.div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+      <motion.div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, y: [0, 8, 0] }}
+        transition={{ 
+          opacity: { delay: 1, duration: 0.5 },
+          y: { delay: 1, duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+        }}
+      >
         <div className="w-6 h-10 border-2 border-primary-foreground/50 rounded-full flex justify-center pt-2">
           <div className="w-1 h-2 bg-primary-foreground rounded-full" />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };
