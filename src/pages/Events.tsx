@@ -201,13 +201,13 @@ const Events = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-[0.3em] mb-6">
+            <p className="text-background font-body text-sm uppercase tracking-[0.3em] mb-6">
               Upcoming Gatherings
             </p>
             <h1 className="font-script text-6xl md:text-8xl text-foreground mb-6">
               Our Events
             </h1>
-            <p className="text-primary-foreground/80 font-body text-lg max-w-2xl mx-auto">
+            <p className="text-background/80 font-body text-lg max-w-2xl mx-auto">
               Join us at our carefully curated events designed to connect media, entertainment, and technology professionals.
             </p>
           </motion.div>
