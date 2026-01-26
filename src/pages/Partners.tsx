@@ -163,8 +163,8 @@ const Partners: React.FC = () => {
       </section>
 
       {/* Decorative Divider */}
-      <div className="relative h-24 bg-gradient-to-b from-primary to-muted overflow-hidden">
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="relative py-8">
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       </div>
 
       {/* Scrolling Sponsor Logos */}
@@ -196,7 +196,7 @@ const Partners: React.FC = () => {
       </section>
 
       {/* Decorative Divider */}
-      <div className="relative py-8 bg-gradient-to-b from-muted to-background">
+      <div className="relative py-8">
         <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
         <div className="flex justify-center">
           <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
