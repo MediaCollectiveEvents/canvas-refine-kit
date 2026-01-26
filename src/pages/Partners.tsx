@@ -170,7 +170,7 @@ const SponsorLogo = ({
   );
 };
 
-const Sponsors: React.FC = () => {
+const Partners: React.FC = () => {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -191,8 +191,8 @@ const Sponsors: React.FC = () => {
             <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-widest mb-6">
               Partnership Opportunities
             </p>
-            <h1 className="font-script text-6xl md:text-8xl text-white mb-6">
-              Become a Sponsor
+            <h1 className="font-script text-6xl md:text-8xl text-primary-foreground mb-6">
+              Become a Partner
             </h1>
             <p className="text-primary-foreground/80 font-body text-lg max-w-2xl mx-auto">
               Partner with The Media Collective and connect your brand with the
@@ -258,7 +258,7 @@ const Sponsors: React.FC = () => {
               Why Partner With Us
             </p>
             <h2 className="font-display text-4xl md:text-5xl">
-              Sponsorship <span className="text-primary italic">Benefits</span>
+              Partnership <span className="text-primary italic">Benefits</span>
             </h2>
           </motion.div>
 
@@ -306,7 +306,7 @@ const Sponsors: React.FC = () => {
             className="text-center mb-16"
           >
             <h2 className="font-display text-4xl md:text-5xl">
-              Sponsorship <span className="text-primary italic">Packages</span>
+              Partnership <span className="text-primary italic">Packages</span>
             </h2>
           </motion.div>
 
@@ -421,12 +421,10 @@ const Sponsors: React.FC = () => {
             viewport={{ once: true }}
           >
             <h2 className="font-display text-4xl md:text-5xl text-foreground mb-6">
-              Ready to <span className="text-primary italic">partner</span> with
-              us?
+              Ready to <span className="text-primary italic">partner</span> with us?
             </h2>
             <p className="text-muted-foreground font-body text-lg mb-8 max-w-xl mx-auto">
-              Contact us to discuss a bespoke sponsorship package tailored to
-              your objectives and budget.
+              Contact us to discuss a bespoke partnership package tailored to your objectives and budget.
             </p>
             <Button
               size="lg"
@@ -444,4 +442,4 @@ const Sponsors: React.FC = () => {
   );
 };
 
-export default Sponsors;
+export default Partners;
