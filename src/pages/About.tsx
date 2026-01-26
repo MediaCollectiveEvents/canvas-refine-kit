@@ -125,7 +125,7 @@ const About = () => {
         <SectionDivider variant="single" />
 
         {/* Mission & Values */}
-        <section className="py-24 md:py-32 relative px-6">
+        <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
           <div className="container mx-auto text-center max-w-4xl mb-16">
             <SectionHeader
               title="Our "
@@ -165,7 +165,7 @@ const About = () => {
         <SectionDivider variant="triple" />
 
         {/* Event Formats */}
-        <section className="py-24 md:py-32 bg-gradient-to-br from-muted/30 via-background to-muted/10 px-6">
+        <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
           <div className="container mx-auto max-w-6xl text-center">
             <SectionHeader
               title="Event "
@@ -208,7 +208,7 @@ const About = () => {
         <SectionDivider variant="triple" className="py-12" />
 
         {/* CTA */}
-        <section className="py-24 md:py-32 relative bg-gradient-to-b from-background via-muted/20 to-background px-6">
+        <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
           <div className="container mx-auto">
             <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-primary/10 via-background to-primary/5 rounded-3xl border border-primary/20 p-16 md:p-20">
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">

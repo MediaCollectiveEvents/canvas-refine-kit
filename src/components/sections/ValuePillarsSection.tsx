@@ -39,7 +39,7 @@ interface ValuePillarsSectionProps {
 
 const ValuePillarsSection = ({ onRegisterClick }: ValuePillarsSectionProps) => {
   return (
-    <section className="py-24 md:py-32 bg-card relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
       {/* Background Decoration */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />

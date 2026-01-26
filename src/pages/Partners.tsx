@@ -158,7 +158,7 @@ const Partners: React.FC = () => {
       </div>
 
       {/* Scrolling Sponsor Logos */}
-      <section className="py-24 md:py-32 bg-muted overflow-hidden">
+      <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl mb-16 text-center">
           <SectionHeader
             title="Our events are made possible with the support of "
@@ -182,7 +182,7 @@ const Partners: React.FC = () => {
       <SectionDivider variant="single" />
 
       {/* Benefits Section */}
-      <section className="py-24 md:py-32 px-6">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <SectionHeader
             eyebrow="Why Partner With Us"
@@ -219,7 +219,7 @@ const Partners: React.FC = () => {
       <SectionDivider variant="single" />
 
       {/* Sponsorship Tiers */}
-      <section className="py-24 md:py-32 px-6 bg-muted/30">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <SectionHeader
             title="Partnership "
@@ -321,7 +321,7 @@ const Partners: React.FC = () => {
       <SectionDivider variant="triple" className="py-12" />
 
       {/* CTA Section */}
-      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

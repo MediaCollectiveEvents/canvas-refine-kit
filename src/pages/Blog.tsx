@@ -76,7 +76,7 @@ const Blog = () => {
         </div>
 
         {/* Blog Posts Grid */}
-        <section className="py-24 md:py-32 px-6">
+        <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
           <div className="container mx-auto max-w-6xl">
             <div className="grid md:grid-cols-2 gap-8">
               {blogPosts.map((post, index) => (
@@ -136,7 +136,7 @@ const Blog = () => {
         <SectionDivider variant="triple" className="py-12" />
 
         {/* CTA Section */}
-        <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
+        <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
           <div className="container mx-auto max-w-4xl text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}

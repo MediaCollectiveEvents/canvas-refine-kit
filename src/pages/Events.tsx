@@ -200,8 +200,13 @@ const Events = () => {
       </div>
 
       {/* Upcoming Events */}
-      <section className="py-24 md:py-32 px-6">
-        <div className="container mx-auto max-w-6xl">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        </div>
+        <div className="container mx-auto max-w-6xl relative z-10">
           <SectionHeader
             title="Upcoming "
             accentWord="Events"
@@ -225,7 +230,7 @@ const Events = () => {
 
       {/* Past Events - only show if there are any */}
       {pastEvents.length > 0 && (
-        <section className="py-20 px-6 bg-muted/30">
+        <section className="py-20 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
           <div className="container mx-auto max-w-6xl">
             <SectionHeader
               title="Past "
@@ -250,7 +255,7 @@ const Events = () => {
       <SectionDivider variant="triple" className="py-12" />
 
       {/* CTA Section */}
-      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
