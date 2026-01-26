@@ -9,6 +9,7 @@ import { ArrowRight, Users, Eye, Mic } from "lucide-react";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
 import SectionHeader from "@/components/shared/SectionHeader";
+import heroImage from "@/assets/hero-placeholder.jpg";
 
 // Sponsor logo imports
 import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
@@ -147,11 +148,14 @@ const Partners: React.FC = () => {
         eyebrow="Partnership Opportunities"
         title="Become a Partner"
         description="Partner with The Media Collective and connect your brand with the most influential voices in media and entertainment."
-        variant="primary"
+        variant="image"
+        backgroundImage={heroImage}
       />
 
-      {/* Decorative Divider */}
-      <SectionDivider gradient />
+      {/* Decorative Divider after Hero */}
+      <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      </div>
 
       {/* Scrolling Sponsor Logos */}
       <section className="py-24 md:py-32 bg-muted overflow-hidden">

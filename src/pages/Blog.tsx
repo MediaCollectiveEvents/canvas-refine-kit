@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
+import heroImage from "@/assets/hero-placeholder.jpg";
 
 const blogPosts = [
   {
@@ -65,11 +66,14 @@ const Blog = () => {
           eyebrow="Insights & Updates"
           title="The Blog"
           description="Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
-          variant="primary"
+          variant="image"
+          backgroundImage={heroImage}
         />
 
-        {/* Decorative Divider */}
-        <SectionDivider gradient />
+        {/* Decorative Divider after Hero */}
+        <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
+          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        </div>
 
         {/* Blog Posts Grid */}
         <section className="py-24 md:py-32 px-6">

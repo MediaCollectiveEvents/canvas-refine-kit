@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
+import heroImage from "@/assets/hero-placeholder.jpg";
 import SectionHeader from "@/components/shared/SectionHeader";
 
 import greenline from "@/assets/events/greenline.png";
@@ -189,11 +190,14 @@ const Events = () => {
         eyebrow="Upcoming Gatherings"
         title="Our Events"
         description="Join us at our carefully curated events designed to connect media, entertainment, and technology professionals."
-        variant="primary"
+        variant="image"
+        backgroundImage={heroImage}
       />
 
-      {/* Decorative Divider */}
-      <SectionDivider gradient />
+      {/* Decorative Divider after Hero */}
+      <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      </div>
 
       {/* Upcoming Events */}
       <section className="py-24 md:py-32 px-6">
