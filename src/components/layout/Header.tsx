@@ -24,8 +24,6 @@ const Header = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
       
       <header className="fixed top-0 left-0 right-0 z-50 bg-muted backdrop-blur-sm">
-        {/* Decorative accent line - matching footer */}
-        <div className="h-1 bg-gradient-to-r from-primary via-[hsl(var(--icon-cyan))] to-primary" />
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
@@ -114,6 +112,8 @@ const Header = () => {
             </nav>
           )}
         </div>
+        {/* Decorative accent line - matching footer */}
+        <div className="h-1 bg-gradient-to-r from-primary via-[hsl(var(--icon-cyan))] to-primary" />
       </header>
     </>
   );
