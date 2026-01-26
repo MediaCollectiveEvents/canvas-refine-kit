@@ -193,7 +193,7 @@ const Events = () => {
       />
 
       {/* Hero Section */}
-      <section className="pt-40 pb-16 px-6 bg-turquoise">
+      <section className="pt-40 pb-16 px-6 bg-primary">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -201,21 +201,25 @@ const Events = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <p className="text-background font-body text-sm uppercase tracking-[0.3em] mb-6">
+            <p className="text-[hsl(var(--icon-lime))] font-body text-sm uppercase tracking-[0.3em] mb-6">
               Upcoming Gatherings
             </p>
-            <h1 className="font-script text-6xl md:text-8xl text-foreground mb-6">
+            <h1
+              className="font-script text-6xl md:text-8xl text-white mb-6"
+              style={{ textShadow: "0 4px 12px rgba(0, 0, 0, 0.35)" }}
+            >
               Our Events
             </h1>
-            <p className="text-background/80 font-body text-lg max-w-2xl mx-auto">
-              Join us at our carefully curated events designed to connect media, entertainment, and technology professionals.
+            <p className="text-white/80 font-body text-lg max-w-2xl mx-auto">
+              Join us at our carefully curated events designed to connect media,
+              entertainment, and technology professionals.
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* Decorative Divider */}
-      <div className="relative h-24 bg-gradient-to-b from-turquoise to-background overflow-hidden">
+      <div className="relative h-24 bg-gradient-to-b from-primary to-background overflow-hidden">
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
       </div>
 
