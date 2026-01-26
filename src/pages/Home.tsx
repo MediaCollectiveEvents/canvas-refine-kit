@@ -8,7 +8,7 @@ import ValuePillarsSection from "@/components/sections/ValuePillarsSection";
 import EventsSection from "@/components/sections/EventsSection";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 
-const Index = () => {
+const Home = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
@@ -40,5 +40,4 @@ const Index = () => {
   );
 };
 
-export default Index;
-``
+export default Home;
