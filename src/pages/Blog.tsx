@@ -2,7 +2,10 @@
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { Calendar, User, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import PageHero from "@/components/shared/PageHero";
+import SectionDivider from "@/components/shared/SectionDivider";
 
 const blogPosts = [
   {
@@ -58,33 +61,27 @@ const Blog = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="pt-40 pb-16 bg-muted">
-          <div className="container mx-auto px-6">
-            <div className="text-center max-w-3xl mx-auto">
-              <p className="text-primary font-body text-sm uppercase tracking-[0.3em] mb-4">
-                Insights & Updates
-              </p>
+        <PageHero
+          eyebrow="Insights & Updates"
+          title="The Blog"
+          description="Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
+          variant="primary"
+        />
 
-              {/* UPDATED HEADER TO SATISFY SCRIPT FONT */}
-              <h1 className="font-script text-5xl md:text-6xl lg:text-7xl text-foreground mb-6">
-                The Blog
-              </h1>
-
-              <p className="text-muted-foreground text-lg">
-                Stay informed with the latest industry insights, event recaps,
-                and community updates from The Media Collective.
-              </p>
-            </div>
-          </div>
-        </section>
+        {/* Decorative Divider */}
+        <SectionDivider gradient />
 
         {/* Blog Posts Grid */}
-        <section className="py-24 md:py-32">
-          <div className="container mx-auto px-6">
+        <section className="py-24 md:py-32 px-6">
+          <div className="container mx-auto max-w-6xl">
             <div className="grid md:grid-cols-2 gap-8">
-              {blogPosts.map((post) => (
-                <article
+              {blogPosts.map((post, index) => (
+                <motion.article
                   key={post.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-lg"
                 >
                   <div className="aspect-video overflow-hidden">
@@ -125,9 +122,37 @@ const Blog = () => {
                       </span>
                     </div>
                   </div>
-                </article>
+                </motion.article>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Decorative Divider */}
+        <SectionDivider variant="triple" className="py-12" />
+
+        {/* CTA Section */}
+        <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
+          <div className="container mx-auto max-w-4xl text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="font-display text-4xl md:text-5xl text-foreground mb-6 leading-tight">
+                Want to stay <span className="text-primary italic">informed?</span>
+              </h2>
+              <p className="text-muted-foreground font-body text-lg mb-8 max-w-xl mx-auto">
+                Join our community and get exclusive access to industry insights, event updates, and networking opportunities.
+              </p>
+              <Button
+                size="lg"
+                className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
+              >
+                Register Interest
+              </Button>
+            </motion.div>
           </div>
         </section>
       </main>

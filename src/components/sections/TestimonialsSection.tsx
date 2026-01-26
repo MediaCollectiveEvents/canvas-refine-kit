@@ -105,10 +105,12 @@ const TestimonialsSection = () => {
             {/* Dots */}
             <div className="flex gap-2 px-4">
               {testimonials.map((_, index) => (
-                <button
+                <Button
                   key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => changeTestimonial(index)}
+                  className={`w-2 h-2 p-0 rounded-full transition-all ${
                     index === currentIndex
                       ? "bg-primary w-6"
                       : "bg-muted-foreground/30 hover:bg-muted-foreground/50"

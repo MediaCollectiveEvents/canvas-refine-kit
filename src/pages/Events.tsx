@@ -5,6 +5,10 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import PageHero from "@/components/shared/PageHero";
+import SectionDivider from "@/components/shared/SectionDivider";
+import SectionHeader from "@/components/shared/SectionHeader";
 
 import greenline from "@/assets/events/greenline.png";
 import broadcaster from "@/assets/events/broadcaster.png";
@@ -139,7 +143,7 @@ const EventCard = ({
           {event.description}
         </p>
 
-        <button
+        <Button
           onClick={() =>
             onRegisterClick(
               event.id === 1
@@ -149,23 +153,11 @@ const EventCard = ({
                 : "mpts-drinks"
             )
           }
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-body uppercase tracking-wider text-sm hover:bg-primary/90 transition-all duration-300 group-hover:gap-3"
+          className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
         >
           Register Interest
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
-        </button>
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
       </div>
     </div>
   </motion.div>
@@ -193,50 +185,23 @@ const Events = () => {
       />
 
       {/* Hero Section */}
-      <section className="pt-40 pb-16 px-6 bg-primary">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <p className="text-[hsl(var(--icon-lime))] font-body text-sm uppercase tracking-[0.3em] mb-6">
-              Upcoming Gatherings
-            </p>
-            <h1
-              className="font-script text-6xl md:text-8xl text-white mb-6"
-              style={{ textShadow: "0 4px 12px rgba(0, 0, 0, 0.35)" }}
-            >
-              Our Events
-            </h1>
-            <p className="text-white/80 font-body text-lg max-w-2xl mx-auto">
-              Join us at our carefully curated events designed to connect media,
-              entertainment, and technology professionals.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Upcoming Gatherings"
+        title="Our Events"
+        description="Join us at our carefully curated events designed to connect media, entertainment, and technology professionals."
+        variant="primary"
+      />
 
       {/* Decorative Divider */}
-      <div className="relative h-24 bg-gradient-to-b from-primary to-background overflow-hidden">
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      </div>
+      <SectionDivider gradient />
 
       {/* Upcoming Events */}
       <section className="py-24 md:py-32 px-6">
         <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="mb-16 text-center"
-          >
-            <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4 leading-tight">
-              Upcoming <span className="text-primary italic">Events</span>
-            </h2>
-          </motion.div>
+          <SectionHeader
+            title="Upcoming "
+            accentWord="Events"
+          />
 
           <div className="space-y-24">
             {upcomingEvents.map((event, index) => (
@@ -252,28 +217,16 @@ const Events = () => {
       </section>
 
       {/* Decorative Divider before CTA */}
-      <div className="relative py-8">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="flex justify-center">
-          <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
-        </div>
-      </div>
+      <SectionDivider variant="single" />
 
       {/* Past Events - only show if there are any */}
       {pastEvents.length > 0 && (
         <section className="py-20 px-6 bg-muted/30">
           <div className="container mx-auto max-w-6xl">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="mb-12 text-center"
-            >
-              <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4 leading-tight">
-                Past <span className="text-primary italic">Events</span>
-              </h2>
-            </motion.div>
+            <SectionHeader
+              title="Past "
+              accentWord="Events"
+            />
 
             <div className="space-y-24">
               {pastEvents.map((event, index) => (
@@ -290,14 +243,7 @@ const Events = () => {
       )}
 
       {/* Decorative Divider before CTA */}
-      <div className="relative py-12">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="flex justify-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
-        </div>
-      </div>
+      <SectionDivider variant="triple" className="py-12" />
 
       {/* CTA Section */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
@@ -337,4 +283,3 @@ const Events = () => {
 };
 
 export default Events;
-``

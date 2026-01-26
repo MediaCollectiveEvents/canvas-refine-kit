@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import { Cpu, Clapperboard, Wifi } from "lucide-react";
+import SectionHeader from "@/components/shared/SectionHeader";
 
 const stats = [
   {
@@ -28,29 +29,31 @@ const stats = [
 
 const WhoAttendsSection = () => {
   return (
-    <section className="py-24 md:py-32 relative">
-      <div className="container mx-auto px-6 text-center max-w-6xl">
+    <section className="py-24 md:py-32 relative px-6">
+      <div className="container mx-auto text-center max-w-6xl">
 
         {/* Updated section header */}
-        <motion.h2
-          className="font-display text-4xl md:text-5xl mb-6 leading-tight"
+        <SectionHeader
+          title="Who "
+          accentWord="Attends"
+        />
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Who <span className="text-primary italic">Attends</span>
-        </motion.h2>
+          <p className="text-muted-foreground font-body text-lg mb-4">
+            Over 300 companies across media, entertainment and technology have attended our events.
+          </p>
 
-        <p className="text-muted-foreground font-body text-lg mb-4">
-          Over 300 companies across media, entertainment and technology have attended our events.
-        </p>
-
-        <p className="text-muted-foreground font-body text-lg mb-12">
-          Our events are free, invite-only and curated for a maximum of 120 guests,
-          attracting industry leaders and innovators. This includes over 
-          100 board-level executives and 34 startup founders.
-        </p>
+          <p className="text-muted-foreground font-body text-lg mb-12">
+            Our events are free, invite-only and curated for a maximum of 120 guests,
+            attracting industry leaders and innovators. This includes over 
+            100 board-level executives and 34 startup founders.
+          </p>
+        </motion.div>
 
         <hr className="border-border mb-12" />
 
@@ -85,4 +88,3 @@ const WhoAttendsSection = () => {
 };
 
 export default WhoAttendsSection;
-``
