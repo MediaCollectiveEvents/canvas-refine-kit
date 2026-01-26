@@ -1,4 +1,7 @@
 
+import { motion } from "framer-motion";
+import SectionHeader from "@/components/shared/SectionHeader";
+
 const AboutSection = () => {
   return (
     <section
@@ -9,11 +12,18 @@ const AboutSection = () => {
         <div className="max-w-3xl mx-auto text-center">
           
           {/* Unified Section Header */}
-          <h2 className="font-display text-4xl md:text-5xl mb-8 leading-tight">
-            About <span className="text-primary italic">Us</span>
-          </h2>
+          <SectionHeader
+            title="About "
+            accentWord="Us"
+          />
 
-          <div className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed">
+          <motion.div
+            className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <p>
               We bring together a community of senior executives, innovators and
               thought leaders from across the global media landscape.
@@ -28,7 +38,7 @@ const AboutSection = () => {
               carefully curated to ensure great company, diversity and lively
               discussion.
             </p>
-          </div>
+          </motion.div>
 
         </div>
       </div>
@@ -37,4 +47,3 @@ const AboutSection = () => {
 };
 
 export default AboutSection;
-``

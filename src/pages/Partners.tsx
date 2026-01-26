@@ -6,6 +6,9 @@ import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Eye, Mic } from "lucide-react";
+import PageHero from "@/components/shared/PageHero";
+import SectionDivider from "@/components/shared/SectionDivider";
+import SectionHeader from "@/components/shared/SectionHeader";
 
 // Sponsor logo imports
 import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
@@ -140,47 +143,23 @@ const Partners: React.FC = () => {
       <Header />
 
       {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6 bg-primary">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <p className="text-primary-foreground/80 font-body text-sm uppercase tracking-widest mb-6">
-              Partnership Opportunities
-            </p>
-            <h1 className="font-script text-6xl md:text-8xl text-white mb-6" style={{ textShadow: '0 4px 12px rgba(0, 0, 0, 0.4)' }}>
-              Become a Partner
-            </h1>
-            <p className="text-primary-foreground/80 font-body text-lg max-w-2xl mx-auto">
-              Partner with The Media Collective and connect your brand with the
-              most influential voices in media and entertainment.
-            </p>
-          </motion.div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Partnership Opportunities"
+        title="Become a Partner"
+        description="Partner with The Media Collective and connect your brand with the most influential voices in media and entertainment."
+        variant="primary"
+      />
 
       {/* Decorative Divider */}
-      <div className="relative py-8">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      </div>
+      <SectionDivider gradient />
 
       {/* Scrolling Sponsor Logos */}
       <section className="py-24 md:py-32 bg-muted overflow-hidden">
         <div className="container mx-auto max-w-6xl mb-16 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-display text-4xl md:text-5xl">
-              Our events are made possible with the support of{" "}
-              <span className="text-primary italic">these companies</span>
-            </h2>
-          </motion.div>
+          <SectionHeader
+            title="Our events are made possible with the support of "
+            accentWord="these companies"
+          />
         </div>
 
         <div className="relative">
@@ -196,30 +175,16 @@ const Partners: React.FC = () => {
       </section>
 
       {/* Decorative Divider */}
-      <div className="relative py-8">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="flex justify-center">
-          <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
-        </div>
-      </div>
+      <SectionDivider variant="single" />
 
       {/* Benefits Section */}
       <section className="py-24 md:py-32 px-6">
         <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <p className="text-primary font-body text-sm uppercase tracking-[0.3em] mb-4">
-              Why Partner With Us
-            </p>
-            <h2 className="font-display text-4xl md:text-5xl">
-              Partnership <span className="text-primary italic">Benefits</span>
-            </h2>
-          </motion.div>
+          <SectionHeader
+            eyebrow="Why Partner With Us"
+            title="Partnership "
+            accentWord="Benefits"
+          />
 
           <div className="grid md:grid-cols-3 gap-12 max-w-4xl mx-auto">
             {benefits.map((benefit, index) => (
@@ -247,27 +212,15 @@ const Partners: React.FC = () => {
       </section>
 
       {/* Decorative Divider */}
-      <div className="relative py-8">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="flex justify-center">
-          <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
-        </div>
-      </div>
+      <SectionDivider variant="single" />
 
       {/* Sponsorship Tiers */}
       <section className="py-24 md:py-32 px-6 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="font-display text-4xl md:text-5xl">
-              Partnership <span className="text-primary italic">Packages</span>
-            </h2>
-          </motion.div>
+          <SectionHeader
+            title="Partnership "
+            accentWord="Packages"
+          />
 
           <div className="grid md:grid-cols-3 gap-8">
             {sponsorshipTiers.map((tier, index) => (
@@ -361,14 +314,7 @@ const Partners: React.FC = () => {
       </section>
 
       {/* Decorative Divider */}
-      <div className="relative py-12">
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="flex justify-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
-          <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
-        </div>
-      </div>
+      <SectionDivider variant="triple" className="py-12" />
 
       {/* CTA Section */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">

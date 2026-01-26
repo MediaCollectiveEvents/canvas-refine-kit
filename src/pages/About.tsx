@@ -19,6 +19,9 @@ import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import { Button } from "@/components/ui/button";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
+import PageHero from "@/components/shared/PageHero";
+import SectionDivider from "@/components/shared/SectionDivider";
+import SectionHeader from "@/components/shared/SectionHeader";
 import heroImage from "@/assets/hero-placeholder.jpg";
 
 const values = [
@@ -101,43 +104,13 @@ const About = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       {/* Hero Section */}
-      <section
-        className="relative bg-cover bg-center text-white min-h-[70vh] flex items-center justify-center"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      >
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 text-center px-6 py-16 md:py-24">
-          <motion.p
-            className="text-white/80 font-body text-sm uppercase tracking-[0.3em] mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            Our Community
-          </motion.p>
-          
-          <motion.h1
-            className="font-script text-5xl md:text-6xl lg:text-7xl mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            Our Story
-          </motion.h1>
-
-          <motion.p
-            className="text-lg md:text-xl max-w-3xl mx-auto font-body text-white/80"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            Born during a time of remote work and limited in-person interaction,
-            The Media Collective was created to reconnect the industry. We bring
-            together leaders and innovators in a welcoming environment that
-            promotes relationship-building and encourages collaboration.
-          </motion.p>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="Our Community"
+        title="Our Story"
+        description="Born during a time of remote work and limited in-person interaction, The Media Collective was created to reconnect the industry. We bring together leaders and innovators in a welcoming environment that promotes relationship-building and encourages collaboration."
+        variant="image"
+        backgroundImage={heroImage}
+      />
 
       {/* Decorative Divider after Hero */}
       <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
@@ -149,31 +122,29 @@ const About = () => {
         <WhoAttendsSection />
 
         {/* Decorative Divider */}
-        <div className="relative py-8">
-          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-          <div className="flex justify-center">
-            <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
-          </div>
-        </div>
+        <SectionDivider variant="single" />
 
         {/* Mission & Values */}
-        <section className="py-24 md:py-32 relative">
-          <div className="container mx-auto px-6 text-center max-w-4xl mb-16">
-            <h2 className="font-display text-4xl md:text-5xl mb-6 leading-tight">
-              Our <span className="text-primary italic">Mission & Values</span>
-            </h2>
-
-            <p className="text-muted-foreground font-body text-lg leading-relaxed">
-              Our mission is simple: create opportunities for companies of all
-              sizes to connect, exchange ideas, and explore new possibilities.
-              We value inclusivity, collaboration, and quality over quantity.
-            </p>
+        <section className="py-24 md:py-32 relative px-6">
+          <div className="container mx-auto text-center max-w-4xl mb-16">
+            <SectionHeader
+              title="Our "
+              accentWord="Mission & Values"
+              description="Our mission is simple: create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities. We value inclusivity, collaboration, and quality over quantity."
+            />
           </div>
 
           {/* Values Grid */}
-          <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            {values.map((value) => (
-              <div key={value.title} className="text-center">
+          <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto px-6">
+            {values.map((value, index) => (
+              <motion.div
+                key={value.title}
+                className="text-center"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <div
                   className={`w-16 h-16 rounded-full ${value.bgColor} flex items-center justify-center mx-auto mb-6`}
                 >
@@ -185,36 +156,33 @@ const About = () => {
                 <p className="text-muted-foreground font-body text-sm leading-relaxed">
                   {value.description}
                 </p>
-              </div>
+              </motion.div>
             ))}
           </div>
-      </section>
+        </section>
 
         {/* Decorative Divider */}
-        <div className="relative py-8">
-          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-          <div className="flex justify-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
-            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
-            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
-          </div>
-        </div>
+        <SectionDivider variant="triple" />
 
         {/* Event Formats */}
-        <section className="py-24 md:py-32 bg-gradient-to-br from-muted/30 via-background to-muted/10">
-          <div className="container mx-auto px-6 max-w-6xl text-center">
-            <h2 className="font-display text-4xl md:text-5xl mb-6 leading-tight">
-              Event <span className="text-primary italic">Formats</span>
-            </h2>
-
-            <p className="text-muted-foreground font-body text-lg mb-16">
-              Our events are designed to be enjoyable and productive, offering a
-              mix of networking opportunities:
-            </p>
+        <section className="py-24 md:py-32 bg-gradient-to-br from-muted/30 via-background to-muted/10 px-6">
+          <div className="container mx-auto max-w-6xl text-center">
+            <SectionHeader
+              title="Event "
+              accentWord="Formats"
+              description="Our events are designed to be enjoyable and productive, offering a mix of networking opportunities:"
+            />
 
             <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
-              {eventFormats.map((format) => (
-                <div key={format.title} className="text-center">
+              {eventFormats.map((format, index) => (
+                <motion.div
+                  key={format.title}
+                  className="text-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
                   <div className={`w-16 h-16 rounded-full ${format.bgColor} flex items-center justify-center mx-auto mb-6`}>
                     <format.icon className={`w-8 h-8 ${format.color}`} />
                   </div>
@@ -224,36 +192,24 @@ const About = () => {
                   <p className="text-muted-foreground font-body text-sm leading-relaxed">
                     {format.description}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
         {/* Decorative Divider */}
-        <div className="relative py-8">
-          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-          <div className="flex justify-center">
-            <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
-          </div>
-        </div>
+        <SectionDivider variant="single" />
 
         {/* Testimonials */}
         <TestimonialsSection />
 
         {/* Decorative Divider */}
-        <div className="relative py-12">
-          <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-          <div className="flex justify-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-lime))]" />
-            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-cyan))]" />
-            <div className="w-2 h-2 rounded-full bg-[hsl(var(--icon-red))]" />
-          </div>
-        </div>
+        <SectionDivider variant="triple" className="py-12" />
 
         {/* CTA */}
-        <section className="py-24 md:py-32 relative bg-gradient-to-b from-background via-muted/20 to-background">
-          <div className="container mx-auto px-6">
+        <section className="py-24 md:py-32 relative bg-gradient-to-b from-background via-muted/20 to-background px-6">
+          <div className="container mx-auto">
             <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-primary/10 via-background to-primary/5 rounded-3xl border border-primary/20 p-16 md:p-20">
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">
                 Ready to <span className="text-primary">Join Us?</span>
