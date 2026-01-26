@@ -71,24 +71,32 @@ const benefits = [
     title: "Targeted Audience",
     description:
       "Connect directly with senior media executives and decision-makers from leading broadcasters, studios, and technology companies.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
   },
   {
     icon: Eye,
     title: "Brand Visibility",
     description:
       "Gain prominent exposure across our events, digital channels, and communications reaching thousands of industry professionals.",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
   },
   {
     icon: Mic,
     title: "Thought Leadership",
     description:
       "Position your brand as an industry leader through speaking opportunities, panel discussions, and curated content.",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
   },
   {
     icon: Star,
     title: "Exclusive Access",
     description:
       "Enjoy priority access to our network of media executives and bespoke opportunities tailored to your business objectives.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
   },
 ];
 
@@ -251,8 +259,8 @@ const Sponsors: React.FC = () => {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mb-6 mx-auto">
-                  <benefit.icon className="w-8 h-8 text-primary" />
+                <div className={`w-16 h-16 rounded-xl ${benefit.bgColor} flex items-center justify-center mb-6 mx-auto`}>
+                  <benefit.icon className={`w-8 h-8 ${benefit.color}`} />
                 </div>
                 <h3 className="font-display text-xl mb-3">
                   {benefit.title}

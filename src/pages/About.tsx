@@ -33,8 +33,8 @@ const values = [
     icon: Heart,
     title: "Inclusivity & Balance",
     description: "Bringing together a mix of voices and perspectives.",
-    color: "text-[hsl(var(--icon-magenta))]",
-    bgColor: "bg-[hsl(var(--icon-magenta)/0.1)]",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
   },
   {
     icon: Star,
@@ -51,32 +51,44 @@ const eventFormats = [
     title: "Networking Breakfasts",
     description:
       "Start the day with industry peers over coffee and conversation.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
   },
   {
     icon: Wine,
     title: "Drinks Receptions",
     description: "Relaxed evening networking in premium venues.",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
   },
   {
     icon: Clapperboard,
     title: "Film Screenings",
     description: "Exclusive previews and discussions with industry leaders.",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
   },
   {
     icon: Presentation,
     title: "Conference Reviews",
     description:
       "In-person mini summits with curated discussions and insights.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
   },
   {
     icon: Laptop,
     title: "Webinars",
     description: "Virtual knowledge sharing and interactive sessions.",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
   },
   {
     icon: Rocket,
     title: "Bespoke Events",
     description: "Tailored experiences designed for your brand objectives.",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
   },
 ];
 
@@ -171,8 +183,8 @@ const About = () => {
             <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
               {eventFormats.map((format) => (
                 <div key={format.title} className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-                    <format.icon className="w-8 h-8 text-primary" />
+                  <div className={`w-16 h-16 rounded-full ${format.bgColor} flex items-center justify-center mx-auto mb-6`}>
+                    <format.icon className={`w-8 h-8 ${format.color}`} />
                   </div>
 
                   <h3 className="font-display text-xl mb-4">{format.title}</h3>
