@@ -148,8 +148,8 @@ const About = () => {
         </div>
 
         {/* Mission & Values */}
-        <section className="py-32 md:py-40 relative">
-          <div className="container mx-auto px-6 text-center max-w-4xl mb-20">
+        <section className="py-24 md:py-32 relative">
+          <div className="container mx-auto px-6 text-center max-w-4xl mb-16">
             <h2 className="font-display text-4xl md:text-5xl mb-6 leading-tight">
               Our <span className="text-primary italic">Mission & Values</span>
             </h2>
@@ -192,7 +192,7 @@ const About = () => {
         </div>
 
         {/* Event Formats */}
-        <section className="py-32 bg-gradient-to-br from-muted/30 via-background to-muted/10">
+        <section className="py-24 md:py-32 bg-gradient-to-br from-muted/30 via-background to-muted/10">
           <div className="container mx-auto px-6 max-w-6xl text-center">
             <h2 className="font-display text-4xl md:text-5xl mb-6 leading-tight">
               Event <span className="text-primary italic">Formats</span>
@@ -243,7 +243,7 @@ const About = () => {
         </div>
 
         {/* CTA */}
-        <section className="py-32 relative bg-gradient-to-b from-background via-muted/20 to-background">
+        <section className="py-24 md:py-32 relative bg-gradient-to-b from-background via-muted/20 to-background">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-primary/10 via-background to-primary/5 rounded-3xl border border-primary/20 p-16 md:p-20">
               <h2 className="font-display text-4xl md:text-5xl lg:text-6xl mb-8 leading-tight">

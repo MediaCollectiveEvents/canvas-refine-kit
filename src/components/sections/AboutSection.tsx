@@ -3,7 +3,7 @@ const AboutSection = () => {
   return (
     <section
       id="about"
-      className="py-24 md:py-32 relative pb-[80px] pt-[120px] md:pt-[160px]"
+      className="py-24 md:py-32 relative"
     >
       <div className="container mx-auto px-6">
         <div className="max-w-3xl mx-auto text-center">

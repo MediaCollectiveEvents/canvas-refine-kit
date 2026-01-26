@@ -214,14 +214,14 @@ const Events = () => {
       </div>
 
       {/* Upcoming Events */}
-      <section className="py-20 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="mb-12 text-center"
+            className="mb-16 text-center"
           >
             <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4 leading-tight">
               Upcoming <span className="text-primary italic">Events</span>
@@ -290,7 +290,7 @@ const Events = () => {
       </div>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

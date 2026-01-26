@@ -58,7 +58,7 @@ const Blog = () => {
 
       <main>
         {/* Hero Section */}
-        <section className="pt-32 pb-16 bg-muted">
+        <section className="pt-40 pb-16 bg-muted">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-3xl mx-auto">
               <p className="text-primary font-body text-sm uppercase tracking-[0.3em] mb-4">
@@ -79,7 +79,7 @@ const Blog = () => {
         </section>
 
         {/* Blog Posts Grid */}
-        <section className="py-20">
+        <section className="py-24 md:py-32">
           <div className="container mx-auto px-6">
             <div className="grid md:grid-cols-2 gap-8">
               {blogPosts.map((post) => (

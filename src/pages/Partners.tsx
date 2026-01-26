@@ -168,8 +168,8 @@ const Partners: React.FC = () => {
       </div>
 
       {/* Scrolling Sponsor Logos */}
-      <section className="py-16 bg-muted overflow-hidden">
-        <div className="container mx-auto max-w-6xl mb-12 text-center">
+      <section className="py-24 md:py-32 bg-muted overflow-hidden">
+        <div className="container mx-auto max-w-6xl mb-16 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -204,7 +204,7 @@ const Partners: React.FC = () => {
       </div>
 
       {/* Benefits Section */}
-      <section className="py-24 px-6">
+      <section className="py-24 md:py-32 px-6">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -255,7 +255,7 @@ const Partners: React.FC = () => {
       </div>
 
       {/* Sponsorship Tiers */}
-      <section className="py-24 px-6 bg-muted/30">
+      <section className="py-24 md:py-32 px-6 bg-muted/30">
         <div className="container mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -371,7 +371,7 @@ const Partners: React.FC = () => {
       </div>
 
       {/* CTA Section */}
-      <section className="py-24 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
+      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-muted/20 to-background">
         <div className="container mx-auto max-w-4xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
