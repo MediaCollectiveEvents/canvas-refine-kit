@@ -5,7 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Eye, Mic, Star } from "lucide-react";
+import { ArrowRight, Users, Eye, Mic } from "lucide-react";
 
 // Sponsor logo imports
 import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
@@ -89,14 +89,6 @@ const benefits = [
       "Position your brand as an industry leader through speaking opportunities, panel discussions, and curated content.",
     color: "text-[hsl(var(--icon-red))]",
     bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
-  },
-  {
-    icon: Star,
-    title: "Exclusive Access",
-    description:
-      "Enjoy priority access to our network of media executives and bespoke opportunities tailored to your business objectives.",
-    color: "text-[hsl(var(--icon-lime))]",
-    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
   },
 ];
 
