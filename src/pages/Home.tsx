@@ -7,7 +7,7 @@ import AboutSection from "@/components/sections/AboutSection";
 import ValuePillarsSection from "@/components/sections/ValuePillarsSection";
 import EventsSection from "@/components/sections/EventsSection";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
-import SectionDivider from "@/components/shared/SectionDivider";
+
 import heroImage from "@/assets/hero-placeholder.jpg";
 
 const Home = () => {
@@ -47,8 +47,6 @@ const Home = () => {
         {/* UPCOMING EVENTS */}
         <EventsSection onRegisterClick={() => setIsFormOpen(true)} />
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="single" />
 
         {/* VALUE PILLARS */}
         <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
