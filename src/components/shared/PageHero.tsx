@@ -60,9 +60,9 @@ const PageHero = ({
       {variant === "image" && (
         <>
           {/* Base dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/65 to-black/85" />
           {/* Primary color tint for brand cohesion */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-transparent to-[hsl(var(--icon-cyan)/0.2)]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/50 via-transparent to-[hsl(var(--icon-cyan)/0.25)]" />
           {/* Subtle blur for abstraction */}
           <div className="absolute inset-0 backdrop-blur-[2px]" />
         </>
