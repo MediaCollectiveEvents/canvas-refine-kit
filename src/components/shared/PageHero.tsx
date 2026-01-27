@@ -56,15 +56,15 @@ const PageHero = ({
       className={cn(baseClasses, variantClasses[variant], className)}
       style={variant === "image" && backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
     >
-      {/* Overlay for image variant - layered gradient for depth and brand cohesion */}
+      {/* Overlay for image variant - duotone effect with vignette */}
       {variant === "image" && (
         <>
-          {/* Base dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
-          {/* Primary color tint for brand cohesion */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-transparent to-[hsl(var(--icon-cyan)/0.2)]" />
-          {/* Subtle blur for abstraction */}
-          <div className="absolute inset-0 backdrop-blur-[2px]" />
+          {/* Desaturate the image slightly */}
+          <div className="absolute inset-0 bg-primary/30 mix-blend-color" />
+          {/* Gradient overlay with vignette effect */}
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-primary/60" />
+          {/* Radial vignette for focus */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.7)_100%)]" />
         </>
       )}
 
