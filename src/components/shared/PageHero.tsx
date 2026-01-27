@@ -56,8 +56,17 @@ const PageHero = ({
       className={cn(baseClasses, variantClasses[variant], className)}
       style={variant === "image" && backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
     >
-      {/* Overlay for image variant */}
-      {variant === "image" && <div className="absolute inset-0 bg-black/60" />}
+      {/* Overlay for image variant - layered gradient for depth and brand cohesion */}
+      {variant === "image" && (
+        <>
+          {/* Base dark overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80" />
+          {/* Primary color tint for brand cohesion */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-transparent to-[hsl(var(--icon-cyan)/0.2)]" />
+          {/* Subtle blur for abstraction */}
+          <div className="absolute inset-0 backdrop-blur-[2px]" />
+        </>
+      )}
 
       <div className="container mx-auto max-w-6xl relative z-10">
         <motion.div
