@@ -1,0 +1,12 @@
+{
+  "palette": {
+    "primary": "#36e0c6",
+    "secondary": "#ff4062",
+    "background": "#05050a"
+  },
+  "footer": {
+    "text": "",
+    "showEventsInFooter": false
+  },
+  "nav": []
+}
