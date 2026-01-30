@@ -1,3 +1,4 @@
+// src/components/sections/EventsSection.tsx
 
 import { MapPin, ArrowRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +10,9 @@ import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 
+// 🚨 Make sure tsconfig.json has: "resolveJsonModule": true in compilerOptions
+import rawEvents from "@/content/events.json";
+
 interface Event {
   id: number;
   title: string;
@@ -17,35 +21,45 @@ interface Event {
   image: string;
 }
 
-const events: Event[] = [
-  {
-    id: 1,
-    title: "NAB Review 2026",
-    location: "White City, London, UK",
-    venue: "The Broadcaster",
-    image: broadcasterImg,
-  },
-  {
-    id: 2,
-    title: "MPTS Reception",
-    location: "Olympia London, UK",
-    venue: "The Hand & Flower",
-    image: handandflowerImg,
-  },
-  {
-    id: 3,
-    title: "IBC Breakfast",
-    location: "RAI, Amsterdam, Netherlands",
-    venue: "The Traveller",
-    image: travellerImg,
-  },
-];
+interface RawEvent {
+  id?: number;
+  title: string;
+  location: string;
+  venue: string;
+  imageKey?: string;
+}
+
+// Map imageKey -> actual image asset
+function getImageForKey(key: string | undefined, venue: string, title: string) {
+  const value = (key || venue || title).toLowerCase();
+
+  if (value.includes("broadcaster")) return broadcasterImg;
+  if (value.includes("hand") && value.includes("flower"))
+    return handandflowerImg;
+  if (value.includes("traveller") || value.includes("traveler"))
+    return travellerImg;
+
+  // Fallback image
+  return broadcasterImg;
+}
+
+// Build events array from JSON content
+const events: Event[] = (rawEvents as RawEvent[]).map((e, index) => ({
+  id: e.id ?? index + 1,
+  title: e.title,
+  location: e.location,
+  venue: e.venue,
+  image: getImageForKey(e.imageKey, e.venue, e.title),
+}));
 
 interface EventsSectionProps {
   onRegisterClick: () => void;
 }
 
 const EventsSection = ({ onRegisterClick }: EventsSectionProps) => {
+  // If there are no events defined, don't render the section
+  if (!events.length) return null;
+
   return (
     <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
       {/* Background decoration */}
@@ -56,10 +70,7 @@ const EventsSection = ({ onRegisterClick }: EventsSectionProps) => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Section Header */}
-        <SectionHeader
-          title="Upcoming "
-          accentWord="Events"
-        />
+        <SectionHeader title="Upcoming " accentWord="Events" />
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {events.map((event, index) => (

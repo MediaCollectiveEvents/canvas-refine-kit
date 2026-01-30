@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "NAB Review 2026",
+    "location": "White City, London, UK",
+    "venue": "The Broadcaster",
+    "imageKey": "broadcaster"
+  },
+  {
+    "id": 2,
+    "title": "MPTS Reception",
+    "location": "Olympia London, UK",
+    "venue": "The Hand & Flower",
+    "imageKey": "handandflower"
+  },
+  {
+    "id": 3,
+    "title": "IBC Breakfast",
+    "location": "RAI, Amsterdam, Netherlands",
+    "venue": "The Traveller",
+    "imageKey": "traveller"
+  }
+]

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -17,6 +16,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import FAQSection from "@/components/sections/FAQSection";
 import { Button } from "@/components/ui/button";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import PageHero from "@/components/shared/PageHero";
@@ -183,7 +183,9 @@ const About = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
-                  <div className={`w-16 h-16 rounded-full ${format.bgColor} flex items-center justify-center mx-auto mb-6`}>
+                  <div
+                    className={`w-16 h-16 rounded-full ${format.bgColor} flex items-center justify-center mx-auto mb-6`}
+                  >
                     <format.icon className={`w-8 h-8 ${format.color}`} />
                   </div>
 
@@ -203,6 +205,12 @@ const About = () => {
 
         {/* Testimonials */}
         <TestimonialsSection />
+
+        {/* Decorative Divider */}
+        <SectionDivider variant="single" />
+
+        {/* FAQ Section */}
+        <FAQSection />
 
         {/* Decorative Divider */}
         <SectionDivider variant="triple" className="py-12" />

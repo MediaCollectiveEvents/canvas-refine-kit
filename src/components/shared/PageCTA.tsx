@@ -1,19 +1,6 @@
-import React from "react";
-
-interface PageCTAProps {
-  title?: string;
-  description?: string;
-  buttonLabel?: string;
-  onClick?: () => void;
-  className?: string;
-}
-
-/**
- * Simple Page Call-To-Action component.
- * This is a safe placeholder so the site builds again.
- */
 export default function PageCTA({
   title = "Ready to join us?",
+  accentWord = "",
   description = "Get in touch or explore our upcoming events.",
   buttonLabel = "Contact us",
   onClick,
@@ -27,11 +14,18 @@ export default function PageCTA({
       }
     >
       <h2 className="text-3xl md:text-4xl font-semibold text-white">
-        {title}
+        {title}{" "}
+        {accentWord && (
+          <span className="text-[#36e0c6] italic font-normal">
+            {accentWord}
+          </span>
+        )}
       </h2>
+
       <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
         {description}
       </p>
+
       <button
         type="button"
         onClick={onClick}

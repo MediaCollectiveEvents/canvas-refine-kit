@@ -1,6 +1,6 @@
-
 import { motion } from "framer-motion";
 import SectionHeader from "@/components/shared/SectionHeader";
+import about from "@/content/about.json";
 
 const AboutSection = () => {
   return (
@@ -15,12 +15,8 @@ const AboutSection = () => {
       </div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          
           {/* Unified Section Header */}
-          <SectionHeader
-            title="About "
-            accentWord="Us"
-          />
+          <SectionHeader title={about.title} accentWord={about.accent} />
 
           <motion.div
             className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed"
@@ -29,22 +25,11 @@ const AboutSection = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <p>
-              We bring together a community of senior executives, innovators and
-              thought leaders from across the global media landscape.
-              <br />
-              <br />
-              Our exclusive events provide a welcoming environment to connect,
-              catch up and expand your network.
-              <br />
-              <br />
-              From relaxed breakfast events to lively networking receptions,
-              exclusive screenings, talks and panel discussions, each event is
-              carefully curated to ensure great company, diversity and lively
-              discussion.
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: about.intro }} />
+            {about.body && (
+              <div dangerouslySetInnerHTML={{ __html: about.body }} />
+            )}
           </motion.div>
-
         </div>
       </div>
     </section>

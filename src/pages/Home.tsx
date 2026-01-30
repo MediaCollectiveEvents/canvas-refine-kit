@@ -3,6 +3,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/shared/PageHero";
 import AboutSection from "@/components/sections/AboutSection";
+import FAQSection from "@/components/sections/FAQSection";
 import ValuePillarsSection from "@/components/sections/ValuePillarsSection";
 import EventsSection from "@/components/sections/EventsSection";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
@@ -45,6 +46,9 @@ const Home = () => {
 
         {/* ABOUT SECTION */}
         <AboutSection />
+
+        {/* FAQ SECTION */}
+        <FAQSection />
 
         {/* UPCOMING EVENTS */}
         <EventsSection onRegisterClick={() => setIsFormOpen(true)} />

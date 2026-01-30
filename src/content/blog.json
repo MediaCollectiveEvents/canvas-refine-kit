@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "title": "2026 Media Trends",
+    "slug": "2026-media-trends",
+    "excerpt": "What’s shaping the future of global media in 2026 – and how leaders can prepare.",
+    "heroImage": "/src/assets/blog/ai-innovation.jpg",
+    "category": "Insights",
+    "date": "2026-01-15T00:00:00.000Z",
+    "author": {
+      "name": "The Media Collective"
+    },
+    "body": "<p>The global media landscape continues to evolve at remarkable speed. From AI-enhanced production pipelines to hyper-niche content strategies, 2026 is shaping up to be a year of transformation.</p><p>Senior leaders across film, TV, advertising, gaming and digital publishing are rethinking workflows, exploring new partnerships, and investing in creator-led experiences. This article explores the four shifts shaping the year ahead.</p><h2>1. AI-assisted creativity</h2><p>AI isn’t replacing creators — it’s accelerating them. From automated pre‑vis to adaptive editing tools, we’re seeing a rise in hybrid human‑AI creative teams.</p>"
+  },
+  {
+    "id": 2,
+    "title": "Executive Networking Playbook",
+    "slug": "executive-networking-playbook",
+    "excerpt": "How senior leaders build meaningful relationships at curated events – without awkwardness or surface-level conversation.",
+    "heroImage": "/src/assets/blog/networking-tips.jpg",
+    "category": "Networking",
+    "date": "2026-01-10T00:00:00.000Z",
+    "author": {
+      "name": "The Media Collective"
+    },
+    "body": "<p>Networking doesn’t have to be transactional or uncomfortable. When an environment is designed intentionally, it becomes easy for meaningful conversations to emerge.</p><p>In this guide, we break down how senior executives build lasting relationships that lead to collaborations, partnerships and new opportunities.</p><h2>1. Environment over scripts</h2><p>Good networking is not about perfect lines — it's about human connection fueled by atmosphere.</p>"
+  },
+  {
+    "id": 3,
+    "title": "Event Design That Actually Works",
+    "slug": "event-design-that-works",
+    "excerpt": "From experiences to environments – how to shape gatherings with intention, not guesswork.",
+    "heroImage": "/src/assets/blog/event-design.jpg",
+    "category": "Event Design",
+    "date": "2026-01-05T00:00:00.000Z",
+    "author": {
+      "name": "The Media Collective"
+    },
+    "body": "<p>Great event design is never accidental. It blends story, environment and experience into a cohesive journey that feels natural, high-value and memorable.</p><p>This article breaks down the principles that guide our approach to curated events.</p><h2>1. Design with intention</h2><p>Your guests should feel the purpose as soon as they enter the room.</p>"
+  }
+]

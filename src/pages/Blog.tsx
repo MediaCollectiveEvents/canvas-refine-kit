@@ -8,7 +8,38 @@ import PageCTA from "@/components/shared/PageCTA";
 import SectionDivider from "@/components/shared/SectionDivider";
 import heroImage from "@/assets/hero-placeholder.jpg";
 import { Link } from "react-router-dom";
-import { blogPosts } from "@/content/blogPosts";
+
+// ✅ NEW: real blog content from JSON
+import blogPostsData from "@/content/blog.json";
+
+interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  heroImage: string;
+  category: string;
+  date: string;
+  author: {
+    name: string;
+  };
+}
+
+// Normalize JSON → typed array & sort by date (newest first)
+const blogPosts: BlogPost[] = (blogPostsData as any[])
+  .map((post, index) => ({
+    id: post.id ?? index + 1,
+    title: post.title,
+    slug: post.slug,
+    excerpt: post.excerpt,
+    heroImage: post.heroImage,
+    category: post.category,
+    date: post.date,
+    author: {
+      name: post.author?.name ?? "The Media Collective",
+    },
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 const Blog = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);

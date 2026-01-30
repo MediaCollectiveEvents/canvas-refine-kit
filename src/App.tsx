@@ -1,39 +1,46 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// src/App.tsx
+
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Pages (relative imports)
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Events from "./pages/Events";
 import Partners from "./pages/Partners";
+import Sponsors from "./pages/Sponsors";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Blog from "./pages/Blog";
-import About from "./pages/About";
 import Wireframe from "./pages/Wireframe";
 import NotFound from "./pages/NotFound";
 
-const queryClient = new QueryClient();
+const App: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Main site pages */}
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/partners" element={<Partners />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/wireframe" element={<Wireframe />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+        {/* Blog list + single post */}
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
+
+        {/* Events & partners */}
+        <Route path="/events" element={<Events />} />
+        <Route path="/partners" element={<Partners />} />
+        <Route path="/sponsors" element={<Sponsors />} />
+
+        {/* Legal / misc */}
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/wireframe" element={<Wireframe />} />
+
+        {/* Catch-all */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
 export default App;
