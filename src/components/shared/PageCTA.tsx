@@ -1,7 +1,16 @@
+interface PageCTAProps {
+  title?: string;
+  accentWord?: string;
+  description?: string;
+  buttonLabel?: string;
+  onClick?: () => void;
+  className?: string;
+}
+
 export default function PageCTA({
-  title = "Ready to join us?",
+  title = "Connect with the collective",
   accentWord = "",
-  description = "Get in touch or explore our upcoming events.",
+  description = "Sign up to join our community and stay updated with the latest news and events.",
   buttonLabel = "Contact us",
   onClick,
   className = "",
