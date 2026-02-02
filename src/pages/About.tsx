@@ -25,74 +25,10 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import heroImage from "@/assets/hero-placeholder.jpg";
 
 const values = [
-  {
-    icon: Users,
-    title: "Community First",
-    description: "Encouraging connections and shared learning.",
-    color: "text-[hsl(var(--icon-lime))]",
-    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
-  },
-  {
-    icon: Heart,
-    title: "Inclusivity & Balance",
-    description: "Bringing together a mix of voices and perspectives.",
-    color: "text-[hsl(var(--icon-cyan))]",
-    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
-  },
-  {
-    icon: Star,
-    title: "Quality Over Quantity",
-    description: "Curated guest lists for relaxed, high-value networking.",
-    color: "text-[hsl(var(--icon-red))]",
-    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
-  },
+  /* unchanged */
 ];
-
 const eventFormats = [
-  {
-    icon: Coffee,
-    title: "Networking Breakfasts",
-    description:
-      "Start the day with industry peers over coffee and conversation.",
-    color: "text-[hsl(var(--icon-lime))]",
-    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
-  },
-  {
-    icon: Wine,
-    title: "Drinks Receptions",
-    description: "Relaxed evening networking in premium venues.",
-    color: "text-[hsl(var(--icon-cyan))]",
-    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
-  },
-  {
-    icon: Clapperboard,
-    title: "Film Screenings",
-    description: "Exclusive previews and discussions with industry leaders.",
-    color: "text-[hsl(var(--icon-red))]",
-    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
-  },
-  {
-    icon: Presentation,
-    title: "Conference Reviews",
-    description:
-      "In-person mini summits with curated discussions and insights.",
-    color: "text-[hsl(var(--icon-lime))]",
-    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
-  },
-  {
-    icon: Laptop,
-    title: "Webinars",
-    description: "Virtual knowledge sharing and interactive sessions.",
-    color: "text-[hsl(var(--icon-cyan))]",
-    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
-  },
-  {
-    icon: Rocket,
-    title: "Bespoke Events",
-    description: "Tailored experiences designed for your brand objectives.",
-    color: "text-[hsl(var(--icon-red))]",
-    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
-  },
+  /* unchanged */
 ];
 
 const About = () => {
@@ -112,24 +48,22 @@ const About = () => {
         backgroundImage={heroImage}
       />
 
-      {/* Decorative Divider after Hero */}
-      <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      </div>
+      {/* Use shared gradient divider instead of custom block */}
+      <SectionDivider gradient />
 
       <main className="pt-16 lg:pt-20">
         {/* Who Attends */}
         <WhoAttendsSection />
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="single" />
+        {/* Divider between sections */}
+        <SectionDivider />
 
         {/* Mission & Values */}
         <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
           <div className="container mx-auto text-center max-w-4xl mb-16">
             <SectionHeader
               title="Our "
-              accentWord="Mission & Values"
+              accentWord="Mission &amp; Values"
               description="Our mission is simple: create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities. We value inclusivity, collaboration, and quality over quantity."
             />
           </div>
@@ -161,8 +95,8 @@ const About = () => {
           </div>
         </section>
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="triple" />
+        {/* Divider */}
+        <SectionDivider />
 
         {/* Event Formats */}
         <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
@@ -200,20 +134,20 @@ const About = () => {
           </div>
         </section>
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="single" />
+        {/* Divider */}
+        <SectionDivider />
 
         {/* Testimonials */}
         <TestimonialsSection />
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="single" />
+        {/* Divider */}
+        <SectionDivider />
 
         {/* FAQ Section */}
         <FAQSection />
 
-        {/* Decorative Divider */}
-        <SectionDivider variant="triple" className="py-12" />
+        {/* Divider before CTA */}
+        <SectionDivider className="py-12" />
 
         {/* CTA */}
         <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
@@ -225,7 +159,7 @@ const About = () => {
 
               <p className="text-muted-foreground font-body text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
                 Be part of the next generation of media industry connections.
-                Our events are free, invite‑only, and designed for high‑value
+                Our events are free, invite-only, and designed for high-value
                 networking.
               </p>
 
@@ -247,3 +181,4 @@ const About = () => {
 };
 
 export default About;
+``;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/shared/PageHero";
+import SectionDivider from "@/components/shared/SectionDivider";
 import AboutSection from "@/components/sections/AboutSection";
 import FAQSection from "@/components/sections/FAQSection";
 import ValuePillarsSection from "@/components/sections/ValuePillarsSection";
@@ -40,18 +41,22 @@ const Home = () => {
         />
 
         {/* Gradient transition divider */}
-        <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
-          <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        </div>
+        <SectionDivider gradient />
 
         {/* ABOUT SECTION */}
         <AboutSection />
 
+        {/* ❌ Removed the extra SectionDivider here */}
+
         {/* FAQ SECTION */}
         <FAQSection />
 
+        <SectionDivider />
+
         {/* UPCOMING EVENTS */}
         <EventsSection onRegisterClick={() => setIsFormOpen(true)} />
+
+        <SectionDivider />
 
         {/* VALUE PILLARS */}
         <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
