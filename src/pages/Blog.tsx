@@ -1,16 +1,13 @@
 import { useState } from "react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import PageHero from "@/components/shared/PageHero";
-import PageCTA from "@/components/shared/PageCTA";
-import SectionDivider from "@/components/shared/SectionDivider";
-import heroImage from "@/assets/hero-placeholder.jpg";
+import PageHero from "../components/shared/PageHero";
+import PageCTA from "../components/shared/PageCTA";
+import SectionDivider from "../components/shared/SectionDivider";
 import { Link } from "react-router-dom";
-
-// ✅ NEW: real blog content from JSON
-import blogPostsData from "@/content/blog.json";
+import blogPostsData from "../content/blog.json";
 
 interface BlogPost {
   id: number;
@@ -54,8 +51,7 @@ const Blog = () => {
           eyebrow="Insights & Updates"
           title="The Blog"
           description="Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
-          variant="image"
-          backgroundImage={heroImage}
+          variant="primary"
         />
 
         {/* Blog Posts Grid */}

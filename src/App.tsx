@@ -14,6 +14,7 @@ import Sponsors from "./pages/Sponsors";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Wireframe from "./pages/Wireframe";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
 
 const App: React.FC = () => {
   return (
@@ -35,6 +36,9 @@ const App: React.FC = () => {
         {/* Legal / misc */}
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/wireframe" element={<Wireframe />} />
+
+        {/* Admin */}
+        <Route path="/admin" element={<Admin />} />
 
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+// Adjust the import path to the correct relative path if necessary
+import { cn } from "../../lib/utils"; // Update this path based on your project structure
+import { Button } from "../../components/ui/Button"; // Adjusted import path
 
 interface PageHeroProps {
   eyebrow: string;
@@ -54,7 +55,11 @@ const PageHero = ({
   return (
     <section
       className={cn(baseClasses, variantClasses[variant], className)}
-      style={variant === "image" && backgroundImage ? { backgroundImage: `url(${backgroundImage})` } : undefined}
+      style={
+        variant === "image" && backgroundImage
+          ? { backgroundImage: `url(${backgroundImage})` }
+          : undefined
+      }
     >
       {/* Overlay for image variant - layered gradient for depth and brand cohesion */}
       {variant === "image" && (
@@ -78,7 +83,7 @@ const PageHero = ({
           <motion.p
             className={cn(
               "font-body text-sm uppercase tracking-[0.3em] mb-6",
-              colors.eyebrow
+              colors.eyebrow,
             )}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -88,7 +93,10 @@ const PageHero = ({
           </motion.p>
 
           <motion.h1
-            className={cn("font-script text-6xl md:text-8xl mb-6", colors.title)}
+            className={cn(
+              "font-script text-6xl md:text-8xl mb-6",
+              colors.title,
+            )}
             style={{ textShadow: "0 4px 12px rgba(0, 0, 0, 0.35)" }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -100,7 +108,7 @@ const PageHero = ({
           <motion.p
             className={cn(
               "font-body text-lg max-w-2xl mx-auto",
-              colors.description
+              colors.description,
             )}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
