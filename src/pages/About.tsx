@@ -25,10 +25,74 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import heroImage from "@/assets/hero-placeholder.jpg";
 
 const values = [
-  /* unchanged */
+  {
+    icon: Users,
+    title: "Community First",
+    description: "Encouraging connections and shared learning.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
+  },
+  {
+    icon: Heart,
+    title: "Inclusivity & Balance",
+    description: "Bringing together a mix of voices and perspectives.",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
+  },
+  {
+    icon: Star,
+    title: "Quality Over Quantity",
+    description: "Curated guest lists for relaxed, high-value networking.",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
+  },
 ];
+
 const eventFormats = [
-  /* unchanged */
+  {
+    icon: Coffee,
+    title: "Networking Breakfasts",
+    description:
+      "Start the day with industry peers over coffee and conversation.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
+  },
+  {
+    icon: Wine,
+    title: "Drinks Receptions",
+    description: "Relaxed evening networking in premium venues.",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
+  },
+  {
+    icon: Clapperboard,
+    title: "Film Screenings",
+    description: "Exclusive previews and discussions with industry leaders.",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
+  },
+  {
+    icon: Presentation,
+    title: "Conference Reviews",
+    description:
+      "In-person mini summits with curated discussions and insights.",
+    color: "text-[hsl(var(--icon-lime))]",
+    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
+  },
+  {
+    icon: Laptop,
+    title: "Webinars",
+    description: "Virtual knowledge sharing and interactive sessions.",
+    color: "text-[hsl(var(--icon-cyan))]",
+    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
+  },
+  {
+    icon: Rocket,
+    title: "Bespoke Events",
+    description: "Tailored experiences designed for your brand objectives.",
+    color: "text-[hsl(var(--icon-red))]",
+    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
+  },
 ];
 
 const About = () => {
@@ -43,19 +107,18 @@ const About = () => {
       <PageHero
         eyebrow="Our Community"
         title="Our Story"
-        description="Born during a time of remote work and limited in-person interaction, The Media Collective was created to reconnect the industry. We bring together leaders and innovators in a welcoming environment that promotes relationship-building and encourages collaboration."
+        description="Born during a time of remote work and limited in-person interaction, The Media Collective was created to reconnect the industry."
         variant="image"
         backgroundImage={heroImage}
       />
 
-      {/* Use shared gradient divider instead of custom block */}
+      {/* Gradient Divider */}
       <SectionDivider gradient />
 
       <main className="pt-16 lg:pt-20">
         {/* Who Attends */}
         <WhoAttendsSection />
 
-        {/* Divider between sections */}
         <SectionDivider />
 
         {/* Mission & Values */}
@@ -63,12 +126,11 @@ const About = () => {
           <div className="container mx-auto text-center max-w-4xl mb-16">
             <SectionHeader
               title="Our "
-              accentWord="Mission &amp; Values"
-              description="Our mission is simple: create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities. We value inclusivity, collaboration, and quality over quantity."
+              accentWord="Mission & Values"
+              description="Our mission is simple: create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities."
             />
           </div>
 
-          {/* Values Grid */}
           <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto px-6">
             {values.map((value, index) => (
               <motion.div
@@ -86,7 +148,6 @@ const About = () => {
                 </div>
 
                 <h3 className="font-display text-xl mb-4">{value.title}</h3>
-
                 <p className="text-muted-foreground font-body text-sm leading-relaxed">
                   {value.description}
                 </p>
@@ -95,7 +156,6 @@ const About = () => {
           </div>
         </section>
 
-        {/* Divider */}
         <SectionDivider />
 
         {/* Event Formats */}
@@ -124,7 +184,6 @@ const About = () => {
                   </div>
 
                   <h3 className="font-display text-xl mb-4">{format.title}</h3>
-
                   <p className="text-muted-foreground font-body text-sm leading-relaxed">
                     {format.description}
                   </p>
@@ -134,19 +193,17 @@ const About = () => {
           </div>
         </section>
 
-        {/* Divider */}
         <SectionDivider />
 
         {/* Testimonials */}
         <TestimonialsSection />
 
-        {/* Divider */}
-        <SectionDivider />
+        {/* ❗ FIX APPLIED: removed the divider here that caused double line */}
 
-        {/* FAQ Section */}
+        {/* FAQ */}
         <FAQSection />
 
-        {/* Divider before CTA */}
+        {/* Single Divider before CTA */}
         <SectionDivider className="py-12" />
 
         {/* CTA */}
@@ -159,7 +216,7 @@ const About = () => {
 
               <p className="text-muted-foreground font-body text-lg leading-relaxed mb-10 max-w-2xl mx-auto">
                 Be part of the next generation of media industry connections.
-                Our events are free, invite-only, and designed for high-value
+                Our events are free, invite‑only, and designed for high‑value
                 networking.
               </p>
 
@@ -181,4 +238,3 @@ const About = () => {
 };
 
 export default About;
-``;
