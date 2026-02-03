@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Header from "@/components/layout/Header";
@@ -9,6 +8,7 @@ import { ArrowRight, Users, Eye, Mic } from "lucide-react";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
 import SectionHeader from "@/components/shared/SectionHeader";
+import PageCTA from "@/components/shared/PageCTA"; // ✅ New CTA
 import heroImage from "@/assets/hero-placeholder.jpg";
 
 // Sponsor logo imports
@@ -180,9 +180,7 @@ const Partners: React.FC = () => {
       />
 
       {/* Decorative Divider after Hero */}
-      <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      </div>
+      <SectionDivider gradient />
 
       {/* Scrolling Sponsor Logos */}
       <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
@@ -196,10 +194,7 @@ const Partners: React.FC = () => {
         <div className="relative">
           <div className="flex animate-scroll py-4">
             {[...currentSponsors, ...currentSponsors].map((sponsor, index) => (
-              <SponsorLogo
-                key={`${sponsor.name}-${index}`}
-                sponsor={sponsor}
-              />
+              <SponsorLogo key={`${sponsor.name}-${index}`} sponsor={sponsor} />
             ))}
           </div>
         </div>
@@ -227,12 +222,12 @@ const Partners: React.FC = () => {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className={`w-16 h-16 rounded-full ${benefit.bgColor} flex items-center justify-center mb-6 mx-auto`}>
+                <div
+                  className={`w-16 h-16 rounded-full ${benefit.bgColor} flex items-center justify-center mb-6 mx-auto`}
+                >
                   <benefit.icon className={`w-8 h-8 ${benefit.color}`} />
                 </div>
-                <h3 className="font-display text-xl mb-3">
-                  {benefit.title}
-                </h3>
+                <h3 className="font-display text-xl mb-3">{benefit.title}</h3>
                 <p className="text-muted-foreground font-body text-sm leading-relaxed">
                   {benefit.description}
                 </p>
@@ -248,10 +243,7 @@ const Partners: React.FC = () => {
       {/* Sponsorship Tiers */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
-          <SectionHeader
-            title="Partnership "
-            accentWord="Packages"
-          />
+          <SectionHeader title="Partnership " accentWord="Packages" />
 
           <div className="grid md:grid-cols-3 gap-8">
             {sponsorshipTiers.map((tier, index) => {
@@ -332,31 +324,8 @@ const Partners: React.FC = () => {
       {/* Decorative Divider */}
       <SectionDivider variant="triple" className="py-12" />
 
-      {/* CTA Section */}
-      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
-        <div className="container mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-display text-4xl md:text-5xl text-foreground mb-6">
-              Ready to <span className="text-primary italic">partner</span> with us?
-            </h2>
-            <p className="text-muted-foreground font-body text-lg mb-8 max-w-xl mx-auto">
-              Contact us to discuss a bespoke partnership package tailored to your objectives and budget.
-            </p>
-            <Button
-              size="lg"
-              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
-              onClick={() => setIsFormOpen(true)}
-            >
-              Register Interest
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+      {/* ✅ New shared CTA component */}
+      <PageCTA onClick={() => setIsFormOpen(true)} />
 
       <Footer />
     </div>
@@ -364,3 +333,4 @@ const Partners: React.FC = () => {
 };
 
 export default Partners;
+``;

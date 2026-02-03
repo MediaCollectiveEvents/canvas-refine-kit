@@ -1,142 +1,74 @@
 import { motion } from "framer-motion";
-// Adjust the import path to the correct relative path if necessary
-import { cn } from "../../lib/utils"; // Update this path based on your project structure
-import { Button } from "../../components/ui/Button"; // Adjusted import path
+import { Button } from "@/components/ui/button";
 
 interface PageHeroProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
-  description: string;
-  variant?: "primary" | "image" | "muted";
-  backgroundImage?: string;
-  className?: string;
+  description?: string;
   ctaText?: string;
   onCtaClick?: () => void;
+  backgroundImage?: string;
+  variant?: "image" | "solid";
 }
 
-const PageHero = ({
+export default function PageHero({
   eyebrow,
   title,
   description,
-  variant = "primary",
-  backgroundImage,
-  className,
   ctaText,
   onCtaClick,
-}: PageHeroProps) => {
-  const baseClasses = "pt-40 pb-16 px-6 relative";
-
-  const variantClasses = {
-    primary: "bg-primary",
-    image: "bg-cover bg-center min-h-[70vh] flex items-center justify-center",
-    muted: "bg-muted",
-  };
-
-  const textColorClasses = {
-    primary: {
-      eyebrow: "text-[hsl(var(--icon-lime))]",
-      title: "text-white",
-      description: "text-white/80",
-    },
-    image: {
-      eyebrow: "text-white/80",
-      title: "text-white",
-      description: "text-white/80",
-    },
-    muted: {
-      eyebrow: "text-primary",
-      title: "text-foreground",
-      description: "text-muted-foreground",
-    },
-  };
-
-  const colors = textColorClasses[variant];
-
+  backgroundImage,
+  variant = "image",
+}: PageHeroProps) {
   return (
-    <section
-      className={cn(baseClasses, variantClasses[variant], className)}
-      style={
-        variant === "image" && backgroundImage
-          ? { backgroundImage: `url(${backgroundImage})` }
-          : undefined
-      }
-    >
-      {/* Overlay for image variant - layered gradient for depth and brand cohesion */}
-      {variant === "image" && (
-        <>
-          {/* Base dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/65 to-black/85" />
-          {/* Primary color tint for brand cohesion */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/50 via-transparent to-[hsl(var(--icon-cyan)/0.25)]" />
-          {/* Subtle blur for abstraction */}
-          <div className="absolute inset-0 backdrop-blur-[2px]" />
-        </>
+    <header className="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center text-center overflow-hidden">
+      {/* Background Image */}
+      {variant === "image" && backgroundImage && (
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+        />
       )}
 
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <motion.p
-            className={cn(
-              "font-body text-sm uppercase tracking-[0.3em] mb-6",
-              colors.eyebrow,
-            )}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/50" />
+
+      {/* Bottom soft fade */}
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black/40" />
+
+      {/* Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 max-w-3xl mx-auto px-6"
+      >
+        {eyebrow && (
+          <p className="text-primary font-body tracking-widest uppercase mb-4 text-sm">
             {eyebrow}
-          </motion.p>
+          </p>
+        )}
 
-          <motion.h1
-            className={cn(
-              "font-script text-6xl md:text-8xl mb-6",
-              colors.title,
-            )}
-            style={{ textShadow: "0 4px 12px rgba(0, 0, 0, 0.35)" }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            {title}
-          </motion.h1>
+        <h1 className="font-satisfy text-5xl md:text-7xl text-white mb-6 leading-tight">
+          {title}
+        </h1>
 
-          <motion.p
-            className={cn(
-              "font-body text-lg max-w-2xl mx-auto",
-              colors.description,
-            )}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
+        {description && (
+          <p className="text-primary font-body text-lg md:text-xl max-w-xl mx-auto mb-8">
             {description}
-          </motion.p>
+          </p>
+        )}
 
-          {ctaText && onCtaClick && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-8"
-            >
-              <Button
-                size="lg"
-                className="rounded-full font-body uppercase tracking-wider text-sm bg-primary-foreground text-primary hover:bg-primary-foreground/90 px-8"
-                onClick={onCtaClick}
-              >
-                {ctaText}
-              </Button>
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
-    </section>
+        {ctaText && onCtaClick && (
+          <Button
+            size="lg"
+            className="rounded-full px-8 py-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+            onClick={onCtaClick}
+          >
+            {ctaText}
+          </Button>
+        )}
+      </motion.div>
+    </header>
   );
-};
-
-export default PageHero;
+}

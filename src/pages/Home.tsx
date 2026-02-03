@@ -46,8 +46,6 @@ const Home = () => {
         {/* ABOUT SECTION */}
         <AboutSection />
 
-        {/* ❌ Removed the extra SectionDivider here */}
-
         {/* FAQ SECTION */}
         <FAQSection />
 
@@ -60,6 +58,8 @@ const Home = () => {
 
         {/* VALUE PILLARS */}
         <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
+
+        {/* ❌ Bottom divider removed */}
       </main>
 
       <Footer />

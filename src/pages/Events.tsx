@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
+
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
-import heroImage from "@/assets/hero-placeholder.jpg";
 import SectionHeader from "@/components/shared/SectionHeader";
+import PageCTA from "@/components/shared/PageCTA";
+
+import heroImage from "@/assets/hero-placeholder.jpg";
 
 import greenline from "@/assets/events/greenline.png";
 import broadcaster from "@/assets/events/broadcaster.png";
@@ -150,8 +152,8 @@ const EventCard = ({
               event.id === 1
                 ? "networking-breakfast"
                 : event.id === 2
-                ? "nab-review"
-                : "mpts-drinks"
+                  ? "nab-review"
+                  : "mpts-drinks",
             )
           }
           className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
@@ -194,10 +196,8 @@ const Events = () => {
         backgroundImage={heroImage}
       />
 
-      {/* Decorative Divider after Hero */}
-      <div className="relative h-24 bg-gradient-to-b from-black/60 to-background overflow-hidden">
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      </div>
+      {/* Gradient Divider */}
+      <SectionDivider gradient />
 
       {/* Upcoming Events */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
@@ -206,11 +206,9 @@ const Events = () => {
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         </div>
+
         <div className="container mx-auto max-w-6xl relative z-10">
-          <SectionHeader
-            title="Upcoming "
-            accentWord="Events"
-          />
+          <SectionHeader title="Upcoming " accentWord="Events" />
 
           <div className="space-y-24">
             {upcomingEvents.map((event, index) => (
@@ -225,17 +223,14 @@ const Events = () => {
         </div>
       </section>
 
-      {/* Decorative Divider before CTA */}
-      <SectionDivider variant="single" />
+      {/* Divider before Past Events */}
+      {pastEvents.length > 0 && <SectionDivider />}
 
-      {/* Past Events - only show if there are any */}
+      {/* Past Events */}
       {pastEvents.length > 0 && (
         <section className="py-20 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
           <div className="container mx-auto max-w-6xl">
-            <SectionHeader
-              title="Past "
-              accentWord="Events"
-            />
+            <SectionHeader title="Past " accentWord="Events" />
 
             <div className="space-y-24">
               {pastEvents.map((event, index) => (
@@ -251,40 +246,17 @@ const Events = () => {
         </section>
       )}
 
-      {/* Decorative Divider before CTA */}
-      <SectionDivider variant="triple" className="py-12" />
+      {/* Divider before CTA */}
+      <SectionDivider className="py-12" />
 
       {/* CTA Section */}
-      <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
-        <div className="container mx-auto max-w-4xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="font-display text-4xl md:text-5xl text-foreground mb-6 leading-tight">
-              Want to attend our next{" "}
-              <span className="text-primary italic">event?</span>
-            </h2>
-            <p className="text-muted-foreground font-body text-lg mb-6 max-w-xl mx-auto">
-              Become a member of The Media Collective and get exclusive access
-              to all our events and networking opportunities.
-            </p>
-            <p className="text-muted-foreground/70 font-body text-sm mb-8 max-w-lg mx-auto">
-              All events are free and by invitation only. Registering interest
-              does not guarantee entry.
-            </p>
-            <Button
-              size="lg"
-              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
-              onClick={() => setIsFormOpen(true)}
-            >
-              Register Interest
-            </Button>
-          </motion.div>
-        </div>
-      </section>
+      <PageCTA
+        title="Want to attend our next"
+        accentWord="event?"
+        description="Become a member of The Media Collective and get exclusive access to all our events and networking opportunities."
+        buttonLabel="Register Interest"
+        onClick={() => setIsFormOpen(true)}
+      />
 
       <Footer />
     </div>
