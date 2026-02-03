@@ -1,39 +1,67 @@
-import { motion } from "framer-motion";
-import SectionHeader from "@/components/shared/SectionHeader";
-import about from "@/content/about.json";
+import { useState } from "react";
 
-const AboutSection = () => {
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+
+import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
+import MissionValuesSection from "@/components/sections/MissionValuesSection";
+import EventFormatsSection from "@/components/sections/EventFormatsSection";
+import TestimonialsSection from "@/components/sections/TestimonialsSection";
+import FAQSection from "@/components/sections/FAQSection";
+
+import EventRegistrationForm from "@/components/EventRegistrationForm";
+import PageHero from "@/components/shared/PageHero";
+import PageSection from "@/components/shared/PageSection";
+import PageCTA from "@/components/shared/PageCTA";
+
+import heroImage from "@/assets/hero-placeholder.jpg";
+
+const About = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
   return (
-    <section
-      id="about"
-      className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div>
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Unified Section Header */}
-          <SectionHeader title={about.title} accentWord={about.accent} />
+    <div className="min-h-screen bg-background">
+      <Header />
+      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-          <motion.div
-            className="space-y-6 text-muted-foreground font-body text-lg leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div dangerouslySetInnerHTML={{ __html: about.intro }} />
-            {about.body && (
-              <div dangerouslySetInnerHTML={{ __html: about.body }} />
-            )}
-          </motion.div>
-        </div>
-      </div>
-    </section>
+      {/* Hero */}
+      <PageHero
+        eyebrow="Our Community"
+        title="Our Story"
+        description="Born during a period of limited in‑person interaction, The Media Collective was created to reconnect the industry."
+        variant="image"
+        backgroundImage={heroImage}
+      />
+
+      <main>
+        <PageSection variant="default">
+          <WhoAttendsSection />
+        </PageSection>
+
+        <PageSection variant="accent">
+          <MissionValuesSection />
+        </PageSection>
+
+        <PageSection variant="darker">
+          <EventFormatsSection />
+        </PageSection>
+
+        <PageSection variant="default">
+          <TestimonialsSection />
+        </PageSection>
+
+        <PageSection variant="darker">
+          <FAQSection />
+        </PageSection>
+
+        <PageSection variant="accent" className="py-20">
+          <PageCTA onClick={() => setIsFormOpen(true)} />
+        </PageSection>
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 
-export default AboutSection;
+export default About;

@@ -30,18 +30,12 @@ const Home = () => {
           description={homepage.heroSubtitle}
           variant="image"
           backgroundImage={heroImage}
-          ctaText={homepage.heroButtonLabel || "Register Your Interest"}
-          onCtaClick={() => {
-            if (homepage.heroButtonUrl) {
-              window.location.href = homepage.heroButtonUrl;
-            } else {
-              setIsFormOpen(true);
-            }
-          }}
+          // no CTA on hero now
+          ctaText={undefined}
+          onCtaClick={undefined}
         />
 
-        {/* Gradient transition divider */}
-        <SectionDivider gradient />
+        {/* ⛔️ SectionDivider under hero REMOVED */}
 
         {/* ABOUT SECTION */}
         <AboutSection />
@@ -59,7 +53,7 @@ const Home = () => {
         {/* VALUE PILLARS */}
         <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
 
-        {/* ❌ Bottom divider removed */}
+        {/* bottom divider was already removed earlier */}
       </main>
 
       <Footer />

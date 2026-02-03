@@ -33,9 +33,6 @@ export default function PageHero({
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* Bottom soft fade */}
-      <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black/40" />
-
       {/* Content */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}

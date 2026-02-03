@@ -51,7 +51,7 @@ const Blog = () => {
           eyebrow="Insights & Updates"
           title="The Blog"
           description="Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
-          variant="primary"
+          variant="solid"
         />
 
         {/* Blog Posts Grid */}

@@ -4,7 +4,7 @@ import logo from "@/assets/logo.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  
+
   const navLinks = [
     { label: "About", href: "/about" },
     { label: "Events", href: "/events" },
@@ -18,9 +18,7 @@ const Footer = () => {
     { label: "NAB Show Events", href: "/events" },
   ];
 
-  const socialLinks = [
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-  ];
+  const socialLinks = [{ icon: Linkedin, href: "#", label: "LinkedIn" }];
 
   return (
     <footer id="contact" className="bg-muted border-t border-border">
@@ -32,21 +30,28 @@ const Footer = () => {
           {/* Logo & Tagline */}
           <div className="lg:col-span-1">
             <Link to="/" className="inline-block mb-4">
-              <img src={logo} alt="The Media Collective" className="h-16 w-auto" />
+              <img
+                src={logo}
+                alt="The Media Collective"
+                className="h-16 w-auto"
+              />
             </Link>
             <p className="text-muted-foreground font-body text-sm leading-relaxed">
-              Curated events connecting media, entertainment, and technology leaders.
+              Curated events connecting media, entertainment, and technology
+              leaders.
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h4 className="font-display text-lg mb-4 text-foreground">Navigate</h4>
+            <h4 className="font-display text-lg mb-4 text-foreground">
+              Navigate
+            </h4>
             <ul className="space-y-3">
-              {navLinks.map(link => (
+              {navLinks.map((link) => (
                 <li key={link.label}>
-                  <Link 
-                    to={link.href} 
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-primary transition-colors font-body text-sm"
                   >
                     {link.label}
@@ -58,12 +63,14 @@ const Footer = () => {
 
           {/* Events */}
           <div>
-            <h4 className="font-display text-lg mb-4 text-foreground">Events</h4>
+            <h4 className="font-display text-lg mb-4 text-foreground">
+              Events
+            </h4>
             <ul className="space-y-3">
-              {eventLinks.map(link => (
+              {eventLinks.map((link) => (
                 <li key={link.label}>
-                  <Link 
-                    to={link.href} 
+                  <Link
+                    to={link.href}
                     className="text-muted-foreground hover:text-primary transition-colors font-body text-sm"
                   >
                     {link.label}
@@ -75,9 +82,11 @@ const Footer = () => {
 
           {/* Connect */}
           <div>
-            <h4 className="font-display text-lg mb-4 text-foreground">Connect With Us</h4>
+            <h4 className="font-display text-lg mb-4 text-foreground">
+              Connect With Us
+            </h4>
             <div className="flex gap-3 mb-4">
-              {socialLinks.map(social => {
+              {socialLinks.map((social) => {
                 const IconComponent = social.icon;
                 return (
                   <a
@@ -97,20 +106,19 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom bar */}
+        {/* Bottom bar (copyright removed) */}
         <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-muted-foreground font-body text-sm">
-            © {currentYear} The Media Collective. All rights reserved.
-          </p>
+          {/* Removed copyright */}
+
           <div className="flex gap-6">
-            <Link 
-              to="/privacy" 
+            <Link
+              to="/privacy"
               className="text-muted-foreground hover:text-primary transition-colors font-body text-sm"
             >
               Privacy Policy
             </Link>
-            <a 
-              href="/terms" 
+            <a
+              href="/terms"
               className="text-muted-foreground hover:text-primary transition-colors font-body text-sm"
             >
               Terms of Service

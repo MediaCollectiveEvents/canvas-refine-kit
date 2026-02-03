@@ -196,8 +196,7 @@ const Events = () => {
         backgroundImage={heroImage}
       />
 
-      {/* Gradient Divider */}
-      <SectionDivider gradient />
+      {/* ⛔ Divider removed under hero */}
 
       {/* Upcoming Events */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
@@ -264,3 +263,4 @@ const Events = () => {
 };
 
 export default Events;
+``;
