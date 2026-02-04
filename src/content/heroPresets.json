@@ -1,0 +1,82 @@
+{
+  "home": {
+    "name": "Home Balanced",
+    "layers": {
+      "bg": { "visible": true, "opacity": 1.0, "ySpeed": 0.1 },
+      "back": { "visible": true, "opacity": 0.22, "ySpeed": 0.28, "blur": 1 },
+      "mid": { "visible": true, "opacity": 0.38, "ySpeed": 0.45 },
+      "front": {
+        "visible": true,
+        "opacity": 0.58,
+        "ySpeed": 0.7,
+        "scale": 1.02
+      }
+    },
+    "vignetteStrength": 0.42
+  },
+
+  "about": {
+    "name": "About Warm / Human",
+    "layers": {
+      "bg": { "visible": true, "opacity": 1.0, "ySpeed": 0.08 },
+      "back": { "visible": true, "opacity": 0.14, "ySpeed": 0.2, "blur": 1 },
+      "mid": { "visible": true, "opacity": 0.3, "ySpeed": 0.38, "blur": 0.5 },
+      "front": {
+        "visible": true,
+        "opacity": 0.62,
+        "ySpeed": 0.62,
+        "scale": 1.03
+      }
+    },
+    "vignetteStrength": 0.46
+  },
+
+  "events": {
+    "name": "Events Energetic",
+    "layers": {
+      "bg": { "visible": true, "opacity": 1.0, "ySpeed": 0.1 },
+      "back": { "visible": true, "opacity": 0.3, "ySpeed": 0.35, "blur": 1.5 },
+      "mid": { "visible": true, "opacity": 0.52, "ySpeed": 0.55, "blur": 0.5 },
+      "front": {
+        "visible": true,
+        "opacity": 0.78,
+        "ySpeed": 0.9,
+        "scale": 1.04
+      }
+    },
+    "vignetteStrength": 0.3
+  },
+
+  "partners": {
+    "name": "Partners Corporate Clean",
+    "layers": {
+      "bg": { "visible": true, "opacity": 1.0, "ySpeed": 0.05 },
+      "back": { "visible": true, "opacity": 0.1, "ySpeed": 0.1, "blur": 1 },
+      "mid": { "visible": false },
+      "front": { "visible": false }
+    },
+    "vignetteStrength": 0.18
+  },
+
+  "blog": {
+    "name": "Blog Editorial Calm",
+    "layers": {
+      "bg": { "visible": true, "opacity": 1.0, "ySpeed": 0.05 },
+      "back": { "visible": true, "opacity": 0.12, "ySpeed": 0.15, "blur": 1.5 },
+      "mid": { "visible": true, "opacity": 0.22, "ySpeed": 0.25, "blur": 0.75 },
+      "front": { "visible": false }
+    },
+    "vignetteStrength": 0.36
+  },
+
+  "contact": {
+    "name": "Contact Minimal / Readable",
+    "layers": {
+      "bg": { "visible": true, "opacity": 1.0, "ySpeed": 0.03 },
+      "back": { "visible": true, "opacity": 0.08, "ySpeed": 0.08, "blur": 2 },
+      "mid": { "visible": false },
+      "front": { "visible": false }
+    },
+    "vignetteStrength": 0.44
+  }
+}

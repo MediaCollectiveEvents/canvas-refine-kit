@@ -1,63 +1,28 @@
-import { useState } from "react";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+// src/pages/Home.tsx
+import React from "react";
+import PageLayout from "@/components/layout/PageLayout";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
-import AboutSection from "@/components/sections/AboutSection";
-import FAQSection from "@/components/sections/FAQSection";
-import ValuePillarsSection from "@/components/sections/ValuePillarsSection";
-import EventsSection from "@/components/sections/EventsSection";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import SectionRenderer from "@/lib/sectionRenderer";
 
-import heroImage from "@/assets/hero-placeholder.jpg";
 import homepage from "@/content/homepage.json";
+import homeHeroImage from "@/assets/home-hero.png";
 
-const Home = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
-
+const Home: React.FC = () => {
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <PageLayout>
+      {/* HERO WITH BACKGROUND IMAGE */}
+      <PageHero
+        eyebrow="Welcome"
+        title={homepage.heroTitle}
+        description={homepage.heroSubtitle}
+        image={homeHeroImage}
+        variant="image"
+      />
 
-      {/* Shared registration modal */}
-      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
-
-      <main>
-        {/* HERO */}
-        <PageHero
-          eyebrow="The Media Collective"
-          title={homepage.heroTitle}
-          description={homepage.heroSubtitle}
-          variant="image"
-          backgroundImage={heroImage}
-          // no CTA on hero now
-          ctaText={undefined}
-          onCtaClick={undefined}
-        />
-
-        {/* ⛔️ SectionDivider under hero REMOVED */}
-
-        {/* ABOUT SECTION */}
-        <AboutSection />
-
-        {/* FAQ SECTION */}
-        <FAQSection />
-
-        <SectionDivider />
-
-        {/* UPCOMING EVENTS */}
-        <EventsSection onRegisterClick={() => setIsFormOpen(true)} />
-
-        <SectionDivider />
-
-        {/* VALUE PILLARS */}
-        <ValuePillarsSection onRegisterClick={() => setIsFormOpen(true)} />
-
-        {/* bottom divider was already removed earlier */}
-      </main>
-
-      <Footer />
-    </div>
+      {/* HOMEPAGE SECTIONS FROM JSON */}
+      <SectionRenderer sections={homepage.sections as any[]} />
+    </PageLayout>
   );
 };
 

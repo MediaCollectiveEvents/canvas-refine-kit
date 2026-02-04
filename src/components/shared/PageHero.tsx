@@ -1,71 +1,130 @@
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import React, { useRef } from "react";
+import { useScroll } from "framer-motion";
+import HeroParallaxLayer, { LayerSettings } from "./HeroParallaxLayer";
+import heroPresetsJson from "@/content/heroPresets.json";
+
+type HeroPresetKey =
+  | "home"
+  | "about"
+  | "events"
+  | "partners"
+  | "blog"
+  | "contact";
+
+type HeroPreset = {
+  name: string;
+  layers: {
+    bg?: LayerSettings;
+    back?: LayerSettings;
+    mid?: LayerSettings;
+    front?: LayerSettings;
+  };
+  vignetteStrength?: number;
+};
+
+type HeroPresets = Record<HeroPresetKey, HeroPreset>;
+
+const heroPresets = heroPresetsJson as HeroPresets;
 
 interface PageHeroProps {
+  heroPreset: HeroPresetKey;
   eyebrow?: string;
   title: string;
   description?: string;
-  ctaText?: string;
-  onCtaClick?: () => void;
-  backgroundImage?: string;
-  variant?: "image" | "solid";
+  className?: string;
 }
 
-export default function PageHero({
+const LAYER_PATHS = {
+  bg: "/hero/layers/bg.png",
+  back: "/hero/layers/back.png",
+  mid: "/hero/layers/mid.png",
+  front: "/hero/layers/front.png",
+};
+
+const PageHero: React.FC<PageHeroProps> = ({
+  heroPreset,
   eyebrow,
   title,
   description,
-  ctaText,
-  onCtaClick,
-  backgroundImage,
-  variant = "image",
-}: PageHeroProps) {
+  className = "",
+}) => {
+  // Safe preset lookup with fallback to "home"
+  const preset: HeroPreset = heroPresets[heroPreset] ?? heroPresets.home;
+
+  const layers = preset.layers ?? {};
+  const vignetteStrength = preset.vignetteStrength ?? 0.0;
+
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
   return (
-    <header className="relative w-full min-h-[60vh] md:min-h-[70vh] flex items-center justify-center text-center overflow-hidden">
-      {/* Background Image */}
-      {variant === "image" && backgroundImage && (
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
+    <div ref={ref} className={`relative h-[70vh] overflow-hidden ${className}`}>
+      {/* Parallax layers */}
+      {layers.bg && (
+        <HeroParallaxLayer
+          src={LAYER_PATHS.bg}
+          settings={layers.bg}
+          scrollYProgress={scrollYProgress}
+          isBackground
         />
       )}
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+      {layers.back && (
+        <HeroParallaxLayer
+          src={LAYER_PATHS.back}
+          settings={layers.back}
+          scrollYProgress={scrollYProgress}
+        />
+      )}
 
-      {/* Content */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 max-w-3xl mx-auto px-6"
-      >
+      {layers.mid && (
+        <HeroParallaxLayer
+          src={LAYER_PATHS.mid}
+          settings={layers.mid}
+          scrollYProgress={scrollYProgress}
+        />
+      )}
+
+      {layers.front && (
+        <HeroParallaxLayer
+          src={LAYER_PATHS.front}
+          settings={layers.front}
+          scrollYProgress={scrollYProgress}
+        />
+      )}
+
+      {/* Hero text */}
+      <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
         {eyebrow && (
-          <p className="text-primary font-body tracking-widest uppercase mb-4 text-sm">
+          <p className="uppercase tracking-widest text-primary mb-2">
             {eyebrow}
           </p>
         )}
-
-        <h1 className="font-satisfy text-5xl md:text-7xl text-white mb-6 leading-tight">
+        <h1 className="font-satisfy text-5xl md:text-7xl text-white">
           {title}
         </h1>
-
         {description && (
-          <p className="text-primary font-body text-lg md:text-xl max-w-xl mx-auto mb-8">
+          <p className="mt-4 text-primary text-lg md:text-xl max-w-2xl">
             {description}
           </p>
         )}
+      </div>
 
-        {ctaText && onCtaClick && (
-          <Button
-            size="lg"
-            className="rounded-full px-8 py-3 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-            onClick={onCtaClick}
-          >
-            {ctaText}
-          </Button>
-        )}
-      </motion.div>
-    </header>
+      {/* Vignette overlay */}
+      {vignetteStrength > 0 && (
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: `radial-gradient(ellipse at center, rgba(0,0,0,${vignetteStrength}) 0%, transparent 70%)`,
+          }}
+        />
+      )}
+    </div>
   );
-}
+};
+
+export default PageHero;

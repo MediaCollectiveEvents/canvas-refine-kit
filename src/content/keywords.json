@@ -1,0 +1,294 @@
+{
+  "keywords": [
+    {
+      "id": "ai-generative",
+      "label": "Generative AI",
+      "themes": ["ai-automation"]
+    },
+    {
+      "id": "ai-agentic",
+      "label": "Agentic AI",
+      "themes": ["ai-automation"]
+    },
+    {
+      "id": "ai-automation",
+      "label": "AI-powered Automation",
+      "themes": ["ai-automation"]
+    },
+    {
+      "id": "cloud-native-supply-chains",
+      "label": "Cloud-Native Supply Chains",
+      "themes": ["cloud-supply-chain"]
+    },
+    {
+      "id": "cloud-workflows",
+      "label": "Cloud Workflows",
+      "themes": ["cloud-supply-chain"]
+    },
+    {
+      "id": "camera-to-cloud",
+      "label": "Camera-to-Cloud",
+      "themes": ["cloud-supply-chain", "production-workflows"]
+    },
+    {
+      "id": "personalisation",
+      "label": "Personalisation",
+      "themes": ["personalisation-experience"]
+    },
+    {
+      "id": "hyper-personalised-experiences",
+      "label": "Hyper-personalised Experiences",
+      "themes": ["personalisation-experience"]
+    },
+    {
+      "id": "adaptive-narrative",
+      "label": "Adaptive Narrative",
+      "themes": ["personalisation-experience", "storytelling-search"]
+    },
+    {
+      "id": "flexible-storytelling",
+      "label": "Flexible Storytelling",
+      "themes": ["storytelling-search"]
+    },
+    {
+      "id": "metadata-semantic-tagging",
+      "label": "Metadata & Semantic Tagging",
+      "themes": ["metadata-search"]
+    },
+    {
+      "id": "automatic-transcription",
+      "label": "Automatic Transcription",
+      "themes": ["metadata-search"]
+    },
+    {
+      "id": "entity-extraction",
+      "label": "Entity Extraction",
+      "themes": ["metadata-search"]
+    },
+    {
+      "id": "virtual-production",
+      "label": "Virtual Production",
+      "themes": ["production-workflows"]
+    },
+    {
+      "id": "live-production",
+      "label": "Live Production",
+      "themes": ["production-workflows"]
+    },
+    {
+      "id": "remote-workflows",
+      "label": "Remote Workflows",
+      "themes": ["production-workflows"]
+    },
+    {
+      "id": "fast-monetisation",
+      "label": "FAST Monetisation",
+      "themes": ["monetisation-fast"]
+    },
+    {
+      "id": "premium-ad-targeting",
+      "label": "Premium Ad Targeting",
+      "themes": ["monetisation-fast"]
+    },
+    {
+      "id": "content-monetisation",
+      "label": "Content Monetisation",
+      "themes": ["monetisation-fast"]
+    },
+    {
+      "id": "rights-management",
+      "label": "Rights Management",
+      "themes": ["rights-metadata"]
+    },
+    {
+      "id": "technical-metadata",
+      "label": "Technical Metadata",
+      "themes": ["rights-metadata", "metadata-search"]
+    },
+    {
+      "id": "creator-economy",
+      "label": "Creator Economy",
+      "themes": ["audience-insights"]
+    },
+    {
+      "id": "data-driven-insights",
+      "label": "Data-driven Insights",
+      "themes": ["audience-insights"]
+    },
+    {
+      "id": "audience-intelligence",
+      "label": "Audience Intelligence",
+      "themes": ["audience-insights"]
+    },
+    {
+      "id": "cyber-security",
+      "label": "Cyber Security",
+      "themes": ["security-trust"]
+    },
+    {
+      "id": "content-security",
+      "label": "Content Security",
+      "themes": ["security-trust"]
+    },
+    {
+      "id": "trust-transparency",
+      "label": "Trust & Transparency",
+      "themes": ["security-trust"]
+    },
+    {
+      "id": "sustainability",
+      "label": "Sustainability",
+      "themes": ["sustainability-esg"]
+    },
+    {
+      "id": "diversity-inclusion",
+      "label": "Diversity & Inclusion",
+      "themes": ["sustainability-esg"]
+    },
+    {
+      "id": "accessibility-inclusivity",
+      "label": "Accessibility & Inclusivity",
+      "themes": ["sustainability-esg", "personalisation-experience"]
+    }
+  ],
+  "themes": {
+    "ai-automation": {
+      "label": "AI & Automation",
+      "global": ["ai-generative", "ai-agentic", "ai-automation"],
+      "events": {
+        "ibc2026": ["ai-generative"],
+        "mpts2026": ["ai-generative", "ai-automation"],
+        "dpp2026": ["ai-agentic", "ai-automation"],
+        "personalisedMediaPOC": ["ai-automation"]
+      }
+    },
+    "cloud-supply-chain": {
+      "label": "Cloud & Supply Chain",
+      "global": [
+        "cloud-native-supply-chains",
+        "cloud-workflows",
+        "camera-to-cloud"
+      ],
+      "events": {
+        "ibc2026": ["cloud-native-supply-chains", "cloud-workflows"],
+        "mpts2026": ["cloud-workflows", "camera-to-cloud"],
+        "dpp2026": ["cloud-native-supply-chains"]
+      }
+    },
+    "personalisation-experience": {
+      "label": "Personalisation & Experience",
+      "global": [
+        "personalisation",
+        "hyper-personalised-experiences",
+        "adaptive-narrative",
+        "accessibility-inclusivity"
+      ],
+      "events": {
+        "ibc2026": ["personalisation", "hyper-personalised-experiences"],
+        "mpts2026": ["personalisation"],
+        "dpp2026": ["personalisation"],
+        "personalisedMediaPOC": [
+          "hyper-personalised-experiences",
+          "adaptive-narrative",
+          "accessibility-inclusivity"
+        ]
+      }
+    },
+    "metadata-search": {
+      "label": "Metadata & Search",
+      "global": [
+        "metadata-semantic-tagging",
+        "automatic-transcription",
+        "entity-extraction",
+        "technical-metadata"
+      ],
+      "events": {
+        "ibc2026": ["metadata-semantic-tagging"],
+        "mpts2026": ["technical-metadata"],
+        "dpp2026": ["data-driven-insights"],
+        "personalisedMediaPOC": [
+          "metadata-semantic-tagging",
+          "entity-extraction"
+        ]
+      }
+    },
+    "storytelling-search": {
+      "label": "Storytelling & Structured Content",
+      "global": ["flexible-storytelling", "adaptive-narrative"],
+      "events": {
+        "ibc2026": ["flexible-storytelling"],
+        "mpts2026": ["flexible-storytelling"],
+        "personalisedMediaPOC": ["adaptive-narrative"]
+      }
+    },
+    "production-workflows": {
+      "label": "Production & Workflows",
+      "global": [
+        "virtual-production",
+        "live-production",
+        "remote-workflows",
+        "camera-to-cloud"
+      ],
+      "events": {
+        "ibc2026": ["live-production", "remote-workflows"],
+        "mpts2026": ["virtual-production", "live-production", "camera-to-cloud"]
+      }
+    },
+    "monetisation-fast": {
+      "label": "Monetisation & FAST",
+      "global": [
+        "fast-monetisation",
+        "premium-ad-targeting",
+        "content-monetisation"
+      ],
+      "events": {
+        "ibc2026": ["fast-monetisation", "premium-ad-targeting"],
+        "mpts2026": ["content-monetisation"],
+        "personalisedMediaPOC": ["premium-ad-targeting"]
+      }
+    },
+    "rights-metadata": {
+      "label": "Rights & Asset Management",
+      "global": ["rights-management", "technical-metadata"],
+      "events": {
+        "ibc2026": ["rights-management"],
+        "dpp2026": ["rights-management"]
+      }
+    },
+    "audience-insights": {
+      "label": "Audience & Insights",
+      "global": [
+        "creator-economy",
+        "data-driven-insights",
+        "audience-intelligence"
+      ],
+      "events": {
+        "ibc2026": ["creator-economy", "data-driven-insights"],
+        "mpts2026": ["creator-economy"],
+        "dpp2026": ["audience-intelligence", "data-driven-insights"]
+      }
+    },
+    "security-trust": {
+      "label": "Security & Trust",
+      "global": ["cyber-security", "content-security", "trust-transparency"],
+      "events": {
+        "ibc2026": ["cyber-security", "content-security"],
+        "mpts2026": ["cyber-security"],
+        "dpp2026": ["trust-transparency"]
+      }
+    },
+    "sustainability-esg": {
+      "label": "Sustainability & ESG",
+      "global": [
+        "sustainability",
+        "diversity-inclusion",
+        "accessibility-inclusivity"
+      ],
+      "events": {
+        "ibc2026": ["sustainability", "diversity-inclusion"],
+        "mpts2026": ["sustainability"],
+        "dpp2026": ["sustainability"]
+      }
+    }
+  }
+}

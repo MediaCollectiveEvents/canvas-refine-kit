@@ -1,7 +1,57 @@
 {
+  "heroPreset": "home",
   "heroTitle": "Curated Events",
   "heroSubtitle": "Exclusive networking events for senior executives and innovators across the global media landscape.",
   "heroButtonLabel": "Register Your Interest",
   "heroButtonUrl": "/events",
-  "sections": []
+  "sections": [
+    {
+      "type": "homeIntro",
+      "title": "About Us",
+      "body": "<p>We bring together a community of senior executives, innovators and thought leaders from across the global media landscape.</p><p>Our exclusive events provide a welcoming environment to connect, catch up and expand your network. From relaxed breakfast events to lively networking receptions, exclusive screenings, talks and panel discussions, each event is carefully curated to ensure great company, diversity and lively discussion.</p>"
+    },
+    {
+      "type": "whoAttends",
+      "title": "Who Attends",
+      "items": [
+        "Senior media leaders",
+        "Innovators and entrepreneurs",
+        "Industry pioneers",
+        "Creative executives",
+        "Tech and strategy leads"
+      ]
+    },
+    {
+      "type": "eventFormats",
+      "title": "Event Formats",
+      "formats": [
+        {
+          "title": "Breakfast Briefings",
+          "description": "Relaxed morning discussions designed to spark conversation."
+        },
+        {
+          "title": "Networking Receptions",
+          "description": "Evening gatherings connecting innovators and decision-makers."
+        },
+        {
+          "title": "Screenings & Panels",
+          "description": "Curated screenings followed by insightful panel discussions."
+        }
+      ]
+    },
+    {
+      "type": "testimonials",
+      "title": "What People Say",
+      "testimonials": [
+        {
+          "quote": "A must-attend for anyone serious about the future of media.",
+          "author": "Senior Executive, Sky"
+        },
+        {
+          "quote": "An exceptional place to meet industry innovators.",
+          "author": "Director, BBC"
+        }
+      ]
+    }
+  ]
 }
