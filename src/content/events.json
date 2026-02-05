@@ -1,58 +1,23 @@
-{
-  "heroPreset": "events",
-
-  "hero": {
-    "eyebrow": "EVENTS",
-    "title": "Upcoming & Past Events",
-    "description": "Exclusive gatherings across the global media landscape."
+[
+  {
+    "id": 1,
+    "title": "NAB Review 2026",
+    "location": "White City, London, UK",
+    "venue": "The Broadcaster",
+    "imageKey": "broadcaster"
   },
-
-  "events": [
-    {
-      "id": 1,
-      "title": "NAB Review 2026",
-      "location": "White City, London, UK",
-      "venue": "The Broadcaster",
-      "imageKey": "broadcaster",
-      "date": "2026-04-24",
-      "time": "18:00 - 21:00",
-      "description": "Join us for an evening of insights and discussion as we review the highlights from NAB Show. Industry experts will share key takeaways and emerging trends from the world's largest broadcasting event.",
-      "type": "upcoming",
-      "keywordIds": [
-        "ai-automation",
-        "cloud-workflows",
-        "production-workflows",
-        "data-driven-insights"
-      ]
-    },
-    {
-      "id": 2,
-      "title": "MPTS Reception",
-      "location": "Olympia London, UK",
-      "venue": "The Hand & Flower",
-      "imageKey": "handandflower",
-      "date": "2025-03-12",
-      "time": "17:30 - 20:00",
-      "description": "Unwind after MPTS with drinks and canapés at this charming venue just steps from Olympia.",
-      "type": "upcoming",
-      "keywordIds": ["virtual-production", "creator-economy", "ai-generative"]
-    },
-    {
-      "id": 3,
-      "title": "IBC Breakfast",
-      "location": "RAI, Amsterdam, Netherlands",
-      "venue": "The Traveller",
-      "imageKey": "traveller",
-      "date": "2025-09-14",
-      "time": "08:30 - 10:30",
-      "description": "Start your IBC experience with an exclusive breakfast gathering. Connect with industry leaders and fellow professionals over artisan coffee and pastries in a relaxed, intimate setting.",
-      "type": "upcoming",
-      "keywordIds": [
-        "ai-generative",
-        "cloud-native-supply-chains",
-        "personalisation",
-        "metadata-semantic-tagging"
-      ]
-    }
-  ]
-}
+  {
+    "id": 2,
+    "title": "MPTS Reception",
+    "location": "Olympia London, UK",
+    "venue": "The Hand & Flower",
+    "imageKey": "handandflower"
+  },
+  {
+    "id": 3,
+    "title": "IBC Breakfast",
+    "location": "RAI, Amsterdam, Netherlands",
+    "venue": "The Traveller",
+    "imageKey": "traveller"
+  }
+]

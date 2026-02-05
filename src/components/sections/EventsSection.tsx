@@ -44,15 +44,13 @@ function getImageForKey(key: string | undefined, venue: string, title: string) {
 }
 
 // Build events array from JSON content
-const events: Event[] = (rawEvents as { events: RawEvent[] }).events.map(
-  (e, index) => ({
-    id: e.id ?? index + 1,
-    title: e.title,
-    location: e.location,
-    venue: e.venue,
-    image: getImageForKey(e.imageKey, e.venue, e.title),
-  }),
-);
+const events: Event[] = (rawEvents as RawEvent[]).map((e, index) => ({
+  id: e.id ?? index + 1,
+  title: e.title,
+  location: e.location,
+  venue: e.venue,
+  image: getImageForKey(e.imageKey, e.venue, e.title),
+}));
 
 interface EventsSectionProps {
   onRegisterClick: () => void;

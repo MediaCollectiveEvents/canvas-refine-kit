@@ -1,32 +1,27 @@
+// src/pages/Sponsors.tsx
+
 import React from "react";
-import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/shared/PageHero";
-import sponsorsData from "@/content/sponsors.json";
-import { getHeroImage } from "@/lib/getHeroImage";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
-const Sponsors = () => {
-  const sponsors = (sponsorsData as any).items || [];
-
+export default function Sponsors() {
   return (
-    <PageLayout>
-      <PageHero
-        eyebrow="SPONSORS"
-        title="Our Sponsors"
-        description="Supporters who help shape our community."
-        image={getHeroImage("sponsors-hero.png")}
-        variant="image"
-      />
+    <div className="min-h-screen bg-background">
+      <Header />
 
-      <div className="max-w-5xl mx-auto px-6 py-16 grid gap-10">
-        {sponsors.map((s: any) => (
-          <div key={s.name} className="border rounded-xl p-6 bg-card shadow">
-            <h2 className="text-xl font-semibold text-primary">{s.name}</h2>
-            <p className="text-muted-foreground">{s.summary}</p>
-          </div>
-        ))}
-      </div>
-    </PageLayout>
+      <main className="py-24 md:py-32 px-6">
+        <div className="container mx-auto max-w-4xl text-center space-y-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
+            Sponsors
+          </h1>
+          <p className="text-muted-foreground text-lg">
+            This page is currently being prepared. Sponsor content will be
+            managed via CMS.
+          </p>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
   );
-};
-
-export default Sponsors;
+}

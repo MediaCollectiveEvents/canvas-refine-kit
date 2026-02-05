@@ -1,41 +1,12 @@
 {
   "palette": {
     "primary": "#36e0c6",
-    "secondary": "",
-    "background": ""
+    "secondary": "#ff4062",
+    "background": "#05050a"
   },
   "footer": {
     "text": "",
     "showEventsInFooter": false
   },
-  "nav": [
-    {
-      "label": "Home",
-      "href": "/"
-    },
-    {
-      "label": "About",
-      "href": "/about"
-    },
-    {
-      "label": "Events",
-      "href": "/events"
-    },
-    {
-      "label": "Blog",
-      "href": "/blog"
-    },
-    {
-      "label": "Topics",
-      "href": "/topics"
-    },
-    {
-      "label": "Partners",
-      "href": "/partners"
-    },
-    {
-      "label": "Sponsors",
-      "href": "/sponsors"
-    }
-  ]
+  "nav": []
 }

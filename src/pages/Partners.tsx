@@ -1,21 +1,17 @@
-// src/pages/Partners.tsx
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-
-import PageLayout from "@/components/layout/PageLayout";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Eye, Mic } from "lucide-react";
-
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
 import SectionHeader from "@/components/shared/SectionHeader";
 import PageCTA from "@/components/shared/PageCTA";
+import heroImage from "@/assets/hero-placeholder.jpg";
 
-// HERO IMAGE (uses homepage hero as default)
-import homeHeroImage from "@/assets/home-hero.png";
-
-// Sponsor logos
+// Sponsor logo imports
 import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
 import mrMxfLogo from "@/assets/sponsors/mr-mxf.png";
 import invenioLsiLogo from "@/assets/sponsors/invenio-lsi.png";
@@ -78,24 +74,25 @@ const sponsorshipTiers = [
 
 const colorStyles = {
   lime: {
-    card: "bg-[hsl(var(--icon-lime)/0.05)] border border-[hsl(var(--icon-lime)/0.3)]",
+    card: "bg-background/20 border border-[hsl(var(--icon-lime)/0.3)] backdrop-blur-sm",
     check: "text-[hsl(var(--icon-lime))]",
-    checkBg: "bg-[hsl(var(--icon-lime)/0.1)]",
-    text: "",
+    checkBg: "bg-[hsl(var(--icon-lime)/0.15)]",
+    text: "text-foreground",
     description: "text-muted-foreground",
   },
   cyan: {
-    card: "bg-primary ring-4 ring-primary/20",
-    check: "text-white",
-    checkBg: "bg-white/20",
-    text: "text-white",
-    description: "text-primary-foreground/80",
+    // Balanced with lime & red – only the accent colour changes
+    card: "bg-background/20 border border-[hsl(var(--icon-cyan)/0.3)] backdrop-blur-sm",
+    check: "text-[hsl(var(--icon-cyan))]",
+    checkBg: "bg-[hsl(var(--icon-cyan)/0.15)]",
+    text: "text-foreground",
+    description: "text-muted-foreground",
   },
   red: {
-    card: "bg-[hsl(var(--icon-red)/0.05)] border border-[hsl(var(--icon-red)/0.3)]",
+    card: "bg-background/20 border border-[hsl(var(--icon-red)/0.3)] backdrop-blur-sm",
     check: "text-[hsl(var(--icon-red))]",
-    checkBg: "bg-[hsl(var(--icon-red)/0.1)]",
-    text: "",
+    checkBg: "bg-[hsl(var(--icon-red)/0.15)]",
+    text: "text-foreground",
     description: "text-muted-foreground",
   },
 };
@@ -144,40 +141,46 @@ const currentSponsors = [
   { name: "Wagada Digital", logo: wagadaDigitalLogo },
 ];
 
+// Logo card component
 const SponsorLogo = ({
   sponsor,
 }: {
-  sponsor: { name: string; logo: string };
-}) => (
-  <div className="flex-shrink-0 mx-4 flex items-center justify-center">
-    <div className="w-auto h-44 bg-white rounded-lg border border-border flex items-center justify-center px-14 py-6 hover:border-primary/50 transition-colors">
-      <img
-        src={sponsor.logo}
-        alt={sponsor.name}
-        className="h-28 w-auto object-contain"
-      />
+  sponsor: {
+    name: string;
+    logo: string;
+  };
+}) => {
+  return (
+    <div className="flex-shrink-0 mx-4 flex items-center justify-center">
+      <div className="w-auto h-44 bg-white backdrop-blur-sm rounded-lg border border-border flex items-center justify-center px-14 py-6 hover:border-primary/50 transition-colors">
+        <img
+          src={sponsor.logo}
+          alt={sponsor.name}
+          className="h-28 w-auto object-contain"
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Partners: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
-    <PageLayout>
-      {/* FORM MODAL */}
+    <div className="min-h-screen bg-background">
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+      <Header />
 
-      {/* HERO — unified system */}
+      {/* Hero Section */}
       <PageHero
         eyebrow="Partnership Opportunities"
         title="Become a Partner"
         description="Partner with The Media Collective and connect your brand with the most influential voices in media and entertainment."
-        image={homeHeroImage}
         variant="image"
+        backgroundImage={heroImage}
       />
 
-      {/* SCROLLING SPONSOR LOGOS */}
+      {/* Scrolling Sponsor Logos */}
       <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl mb-16 text-center">
           <SectionHeader
@@ -188,16 +191,17 @@ const Partners: React.FC = () => {
 
         <div className="relative">
           <div className="flex animate-scroll py-4">
-            {[...currentSponsors, ...currentSponsors].map((s, i) => (
-              <SponsorLogo key={`${s.name}-${i}`} sponsor={s} />
+            {[...currentSponsors, ...currentSponsors].map((sponsor, index) => (
+              <SponsorLogo key={`${sponsor.name}-${index}`} sponsor={sponsor} />
             ))}
           </div>
         </div>
       </section>
 
+      {/* Decorative Divider */}
       <SectionDivider variant="single" />
 
-      {/* BENEFITS SECTION */}
+      {/* Benefits Section */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <SectionHeader
@@ -231,9 +235,10 @@ const Partners: React.FC = () => {
         </div>
       </section>
 
+      {/* Decorative Divider */}
       <SectionDivider variant="single" />
 
-      {/* SPONSORSHIP TIERS */}
+      {/* Sponsorship Tiers */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
         <div className="container mx-auto max-w-6xl">
           <SectionHeader title="Partnership " accentWord="Packages" />
@@ -241,7 +246,6 @@ const Partners: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {sponsorshipTiers.map((tier, index) => {
               const styles = colorStyles[tier.accentColor];
-
               return (
                 <motion.div
                   key={tier.name}
@@ -280,13 +284,10 @@ const Partners: React.FC = () => {
                             />
                           </svg>
                         </div>
-
                         <span
                           className={`font-body text-sm ${
-                            tier.highlighted
-                              ? "text-primary-foreground/90"
-                              : "text-muted-foreground"
-                          }`}
+                            tier.highlighted ? "font-semibold" : ""
+                          } text-muted-foreground`}
                         >
                           {feature}
                         </span>
@@ -298,7 +299,6 @@ const Partners: React.FC = () => {
             })}
           </div>
 
-          {/* CTA BUTTON */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -317,11 +317,14 @@ const Partners: React.FC = () => {
         </div>
       </section>
 
+      {/* Decorative Divider */}
       <SectionDivider variant="triple" className="py-12" />
 
-      {/* CTA */}
+      {/* Shared CTA */}
       <PageCTA onClick={() => setIsFormOpen(true)} />
-    </PageLayout>
+
+      <Footer />
+    </div>
   );
 };
 

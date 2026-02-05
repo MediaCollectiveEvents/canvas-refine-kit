@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { useContent } from "../hooks/useContent";
-import { Button } from "../components/ui/button";
+import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import {
@@ -21,15 +21,16 @@ import {
   Download,
   Upload,
   RotateCcw,
+  Save,
   Plus,
   Trash2,
   Edit,
   GripVertical,
   Eye,
   EyeOff,
+  Move,
   Image as ImageIcon,
   X,
-  Copy,
 } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 import {
@@ -41,7 +42,6 @@ import {
   BlogPost,
   Page,
   Section,
-  HomepageContent,
 } from "../lib/contentStore";
 import {
   DndContext,
@@ -74,14 +74,6 @@ interface ImageUploaderProps {
   value: string;
   onChange: (url: string) => void;
   label?: string;
-}
-
-interface ImageListProps {
-  images: Array<{ id: string; url: string; alt?: string }>;
-  onEdit: (image: any) => void;
-  onCopy: (image: any) => void;
-  onSwap: (imageId: string, direction: "up" | "down") => void;
-  onDelete: (imageId: string) => void;
 }
 
 function ImageUploader({
@@ -150,79 +142,6 @@ function ImageUploader({
           </Button>
         </div>
       )}
-    </div>
-  );
-}
-
-function ImageList({
-  images,
-  onEdit,
-  onCopy,
-  onSwap,
-  onDelete,
-}: ImageListProps) {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {images.map((image, index) => (
-        <div key={image.id} className="border rounded-lg overflow-hidden">
-          <img
-            src={image.url}
-            alt={image.alt || "Image"}
-            className="w-full h-40 object-cover"
-          />
-          <div className="p-3 space-y-2">
-            <p className="text-sm font-medium truncate">
-              {image.alt || "Untitled"}
-            </p>
-            <div className="flex gap-1 flex-wrap">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => onEdit(image)}
-                title="Edit image"
-              >
-                <Edit className="w-3 h-3" />
-              </Button>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => onCopy(image)}
-                title="Duplicate image"
-              >
-                <Copy className="w-3 h-3" />
-              </Button>
-              {index > 0 && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onSwap(image.id, "up")}
-                  title="Move up"
-                >
-                  ↑
-                </Button>
-              )}
-              {index < images.length - 1 && (
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => onSwap(image.id, "down")}
-                  title="Move down"
-                >
-                  ↓
-                </Button>
-              )}
-              <Button
-                size="sm"
-                variant="destructive"
-                onClick={() => onDelete(image.id)}
-                title="Delete image"
-              >
-                <Trash2 className="w-3 h-3" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      ))}
     </div>
   );
 }
@@ -298,51 +217,19 @@ function SortableSection({
 }
 
 const Admin = () => {
-  const { content, exportContent, importContent, resetContent } = useContent();
+  const { content, updateSection, exportContent, importContent, resetContent } =
+    useContent();
   const { toast } = useToast();
 
-  const [pages, setPages] = useState<Page[]>(content.pages || []);
-  const [selectedPageId, setSelectedPageId] = useState(
-    (content.pages?.[0]?.id as string) || "home",
-  );
+  const [pages, setPages] = useState<Page[]>(contentStore.getPages());
+  const [selectedPageId, setSelectedPageId] = useState(pages[0]?.id || "home");
   const [editingSection, setEditingSection] = useState<Section | null>(null);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [editingClient, setEditingClient] = useState<ClientLogo | null>(null);
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
   const [editingBlogPost, setEditingBlogPost] = useState<BlogPost | null>(null);
-  const [copy, setCopy] = useState<Record<string, string>>({});
-
-  // 🔹 local homepage state so inputs are editable
-  const [homepage, setHomepage] = useState<HomepageContent>(
-    contentStore.getHomepage(),
-  );
-
-  useEffect(() => {
-    setCopy(contentStore.getAllCopy());
-    setHomepage(contentStore.getHomepage());
-  }, [pages]);
-
-  const handleCopyChange = (key: string, value: string) => {
-    setCopy((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-    contentStore.updateCopy(key, value);
-  };
-
-  const handleHomepageChange = (key: keyof HomepageContent, value: any) => {
-    setHomepage((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-    contentStore.updateHomepageField(key, value);
-  };
-
-  const saveHomepage = () => {
-    // already synced onChange; this is mostly for UX
-    toast({ title: "Saved", description: "Homepage content saved" });
-  };
+  const [newPageName, setNewPageName] = useState("");
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -394,7 +281,6 @@ const Admin = () => {
     try {
       await importContent(file);
       setPages(contentStore.getPages());
-      setHomepage(contentStore.getHomepage());
       toast({
         title: "Imported",
         description: "Content imported successfully",
@@ -432,15 +318,15 @@ const Admin = () => {
     toast({ title: "Deleted", description: "Section deleted" });
   };
 
-  const saveSection = (section: Section) => {
-    if (!currentPage) return;
+  const saveSectionData = () => {
+    if (!editingSection || !currentPage) return;
 
     const updatedPages = pages.map((p) =>
       p.id === selectedPageId
         ? {
             ...p,
             sections: p.sections.map((s) =>
-              s.id === section.id ? section : s,
+              s.id === editingSection.id ? editingSection : s,
             ),
           }
         : p,
@@ -451,22 +337,17 @@ const Admin = () => {
       selectedPageId,
       updatedPages.find((p) => p.id === selectedPageId)?.sections || [],
     );
+    setEditingSection(null);
     toast({ title: "Saved", description: "Section data saved" });
   };
 
-  const saveSectionData = () => {
-    if (!editingSection) return;
-    saveSection(editingSection);
-    setEditingSection(null);
-  };
-
-  const addNewPage = (pageName: string) => {
-    if (!pageName.trim()) return;
+  const addNewPage = () => {
+    if (!newPageName.trim()) return;
 
     const newPage: Page = {
-      id: pageName.toLowerCase().replace(/\s+/g, "-"),
-      slug: `/${pageName.toLowerCase().replace(/\s+/g, "-")}`,
-      name: pageName,
+      id: newPageName.toLowerCase().replace(/\s+/g, "-"),
+      slug: `/${newPageName.toLowerCase().replace(/\s+/g, "-")}`,
+      name: newPageName,
       sections: [
         {
           id: contentStore.generateId(),
@@ -475,9 +356,9 @@ const Admin = () => {
           order: 0,
           enabled: true,
           data: {
-            eyebrow: pageName,
-            title: pageName,
-            description: `Welcome to ${pageName}`,
+            eyebrow: newPageName,
+            title: newPageName,
+            description: `Welcome to ${newPageName}`,
             variant: "primary",
           },
         },
@@ -487,8 +368,9 @@ const Admin = () => {
     const updatedPages = [...pages, newPage];
     setPages(updatedPages);
     contentStore.addPage(newPage);
+    setNewPageName("");
     setSelectedPageId(newPage.id);
-    toast({ title: "Created", description: `Page "${pageName}" created` });
+    toast({ title: "Created", description: `Page "${newPageName}" created` });
   };
 
   const deletePage = (pageId: string) => {
@@ -500,66 +382,6 @@ const Admin = () => {
       setSelectedPageId(updatedPages[0]?.id || "home");
     }
     toast({ title: "Deleted", description: "Page deleted" });
-  };
-
-  useEffect(() => {
-    const nextPages = content.pages || [];
-    setPages(nextPages);
-    if (!nextPages.find((p) => p.id === selectedPageId)) {
-      setSelectedPageId(nextPages[0]?.id || "home");
-    }
-  }, [content.pages, selectedPageId]);
-
-  const [editingImage, setEditingImage] = useState<any>(null);
-
-  const handleEditImage = (image: any) => {
-    setEditingImage({ ...image });
-  };
-
-  const handleCopyImage = (image: any, sectionId: string) => {
-    const projectsSection = currentPage?.sections.find(
-      (s) => s.id === sectionId,
-    );
-    if (projectsSection && projectsSection.data.projects) {
-      const newImage = {
-        ...image,
-        id: contentStore.generateId(),
-      };
-      const updated = [...projectsSection.data.projects, newImage];
-      saveSection({
-        ...projectsSection,
-        data: { ...projectsSection.data, projects: updated },
-      });
-      toast({
-        title: "Copied",
-        description: "Image duplicated successfully",
-      });
-    }
-  };
-
-  const handleSwapImages = (
-    imageId: string,
-    direction: "up" | "down",
-    items: any[],
-    updateCallback: (items: any[]) => void,
-  ) => {
-    const index = items.findIndex((item) => item.id === imageId);
-    if (
-      (direction === "up" && index > 0) ||
-      (direction === "down" && index < items.length - 1)
-    ) {
-      const newIndex = direction === "up" ? index - 1 : index + 1;
-      const newItems = [...items];
-      [newItems[index], newItems[newIndex]] = [
-        newItems[newIndex],
-        newItems[index],
-      ];
-      updateCallback(newItems);
-      toast({
-        title: "Reordered",
-        description: "Image position updated",
-      });
-    }
   };
 
   return (
@@ -615,7 +437,8 @@ const Admin = () => {
             onClick={() => {
               const name = prompt("Enter page name:");
               if (name) {
-                addNewPage(name);
+                setNewPageName(name);
+                addNewPage();
               }
             }}
           >
@@ -691,7 +514,173 @@ const Admin = () => {
                   />
                 </div>
 
-                {/* ... your existing section-type editors keep as-is ... */}
+                {editingSection.type === "hero" && (
+                  <>
+                    <div>
+                      <Label>Eyebrow</Label>
+                      <Input
+                        value={editingSection.data.eyebrow || ""}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              eyebrow: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div>
+                      <Label>Title</Label>
+                      <Input
+                        value={editingSection.data.title || ""}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              title: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div>
+                      <Label>Description</Label>
+                      <Textarea
+                        value={editingSection.data.description || ""}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              description: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div>
+                      <Label>Variant</Label>
+                      <select
+                        value={editingSection.data.variant || "primary"}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              variant: e.target.value,
+                            },
+                          })
+                        }
+                        className="w-full px-3 py-2 border rounded"
+                      >
+                        <option value="primary">Primary</option>
+                        <option value="image">Image</option>
+                        <option value="muted">Muted</option>
+                      </select>
+                    </div>
+                    <div>
+                      <Label>Background Image URL (optional)</Label>
+                      <Input
+                        value={editingSection.data.backgroundImage || ""}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              backgroundImage: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+
+                {editingSection.type === "intro" && (
+                  <div>
+                    <Label>Content</Label>
+                    <Textarea
+                      value={editingSection.data.content || ""}
+                      rows={6}
+                      onChange={(e) =>
+                        setEditingSection({
+                          ...editingSection,
+                          data: {
+                            ...editingSection.data,
+                            content: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                )}
+
+                {editingSection.type === "about" && (
+                  <>
+                    <div>
+                      <Label>Bio</Label>
+                      <Textarea
+                        value={editingSection.data.bio || ""}
+                        rows={6}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              bio: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div>
+                      <Label>Skills (comma separated)</Label>
+                      <Input
+                        value={(editingSection.data.skills || []).join(", ")}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              skills: e.target.value
+                                .split(",")
+                                .map((s) => s.trim()),
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div>
+                      <Label>Experience</Label>
+                      <Textarea
+                        value={editingSection.data.experience || ""}
+                        rows={4}
+                        onChange={(e) =>
+                          setEditingSection({
+                            ...editingSection,
+                            data: {
+                              ...editingSection.data,
+                              experience: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  </>
+                )}
+
+                {(editingSection.type === "projects" ||
+                  editingSection.type === "services" ||
+                  editingSection.type === "events" ||
+                  editingSection.type === "blog" ||
+                  editingSection.type === "clients") && (
+                  <p className="text-sm text-muted-foreground">
+                    Edit individual items below using the legacy tabs interface
+                  </p>
+                )}
 
                 <div className="flex gap-2">
                   <Button onClick={saveSectionData}>Save Section</Button>
@@ -708,210 +697,823 @@ const Admin = () => {
         </div>
       )}
 
-      <Tabs defaultValue="copy" className="mt-12 space-y-4">
-        <TabsList className="grid w-full grid-cols-1">
-          <TabsTrigger value="copy">Copy</TabsTrigger>
+      <Tabs defaultValue="projects" className="mt-12 space-y-4">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="projects">Projects</TabsTrigger>
+          <TabsTrigger value="services">Services</TabsTrigger>
+          <TabsTrigger value="events">Events</TabsTrigger>
+          <TabsTrigger value="blog">Blog</TabsTrigger>
+          <TabsTrigger value="clients">Clients</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="copy" className="space-y-4">
-          {/* HOMEPAGE CONTENT EDITOR */}
+        {/* Projects Tab */}
+        <TabsContent value="projects" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Homepage Content</CardTitle>
-              <CardDescription>
-                Edit hero, intro and homepage sections
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-8">
-              <div className="flex justify-end">
-                <Button size="sm" onClick={saveHomepage}>
-                  Save Homepage
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Projects</CardTitle>
+                  <CardDescription>Manage portfolio projects</CardDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    setEditingProject({
+                      id: contentStore.generateId(),
+                      title: "",
+                      description: "",
+                      imageUrl: "",
+                      tags: [],
+                      link: "",
+                    });
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Project
                 </Button>
               </div>
-
-              {/* Hero */}
-              <div>
-                <Label>Hero Title</Label>
-                <Input
-                  value={homepage.heroTitle || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("heroTitle", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Hero Subtitle</Label>
-                <Textarea
-                  rows={3}
-                  value={homepage.heroSubtitle || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("heroSubtitle", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Hero Button Label</Label>
-                <Input
-                  value={homepage.heroButtonLabel || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("heroButtonLabel", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Hero Button URL</Label>
-                <Input
-                  value={homepage.heroButtonUrl || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("heroButtonUrl", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Hero Background Image</Label>
-                <Input
-                  value={homepage.heroImage || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("heroImage", e.target.value)
-                  }
-                />
-              </div>
-
-              <hr className="my-8" />
-
-              {/* Home Intro */}
-              <div>
-                <Label>Home Intro Title</Label>
-                <Input
-                  value={homepage.homeIntroTitle || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("homeIntroTitle", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Home Intro Body</Label>
-                <Textarea
-                  rows={6}
-                  value={homepage.homeIntroBody || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("homeIntroBody", e.target.value)
-                  }
-                />
-              </div>
-
-              <hr className="my-8" />
-
-              {/* Who Attends */}
-              <div>
-                <Label>Who Attends Title</Label>
-                <Input
-                  value={homepage.whoAttendsTitle || ""}
-                  onChange={(e) =>
-                    handleHomepageChange("whoAttendsTitle", e.target.value)
-                  }
-                />
-              </div>
-
-              <div>
-                <Label>Who Attends Items (comma separated)</Label>
-                <Textarea
-                  rows={3}
-                  value={(homepage.whoAttendsItems || []).join(", ")}
-                  onChange={(e) =>
-                    handleHomepageChange(
-                      "whoAttendsItems",
-                      e.target.value
-                        .split(",")
-                        .map((v) => v.trim())
-                        .filter(Boolean),
-                    )
-                  }
-                />
-              </div>
-
-              <hr className="my-8" />
-
-              {/* Event Formats */}
-              <div>
-                <Label>Event Formats (JSON array)</Label>
-                <Textarea
-                  rows={8}
-                  value={JSON.stringify(homepage.eventFormats || [], null, 2)}
-                  onChange={(e) => {
-                    try {
-                      const parsed = JSON.parse(e.target.value);
-                      handleHomepageChange("eventFormats", parsed);
-                    } catch {
-                      // ignore until valid JSON
-                    }
-                  }}
-                />
-              </div>
-
-              <hr className="my-8" />
-
-              {/* Testimonials */}
-              <div>
-                <Label>Testimonials (JSON array)</Label>
-                <Textarea
-                  rows={8}
-                  value={JSON.stringify(homepage.testimonials || [], null, 2)}
-                  onChange={(e) => {
-                    try {
-                      const parsed = JSON.parse(e.target.value);
-                      handleHomepageChange("testimonials", parsed);
-                    } catch {
-                      // ignore until valid JSON
-                    }
-                  }}
-                />
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {currentPage?.sections
+                  .find((s) => s.type === "projects")
+                  ?.data?.projects?.map((project: Project) => (
+                    <div
+                      key={project.id}
+                      className="flex items-center justify-between p-3 border rounded"
+                    >
+                      <div>
+                        <p className="font-medium">{project.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {project.description?.substring(0, 60)}...
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingProject(project)}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* SECTION COPY */}
+          {editingProject && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Edit Project</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={editingProject.title}
+                    onChange={(e) =>
+                      setEditingProject({
+                        ...editingProject,
+                        title: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea
+                    value={editingProject.description}
+                    onChange={(e) =>
+                      setEditingProject({
+                        ...editingProject,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Image URL</Label>
+                  <Input
+                    value={editingProject.imageUrl}
+                    onChange={(e) =>
+                      setEditingProject({
+                        ...editingProject,
+                        imageUrl: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Tags (comma separated)</Label>
+                  <Input
+                    value={editingProject.tags.join(", ")}
+                    onChange={(e) =>
+                      setEditingProject({
+                        ...editingProject,
+                        tags: e.target.value.split(",").map((t) => t.trim()),
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Link (optional)</Label>
+                  <Input
+                    value={editingProject.link || ""}
+                    onChange={(e) =>
+                      setEditingProject({
+                        ...editingProject,
+                        link: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      const projectsSection = currentPage?.sections.find(
+                        (s) => s.type === "projects",
+                      );
+                      if (projectsSection) {
+                        const existingProjects =
+                          projectsSection.data.projects || [];
+                        const updated = existingProjects.map((p: Project) =>
+                          p.id === editingProject.id ? editingProject : p,
+                        );
+                        if (
+                          !existingProjects.find(
+                            (p: Project) => p.id === editingProject.id,
+                          )
+                        ) {
+                          updated.push(editingProject);
+                        }
+                        setEditingSection({
+                          ...projectsSection,
+                          data: { ...projectsSection.data, projects: updated },
+                        });
+                        saveSectionData();
+                      }
+                      setEditingProject(null);
+                    }}
+                  >
+                    Save Project
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingProject(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Services Tab */}
+        <TabsContent value="services" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Website Copy</CardTitle>
-              <CardDescription>
-                Edit all text content across pages
-              </CardDescription>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Services</CardTitle>
+                  <CardDescription>Manage your services</CardDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    setEditingService({
+                      id: contentStore.generateId(),
+                      title: "",
+                      description: "",
+                      icon: "circle",
+                    });
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Service
+                </Button>
+              </div>
             </CardHeader>
-            <CardContent className="space-y-6">
-              {Object.entries(copy).map(([key, value]) => {
-                const [pageId, sectionId, field] = key.split("-");
-                const page = pages.find((p) => p.id === pageId);
-                const section = page?.sections.find((s) => s.id === sectionId);
-                return (
-                  <div key={key} className="space-y-2">
-                    <Label className="text-sm font-semibold">
-                      {page?.name} → {section?.title} → {field}
-                    </Label>
-                    {field === "description" ||
-                    field === "bio" ||
-                    field === "experience" ? (
-                      <Textarea
-                        value={value}
-                        rows={4}
-                        onChange={(e) => handleCopyChange(key, e.target.value)}
-                      />
-                    ) : (
-                      <Input
-                        value={value}
-                        onChange={(e) => handleCopyChange(key, e.target.value)}
-                      />
-                    )}
-                  </div>
-                );
-              })}
+            <CardContent>
+              <div className="space-y-3">
+                {currentPage?.sections
+                  .find((s) => s.type === "services")
+                  ?.data?.services?.map((service: Service) => (
+                    <div
+                      key={service.id}
+                      className="flex items-center justify-between p-3 border rounded"
+                    >
+                      <div>
+                        <p className="font-medium">{service.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Icon: {service.icon}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingService(service)}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </CardContent>
           </Card>
+
+          {editingService && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Edit Service</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={editingService.title}
+                    onChange={(e) =>
+                      setEditingService({
+                        ...editingService,
+                        title: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea
+                    value={editingService.description}
+                    onChange={(e) =>
+                      setEditingService({
+                        ...editingService,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Icon Name (Lucide icon)</Label>
+                  <Input
+                    value={editingService.icon}
+                    onChange={(e) =>
+                      setEditingService({
+                        ...editingService,
+                        icon: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      const servicesSection = currentPage?.sections.find(
+                        (s) => s.type === "services",
+                      );
+                      if (servicesSection) {
+                        const existingServices =
+                          servicesSection.data.services || [];
+                        const updated = existingServices.map((s: Service) =>
+                          s.id === editingService.id ? editingService : s,
+                        );
+                        if (
+                          !existingServices.find(
+                            (s: Service) => s.id === editingService.id,
+                          )
+                        ) {
+                          updated.push(editingService);
+                        }
+                        setEditingSection({
+                          ...servicesSection,
+                          data: { ...servicesSection.data, services: updated },
+                        });
+                        saveSectionData();
+                      }
+                      setEditingService(null);
+                    }}
+                  >
+                    Save Service
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingService(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Events Tab */}
+        <TabsContent value="events" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Events</CardTitle>
+                  <CardDescription>Manage your events</CardDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    setEditingEvent({
+                      id: contentStore.generateId(),
+                      title: "",
+                      description: "",
+                      date: new Date().toISOString().split("T")[0],
+                      location: "",
+                      imageUrl: "",
+                      registrationLink: "",
+                    });
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Event
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {currentPage?.sections
+                  .find((s) => s.type === "events")
+                  ?.data?.events?.map((event: Event) => (
+                    <div
+                      key={event.id}
+                      className="flex items-center justify-between p-3 border rounded"
+                    >
+                      <div>
+                        <p className="font-medium">{event.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {event.date} - {event.location}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingEvent(event)}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {editingEvent && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Edit Event</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={editingEvent.title}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        title: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Description</Label>
+                  <Textarea
+                    value={editingEvent.description}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Date</Label>
+                  <Input
+                    type="date"
+                    value={editingEvent.date}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        date: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Location</Label>
+                  <Input
+                    value={editingEvent.location}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        location: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Image URL (optional)</Label>
+                  <Input
+                    value={editingEvent.imageUrl || ""}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        imageUrl: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Registration Link (optional)</Label>
+                  <Input
+                    value={editingEvent.registrationLink || ""}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        registrationLink: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      const eventsSection = currentPage?.sections.find(
+                        (s) => s.type === "events",
+                      );
+                      if (eventsSection) {
+                        const existingEvents = eventsSection.data.events || [];
+                        const updated = existingEvents.map((e: Event) =>
+                          e.id === editingEvent.id ? editingEvent : e,
+                        );
+                        if (
+                          !existingEvents.find(
+                            (e: Event) => e.id === editingEvent.id,
+                          )
+                        ) {
+                          updated.push(editingEvent);
+                        }
+                        setEditingSection({
+                          ...eventsSection,
+                          data: { ...eventsSection.data, events: updated },
+                        });
+                        saveSectionData();
+                      }
+                      setEditingEvent(null);
+                    }}
+                  >
+                    Save Event
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingEvent(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Blog Tab */}
+        <TabsContent value="blog" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Blog Posts</CardTitle>
+                  <CardDescription>Manage your blog posts</CardDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    setEditingBlogPost({
+                      id: contentStore.generateId(),
+                      title: "",
+                      excerpt: "",
+                      content: "",
+                      author: "",
+                      date: new Date().toISOString().split("T")[0],
+                      imageUrl: "",
+                      tags: [],
+                    });
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Post
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {currentPage?.sections
+                  .find((s) => s.type === "blog")
+                  ?.data?.posts?.map((post: BlogPost) => (
+                    <div
+                      key={post.id}
+                      className="flex items-center justify-between p-3 border rounded"
+                    >
+                      <div>
+                        <p className="font-medium">{post.title}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {post.date} - By {post.author}
+                        </p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingBlogPost(post)}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {editingBlogPost && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Edit Blog Post</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Title</Label>
+                  <Input
+                    value={editingBlogPost.title}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        title: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Excerpt</Label>
+                  <Textarea
+                    rows={3}
+                    value={editingBlogPost.excerpt}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        excerpt: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Content</Label>
+                  <Textarea
+                    rows={10}
+                    value={editingBlogPost.content}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        content: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Author</Label>
+                  <Input
+                    value={editingBlogPost.author}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        author: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Date</Label>
+                  <Input
+                    type="date"
+                    value={editingBlogPost.date}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        date: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Image URL (optional)</Label>
+                  <Input
+                    value={editingBlogPost.imageUrl || ""}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        imageUrl: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Tags (comma separated)</Label>
+                  <Input
+                    value={editingBlogPost.tags.join(", ")}
+                    onChange={(e) =>
+                      setEditingBlogPost({
+                        ...editingBlogPost,
+                        tags: e.target.value.split(",").map((t) => t.trim()),
+                      })
+                    }
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      const blogSection = currentPage?.sections.find(
+                        (s) => s.type === "blog",
+                      );
+                      if (blogSection) {
+                        const existingPosts = blogSection.data.posts || [];
+                        const updated = existingPosts.map((p: BlogPost) =>
+                          p.id === editingBlogPost.id ? editingBlogPost : p,
+                        );
+                        if (
+                          !existingPosts.find(
+                            (p: BlogPost) => p.id === editingBlogPost.id,
+                          )
+                        ) {
+                          updated.push(editingBlogPost);
+                        }
+                        setEditingSection({
+                          ...blogSection,
+                          data: { ...blogSection.data, posts: updated },
+                        });
+                        saveSectionData();
+                      }
+                      setEditingBlogPost(null);
+                    }}
+                  >
+                    Save Post
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingBlogPost(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        {/* Clients Tab */}
+        <TabsContent value="clients" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between items-center">
+                <div>
+                  <CardTitle>Client Logos</CardTitle>
+                  <CardDescription>Manage client logos</CardDescription>
+                </div>
+                <Button
+                  onClick={() => {
+                    setEditingClient({
+                      id: contentStore.generateId(),
+                      name: "",
+                      imageUrl: "",
+                    });
+                  }}
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Add Client
+                </Button>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-3">
+                {currentPage?.sections
+                  .find((s) => s.type === "clients")
+                  ?.data?.clients?.map((client: ClientLogo) => (
+                    <div
+                      key={client.id}
+                      className="flex items-center justify-between p-3 border rounded"
+                    >
+                      <div className="flex items-center gap-3">
+                        {client.imageUrl && (
+                          <img
+                            src={client.imageUrl}
+                            alt={client.name}
+                            className="w-12 h-12 object-contain"
+                          />
+                        )}
+                        <p className="font-medium">{client.name}</p>
+                      </div>
+                      <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => setEditingClient(client)}
+                        >
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {editingClient && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Edit Client</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <Label>Client Name</Label>
+                  <Input
+                    value={editingClient.name}
+                    onChange={(e) =>
+                      setEditingClient({
+                        ...editingClient,
+                        name: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <Label>Logo URL</Label>
+                  <Input
+                    value={editingClient.imageUrl}
+                    onChange={(e) =>
+                      setEditingClient({
+                        ...editingClient,
+                        imageUrl: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                {editingClient.imageUrl && (
+                  <div>
+                    <Label>Preview</Label>
+                    <img
+                      src={editingClient.imageUrl}
+                      alt="Preview"
+                      className="w-32 h-32 object-contain border p-2"
+                    />
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      const clientsSection = currentPage?.sections.find(
+                        (s) => s.type === "clients",
+                      );
+                      if (clientsSection) {
+                        const existingClients =
+                          clientsSection.data.clients || [];
+                        const updated = existingClients.map((c: ClientLogo) =>
+                          c.id === editingClient.id ? editingClient : c,
+                        );
+                        if (
+                          !existingClients.find(
+                            (c: ClientLogo) => c.id === editingClient.id,
+                          )
+                        ) {
+                          updated.push(editingClient);
+                        }
+                        setEditingSection({
+                          ...clientsSection,
+                          data: { ...clientsSection.data, clients: updated },
+                        });
+                        saveSectionData();
+                      }
+                      setEditingClient(null);
+                    }}
+                  >
+                    Save Client
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setEditingClient(null)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
         </TabsContent>
       </Tabs>
     </div>

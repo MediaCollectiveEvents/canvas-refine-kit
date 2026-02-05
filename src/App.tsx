@@ -1,8 +1,9 @@
 // src/App.tsx
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Pages
+// Pages (relative imports)
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -14,8 +15,6 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Wireframe from "./pages/Wireframe";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
-import TopicsIndex from "./pages/TopicsIndex";
-import TopicPage from "./pages/TopicPage";
 
 const App: React.FC = () => {
   return (
@@ -33,10 +32,6 @@ const App: React.FC = () => {
         <Route path="/events" element={<Events />} />
         <Route path="/partners" element={<Partners />} />
         <Route path="/sponsors" element={<Sponsors />} />
-
-        {/* Topics */}
-        <Route path="/topics" element={<TopicsIndex />} />
-        <Route path="/topics/:topicId" element={<TopicPage />} />
 
         {/* Legal / misc */}
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />

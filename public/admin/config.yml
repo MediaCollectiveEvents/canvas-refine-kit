@@ -5,8 +5,8 @@ backend:
 
 local_backend: true
 
-media_folder: "public/uploads"
-public_folder: "/uploads"
+media_folder: "public/uploads" # where uploaded files are stored in the repo
+public_folder: "/uploads" # how those files are referenced in the site
 
 collections:
   # HOMEPAGE CONTENT
@@ -21,62 +21,33 @@ collections:
           name: "heroButtonLabel",
           label: "Hero Button Label",
           widget: "string",
-          required: false
+          required: false,
         }
       - {
           name: "heroButtonUrl",
           label: "Hero Button URL",
           widget: "string",
-          required: false
+          required: false,
         }
       - name: "sections"
         label: "Homepage Sections"
         widget: "list"
-        types:
-          - label: "Home Intro"
-            name: "homeIntro"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "homeIntro" }
-              - { name: "title", label: "Title", widget: "string" }
-              - { name: "body", label: "Body", widget: "markdown" }
-
-          - label: "Who Attends"
-            name: "whoAttends"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "whoAttends" }
-              - { name: "title", label: "Title", widget: "string" }
-              - label: "Items"
-                name: "items"
-                widget: "list"
-                field: { name: "item", label: "Item", widget: "string" }
-
-          - label: "Event Formats"
-            name: "eventFormats"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "eventFormats" }
-              - { name: "title", label: "Title", widget: "string" }
-              - label: "Formats"
-                name: "formats"
-                widget: "list"
-                fields:
-                  - { name: "title", label: "Title", widget: "string" }
-                  - { name: "description", label: "Description", widget: "text" }
-
-          - label: "Testimonials"
-            name: "testimonials"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "testimonials" }
-              - { name: "title", label: "Title", widget: "string" }
-              - label: "Testimonials"
-                name: "testimonials"
-                widget: "list"
-                fields:
-                  - { name: "quote", label: "Quote", widget: "text" }
-                  - { name: "author", label: "Author", widget: "string" }
+        fields:
+          - { name: "id", label: "Section ID", widget: "string" }
+          - { name: "title", label: "Title", widget: "string" }
+          - {
+              name: "accent",
+              label: "Accent Word",
+              widget: "string",
+              required: false,
+            }
+          - { name: "body", label: "Body", widget: "markdown", required: false }
+          - {
+              name: "enabled",
+              label: "Enabled",
+              widget: "boolean",
+              default: true,
+            }
 
   # ABOUT SECTION / PAGE
   - name: "about"
@@ -89,14 +60,14 @@ collections:
           name: "accent",
           label: "Accent Word",
           widget: "string",
-          required: false
+          required: false,
         }
       - { name: "intro", label: "Intro Text", widget: "markdown" }
       - {
           name: "body",
           label: "Body Text",
           widget: "markdown",
-          required: false
+          required: false,
         }
 
   # FAQ
@@ -126,19 +97,19 @@ collections:
               name: "primary",
               label: "Primary Colour",
               widget: "string",
-              default: "#36e0c6"
+              default: "#36e0c6",
             }
           - {
               name: "secondary",
               label: "Secondary Colour",
               widget: "string",
-              required: false
+              required: false,
             }
           - {
               name: "background",
               label: "Background Colour",
               widget: "string",
-              required: false
+              required: false,
             }
       - name: "footer"
         label: "Footer"
@@ -148,13 +119,13 @@ collections:
               name: "text",
               label: "Footer Text",
               widget: "string",
-              required: false
+              required: false,
             }
           - {
               name: "showEventsInFooter",
               label: "Show Events in Footer",
               widget: "boolean",
-              default: false
+              default: false,
             }
       - name: "nav"
         label: "Navigation"
@@ -178,7 +149,7 @@ collections:
               name: "url",
               label: "Website URL",
               widget: "string",
-              required: false
+              required: false,
             }
           - { name: "tier", label: "Tier", widget: "string", required: false }
           - { name: "logo", label: "Logo", widget: "image", required: false }
@@ -186,7 +157,7 @@ collections:
               name: "summary",
               label: "Summary",
               widget: "text",
-              required: false
+              required: false,
             }
 
   # SPEAKERS DIRECTORY
@@ -204,19 +175,19 @@ collections:
               name: "role",
               label: "Role / Title",
               widget: "string",
-              required: false
+              required: false,
             }
           - {
               name: "company",
               label: "Company",
               widget: "string",
-              required: false
+              required: false,
             }
           - {
               name: "url",
               label: "Profile URL",
               widget: "string",
-              required: false
+              required: false,
             }
           - { name: "photo", label: "Photo", widget: "image", required: false }
           - { name: "bio", label: "Bio", widget: "markdown", required: false }
@@ -236,107 +207,84 @@ collections:
               name: "url",
               label: "Website URL",
               widget: "string",
-              required: false
+              required: false,
             }
           - { name: "logo", label: "Logo", widget: "image", required: false }
           - {
               name: "description",
               label: "Description",
               widget: "markdown",
-              required: false
+              required: false,
             }
 
-  # BLOG POSTS (JSON)
+  # BLOG POSTS (MARKDOWN)
   - name: "blog"
     label: "Blog Posts"
-    file: "src/content/blog.json"
-    format: "json"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
     fields:
-      - label: "Posts"
-        name: "posts"
-        widget: "list"
-        fields:
-          - { name: "slug", label: "Slug", widget: "string" }
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "date", label: "Date", widget: "datetime" }
-          - { name: "excerpt", label: "Excerpt", widget: "text", required: false }
-          - { name: "body", label: "Body", widget: "markdown" }
-          - name: "keywordIds"
-            label: "Keyword IDs"
-            widget: "list"
-            required: false
-            field:
-              { name: "keywordId", label: "Keyword ID", widget: "string" }
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "slug", label: "Slug", widget: "string" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - {
+          name: "category",
+          label: "Category",
+          widget: "string",
+          required: false,
+        }
+      - { name: "excerpt", label: "Excerpt", widget: "text", required: false }
+      - { name: "image", label: "Hero Image", widget: "image", required: false }
+      - { name: "tags", label: "Tags", widget: "list", required: false }
+      - { name: "body", label: "Body", widget: "markdown" }
 
-  # EVENTS (JSON via CMS)
-  - name: "events-json"
+  # EVENTS (MARKDOWN) – internal + third‑party
+  - name: "events"
     label: "Events"
-    file: "src/content/events.json"
-    format: "json"
+    folder: "src/content/events"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
     fields:
-      - label: "Events"
-        name: "events"
-        widget: "list"
-        fields:
-          - { name: "id", label: "ID", widget: "number" }
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "location", label: "Location", widget: "string" }
-          - { name: "venue", label: "Venue", widget: "string" }
-          - { name: "imageKey", label: "Image Key", widget: "string" }
-          - name: "keywordIds"
-            label: "Keyword IDs"
-            widget: "list"
-            required: false
-            field:
-              { name: "keywordId", label: "Keyword ID", widget: "string" }
-
-  # TOPICS (JSON) – for Topic Pages
-  - name: "topics"
-    label: "Topics"
-    file: "src/content/topics.json"
-    format: "json"
-    fields:
-      - label: "Topics"
-        name: "topics"
-        widget: "list"
-        fields:
-          - { name: "id", label: "ID", widget: "string", hint: "e.g. ai-automation" }
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "description", label: "Description", widget: "markdown" }
-          - name: "keywordIds"
-            label: "Keyword IDs"
-            widget: "list"
-            required: false
-            field:
-              { name: "keywordId", label: "Keyword ID", widget: "string" }
-          - label: "Sections"
-            name: "sections"
-            widget: "list"
-            types:
-              - label: "Hero"
-                name: "hero"
-                widget: "object"
-                fields:
-                  - { name: "type", label: "Type", widget: "hidden", default: "hero" }
-                  - { name: "title", label: "Title", widget: "string" }
-                  - { name: "subtitle", label: "Subtitle", widget: "string", required: false }
-              - label: "Text Block"
-                name: "text"
-                widget: "object"
-                fields:
-                  - { name: "type", label: "Type", widget: "hidden", default: "text" }
-                  - { name: "title", label: "Title", widget: "string" }
-                  - { name: "body", label: "Body", widget: "markdown" }
-              - label: "Related Content"
-                name: "relatedContent"
-                widget: "object"
-                fields:
-                  - { name: "type", label: "Type", widget: "hidden", default: "relatedContent" }
-                  - { name: "title", label: "Title", widget: "string" }
-                  - name: "keywordIds"
-                    label: "Keyword IDs"
-                    widget: "list"
-                    required: false
-                    field:
-                      { name: "keywordId", label: "Keyword ID", widget: "string" }
-``
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "slug", label: "Slug", widget: "string" }
+      - { name: "date", label: "Event Date", widget: "datetime" }
+      - {
+          name: "location",
+          label: "Location",
+          widget: "string",
+          required: false,
+        }
+      - name: "type"
+        label: "Event Type"
+        widget: "select"
+        options: ["internal", "third-party"]
+        default: "internal"
+      - {
+          name: "externalUrl",
+          label: "External URL (for third-party)",
+          widget: "string",
+          required: false,
+        }
+      - name: "keywords"
+        label: "Keywords"
+        widget: "select"
+        multiple: true
+        options:
+          - "networking"
+          - "innovation"
+          - "media"
+          - "creators"
+          - "ai"
+          - "production"
+          - "sponsorship"
+      - {
+          name: "summary",
+          label: "Short Summary",
+          widget: "text",
+          required: false,
+        }
+      - { name: "body", label: "Details", widget: "markdown", required: false }

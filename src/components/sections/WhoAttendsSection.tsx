@@ -1,5 +1,4 @@
-import { contentStore } from "@/lib/contentStore";
-const homepage = contentStore.getHomepage();
+
 import { motion } from "framer-motion";
 import { Cpu, Clapperboard, Wifi } from "lucide-react";
 import SectionHeader from "@/components/shared/SectionHeader";
@@ -37,8 +36,12 @@ const WhoAttendsSection = () => {
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       </div>
       <div className="container mx-auto text-center max-w-6xl relative z-10">
+
         {/* Updated section header */}
-        <SectionHeader title="Who " accentWord="Attends" />
+        <SectionHeader
+          title="Who "
+          accentWord="Attends"
+        />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -47,14 +50,13 @@ const WhoAttendsSection = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <p className="text-muted-foreground font-body text-lg mb-4">
-            Over 300 companies across media, entertainment and technology have
-            attended our events.
+            Over 300 companies across media, entertainment and technology have attended our events.
           </p>
 
           <p className="text-muted-foreground font-body text-lg mb-12">
-            Our events are free, invite-only and curated for a maximum of 120
-            guests, attracting industry leaders and innovators. This includes
-            over 100 board-level executives and 34 startup founders.
+            Our events are free, invite-only and curated for a maximum of 120 guests,
+            attracting industry leaders and innovators. This includes over 
+            100 board-level executives and 34 startup founders.
           </p>
         </motion.div>
 
@@ -84,6 +86,7 @@ const WhoAttendsSection = () => {
             </motion.div>
           ))}
         </div>
+
       </div>
     </section>
   );

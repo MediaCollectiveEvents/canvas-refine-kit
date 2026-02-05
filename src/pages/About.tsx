@@ -1,10 +1,7 @@
-// src/pages/About.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 
-import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/shared/PageHero";
-import PageSection from "@/components/shared/PageSection";
-import PageCTA from "@/components/shared/PageCTA";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 
 import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
 import MissionValuesSection from "@/components/sections/MissionValuesSection";
@@ -13,58 +10,57 @@ import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import FAQSection from "@/components/sections/FAQSection";
 
 import EventRegistrationForm from "@/components/EventRegistrationForm";
+import PageHero from "@/components/shared/PageHero";
+import PageSection from "@/components/shared/PageSection";
+import PageCTA from "@/components/shared/PageCTA";
 
-// Use the same hero artwork as the homepage.
-// Make sure this file exists in src/assets:
-import homeHeroImage from "@/assets/home-hero.png";
+import heroImage from "@/assets/hero-placeholder.jpg";
 
-const About: React.FC = () => {
+const About = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
-    <PageLayout>
-      {/* Registration modal */}
+    <div className="min-h-screen">
+      <Header />
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      {/* HERO – unified with homepage */}
+      {/* Hero */}
       <PageHero
-        eyebrow="OUR COMMUNITY"
+        eyebrow="Our Community"
         title="Our Story"
-        description="Born during a period of limited in-person interaction, The Media Collective was created to reconnect the industry."
-        image={homeHeroImage}
+        description="Born during a period of limited in‑person interaction, The Media Collective was created to reconnect the industry."
         variant="image"
+        backgroundImage={heroImage}
       />
 
-      {/* WHO ATTENDS */}
-      <PageSection variant="default">
-        <WhoAttendsSection />
-      </PageSection>
+      <main>
+        <PageSection variant="default">
+          <WhoAttendsSection />
+        </PageSection>
 
-      {/* MISSION & VALUES */}
-      <PageSection variant="accent">
-        <MissionValuesSection />
-      </PageSection>
+        <PageSection variant="accent">
+          <MissionValuesSection />
+        </PageSection>
 
-      {/* EVENT FORMATS */}
-      <PageSection variant="darker">
-        <EventFormatsSection />
-      </PageSection>
+        <PageSection variant="darker">
+          <EventFormatsSection />
+        </PageSection>
 
-      {/* TESTIMONIALS */}
-      <PageSection variant="default">
-        <TestimonialsSection />
-      </PageSection>
+        <PageSection variant="default">
+          <TestimonialsSection />
+        </PageSection>
 
-      {/* FAQ */}
-      <PageSection variant="darker">
-        <FAQSection />
-      </PageSection>
+        <PageSection variant="darker">
+          <FAQSection />
+        </PageSection>
 
-      {/* CALL TO ACTION */}
-      <PageSection variant="accent" className="py-20">
-        <PageCTA onClick={() => setIsFormOpen(true)} />
-      </PageSection>
-    </PageLayout>
+        <PageSection variant="accent" className="py-20">
+          <PageCTA onClick={() => setIsFormOpen(true)} />
+        </PageSection>
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 
