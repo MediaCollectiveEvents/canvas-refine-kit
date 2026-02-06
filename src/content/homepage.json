@@ -4,39 +4,7 @@
   "heroSubtitle": "Exclusive networking events for senior executives and innovators across the global media landscape.",
   "heroButtonLabel": "Register Your Interest",
   "heroButtonUrl": "/events",
-  "sections": [
-    {
-      "type": "whoAttends",
-      "title": "Who Attends",
-      "items": [
-        "Senior media leaders",
-        "Innovators and entrepreneurs",
-        "Industry pioneers",
-        "Creative executives",
-        "Tech and strategy leads"
-      ],
-      "statistics": {
-        "companies": "TEST",
-        "boardLevel": "TEST",
-        "founders": "TEST"
-      }
-    },
-    {
-      "type": "testimonials",
-      "title": "What People Say",
-      "testimonials": [
-        {
-          "quote": "A must-attend for anyone serious about the future of media.",
-          "author": "Senior Executive, Sky"
-        },
-        {
-          "quote": "An exceptional place to meet industry innovators.",
-          "author": "Director, BBC"
-        }
-      ],
-      "heading": "TEST"
-    }
-  ],
+  "sections": [],
   "hero": {
     "title": "Connecting the media community",
     "subtitle": "Curated industry events",
