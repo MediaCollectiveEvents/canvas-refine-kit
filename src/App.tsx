@@ -14,7 +14,7 @@ import Sponsors from "./pages/Sponsors";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Wireframe from "./pages/Wireframe";
 import NotFound from "./pages/NotFound";
-import Admin from "./pages/Admin";
+import Admin from "./pages/Admin"; // This is your custom link-to-Decap page
 
 const App: React.FC = () => {
   return (
@@ -37,8 +37,8 @@ const App: React.FC = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/wireframe" element={<Wireframe />} />
 
-        {/* Admin */}
-        <Route path="/admin" element={<Admin />} />
+        {/* Custom admin info page — moved to /cms */}
+        <Route path="/cms" element={<Admin />} />
 
         {/* Catch-all */}
         <Route path="*" element={<NotFound />} />

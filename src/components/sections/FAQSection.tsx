@@ -23,7 +23,6 @@ const FAQSection: React.FC = () => {
         <SectionHeader
           title="Frequently Asked Questions"
           accentWord="Questions"
-          align="center"
           description=""
         />
 
