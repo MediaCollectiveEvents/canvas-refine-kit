@@ -6,11 +6,6 @@
   "heroButtonUrl": "/events",
   "sections": [
     {
-      "type": "homeIntro",
-      "title": "About Us",
-      "body": "<p>We bring together a community of senior executives, innovators and thought leaders from across the global media landscape.</p><p>Our exclusive events provide a welcoming environment to connect, catch up and expand your network. From relaxed breakfast events to lively networking receptions, exclusive screenings, talks and panel discussions, each event is carefully curated to ensure great company, diversity and lively discussion.</p>"
-    },
-    {
       "type": "whoAttends",
       "title": "Who Attends",
       "items": [
@@ -19,25 +14,12 @@
         "Industry pioneers",
         "Creative executives",
         "Tech and strategy leads"
-      ]
-    },
-    {
-      "type": "eventFormats",
-      "title": "Event Formats",
-      "formats": [
-        {
-          "title": "Breakfast Briefings",
-          "description": "Relaxed morning discussions designed to spark conversation."
-        },
-        {
-          "title": "Networking Receptions",
-          "description": "Evening gatherings connecting innovators and decision-makers."
-        },
-        {
-          "title": "Screenings & Panels",
-          "description": "Curated screenings followed by insightful panel discussions."
-        }
-      ]
+      ],
+      "statistics": {
+        "companies": "TEST",
+        "boardLevel": "TEST",
+        "founders": "TEST"
+      }
     },
     {
       "type": "testimonials",
@@ -51,7 +33,21 @@
           "quote": "An exceptional place to meet industry innovators.",
           "author": "Director, BBC"
         }
-      ]
+      ],
+      "heading": "TEST"
     }
-  ]
+  ],
+  "hero": {
+    "title": "Connecting the media community",
+    "subtitle": "Curated industry events",
+    "description": "paste the full description above",
+    "primaryCta": {
+      "label": "Register Your Interest",
+      "url": "/register"
+    },
+    "secondaryCta": {
+      "label": "Partner With Us",
+      "url": "/partners"
+    }
+  }
 }
