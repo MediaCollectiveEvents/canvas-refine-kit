@@ -1,8 +1,6 @@
----
 backend:
-  name: github
-  repo: MediaCollectiveEvents/canvas-refine-kit
-  branch: main
+  name: git-gateway
+  branch: minviableproduct
 
 local_backend: true
 
