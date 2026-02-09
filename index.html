@@ -4,19 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- ✅ Netlify Identity / Decap invite + recovery redirect (must be in <head>) -->
+    <!-- ✅ Netlify Identity / Decap invite + recovery redirect -->
     <script>
       (function () {
-        var h = window.location.hash || "";
-        // If someone opens an Identity link on the site root, forward it to /admin
-        if (
-          h.startsWith("#invite_token=") ||
-          h.startsWith("#recovery_token=") ||
-          h.startsWith("#confirmation_token=") ||
-          h.startsWith("#email_change_token=")
-        ) {
-          window.location.replace("/admin/" + h);
-        }
+        try {
+          var h = window.location.hash || "";
+
+          // Matches:
+          // #invite_token=...
+          // #/invite_token=...
+          // #recovery_token=...
+          // #/recovery_token=...
+          // plus confirmation + email change tokens
+          var isIdentityLink =
+            h.startsWith("#invite_token=") ||
+            h.startsWith("#/invite_token=") ||
+            h.startsWith("#recovery_token=") ||
+            h.startsWith("#/recovery_token=") ||
+            h.startsWith("#confirmation_token=") ||
+            h.startsWith("#/confirmation_token=") ||
+            h.startsWith("#email_change_token=") ||
+            h.startsWith("#/email_change_token=");
+
+          if (
+            isIdentityLink &&
+            !window.location.pathname.startsWith("/admin")
+          ) {
+            window.location.replace("/admin/" + h);
+          }
+        } catch (e) {}
       })();
     </script>
 
