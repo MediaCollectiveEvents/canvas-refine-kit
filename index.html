@@ -3,84 +3,44 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Manager</title>
 
-    <!-- ✅ Netlify Identity / Decap invite + recovery redirect -->
-    <script>
-      (function () {
-        try {
-          var h = window.location.hash || "";
-
-          // Matches:
-          // #invite_token=...
-          // #/invite_token=...
-          // #recovery_token=...
-          // #/recovery_token=...
-          // plus confirmation + email change tokens
-          var isIdentityLink =
-            h.startsWith("#invite_token=") ||
-            h.startsWith("#/invite_token=") ||
-            h.startsWith("#recovery_token=") ||
-            h.startsWith("#/recovery_token=") ||
-            h.startsWith("#confirmation_token=") ||
-            h.startsWith("#/confirmation_token=") ||
-            h.startsWith("#email_change_token=") ||
-            h.startsWith("#/email_change_token=");
-
-          if (
-            isIdentityLink &&
-            !window.location.pathname.startsWith("/admin")
-          ) {
-            window.location.replace("/admin/" + h);
-          }
-        } catch (e) {}
-      })();
-    </script>
-
-    <link
-      rel="preload"
-      href="/fonts/PlaylistScript.otf"
-      as="font"
-      type="font/otf"
-      crossorigin
-    />
-
-    <title>Media Collective Events</title>
-    <meta name="description" content="The Media Collective Curated Events" />
-    <meta name="author" content="Lovable" />
-
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://lovable.dev/opengraph-image-p98pqg.png"
-    />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta
-      name="twitter:image"
-      content="https://lovable.dev/opengraph-image-p98pqg.png"
-    />
-
-    <meta property="og:title" content="Media Collective Events" />
-    <meta name="twitter:title" content="Media Collective Events" />
-    <meta
-      property="og:description"
-      content="The Media Collective Curated Events"
-    />
-    <meta
-      name="twitter:description"
-      content="The Media Collective Curated Events"
-    />
-
-    <link
-      rel="icon"
-      type="image/png"
-      href="https://storage.googleapis.com/gpt-engineer-file-uploads/sZkuyZ4fJ0gvXA8iJvzbpB7W6IA3/uploads/1768825228956-TMC_ICON.png"
-    />
+    <!-- Netlify Identity widget (REQUIRED for invite/recovery tokens) -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
 
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <script>
+      // If we arrived with an invite/recovery token, force the Identity widget to open
+      // so the token flow is processed instead of showing the default Decap login.
+      (function () {
+        var hash = window.location.hash || "";
+
+        function openFlow() {
+          if (!window.netlifyIdentity) return;
+
+          if (hash.indexOf("recovery_token=") !== -1) {
+            window.netlifyIdentity.open("recover");
+          } else if (hash.indexOf("invite_token=") !== -1) {
+            window.netlifyIdentity.open("signup");
+          } else if (hash.indexOf("confirmation_token=") !== -1) {
+            window.netlifyIdentity.open("login");
+          } else if (hash.indexOf("email_change_token=") !== -1) {
+            window.netlifyIdentity.open("login");
+          }
+        }
+
+        // Wait for widget init then open the correct flow
+        if (window.netlifyIdentity) {
+          window.netlifyIdentity.on("init", openFlow);
+          window.netlifyIdentity.init();
+          // Fallback in case init already happened
+          setTimeout(openFlow, 300);
+        }
+      })();
+    </script>
   </body>
 </html>
