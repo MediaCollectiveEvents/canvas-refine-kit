@@ -1,0 +1,2 @@
+/#invite_token=* /admin/#invite_token=:splat 200
+/admin/* /admin/index.html 200
