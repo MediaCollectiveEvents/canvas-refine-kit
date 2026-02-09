@@ -8,7 +8,6 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import PageCTA from "@/components/shared/PageCTA";
 
 import blogData from "@/content/blog.json";
-import homeHeroImage from "@/assets/home-hero.png";
 
 import { Calendar, User, ArrowLeft } from "lucide-react";
 
@@ -37,6 +36,7 @@ const BlogPost = () => {
     <PageLayout>
       {/* HERO – same style as homepage, blog list, events, etc. */}
       <PageHero
+        heroPreset="blog"
         eyebrow="INSIGHTS & UPDATES"
         title={post.title}
         description={post.excerpt}

@@ -23,7 +23,6 @@ type HeroPreset = {
 };
 
 type HeroPresets = Record<HeroPresetKey, HeroPreset>;
-
 const heroPresets = heroPresetsJson as HeroPresets;
 
 interface PageHeroProps {
@@ -50,9 +49,10 @@ const PageHero: React.FC<PageHeroProps> = ({
 }) => {
   // Safe preset lookup with fallback to "home"
   const preset: HeroPreset = heroPresets[heroPreset] ?? heroPresets.home;
-
   const layers = preset.layers ?? {};
-  const vignetteStrength = preset.vignetteStrength ?? 0.0;
+
+  // Keep this subtle; presets can override
+  const vignetteStrength = preset.vignetteStrength ?? 0.18;
 
   const ref = useRef<HTMLDivElement | null>(null);
 
@@ -97,32 +97,37 @@ const PageHero: React.FC<PageHeroProps> = ({
         />
       )}
 
-      {/* Hero text */}
+      {/* ✅ Very light readability vignette (no grey wash, no “miserable” look) */}
+      {vignetteStrength > 0 && (
+        <div
+          className="absolute inset-0 pointer-events-none z-10"
+          style={{
+            background: `radial-gradient(ellipse at center,
+              rgba(0,0,0,${vignetteStrength}) 0%,
+              rgba(0,0,0,0.10) 45%,
+              rgba(0,0,0,0) 75%)`,
+          }}
+        />
+      )}
+
+      {/* ✅ Text overlay (this is what got broken) */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-6">
         {eyebrow && (
           <p className="uppercase tracking-widest text-primary mb-2">
             {eyebrow}
           </p>
         )}
+
         <h1 className="font-satisfy text-5xl md:text-7xl text-white">
           {title}
         </h1>
+
         {description && (
           <p className="mt-4 text-primary text-lg md:text-xl max-w-2xl">
             {description}
           </p>
         )}
       </div>
-
-      {/* Vignette overlay */}
-      {vignetteStrength > 0 && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse at center, rgba(0,0,0,${vignetteStrength}) 0%, transparent 70%)`,
-          }}
-        />
-      )}
     </div>
   );
 };

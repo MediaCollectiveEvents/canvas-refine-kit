@@ -10,7 +10,6 @@ import PageCTA from "@/components/shared/PageCTA";
 import SectionDivider from "@/components/shared/SectionDivider";
 
 import blogData from "@/content/blog.json";
-import { getHeroImage } from "@/lib/getHeroImage";
 
 interface BlogPost {
   id: number;
@@ -47,18 +46,21 @@ const Blog = () => {
     }))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-  // ✅ Resolve hero image (blog-hero.png or fallback to home-hero.png)
-  const heroImage = getHeroImage(hero.image || "blog-hero.png");
+  <PageHero
+    heroPreset="blog"
+    eyebrow={hero.eyebrow || "INSIGHTS & UPDATES"}
+    title={hero.title || "The Blog"}
+    description={hero.description}
+  />;
 
   return (
     <PageLayout>
       {/* HERO – now JSON-driven */}
       <PageHero
+        heroPreset="blog"
         eyebrow={hero.eyebrow || "INSIGHTS & UPDATES"}
         title={hero.title || "The Blog"}
         description={hero.description}
-        image={heroImage}
-        variant="image"
       />
 
       {/* BLOG POSTS GRID */}

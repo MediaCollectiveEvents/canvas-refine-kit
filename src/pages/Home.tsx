@@ -6,18 +6,16 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import SectionRenderer from "@/lib/sectionRenderer";
 
 import homepage from "@/content/homepage.json";
-import homeHeroImage from "@/assets/home-hero.png";
 
 const Home: React.FC = () => {
   return (
     <PageLayout>
       {/* HERO WITH BACKGROUND IMAGE */}
       <PageHero
+        heroPreset="home"
         eyebrow="Welcome"
         title={homepage.heroTitle}
         description={homepage.heroSubtitle}
-        image={homeHeroImage}
-        variant="image"
       />
 
       {/* HOMEPAGE SECTIONS FROM JSON */}

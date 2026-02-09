@@ -16,7 +16,6 @@ import EventRegistrationForm from "@/components/EventRegistrationForm";
 
 // Use the same hero artwork as the homepage.
 // Make sure this file exists in src/assets:
-import homeHeroImage from "@/assets/home-hero.png";
 
 const About: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -28,11 +27,10 @@ const About: React.FC = () => {
 
       {/* HERO – unified with homepage */}
       <PageHero
+        heroPreset="about"
         eyebrow="OUR COMMUNITY"
         title="Our Story"
         description="Born during a period of limited in-person interaction, The Media Collective was created to reconnect the industry."
-        image={homeHeroImage}
-        variant="image"
       />
 
       {/* WHO ATTENDS */}

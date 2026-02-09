@@ -167,12 +167,15 @@ const Events: React.FC = () => {
       />
 
       {/* HERO */}
-      <PageHero
-        eyebrow={hero.eyebrow || "EVENTS"}
-        title={hero.title || "Upcoming & Past Events"}
-        description={hero.description}
-        variant="image"
-      />
+      {/* HERO */}
+<PageHero
+  heroPreset="events"
+  eyebrow={hero.eyebrow}
+  title={hero.title}
+  description={hero.description}
+/>
+
+
 
       {/* UPCOMING EVENTS */}
       <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">

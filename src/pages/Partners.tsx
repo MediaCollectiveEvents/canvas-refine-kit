@@ -12,9 +12,6 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import SectionHeader from "@/components/shared/SectionHeader";
 import PageCTA from "@/components/shared/PageCTA";
 
-// HERO IMAGE (uses homepage hero as default)
-import homeHeroImage from "@/assets/home-hero.png";
-
 // Sponsor logos
 import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
 import mrMxfLogo from "@/assets/sponsors/mr-mxf.png";
@@ -170,11 +167,10 @@ const Partners: React.FC = () => {
 
       {/* HERO — unified system */}
       <PageHero
+        heroPreset="partners"
         eyebrow="Partnership Opportunities"
         title="Become a Partner"
         description="Partner with The Media Collective and connect your brand with the most influential voices in media and entertainment."
-        image={homeHeroImage}
-        variant="image"
       />
 
       {/* SCROLLING SPONSOR LOGOS */}
