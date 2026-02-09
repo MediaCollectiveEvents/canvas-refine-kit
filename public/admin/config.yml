@@ -1,8 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: MediaCollectiveEvents/canvas-refine-kit
   branch: minviableproduct
-
-local_backend: false
+  allowed_users:
+    - MediaCollectiveEvents
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
