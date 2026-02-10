@@ -1,5 +1,3 @@
-# Decap admin must win for anything under /admin
-/admin/*  /admin/index.html  200
+/admin/*   /admin/index.html   200
+/*         /index.html         200
 
-# Your SPA fallback (only after /admin has been handled)
- /*       /index.html        200
