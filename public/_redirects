@@ -1,2 +1,5 @@
-/#invite_token=* /admin/#invite_token=:splat 200
-/admin/* /admin/index.html 200
+# Decap admin must win for anything under /admin
+/admin/*  /admin/index.html  200
+
+# Your SPA fallback (only after /admin has been handled)
+ /*       /index.html        200
