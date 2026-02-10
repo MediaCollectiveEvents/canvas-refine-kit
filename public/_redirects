@@ -1,3 +1,9 @@
-/admin/*   /admin/index.html   200
-/*         /index.html         200
+# IMPORTANT: let Decap fetch its real files (don’t rewrite them)
+/admin/config.yml  /admin/config.yml  200
+/admin/cms.js      /admin/cms.js      200
 
+# Admin SPA rewrite
+/admin/*           /admin/index.html  200
+
+# Main site SPA rewrite
+/*                 /index.html        200
