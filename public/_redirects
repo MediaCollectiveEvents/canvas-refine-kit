@@ -1,9 +1,10 @@
-# IMPORTANT: let Decap fetch its real files (don’t rewrite them)
+# Serve Decap assets as real files (must be ABOVE the wildcard)
 /admin/config.yml  /admin/config.yml  200
 /admin/cms.js      /admin/cms.js      200
+/admin/index.html  /admin/index.html  200
 
-# Admin SPA rewrite
+# Decap app shell for any other /admin routes
 /admin/*           /admin/index.html  200
 
-# Main site SPA rewrite
+# SPA fallback
 /*                 /index.html        200

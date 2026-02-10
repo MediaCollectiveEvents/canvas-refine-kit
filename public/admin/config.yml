@@ -3,15 +3,24 @@ backend:
   repo: MediaCollectiveEvents/canvas-refine-kit
   branch: minviableproduct
 
-  # Netlify OAuth for Decap (required)
+  # Netlify OAuth for Decap
   base_url: https://api.netlify.com
   auth_endpoint: auth
-  site_domain: themediecollective.netlify.app
+  site_domain: themediacollective.netlify.app
 
-  # optional but recommended
   auth_scope: repo
   allowed_users:
     - MediaCollectiveEvents
+
+# REQUIRED
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# RECOMMENDED (avoids more schema complaints)
+media_library:
+  name: uploadcare
+  config:
+    publicKey: "demopublickey"
 
 collections:
   # ----------------------------------------------------------------------
