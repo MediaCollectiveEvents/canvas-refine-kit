@@ -1,0 +1,29 @@
+{
+  "type": "events",
+  "title": "Featured Events",
+  "accentWord": "Highlights",
+  "description": "A look at some of the most recent or notable events bringing together leaders from across media, entertainment, and technology.",
+  "items": [
+    {
+      "title": "Networking Breakfast – London",
+      "date": "2025-01-15",
+      "location": "Soho, London",
+      "summary": "A curated gathering of senior media professionals discussing industry trends over a hosted breakfast.",
+      "externalUrl": "/events/networking-breakfast"
+    },
+    {
+      "title": "Evening Drinks – NAB Recap",
+      "date": "2025-04-02",
+      "location": "Covent Garden, London",
+      "summary": "An informal evening bringing together executives and creators following NAB announcements.",
+      "externalUrl": "/events/nab-review"
+    },
+    {
+      "title": "Innovation Roundtable",
+      "date": "2025-03-11",
+      "location": "Fitzrovia, London",
+      "summary": "A senior‑level roundtable discussing innovation strategies across broadcasting and streaming.",
+      "externalUrl": "/events/innovation-roundtable"
+    }
+  ]
+}

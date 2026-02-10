@@ -1,0 +1,29 @@
+{
+  "type": "eventFormats",
+  "title": "Event Formats",
+  "accentWord": "Experiences",
+  "description": "Our events span a wide range of formats designed to encourage connection, conversation, and collaboration across the media community.",
+  "values": [
+    {
+      "icon": "users",
+      "title": "Breakfast Roundtables",
+      "description": "Small, invite‑only morning conversations with senior media leaders exploring current industry priorities.",
+      "color": "#0ea5e9",
+      "bgColor": "#f0f9ff"
+    },
+    {
+      "icon": "star",
+      "title": "Evening Receptions",
+      "description": "Relaxed networking evenings designed for informal conversation and meaningful introductions.",
+      "color": "#f59e0b",
+      "bgColor": "#fffbeb"
+    },
+    {
+      "icon": "heart",
+      "title": "Screenings & Talks",
+      "description": "Curated content showcases, panel discussions, and fireside sessions focused on innovation in media and entertainment.",
+      "color": "#ec4899",
+      "bgColor": "#fdf2f8"
+    }
+  ]
+}
