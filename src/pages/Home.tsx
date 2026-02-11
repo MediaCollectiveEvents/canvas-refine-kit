@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/shared/PageHero";
 import { AboutIntroSection } from "@/components/sections/AboutIntroSection";
+import SectionDivider from "@/components/shared/SectionDivider";
 import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
 import EventsSection from "@/components/sections/EventsSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
