@@ -1,6 +1,7 @@
+local_backend: true
+
 backend:
-  name: github
-  repo: MediaCollectiveEvents/canvas-refine-kit
+  name: git-gateway
   branch: minviableproduct
 
 media_folder: "public/uploads"
@@ -17,3 +18,4 @@ collections:
         fields:
           - name: title
             widget: string
+``
