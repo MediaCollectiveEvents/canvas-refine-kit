@@ -1,97 +1,161 @@
-{
-  "hero": {
-    "title": "Connecting the media community",
-    "subtitle": "Media Collective Events",
-    "description": "Invite-only industry gatherings",
-    "primaryCta": {
-      "label": "Register Your Interest",
-      "url": "/register"
-    },
-    "secondaryCta": {
-      "label": "Partner With Us",
-      "url": "/partners"
-    }
-  },
-  "sections": [
-    {
-      "type": "aboutIntro",
-      "heading": "About me",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions, each gathering brings together diverse perspectives and great company.."
-    },
-    {
-      "type": "whoAttends",
-      "heading": "Who Attends",
-      "audienceGroups": [
-        "Senior media leaders",
-        "Innovators and entrepreneurs",
-        "Industry pioneers",
-        "Creative executives",
-        "Tech, strategy, and operational leads"
-      ],
-      "statistics": {
-        "companies": "Over 300 companies",
-        "boardLevel": "Over 100 board-level executives",
-        "founders": "34 startup founders"
-      },
-      "highlights": [
-        "The Top 3 — Global Tech Giants",
-        "The Major 5 — Hollywood Studios",
-        "The Leading 8 — Streaming Platforms"
-      ]
-    },
-    {
-      "type": "upcomingEventsIntro",
-      "heading": "Upcoming Events",
-      "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
-      "note": "Spaces are limited to keep events focused and conversational.",
-      "cta": {
-        "label": "Learn More",
-        "url": "/events"
-      },
-      "secondaryCta": {
-        "label": "View all events",
-        "url": "/events"
-      }
-    },
-    {
-      "type": "testimonials",
-      "heading": "What People Say",
-      "items": []
-    },
-    {
-      "type": "partners",
-      "heading": "Supported by Our Partner Community",
-      "description": "Our events bring together organisations from across broadcasting, streaming, and media technology.",
-      "logos": []
-    },
-    {
-      "type": "joinCommunity",
-      "heading": "Join the Community",
-      "body": "Be part of a growing network of media leaders, innovators, and creatives. Our events are free, invite-only, and designed for great conversations.",
-      "cta": {
-        "label": "Register Your Interest",
-        "url": "/register"
-      }
-    },
-    {
-      "type": "newHere",
-      "heading": "New Here?",
-      "body": "If it’s your first time joining us, welcome. Our events bring together senior professionals from across media, entertainment, and technology in a relaxed setting designed for easy conversation. Expect a curated guest list, thoughtful formats, and plenty of time to connect with peers.",
-      "cta": {
-        "label": "Register Your Interest",
-        "url": "/register"
-      }
-    },
-    {
-      "type": "forBrands",
-      "heading": "For Brands & Partners",
-      "body": "We also work with selected partners to create curated industry experiences.",
-      "cta": {
-        "label": "Explore Partnerships",
-        "url": "/partners"
-      }
-    }
-  ],
-  "title": "testing12"
-}
+local_backend: true
+
+backend:
+  name: github
+  repo: MediaCollectiveEvents/canvas-refine-kit
+  branch: minviableproduct
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: homepage
+    label: Homepage
+    files:
+      - name: homepage
+        label: Homepage Content
+        file: "src/content/homepage.json"
+        format: json
+        fields:
+          - label: Hero Section
+            name: hero
+            widget: object
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Subtitle, name: subtitle, widget: string }
+              - { label: Description, name: description, widget: text }
+              - label: Primary CTA
+                name: primaryCta
+                widget: object
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+              - label: Secondary CTA
+                name: secondaryCta
+                widget: object
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+
+          - label: Sections
+            name: sections
+            widget: list
+            types:
+              - label: About Intro
+                name: aboutIntro
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "aboutIntro" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - { label: Extended Text, name: extended, widget: text }
+
+              - label: Who Attends
+                name: whoAttends
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "whoAttends" }
+                  - { label: Heading, name: heading, widget: string }
+                  - label: Audience Groups
+                    name: audienceGroups
+                    widget: list
+                    field: { label: Item, name: item, widget: string }
+                  - label: Statistics
+                    name: statistics
+                    widget: object
+                    fields:
+                      - { label: Companies, name: companies, widget: string }
+                      - { label: Board Level, name: boardLevel, widget: string }
+                      - { label: Founders, name: founders, widget: string }
+                  - label: Highlights
+                    name: highlights
+                    widget: list
+                    field: { label: Highlight, name: item, widget: string }
+
+              - label: Upcoming Events Intro
+                name: upcomingEventsIntro
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "upcomingEventsIntro" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - { label: Note, name: note, widget: string }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+                  - label: Secondary CTA
+                    name: secondaryCta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              - label: Testimonials
+                name: testimonials
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "testimonials" }
+                  - { label: Heading, name: heading, widget: string }
+                  - label: Items
+                    name: items
+                    widget: list
+                    field: { label: Testimonial Item, name: item, widget: text }
+
+              - label: Partners Section
+                name: partners
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "partners" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - label: Logos
+                    name: logos
+                    widget: list
+                    field: { label: Logo URL, name: logo, widget: string }
+
+              - label: Join Community
+                name: joinCommunity
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "joinCommunity" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              - label: New Here
+                name: newHere
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "newHere" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              - label: For Brands & Partners
+                name: forBrands
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "forBrands" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+          - { label: Internal Title (Ignore), name: title, widget: string }
