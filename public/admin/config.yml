@@ -17,7 +17,6 @@ collections:
         file: "src/content/homepage.json"
         format: json
         fields:
-
           # HERO
           - label: Hero
             name: hero
@@ -36,4 +35,183 @@ collections:
                 name: secondaryCta
                 widget: object
                 fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+
+          # SECTIONS
+          - label: Sections
+            name: sections
+            widget: list
+            types:
+              # JOIN COMMUNITY
+              - label: Join Community
+                name: joinCommunity
+                widget: object
+                fields:
                   - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "joinCommunity",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              # ABOUT INTRO
+              - label: About Intro
+                name: aboutIntro
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "aboutIntro",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - { label: Extended Text, name: extended, widget: text }
+
+              # WHO ATTENDS (icons now editable)
+              - label: Who Attends
+                name: whoAttends
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "whoAttends",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+
+                  - label: Statistics
+                    name: statistics
+                    widget: object
+                    fields:
+                      - { label: Companies, name: companies, widget: string }
+                      - { label: Board Level, name: boardLevel, widget: string }
+                      - { label: Founders, name: founders, widget: string }
+
+                  - label: Highlights
+                    name: highlights
+                    widget: list
+                    allow_add: true
+                    fields:
+                      - { label: Title, name: title, widget: string }
+                      - { label: Subtitle, name: subtitle, widget: string }
+                      - label: Icon
+                        name: icon
+                        widget: select
+                        options:
+                          - { label: Globe, value: globe }
+                          - { label: Film, value: film }
+                          - { label: Play, value: play }
+
+              # UPCOMING EVENTS INTRO
+              - label: Upcoming Events Intro
+                name: upcomingEventsIntro
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "upcomingEventsIntro",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - { label: Note, name: note, widget: string }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+                  - label: Secondary CTA
+                    name: secondaryCta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              # FOR BRANDS
+              - label: For Brands & Partners
+                name: forBrands
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "forBrands",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              # NEW HERE
+              - label: New Here
+                name: newHere
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "newHere",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              # TESTIMONIALS
+              - label: Testimonials
+                name: testimonials
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "testimonials",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - label: Items
+                    name: items
+                    widget: list
+                    field: { label: Testimonial, name: item, widget: text }
+
+              # PARTNERS
+              - label: Partners
+                name: partners
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "partners",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - label: Logos
+                    name: logos
+                    widget: list
+                    field: { label: Logo, name: logo, widget: string }
