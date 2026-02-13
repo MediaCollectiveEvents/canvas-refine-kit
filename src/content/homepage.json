@@ -14,6 +14,12 @@
   },
   "sections": [
     {
+      "type": "aboutIntro",
+      "heading": "About U",
+      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
+      "extended": "Our events offer space to catch up and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions, each gathering brings together diverse perspectives and great company.."
+    },
+    {
       "type": "joinCommunity",
       "heading": "Join Our Community",
       "body": "Be part of a growing network of media leaders, innovators, and creatives. Our events are free, invite-only, and designed for great conversations.",
@@ -23,14 +29,8 @@
       }
     },
     {
-      "type": "aboutIntro",
-      "heading": "About U",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions, each gathering brings together diverse perspectives and great company.."
-    },
-    {
       "type": "whoAttends",
-      "heading": "Who Attends",
+      "heading": " Attends",
       "audienceGroups": [
         "Senior media leaders",
         "Innovators and entrepreneurs",

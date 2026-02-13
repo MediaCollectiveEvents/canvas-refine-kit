@@ -1,4 +1,5 @@
 import React from "react";
+import { Globe, Film, Play } from "lucide-react";
 
 type WhoAttendsSectionData = {
   type: "whoAttends";
@@ -17,90 +18,87 @@ interface WhoAttendsSectionProps {
 }
 
 const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
-  const {
-    heading = "Who Attends",
-    audienceGroups = [],
-    statistics = {},
-    highlights = [],
-  } = section;
+  const { heading = "Who Attends", statistics = {}, highlights = [] } = section;
 
-  const {
-    companies = "Over 300 companies",
-    boardLevel = "Over 100 board-level executives",
-    founders = "34 startup founders",
-  } = statistics;
+  const { companies, boardLevel, founders } = statistics;
+
+  // Build intro paragraphs from statistics (with safe fallbacks)
+  const intro: string[] = [
+    `${companies ?? "Over 300 companies"} across media, entertainment and technology have attended our events.`,
+    `Our events are free, invite-only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes ${boardLevel ?? "over 100 board-level executives"} and ${founders ?? "34 startup founders"}.`,
+  ];
+
+  // Default card data (used if highlights are missing or incomplete)
+  const defaultCards = [
+    {
+      title: "The Top 3",
+      subtitle: "Global Tech Giants",
+      Icon: Globe,
+    },
+    {
+      title: "The Major 5",
+      subtitle: "Hollywood Studios",
+      Icon: Film,
+    },
+    {
+      title: "The Leading 8",
+      subtitle: "Streaming Platforms",
+      Icon: Play,
+    },
+  ];
+
+  // If highlights exist, try to derive title / subtitle from them: "Title — Subtitle"
+  const cards = defaultCards.map((defaultCard, index) => {
+    const raw = highlights[index];
+    if (!raw) return defaultCard;
+
+    const [rawTitle, rawSubtitle] = raw.split("—").map((s) => s.trim());
+    return {
+      title: rawTitle || defaultCard.title,
+      subtitle: rawSubtitle || defaultCard.subtitle,
+      Icon: defaultCard.Icon,
+    };
+  });
 
   return (
-    <section className="border-t border-border bg-background">
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid gap-12 md:grid-cols-2 md:items-start">
-          {/* Left: audience groups */}
-          <div>
-            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
-              {heading}
-            </h2>
+    <section className="py-24 md:py-32 bg-background">
+      <div className="container mx-auto px-6 max-w-4xl text-center">
+        {/* Heading – handle "Who Attends" nicely without duplicating "Attends" */}
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-6">
+          {heading.toLowerCase().includes("attends") ? (
+            <>
+              {heading.replace(/attends/i, "").trim()}{" "}
+              <span className="text-primary">Attends</span>
+            </>
+          ) : (
+            <>
+              {heading} <span className="text-primary">Attends</span>
+            </>
+          )}
+        </h2>
 
-            {audienceGroups.length > 0 && (
-              <ul className="mt-6 space-y-2 text-sm md:text-base text-muted-foreground">
-                {audienceGroups.map((group, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
-                    <span>{group}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+        {/* Intro paragraphs */}
+        <div className="space-y-4 text-foreground/80 text-lg leading-relaxed mb-16">
+          {intro.map((p, idx) => (
+            <p key={idx}>{p}</p>
+          ))}
+        </div>
 
-          {/* Right: stats + highlights */}
-          <div className="space-y-8">
-            {/* Stats */}
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div className="rounded-lg border border-border bg-card px-4 py-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Companies
-                </p>
-                <p className="mt-1 text-sm font-semibold text-foreground">
-                  {companies}
-                </p>
+        {/* Highlight cards */}
+        <div className="grid gap-8 md:grid-cols-3">
+          {cards.map(({ title, subtitle, Icon }, idx) => (
+            <div
+              key={idx}
+              className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-md px-8 py-10 shadow-md flex flex-col items-center text-center"
+            >
+              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                <Icon className="w-7 h-7 text-primary" />
               </div>
 
-              <div className="rounded-lg border border-border bg-card px-4 py-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Board-level
-                </p>
-                <p className="mt-1 text-sm font-semibold text-foreground">
-                  {boardLevel}
-                </p>
-              </div>
-
-              <div className="rounded-lg border border-border bg-card px-4 py-3">
-                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Founders
-                </p>
-                <p className="mt-1 text-sm font-semibold text-foreground">
-                  {founders}
-                </p>
-              </div>
+              <h3 className="text-xl font-semibold text-foreground">{title}</h3>
+              <p className="text-sm text-foreground/70 mt-1">{subtitle}</p>
             </div>
-
-            {/* Highlights */}
-            {highlights.length > 0 && (
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
-                  Highlights
-                </p>
-                <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                  {highlights.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/70" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+          ))}
         </div>
       </div>
     </section>
