@@ -2,12 +2,10 @@
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-
 import PageHero from "@/components/shared/PageHero";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 
 import { HomepageRenderer } from "@/components/sections/HomepageRenderer";
-// ⬆ named import (no default export)
 
 import heroImage from "@/assets/hero-placeholder.jpg";
 import homepage from "@/content/homepage.json";

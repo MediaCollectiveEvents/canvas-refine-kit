@@ -5,6 +5,8 @@ import WhoAttendsSection from "./WhoAttendsSection";
 import UpcomingEventsIntroSection from "./UpcomingEventsIntroSection";
 import TestimonialsSection from "./TestimonialsSection";
 import ForBrandsSection from "./ForBrandsSection";
+import JoinCommunitySection from "./JoinCommunitySection";
+import NewHereSection from "./NewHereSection";
 
 interface HomepageRendererProps {
   sections: any[];
@@ -22,15 +24,15 @@ export function HomepageRenderer({
       {safeSections.map((section, i) => {
         switch (section.type) {
           case "aboutIntro":
-            // Reads content from homepage.json → CMS
+            // CMS-driven About Intro section
             return <AboutIntroSection key={i} section={section} />;
 
           case "whoAttends":
-            // Uses its own internal copy for now
-            return <WhoAttendsSection key={i} />;
+            // CMS-driven Who Attends section (must accept `section` prop)
+            return <WhoAttendsSection key={i} section={section} />;
 
           case "upcomingEventsIntro":
-            // Reads heading/description/note/ctas from homepage.json → CMS
+            // CMS-driven Upcoming Events intro
             return (
               <UpcomingEventsIntroSection
                 key={i}
@@ -40,15 +42,35 @@ export function HomepageRenderer({
             );
 
           case "testimonials":
-            // Uses your existing carousel (hard-coded testimonials array)
+            // Existing carousel with hard-coded testimonials array
             return <TestimonialsSection key={i} />;
 
+          case "joinCommunity":
+            // CMS-driven Join Community section
+            return (
+              <JoinCommunitySection
+                key={i}
+                section={section}
+                onRegisterClick={onRegister}
+              />
+            );
+
+          case "newHere":
+            // CMS-driven New Here section
+            return (
+              <NewHereSection
+                key={i}
+                section={section}
+                onRegisterClick={onRegister}
+              />
+            );
+
           case "forBrands":
-            // ✅ Fully CMS-driven using ForBrandsSection.tsx
+            // CMS-driven For Brands & Partners section
             return <ForBrandsSection key={i} section={section} />;
 
           default:
-            // Skip unimplemented types like "partners", "joinCommunity", "newHere"
+            // Skip unimplemented or unknown types (e.g. partners for now)
             return null;
         }
       })}

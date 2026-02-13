@@ -1,79 +1,67 @@
 // src/components/sections/JoinCommunitySection.tsx
-import PageSection from "@/components/shared/PageSection";
-import SectionHeader from "@/components/shared/SectionHeader";
+import React from "react";
+
+type JoinCommunitySectionData = {
+  type: "joinCommunity";
+  heading?: string;
+  body?: string;
+  cta?: {
+    label?: string;
+    url?: string;
+  };
+};
 
 interface JoinCommunitySectionProps {
-  section: {
-    type: "joinCommunity";
-    heading: string;
-    body?: string;
-    cta?: {
-      label: string;
-      url?: string;
-    };
-  };
+  section: JoinCommunitySectionData;
   onRegisterClick?: () => void;
 }
 
-export function JoinCommunitySection({
+const JoinCommunitySection: React.FC<JoinCommunitySectionProps> = ({
   section,
   onRegisterClick,
-}: JoinCommunitySectionProps) {
-  const heading = section.heading || "";
-  const words = heading.split(" ").filter(Boolean);
+}) => {
+  const heading = section.heading ?? "Join the Community";
+  const body =
+    section.body ??
+    "Be part of a growing network of media leaders, innovators, and creatives. Our events are free, invite-only, and designed for great conversations.";
+  const ctaLabel = section.cta?.label ?? "Register Your Interest";
+  const ctaUrl = section.cta?.url ?? "/register";
 
-  // Accent is the last word (e.g. "Community")
-  let title = heading;
-  let accentWord = "";
-
-  if (words.length > 1) {
-    accentWord = words[words.length - 1];
-    title = words.slice(0, -1).join(" ");
-  }
+  const handleClick = (
+    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
+  ) => {
+    if (onRegisterClick) {
+      e.preventDefault();
+      onRegisterClick();
+    }
+  };
 
   return (
-    <PageSection
-      variant="darker"
-      className="relative overflow-hidden py-24 md:py-32"
-    >
-      {/* Matching background glow */}
-      <div className="absolute inset-0 pointer-events-none opacity-40">
-        <div className="absolute top-0 left-1/4 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div>
+    <section className="border-t border-border bg-background">
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
+            {heading}
+          </h2>
 
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        <SectionHeader title={title} accentWord={accentWord || undefined} />
-
-        {section.body && (
-          <p className="mt-6 text-lg text-white/80 font-body leading-relaxed">
-            {section.body}
+          <p className="mt-4 text-base md:text-lg text-muted-foreground">
+            {body}
           </p>
-        )}
 
-        {section.cta && (
           <div className="mt-8 flex justify-center">
-            {onRegisterClick ? (
-              <button
-                type="button"
-                onClick={onRegisterClick}
-                className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:bg-primary/90"
-              >
-                {section.cta.label}
+            <a
+              href={ctaUrl}
+              onClick={onRegisterClick ? handleClick : undefined}
+            >
+              <button className="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90">
+                {ctaLabel}
               </button>
-            ) : (
-              <a
-                href={section.cta.url || "#"}
-                className="inline-flex items-center justify-center rounded-full bg-primary px-8 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition hover:bg-primary/90"
-              >
-                {section.cta.label}
-              </a>
-            )}
+            </a>
           </div>
-        )}
+        </div>
       </div>
-    </PageSection>
+    </section>
   );
-}
+};
 
 export default JoinCommunitySection;

@@ -1,92 +1,107 @@
+import React from "react";
 
-import { motion } from "framer-motion";
-import { Cpu, Clapperboard, Wifi } from "lucide-react";
-import SectionHeader from "@/components/shared/SectionHeader";
+type WhoAttendsSectionData = {
+  type: "whoAttends";
+  heading?: string;
+  audienceGroups?: string[];
+  statistics?: {
+    companies?: string;
+    boardLevel?: string;
+    founders?: string;
+  };
+  highlights?: string[];
+};
 
-const stats = [
-  {
-    icon: Cpu,
-    title: "The Top 3",
-    subtitle: "Global Tech Giants",
-    color: "text-[hsl(var(--icon-lime))]",
-    bgColor: "bg-[hsl(var(--icon-lime)/0.1)]",
-  },
-  {
-    icon: Clapperboard,
-    title: "The Major 5",
-    subtitle: "Hollywood Studios",
-    color: "text-[hsl(var(--icon-cyan))]",
-    bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
-  },
-  {
-    icon: Wifi,
-    title: "The Leading 8",
-    subtitle: "Streaming Platforms",
-    color: "text-[hsl(var(--icon-red))]",
-    bgColor: "bg-[hsl(var(--icon-red)/0.1)]",
-  },
-];
+interface WhoAttendsSectionProps {
+  section: WhoAttendsSectionData;
+}
 
-const WhoAttendsSection = () => {
+const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
+  const {
+    heading = "Who Attends",
+    audienceGroups = [],
+    statistics = {},
+    highlights = [],
+  } = section;
+
+  const {
+    companies = "Over 300 companies",
+    boardLevel = "Over 100 board-level executives",
+    founders = "34 startup founders",
+  } = statistics;
+
   return (
-    <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden px-6">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div>
-      <div className="container mx-auto text-center max-w-6xl relative z-10">
+    <section className="border-t border-border bg-background">
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="grid gap-12 md:grid-cols-2 md:items-start">
+          {/* Left: audience groups */}
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
+              {heading}
+            </h2>
 
-        {/* Updated section header */}
-        <SectionHeader
-          title="Who "
-          accentWord="Attends"
-        />
+            {audienceGroups.length > 0 && (
+              <ul className="mt-6 space-y-2 text-sm md:text-base text-muted-foreground">
+                {audienceGroups.map((group, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary" />
+                    <span>{group}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <p className="text-muted-foreground font-body text-lg mb-4">
-            Over 300 companies across media, entertainment and technology have attended our events.
-          </p>
-
-          <p className="text-muted-foreground font-body text-lg mb-12">
-            Our events are free, invite-only and curated for a maximum of 120 guests,
-            attracting industry leaders and innovators. This includes over 
-            100 board-level executives and 34 startup founders.
-          </p>
-        </motion.div>
-
-        <hr className="border-border mb-12" />
-
-        <div className="grid md:grid-cols-3 gap-12">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center p-8 bg-card rounded-2xl border border-border"
-            >
-              <div
-                className={`w-16 h-16 rounded-full ${stat.bgColor} flex items-center justify-center mx-auto mb-5`}
-              >
-                <stat.icon className={`w-8 h-8 ${stat.color}`} />
+          {/* Right: stats + highlights */}
+          <div className="space-y-8">
+            {/* Stats */}
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="rounded-lg border border-border bg-card px-4 py-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Companies
+                </p>
+                <p className="mt-1 text-sm font-semibold text-foreground">
+                  {companies}
+                </p>
               </div>
 
-              <h3 className="font-display text-xl mb-2">{stat.title}</h3>
+              <div className="rounded-lg border border-border bg-card px-4 py-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Board-level
+                </p>
+                <p className="mt-1 text-sm font-semibold text-foreground">
+                  {boardLevel}
+                </p>
+              </div>
 
-              <p className="text-muted-foreground font-body text-sm uppercase tracking-wide">
-                {stat.subtitle}
-              </p>
-            </motion.div>
-          ))}
+              <div className="rounded-lg border border-border bg-card px-4 py-3">
+                <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                  Founders
+                </p>
+                <p className="mt-1 text-sm font-semibold text-foreground">
+                  {founders}
+                </p>
+              </div>
+            </div>
+
+            {/* Highlights */}
+            {highlights.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/80">
+                  Highlights
+                </p>
+                <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                  {highlights.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className="mt-1 h-1.5 w-1.5 rounded-full bg-primary/70" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-
       </div>
     </section>
   );

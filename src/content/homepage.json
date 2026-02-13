@@ -14,6 +14,15 @@
   },
   "sections": [
     {
+      "type": "joinCommunity",
+      "heading": "Join Our Community",
+      "body": "Be part of a growing network of media leaders, innovators, and creatives. Our events are free, invite-only, and designed for great conversations.",
+      "cta": {
+        "label": "Register Your Interest",
+        "url": "/register"
+      }
+    },
+    {
       "type": "aboutIntro",
       "heading": "About U",
       "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
@@ -56,7 +65,7 @@
     },
     {
       "type": "forBrands",
-      "heading": "Grands & Partners",
+      "heading": "rands & Partners",
       "body": "We also work with selected partners to create curated industry experiences.",
       "cta": {
         "label": "Explore Partnerships",
@@ -64,17 +73,8 @@
       }
     },
     {
-      "type": "joinCommunity",
-      "heading": "Join the Community",
-      "body": "Be part of a growing network of media leaders, innovators, and creatives. Our events are free, invite-only, and designed for great conversations.",
-      "cta": {
-        "label": "Register Your Interest",
-        "url": "/register"
-      }
-    },
-    {
       "type": "newHere",
-      "heading": "New Here?",
+      "heading": "Our events",
       "body": "If it’s your first time joining us, welcome. Our events bring together senior professionals from across media, entertainment, and technology in a relaxed setting designed for easy conversation. Expect a curated guest list, thoughtful formats, and plenty of time to connect with peers.",
       "cta": {
         "label": "Register Your Interest",
