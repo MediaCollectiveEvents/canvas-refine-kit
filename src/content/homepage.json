@@ -15,7 +15,7 @@
   "sections": [
     {
       "type": "aboutIntro",
-      "heading": "About me",
+      "heading": "About U",
       "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
       "extended": "Our events offer space to catch up and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions, each gathering brings together diverse perspectives and great company.."
     },
@@ -56,7 +56,7 @@
     },
     {
       "type": "forBrands",
-      "heading": "Hi Brands & Partners",
+      "heading": "Grands & Partners",
       "body": "We also work with selected partners to create curated industry experiences.",
       "cta": {
         "label": "Explore Partnerships",

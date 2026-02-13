@@ -1,9 +1,9 @@
+// src/components/sections/UpcomingEventsIntroSection.tsx
 import React from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "@/components/shared/SectionHeader";
 import type { AnySection } from "@/lib/sections";
 
-// Take the 'upcomingEventsIntro' member from your AnySection union
 type UpcomingEventsIntroSectionData = Extract<
   AnySection,
   { type: "upcomingEventsIntro" }

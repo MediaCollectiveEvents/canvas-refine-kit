@@ -22,15 +22,15 @@ export function HomepageRenderer({
       {safeSections.map((section, i) => {
         switch (section.type) {
           case "aboutIntro":
-            // Reads heading/body/etc. for About from homepage.json via CMS
+            // Reads content from homepage.json → CMS
             return <AboutIntroSection key={i} section={section} />;
 
           case "whoAttends":
-            // Currently uses its own internal copy (can be CMS-driven later)
+            // Uses its own internal copy for now
             return <WhoAttendsSection key={i} />;
 
           case "upcomingEventsIntro":
-            // Reads heading/description/note/CTAs from homepage.json via CMS
+            // Reads heading/description/note/ctas from homepage.json → CMS
             return (
               <UpcomingEventsIntroSection
                 key={i}
@@ -40,15 +40,15 @@ export function HomepageRenderer({
             );
 
           case "testimonials":
-            // Uses your existing carousel with hard‑coded testimonials
+            // Uses your existing carousel (hard-coded testimonials array)
             return <TestimonialsSection key={i} />;
 
           case "forBrands":
-            // ✅ Fully CMS-driven using the ForBrandsSection.tsx you pasted
+            // ✅ Fully CMS-driven using ForBrandsSection.tsx
             return <ForBrandsSection key={i} section={section} />;
 
           default:
-            // For now, skip other types like "partners", "joinCommunity", "newHere"
+            // Skip unimplemented types like "partners", "joinCommunity", "newHere"
             return null;
         }
       })}

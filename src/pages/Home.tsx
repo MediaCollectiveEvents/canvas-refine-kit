@@ -7,7 +7,7 @@ import PageHero from "@/components/shared/PageHero";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 
 import { HomepageRenderer } from "@/components/sections/HomepageRenderer";
-// ⬆ IMPORTANT: named import (no default export)
+// ⬆ named import (no default export)
 
 import heroImage from "@/assets/hero-placeholder.jpg";
 import homepage from "@/content/homepage.json";
@@ -23,7 +23,7 @@ const Home = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       <main>
-        {/* 🎯 HERO SECTION (CMS-driven hero JSON) */}
+        {/* HERO – CMS-driven hero JSON */}
         <PageHero
           eyebrow={hero.subtitle}
           title={hero.title}
@@ -36,7 +36,7 @@ const Home = () => {
           backgroundImage={heroImage}
         />
 
-        {/* 🎯 CMS–DRIVEN SECTIONS (dynamic order + content) */}
+        {/* HOMEPAGE SECTIONS – driven by homepage.json via Decap CMS */}
         <HomepageRenderer
           sections={sections}
           onRegister={() => setIsFormOpen(true)}
