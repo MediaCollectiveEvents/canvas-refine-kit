@@ -1,23 +1,36 @@
-import { AboutIntroSection } from "./AboutIntroSection";
-import WhoAttendsSection from "./WhoAttendsSection"; // your existing file
-import { UpcomingEventsIntroSection } from "./UpcomingEventsIntroSection"; // we will create this next
-import FAQSection from "./FAQSection"; // your existing one
-import AboutSection from "./AboutSection"; // existing
-import EventsSection from "./EventsSection"; // existing
-import ValuePillarsSection from "./ValuePillarsSection"; // existing
+import React from "react";
 
-export function HomepageRenderer({ sections, onRegister }) {
+import { AboutIntroSection } from "./AboutIntroSection";
+import WhoAttendsSection from "./WhoAttendsSection";
+import UpcomingEventsIntroSection from "./UpcomingEventsIntroSection";
+import TestimonialsSection from "./TestimonialsSection";
+import ForBrandsSection from "./ForBrandsSection";
+
+interface HomepageRendererProps {
+  sections: any[];
+  onRegister?: () => void;
+}
+
+export function HomepageRenderer({
+  sections,
+  onRegister,
+}: HomepageRendererProps) {
+  const safeSections = Array.isArray(sections) ? sections : [];
+
   return (
     <>
-      {sections.map((section: any, i: number) => {
+      {safeSections.map((section, i) => {
         switch (section.type) {
           case "aboutIntro":
+            // Reads heading/body/etc. for About from homepage.json via CMS
             return <AboutIntroSection key={i} section={section} />;
 
           case "whoAttends":
-            return <WhoAttendsSection key={i} />; // your existing design
+            // Currently uses its own internal copy (can be CMS-driven later)
+            return <WhoAttendsSection key={i} />;
 
           case "upcomingEventsIntro":
+            // Reads heading/description/note/CTAs from homepage.json via CMS
             return (
               <UpcomingEventsIntroSection
                 key={i}
@@ -27,13 +40,15 @@ export function HomepageRenderer({ sections, onRegister }) {
             );
 
           case "testimonials":
-          case "partners":
-          case "joinCommunity":
-          case "newHere":
+            // Uses your existing carousel with hard‑coded testimonials
+            return <TestimonialsSection key={i} />;
+
           case "forBrands":
-            return null; // not built yet — will add one at a time safely
+            // ✅ Fully CMS-driven using the ForBrandsSection.tsx you pasted
+            return <ForBrandsSection key={i} section={section} />;
 
           default:
+            // For now, skip other types like "partners", "joinCommunity", "newHere"
             return null;
         }
       })}

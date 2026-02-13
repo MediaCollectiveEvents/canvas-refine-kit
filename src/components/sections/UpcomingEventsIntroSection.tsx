@@ -3,20 +3,11 @@ import { motion } from "framer-motion";
 import SectionHeader from "@/components/shared/SectionHeader";
 import type { AnySection } from "@/lib/sections";
 
-type UpcomingEventsIntroSectionData = {
-  type: "upcomingEventsIntro";
-  heading?: string;
-  description?: string;
-  note?: string;
-  cta?: {
-    label?: string;
-    url?: string;
-  };
-  secondaryCta?: {
-    label?: string;
-    url?: string;
-  };
-};
+// Take the 'upcomingEventsIntro' member from your AnySection union
+type UpcomingEventsIntroSectionData = Extract<
+  AnySection,
+  { type: "upcomingEventsIntro" }
+>;
 
 function isUpcomingEventsIntro(
   section: AnySection,
@@ -53,7 +44,7 @@ const UpcomingEventsIntroSection: React.FC<UpcomingEventsIntroSectionProps> = ({
     data?.secondaryCta?.label || data?.secondaryCta?.url
   );
 
-  const handlePrimaryClick = (e: React.MouseEvent) => {
+  const handlePrimaryClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (onRegister) {
       e.preventDefault();
       onRegister();
