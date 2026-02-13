@@ -12,6 +12,7 @@
       "url": "/partners"
     }
   },
+
   "sections": [
     {
       "type": "aboutIntro",
@@ -19,6 +20,7 @@
       "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
       "extended": "Our events offer space to catch up and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions, each gathering brings together diverse perspectives and great company.."
     },
+
     {
       "type": "joinCommunity",
       "heading": "Join Our Community",
@@ -28,27 +30,34 @@
         "url": "/register"
       }
     },
+
     {
       "type": "whoAttends",
-      "heading": " Who Attends",
-      "audienceGroups": [
-        "Senior media leaders",
-        "Innovators and entrepreneurs",
-        "Industry pioneers",
-        "Creative executives",
-        "Tech, strategy, and operational leads"
-      ],
+      "heading": "Who Attends",
       "statistics": {
         "companies": "Over 300 companies",
         "boardLevel": "Over 100 board-level executives",
         "founders": "34 startup founders"
       },
       "highlights": [
-        "The Top 3 — Global Tech Giants",
-        "The Major 5 — Hollywood Studios",
-        "The Leading 8 — Streaming Platforms"
+        {
+          "title": "The Top 3",
+          "subtitle": "Global Tech Giants",
+          "icon": "globe"
+        },
+        {
+          "title": "The Major 5",
+          "subtitle": "Hollywood Studios",
+          "icon": "film"
+        },
+        {
+          "title": "The Leading 8",
+          "subtitle": "Streaming Platforms",
+          "icon": "play"
+        }
       ]
     },
+
     {
       "type": "upcomingEventsIntro",
       "heading": "Upcoming stuff",
@@ -63,15 +72,17 @@
         "url": "/events"
       }
     },
+
     {
       "type": "forBrands",
-      "heading": "rands & Partners",
+      "heading": "Brands & Partners",
       "body": "We also work with selected partners to create curated industry experiences.",
       "cta": {
         "label": "Explore Partnerships",
         "url": "/partners"
       }
     },
+
     {
       "type": "newHere",
       "heading": "Our events",
@@ -81,11 +92,13 @@
         "url": "/register"
       }
     },
+
     {
       "type": "testimonials",
       "heading": "What People Say",
       "items": []
     },
+
     {
       "type": "partners",
       "heading": "Supported by Our Partner Community",
@@ -93,5 +106,6 @@
       "logos": []
     }
   ],
+
   "title": "testing12"
 }
