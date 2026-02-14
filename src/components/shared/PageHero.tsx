@@ -66,8 +66,8 @@ export default function PageHero({
         <div className="absolute inset-0 bg-primary/5 mix-blend-soft-light" />
       </div>
 
-      {/* FULL HEIGHT BOTTOM FADE INTO PAGE BACKGROUND */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-background/95" />
+      {/* FULL HEIGHT BOTTOM GRADIENT WIPE INTO PAGE BACKGROUND */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/40 to-background" />
 
       {/* CONTENT */}
       <motion.div
@@ -207,7 +207,7 @@ export default function PageHero({
         </div>
       </motion.div>
 
-      {/* ⭐ CYAN / TEAL NEON LINE AT BOTTOM (unchanged) */}
+      {/* CYAN / TEAL NEON LINE AT BOTTOM */}
       <div
         className="
           absolute bottom-0 left-0 right-0
@@ -218,4 +218,3 @@ export default function PageHero({
     </header>
   );
 }
-``;

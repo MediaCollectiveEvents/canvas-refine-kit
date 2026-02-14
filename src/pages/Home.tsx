@@ -21,10 +21,9 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* This instance is for hero + sections CTAs */}
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      {/* Top padding matches header height so hero sits flush beneath */}
+      {/* Top padding equals header height */}
       <main className="pt-20 sm:pt-24 lg:pt-28">
         <PageHero
           eyebrow={hero.subtitle}
@@ -49,4 +48,3 @@ const Home = () => {
 };
 
 export default Home;
-``;
