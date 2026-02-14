@@ -29,9 +29,22 @@ export default function PageHero({
   backgroundImage,
   variant = "image",
 }: PageHeroProps) {
-  // Parallax scroll motion: background moves slightly on scroll
+  // Parallax motion for background image
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 120]);
+  const y = useTransform(scrollY, [0, 500], [0, 140]);
+
+  // Keyframes for colour‑cycling glows
+  const titleGlowKeyframes = [
+    "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)", // teal
+    "radial-gradient(circle, rgba(190,154,255,0.24) 0%, transparent 70%)", // violet
+    "radial-gradient(circle, rgba(120,180,255,0.24) 0%, transparent 70%)", // blue
+  ];
+
+  const ctaGlowKeyframes = [
+    "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
+    "radial-gradient(circle, rgba(190,154,255,0.26) 0%, transparent 80%)",
+    "radial-gradient(circle, rgba(120,180,255,0.26) 0%, transparent 80%)",
+  ];
 
   return (
     <header className="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center text-center overflow-hidden">
@@ -39,31 +52,26 @@ export default function PageHero({
       {variant === "image" && backgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-center will-change-transform"
-          style={{
-            backgroundImage: `url(${backgroundImage})`,
-            y,
-          }}
+          style={{ backgroundImage: `url(${backgroundImage})`, y }}
         />
       )}
 
-      {/* 🌈 CINEMATIC COLOUR OVERLAY (teal + violet accents) */}
+      {/* CINEMATIC COLOUR OVERLAY */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Tall, soft vignette for contrast */}
+        {/* Tall soft vignette for contrast */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-transparent" />
-
-        {/* Dual-tone ambient bloom across the centre */}
+        {/* Teal + violet ambient bloom */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(54,224,198,0.18)_0%,_rgba(190,154,255,0.12)_40%,_transparent_80%)] opacity-85 mix-blend-screen" />
-
-        {/* Very subtle brand wash for cohesion */}
+        {/* Subtle brand wash */}
         <div className="absolute inset-0 bg-primary/5 mix-blend-soft-light" />
       </div>
 
-      {/* FULL HEIGHT BOTTOM FADE – smooth into page background */}
+      {/* FULL HEIGHT BOTTOM FADE INTO PAGE BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-background/95" />
 
       {/* CONTENT */}
       <motion.div
-        initial={{ opacity: 0, y: 25 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-16"
@@ -71,28 +79,45 @@ export default function PageHero({
         <div className="max-w-3xl mx-auto">
           {/* Eyebrow */}
           {eyebrow && (
-            <p className="text-primary font-body tracking-widest uppercase mb-5 text-sm md:text-base">
+            <p className="text-primary font-body tracking-widest uppercase mb-6 text-sm md:text-base">
               {eyebrow}
             </p>
           )}
 
-          {/* ✨ TITLE WITH WIDE DUAL-TONE GLOW (teal + violet) */}
+          {/* TITLE + COLOUR‑CYCLING GLOW + LIGHT SWEEP */}
           <div className="relative flex justify-center">
-            <div
+            {/* Colour‑cycling glow behind title (wide halo) */}
+            <motion.div
+              animate={{ background: titleGlowKeyframes }}
+              transition={{
+                duration: 10,
+                repeat: Infinity,
+                repeatType: "mirror",
+              }}
               className="
                 absolute
                 left-1/2 top-1/2
                 -translate-x-1/2 -translate-y-1/2
-                -inset-x-[40vw]
-                -inset-y-[16vh]
+                -inset-x-[40vw] -inset-y-[16vh]
                 -z-10
-                bg-[radial-gradient(circle,
-                  rgba(54,224,198,0.24) 0%,
-                  rgba(190,154,255,0.12) 45%,
-                  transparent 80%
-                )]
                 blur-[160px]
-                opacity-85
+                opacity-90
+                pointer-events-none
+              "
+            />
+
+            {/* Subtle light sweep across title */}
+            <motion.div
+              animate={{ x: ["-150%", "150%"] }}
+              transition={{
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="
+                absolute top-0 h-full w-[50%]
+                bg-gradient-to-r from-transparent via-white/10 to-transparent
+                blur-2xl
                 pointer-events-none
               "
             />
@@ -121,30 +146,30 @@ export default function PageHero({
           {/* CTA BUTTONS + GLOW POOL */}
           {(primaryCtaText || secondaryCtaText) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
-              {/* 💡 CTA glow pool spanning across the centre */}
-              <div
+              {/* Colour‑cycling glow pool beneath CTAs */}
+              <motion.div
+                animate={{ background: ctaGlowKeyframes }}
+                transition={{
+                  duration: 11,
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                }}
                 className="
                   absolute
                   left-1/2 top-1/2
                   -translate-x-1/2 -translate-y-1/2
-                  -inset-x-[30vw]
-                  -inset-y-10
+                  -inset-x-[30vw] -inset-y-12
                   -z-10
-                  bg-[radial-gradient(circle,
-                    rgba(54,224,198,0.28) 0%,
-                    rgba(190,154,255,0.16) 40%,
-                    transparent 80%
-                  )]
-                  blur-[130px]
-                  opacity-85
+                  blur-[120px]
+                  opacity-80
                   pointer-events-none
                 "
               />
 
-              {/* PRIMARY CTA – soft glow + hover animation */}
               {primaryCtaText && onPrimaryClick && (
                 <Button
                   size="lg"
+                  onClick={onPrimaryClick}
                   className="
                     rounded-full px-8 py-3
                     bg-primary text-black
@@ -154,13 +179,11 @@ export default function PageHero({
                     transition-transform duration-200 ease-out
                     hover:scale-[1.06]
                   "
-                  onClick={onPrimaryClick}
                 >
                   {primaryCtaText}
                 </Button>
               )}
 
-              {/* SECONDARY CTA */}
               {secondaryCtaText && secondaryCtaHref && (
                 <Button
                   asChild
@@ -182,7 +205,16 @@ export default function PageHero({
           )}
         </div>
       </motion.div>
+
+      {/* ⭐ NEON LINE BELOW HERO – symmetrical teal → red → teal */}
+      <div
+        className="
+          absolute bottom-0 left-0 right-0
+          h-[3px]
+          bg-gradient-to-r from-primary via-secondary to-primary
+          blur-[2px]
+        "
+      />
     </header>
   );
 }
-``;

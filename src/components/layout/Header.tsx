@@ -23,8 +23,16 @@ const Header = () => {
 
       {/* Fixed-height header so we can perfectly offset the hero */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-sm h-20 sm:h-24 lg:h-28">
-        {/* Accent line lives inside the header and doesn't add height */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-[hsl(var(--icon-cyan))] to-primary" />
+        {/* ⭐ Accent line lives inside the header and doesn't add height */}
+        {/* Symmetrical gradient: teal → red (secondary) → teal */}
+        <div
+          className="
+            absolute bottom-0 left-0 right-0
+            h-[3px]
+            bg-gradient-to-r from-primary via-secondary to-primary
+            blur-[2px]
+          "
+        />
 
         <div className="relative h-full">
           <div
