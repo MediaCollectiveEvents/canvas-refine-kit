@@ -21,14 +21,16 @@ const Header = () => {
     <>
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      {/* Fixed-height header so we can perfectly offset the hero */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-sm h-20 sm:h-24 lg:h-28">
-        {/* ⭐ Clean neon accent line – teal → red/pink → teal, no blur */}
+        {/* ⭐ CLEAN CRISP NEON LINE – teal → red → teal */}
         <div
           className="
             absolute bottom-0 left-0 right-0
             h-[3px]
-            bg-gradient-to-r from-primary via-secondary to-primary
+            bg-gradient-to-r 
+              from-primary 
+              via-secondary 
+              to-primary
           "
         />
 
@@ -57,7 +59,6 @@ const Header = () => {
                   key={item.label}
                   to={item.href}
                   className="
-                    relative
                     text-muted-foreground
                     font-body text-sm uppercase tracking-wider leading-none py-1
                     transition-colors duration-200 ease-out
