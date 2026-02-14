@@ -22,15 +22,12 @@ const Header = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       <header className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-sm h-20 sm:h-24 lg:h-28">
-        {/* ⭐ CLEAN CRISP NEON LINE – teal → red → teal */}
+        {/* ⭐ ORIGINAL CYAN/TEAL NEON LINE (restored) */}
         <div
           className="
             absolute bottom-0 left-0 right-0
             h-[3px]
-            bg-gradient-to-r 
-              from-primary 
-              via-secondary 
-              to-primary
+            bg-gradient-to-r from-primary via-cyan-400 to-primary
           "
         />
 
@@ -39,8 +36,7 @@ const Header = () => {
             className="
               mx-auto w-full max-w-[1280px]
               px-4 sm:px-6 lg:px-10 xl:px-16
-              h-full
-              flex items-center justify-between gap-4
+              h-full flex items-center justify-between gap-4
             "
           >
             {/* Logo */}
@@ -52,7 +48,7 @@ const Header = () => {
               />
             </Link>
 
-            {/* Desktop navigation */}
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10">
               {navItems.map((item) => (
                 <Link
@@ -71,35 +67,32 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* CTA button */}
+            {/* CTA Button */}
             <div className="hidden md:block">
               <Button
                 onClick={() => setIsFormOpen(true)}
                 className="
-                  bg-primary text-primary-foreground
+                  bg-primary text-primary-foreground 
                   font-body uppercase tracking-wider text-sm
                   px-6 py-2
-                  transition-transform duration-200 ease-out
-                  hover:bg-primary/90
-                  hover:scale-[1.03]
-                  shadow-md shadow-primary/30 hover:shadow-[0_0_24px_rgba(54,224,198,0.6)]
+                  hover:bg-primary/90 hover:scale-[1.03]
+                  shadow-md shadow-primary/30 transition-transform
                 "
               >
                 Contact Us
               </Button>
             </div>
 
-            {/* Mobile menu toggle */}
+            {/* Mobile Menu Toggle */}
             <button
               className="md:hidden text-foreground"
-              onClick={() => setIsMenuOpen((open) => !open)}
-              aria-label="Toggle menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
-          {/* Mobile navigation */}
+          {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden absolute left-0 right-0 top-full bg-muted/95 border-t border-border">
               <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-16 py-4">
@@ -108,12 +101,11 @@ const Header = () => {
                     <Link
                       key={item.label}
                       to={item.href}
+                      onClick={() => setIsMenuOpen(false)}
                       className="
                         text-muted-foreground hover:text-primary
-                        transition-colors duration-200
                         font-body text-sm uppercase tracking-wider py-2
                       "
-                      onClick={() => setIsMenuOpen(false)}
                     >
                       {item.label}
                     </Link>
@@ -125,12 +117,10 @@ const Header = () => {
                       setIsFormOpen(true);
                     }}
                     className="
-                      bg-primary text-primary-foreground
-                      font-body uppercase tracking-wider text-sm mt-2
-                      hover:bg-primary/90
-                      transition-transform duration-200
-                      hover:scale-[1.03]
-                      shadow-md shadow-primary/30 hover:shadow-[0_0_24px_rgba(54,224,198,0.6)]
+                      bg-primary text-primary-foreground 
+                      mt-2 hover:bg-primary/90 hover:scale-[1.03]
+                      shadow-md shadow-primary/30 transition-transform
+                      font-body uppercase tracking-wider text-sm
                     "
                   >
                     Contact Us
