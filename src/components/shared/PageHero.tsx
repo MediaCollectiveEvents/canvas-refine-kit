@@ -206,13 +206,12 @@ export default function PageHero({
         </div>
       </motion.div>
 
-      {/* ⭐ NEON LINE BELOW HERO – symmetrical teal → red → teal */}
+      {/* ⭐ CLEAN NEON LINE BELOW HERO – teal → red → teal, no blur */}
       <div
         className="
           absolute bottom-0 left-0 right-0
           h-[3px]
           bg-gradient-to-r from-primary via-secondary to-primary
-          blur-[2px]
         "
       />
     </header>
