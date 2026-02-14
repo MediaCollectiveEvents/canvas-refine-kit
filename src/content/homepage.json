@@ -1,14 +1,14 @@
 {
   "hero": {
-    "title": "Bringing together the media community",
+    "title": "Connecting   Media Innovators",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
     "primaryCta": {
-      "label": "Coming up!",
+      "label": "Join us",
       "url": "/register"
     },
     "secondaryCta": {
-      "label": "Partner With Us",
+      "label": "Showcase your business",
       "url": "/partners"
     }
   },
