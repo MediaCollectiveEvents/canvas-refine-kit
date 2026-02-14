@@ -21,28 +21,25 @@ const Home = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
+      {/* This instance is for hero + sections CTAs */}
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <main>
-        {/* ⭐ ADD BUFFER ABOVE HERO */}
-        <div className="pt-24 md:pt-32 lg:pt-40">
-          <PageHero
-            eyebrow={hero.subtitle}
-            title={hero.title}
-            description={hero.description}
-            primaryCtaText={hero.primaryCta?.label}
-            onPrimaryClick={handleOpenRegister}
-            secondaryCtaText={hero.secondaryCta?.label}
-            secondaryCtaHref={hero.secondaryCta?.url}
-            variant="image"
-            backgroundImage={heroImage}
-          />
-        </div>
+      {/* Top padding matches header height so hero sits flush beneath */}
+      <main className="pt-20 sm:pt-24 lg:pt-28">
+        <PageHero
+          eyebrow={hero.subtitle}
+          title={hero.title}
+          description={hero.description}
+          primaryCtaText={hero.primaryCta?.label}
+          onPrimaryClick={handleOpenRegister}
+          secondaryCtaText={hero.secondaryCta?.label}
+          secondaryCtaHref={hero.secondaryCta?.url}
+          variant="image"
+          backgroundImage={heroImage}
+        />
 
-        {/* HOMEPAGE SECTIONS – driven by homepage.json */}
         <HomepageRenderer sections={sections} onRegister={handleOpenRegister} />
 
-        {/* UPCOMING EVENTS (Cards) */}
         <EventsSection onRegisterClick={handleOpenRegister} />
       </main>
 
@@ -52,3 +49,4 @@ const Home = () => {
 };
 
 export default Home;
+``;
