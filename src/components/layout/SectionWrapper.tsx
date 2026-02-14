@@ -34,18 +34,21 @@ export default function SectionWrapper({
       {showDivider && (
         <div className="mt-16 flex justify-center items-center w-full">
           <div className="flex-1 h-px bg-white/10" />
+
           <motion.div
             className="w-3 h-3 rounded-full bg-cyan-400 mx-4 shadow-[0_0_10px_#22d3ee]"
-            animate={{ scale: [1, 1.4, 1], opacity: [0.7, 1, 0.7] }}
+            animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
             transition={{
-              duration: 2,
+              duration: 2.2,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
+
           <div className="flex-1 h-px bg-white/10" />
         </div>
       )}
     </section>
   );
 }
+<section></section>;
