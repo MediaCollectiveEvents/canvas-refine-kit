@@ -22,17 +22,22 @@ const Header = () => {
   return (
     <>
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
-      
-      <header className="fixed top-0 left-0 right-0 z-50 bg-muted backdrop-blur-sm">
-        <div className="container mx-auto px-6 py-4">
+
+      <header className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-sm">
+        {/* Responsive container controlling padding + width */}
+        <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-16 py-3 sm:py-4">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center flex-shrink-0">
-              <img src={logo} alt="The Media Collective" className="h-24 w-auto object-contain" />
+              <img
+                src={logo}
+                alt="The Media Collective"
+                className="h-14 sm:h-16 lg:h-20 w-auto object-contain"
+              />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-8">
+            <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10">
               {navItems.map((item) =>
                 item.href.startsWith("#") || item.href.includes("#") ? (
                   <a
@@ -50,13 +55,13 @@ const Header = () => {
                   >
                     {item.label}
                   </Link>
-                )
+                ),
               )}
             </nav>
 
             {/* CTA Button */}
             <div className="hidden md:block">
-              <Button 
+              <Button
                 onClick={() => setIsFormOpen(true)}
                 className="bg-primary text-primary-foreground hover:bg-primary/90 font-body uppercase tracking-wider text-sm px-6"
               >
@@ -76,8 +81,8 @@ const Header = () => {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <nav className="md:hidden pt-6 pb-4 border-t border-border mt-4">
-              <div className="flex flex-col gap-4">
+            <nav className="md:hidden pt-4 pb-3 border-t border-border mt-4">
+              <div className="flex flex-col gap-3">
                 {navItems.map((item) =>
                   item.href.startsWith("#") || item.href.includes("#") ? (
                     <a
@@ -97,9 +102,9 @@ const Header = () => {
                     >
                       {item.label}
                     </Link>
-                  )
+                  ),
                 )}
-                <Button 
+                <Button
                   onClick={() => {
                     setIsMenuOpen(false);
                     setIsFormOpen(true);
@@ -112,6 +117,7 @@ const Header = () => {
             </nav>
           )}
         </div>
+
         {/* Decorative accent line - matching footer */}
         <div className="h-1 bg-gradient-to-r from-primary via-[hsl(var(--icon-cyan))] to-primary" />
       </header>
@@ -120,3 +126,4 @@ const Header = () => {
 };
 
 export default Header;
+``;

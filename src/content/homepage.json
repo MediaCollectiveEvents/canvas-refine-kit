@@ -1,10 +1,10 @@
 {
   "hero": {
-    "title": "Connecting the media community",
+    "title": "Bringing together the media community",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
     "primaryCta": {
-      "label": "Sign me up",
+      "label": "Coming up!",
       "url": "/register"
     },
     "secondaryCta": {

@@ -24,23 +24,25 @@ const Home = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       <main>
-        {/* HERO – CMS-driven hero JSON */}
-        <PageHero
-          eyebrow={hero.subtitle}
-          title={hero.title}
-          description={hero.description}
-          primaryCtaText={hero.primaryCta?.label}
-          onPrimaryClick={handleOpenRegister}
-          secondaryCtaText={hero.secondaryCta?.label}
-          secondaryCtaHref={hero.secondaryCta?.url}
-          variant="image"
-          backgroundImage={heroImage}
-        />
+        {/* ⭐ ADD BUFFER ABOVE HERO */}
+        <div className="pt-24 md:pt-32 lg:pt-40">
+          <PageHero
+            eyebrow={hero.subtitle}
+            title={hero.title}
+            description={hero.description}
+            primaryCtaText={hero.primaryCta?.label}
+            onPrimaryClick={handleOpenRegister}
+            secondaryCtaText={hero.secondaryCta?.label}
+            secondaryCtaHref={hero.secondaryCta?.url}
+            variant="image"
+            backgroundImage={heroImage}
+          />
+        </div>
 
-        {/* HOMEPAGE SECTIONS – driven by homepage.json via Decap CMS */}
+        {/* HOMEPAGE SECTIONS – driven by homepage.json */}
         <HomepageRenderer sections={sections} onRegister={handleOpenRegister} />
 
-        {/* UPCOMING EVENTS – cards section (matches your design) */}
+        {/* UPCOMING EVENTS (Cards) */}
         <EventsSection onRegisterClick={handleOpenRegister} />
       </main>
 
