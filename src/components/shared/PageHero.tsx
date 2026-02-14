@@ -46,20 +46,20 @@ export default function PageHero({
         />
       )}
 
-      {/* CINEMATIC OVERLAY */}
+      {/* 🌈 CINEMATIC COLOUR OVERLAY (teal + violet accents) */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Top vignette for text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/55 to-black/30" />
+        {/* Tall, soft vignette for contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-transparent" />
 
-        {/* Turquoise ambient bloom at bottom */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(54,224,198,0.22),_transparent_70%)] opacity-80" />
+        {/* Dual-tone ambient bloom across the centre */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(54,224,198,0.18)_0%,_rgba(190,154,255,0.12)_40%,_transparent_80%)] opacity-85 mix-blend-screen" />
 
-        {/* Soft brand colour wash */}
-        <div className="absolute inset-0 bg-primary/10 mix-blend-soft-light" />
+        {/* Very subtle brand wash for cohesion */}
+        <div className="absolute inset-0 bg-primary/5 mix-blend-soft-light" />
       </div>
 
-      {/* TRUE BOTTOM FADE (NO BOX) */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-background/96" />
+      {/* FULL HEIGHT BOTTOM FADE – smooth into page background */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-transparent to-background/95" />
 
       {/* CONTENT */}
       <motion.div
@@ -69,27 +69,30 @@ export default function PageHero({
         className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-16"
       >
         <div className="max-w-3xl mx-auto">
-          {/* EYEBROW */}
+          {/* Eyebrow */}
           {eyebrow && (
             <p className="text-primary font-body tracking-widest uppercase mb-5 text-sm md:text-base">
               {eyebrow}
             </p>
           )}
 
-          {/* TITLE WRAPPER WITH WIDE RADIAL GLOW */}
+          {/* ✨ TITLE WITH WIDE DUAL-TONE GLOW (teal + violet) */}
           <div className="relative flex justify-center">
-            {/* This glow is much wider than the title itself */}
             <div
               className="
                 absolute
                 left-1/2 top-1/2
                 -translate-x-1/2 -translate-y-1/2
-                w-[260%] max-w-[1100px]
-                h-[220%]
+                -inset-x-[40vw]
+                -inset-y-[16vh]
                 -z-10
-                bg-[radial-gradient(circle,_rgba(54,224,198,0.28)_0%,_transparent_70%)]
-                blur-3xl
-                opacity-80
+                bg-[radial-gradient(circle,
+                  rgba(54,224,198,0.24) 0%,
+                  rgba(190,154,255,0.12) 45%,
+                  transparent 80%
+                )]
+                blur-[160px]
+                opacity-85
                 pointer-events-none
               "
             />
@@ -108,16 +111,36 @@ export default function PageHero({
             </h1>
           </div>
 
-          {/* DESCRIPTION */}
+          {/* Description */}
           {description && (
             <p className="text-primary font-body text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12">
               {description}
             </p>
           )}
 
-          {/* CTA BUTTONS ROW */}
+          {/* CTA BUTTONS + GLOW POOL */}
           {(primaryCtaText || secondaryCtaText) && (
-            <div className="flex flex-wrap justify-center gap-4 mt-4">
+            <div className="relative flex flex-wrap justify-center gap-4 mt-4">
+              {/* 💡 CTA glow pool spanning across the centre */}
+              <div
+                className="
+                  absolute
+                  left-1/2 top-1/2
+                  -translate-x-1/2 -translate-y-1/2
+                  -inset-x-[30vw]
+                  -inset-y-10
+                  -z-10
+                  bg-[radial-gradient(circle,
+                    rgba(54,224,198,0.28) 0%,
+                    rgba(190,154,255,0.16) 40%,
+                    transparent 80%
+                  )]
+                  blur-[130px]
+                  opacity-85
+                  pointer-events-none
+                "
+              />
+
               {/* PRIMARY CTA – soft glow + hover animation */}
               {primaryCtaText && onPrimaryClick && (
                 <Button
@@ -162,3 +185,4 @@ export default function PageHero({
     </header>
   );
 }
+``;
