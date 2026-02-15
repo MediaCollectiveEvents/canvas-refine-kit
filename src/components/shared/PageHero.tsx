@@ -16,6 +16,13 @@ interface PageHeroProps {
 
   backgroundImage?: string;
   variant?: "image" | "solid";
+
+  /**
+   * Controls overlay intensity; 0=off, 1=heaviest.
+   * Suggested values: 0 | 0.25 | 0.5 | 0.75 | 1
+   * Default is 0.75 (lighter than the previous state).
+   */
+  overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
 }
 
 export default function PageHero({
@@ -28,10 +35,47 @@ export default function PageHero({
   secondaryCtaHref,
   backgroundImage,
   variant = "image",
+  overlayStrength = 0.75,
 }: PageHeroProps) {
   // Parallax motion for background image
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]);
+
+  // Map overlayStrength to class/opacity recipes
+  const s = overlayStrength;
+
+  const vignetteClass =
+    s >= 0.9
+      ? "from-black/80 via-black/60"
+      : s >= 0.75
+        ? "from-black/60 via-black/40"
+        : s >= 0.5
+          ? "from-black/45 via-black/30"
+          : s >= 0.25
+            ? "from-black/30 via-black/20"
+            : "from-black/10 via-black/10";
+
+  const bloomOpacity =
+    s >= 0.9
+      ? "opacity-80"
+      : s >= 0.75
+        ? "opacity-60"
+        : s >= 0.5
+          ? "opacity-50"
+          : s >= 0.25
+            ? "opacity-40"
+            : "opacity-30";
+
+  const brandWashClass =
+    s >= 0.9
+      ? "bg-primary/5"
+      : s >= 0.75
+        ? "bg-primary/3"
+        : s >= 0.5
+          ? "bg-primary/2"
+          : s >= 0.25
+            ? "bg-primary/1"
+            : "bg-transparent";
 
   // Keyframes for colour‑cycling glows (teal + cyan tones)
   const titleGlowKeyframes = [
@@ -52,22 +96,43 @@ export default function PageHero({
       {variant === "image" && backgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-center will-change-transform"
-          style={{ backgroundImage: `url(${backgroundImage})`, y }}
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            y,
+            // Optional gentle lift:
+            // filter: "brightness(1.04) contrast(1.02)",
+          }}
+          aria-hidden="true"
         />
       )}
 
-      {/* CINEMATIC COLOUR OVERLAY */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Tall soft vignette for contrast */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/70 to-transparent" />
-        {/* Teal + cyan ambient bloom */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(54,224,198,0.18)_0%,_rgba(120,180,255,0.12)_40%,_transparent_80%)] opacity-80 mix-blend-screen" />
+      {/* CINEMATIC COLOUR OVERLAY (driven by overlayStrength) */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Tall soft vignette for contrast (lightens as s decreases) */}
+        <div
+          className={`absolute inset-0 bg-gradient-to-b ${vignetteClass} to-transparent`}
+        />
+
+        {/* Teal + cyan ambient bloom (mix-blend-screen) */}
+        <div
+          className={`absolute inset-0 ${bloomOpacity} mix-blend-screen`}
+          style={{
+            background:
+              "radial-gradient(circle at center, rgba(54,224,198,0.14) 0%, rgba(120,180,255,0.08) 40%, rgba(0,0,0,0) 80%)",
+          }}
+        />
+
         {/* Subtle brand wash */}
-        <div className="absolute inset-0 bg-primary/5 mix-blend-soft-light" />
+        <div
+          className={`absolute inset-0 ${brandWashClass} mix-blend-soft-light`}
+        />
       </div>
 
       {/* FULL HEIGHT BOTTOM GRADIENT WIPE INTO PAGE BACKGROUND */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/40 to-background" />
+      <div
+        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/40 to-background"
+        aria-hidden="true"
+      />
 
       {/* CONTENT */}
       <motion.div
@@ -104,22 +169,20 @@ export default function PageHero({
                 opacity-90
                 pointer-events-none
               "
+              aria-hidden="true"
             />
 
             {/* Subtle light sweep across title */}
             <motion.div
               animate={{ x: ["-150%", "150%"] }}
-              transition={{
-                duration: 7,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
+              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
               className="
                 absolute top-0 h-full w-[50%]
                 bg-gradient-to-r from-transparent via-white/10 to-transparent
                 blur-2xl
                 pointer-events-none
               "
+              aria-hidden="true"
             />
 
             <h1
@@ -164,6 +227,7 @@ export default function PageHero({
                   opacity-80
                   pointer-events-none
                 "
+                aria-hidden="true"
               />
 
               {/* PRIMARY CTA */}
@@ -214,7 +278,9 @@ export default function PageHero({
           h-[3px]
           bg-gradient-to-r from-primary via-cyan-400 to-primary
         "
+        aria-hidden="true"
       />
     </header>
   );
 }
+``;
