@@ -1,10 +1,17 @@
 import React from "react";
+import SectionWrapper from "@/components/layout/SectionWrapper";
+import SectionTitle from "@/components/layout/SectionTitle";
 import { Globe, Film, Play } from "lucide-react";
+
+// Optional shared styles (only if you created them; otherwise keep inline types below)
+// import type { StyleTitle, StyleWrapper } from "@/lib/sectionStyles";
+
+type IconName = "globe" | "film" | "play";
 
 type WhoAttendsHighlight = {
   title?: string;
   subtitle?: string;
-  icon?: "globe" | "film" | "play";
+  icon?: IconName;
 };
 
 type WhoAttendsSectionData = {
@@ -16,30 +23,52 @@ type WhoAttendsSectionData = {
     founders?: string;
   };
   highlights?: WhoAttendsHighlight[];
+
+  // Admin-driven styling (from Decap)
+  styleTitle?: {
+    eyebrow?: string;
+    sub?: string;
+    align?: "center" | "left" | "right";
+    tone?: "default" | "muted";
+    disableEmphasis?: boolean;
+  };
+  styleWrapper?: {
+    variant?: "clean" | "tint" | "glow";
+    padding?: "lux" | "regular";
+    noise?: boolean;
+    grid?: boolean;
+    withFades?: boolean;
+  };
 };
 
 interface WhoAttendsSectionProps {
   section: WhoAttendsSectionData;
 }
 
-const iconMap: Record<string, React.FC<any>> = {
+const iconMap: Record<IconName, React.FC<any>> = {
   globe: Globe,
   film: Film,
   play: Play,
 };
 
 const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
-  const { heading = "Who Attends", statistics = {}, highlights = [] } = section;
+  const {
+    heading = "Who Attends",
+    statistics = {},
+    highlights = [],
+    styleTitle,
+    styleWrapper,
+  } = section;
 
   const { companies, boardLevel, founders } = statistics;
 
-  // Intro paragraphs from CMS statistics (with safe fallbacks)
+  // Intro paragraphs (safe fallbacks)
   const intro: string[] = [
     `${companies ?? "Over 300 companies"} across media, entertainment and technology have attended our events.`,
     `Our events are free‑invite only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes ${boardLevel ?? "over 100 board-level executives"} and ${founders ?? "34 startup founders"}.`,
   ];
 
-  // Default highlights used if CMS list is empty
+  // Defaults if CMS list is empty
   const defaultHighlights: WhoAttendsHighlight[] = [
     { title: "The Top 3", subtitle: "Global Tech Giants", icon: "globe" },
     { title: "The Major 5", subtitle: "Hollywood Studios", icon: "film" },
@@ -47,48 +76,55 @@ const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
   ];
 
   const effectiveHighlights =
-    highlights.length > 0 ? highlights : defaultHighlights;
+    highlights && highlights.length > 0 ? highlights : defaultHighlights;
 
-  // Colour sets per card (icon + circle bg)
+  // Subtle, premium palette per card
   const iconColorClasses = [
-    "text-teal-400",
-    "text-violet-400",
-    "text-amber-400",
+    "text-teal-300",
+    "text-violet-300",
+    "text-amber-300",
   ];
   const circleBgClasses = [
-    "bg-teal-400/15",
-    "bg-violet-400/15",
-    "bg-amber-400/15",
+    "bg-teal-300/15",
+    "bg-violet-300/15",
+    "bg-amber-300/15",
   ];
 
+  // Title styling defaults (admins can override in CMS)
+  const t = styleTitle ?? {};
+  const w = styleWrapper ?? {};
+
   return (
-    <section className="py-24 md:py-32 bg-background border-t border-white/5">
-      <div className="container mx-auto px-6 max-w-4xl text-center">
-        {/* Heading with italic “Attends” */}
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground mb-8">
-          {heading.toLowerCase().includes("attends") ? (
-            <>
-              {heading.replace(/attends/i, "").trim()}{" "}
-              <span className="text-primary italic">Attends</span>
-            </>
-          ) : (
-            <>
-              {heading} <span className="text-primary italic">Attends</span>
-            </>
-          )}
-        </h2>
+    <SectionWrapper
+      variant={w.variant ?? "tint"}
+      padding={w.padding ?? "lux"}
+      noise={w.noise ?? false}
+      grid={w.grid ?? true}
+      withFades={w.withFades ?? true}
+      className="overflow-hidden"
+    >
+      <div className="relative z-10 max-w-6xl mx-auto px-6">
+        <SectionTitle
+          eyebrow={t.eyebrow}
+          sub={t.sub ?? "A snapshot of our community"}
+          align={t.align ?? "center"}
+          tone={t.tone ?? "default"}
+          disableEmphasis={t.disableEmphasis ?? false}
+        >
+          {heading}
+        </SectionTitle>
 
         {/* Intro paragraphs */}
-        <div className="space-y-4 text-foreground/80 text-lg leading-relaxed mb-14">
+        <div className="mx-auto max-w-3xl text-center space-y-4 text-white/80 font-body text-lg leading-relaxed mb-12">
           {intro.map((p, idx) => (
             <p key={idx}>{p}</p>
           ))}
         </div>
 
         {/* Highlight cards */}
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6">
           {effectiveHighlights.map(({ title, subtitle, icon }, idx) => {
-            const Icon = iconMap[icon ?? "globe"];
+            const Icon = iconMap[(icon ?? "globe") as IconName];
             const iconColor =
               iconColorClasses[idx] ??
               iconColorClasses[iconColorClasses.length - 1];
@@ -98,31 +134,40 @@ const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
 
             return (
               <div
-                key={idx}
-                className="rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-8 py-10 
-                           shadow-sm flex flex-col items-center text-center hover:bg-white/10 transition"
+                key={`${title}-${idx}`}
+                className="
+                  group rounded-2xl border border-white/10 bg-white/[0.02] 
+                  p-6 md:p-7 text-center transition
+                  hover:bg-white/[0.04]
+                "
               >
-                {/* Icon circle with different colour per card */}
+                {/* Icon circle */}
                 <div
-                  className={`w-14 h-14 rounded-full flex items-center justify-center mb-5 shadow-sm ${circleBg}`}
+                  className={`mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4 ${circleBg}`}
                 >
-                  <Icon className={`w-7 h-7 drop-shadow ${iconColor}`} />
+                  <Icon className={`w-7 h-7 ${iconColor}`} />
                 </div>
 
-                <h3 className="text-xl font-semibold text-white">
+                <h3 className="text-white/90 font-sans text-lg md:text-xl font-medium">
                   {title ?? "Highlight"}
                 </h3>
 
-                <p className="text-sm text-foreground/70 mt-1">
-                  {subtitle ?? ""}
-                </p>
+                {subtitle && (
+                  <p className="text-white/60 font-body text-sm mt-1">
+                    {subtitle}
+                  </p>
+                )}
+
+                {/* Subtle divider line on hover */}
+                <div className="mt-4 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition" />
               </div>
             );
           })}
         </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 
 export default WhoAttendsSection;
+``;

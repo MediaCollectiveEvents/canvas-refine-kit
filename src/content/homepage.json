@@ -19,7 +19,21 @@
       "type": "aboutIntro",
       "heading": "About Us",
       "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment."
+      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": false
+      }
     },
     {
       "type": "whoAttends",
@@ -45,11 +59,25 @@
           "subtitle": "Streaming Platforms",
           "icon": "play"
         }
-      ]
+      ],
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "Leaders across media & technology",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "clean",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      }
     },
     {
       "type": "upcomingEventsIntro",
-      "heading": "Upcoming stuff",
+      "heading": "Upcoming Events",
       "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
       "note": "Spaces are limited to keep events focused and conversational.",
       "cta": {
@@ -59,6 +87,20 @@
       "secondaryCta": {
         "label": "View all events",
         "url": "/events"
+      },
+      "styleTitle": {
+        "eyebrow": "What’s next",
+        "sub": "Don't miss our flagship events.",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
       }
     },
     {
@@ -68,6 +110,20 @@
       "cta": {
         "label": "Explore Partnerships",
         "url": "/partners"
+      },
+      "styleTitle": {
+        "eyebrow": "Curated experiences",
+        "sub": "Collaborations that feel natural",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "clean",
+        "padding": "lux",
+        "noise": false,
+        "grid": false,
+        "withFades": true
       }
     },
     {
@@ -77,18 +133,60 @@
       "cta": {
         "label": "Register Your Interest",
         "url": "/register"
+      },
+      "styleTitle": {
+        "eyebrow": "How it feels",
+        "sub": "Calm, conversational, curated",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "tint",
+        "padding": "lux",
+        "noise": false,
+        "grid": false,
+        "withFades": true
       }
     },
     {
       "type": "testimonials",
       "heading": "What People Say",
-      "items": []
+      "items": [],
+      "styleTitle": {
+        "eyebrow": "In their words",
+        "sub": "Reflections from attendees & partners",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "clean",
+        "padding": "lux",
+        "noise": false,
+        "grid": false,
+        "withFades": true
+      }
     },
     {
       "type": "partners",
       "heading": "Supported by Our Partner Community",
       "description": "Our events bring together organisations from across broadcasting, streaming, and media technology.",
-      "logos": []
+      "logos": [],
+      "styleTitle": {
+        "eyebrow": "Collaborating across the industry",
+        "sub": "A cross‑section of the ecosystem",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "clean",
+        "padding": "lux",
+        "noise": false,
+        "grid": false,
+        "withFades": true
+      }
     },
     {
       "type": "joinCommunity",
@@ -97,6 +195,20 @@
       "cta": {
         "label": "Register Your Interest",
         "url": "/register"
+      },
+      "styleTitle": {
+        "eyebrow": "Be part of it",
+        "sub": "Create • Connect • Grow",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": false,
+        "grid": false,
+        "withFades": true
       }
     }
   ],
