@@ -35,7 +35,8 @@ const Home = () => {
           secondaryCtaHref={hero.secondaryCta?.url}
           variant="image"
           backgroundImage={heroImage}
-          overlayStrength={0.5} // ← new: lighter hero overlays
+          overlayStrength={hero.overlayStrength ?? 0.5}
+          theme={hero.theme ?? "dark"}
         />
 
         <HomepageRenderer sections={sections} onRegister={handleOpenRegister} />

@@ -20,9 +20,16 @@ interface PageHeroProps {
   /**
    * Controls overlay intensity; 0=off, 1=heaviest.
    * Suggested values: 0 | 0.25 | 0.5 | 0.75 | 1
-   * Default is 0.75 (lighter than the previous state).
+   * Default is 0.75 (for dark theme).
    */
   overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
+
+  /**
+   * Visual theme for the hero:
+   * - "dark": darkened bg, light text (existing look)
+   * - "light": light bg, dark text
+   */
+  theme?: "dark" | "light";
 }
 
 export default function PageHero({
@@ -36,15 +43,19 @@ export default function PageHero({
   backgroundImage,
   variant = "image",
   overlayStrength = 0.75,
+  theme = "dark",
 }: PageHeroProps) {
   // Parallax motion for background image
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]);
 
-  // Map overlayStrength to class/opacity recipes
+  const isLight = theme === "light";
+
+  // ---- Overlay recipes (dark vs light) ----
   const s = overlayStrength;
 
-  const vignetteClass =
+  // Dark theme overlays (existing behavior, driven by s)
+  const darkVignetteClass =
     s >= 0.9
       ? "from-black/80 via-black/60"
       : s >= 0.75
@@ -55,7 +66,7 @@ export default function PageHero({
             ? "from-black/30 via-black/20"
             : "from-black/10 via-black/10";
 
-  const bloomOpacity =
+  const darkBloomOpacity =
     s >= 0.9
       ? "opacity-80"
       : s >= 0.75
@@ -66,7 +77,7 @@ export default function PageHero({
             ? "opacity-40"
             : "opacity-30";
 
-  const brandWashClass =
+  const darkBrandWashClass =
     s >= 0.9
       ? "bg-primary/5"
       : s >= 0.75
@@ -77,21 +88,56 @@ export default function PageHero({
             ? "bg-primary/1"
             : "bg-transparent";
 
-  // Keyframes for colour‑cycling glows (teal + cyan tones)
+  // Light theme overlays (very subtle, no black vignette)
+  const lightBloomOpacity = "opacity-40"; // subtle by default
+  const lightBloomGradient =
+    "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)";
+  const lightTintClass = "bg-white/40 mix-blend-lighten"; // gentle lift for darker photos
+
+  // Typography by theme
+  const titleClass = isLight
+    ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
+    : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
+
+  const descClass = isLight ? "text-zinc-700" : "text-primary";
+  const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
+
+  // CTA styles (primary stays brand-forward; secondary adapts to theme)
+  const secondaryButtonClass = isLight
+    ? "border-zinc/20 text-zinc-900 bg-white/60 hover:bg-zinc-100"
+    : "border-primary/60 text-primary bg-black/40 hover:bg-primary/10";
+
+  // Keyframes for colour‑cycling glows (kept; softened automatically by light bg)
   const titleGlowKeyframes = [
-    "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)",
-    "radial-gradient(circle, rgba(120,180,255,0.24) 0%, transparent 70%)",
-    "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)",
+    isLight
+      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)",
+    isLight
+      ? "radial-gradient(circle, rgba(250,252,255,0.45) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(120,180,255,0.24) 0%, transparent 70%)",
+    isLight
+      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 70%)"
+      : "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)",
   ];
 
   const ctaGlowKeyframes = [
-    "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
-    "radial-gradient(circle, rgba(120,180,255,0.26) 0%, transparent 80%)",
-    "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
+    isLight
+      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 80%)"
+      : "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
+    isLight
+      ? "radial-gradient(circle, rgba(245,248,255,0.45) 0%, transparent 80%)"
+      : "radial-gradient(circle, rgba(120,180,255,0.26) 0%, transparent 80%)",
+    isLight
+      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 80%)"
+      : "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
   ];
 
   return (
-    <header className="relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center text-center overflow-hidden">
+    <header
+      className={`relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center text-center overflow-hidden ${
+        isLight ? "bg-white" : ""
+      }`}
+    >
       {/* PARALLAX BACKGROUND IMAGE */}
       {variant === "image" && backgroundImage && (
         <motion.div
@@ -99,36 +145,55 @@ export default function PageHero({
           style={{
             backgroundImage: `url(${backgroundImage})`,
             y,
-            // Optional gentle lift:
-            // filter: "brightness(1.04) contrast(1.02)",
+            // Slight lift for light theme
+            filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
           }}
           aria-hidden="true"
         />
       )}
 
-      {/* CINEMATIC COLOUR OVERLAY (driven by overlayStrength) */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        {/* Tall soft vignette for contrast (lightens as s decreases) */}
+      {/* THEME OVERLAYS */}
+      {isLight ? (
+        // LIGHT THEME OVERLAYS
         <div
-          className={`absolute inset-0 bg-gradient-to-b ${vignetteClass} to-transparent`}
-        />
-
-        {/* Teal + cyan ambient bloom (mix-blend-screen) */}
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+        >
+          {/* No black vignette in light mode */}
+          {/* Gentle bright bloom */}
+          <div
+            className={`absolute inset-0 ${lightBloomOpacity} mix-blend-screen`}
+            style={{ background: lightBloomGradient }}
+          />
+          {/* Very soft white tint to lift darker images */}
+          <div className={`absolute inset-0 ${lightTintClass}`} />
+        </div>
+      ) : (
+        // DARK THEME OVERLAYS (original behavior)
         <div
-          className={`absolute inset-0 ${bloomOpacity} mix-blend-screen`}
-          style={{
-            background:
-              "radial-gradient(circle at center, rgba(54,224,198,0.14) 0%, rgba(120,180,255,0.08) 40%, rgba(0,0,0,0) 80%)",
-          }}
-        />
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+        >
+          {/* Tall soft vignette for contrast */}
+          <div
+            className={`absolute inset-0 bg-gradient-to-b ${darkVignetteClass} to-transparent`}
+          />
+          {/* Teal + cyan ambient bloom */}
+          <div
+            className={`absolute inset-0 ${darkBloomOpacity} mix-blend-screen`}
+            style={{
+              background:
+                "radial-gradient(circle at center, rgba(54,224,198,0.14) 0%, rgba(120,180,255,0.08) 40%, rgba(0,0,0,0) 80%)",
+            }}
+          />
+          {/* Subtle brand wash */}
+          <div
+            className={`absolute inset-0 ${darkBrandWashClass} mix-blend-soft-light`}
+          />
+        </div>
+      )}
 
-        {/* Subtle brand wash */}
-        <div
-          className={`absolute inset-0 ${brandWashClass} mix-blend-soft-light`}
-        />
-      </div>
-
-      {/* FULL HEIGHT BOTTOM GRADIENT WIPE INTO PAGE BACKGROUND */}
+      {/* GRADIENT WIPE INTO PAGE BACKGROUND */}
       <div
         className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/40 to-background"
         aria-hidden="true"
@@ -144,7 +209,9 @@ export default function PageHero({
         <div className="max-w-3xl mx-auto">
           {/* Eyebrow */}
           {eyebrow && (
-            <p className="text-primary font-body tracking-widest uppercase mb-6 text-sm md:text-base">
+            <p
+              className={`${eyebrowClass} font-body tracking-widest uppercase mb-6 text-sm md:text-base`}
+            >
               {eyebrow}
             </p>
           )}
@@ -159,16 +226,16 @@ export default function PageHero({
                 repeat: Infinity,
                 repeatType: "mirror",
               }}
-              className="
+              className={`
                 absolute
                 left-1/2 top-1/2
                 -translate-x-1/2 -translate-y-1/2
                 -inset-x-[40vw] -inset-y-[16vh]
                 -z-10
                 blur-[140px]
-                opacity-90
+                ${isLight ? "opacity-70" : "opacity-90"}
                 pointer-events-none
-              "
+              `}
               aria-hidden="true"
             />
 
@@ -176,24 +243,23 @@ export default function PageHero({
             <motion.div
               animate={{ x: ["-150%", "150%"] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-              className="
+              className={`
                 absolute top-0 h-full w-[50%]
-                bg-gradient-to-r from-transparent via-white/10 to-transparent
+                bg-gradient-to-r from-transparent ${isLight ? "via-black/5" : "via-white/10"} to-transparent
                 blur-2xl
                 pointer-events-none
-              "
+              `}
               aria-hidden="true"
             />
 
             <h1
-              className="
+              className={`
                 font-satisfy
                 text-4xl sm:text-5xl md:text-6xl lg:text-7xl
-                text-white
+                ${titleClass}
                 leading-[1.13] md:leading-[1.18]
                 mt-4 mb-10 md:mb-12
-                drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]
-              "
+              `}
             >
               {title}
             </h1>
@@ -201,7 +267,13 @@ export default function PageHero({
 
           {/* Description */}
           {description && (
-            <p className="text-primary font-body text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12">
+            <p
+              className={`
+                ${descClass}
+                font-body text-base sm:text-lg md:text-xl
+                leading-relaxed max-w-xl mx-auto mb-12
+              `}
+            >
               {description}
             </p>
           )}
@@ -217,16 +289,16 @@ export default function PageHero({
                   repeat: Infinity,
                   repeatType: "mirror",
                 }}
-                className="
+                className={`
                   absolute
                   left-1/2 top-1/2
                   -translate-x-1/2 -translate-y-1/2
                   -inset-x-[30vw] -inset-y-12
                   -z-10
                   blur-[120px]
-                  opacity-80
+                  ${isLight ? "opacity-60" : "opacity-80"}
                   pointer-events-none
-                "
+                `}
                 aria-hidden="true"
               />
 
@@ -235,15 +307,15 @@ export default function PageHero({
                 <Button
                   size="lg"
                   onClick={onPrimaryClick}
-                  className="
+                  className={`
                     rounded-full px-8 py-3
                     bg-primary text-black
-                    shadow-lg shadow-primary/40
+                    shadow-lg ${isLight ? "shadow-primary/30" : "shadow-primary/40"}
                     hover:bg-primary/90
-                    hover:shadow-[0_0_40px_rgba(54,224,198,0.75)]
+                    hover:shadow-[0_0_40px_rgba(54,224,198,0.65)]
                     transition-transform duration-200 ease-out
                     hover:scale-[1.06]
-                  "
+                  `}
                 >
                   {primaryCtaText}
                 </Button>
@@ -255,13 +327,12 @@ export default function PageHero({
                   asChild
                   size="lg"
                   variant="outline"
-                  className="
+                  className={`
                     rounded-full px-8 py-3
-                    border-primary/60 text-primary
-                    bg-black/40 hover:bg-primary/10
+                    ${secondaryButtonClass}
                     transition-transform duration-200 ease-out
                     hover:scale-[1.03]
-                  "
+                  `}
                 >
                   <a href={secondaryCtaHref}>{secondaryCtaText}</a>
                 </Button>
@@ -283,4 +354,3 @@ export default function PageHero({
     </header>
   );
 }
-``;

@@ -25,6 +25,28 @@ collections:
               - { label: Title, name: title, widget: string }
               - { label: Subtitle, name: subtitle, widget: string }
               - { label: Description, name: description, widget: text }
+
+              # NEW: hero theme toggle
+              - label: Hero Theme
+                name: theme
+                widget: select
+                default: dark
+                options:
+                  - { label: "Dark", value: "dark" }
+                  - { label: "Light", value: "light" }
+
+              # NEW: overlay strength control
+              - label: Hero Overlay Strength
+                name: overlayStrength
+                widget: select
+                default: 0.5
+                options:
+                  - { label: "0 (Off)", value: 0 }
+                  - { label: "0.25 (Brightest)", value: 0.25 }
+                  - { label: "0.5 (Bright & Balanced)", value: 0.5 }
+                  - { label: "0.75 (More Contrast)", value: 0.75 }
+                  - { label: "1 (Max Contrast)", value: 1 }
+
               - label: Primary CTA
                 name: primaryCta
                 widget: object
