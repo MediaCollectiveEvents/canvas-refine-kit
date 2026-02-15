@@ -17,6 +17,11 @@ const Home = () => {
 
   const handleOpenRegister = () => setIsFormOpen(true);
 
+  // 🔎 Read Upcoming Events Intro from CMS (for underHeader + image controls)
+  const upcomingIntro = Array.isArray(sections)
+    ? sections.find((s: any) => s?.type === "upcomingEventsIntro")
+    : undefined;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -39,9 +44,21 @@ const Home = () => {
           theme={hero.theme ?? "dark"}
         />
 
+        {/* JSON-driven homepage sections */}
         <HomepageRenderer sections={sections} onRegister={handleOpenRegister} />
 
-        <EventsSection onRegisterClick={handleOpenRegister} />
+        {/* Uniform card images + optional text under header (driven by CMS) */}
+        <EventsSection
+          onRegisterClick={handleOpenRegister}
+          underHeader={upcomingIntro?.underHeader}
+          imageAspect={upcomingIntro?.imageAspect ?? "3:2"}
+          imageFit={upcomingIntro?.imageFit ?? "contain"}
+          imagePadding={
+            typeof upcomingIntro?.imagePadding === "boolean"
+              ? upcomingIntro.imagePadding
+              : true
+          }
+        />
       </main>
 
       <Footer />

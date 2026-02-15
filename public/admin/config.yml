@@ -9,6 +9,7 @@ media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
+  # === HOMEPAGE CONTENT (homepage.json) ===
   - name: homepage
     label: Homepage
     files:
@@ -26,7 +27,7 @@ collections:
               - { label: Subtitle, name: subtitle, widget: string }
               - { label: Description, name: description, widget: text }
 
-              # NEW: hero theme toggle
+              # Theme toggle
               - label: Hero Theme
                 name: theme
                 widget: select
@@ -35,7 +36,7 @@ collections:
                   - { label: "Dark", value: "dark" }
                   - { label: "Light", value: "light" }
 
-              # NEW: overlay strength control
+              # Overlay strength control
               - label: Hero Overlay Strength
                 name: overlayStrength
                 widget: select
@@ -50,12 +51,14 @@ collections:
               - label: Primary CTA
                 name: primaryCta
                 widget: object
+                required: false
                 fields:
                   - { label: Label, name: label, widget: string }
                   - { label: URL, name: url, widget: string }
               - label: Secondary CTA
                 name: secondaryCta
                 widget: object
+                required: false
                 fields:
                   - { label: Label, name: label, widget: string }
                   - { label: URL, name: url, widget: string }
@@ -78,90 +81,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "glow"
+                        default: glow
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -170,6 +173,7 @@ collections:
                   - label: CTA
                     name: cta
                     widget: object
+                    required: false
                     fields:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
@@ -187,90 +191,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "clean"
+                        default: clean
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -278,7 +282,7 @@ collections:
                   - { label: Body, name: body, widget: text }
                   - { label: Extended Text, name: extended, widget: text }
 
-              # WHO ATTENDS (icons now editable)
+              # WHO ATTENDS
               - label: Who Attends
                 name: whoAttends
                 widget: object
@@ -291,90 +295,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "tint"
+                        default: tint
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -415,108 +419,145 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "glow"
+                        default: glow
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
 
+                  # Copy & CTAs
                   - { label: Description, name: description, widget: text }
                   - { label: Note, name: note, widget: string }
                   - label: CTA
                     name: cta
                     widget: object
+                    required: false
                     fields:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
                   - label: Secondary CTA
                     name: secondaryCta
                     widget: object
+                    required: false
                     fields:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
+
+                  # NEW: Text under header
+                  - {
+                      label: Under-Header Text,
+                      name: underHeader,
+                      widget: text,
+                      required: false,
+                    }
+
+                  # NEW: Card Image Controls (used by EventsSection)
+                  - label: Card Image Aspect
+                    name: imageAspect
+                    widget: select
+                    required: false
+                    default: "3:2"
+                    options:
+                      - { label: "3:2", value: "3:2" }
+                      - { label: "16:9", value: "16:9" }
+                      - { label: "1:1 (Square)", value: "1:1" }
+                  - label: Card Image Fit
+                    name: imageFit
+                    widget: select
+                    required: false
+                    default: "contain"
+                    options:
+                      - { label: "Contain (no crop)", value: "contain" }
+                      - { label: "Cover (fills box)", value: "cover" }
+                  - {
+                      label: Card Image Padding (inner frame),
+                      name: imagePadding,
+                      widget: boolean,
+                      required: false,
+                      default: true,
+                    }
 
               # FOR BRANDS
               - label: For Brands & Partners
@@ -531,90 +572,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "clean"
+                        default: clean
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -623,6 +664,7 @@ collections:
                   - label: CTA
                     name: cta
                     widget: object
+                    required: false
                     fields:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
@@ -640,90 +682,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "tint"
+                        default: tint
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -732,6 +774,7 @@ collections:
                   - label: CTA
                     name: cta
                     widget: object
+                    required: false
                     fields:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
@@ -749,90 +792,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "clean"
+                        default: clean
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -855,90 +898,90 @@ collections:
                     }
                   - { label: Heading, name: heading, widget: string }
 
-                  # --- Title Styling (per-section) ---
-                  - label: "Title Styling"
-                    name: "styleTitle"
-                    widget: "object"
+                  # --- Title Styling ---
+                  - label: Title Styling
+                    name: styleTitle
+                    widget: object
                     required: false
                     fields:
                       - {
-                          label: "Eyebrow (optional)",
-                          name: "eyebrow",
-                          widget: "string",
+                          label: Eyebrow (optional),
+                          name: eyebrow,
+                          widget: string,
                           required: false,
                         }
                       - {
-                          label: "Subline (optional)",
-                          name: "sub",
-                          widget: "string",
+                          label: Subline (optional),
+                          name: sub,
+                          widget: string,
                           required: false,
                         }
-                      - label: "Align"
-                        name: "align"
-                        widget: "select"
+                      - label: Align
+                        name: align
+                        widget: select
                         required: false
-                        default: "center"
+                        default: center
                         options:
-                          - { label: "Center", value: "center" }
-                          - { label: "Left", value: "left" }
-                          - { label: "Right", value: "right" }
-                      - label: "Tone"
-                        name: "tone"
-                        widget: "select"
+                          - { label: Center, value: center }
+                          - { label: Left, value: left }
+                          - { label: Right, value: right }
+                      - label: Tone
+                        name: tone
+                        widget: select
                         required: false
-                        default: "default"
+                        default: default
                         options:
-                          - { label: "Default", value: "default" }
-                          - { label: "Muted", value: "muted" }
+                          - { label: Default, value: default }
+                          - { label: Muted, value: muted }
                       - {
-                          label: "Disable Italic Emphasis",
-                          name: "disableEmphasis",
-                          widget: "boolean",
+                          label: Disable Italic Emphasis,
+                          name: disableEmphasis,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
 
-                  # --- Section Surface (per-section) ---
-                  - label: "Section Surface"
-                    name: "styleWrapper"
-                    widget: "object"
+                  # --- Section Surface ---
+                  - label: Section Surface
+                    name: styleWrapper
+                    widget: object
                     required: false
                     fields:
-                      - label: "Variant"
-                        name: "variant"
-                        widget: "select"
+                      - label: Variant
+                        name: variant
+                        widget: select
                         required: false
-                        default: "clean"
+                        default: clean
                         options:
-                          - { label: "Clean", value: "clean" }
-                          - { label: "Tint", value: "tint" }
-                          - { label: "Glow", value: "glow" }
-                      - label: "Padding"
-                        name: "padding"
-                        widget: "select"
+                          - { label: Clean, value: clean }
+                          - { label: Tint, value: tint }
+                          - { label: Glow, value: glow }
+                      - label: Padding
+                        name: padding
+                        widget: select
                         required: false
-                        default: "lux"
+                        default: lux
                         options:
-                          - { label: "Lux (spacious)", value: "lux" }
-                          - { label: "Regular", value: "regular" }
+                          - { label: Lux (spacious), value: lux }
+                          - { label: Regular, value: regular }
                       - {
-                          label: "Micro noise texture",
-                          name: "noise",
-                          widget: "boolean",
+                          label: Micro noise texture,
+                          name: noise,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Micro grid overlay",
-                          name: "grid",
-                          widget: "boolean",
+                          label: Micro grid overlay,
+                          name: grid,
+                          widget: boolean,
                           required: false,
                           default: false,
                         }
                       - {
-                          label: "Soft top/bottom fades",
-                          name: "withFades",
-                          widget: "boolean",
+                          label: Soft top/bottom fades,
+                          name: withFades,
+                          widget: boolean,
                           required: false,
                           default: true,
                         }
@@ -948,3 +991,44 @@ collections:
                     name: logos
                     widget: list
                     field: { label: Logo, name: logo, widget: string }
+
+  # === EVENTS CONTENT (events.json) ===
+  - name: events
+    label: Events
+    files:
+      - name: events
+        label: Events List
+        file: "src/content/events.json"
+        format: json
+        fields:
+          - label: Events
+            name: events
+            widget: list
+            allow_add: true
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Location, name: location, widget: string }
+              - { label: Venue, name: venue, widget: string }
+              - {
+                  label: Date,
+                  name: date,
+                  widget: date,
+                  required: false,
+                  format: "YYYY-MM-DD",
+                }
+              # Map to pre-bundled images in code (getImageForKey)
+              - label: Image Key
+                name: imageKey
+                widget: select
+                required: false
+                options:
+                  - { label: Broadcaster, value: broadcaster }
+                  - { label: Hand and Flower, value: "hand and flower" }
+                  - { label: Traveller, value: traveller }
+              # Optional: numeric id (auto-increment fallback exists in code)
+              - {
+                  label: ID (optional),
+                  name: id,
+                  widget: number,
+                  required: false,
+                }
