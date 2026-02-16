@@ -1,9 +1,10 @@
 // src/App.tsx
 
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { SectionStyleProvider } from "./context/SectionStyleProvider";
 
-// Pages (relative imports)
+// Pages (relative imports kept as you had)
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -14,37 +15,49 @@ import Sponsors from "./pages/Sponsors";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Wireframe from "./pages/Wireframe";
 import NotFound from "./pages/NotFound";
-import Admin from "./pages/Admin"; // This is your custom link-to-Decap page
+import Admin from "./pages/Admin"; // Custom link-to-Decap page
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Main site pages */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
+    <SectionStyleProvider>
+      <BrowserRouter>
+        <ScrollToTop />
+        <Routes>
+          {/* Main site pages */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
 
-        {/* Blog list + single post */}
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
+          {/* Blog list + single post */}
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
 
-        {/* Events & partners */}
-        <Route path="/events" element={<Events />} />
-        <Route path="/partners" element={<Partners />} />
-        <Route path="/sponsors" element={<Sponsors />} />
+          {/* Events & partners */}
+          <Route path="/events" element={<Events />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/sponsors" element={<Sponsors />} />
 
-        {/* Legal / misc */}
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/wireframe" element={<Wireframe />} />
+          {/* Legal / misc */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/wireframe" element={<Wireframe />} />
 
-        {/* Custom admin info page — moved to /cms */}
-        <Route path="/cms" element={<Admin />} />
+          {/* Custom admin info page — /cms */}
+          <Route path="/cms" element={<Admin />} />
 
-        {/* Catch-all */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Catch-all */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </SectionStyleProvider>
   );
 };
 
 export default App;
+``;

@@ -19,3 +19,17 @@ export interface StyleWrapper {
   grid?: boolean;
   withFades?: boolean;
 }
+
+export interface EventsDefaults {
+  imageAspect?: "3:2" | "16:9" | "1:1";
+  imageFit?: "contain" | "cover";
+  imagePadding?: boolean;
+  hidePastEvents?: boolean;
+  sort?: "nearest" | "none";
+}
+
+export interface SiteStyleDefaults {
+  styleTitle: StyleTitle;
+  styleWrapper: StyleWrapper;
+  eventsDefaults: EventsDefaults;
+}

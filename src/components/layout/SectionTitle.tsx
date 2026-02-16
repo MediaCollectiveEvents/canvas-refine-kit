@@ -1,32 +1,16 @@
+// src/components/layout/SectionTitle.tsx
 import { ReactNode } from "react";
+import { useSectionStyleDefaults } from "@/context/SectionStyleProvider";
 
 type Align = "center" | "left" | "right";
 type Tone = "default" | "muted";
 
 interface SectionTitleProps {
   children: ReactNode;
-  /**
-   * Optional subline below the main title (small, uppercase, understated).
-   * Use for short context like "A snapshot" or "Curated experiences".
-   */
   sub?: string;
-  /**
-   * Optional eyebrow above the title (even subtler than sub).
-   * Use sparingly. If you pass both eyebrow and sub, eyebrow appears above, sub below.
-   */
   eyebrow?: string;
-  /**
-   * Text alignment. Defaults to 'center' which suits hero/section intros.
-   */
   align?: Align;
-  /**
-   * Title tone. 'default' is crisp white; 'muted' is a softer white.
-   */
   tone?: Tone;
-  /**
-   * Disable the italic emphasis on the "second part" when children is a string.
-   * Defaults to false (keep the italic accent).
-   */
   disableEmphasis?: boolean;
 }
 
@@ -34,10 +18,20 @@ export default function SectionTitle({
   children,
   sub,
   eyebrow,
-  align = "center",
-  tone = "default",
-  disableEmphasis = false,
+  align,
+  tone,
+  disableEmphasis,
 }: SectionTitleProps) {
+  const defaults = useSectionStyleDefaults();
+  const effectiveAlign: Align =
+    align ?? (defaults.styleTitle.align as Align) ?? "center";
+  const effectiveTone: Tone =
+    tone ?? (defaults.styleTitle.tone as Tone) ?? "default";
+  const effectiveDisable =
+    disableEmphasis ?? defaults.styleTitle.disableEmphasis ?? false;
+  const effectiveEyebrow = eyebrow ?? defaults.styleTitle.eyebrow ?? "";
+  const effectiveSub = sub ?? defaults.styleTitle.sub ?? "";
+
   const isString = typeof children === "string";
   let first: ReactNode = children;
   let second: string | undefined;
@@ -49,23 +43,23 @@ export default function SectionTitle({
   }
 
   const wrapAlign =
-    align === "left"
+    effectiveAlign === "left"
       ? "text-left"
-      : align === "right"
+      : effectiveAlign === "right"
         ? "text-right"
         : "text-center";
 
-  const titleColor = tone === "muted" ? "text-white/90" : "text-white";
+  const titleColor = effectiveTone === "muted" ? "text-white/90" : "text-white";
   const subColor = "text-white/60";
   const eyebrowColor = "text-white/50";
 
   return (
     <div className={`${wrapAlign} mb-10`}>
-      {eyebrow && (
+      {effectiveEyebrow && (
         <p
           className={`${eyebrowColor} font-body text-[11px] sm:text-xs uppercase tracking-[0.22em] mb-2`}
         >
-          {eyebrow}
+          {effectiveEyebrow}
         </p>
       )}
 
@@ -81,7 +75,7 @@ export default function SectionTitle({
           <>
             {first}{" "}
             {second &&
-              (disableEmphasis ? (
+              (effectiveDisable ? (
                 <span>{second}</span>
               ) : (
                 <span className="italic text-primary/70">{second}</span>
@@ -92,11 +86,11 @@ export default function SectionTitle({
         )}
       </h2>
 
-      {sub && (
+      {effectiveSub && (
         <p
           className={`${subColor} font-body text-sm uppercase tracking-[0.18em] mt-3`}
         >
-          {sub}
+          {effectiveSub}
         </p>
       )}
     </div>
