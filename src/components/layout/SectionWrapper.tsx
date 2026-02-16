@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { useSectionStyleDefaults } from "@/context/SectionStyleProvider";
+import { useSectionStyleDefaults } from "@/lib/SectionStyleProvider";
 
 type SectionVariant = "clean" | "tint" | "glow";
 

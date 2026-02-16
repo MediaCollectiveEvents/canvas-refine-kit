@@ -1,6 +1,6 @@
 // src/components/layout/SectionTitle.tsx
 import { ReactNode } from "react";
-import { useSectionStyleDefaults } from "@/context/SectionStyleProvider";
+import { useSectionStyleDefaults } from "@/lib/SectionStyleProvider";
 
 type Align = "center" | "left" | "right";
 type Tone = "default" | "muted";

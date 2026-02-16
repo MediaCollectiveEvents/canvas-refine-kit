@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { SectionStyleProvider } from "./context/SectionStyleProvider";
+import { SectionStyleProvider } from "./lib/SectionStyleProvider";
 
 // Pages (relative imports kept as you had)
 import Home from "./pages/Home";
@@ -60,4 +60,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-``;
