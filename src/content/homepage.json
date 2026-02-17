@@ -74,7 +74,8 @@
         "noise": true,
         "grid": true,
         "withFades": true
-      }
+      },
+      "hidden": true
     },
     {
       "type": "upcomingEventsIntro",
