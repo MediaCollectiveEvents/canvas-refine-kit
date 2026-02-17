@@ -3,7 +3,7 @@
     "title": "Connecting   Media Innovators",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
-    "theme": "dark",
+    "theme": "light",
     "overlayStrength": 0.25,
     "primaryCta": {
       "label": "Join us",
@@ -16,14 +16,22 @@
   },
   "sections": [
     {
-      "type": "aboutIntro",
-      "heading": "About Us",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
+      "type": "upcomingEventsIntro",
+      "heading": "Upcoming Event",
+      "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
+      "note": "Spaces are limited to keep events focused and conversational.",
+      "cta": {
+        "label": "Learn More",
+        "url": "/events"
+      },
+      "secondaryCta": {
+        "label": "View all events",
+        "url": "/events"
+      },
       "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
+        "eyebrow": "What’s next",
+        "sub": "Don't miss our flagship events.",
+        "align": "left",
         "tone": "default",
         "disableEmphasis": false
       },
@@ -32,7 +40,7 @@
         "padding": "lux",
         "noise": true,
         "grid": true,
-        "withFades": false
+        "withFades": true
       }
     },
     {
@@ -68,29 +76,22 @@
         "disableEmphasis": false
       },
       "styleWrapper": {
-        "variant": "clean",
+        "variant": "glow",
         "padding": "lux",
         "noise": true,
         "grid": true,
         "withFades": true
-      }
+      },
+      "hidden": false
     },
     {
-      "type": "upcomingEventsIntro",
-      "heading": "Upcoming Event",
-      "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
-      "note": "Spaces are limited to keep events focused and conversational.",
-      "cta": {
-        "label": "Learn More",
-        "url": "/events"
-      },
-      "secondaryCta": {
-        "label": "View all events",
-        "url": "/events"
-      },
+      "type": "aboutIntro",
+      "heading": "About Us",
+      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
+      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
       "styleTitle": {
-        "eyebrow": "What’s next",
-        "sub": "Don't miss our flagship events.",
+        "eyebrow": "",
+        "sub": "",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
@@ -101,7 +102,8 @@
         "noise": true,
         "grid": true,
         "withFades": true
-      }
+      },
+      "hidden": false
     },
     {
       "type": "forBrands",
