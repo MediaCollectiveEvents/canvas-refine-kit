@@ -1,3 +1,4 @@
+// src/components/sections/HomepageRenderer.tsx
 import React from "react";
 
 import { AboutIntroSection } from "./AboutIntroSection";
@@ -6,69 +7,103 @@ import TestimonialsSection from "./TestimonialsSection";
 import ForBrandsSection from "./ForBrandsSection";
 import JoinCommunitySection from "./JoinCommunitySection";
 import NewHereSection from "./NewHereSection";
-// Note: UpcomingEventsIntroSection is no longer used here
+import EventsSection from "./EventsSection";
+import PartnersSection from "./PartnersSection";
+
+interface HomepageSection {
+  type: string;
+  hidden?: boolean;
+  // Allow arbitrary fields coming from CMS JSON
+  [key: string]: any;
+}
 
 interface HomepageRendererProps {
-  sections: any[];
+  sections: HomepageSection[] | undefined;
   onRegister?: () => void;
 }
 
-export function HomepageRenderer({
-  sections,
-  onRegister,
-}: HomepageRendererProps) {
-  const safeSections = Array.isArray(sections) ? sections : [];
+function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
+  const safeSections: HomepageSection[] = Array.isArray(sections)
+    ? sections
+    : [];
 
   return (
     <>
-      {safeSections.map((section, i) => {
-        switch (section.type) {
-          case "aboutIntro":
-            // CMS-driven About Intro section
-            return <AboutIntroSection key={i} section={section} />;
+      {safeSections
+        // Skip sections flagged as hidden in JSON / CMS
+        .filter((section) => !section?.hidden)
+        .map((section, index) => {
+          const key = section.id ?? `${section.type}-${index}`;
 
-          case "whoAttends":
-            // CMS-driven Who Attends section
-            return <WhoAttendsSection key={i} section={section} />;
+          switch (section.type) {
+            case "aboutIntro":
+              // CMS-driven About Intro section
+              return <AboutIntroSection key={key} section={section as any} />;
 
-          case "upcomingEventsIntro":
-            // We now let EventsSection handle the Upcoming Events UI,
-            // so we skip rendering the intro block here.
-            return null;
+            case "whoAttends":
+              // CMS-driven Who Attends section
+              return <WhoAttendsSection key={key} section={section as any} />;
 
-          case "testimonials":
-            // Existing carousel with hard-coded testimonials array
-            return <TestimonialsSection key={i} />;
+            case "upcomingEventsIntro":
+              // Render Upcoming Events block HERE so it reorders with sections
+              return (
+                <EventsSection
+                  key={key}
+                  onRegisterClick={onRegister}
+                  underHeader={section.underHeader}
+                  imageAspect={section.imageAspect ?? "3:2"}
+                  imageFit={section.imageFit ?? "contain"}
+                  imagePadding={
+                    typeof section.imagePadding === "boolean"
+                      ? section.imagePadding
+                      : true
+                  }
+                />
+              );
 
-          case "joinCommunity":
-            // CMS-driven Join Community section
-            return (
-              <JoinCommunitySection
-                key={i}
-                section={section}
-                onRegisterClick={onRegister}
-              />
-            );
+            case "testimonials":
+              // Carousel with testimonials
+              return <TestimonialsSection key={key} />;
 
-          case "newHere":
-            // CMS-driven New Here section
-            return (
-              <NewHereSection
-                key={i}
-                section={section}
-                onRegisterClick={onRegister}
-              />
-            );
+            case "joinCommunity":
+              // CMS-driven Join Community section
+              return (
+                <JoinCommunitySection
+                  key={key}
+                  section={section as any}
+                  onRegisterClick={onRegister}
+                />
+              );
 
-          case "forBrands":
-            // CMS-driven For Brands & Partners section
-            return <ForBrandsSection key={i} section={section} />;
+            case "newHere":
+              // CMS-driven New Here section
+              return (
+                <NewHereSection
+                  key={key}
+                  section={section as any}
+                  onRegisterClick={onRegister}
+                />
+              );
 
-          default:
-            // Skip unimplemented or unknown types (e.g. partners for now)
-            return null;
-        }
-      })}
+            case "forBrands":
+              // CMS-driven For Brands & Partners section
+              return <ForBrandsSection key={key} section={section as any} />;
+
+            case "partners":
+              // Partners section from CMS
+              return <PartnersSection key={key} section={section as any} />;
+
+            default:
+              console.warn(
+                "[HomepageRenderer] Unknown section type:",
+                section.type,
+              );
+              return null;
+          }
+        })}
     </>
   );
 }
+
+export default HomepageRenderer;
+``;

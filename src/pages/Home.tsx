@@ -1,26 +1,24 @@
 // src/pages/Home.tsx
 import { useState } from "react";
+
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/shared/PageHero";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 
-import { HomepageRenderer } from "@/components/sections/HomepageRenderer";
-import EventsSection from "@/components/sections/EventsSection";
+// ✅ Default import – matches `export default HomepageRenderer` in the component file
+import HomepageRenderer from "@/components/sections/HomepageRenderer";
 
 import heroImage from "@/assets/hero-placeholder.jpg";
 import homepage from "@/content/homepage.json";
 
 const Home = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
+
+  // homepage.json shape: { hero, sections, ... }
   const { hero, sections } = homepage as any;
 
   const handleOpenRegister = () => setIsFormOpen(true);
-
-  // 🔎 Read Upcoming Events Intro from CMS (for underHeader + image controls)
-  const upcomingIntro = Array.isArray(sections)
-    ? sections.find((s: any) => s?.type === "upcomingEventsIntro")
-    : undefined;
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,24 +39,12 @@ const Home = () => {
           variant="image"
           backgroundImage={heroImage}
           overlayStrength={hero.overlayStrength ?? 0.5}
+          // 👇 hero.theme comes straight from homepage.json (dark/light)
           theme={hero.theme ?? "dark"}
         />
 
-        {/* JSON-driven homepage sections */}
+        {/* JSON-driven homepage sections (order = order in homepage.json) */}
         <HomepageRenderer sections={sections} onRegister={handleOpenRegister} />
-
-        {/* Uniform card images + optional text under header (driven by CMS) */}
-        <EventsSection
-          onRegisterClick={handleOpenRegister}
-          underHeader={upcomingIntro?.underHeader}
-          imageAspect={upcomingIntro?.imageAspect ?? "3:2"}
-          imageFit={upcomingIntro?.imageFit ?? "contain"}
-          imagePadding={
-            typeof upcomingIntro?.imagePadding === "boolean"
-              ? upcomingIntro.imagePadding
-              : true
-          }
-        />
       </main>
 
       <Footer />
@@ -67,3 +53,4 @@ const Home = () => {
 };
 
 export default Home;
+``;
