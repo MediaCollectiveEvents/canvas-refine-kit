@@ -16,6 +16,27 @@
   },
   "sections": [
     {
+      "type": "aboutIntro",
+      "heading": "About Us",
+      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
+      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "hidden": false
+    },
+    {
       "type": "upcomingEventsIntro",
       "heading": "Upcoming Event",
       "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
@@ -85,27 +106,6 @@
       "hidden": false
     },
     {
-      "type": "aboutIntro",
-      "heading": "About Us",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "hidden": false
-    },
-    {
       "type": "forBrands",
       "heading": "Brands & Partners",
       "body": "We also work with selected partners to create curated industry experiences.",
@@ -121,12 +121,13 @@
         "disableEmphasis": false
       },
       "styleWrapper": {
-        "variant": "clean",
+        "variant": "glow",
         "padding": "lux",
-        "noise": false,
-        "grid": false,
+        "noise": true,
+        "grid": true,
         "withFades": true
-      }
+      },
+      "hidden": true
     },
     {
       "type": "newHere",
@@ -149,7 +150,8 @@
         "noise": false,
         "grid": false,
         "withFades": true
-      }
+      },
+      "hidden": true
     },
     {
       "type": "testimonials",
@@ -188,7 +190,8 @@
         "noise": false,
         "grid": false,
         "withFades": true
-      }
+      },
+      "hidden": true
     },
     {
       "type": "joinCommunity",
