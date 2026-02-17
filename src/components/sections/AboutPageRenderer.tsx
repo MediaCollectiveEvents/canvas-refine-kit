@@ -1,56 +1,130 @@
 // src/components/sections/AboutPageRenderer.tsx
+import PageSection from "@/components/shared/PageSection";
+import PageCTA from "@/components/shared/PageCTA";
 
-import React from "react";
-import aboutData from "@/content/about.json";
-import { loadSections, AnySection } from "@/lib/sections";
-
-// About page section components
-import { AboutIntroSection } from "@/components/sections/AboutIntroSection";
+import AboutOverviewSection from "@/components/sections/AboutOverviewSection";
 import OurStorySection from "@/components/sections/OurStorySection";
 import MissionValuesSection from "@/components/sections/MissionValuesSection";
-import JoinUsSection from "@/components/sections/JoinUsSection";
 
-// Map section.type -> section component
-const ABOUT_SECTION_COMPONENTS: Record<
-  string,
-  React.ComponentType<{ section: AnySection }>
-> = {
-  aboutIntro: AboutIntroSection as React.ComponentType<{ section: AnySection }>,
-  ourStory: OurStorySection as React.ComponentType<{ section: AnySection }>,
-  missionValues: MissionValuesSection as React.ComponentType<{
-    section: AnySection;
-  }>,
-  joinUs: JoinUsSection as React.ComponentType<{ section: AnySection }>,
+/**
+ * Types for each section variant on the About page.
+ * These should mirror the structure in src/content/about.json.
+ */
+
+type AboutIntroSection = {
+  id?: string;
+  type: "aboutIntro";
+  title: string;
+  accentWord?: string;
+  body: string;
+  cta?: {
+    label: string;
+  };
 };
 
-const AboutPageRenderer: React.FC = () => {
-  const data = aboutData as { sections?: string[] };
+type StorySection = {
+  id?: string;
+  type: "story";
+  title: string;
+  accentWord?: string;
+  body: string;
+};
 
-  // Slugs from about.json, e.g. ["aboutIntro", "ourStory", "missionValues", "joinUs"]
-  const slugs = (data.sections as string[]) ?? [];
+type MissionValuesSectionData = {
+  id?: string;
+  type: "missionValues";
+  title: string;
+  accentWord: string;
+  description: string;
+  // This matches the ValueItem[] inside MissionValuesSection
+  values: {
+    icon: "users" | "heart" | "star";
+    title: string;
+    description: string;
+    color: string;
+    bgColor: string;
+  }[];
+};
 
-  // Resolve slugs -> shared section JSON objects
-  const sections = loadSections(slugs);
+type JoinUsSection = {
+  id?: string;
+  type: "joinUs";
+  // Later you can add optional fields here if you want to drive CTA text from JSON
+};
+
+type AboutSection =
+  | AboutIntroSection
+  | StorySection
+  | MissionValuesSectionData
+  | JoinUsSection;
+
+interface AboutPageRendererProps {
+  sections: AboutSection[] | undefined;
+  onRegister: () => void;
+}
+
+/**
+ * Renders About page sections in the order defined by about.json.
+ */
+const AboutPageRenderer = ({
+  sections,
+  onRegister,
+}: AboutPageRendererProps) => {
+  if (!sections || sections.length === 0) return null;
 
   return (
-    <section className="px-4 py-12 md:py-16">
-      <div className="max-w-5xl mx-auto flex flex-col gap-10">
-        {sections.map((section, index) => {
-          const Component = ABOUT_SECTION_COMPONENTS[section.type];
+    <>
+      {sections.map((section) => {
+        const key = section.id ?? section.type;
 
-          if (!Component) {
+        switch (section.type) {
+          case "aboutIntro":
+            return (
+              <AboutOverviewSection
+                key={key}
+                title={section.title}
+                accentWord={section.accentWord}
+                body={section.body}
+                onRegisterClick={onRegister}
+                ctaLabel={section.cta?.label}
+              />
+            );
+
+          case "story":
+            return (
+              <OurStorySection
+                key={key}
+                title={section.title}
+                accentWord={section.accentWord}
+                body={section.body}
+              />
+            );
+
+          case "missionValues":
+            return (
+              <PageSection key={key} variant="darker">
+                {/* Type is now exactly what MissionValuesSection expects */}
+                <MissionValuesSection section={section} />
+              </PageSection>
+            );
+
+          case "joinUs":
+            return (
+              <PageSection key={key} variant="accent" className="py-20">
+                {/* For now this uses the shared CTA component.
+                    You can make this JSON-driven later if you like. */}
+                <PageCTA onClick={onRegister} />
+              </PageSection>
+            );
+
+          default:
             console.warn(
-              `[AboutPageRenderer] No component registered for section type "${section.type}".`,
+              `Unknown About section type: ${(section as any).type}`,
             );
             return null;
-          }
-
-          return (
-            <Component key={`${section.type}-${index}`} section={section} />
-          );
-        })}
-      </div>
-    </section>
+        }
+      })}
+    </>
   );
 };
 

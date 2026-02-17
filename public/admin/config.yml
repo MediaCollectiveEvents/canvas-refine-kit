@@ -80,6 +80,13 @@ collections:
                       default: "joinCommunity",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -190,6 +197,13 @@ collections:
                       default: "aboutIntro",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -294,6 +308,13 @@ collections:
                       default: "whoAttends",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -418,6 +439,13 @@ collections:
                       default: "upcomingEventsIntro",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -571,6 +599,13 @@ collections:
                       default: "forBrands",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -681,6 +716,13 @@ collections:
                       default: "newHere",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -791,6 +833,13 @@ collections:
                       default: "testimonials",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
@@ -897,6 +946,13 @@ collections:
                       default: "partners",
                     }
                   - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
 
                   # --- Title Styling ---
                   - label: Title Styling
