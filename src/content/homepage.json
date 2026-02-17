@@ -68,7 +68,7 @@
         "disableEmphasis": false
       },
       "styleWrapper": {
-        "variant": "clean",
+        "variant": "glow",
         "padding": "lux",
         "noise": true,
         "grid": true,
