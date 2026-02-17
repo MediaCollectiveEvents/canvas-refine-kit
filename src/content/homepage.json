@@ -3,7 +3,7 @@
     "title": "Connecting   Media Innovators",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
-    "theme": "dark",
+    "theme": "light",
     "overlayStrength": 0.25,
     "primaryCta": {
       "label": "Join us",
@@ -15,27 +15,6 @@
     }
   },
   "sections": [
-    {
-      "type": "aboutIntro",
-      "heading": "About Us",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "hidden": false
-    },
     {
       "type": "upcomingEventsIntro",
       "heading": "Upcoming Event",
@@ -63,7 +42,28 @@
         "grid": true,
         "withFades": true
       }
+    }{
+      "type": "aboutIntro",
+      "heading": "About Us",
+      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
+      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "hidden": false
     },
+    ,
     {
       "type": "whoAttends",
       "heading": "Who Attends",
