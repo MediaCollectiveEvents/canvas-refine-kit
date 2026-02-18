@@ -14,6 +14,7 @@
       "url": "/partners"
     }
   },
+
   "sections": [
     {
       "type": "aboutIntro",
@@ -36,35 +37,7 @@
       },
       "hidden": false
     },
-    {
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "heading": "Upcoming Event",
-      "styleTitle": {
-        "eyebrow": "What’s next",
-        "sub": "Don't miss our flagship events.",
-        "align": "left",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "hidden": false,
-      "cta": {
-        "label": "Learn More",
-        "url": "/events"
-      },
-      "note": "Spaces are limited to keep events focused and conversational.",
-      "type": "upcomingEventsIntro",
-      "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
-      "secondaryCta": {
-        "label": "View all events",
-        "url": "/events"
-      }
-    },
+
     {
       "type": "whoAttends",
       "heading": "Who Attends",
@@ -106,6 +79,7 @@
       },
       "hidden": false
     },
+
     {
       "type": "forBrands",
       "heading": "Brands & Partners",
@@ -130,6 +104,7 @@
       },
       "hidden": true
     },
+
     {
       "type": "newHere",
       "heading": "Our events",
@@ -154,6 +129,7 @@
       },
       "hidden": false
     },
+
     {
       "type": "testimonials",
       "heading": "What People Say",
@@ -173,6 +149,7 @@
         "withFades": true
       }
     },
+
     {
       "type": "partners",
       "heading": "Supported by Our Partner Community",
@@ -194,6 +171,7 @@
       },
       "hidden": true
     },
+
     {
       "type": "joinCommunity",
       "heading": "Join Our Community",
@@ -218,5 +196,6 @@
       }
     }
   ],
+
   "title": "testing12"
 }
