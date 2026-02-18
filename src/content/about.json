@@ -2,29 +2,38 @@
   "hero": {
     "eyebrow": "Our Community",
     "title": "Our Story",
-    "description": "Born during a time of remote work and limited in-person interaction, The Media Collective was created to reconnect the industry.",
+    "description": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry.",
+    "theme": "dark",
+    "overlayStrength": 0.5,
     "primaryCta": {
       "label": "Register Your Interest"
     }
   },
+
   "sections": [
     {
+      "id": "about-intro",
       "type": "aboutIntro",
+      "hidden": false,
       "title": "About the",
       "accentWord": "Media Collective",
       "body": "We bring together leaders and innovators from across the media landscape through curated industry events.",
-      "cta": {
-        "label": "Register Your Interest"
-      }
+      "cta": { "label": "Register Your Interest" }
     },
+
     {
+      "id": "our-story",
       "type": "story",
+      "hidden": false,
       "title": "Our",
       "accentWord": "Story",
-      "body": "Born during a time of remote work and limited in-person interaction, The Media Collective was created to reconnect the industry."
+      "body": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry."
     },
+
     {
+      "id": "mission-values",
       "type": "missionValues",
+      "hidden": false,
       "title": "Our",
       "accentWord": "Mission & Values",
       "description": "Our mission is simple: create opportunities for companies of all sizes to connect, exchange ideas, and explore new possibilities.",
@@ -46,21 +55,21 @@
         {
           "icon": "star",
           "title": "Quality Over Quantity",
-          "description": "Curated guest lists for relaxed, high-value networking.",
+          "description": "Curated guest lists for high‑value networking.",
           "color": "text-[hsl(var(--icon-red))]",
           "bgColor": "bg-[hsl(var(--icon-red)/0.1)]"
         }
       ]
     },
+
     {
+      "id": "join-us",
       "type": "joinUs",
+      "hidden": false,
       "title": "Ready to",
       "accentWord": "Join Us?",
-      "body": "Be part of the next generation of media industry connections. Our events are free, invite-only, and designed for high‑value networking.",
-      "cta": {
-        "label": "Register Your Interest",
-        "url": ""
-      }
+      "body": "Be part of a growing community designed for high‑value conversation.",
+      "cta": { "label": "Register Your Interest" }
     }
   ]
 }

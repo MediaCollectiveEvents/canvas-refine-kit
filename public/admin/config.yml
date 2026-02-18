@@ -44,7 +44,7 @@ collections:
                 options:
                   - { label: "0 (Off)", value: 0 }
                   - { label: "0.25 (Brightest)", value: 0.25 }
-                  - { label: "0.5 (Bright & Balanced)", value: 0.5 }
+                  - { label: "0.5 (Bright &amp; Balanced)", value: 0.5 }
                   - { label: "0.75 (More Contrast)", value: 0.75 }
                   - { label: "1 (Max Contrast)", value: 1 }
 
@@ -535,7 +535,7 @@ collections:
                           default: true,
                         }
 
-                  # Copy & CTAs
+                  # Copy &amp; CTAs
                   - { label: Description, name: description, widget: text }
                   - { label: Note, name: note, widget: string }
                   - label: CTA
@@ -588,7 +588,7 @@ collections:
                     }
 
               # FOR BRANDS
-              - label: For Brands & Partners
+              - label: For Brands &amp; Partners
                 name: forBrands
                 widget: object
                 fields:
@@ -1047,6 +1047,351 @@ collections:
                     name: logos
                     widget: list
                     field: { label: Logo, name: logo, widget: string }
+
+  # === ABOUT PAGE (about.json) ===
+  - name: aboutPage
+    label: About Page
+    files:
+      - name: about
+        label: About Page Content
+        file: "src/content/about.json"
+        format: json
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {
+                  label: "Eyebrow",
+                  name: "eyebrow",
+                  widget: "string",
+                  required: false,
+                }
+              - { label: "Title", name: "title", widget: "string" }
+              - {
+                  label: "Description",
+                  name: "description",
+                  widget: "text",
+                  required: false,
+                }
+              - label: "Theme"
+                name: "theme"
+                widget: "select"
+                options:
+                  - { label: "Dark", value: "dark" }
+                  - { label: "Light", value: "light" }
+              - label: "Overlay Strength"
+                name: "overlayStrength"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.05
+              - label: "Primary CTA"
+                name: "primaryCta"
+                widget: "object"
+                required: false
+                fields:
+                  - {
+                      label: "Label",
+                      name: "label",
+                      widget: "string",
+                      required: false,
+                    }
+
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            types:
+              - label: "About Intro"
+                name: "aboutIntro"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "aboutIntro",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Accent Word",
+                      name: "accentWord",
+                      widget: "string",
+                      required: false,
+                    }
+                  - { label: "Body", name: "body", widget: "text" }
+                  - label: "CTA"
+                    name: "cta"
+                    widget: "object"
+                    required: false
+                    fields:
+                      - {
+                          label: "Label",
+                          name: "label",
+                          widget: "string",
+                          required: false,
+                        }
+
+              - label: "Story Section"
+                name: "story"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "story",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Accent Word",
+                      name: "accentWord",
+                      widget: "string",
+                      required: false,
+                    }
+                  - { label: "Body", name: "body", widget: "text" }
+
+              - label: "Mission & Values"
+                name: "missionValues"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "missionValues",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Accent Word",
+                      name: "accentWord",
+                      widget: "string",
+                      required: false,
+                    }
+                  - {
+                      label: "Description",
+                      name: "description",
+                      widget: "text",
+                    }
+                  - label: "Values"
+                    name: "values"
+                    widget: "list"
+                    fields:
+                      - { label: "Icon Key", name: "icon", widget: "string" }
+                      - { label: "Title", name: "title", widget: "string" }
+                      - {
+                          label: "Description",
+                          name: "description",
+                          widget: "text",
+                        }
+                      - {
+                          label: "Color Class",
+                          name: "color",
+                          widget: "string",
+                          required: false,
+                        }
+                      - {
+                          label: "BG Class",
+                          name: "bgColor",
+                          widget: "string",
+                          required: false,
+                        }
+
+              - label: "Join Us"
+                name: "joinUs"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "joinUs",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Accent Word",
+                      name: "accentWord",
+                      widget: "string",
+                      required: false,
+                    }
+                  - { label: "Body", name: "body", widget: "text" }
+                  - label: "CTA"
+                    name: "cta"
+                    widget: "object"
+                    fields:
+                      - { label: "Label", name: "label", widget: "string" }
+                      - {
+                          label: "URL",
+                          name: "url",
+                          widget: "string",
+                          required: false,
+                        }
+
+  # === EVENTS PAGE (eventsPage.json) ===
+  - name: eventsPage
+    label: Events Page
+    files:
+      - name: eventsPage
+        label: Events Page Content
+        file: "src/content/eventsPage.json"
+        format: json
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {
+                  label: "Eyebrow",
+                  name: "eyebrow",
+                  widget: "string",
+                  required: false,
+                }
+              - { label: "Title", name: "title", widget: "string" }
+              - {
+                  label: "Description",
+                  name: "description",
+                  widget: "text",
+                  required: false,
+                }
+              - label: "Theme"
+                name: "theme"
+                widget: "select"
+                options:
+                  - { label: "Dark", value: "dark" }
+                  - { label: "Light", value: "light" }
+              - label: "Overlay Strength"
+                name: "overlayStrength"
+                widget: "number"
+                value_type: "float"
+                min: 0
+                max: 1
+                step: 0.05
+              - label: "Primary CTA"
+                name: "primaryCta"
+                widget: "object"
+                required: false
+                fields:
+                  - {
+                      label: "Label",
+                      name: "label",
+                      widget: "string",
+                      required: false,
+                    }
+                  - {
+                      label: "URL",
+                      name: "url",
+                      widget: "string",
+                      required: false,
+                    }
+
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            types:
+              - label: "Events Intro"
+                name: "eventsIntro"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "eventsIntro",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Accent Word",
+                      name: "accentWord",
+                      widget: "string",
+                      required: false,
+                    }
+                  - { label: "Body", name: "body", widget: "text" }
+
+              - label: "Events List"
+                name: "eventsList"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "eventsList",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+
+              - label: "Join Us CTA"
+                name: "joinUs"
+                widget: "object"
+                fields:
+                  - { label: "ID", name: "id", widget: "string" }
+                  - {
+                      label: "Type",
+                      name: "type",
+                      widget: "hidden",
+                      default: "joinUs",
+                    }
+                  - {
+                      label: "Hidden",
+                      name: "hidden",
+                      widget: "boolean",
+                      default: false,
+                    }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - {
+                      label: "Accent Word",
+                      name: "accentWord",
+                      widget: "string",
+                      required: false,
+                    }
+                  - { label: "Body", name: "body", widget: "text" }
+                  - label: "CTA"
+                    name: "cta"
+                    widget: "object"
+                    fields:
+                      - { label: "Label", name: "label", widget: "string" }
+                      - { label: "URL", name: "url", widget: "string" }
 
   # === EVENTS CONTENT (events.json) ===
   - name: events

@@ -6,124 +6,100 @@ import AboutOverviewSection from "@/components/sections/AboutOverviewSection";
 import OurStorySection from "@/components/sections/OurStorySection";
 import MissionValuesSection from "@/components/sections/MissionValuesSection";
 
-/**
- * Types for each section variant on the About page.
- * These should mirror the structure in src/content/about.json.
- */
+type Base = { id?: string; hidden?: boolean };
 
-type AboutIntroSection = {
-  id?: string;
+type AboutIntro = Base & {
   type: "aboutIntro";
   title: string;
   accentWord?: string;
   body: string;
-  cta?: {
-    label: string;
-  };
+  cta?: { label: string };
 };
 
-type StorySection = {
-  id?: string;
+type Story = Base & {
   type: "story";
   title: string;
   accentWord?: string;
   body: string;
 };
 
-type MissionValuesSectionData = {
-  id?: string;
+type MissionValues = Base & {
   type: "missionValues";
   title: string;
   accentWord: string;
   description: string;
-  // This matches the ValueItem[] inside MissionValuesSection
-  values: {
-    icon: "users" | "heart" | "star";
-    title: string;
-    description: string;
-    color: string;
-    bgColor: string;
-  }[];
+  values: any[];
 };
 
-type JoinUsSection = {
-  id?: string;
+type JoinUs = Base & {
   type: "joinUs";
-  // Later you can add optional fields here if you want to drive CTA text from JSON
+  title: string;
+  accentWord?: string;
+  body: string;
+  cta?: { label: string; url?: string };
 };
 
-type AboutSection =
-  | AboutIntroSection
-  | StorySection
-  | MissionValuesSectionData
-  | JoinUsSection;
+type AboutSection = AboutIntro | Story | MissionValues | JoinUs;
 
-interface AboutPageRendererProps {
-  sections: AboutSection[] | undefined;
+export interface AboutPageRendererProps {
+  sections: AboutSection[];
   onRegister: () => void;
 }
 
-/**
- * Renders About page sections in the order defined by about.json.
- */
 const AboutPageRenderer = ({
   sections,
   onRegister,
 }: AboutPageRendererProps) => {
-  if (!sections || sections.length === 0) return null;
-
   return (
     <>
-      {sections.map((section) => {
-        const key = section.id ?? section.type;
+      {sections
+        .filter((s) => !s.hidden)
+        .map((section) => {
+          const key = section.id ?? section.type;
 
-        switch (section.type) {
-          case "aboutIntro":
-            return (
-              <AboutOverviewSection
-                key={key}
-                title={section.title}
-                accentWord={section.accentWord}
-                body={section.body}
-                onRegisterClick={onRegister}
-                ctaLabel={section.cta?.label}
-              />
-            );
+          switch (section.type) {
+            case "aboutIntro":
+              return (
+                <PageSection key={key} variant="default">
+                  <AboutOverviewSection
+                    title={section.title}
+                    accentWord={section.accentWord}
+                    body={section.body}
+                    ctaLabel={section.cta?.label}
+                    onRegisterClick={onRegister}
+                  />
+                </PageSection>
+              );
 
-          case "story":
-            return (
-              <OurStorySection
-                key={key}
-                title={section.title}
-                accentWord={section.accentWord}
-                body={section.body}
-              />
-            );
+            case "story":
+              return (
+                <PageSection key={key} variant="default">
+                  <OurStorySection
+                    title={section.title}
+                    accentWord={section.accentWord}
+                    body={section.body}
+                  />
+                </PageSection>
+              );
 
-          case "missionValues":
-            return (
-              <PageSection key={key} variant="darker">
-                {/* Type is now exactly what MissionValuesSection expects */}
-                <MissionValuesSection section={section} />
-              </PageSection>
-            );
+            case "missionValues":
+              return (
+                <PageSection key={key} variant="darker">
+                  <MissionValuesSection section={section} />
+                </PageSection>
+              );
 
-          case "joinUs":
-            return (
-              <PageSection key={key} variant="accent" className="py-20">
-                {/* For now this uses the shared CTA component.
-                    You can make this JSON-driven later if you like. */}
-                <PageCTA onClick={onRegister} />
-              </PageSection>
-            );
+            case "joinUs":
+              return (
+                <PageSection key={key} variant="accent">
+                  <PageCTA onClick={onRegister} />
+                </PageSection>
+              );
 
-          default:
-            console.warn(
-              `Unknown About section type: ${(section as any).type}`,
-            );
-            return null;
-        }
-      })}
+            default:
+              return null;
+          }
+        })}
     </>
   );
 };

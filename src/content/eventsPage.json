@@ -1,0 +1,41 @@
+{
+  "hero": {
+    "eyebrow": "Upcoming Events",
+    "title": "Discover Our Events",
+    "description": "Exclusive gatherings for media, broadcast, and technology professionals.",
+    "theme": "dark",
+    "overlayStrength": 0.5,
+    "primaryCta": {
+      "label": "Register Your Interest",
+      "url": "/register"
+    }
+  },
+
+  "sections": [
+    {
+      "id": "eventsIntro",
+      "type": "eventsIntro",
+      "hidden": false,
+      "title": "Upcoming",
+      "accentWord": "Events",
+      "body": "Explore our upcoming breakfasts, receptions, and roundtables crafted for genuine conversation and industry insight."
+    },
+    {
+      "id": "eventsList",
+      "type": "eventsList",
+      "hidden": false
+    },
+    {
+      "id": "eventsCta",
+      "type": "joinUs",
+      "hidden": false,
+      "title": "Want to join us?",
+      "accentWord": "Register Today",
+      "body": "Our events are free, invite‑only, and designed for high‑value networking.",
+      "cta": {
+        "label": "Register Your Interest",
+        "url": "/register"
+      }
+    }
+  ]
+}

@@ -1,23 +1,28 @@
-[
-  {
-    "id": 1,
-    "title": "NAB Review 2026",
-    "location": "White City, London, UK",
-    "venue": "The Broadcaster",
-    "imageKey": "broadcaster"
-  },
-  {
-    "id": 2,
-    "title": "MPTS Reception",
-    "location": "Olympia London, UK",
-    "venue": "The Hand & Flower",
-    "imageKey": "handandflower"
-  },
-  {
-    "id": 3,
-    "title": "IBC Breakfast",
-    "location": "RAI, Amsterdam, Netherlands",
-    "venue": "The Traveller",
-    "imageKey": "traveller"
-  }
-]
+{
+  "events": [
+    {
+      "id": 1,
+      "title": "IBC Breakfast Roundtable",
+      "location": "Amsterdam",
+      "venue": "Jaarbeurs",
+      "date": "2026-09-14",
+      "imageKey": "broadcaster"
+    },
+    {
+      "id": 2,
+      "title": "Media Leaders Reception",
+      "location": "London",
+      "venue": "Hand and Flower",
+      "date": "2026-03-12",
+      "imageKey": "hand and flower"
+    },
+    {
+      "id": 3,
+      "title": "AI in Broadcasting Summit",
+      "location": "Berlin",
+      "venue": "The Traveller",
+      "date": "2026-05-08",
+      "imageKey": "traveller"
+    }
+  ]
+}

@@ -1,27 +1,51 @@
 {
-  "title": "Our Partners",
-  "intro": "Canvas Refine Kit is built in collaboration with organisations that share our vision for better prototyping, rapid experimentation, and collaborative workflows.",
-  "items": [
+  "hero": {
+    "eyebrow": "Our Partners",
+    "title": "Built with Industry Leaders",
+    "description": "Canvas Refine Kit is built in collaboration with organisations that share our vision for better prototyping, rapid experimentation, and collaborative workflows.",
+    "theme": "light",
+    "overlayStrength": 0.4,
+    "primaryCta": {
+      "label": "Become a Partner",
+      "url": "/contact"
+    }
+  },
+  "sections": [
     {
-      "name": "DesignOps Collective",
-      "logo": "/images/partners/designops-collective.svg",
-      "url": "https://designopscollective.example.com",
-      "tier": "Strategic Partner",
-      "description": "A global community focused on scaling design operations across product teams."
+      "id": "partners-intro",
+      "type": "partnersIntro",
+      "hidden": false,
+      "eyebrow": "Collaboration at the core",
+      "title": "Our Partners",
+      "text": "Canvas Refine Kit is built in collaboration with organisations that share our vision for better prototyping, rapid experimentation, and collaborative workflows."
     },
     {
-      "name": "ProtoFlow Labs",
-      "logo": "/images/partners/protoflow-labs.svg",
-      "url": "https://protoflowlabs.example.com",
-      "tier": "Tooling Partner",
-      "description": "Building experimentation tools that connect research, design, and engineering workflows."
-    },
-    {
-      "name": "FutureCanvas Studio",
-      "logo": "/images/partners/futurecanvas-studio.svg",
-      "url": "https://futurecanvas.example.com",
-      "tier": "Community Partner",
-      "description": "A studio dedicated to visual frameworks, strategy canvases, and facilitation training."
+      "id": "partners-grid",
+      "type": "partnersGrid",
+      "hidden": false,
+      "items": [
+        {
+          "name": "DesignOps Collective",
+          "logo": "/images/partners/designops-collective.svg",
+          "url": "https://designopscollective.example.com",
+          "tier": "Strategic Partner",
+          "description": "A global community focused on scaling design operations across product teams."
+        },
+        {
+          "name": "ProtoFlow Labs",
+          "logo": "/images/partners/protoflow-labs.svg",
+          "url": "https://protoflowlabs.example.com",
+          "tier": "Tooling Partner",
+          "description": "Building experimentation tools that connect research, design, and engineering workflows."
+        },
+        {
+          "name": "FutureCanvas Studio",
+          "logo": "/images/partners/futurecanvas-studio.svg",
+          "url": "https://futurecanvas.example.com",
+          "tier": "Community Partner",
+          "description": "A studio dedicated to visual frameworks, strategy canvases, and facilitation training."
+        }
+      ]
     }
   ]
 }
