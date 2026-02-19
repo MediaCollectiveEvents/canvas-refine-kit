@@ -139,8 +139,8 @@
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
-        "noise": false,
-        "grid": false,
+        "noise": true,
+        "grid": true,
         "withFades": true
       }
     },
