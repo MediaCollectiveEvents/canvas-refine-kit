@@ -1,28 +1,47 @@
 {
+  "hero": {
+    "eyebrow": "Upcoming Events",
+    "title": "Join Our Community Events",
+    "description": "Breakfasts, receptions and roundtables that bring media professionals together.",
+    "theme": "dark",
+    "overlayStrength": 0.5
+  },
+
   "events": [
     {
       "id": 1,
       "title": "IBC Breakfast Roundtable",
       "location": "Amsterdam",
-      "venue": "The Traveller, Rai",
+      "venue": "The Traveller, RAI",
       "date": "2026-09-14",
-      "imageKey": "broadcaster"
+      "time": "09:00",
+      "description": "Join industry leaders for a relaxed IBC breakfast conversation.",
+      "imageKey": "broadcaster",
+      "type": "upcoming"
     },
+
     {
       "id": 2,
       "title": "Media Leaders Reception",
       "location": "London",
       "venue": "Hand and Flower",
       "date": "2026-03-12",
-      "imageKey": "hand and flower"
+      "time": "18:00",
+      "description": "An invite‑only gathering for media, broadcast and technology executives.",
+      "imageKey": "handandflower",
+      "type": "upcoming"
     },
+
     {
       "id": 3,
       "title": "AI in Broadcasting Summit",
       "location": "Berlin",
       "venue": "The Traveller",
       "date": "2026-05-08",
-      "imageKey": "traveller"
+      "time": "10:00",
+      "description": "Exploring the future of AI‑powered broadcast workflows and content creation.",
+      "imageKey": "traveller",
+      "type": "past"
     }
   ]
 }
