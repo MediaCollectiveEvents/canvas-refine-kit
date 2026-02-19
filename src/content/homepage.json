@@ -14,7 +14,6 @@
       "url": "/partners"
     }
   },
-
   "sections": [
     {
       "type": "aboutIntro",
@@ -37,7 +36,6 @@
       },
       "hidden": false
     },
-
     {
       "type": "whoAttends",
       "heading": "Who Attends",
@@ -79,7 +77,6 @@
       },
       "hidden": false
     },
-
     {
       "type": "forBrands",
       "heading": "Brands & Partners",
@@ -104,7 +101,6 @@
       },
       "hidden": true
     },
-
     {
       "type": "newHere",
       "heading": "Our events",
@@ -129,7 +125,6 @@
       },
       "hidden": false
     },
-
     {
       "type": "testimonials",
       "heading": "What People Say",
@@ -142,14 +137,13 @@
         "disableEmphasis": false
       },
       "styleWrapper": {
-        "variant": "clean",
+        "variant": "glow",
         "padding": "lux",
         "noise": false,
         "grid": false,
         "withFades": true
       }
     },
-
     {
       "type": "partners",
       "heading": "Supported by Our Partner Community",
@@ -171,7 +165,6 @@
       },
       "hidden": true
     },
-
     {
       "type": "joinCommunity",
       "heading": "Join Our Community",
@@ -196,6 +189,5 @@
       }
     }
   ],
-
   "title": "testing12"
 }
