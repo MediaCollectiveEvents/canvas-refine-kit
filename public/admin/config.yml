@@ -1256,180 +1256,153 @@ collections:
                           required: false,
                         }
 
-  # === EVENTS PAGE (eventsPage.json) ===
-  - name: eventsPage
-    label: Events Page
-    files:
-      - name: eventsPage
-        label: Events Page Content
-        file: "src/content/eventsPage.json"
-        format: json
-        fields:
-          - label: "Hero"
-            name: "hero"
-            widget: "object"
-            fields:
-              - {
-                  label: "Eyebrow",
-                  name: "eyebrow",
-                  widget: "string",
-                  required: false,
-                }
-              - { label: "Title", name: "title", widget: "string" }
-              - {
-                  label: "Description",
-                  name: "description",
-                  widget: "text",
-                  required: false,
-                }
-              - label: "Theme"
-                name: "theme"
-                widget: "select"
-                options:
-                  - { label: "Dark", value: "dark" }
-                  - { label: "Light", value: "light" }
-              - label: "Overlay Strength"
-                name: "overlayStrength"
-                widget: "number"
-                value_type: "float"
-                min: 0
-                max: 1
-                step: 0.05
-              - label: "Primary CTA"
-                name: "primaryCta"
-                widget: "object"
-                required: false
-                fields:
-                  - {
-                      label: "Label",
-                      name: "label",
-                      widget: "string",
-                      required: false,
-                    }
-                  - {
-                      label: "URL",
-                      name: "url",
-                      widget: "string",
-                      required: false,
-                    }
-
-          - label: "Sections"
-            name: "sections"
-            widget: "list"
-            types:
-              - label: "Events Intro"
-                name: "eventsIntro"
-                widget: "object"
-                fields:
-                  - { label: "ID", name: "id", widget: "string" }
-                  - {
-                      label: "Type",
-                      name: "type",
-                      widget: "hidden",
-                      default: "eventsIntro",
-                    }
-                  - {
-                      label: "Hidden",
-                      name: "hidden",
-                      widget: "boolean",
-                      default: false,
-                    }
-                  - { label: "Title", name: "title", widget: "string" }
-                  - {
-                      label: "Accent Word",
-                      name: "accentWord",
-                      widget: "string",
-                      required: false,
-                    }
-                  - { label: "Body", name: "body", widget: "text" }
-
-              - label: "Events List"
-                name: "eventsList"
-                widget: "object"
-                fields:
-                  - { label: "ID", name: "id", widget: "string" }
-                  - {
-                      label: "Type",
-                      name: "type",
-                      widget: "hidden",
-                      default: "eventsList",
-                    }
-                  - {
-                      label: "Hidden",
-                      name: "hidden",
-                      widget: "boolean",
-                      default: false,
-                    }
-
-              - label: "Join Us CTA"
-                name: "joinUs"
-                widget: "object"
-                fields:
-                  - { label: "ID", name: "id", widget: "string" }
-                  - {
-                      label: "Type",
-                      name: "type",
-                      widget: "hidden",
-                      default: "joinUs",
-                    }
-                  - {
-                      label: "Hidden",
-                      name: "hidden",
-                      widget: "boolean",
-                      default: false,
-                    }
-                  - { label: "Title", name: "title", widget: "string" }
-                  - {
-                      label: "Accent Word",
-                      name: "accentWord",
-                      widget: "string",
-                      required: false,
-                    }
-                  - { label: "Body", name: "body", widget: "text" }
-                  - label: "CTA"
-                    name: "cta"
-                    widget: "object"
-                    fields:
-                      - { label: "Label", name: "label", widget: "string" }
-                      - { label: "URL", name: "url", widget: "string" }
-
   # === EVENTS CONTENT (events.json) ===
-  - name: events
-    label: Events
-    files:
-      - name: events
-        label: Events List
-        file: "src/content/events.json"
-        format: json
-        fields:
-          - label: Events
-            name: events
-            widget: list
-            allow_add: true
-            fields:
-              - { label: Title, name: title, widget: string }
-              - { label: Location, name: location, widget: string }
-              - { label: Venue, name: venue, widget: string }
-              - {
-                  label: Date,
-                  name: date,
-                  widget: date,
-                  required: false,
-                  format: "YYYY-MM-DD",
-                }
-              # Map to pre-bundled images in code (getImageForKey)
-              - label: Image Key
-                name: imageKey
-                widget: select
-                required: false
-                options:
-                  - { label: Broadcaster, value: broadcaster }
-                  - { label: Hand and Flower, value: "hand and flower" }
-                  - { label: Traveller, value: traveller }
-              # Optional: numeric id (auto-increment fallback exists in code)
-              - {
-                  label: ID (optional),
-                  name: id,
-                  widget: number,
-                  required: false,
-                }
+- name: events
+  label: Events
+  files:
+    - name: events
+      label: Events Content
+      file: "src/content/events.json"
+      format: json
+      fields:
+        # HERO (used at top of Events page)
+        - label: Hero
+          name: hero
+          widget: object
+          fields:
+            - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+            - { label: Title, name: title, widget: string }
+            - {
+                label: Description,
+                name: description,
+                widget: text,
+                required: false,
+                hint: "Short one‑ or two‑sentence summary shown in the hero.",
+              }
+            - label: Theme
+              name: theme
+              widget: select
+              required: false
+              default: dark
+              options:
+                - { label: Dark, value: dark }
+                - { label: Light, value: light }
+            - label: Overlay Strength
+              name: overlayStrength
+              widget: number
+              required: false
+              value_type: float
+              min: 0
+              max: 1
+              step: 0.05
+              default: 0.5
+              hint: "0 = no overlay, 1 = full overlay. Default 0.5."
+
+        # INTRO SECTION (shown above Upcoming Events)
+        - label: Intro Section
+          name: intro
+          widget: object
+          required: false
+          fields:
+            - {
+                label: Title,
+                name: title,
+                widget: string,
+                required: false,
+                hint: "Heading for the intro section above Upcoming Events.",
+              }
+            - {
+                label: Body,
+                name: body,
+                widget: text,
+                required: false,
+                hint: "Short paragraph introducing your events.",
+              }
+
+        # EVENTS LIST
+        - label: Events
+          name: events
+          widget: list
+          allow_add: true
+          fields:
+            - {
+                label: Title,
+                name: title,
+                widget: string,
+                hint: "Internal / public name of the event.",
+              }
+            - { label: Location, name: location, widget: string }
+            - { label: Venue, name: venue, widget: string }
+
+            # Date (stored as ISO; UI formats as '12 March 2026')
+            - label: Date
+              name: date
+              widget: date
+              format: "YYYY-MM-DD"
+              required: true
+              hint: "Select a calendar date. It will be displayed as '12 March 2026' on the site."
+
+            # Time (free text, e.g. '09:00' or '8.30am')
+            - {
+                label: Time,
+                name: time,
+                widget: string,
+                required: false,
+                hint: "Optional. Example formats: '09:00', '8.30am'.",
+              }
+
+            # Upcoming vs Past – controls which section it appears in
+            - label: Type
+              name: type
+              widget: select
+              options:
+                - { label: Upcoming, value: upcoming }
+                - { label: Past, value: past }
+              default: upcoming
+              hint: "Choose 'Upcoming' to show under Upcoming Events, or 'Past' to show in the Past Events section."
+
+            # Show on Homepage toggle
+            - label: Show on Homepage
+              name: showOnHomepage
+              widget: boolean
+              required: false
+              default: true
+              hint: "If checked, this event can be surfaced on the homepage events block."
+
+            # Maps to the eventImages keys used in Events.tsx
+            - label: Image Key
+              name: imageKey
+              widget: select
+              required: false
+              hint: "Choose which pre-defined artwork to show for this event."
+              options:
+                - { label: Broadcaster, value: broadcaster }
+                - { label: Hand and Flower, value: handandflower }
+                - { label: Traveller, value: traveller }
+
+            # Short description (shown in the card)
+            - {
+                label: Short Description,
+                name: description,
+                widget: text,
+                required: true,
+                hint: "One‑paragraph summary shown in the event card.",
+              }
+
+            # Full details (used in the expanded in-page section)
+            - {
+                label: Full Details,
+                name: details,
+                widget: text,
+                required: false,
+                hint: "Longer description shown when 'View Details' is clicked.",
+              }
+
+            # Optional numeric ID mapping used in onRegisterClick
+            - {
+                label: ID (optional),
+                name: id,
+                widget: number,
+                required: false,
+                hint: "Optional internal ID. If left blank, the code can fall back to defaults.",
+              }

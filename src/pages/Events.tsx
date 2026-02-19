@@ -13,8 +13,6 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import PageCTA from "@/components/shared/PageCTA";
 
 import eventsData from "@/content/events.json";
-
-// ✅ use the same static hero pattern as other pages
 import eventsHeroImage from "@/assets/hero-people.jpg";
 
 // Event artwork from assets
@@ -39,19 +37,39 @@ interface Event {
   date: string;
   time?: string;
   description: string;
+  details?: string;
   type: "upcoming" | "past";
 }
 
-const EventCard = ({
-  event,
-  index,
-  onRegisterClick,
-}: {
+// Format "2026-03-12" -> "12 March 2026"
+const formatEventDate = (dateStr: string): string => {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return dateStr;
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+};
+
+interface EventCardProps {
   event: Event;
   index: number;
+  isOpen: boolean;
+  onToggleDetails: () => void;
   onRegisterClick: (eventId: string) => void;
+}
+
+const EventCard: React.FC<EventCardProps> = ({
+  event,
+  index,
+  isOpen,
+  onToggleDetails,
+  onRegisterClick,
 }) => {
   const imageSrc = event.imageKey ? eventImages[event.imageKey] : undefined;
+  const formattedDate = formatEventDate(event.date);
 
   return (
     <motion.div
@@ -90,7 +108,7 @@ const EventCard = ({
               index % 2 === 1 ? "lg:justify-end" : ""
             }`}
           >
-            <span>{event.date}</span>
+            <span>{formattedDate}</span>
             {event.time && (
               <>
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -99,8 +117,8 @@ const EventCard = ({
             )}
           </div>
 
-          {/* Title */}
-          <h3 className="font-script text-4xl md:text-5xl text-foreground leading-tight">
+          {/* Title – Montserrat via font-display */}
+          <h3 className="font-display text-4xl md:text-5xl text-foreground leading-tight">
             {event.title}
           </h3>
 
@@ -115,29 +133,61 @@ const EventCard = ({
             <span>{event.location}</span>
           </div>
 
-          {/* Description */}
+          {/* Short Description */}
           <p className="text-muted-foreground font-body text-base leading-relaxed max-w-lg">
             {event.description}
           </p>
 
-          {/* CTA */}
-          <Button
-            onClick={() =>
-              onRegisterClick(
-                event.id === 1
-                  ? "nab-review"
-                  : event.id === 2
-                    ? "mpts-reception"
-                    : "ibc-breakfast",
-              )
-            }
-            className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
+          {/* CTA Row */}
+          <div
+            className={`flex gap-4 items-center ${
+              index % 2 === 1 ? "lg:justify-end" : ""
+            }`}
           >
-            Register Interest
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+            {/* View details (expands in-page) */}
+            <Button
+              variant="outline"
+              className="rounded-full font-body uppercase tracking-wider text-xs px-4"
+              onClick={onToggleDetails}
+            >
+              {isOpen ? "Hide Details" : "View Details"}
+            </Button>
+
+            {/* Register Interest (still opens form) */}
+            <Button
+              onClick={() =>
+                onRegisterClick(
+                  event.id === 1
+                    ? "nab-review"
+                    : event.id === 2
+                      ? "mpts-reception"
+                      : "ibc-breakfast",
+                )
+              }
+              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
+            >
+              Register Interest
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </div>
+
+      {/* Expanded details section */}
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mt-8 border border-border rounded-2xl bg-background/70 px-6 py-5 md:px-8 md:py-6"
+        >
+          <h4 className="font-display text-lg mb-3 text-foreground">
+            Full event description
+          </h4>
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
+            {event.details || event.description}
+          </p>
+        </motion.div>
+      )}
     </motion.div>
   );
 };
@@ -145,10 +195,12 @@ const EventCard = ({
 const Events: React.FC = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState<string>("");
+  const [openEventId, setOpenEventId] = useState<number | string | null>(null);
 
-  // JSON-driven hero
+  // JSON-driven hero & intro
   const hero = (eventsData as any).hero || {};
-  const heroImage = eventsHeroImage; // ✅ unified hero pattern
+  const intro = (eventsData as any).intro || {};
+  const heroImage = eventsHeroImage;
 
   // JSON-driven events
   const allEvents: Event[] = (eventsData as any).events || [];
@@ -158,6 +210,10 @@ const Events: React.FC = () => {
   const handleRegisterClick = (eventId: string) => {
     setSelectedEventId(eventId);
     setIsFormOpen(true);
+  };
+
+  const handleToggleDetails = (id: number | string) => {
+    setOpenEventId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -183,6 +239,20 @@ const Events: React.FC = () => {
           theme={hero.theme ?? "dark"}
         />
 
+        {/* INTRO SECTION */}
+        {intro?.title && (
+          <section className="py-12 md:py-16 px-6 bg-gradient-to-b from-background via-secondary/10 to-background">
+            <div className="container mx-auto max-w-3xl text-center">
+              <SectionHeader title={intro.title} accentWord="" />
+              {intro.body && (
+                <p className="mt-4 text-muted-foreground font-body text-base leading-relaxed">
+                  {intro.body}
+                </p>
+              )}
+            </div>
+          </section>
+        )}
+
         {/* UPCOMING EVENTS */}
         <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
           {/* background blobs */}
@@ -199,6 +269,8 @@ const Events: React.FC = () => {
                   key={event.id}
                   event={event}
                   index={index}
+                  isOpen={openEventId === event.id}
+                  onToggleDetails={() => handleToggleDetails(event.id)}
                   onRegisterClick={handleRegisterClick}
                 />
               ))}
@@ -219,6 +291,8 @@ const Events: React.FC = () => {
                     key={event.id}
                     event={event}
                     index={index}
+                    isOpen={openEventId === event.id}
+                    onToggleDetails={() => handleToggleDetails(event.id)}
                     onRegisterClick={handleRegisterClick}
                   />
                 ))}

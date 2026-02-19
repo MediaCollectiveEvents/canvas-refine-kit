@@ -7,6 +7,11 @@
     "overlayStrength": 0.5
   },
 
+  "intro": {
+    "title": "Our Events",
+    "body": "We host relaxed, invite-only breakfasts, receptions and roundtables for senior media, broadcast and technology professionals. Each event is designed to create space for real conversations, not just business cards."
+  },
+
   "events": [
     {
       "id": 1,
@@ -15,11 +20,11 @@
       "venue": "The Traveller, RAI",
       "date": "2026-09-14",
       "time": "09:00",
-      "description": "Join industry leaders for a relaxed IBC breakfast conversation.",
       "imageKey": "broadcaster",
-      "type": "upcoming"
+      "type": "upcoming",
+      "description": "Join us for a relaxed breakfast at IBC to discuss trends, challenges and opportunities in media and broadcast.",
+      "details": "This invite-only breakfast brings together senior leaders from broadcasters, studios and technology companies attending IBC. Expect an informal, facilitated conversation over coffee and breakfast, with plenty of time to connect with peers before the show floor opens."
     },
-
     {
       "id": 2,
       "title": "Media Leaders Reception",
@@ -27,11 +32,11 @@
       "venue": "Hand and Flower",
       "date": "2026-03-12",
       "time": "18:00",
-      "description": "An invite‑only gathering for media, broadcast and technology executives.",
       "imageKey": "handandflower",
-      "type": "upcoming"
+      "type": "upcoming",
+      "description": "An evening reception for media leaders to reconnect, share experiences and meet new collaborators.",
+      "details": "Hosted upstairs at the Hand and Flower, this reception is an opportunity to unwind after a busy day and catch up with familiar faces and new contacts. We’ll provide drinks, light food and some gentle facilitation to make introductions easy and natural."
     },
-
     {
       "id": 3,
       "title": "AI in Broadcasting Summit",
@@ -39,9 +44,10 @@
       "venue": "The Traveller",
       "date": "2026-05-08",
       "time": "10:00",
-      "description": "Exploring the future of AI‑powered broadcast workflows and content creation.",
       "imageKey": "traveller",
-      "type": "past"
+      "type": "past",
+      "description": "A half-day summit exploring how AI is reshaping broadcast operations and audience experiences.",
+      "details": "This intimate summit brought together product, operations and technology leaders to share practical experiences with AI in scheduling, playout, personalisation and production workflows. Sessions combined short talks with small-group discussions and feedback."
     }
   ]
 }
