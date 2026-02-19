@@ -39,6 +39,36 @@
     },
 
     {
+      "type": "upcomingEventsIntro",
+      "heading": "Upcoming Event",
+      "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
+      "note": "Spaces are limited to keep events focused and conversational.",
+      "styleTitle": {
+        "eyebrow": "What’s next",
+        "sub": "Don't miss our flagship events.",
+        "align": "left",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "cta": {
+        "label": "Learn More",
+        "url": "/events"
+      },
+      "secondaryCta": {
+        "label": "View all events",
+        "url": "/events"
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "hidden": false
+    },
+
+    {
       "type": "whoAttends",
       "heading": "Who Attends",
       "statistics": {
