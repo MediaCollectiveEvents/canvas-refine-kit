@@ -1,21 +1,43 @@
-// src/pages/FAQ.tsx
+import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import FAQSection from "@/components/sections/FAQSection";
+import PageHero from "@/components/shared/PageHero";
 
-const FAQ = () => {
+import faqPageData from "@/content/faqPage.json";
+import faqData from "@/content/faq.json";
+
+import FaqPageRenderer from "@/components/sections/FaqPageRenderer";
+
+export default function FAQ() {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  const { hero, sections } = faqPageData as {
+    hero: any;
+    sections: any[];
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Match top spacing of other pages */}
-      <main className="pt-20 sm:pt-24 lg:pt-28">
-        <FAQSection />
+      <main>
+        {/* Hero controlled by faqPage.json */}
+        <PageHero {...hero} />
+
+        {/* Sections + FAQ accordion driven by JSON */}
+        <FaqPageRenderer
+          sections={sections}
+          faqs={faqData}
+          onCtaClick={() => setIsFormOpen(true)}
+        />
+
+        {/* 
+          If you later add a contact / question form modal,
+          you can control it with isFormOpen here.
+        */}
       </main>
 
       <Footer />
     </div>
   );
-};
-
-export default FAQ;
+}

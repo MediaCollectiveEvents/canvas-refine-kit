@@ -8,5 +8,11 @@
     "text": "",
     "showEventsInFooter": false
   },
-  "nav": []
+  "nav": [
+    { "label": "Home", "type": "home" },
+    { "label": "About", "type": "about" },
+    { "label": "Events", "type": "events" },
+    { "label": "Blog", "type": "blog" },
+    { "label": "FAQ", "type": "faq" }
+  ]
 }

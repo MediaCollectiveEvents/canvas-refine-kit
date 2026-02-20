@@ -1,115 +1,191 @@
-import { useMemo, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import PageHero from "@/components/shared/PageHero";
+import React from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Calendar, User, ArrowRight } from "lucide-react";
+
+import PageSection from "@/components/shared/PageSection";
 import SectionDivider from "@/components/shared/SectionDivider";
 import PageCTA from "@/components/shared/PageCTA";
-import heroImage from "@/assets/hero-placeholder.jpg";
-import blogPostsData from "@/content/blog.json";
-import { Calendar, User, ArrowLeft } from "lucide-react";
 
-interface BlogPost {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt: string;
-  heroImage: string;
-  category: string;
-  date: string;
-  author: {
-    name: string;
-  };
-  // Optional if you later add full body content:
-  body?: string;
+import type { BlogPost } from "@/content/blogPosts";
+
+interface BlogPageSection {
+  id?: string;
+  type: string;
+  hidden?: boolean;
+  variant?: "default" | "darker" | "accent";
+  // Allow arbitrary fields coming from CMS JSON
+  [key: string]: any;
 }
 
-const normalisedPosts: BlogPost[] = (blogPostsData as any[]).map(
-  (post, index) => ({
-    id: post.id ?? index + 1,
-    title: post.title,
-    slug: post.slug,
-    excerpt: post.excerpt,
-    heroImage: post.heroImage,
-    category: post.category,
-    date: post.date,
-    author: {
-      name: post.author?.name ?? "The Media Collective",
-    },
-    body: post.body ?? "",
-  }),
-);
+export interface BlogPageRendererProps {
+  sections: BlogPageSection[] | undefined;
+  posts: BlogPost[];
+  onCtaClick?: () => void;
+}
 
-const Blog = () => {
-  const [isFormOpen, setIsFormOpen] = useState(false);
+const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
+  sections,
+  posts,
+  onCtaClick,
+}) => {
+  const safeSections: BlogPageSection[] = Array.isArray(sections)
+    ? sections
+    : [];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
+    <>
+      {safeSections
+        .filter((section) => !section.hidden)
+        .map((section, index) => {
+          const key = section.id ?? `${section.type}-${index}`;
+          const variant = section.variant ?? "default";
 
-      <main>
-        {/* Hero Section */}
-        <PageHero
-          eyebrow="Insights & Updates"
-          title="The Blog"
-          description="Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
-          variant="primary"
-        />
+          switch (section.type) {
+            case "postsGrid": {
+              const linkLabel: string = section.linkLabel || "Read More";
+              const authorLabel: string | undefined = section.authorLabel;
 
-        {/* Blog Posts Grid */}
-        <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
-          {normalisedPosts.map((post) => (
-            <article key={post.id}>
-              <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <User className="h-4 w-4" />
-                  {post.author.name}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Calendar className="h-4 w-4" />
-                  {new Date(post.date).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
-                </span>
-              </div>
+              return (
+                <PageSection key={key} variant={variant} id={section.id}>
+                  <div className="container mx-auto max-w-6xl">
+                    {(section.title || section.description) && (
+                      <div className="mb-8 max-w-2xl">
+                        {section.title && (
+                          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-2">
+                            {section.title}
+                          </h2>
+                        )}
+                        {section.description && (
+                          <p className="text-muted-foreground">
+                            {section.description}
+                          </p>
+                        )}
+                      </div>
+                    )}
 
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-                {post.title}
-              </h2>
+                    <div className="grid md:grid-cols-2 gap-8">
+                      {posts.map((post, postIndex) => (
+                        <motion.article
+                          key={post.slug}
+                          initial={{ opacity: 0, y: 30 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{
+                            duration: 0.5,
+                            delay: postIndex * 0.1,
+                          }}
+                          className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-[hsl(var(--icon-cyan))] transition-all duration-300 hover:shadow-lg"
+                        >
+                          <Link
+                            to={`/blog/${post.slug}`}
+                            className="block h-full"
+                          >
+                            {post.image && (
+                              <div className="aspect-video overflow-hidden">
+                                <img
+                                  src={post.image}
+                                  alt={post.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                              </div>
+                            )}
 
-              <p className="text-muted-foreground">{post.excerpt}</p>
+                            <div className="p-6">
+                              {post.category && (
+                                <span className="inline-block px-3 py-1 bg-[hsl(var(--icon-cyan)/0.1)] text-[hsl(var(--icon-cyan))] text-xs font-medium rounded-full mb-4">
+                                  {post.category}
+                                </span>
+                              )}
 
-              <div>
-                <Link
-                  to="/blog"
-                  className="inline-flex items-center text-[hsl(var(--icon-cyan))] hover:underline"
-                >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to all articles
-                </Link>
-              </div>
-            </article>
-          ))}
-        </section>
+                              <h3 className="font-display text-xl md:text-2xl text-foreground mb-3 group-hover:text-[hsl(var(--icon-cyan))] transition-colors">
+                                {post.title}
+                              </h3>
 
-        {/* Decorative Divider */}
-        <SectionDivider className="py-12" />
+                              {post.excerpt && (
+                                <p className="text-muted-foreground mb-4 line-clamp-2">
+                                  {post.excerpt}
+                                </p>
+                              )}
 
-        {/* CTA Section */}
-        <PageCTA
-          title="Want to stay"
-          accentWord="Informed?"
-          description="Join our community and get exclusive access to industry insights, event updates, and networking opportunities."
-          buttonLabel="Register Interest"
-          onClick={() => setIsFormOpen(true)}
-        />
-      </main>
+                              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                                <div className="flex items-center gap-4">
+                                  {authorLabel && (
+                                    <span className="flex items-center gap-1">
+                                      <User className="h-4 w-4" />
+                                      {authorLabel}
+                                    </span>
+                                  )}
 
-      <Footer />
-    </div>
+                                  {post.date && (
+                                    <span className="flex items-center gap-1">
+                                      <Calendar className="h-4 w-4" />
+                                      {new Date(post.date).toLocaleDateString(
+                                        undefined,
+                                        {
+                                          year: "numeric",
+                                          month: "short",
+                                          day: "numeric",
+                                        },
+                                      )}
+                                    </span>
+                                  )}
+                                </div>
+
+                                <span className="flex items-center gap-1 text-[hsl(var(--icon-cyan))] opacity-0 group-hover:opacity-100 transition-opacity">
+                                  {linkLabel}
+                                  <ArrowRight className="h-4 w-4" />
+                                </span>
+                              </div>
+                            </div>
+                          </Link>
+                        </motion.article>
+                      ))}
+                    </div>
+                  </div>
+                </PageSection>
+              );
+            }
+
+            case "divider": {
+              const spacingClass =
+                section.spacing === "large"
+                  ? "py-12"
+                  : section.spacing === "small"
+                    ? "py-4"
+                    : "py-8";
+
+              return (
+                <PageSection key={key} variant={variant} id={section.id}>
+                  <SectionDivider
+                    variant={section.style ?? "triple"}
+                    className={spacingClass}
+                  />
+                </PageSection>
+              );
+            }
+
+            case "cta": {
+              return (
+                <PageSection key={key} variant={variant} id={section.id}>
+                  <PageCTA
+                    title={section.title}
+                    accentWord={section.accentWord}
+                    description={section.description}
+                    buttonLabel={section.buttonLabel}
+                    onClick={onCtaClick}
+                  />
+                </PageSection>
+              );
+            }
+
+            default:
+              console.warn("[BlogPageRenderer] Unknown section type:", section);
+              return null;
+          }
+        })}
+    </>
   );
 };
 
-export default Blog;
+export default BlogPageRenderer;

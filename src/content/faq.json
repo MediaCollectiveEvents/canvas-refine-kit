@@ -1,12 +1,14 @@
-{
-  "items": [
-    {
-      "question": "Who are the events for?",
-      "answer": "Our events are curated for senior executives, innovators, and founders working across media, entertainment, and technology."
-    },
-    {
-      "question": "Are the events free?",
-      "answer": "Yes — all of our events are free and invite‑only to ensure a high‑quality networking environment."
-    }
-  ]
-}
+[
+  {
+    "question": "Who are these events for?",
+    "answer": "Our events are designed for senior leaders and decision-makers across media, entertainment, and technology who want curated, high-value networking."
+  },
+  {
+    "question": "How often do you run events?",
+    "answer": "We host a mix of breakfasts, private receptions, and curated gatherings throughout the year, often aligned with major industry moments."
+  },
+  {
+    "question": "Can I suggest a topic or partner?",
+    "answer": "Yes – we actively collaborate with sponsors and partners to shape formats and themes that align with their strategic goals."
+  }
+]

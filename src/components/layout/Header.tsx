@@ -5,17 +5,69 @@ import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 
+import settings from "@/content/settings.json";
+
+type RawNavItem =
+  | {
+      label: string;
+      type?: string;
+      href?: string;
+      url?: string;
+    }
+  | any;
+
+interface SettingsFile {
+  nav?: RawNavItem[];
+  [key: string]: any;
+}
+
+const typedSettings = settings as SettingsFile;
+
+function resolveHref(item: RawNavItem): string {
+  // Explicit href/url from CMS wins
+  if (item.href) return item.href;
+  if (item.url) return item.url;
+
+  switch (item.type) {
+    case "home":
+      return "/";
+    case "about":
+      return "/about";
+    case "events":
+      return "/events";
+    case "partners":
+      return "/partners";
+    case "blog":
+      return "/blog";
+    case "faq":
+      return "/faq";
+    case "sponsors":
+      return "/sponsors";
+    default:
+      return "/";
+  }
+}
+
+const fallbackNavItems = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Events", href: "/events" },
+  { label: "Partners", href: "/partners" },
+  { label: "Blog", href: "/blog" },
+  { label: "FAQ", href: "/faq" },
+];
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const navItems = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Events", href: "/events" },
-    { label: "Partners", href: "/partners" },
-    { label: "Blog", href: "/blog" },
-  ];
+  const navItems =
+    Array.isArray(typedSettings.nav) && typedSettings.nav.length > 0
+      ? typedSettings.nav.map((item) => ({
+          label: item.label,
+          href: resolveHref(item),
+        }))
+      : fallbackNavItems;
 
   return (
     <>

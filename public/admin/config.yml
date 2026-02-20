@@ -1255,7 +1255,76 @@ collections:
                           widget: "string",
                           required: false,
                         }
+ # === FAQ PAGE (faqPage.json) ===
+  - name: faqPage
+    label: FAQ Page
+    files:
+      - name: faqPage
+        label: FAQ Page Content
+        file: "src/content/faqPage.json"
+        format: json
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Eyebrow", name: "eyebrow", widget: "string", required: false }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - label: "Theme"
+                name: "theme"
+                widget: "select"
+                options:
+                  - { label: "Dark", value: "dark" }
+                  - { label: "Light", value: "light" }
+              - label: "Variant"
+                name: "variant"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "Solid", value: "solid" }
+                  - { label: "Image", value: "image" }
+              - label: "Align"
+                name: "align"
+                widget: "select"
+                required: false
+                options:
+                  - { label: "Center", value: "center" }
+                  - { label: "Left", value: "left" }
 
+          - label: "Sections"
+            name: "sections"
+            widget: "list"
+            summary: "{{fields.type}} — {{fields.title}}"
+            fields:
+              - { label: "ID", name: "id", widget: "string", required: false }
+
+              - label: "Type"
+                name: "type"
+                widget: "select"
+                options:
+                  - { label: FAQ Section, value: faqSection }
+                  - { label: Call to Action, value: cta }
+
+              - { label: "Hidden", name: "hidden", widget: "boolean", required: false, default: false }
+
+              - label: "Variant"
+                name: "variant"
+                widget: "select"
+                required: false
+                options:
+                  - { label: Default, value: default }
+                  - { label: Darker, value: darker }
+                  - { label: Accent, value: accent }
+
+              # Shared fields
+              - { label: "Title", name: "title", widget: "string", required: false }
+              - { label: "Accent Word", name: "accentWord", widget: "string", required: false }
+              - { label: "Description", name: "description", widget: "text", required: false }
+
+              # CTA-only
+              - { label: "Button Label", name: "buttonLabel", widget: "string", required: false }
+                
   # === EVENTS CONTENT (events.json) ===
 - name: events
   label: Events
@@ -1405,4 +1474,54 @@ collections:
                 widget: number,
                 required: false,
                 hint: "Optional internal ID. If left blank, the code can fall back to defaults.",
-              }
+              }# === SITE SETTINGS (navigation, palette, footer) ===
+  - name: settings
+    label: Site Settings
+    file: "src/content/settings.json"
+    format: json
+    fields:
+      - label: Palette
+        name: palette
+        widget: object
+        fields:
+          - { label: Primary, name: primary, widget: string }
+          - { label: Secondary, name: secondary, widget: string }
+          - { label: Background, name: background, widget: string }
+
+      - label: Footer
+        name: footer
+        widget: object
+        fields:
+          - { label: Text, name: text, widget: text, required: false }
+          - {
+              label: Show Events in Footer,
+              name: showEventsInFooter,
+              widget: boolean,
+              required: false,
+              default: false
+            }
+
+      - label: Navigation
+        name: nav            # ⬅️ match your JSON key
+        widget: list
+        summary: "{{fields.label}} → {{fields.type}}"
+        fields:
+          - { label: Label, name: label, widget: string }
+          - label: Link Type
+            name: type
+            widget: select
+            options:
+              - { label: Home, value: home }
+              - { label: About, value: about }
+              - { label: Events, value: events }
+              - { label: Blog, value: blog }
+              - { label: Sponsors, value: sponsors }
+              - { label: Partners, value: partners }
+              - { label: FAQ, value: faq }   # ⬅ FAQ option
+          - {
+              label: URL Override (optional),
+              name: url,
+              widget: string,
+              required: false,
+              hint: "Override the default route if needed."
+            }

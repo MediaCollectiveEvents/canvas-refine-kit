@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { heroImageMap } from "@/lib/heroImageMap";
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -14,7 +15,17 @@ interface PageHeroProps {
   secondaryCtaText?: string;
   secondaryCtaHref?: string;
 
+  /**
+   * Direct background image URL. If provided, this wins over imageKey.
+   */
   backgroundImage?: string;
+
+  /**
+   * Optional key used to pick an image from heroImageMap.
+   * Example: "faqHero", "defaultHero", etc.
+   */
+  imageKey?: string;
+
   variant?: "image" | "solid";
 
   /**
@@ -41,6 +52,7 @@ export default function PageHero({
   secondaryCtaText,
   secondaryCtaHref,
   backgroundImage,
+  imageKey,
   variant = "image",
   overlayStrength = 0.75,
   theme = "dark",
@@ -50,6 +62,14 @@ export default function PageHero({
   const y = useTransform(scrollY, [0, 500], [0, 140]);
 
   const isLight = theme === "light";
+
+  // Resolve background image:
+  // 1) explicit backgroundImage prop wins
+  // 2) otherwise try imageKey -> heroImageMap
+  // 3) otherwise undefined (no image)
+  const resolvedBackgroundImage =
+    backgroundImage ??
+    (imageKey && heroImageMap[imageKey] ? heroImageMap[imageKey] : undefined);
 
   // ---- Overlay recipes (dark vs light) ----
   const s = overlayStrength;
@@ -139,11 +159,11 @@ export default function PageHero({
       }`}
     >
       {/* PARALLAX BACKGROUND IMAGE */}
-      {variant === "image" && backgroundImage && (
+      {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-center will-change-transform"
           style={{
-            backgroundImage: `url(${backgroundImage})`,
+            backgroundImage: `url(${resolvedBackgroundImage})`,
             y,
             // Slight lift for light theme
             filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
@@ -159,7 +179,6 @@ export default function PageHero({
           className="absolute inset-0 pointer-events-none"
           aria-hidden="true"
         >
-          {/* No black vignette in light mode */}
           {/* Gentle bright bloom */}
           <div
             className={`absolute inset-0 ${lightBloomOpacity} mix-blend-screen`}
@@ -245,7 +264,9 @@ export default function PageHero({
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
               className={`
                 absolute top-0 h-full w-[50%]
-                bg-gradient-to-r from-transparent ${isLight ? "via-black/5" : "via-white/10"} to-transparent
+                bg-gradient-to-r from-transparent ${
+                  isLight ? "via-black/5" : "via-white/10"
+                } to-transparent
                 blur-2xl
                 pointer-events-none
               `}
@@ -310,7 +331,9 @@ export default function PageHero({
                   className={`
                     rounded-full px-8 py-3
                     bg-primary text-black
-                    shadow-lg ${isLight ? "shadow-primary/30" : "shadow-primary/40"}
+                    shadow-lg ${
+                      isLight ? "shadow-primary/30" : "shadow-primary/40"
+                    }
                     hover:bg-primary/90
                     hover:shadow-[0_0_40px_rgba(54,224,198,0.65)]
                     transition-transform duration-200 ease-out
