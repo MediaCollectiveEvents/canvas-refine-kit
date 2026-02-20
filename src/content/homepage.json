@@ -17,6 +17,47 @@
   },
   "sections": [
     {
+      "type": "whoAttends",
+      "heading": "Who Attends",
+      "statistics": {
+        "companies": "Over 300 companies",
+        "boardLevel": "Over 100 board-level executives",
+        "founders": "34 startup founders"
+      },
+      "highlights": [
+        {
+          "title": "The Top 3",
+          "subtitle": "Global Tech Giants",
+          "icon": "globe"
+        },
+        {
+          "title": "The Major 5",
+          "subtitle": "Hollywood Studios",
+          "icon": "film"
+        },
+        {
+          "title": "The Leading 8",
+          "subtitle": "Streaming Platforms",
+          "icon": "play"
+        }
+      ],
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "Leaders across media & technology",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "hidden": false
+    },
+    {
       "type": "aboutIntro",
       "heading": "About Us",
       "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
@@ -65,47 +106,6 @@
         "label": "View all events",
         "url": "/events"
       }
-    },
-    {
-      "type": "whoAttends",
-      "heading": "Who Attends",
-      "statistics": {
-        "companies": "Over 300 companies",
-        "boardLevel": "Over 100 board-level executives",
-        "founders": "34 startup founders"
-      },
-      "highlights": [
-        {
-          "title": "The Top 3",
-          "subtitle": "Global Tech Giants",
-          "icon": "globe"
-        },
-        {
-          "title": "The Major 5",
-          "subtitle": "Hollywood Studios",
-          "icon": "film"
-        },
-        {
-          "title": "The Leading 8",
-          "subtitle": "Streaming Platforms",
-          "icon": "play"
-        }
-      ],
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "Leaders across media & technology",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "hidden": false
     },
     {
       "type": "forBrands",
