@@ -1,7 +1,7 @@
 {
   "hero": {
     "imageKey": "homeHero",
-    "title": "Connecting Media Innovators",
+    "title": "Connecting Media",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
     "theme": "dark",
@@ -15,7 +15,6 @@
       "url": "/partners"
     }
   },
-
   "sections": [
     {
       "styleWrapper": {
