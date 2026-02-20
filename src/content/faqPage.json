@@ -5,7 +5,7 @@
     "description": "Find answers to the most common questions about our events and community.",
     "variant": "solid",
     "theme": "dark",
-    "imageKey": "faqHero",
+    "imageKey": "aboutHero",
     "align": "center"
   },
   "sections": [
