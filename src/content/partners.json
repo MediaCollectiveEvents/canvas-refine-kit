@@ -1,6 +1,6 @@
 {
   "hero": {
-    "eyebrow": "Partnership Opportunities",
+    "eyebrow": "Connect with our community ",
     "title": "Become a Partner",
     "description": "Partner with The Media Collective and connect your brand with influential organisations across media and technology.",
     "theme": "dark",
@@ -10,7 +10,6 @@
       "url": "/register"
     }
   },
-
   "sections": [
     {
       "id": "logos",
