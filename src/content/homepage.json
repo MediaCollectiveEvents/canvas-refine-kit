@@ -1,10 +1,10 @@
 {
   "hero": {
     "imageKey": "homeHero",
-    "title": "Connecting Media",
+    "title": "Connecting ",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
-    "theme": "dark",
+    "theme": "light",
     "overlayStrength": 0.25,
     "primaryCta": {
       "label": "Join us",
@@ -16,6 +16,30 @@
     }
   },
   "sections": [
+    {
+      "type": "forBrands",
+      "heading": "Brands & Partners",
+      "body": "We also work with selected partners to create curated industry experiences.",
+      "cta": {
+        "label": "Explore Partnerships",
+        "url": "/partners"
+      },
+      "styleTitle": {
+        "eyebrow": "Curated experiences",
+        "sub": "Collaborations that feel natural",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "hidden": true
+    },
     {
       "type": "whoAttends",
       "heading": "Who Attends",
@@ -106,30 +130,6 @@
         "label": "View all events",
         "url": "/events"
       }
-    },
-    {
-      "type": "forBrands",
-      "heading": "Brands & Partners",
-      "body": "We also work with selected partners to create curated industry experiences.",
-      "cta": {
-        "label": "Explore Partnerships",
-        "url": "/partners"
-      },
-      "styleTitle": {
-        "eyebrow": "Curated experiences",
-        "sub": "Collaborations that feel natural",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "hidden": true
     },
     {
       "type": "newHere",
