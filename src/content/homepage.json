@@ -1,6 +1,7 @@
 {
   "hero": {
-    "title": "Connecting  Innovators",
+    "imageKey": "homeHero",
+    "title": "Connecting Media Innovators",
     "subtitle": "Media Collective Events",
     "description": "Invite only industry gatherings",
     "theme": "dark",
@@ -12,9 +13,9 @@
     "secondaryCta": {
       "label": "Help us host",
       "url": "/partners"
-    },
-    "imageKey": "defaultHero"
+    }
   },
+
   "sections": [
     {
       "styleWrapper": {
@@ -218,6 +219,5 @@
         "withFades": true
       }
     }
-  ],
-  "title": "testing12"
+  ]
 }

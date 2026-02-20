@@ -1,5 +1,6 @@
 {
   "hero": {
+    "imageKey": "aboutHero",
     "eyebrow": "Our Community",
     "title": "Our Story",
     "description": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry.",

@@ -27,9 +27,6 @@ export const heroImageMap: Record<string, string> = {
   // Partners page
   partnersHero: heroPlaceholder,
 
-  // Sponsors page
-  sponsorsHero: heroPlaceholder,
-
   // Generic fallback
   defaultHero: heroPlaceholder,
 };

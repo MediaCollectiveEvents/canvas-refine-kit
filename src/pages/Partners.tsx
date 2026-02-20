@@ -8,8 +8,8 @@ import PageHero from "@/components/shared/PageHero";
 
 import PartnersPageRenderer from "@/components/sections/PartnersPageRenderer";
 
-import heroImage from "@/assets/hero-placeholder.jpg";
 import partnersContent from "@/content/partners.json";
+import { heroImageMap } from "@/lib/heroImageMap";
 
 const Partners = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -17,6 +17,12 @@ const Partners = () => {
   const { hero, sections } = partnersContent as any;
 
   const openRegister = () => setIsFormOpen(true);
+
+  // ✅ Resolve hero background from JSON imageKey with a safe fallback
+  const heroBackground =
+    (hero as any)?.imageKey && heroImageMap[(hero as any).imageKey]
+      ? heroImageMap[(hero as any).imageKey]
+      : heroImageMap.defaultHero;
 
   return (
     <div className="min-h-screen bg-background">
@@ -35,7 +41,7 @@ const Partners = () => {
           primaryCtaText={hero?.primaryCta?.label}
           onPrimaryClick={openRegister}
           variant="image"
-          backgroundImage={heroImage}
+          backgroundImage={heroBackground}
           overlayStrength={hero?.overlayStrength ?? 0.5}
           theme={hero?.theme ?? "dark"}
         />

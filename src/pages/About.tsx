@@ -8,8 +8,8 @@ import PageHero from "@/components/shared/PageHero";
 
 import AboutPageRenderer from "@/components/sections/AboutPageRenderer";
 
-import heroImage from "@/assets/hero-people.jpg"; // or whichever asset you prefer
 import about from "@/content/about.json";
+import { heroImageMap } from "@/lib/heroImageMap";
 
 const About = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -17,6 +17,12 @@ const About = () => {
   const { hero, sections } = about as any;
 
   const openRegister = () => setIsFormOpen(true);
+
+  // ✅ Resolve hero background from JSON imageKey, with a safe fallback
+  const heroBackground =
+    (hero as any).imageKey && heroImageMap[(hero as any).imageKey]
+      ? heroImageMap[(hero as any).imageKey]
+      : heroImageMap.defaultHero;
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,7 +38,7 @@ const About = () => {
           primaryCtaText={hero.primaryCta?.label}
           onPrimaryClick={openRegister}
           variant="image"
-          backgroundImage={heroImage}
+          backgroundImage={heroBackground}
           overlayStrength={hero.overlayStrength ?? 0.5}
           theme={hero.theme ?? "dark"}
         />

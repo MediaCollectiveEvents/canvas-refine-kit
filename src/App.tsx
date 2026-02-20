@@ -9,7 +9,6 @@ import EventDetails from "@/pages/EventDetails";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import Partners from "@/pages/Partners";
-import Sponsors from "@/pages/Sponsors";
 import FAQ from "@/pages/FAQ";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import MyNewPage from "@/pages/MyNewPage";
@@ -32,11 +31,18 @@ const App = () => {
 
         {/* Blog listing + individual posts */}
         <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
+        <Route
+          path="/blog/:slug"
+          element={
+            <BlogPost
+              sections={[]} // Replace with actual sections data
+              posts={[]} // Replace with actual posts data
+            />
+          }
+        />
 
         {/* Partners & Sponsors */}
         <Route path="/partners" element={<Partners />} />
-        <Route path="/sponsors" element={<Sponsors />} />
 
         {/* FAQ & Policy */}
         <Route path="/faq" element={<FAQ />} />

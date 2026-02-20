@@ -9,8 +9,8 @@ import EventRegistrationForm from "@/components/EventRegistrationForm";
 // ✅ Default import – matches `export default HomepageRenderer` in the component file
 import HomepageRenderer from "@/components/sections/HomepageRenderer";
 
-import heroImage from "@/assets/hero-placeholder.jpg";
 import homepage from "@/content/homepage.json";
+import { heroImageMap } from "@/lib/heroImageMap";
 
 const Home = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -19,6 +19,12 @@ const Home = () => {
   const { hero, sections } = homepage as any;
 
   const handleOpenRegister = () => setIsFormOpen(true);
+
+  // ✅ Resolve hero background from JSON imageKey with a safe fallback
+  const heroBackground =
+    (hero as any).imageKey && heroImageMap[(hero as any).imageKey]
+      ? heroImageMap[(hero as any).imageKey]
+      : heroImageMap.defaultHero;
 
   return (
     <div className="min-h-screen bg-background">
@@ -37,7 +43,7 @@ const Home = () => {
           secondaryCtaText={hero.secondaryCta?.label}
           secondaryCtaHref={hero.secondaryCta?.url}
           variant="image"
-          backgroundImage={heroImage}
+          backgroundImage={heroBackground}
           overlayStrength={hero.overlayStrength ?? 0.5}
           // 👇 hero.theme comes straight from homepage.json (dark/light)
           theme={hero.theme ?? "dark"}
@@ -53,4 +59,3 @@ const Home = () => {
 };
 
 export default Home;
-``;
