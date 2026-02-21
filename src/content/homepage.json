@@ -1,15 +1,16 @@
 {
   "hero": {
     "imageKey": "homeHero",
-    "title": "this is a test",
-    "subtitle": "Media Collective Events",
-    "description": "Invite only industry gatherings",
     "theme": "light",
-    "overlayStrength": 0.25,
     "primaryCta": {
       "label": "Join us",
       "url": "/register"
     },
+    "overlayStrength": 0.25,
+    "subtitle": "Media Collective Events",
+    "title": "this is a test",
+    "image": "/uploads/hero_neon_group.png",
+    "description": "Invite only industry gatherings",
     "secondaryCta": {
       "label": "Help us host",
       "url": "/partners"
