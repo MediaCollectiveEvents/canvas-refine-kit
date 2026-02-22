@@ -1,6 +1,6 @@
 {
-  "hero": {
-    "imageKey": "eventsHero",
+  "hero": { "image": "",
+    
     "eyebrow": "Upcoming Events",
     "title": "Discover Our Events",
     "description": "Exclusive gatherings for media, broadcast, and technology professionals.",

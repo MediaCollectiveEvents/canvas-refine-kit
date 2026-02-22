@@ -1,14 +1,13 @@
 {
-  "hero": {
-    "imageKey": "faqHero",
+  "hero": { "image": "",
+    
     "eyebrow": "Frequently Asked",
-    "title": "Frequently Asked Questions",
+    "title": "Your questions answered",
     "description": "Find answers to the most common questions about our events and community.",
     "variant": "solid",
     "theme": "dark",
     "align": "center"
   },
-
   "sections": [
     {
       "id": "faq-list",
@@ -27,6 +26,10 @@
       "accentWord": "questions?",
       "description": "We're always happy to answer anything about our events.",
       "buttonLabel": "Contact us"
+    },
+    {
+      "hidden": false,
+      "type": "faqSection"
     }
   ]
 }

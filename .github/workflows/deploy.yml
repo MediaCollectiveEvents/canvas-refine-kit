@@ -1,0 +1,96 @@
+name: Deploy site to IONOS via SFTP
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: "20"
+  BUILD_DIR: dist
+  # Remote directory on IONOS that hosts ONLY this site (dedicated dir recommended)
+  REMOTE_DIR: ${{ secrets.SFTP_TARGET_DIR }}
+
+jobs:
+  build:
+    name: Build Vite site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build (Vite)
+        run: npm run build
+        # Vite’s production deploy is the dist/ folder. [1](https://vite.dev/guide/static-deploy)
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: ${{ env.BUILD_DIR }}
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy via SFTP
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: ${{ env.BUILD_DIR }}
+
+      # --- OPTIONAL: ensure .htaccess exists in dist (in case you keep it at repo root) ---
+      # If you store .htaccess at repo root, add a step in the build job to copy it into dist/.
+      # Apache rewrite ensures React Router works on direct deep links. [2](https://dev.to/yanagisawahidetoshi/resolve-404-errors-in-react-router-with-apaches-htaccess-1e43)
+
+      # (A) Clean old hashed bundles safely by removing remote assets/ before sync.
+      # Requires SSH access; if not available, skip this step and rely on the deploy action's delete mode.
+      - name: Pre-clean remote assets/ (optional - needs SSH)
+        if: ${{ secrets.SSH_HOST && secrets.SSH_USER && secrets.SSH_KEY }}
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          script: |
+            set -e
+            mkdir -p "${{ env.REMOTE_DIR }}"
+            rm -rf "${{ env.REMOTE_DIR }}/assets"
+
+      # (B) Deploy dist/ to IONOS via SFTP, deleting remote files not present locally
+      # Excludes allow you to preserve server-managed dirs/files if needed.
+      - name: SFTP deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.5
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          port: ${{ secrets.SFTP_PORT || '22' }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          # Use either password or ssh_private_key
+          password: ${{ secrets.SFTP_PASSWORD }}
+          # ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
+          local_path: ${{ env.BUILD_DIR }}/*
+          remote_path: ${{ env.REMOTE_DIR }}
+          # delete: remove remote files that no longer exist locally.
+          # If you *don’t* have SSH pre-clean, keep delete: true to clear old bundles.
+          delete: true
+          exclude: >
+            # Add lines here if you keep non-dist files in the same directory
+            **/.git*
+            **/node_modules/**
+            # Example if you keep uploads outside of your repo (not typical for dist-only dir):
+            # uploads/**

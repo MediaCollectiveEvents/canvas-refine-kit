@@ -13,7 +13,6 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import PageCTA from "@/components/shared/PageCTA";
 
 import eventsData from "@/content/events.json";
-import { heroImageMap } from "@/lib/heroImageMap";
 
 // Event artwork from assets
 import greenline from "@/assets/events/greenline.png";
@@ -201,11 +200,8 @@ const Events: React.FC = () => {
   const hero = (eventsData as any).hero || {};
   const intro = (eventsData as any).intro || {};
 
-  // ✅ Resolve hero background from JSON imageKey with a safe fallback
-  const heroBackground =
-    (hero as any).imageKey && heroImageMap[(hero as any).imageKey]
-      ? heroImageMap[(hero as any).imageKey]
-      : heroImageMap.defaultHero;
+  // ✅ Use hero.image from CMS for hero background
+  const heroBackgroundImage: string | undefined = hero?.image;
 
   // JSON-driven events
   const allEvents: Event[] = (eventsData as any).events || [];
@@ -239,7 +235,7 @@ const Events: React.FC = () => {
           title={hero.title}
           description={hero.description}
           variant="image"
-          backgroundImage={heroBackground}
+          backgroundImage={heroBackgroundImage}
           overlayStrength={hero.overlayStrength ?? 0.5}
           theme={hero.theme ?? "dark"}
         />

@@ -1,6 +1,5 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { heroImageMap } from "@/lib/heroImageMap";
 
 interface PageHeroProps {
   eyebrow?: string;
@@ -21,7 +20,7 @@ interface PageHeroProps {
   backgroundImage?: string;
 
   /**
-   * Optional key used to pick an image from heroImageMap.
+   * Optional key used to pick an image from
    * Example: "faqHero", "defaultHero", etc.
    */
   imageKey?: string;
@@ -65,11 +64,11 @@ export default function PageHero({
 
   // Resolve background image:
   // 1) explicit backgroundImage prop wins
-  // 2) otherwise try imageKey -> heroImageMap
+  // 2) otherwise try imageKey ->
   // 3) otherwise undefined (no image)
   const resolvedBackgroundImage =
     backgroundImage ??
-    (imageKey && heroImageMap[imageKey] ? heroImageMap[imageKey] : undefined);
+    (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
   // ---- Overlay recipes (dark vs light) ----
   const s = overlayStrength;

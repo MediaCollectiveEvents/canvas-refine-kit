@@ -1,8 +1,8 @@
 {
   "hero": {
-    "imageKey": "aboutHero",
+    "image": "/uploads/greenline.png",
     "eyebrow": "Our Community",
-    "title": "Our Story",
+    "title": "About Us",
     "description": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry.",
     "theme": "dark",
     "overlayStrength": 0.5,
@@ -10,7 +10,6 @@
       "label": "Register Your Interest"
     }
   },
-
   "sections": [
     {
       "id": "about-intro",
@@ -19,9 +18,10 @@
       "title": "About the",
       "accentWord": "Media Collective",
       "body": "We bring together leaders and innovators from across the media landscape through curated industry events.",
-      "cta": { "label": "Register Your Interest" }
+      "cta": {
+        "label": "Register Your Interest"
+      }
     },
-
     {
       "id": "our-story",
       "type": "story",
@@ -30,7 +30,6 @@
       "accentWord": "Story",
       "body": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry."
     },
-
     {
       "id": "mission-values",
       "type": "missionValues",
@@ -62,7 +61,6 @@
         }
       ]
     },
-
     {
       "id": "join-us",
       "type": "joinUs",
@@ -70,7 +68,9 @@
       "title": "Ready to",
       "accentWord": "Join Us?",
       "body": "Be part of a growing community designed for high‑value conversation.",
-      "cta": { "label": "Register Your Interest" }
+      "cta": {
+        "label": "Register Your Interest"
+      }
     }
   ]
 }

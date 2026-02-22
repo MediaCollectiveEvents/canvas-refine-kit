@@ -5,11 +5,9 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import PageHero from "@/components/shared/PageHero";
-
 import PartnersPageRenderer from "@/components/sections/PartnersPageRenderer";
 
 import partnersContent from "@/content/partners.json";
-import { heroImageMap } from "@/lib/heroImageMap";
 
 const Partners = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -19,10 +17,10 @@ const Partners = () => {
   const openRegister = () => setIsFormOpen(true);
 
   // ✅ Resolve hero background from JSON imageKey with a safe fallback
-  const heroBackground =
-    (hero as any)?.imageKey && heroImageMap[(hero as any).imageKey]
-      ? heroImageMap[(hero as any).imageKey]
-      : heroImageMap.defaultHero;
+  // Expecting something like hero.imageKey = "partners-hero.jpg" and the file living in /public/images/
+  const heroBackgroundImage: string | undefined = (hero as any)?.imageKey
+    ? `/images/${(hero as any).imageKey}`
+    : (hero as any)?.image; // optional fallback if your JSON already has a direct URL/path
 
   return (
     <div className="min-h-screen bg-background">
@@ -41,7 +39,7 @@ const Partners = () => {
           primaryCtaText={hero?.primaryCta?.label}
           onPrimaryClick={openRegister}
           variant="image"
-          backgroundImage={heroBackground}
+          backgroundImage={heroBackgroundImage}
           overlayStrength={hero?.overlayStrength ?? 0.5}
           theme={hero?.theme ?? "dark"}
         />

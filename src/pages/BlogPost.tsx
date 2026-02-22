@@ -1,191 +1,115 @@
+// src/pages/BlogPost.tsx
 import React from "react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { Calendar, User, ArrowRight } from "lucide-react";
+import { useParams, Link } from "react-router-dom";
 
-import PageSection from "@/components/shared/PageSection";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
-import PageCTA from "@/components/shared/PageCTA";
 
-import type { BlogPost } from "@/content/blogPosts";
+import blogPostsJSON from "@/content/blogPosts.json";
 
-interface BlogPageSection {
-  id?: string;
-  type: string;
-  hidden?: boolean;
-  variant?: "default" | "darker" | "accent";
-  // Allow arbitrary fields coming from CMS JSON
-  [key: string]: any;
-}
+type BlogPost = {
+  slug: string;
+  title: string;
+  category: string;
+  date: string;
+  excerpt: string;
+  image?: string;
+  imageKey?: string;
+  body?: string;
+};
 
-export interface BlogPageRendererProps {
-  sections: BlogPageSection[] | undefined;
-  posts: BlogPost[];
-  onCtaClick?: () => void;
-}
+const BlogPostPage: React.FC = () => {
+  const { slug } = useParams<{ slug: string }>();
 
-const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
-  sections,
-  posts,
-  onCtaClick,
-}) => {
-  const safeSections: BlogPageSection[] = Array.isArray(sections)
-    ? sections
-    : [];
+  const posts: BlogPost[] = (blogPostsJSON as any).posts || [];
+  const post = posts.find((p) => p.slug === slug);
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <main className="pt-20 sm:pt-24 lg:pt-28">
+          <div className="container mx-auto max-w-3xl px-6 py-16">
+            <h1 className="font-display text-2xl md:text-3xl text-foreground mb-4">
+              Post not found
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              We couldn&apos;t find the blog post you were looking for.
+            </p>
+            <Link
+              to="/blog"
+              className="text-sm font-medium text-primary hover:underline"
+            >
+              ← Back to Blog
+            </Link>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // 👇 Use imageKey →
+  const hero = {
+    image: post.imageKey
+      ? `/images/blog/${post.imageKey}.jpg`
+      : post.image || "/images/default-hero.jpg",
+  };
 
   return (
-    <>
-      {safeSections
-        .filter((section) => !section.hidden)
-        .map((section, index) => {
-          const key = section.id ?? `${section.type}-${index}`;
-          const variant = section.variant ?? "default";
+    <div className="min-h-screen bg-background">
+      <Header />
 
-          switch (section.type) {
-            case "postsGrid": {
-              const linkLabel: string = section.linkLabel || "Read More";
-              const authorLabel: string | undefined = section.authorLabel;
+      <main className="pt-20 sm:pt-24 lg:pt-28">
+        <PageHero
+          eyebrow={post.category}
+          title={post.title}
+          description={post.excerpt}
+          variant="image"
+          theme="dark"
+          backgroundImage={hero.image}
+          overlayStrength={0.5}
+        />
 
-              return (
-                <PageSection key={key} variant={variant} id={section.id}>
-                  <div className="container mx-auto max-w-6xl">
-                    {(section.title || section.description) && (
-                      <div className="mb-8 max-w-2xl">
-                        {section.title && (
-                          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-2">
-                            {section.title}
-                          </h2>
-                        )}
-                        {section.description && (
-                          <p className="text-muted-foreground">
-                            {section.description}
-                          </p>
-                        )}
-                      </div>
-                    )}
+        <section className="py-12 md:py-16 px-6">
+          <div className="container mx-auto max-w-3xl">
+            <div className="flex items-center justify-between text-sm text-muted-foreground mb-6">
+              <span>
+                {new Date(post.date).toLocaleDateString(undefined, {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </span>
+              <Link
+                to="/blog"
+                className="text-sm font-medium text-primary hover:underline"
+              >
+                ← Back to Blog
+              </Link>
+            </div>
 
-                    <div className="grid md:grid-cols-2 gap-8">
-                      {posts.map((post, postIndex) => (
-                        <motion.article
-                          key={post.slug}
-                          initial={{ opacity: 0, y: 30 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          viewport={{ once: true }}
-                          transition={{
-                            duration: 0.5,
-                            delay: postIndex * 0.1,
-                          }}
-                          className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-[hsl(var(--icon-cyan))] transition-all duration-300 hover:shadow-lg"
-                        >
-                          <Link
-                            to={`/blog/${post.slug}`}
-                            className="block h-full"
-                          >
-                            {post.image && (
-                              <div className="aspect-video overflow-hidden">
-                                <img
-                                  src={post.image}
-                                  alt={post.title}
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                              </div>
-                            )}
+            {post.body ? (
+              <div className="prose prose-invert max-w-none">
+                {/* For now, render as plain text. Later you can switch to markdown. */}
+                <p>{post.body}</p>
+              </div>
+            ) : (
+              <p className="text-muted-foreground">
+                Full content for this post is coming soon.
+              </p>
+            )}
+          </div>
+        </section>
 
-                            <div className="p-6">
-                              {post.category && (
-                                <span className="inline-block px-3 py-1 bg-[hsl(var(--icon-cyan)/0.1)] text-[hsl(var(--icon-cyan))] text-xs font-medium rounded-full mb-4">
-                                  {post.category}
-                                </span>
-                              )}
+        <SectionDivider variant="triple" className="py-12" />
+      </main>
 
-                              <h3 className="font-display text-xl md:text-2xl text-foreground mb-3 group-hover:text-[hsl(var(--icon-cyan))] transition-colors">
-                                {post.title}
-                              </h3>
-
-                              {post.excerpt && (
-                                <p className="text-muted-foreground mb-4 line-clamp-2">
-                                  {post.excerpt}
-                                </p>
-                              )}
-
-                              <div className="flex items-center justify-between text-sm text-muted-foreground">
-                                <div className="flex items-center gap-4">
-                                  {authorLabel && (
-                                    <span className="flex items-center gap-1">
-                                      <User className="h-4 w-4" />
-                                      {authorLabel}
-                                    </span>
-                                  )}
-
-                                  {post.date && (
-                                    <span className="flex items-center gap-1">
-                                      <Calendar className="h-4 w-4" />
-                                      {new Date(post.date).toLocaleDateString(
-                                        undefined,
-                                        {
-                                          year: "numeric",
-                                          month: "short",
-                                          day: "numeric",
-                                        },
-                                      )}
-                                    </span>
-                                  )}
-                                </div>
-
-                                <span className="flex items-center gap-1 text-[hsl(var(--icon-cyan))] opacity-0 group-hover:opacity-100 transition-opacity">
-                                  {linkLabel}
-                                  <ArrowRight className="h-4 w-4" />
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                        </motion.article>
-                      ))}
-                    </div>
-                  </div>
-                </PageSection>
-              );
-            }
-
-            case "divider": {
-              const spacingClass =
-                section.spacing === "large"
-                  ? "py-12"
-                  : section.spacing === "small"
-                    ? "py-4"
-                    : "py-8";
-
-              return (
-                <PageSection key={key} variant={variant} id={section.id}>
-                  <SectionDivider
-                    variant={section.style ?? "triple"}
-                    className={spacingClass}
-                  />
-                </PageSection>
-              );
-            }
-
-            case "cta": {
-              return (
-                <PageSection key={key} variant={variant} id={section.id}>
-                  <PageCTA
-                    title={section.title}
-                    accentWord={section.accentWord}
-                    description={section.description}
-                    buttonLabel={section.buttonLabel}
-                    onClick={onCtaClick}
-                  />
-                </PageSection>
-              );
-            }
-
-            default:
-              console.warn("[BlogPageRenderer] Unknown section type:", section);
-              return null;
-          }
-        })}
-    </>
+      <Footer />
+    </div>
   );
 };
 
-export default BlogPageRenderer;
+export default BlogPostPage;
