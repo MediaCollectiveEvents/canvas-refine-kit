@@ -1,342 +1,1074 @@
+local_backend: true
+
 backend:
   name: github
-  repo: MediaCollectiveEvents/canvas-refine-kit # <--- change if repo name is different
-  branch: main
-
-local_backend: true
+  repo: MediaCollectiveEvents/canvas-refine-kit
+  branch: minviableproduct
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
-  # HOMEPAGE CONTENT
-  - name: "homepage"
-    label: "Homepage"
-    file: "src/content/homepage.json"
-    format: "json"
-    fields:
-      - { name: "heroTitle", label: "Hero Title", widget: "string" }
-      - { name: "heroSubtitle", label: "Hero Subtitle", widget: "text" }
-      - {
-          name: "heroButtonLabel",
-          label: "Hero Button Label",
-          widget: "string",
-          required: false
-        }
-      - {
-          name: "heroButtonUrl",
-          label: "Hero Button URL",
-          widget: "string",
-          required: false
-        }
-      - name: "sections"
-        label: "Homepage Sections"
-        widget: "list"
-        types:
-          - label: "Home Intro"
-            name: "homeIntro"
-            widget: "object"
+  # === HOMEPAGE CONTENT (homepage.json) ===
+  - name: homepage
+    label: Homepage
+    files:
+      - name: homepage
+        label: Homepage Content
+        file: "src/content/homepage.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
             fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "homeIntro" }
-              - { name: "title", label: "Title", widget: "string" }
-              - { name: "body", label: "Body", widget: "markdown" }
-
-          - label: "Who Attends"
-            name: "whoAttends"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "whoAttends" }
-              - { name: "title", label: "Title", widget: "string" }
-              - label: "Items"
-                name: "items"
-                widget: "list"
-                field: { name: "item", label: "Item", widget: "string" }
-
-          - label: "Event Formats"
-            name: "eventFormats"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "eventFormats" }
-              - { name: "title", label: "Title", widget: "string" }
-              - label: "Formats"
-                name: "formats"
-                widget: "list"
+              - { label: Title, name: title, widget: string }
+              - {
+                  label: Subtitle,
+                  name: subtitle,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+              - label: Hero Image
+                name: image
+                widget: image
+                required: false
+              - label: Theme
+                name: theme
+                widget: select
+                required: false
+                options:
+                  - { label: Dark, value: dark }
+                  - { label: Light, value: light }
+              - label: Overlay Strength
+                name: overlayStrength
+                widget: number
+                value_type: float
+                min: 0
+                max: 1
+                step: 0.05
+                required: false
+                default: 0.5
+              - label: Primary CTA
+                name: primaryCta
+                widget: object
+                required: false
                 fields:
-                  - { name: "title", label: "Title", widget: "string" }
-                  - { name: "description", label: "Description", widget: "text" }
-
-          - label: "Testimonials"
-            name: "testimonials"
-            widget: "object"
-            fields:
-              - { name: "type", label: "Type", widget: "hidden", default: "testimonials" }
-              - { name: "title", label: "Title", widget: "string" }
-              - label: "Testimonials"
-                name: "testimonials"
-                widget: "list"
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+              - label: Secondary CTA
+                name: secondaryCta
+                widget: object
+                required: false
                 fields:
-                  - { name: "quote", label: "Quote", widget: "text" }
-                  - { name: "author", label: "Author", widget: "string" }
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
 
-  # ABOUT SECTION / PAGE
-  - name: "about"
-    label: "About"
-    file: "src/content/about.json"
-    format: "json"
-    fields:
-      - { name: "title", label: "Title", widget: "string" }
-      - {
-          name: "accent",
-          label: "Accent Word",
-          widget: "string",
-          required: false
-        }
-      - { name: "intro", label: "Intro Text", widget: "markdown" }
-      - {
-          name: "body",
-          label: "Body Text",
-          widget: "markdown",
-          required: false
-        }
-
-  # FAQ
-  - name: "faq"
-    label: "FAQs"
-    file: "src/content/faq.json"
-    format: "json"
-    fields:
-      - name: "items"
-        label: "FAQ Items"
-        widget: "list"
-        fields:
-          - { name: "question", label: "Question", widget: "string" }
-          - { name: "answer", label: "Answer", widget: "markdown" }
-
-  # GLOBAL SITE SETTINGS (palette, nav, footer)
-  - name: "settings"
-    label: "Site Settings"
-    file: "src/content/settings.json"
-    format: "json"
-    fields:
-      - name: "palette"
-        label: "Colour Palette"
-        widget: "object"
-        fields:
-          - {
-              name: "primary",
-              label: "Primary Colour",
-              widget: "string",
-              default: "#36e0c6"
-            }
-          - {
-              name: "secondary",
-              label: "Secondary Colour",
-              widget: "string",
-              required: false
-            }
-          - {
-              name: "background",
-              label: "Background Colour",
-              widget: "string",
-              required: false
-            }
-      - name: "footer"
-        label: "Footer"
-        widget: "object"
-        fields:
-          - {
-              name: "text",
-              label: "Footer Text",
-              widget: "string",
-              required: false
-            }
-          - {
-              name: "showEventsInFooter",
-              label: "Show Events in Footer",
-              widget: "boolean",
-              default: false
-            }
-      - name: "nav"
-        label: "Navigation"
-        widget: "list"
-        fields:
-          - { name: "label", label: "Label", widget: "string" }
-          - { name: "href", label: "URL", widget: "string" }
-
-  # SPONSORS DIRECTORY
-  - name: "sponsors"
-    label: "Sponsors"
-    file: "src/content/sponsors.json"
-    format: "json"
-    fields:
-      - name: "items"
-        label: "Sponsors"
-        widget: "list"
-        fields:
-          - { name: "name", label: "Name", widget: "string" }
-          - {
-              name: "url",
-              label: "Website URL",
-              widget: "string",
-              required: false
-            }
-          - { name: "tier", label: "Tier", widget: "string", required: false }
-          - { name: "logo", label: "Logo", widget: "image", required: false }
-          - {
-              name: "summary",
-              label: "Summary",
-              widget: "text",
-              required: false
-            }
-
-  # SPEAKERS DIRECTORY
-  - name: "speakers"
-    label: "Speakers"
-    file: "src/content/speakers.json"
-    format: "json"
-    fields:
-      - name: "items"
-        label: "Speakers"
-        widget: "list"
-        fields:
-          - { name: "name", label: "Name", widget: "string" }
-          - {
-              name: "role",
-              label: "Role / Title",
-              widget: "string",
-              required: false
-            }
-          - {
-              name: "company",
-              label: "Company",
-              widget: "string",
-              required: false
-            }
-          - {
-              name: "url",
-              label: "Profile URL",
-              widget: "string",
-              required: false
-            }
-          - { name: "photo", label: "Photo", widget: "image", required: false }
-          - { name: "bio", label: "Bio", widget: "markdown", required: false }
-
-  # PARTNERS
-  - name: "partners"
-    label: "Partners"
-    file: "src/content/partners.json"
-    format: "json"
-    fields:
-      - name: "items"
-        label: "Partners"
-        widget: "list"
-        fields:
-          - { name: "name", label: "Name", widget: "string" }
-          - {
-              name: "url",
-              label: "Website URL",
-              widget: "string",
-              required: false
-            }
-          - { name: "logo", label: "Logo", widget: "image", required: false }
-          - {
-              name: "description",
-              label: "Description",
-              widget: "markdown",
-              required: false
-            }
-
-  # BLOG POSTS (JSON)
-  - name: "blog"
-    label: "Blog Posts"
-    file: "src/content/blog.json"
-    format: "json"
-    fields:
-      - label: "Posts"
-        name: "posts"
-        widget: "list"
-        fields:
-          - { name: "slug", label: "Slug", widget: "string" }
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "date", label: "Date", widget: "datetime" }
-          - { name: "excerpt", label: "Excerpt", widget: "text", required: false }
-          - { name: "body", label: "Body", widget: "markdown" }
-          - name: "keywordIds"
-            label: "Keyword IDs"
-            widget: "list"
-            required: false
-            field:
-              { name: "keywordId", label: "Keyword ID", widget: "string" }
-
-  # EVENTS (JSON via CMS)
-  - name: "events-json"
-    label: "Events"
-    file: "src/content/events.json"
-    format: "json"
-    fields:
-      - label: "Events"
-        name: "events"
-        widget: "list"
-        fields:
-          - { name: "id", label: "ID", widget: "number" }
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "location", label: "Location", widget: "string" }
-          - { name: "venue", label: "Venue", widget: "string" }
-          - { name: "imageKey", label: "Image Key", widget: "string" }
-          - name: "keywordIds"
-            label: "Keyword IDs"
-            widget: "list"
-            required: false
-            field:
-              { name: "keywordId", label: "Keyword ID", widget: "string" }
-
-  # TOPICS (JSON) – for Topic Pages
-  - name: "topics"
-    label: "Topics"
-    file: "src/content/topics.json"
-    format: "json"
-    fields:
-      - label: "Topics"
-        name: "topics"
-        widget: "list"
-        fields:
-          - { name: "id", label: "ID", widget: "string", hint: "e.g. ai-automation" }
-          - { name: "title", label: "Title", widget: "string" }
-          - { name: "description", label: "Description", widget: "markdown" }
-          - name: "keywordIds"
-            label: "Keyword IDs"
-            widget: "list"
-            required: false
-            field:
-              { name: "keywordId", label: "Keyword ID", widget: "string" }
-          - label: "Sections"
-            name: "sections"
-            widget: "list"
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.type}} – {{fields.heading}}"
             types:
-              - label: "Hero"
-                name: "hero"
-                widget: "object"
+              - label: Join Community
+                name: joinCommunity
+                widget: object
                 fields:
-                  - { name: "type", label: "Type", widget: "hidden", default: "hero" }
-                  - { name: "title", label: "Title", widget: "string" }
-                  - { name: "subtitle", label: "Subtitle", widget: "string", required: false }
-              - label: "Text Block"
-                name: "text"
-                widget: "object"
-                fields:
-                  - { name: "type", label: "Type", widget: "hidden", default: "text" }
-                  - { name: "title", label: "Title", widget: "string" }
-                  - { name: "body", label: "Body", widget: "markdown" }
-              - label: "Related Content"
-                name: "relatedContent"
-                widget: "object"
-                fields:
-                  - { name: "type", label: "Type", widget: "hidden", default: "relatedContent" }
-                  - { name: "title", label: "Title", widget: "string" }
-                  - name: "keywordIds"
-                    label: "Keyword IDs"
-                    widget: "list"
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "joinCommunity",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
                     required: false
-                    field:
-                      { name: "keywordId", label: "Keyword ID", widget: "string" }
-``
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              - label: About Intro
+                name: aboutIntro
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "aboutIntro",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+                  - {
+                      label: Extended Text,
+                      name: extended,
+                      widget: text,
+                      required: false,
+                    }
+
+              - label: Who Attends
+                name: whoAttends
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "whoAttends",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - label: Statistics
+                    name: statistics
+                    widget: object
+                    fields:
+                      - { label: Companies, name: companies, widget: string }
+                      - { label: Board Level, name: boardLevel, widget: string }
+                      - { label: Founders, name: founders, widget: string }
+                  - label: Highlights
+                    name: highlights
+                    widget: list
+                    allow_add: true
+                    fields:
+                      - { label: Title, name: title, widget: string }
+                      - { label: Subtitle, name: subtitle, widget: string }
+                      - { label: Icon Key, name: icon, widget: string }
+
+              - label: Upcoming Events Intro
+                name: upcomingEventsIntro
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "upcomingEventsIntro",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - {
+                      label: Description,
+                      name: description,
+                      widget: text,
+                      required: false,
+                    }
+                  - { label: Note, name: note, widget: string, required: false }
+                  - {
+                      label: Under-Header Text,
+                      name: underHeader,
+                      widget: text,
+                      required: false,
+                    }
+                  - label: Primary CTA
+                    name: cta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+                  - label: Secondary CTA
+                    name: secondaryCta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+                  - label: Card Image Aspect
+                    name: imageAspect
+                    widget: select
+                    required: false
+                    default: "3:2"
+                    options:
+                      - { label: "3:2", value: "3:2" }
+                      - { label: "16:9", value: "16:9" }
+                      - { label: "1:1", value: "1:1" }
+                  - label: Card Image Fit
+                    name: imageFit
+                    widget: select
+                    required: false
+                    default: "contain"
+                    options:
+                      - { label: Contain (no crop), value: contain }
+                      - { label: Cover (crop to fill), value: cover }
+                  - {
+                      label: Card Image Padding,
+                      name: imagePadding,
+                      widget: boolean,
+                      required: false,
+                      default: true,
+                    }
+
+              - label: For Brands & Partners
+                name: forBrands
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "forBrands",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              - label: New Here
+                name: newHere
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "newHere",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - { label: URL, name: url, widget: string }
+
+              - label: Testimonials
+                name: testimonials
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "testimonials",
+                    }
+                  - {
+                      label: Heading,
+                      name: heading,
+                      widget: string,
+                      required: false,
+                    }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - label: Items
+                    name: items
+                    widget: list
+                    field: { label: Testimonial, name: item, widget: text }
+
+              - label: Partners Strip
+                name: partners
+                widget: object
+                fields:
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "partners",
+                    }
+                  - { label: Heading, name: heading, widget: string }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      required: false,
+                      default: false,
+                    }
+                  - {
+                      label: Description,
+                      name: description,
+                      widget: text,
+                      required: false,
+                    }
+                  - label: Logos
+                    name: logos
+                    widget: list
+                    field: { label: Logo Name, name: logo, widget: string }
+
+  # === ABOUT PAGE (about.json) ===
+  - name: aboutPage
+    label: About Page
+    files:
+      - name: about
+        label: About Page Content
+        file: "src/content/about.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - {
+                  label: Eyebrow,
+                  name: eyebrow,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Title, name: title, widget: string }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+              - label: Hero Image
+                name: image
+                widget: image
+                required: false
+              - label: Theme
+                name: theme
+                widget: select
+                options:
+                  - { label: Dark, value: dark }
+                  - { label: Light, value: light }
+              - label: Overlay Strength
+                name: overlayStrength
+                widget: number
+                value_type: float
+                min: 0
+                max: 1
+                step: 0.05
+                required: false
+                default: 0.5
+              - label: Primary CTA
+                name: primaryCta
+                widget: object
+                required: false
+                fields:
+                  - {
+                      label: Label,
+                      name: label,
+                      widget: string,
+                      required: false,
+                    }
+                  - { label: URL, name: url, widget: string, required: false }
+
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.type}} – {{fields.title}}"
+            types:
+              - label: About Intro
+                name: aboutIntro
+                widget: object
+                fields:
+                  - { label: ID, name: id, widget: string }
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "aboutIntro",
+                    }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      default: false,
+                    }
+                  - { label: Title, name: title, widget: string }
+                  - {
+                      label: Accent Word,
+                      name: accentWord,
+                      widget: string,
+                      required: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    required: false
+                    fields:
+                      - {
+                          label: Label,
+                          name: label,
+                          widget: string,
+                          required: false,
+                        }
+
+              - label: Story Section
+                name: story
+                widget: object
+                fields:
+                  - { label: ID, name: id, widget: string }
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "story",
+                    }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      default: false,
+                    }
+                  - { label: Title, name: title, widget: string }
+                  - {
+                      label: Accent Word,
+                      name: accentWord,
+                      widget: string,
+                      required: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+
+              - label: Mission & Values
+                name: missionValues
+                widget: object
+                fields:
+                  - { label: ID, name: id, widget: string }
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "missionValues",
+                    }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      default: false,
+                    }
+                  - { label: Title, name: title, widget: string }
+                  - { label: Accent Word, name: accentWord, widget: string }
+                  - { label: Description, name: description, widget: text }
+                  - label: Values
+                    name: values
+                    widget: list
+                    fields:
+                      - { label: Icon, name: icon, widget: string }
+                      - { label: Title, name: title, widget: string }
+                      - { label: Description, name: description, widget: text }
+                      - {
+                          label: Color Class,
+                          name: color,
+                          widget: string,
+                          required: false,
+                        }
+                      - {
+                          label: BG Class,
+                          name: bgColor,
+                          widget: string,
+                          required: false,
+                        }
+
+              - label: Join Us
+                name: joinUs
+                widget: object
+                fields:
+                  - { label: ID, name: id, widget: string }
+                  - {
+                      label: Type,
+                      name: type,
+                      widget: hidden,
+                      default: "joinUs",
+                    }
+                  - {
+                      label: Hidden,
+                      name: hidden,
+                      widget: boolean,
+                      default: false,
+                    }
+                  - { label: Title, name: title, widget: string }
+                  - {
+                      label: Accent Word,
+                      name: accentWord,
+                      widget: string,
+                      required: false,
+                    }
+                  - { label: Body, name: body, widget: text }
+                  - label: CTA
+                    name: cta
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Label, name: label, widget: string }
+                      - {
+                          label: URL,
+                          name: url,
+                          widget: string,
+                          required: false,
+                        }
+
+  # === FAQ PAGE (faqPage.json) ===
+  - name: faqPage
+    label: FAQ Page
+    files:
+      - name: faqPage
+        label: FAQ Page Content
+        file: "src/content/faqPage.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - {
+                  label: Eyebrow,
+                  name: eyebrow,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Title, name: title, widget: string }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+              - label: Hero Image
+                name: image
+                widget: image
+                required: false
+              - label: Theme
+                name: theme
+                widget: select
+                options:
+                  - { label: Dark, value: dark }
+                  - { label: Light, value: light }
+              - label: Variant
+                name: variant
+                widget: select
+                required: false
+                options:
+                  - { label: Solid, value: solid }
+                  - { label: Image, value: image }
+              - label: Align
+                name: align
+                widget: select
+                required: false
+                options:
+                  - { label: Center, value: center }
+                  - { label: Left, value: left }
+
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.type}} – {{fields.title}}"
+            fields:
+              - { label: ID, name: id, widget: string, required: false }
+
+              - label: Type
+                name: type
+                widget: select
+                options:
+                  - { label: FAQ Section, value: faqSection }
+                  - { label: Call to Action, value: cta }
+
+              - {
+                  label: Hidden,
+                  name: hidden,
+                  widget: boolean,
+                  required: false,
+                  default: false,
+                }
+
+              - label: Variant
+                name: variant
+                widget: select
+                required: false
+                options:
+                  - { label: Default, value: default }
+                  - { label: Darker, value: darker }
+                  - { label: Accent, value: accent }
+
+              # Shared fields
+              - { label: Title, name: title, widget: string, required: false }
+              - {
+                  label: Accent Word,
+                  name: accentWord,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+
+              # CTA-only
+              - {
+                  label: Button Label,
+                  name: buttonLabel,
+                  widget: string,
+                  required: false,
+                }
+
+  # === EVENTS CONTENT (events.json) ===
+  - name: events
+    label: Events Content & List
+    files:
+      - name: eventsContent
+        label: Events Content
+        file: "src/content/events.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - {
+                  label: Eyebrow,
+                  name: eyebrow,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Title, name: title, widget: string }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                  hint: "Short one‑ or two‑sentence summary shown in the hero.",
+                }
+              - label: Hero Image
+                name: image
+                widget: image
+                required: false
+              - label: Theme
+                name: theme
+                widget: select
+                required: false
+                default: dark
+                options:
+                  - { label: Dark, value: dark }
+                  - { label: Light, value: light }
+              - label: Overlay Strength
+                name: overlayStrength
+                widget: number
+                required: false
+                value_type: float
+                min: 0
+                max: 1
+                step: 0.05
+                default: 0.5
+
+          - label: Intro Section
+            name: intro
+            widget: object
+            required: false
+            fields:
+              - { label: Title, name: title, widget: string, required: false }
+              - { label: Body, name: body, widget: text, required: false }
+
+          - label: Events
+            name: events
+            widget: list
+            allow_add: true
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Location, name: location, widget: string }
+              - { label: Venue, name: venue, widget: string }
+              - label: Date
+                name: date
+                widget: date
+                format: "YYYY-MM-DD"
+                required: false
+              - {
+                  label: Image Key (for mapping),
+                  name: imageKey,
+                  widget: string,
+                  required: false,
+                }
+
+  # === EVENTS PAGE (eventsPage.json) ===
+  - name: eventsPage
+    label: Events Page Layout
+    files:
+      - name: eventsPage
+        label: Events Page Layout
+        file: "src/content/eventsPage.json"
+        format: json
+        fields:
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.type}} – {{fields.title}}"
+            fields:
+              - { label: ID, name: id, widget: string, required: false }
+              - label: Type
+                name: type
+                widget: select
+                options:
+                  - { label: Intro Block, value: eventsIntro }
+                  - { label: Events List, value: eventsList }
+                  - { label: Join Us CTA, value: joinUs }
+              - {
+                  label: Hidden,
+                  name: hidden,
+                  widget: boolean,
+                  required: false,
+                  default: false,
+                }
+              - { label: Title, name: title, widget: string, required: false }
+              - {
+                  label: Accent Word,
+                  name: accentWord,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Body, name: body, widget: text, required: false }
+              - label: CTA
+                name: cta
+                widget: object
+                required: false
+                fields:
+                  - {
+                      label: Label,
+                      name: label,
+                      widget: string,
+                      required: false,
+                    }
+                  - { label: URL, name: url, widget: string, required: false }
+
+  # === PARTNERS PAGE (partners.json) ===
+  - name: partnersPage
+    label: Partners Page
+    files:
+      - name: partnersPage
+        label: Partners Page Content
+        file: "src/content/partners.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - {
+                  label: Eyebrow,
+                  name: eyebrow,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Title, name: title, widget: string }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+              - label: Hero Image
+                name: image
+                widget: image
+                required: false
+              - label: Theme
+                name: theme
+                widget: select
+                required: false
+                default: dark
+                options:
+                  - { label: Dark, value: dark }
+                  - { label: Light, value: light }
+              - label: Overlay Strength
+                name: overlayStrength
+                widget: number
+                required: false
+                value_type: float
+                min: 0
+                max: 1
+                step: 0.05
+                default: 0.5
+              - label: Primary CTA
+                name: primaryCta
+                widget: object
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+
+          - label: Sections
+            name: sections
+            widget: list
+            fields:
+              - { label: ID, name: id, widget: string, required: false }
+              - label: Type
+                name: type
+                widget: select
+                options:
+                  - { label: Partners Logos Carousel, value: partnersLogos }
+                  - { label: Partners Benefits Cards, value: partnersBenefits }
+                  - { label: Partners Tiers Packages, value: partnersTiers }
+                  - { label: Join Us CTA, value: joinUs }
+              - {
+                  label: Hidden,
+                  name: hidden,
+                  widget: boolean,
+                  required: false,
+                  default: false,
+                }
+
+  # === BLOG PAGE (blogPage.json) ===
+  - name: blogPage
+    label: Blog Page
+    files:
+      - name: blogPage
+        label: Blog Page Content
+        file: "src/content/blogPage.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - {
+                  label: Eyebrow,
+                  name: eyebrow,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Title, name: title, widget: string }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+              - label: Hero Image
+                name: image
+                widget: image
+                required: false
+              - label: Theme
+                name: theme
+                widget: select
+                required: false
+                options:
+                  - { label: Dark, value: dark }
+                  - { label: Light, value: light }
+              - label: Overlay Strength
+                name: overlayStrength
+                widget: number
+                value_type: float
+                min: 0
+                max: 1
+                step: 0.05
+                default: 0.5
+
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.type}} – {{fields.title}}"
+            fields:
+              - { label: ID, name: id, widget: string, required: false }
+              - label: Type
+                name: type
+                widget: select
+                options:
+                  - { label: Posts Grid, value: postsGrid }
+                  - { label: Divider, value: divider }
+                  - { label: CTA, value: cta }
+              - {
+                  label: Hidden,
+                  name: hidden,
+                  widget: boolean,
+                  required: false,
+                  default: false,
+                }
+              - {
+                  label: Variant,
+                  name: variant,
+                  widget: select,
+                  required: false,
+                  options:
+                    [
+                      { label: Default, value: default },
+                      { label: Darker, value: darker },
+                      { label: Accent, value: accent },
+                    ],
+                }
+              - { label: Title, name: title, widget: string, required: false }
+              - {
+                  label: Accent Word,
+                  name: accentWord,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  label: Description,
+                  name: description,
+                  widget: text,
+                  required: false,
+                }
+              - {
+                  label: Link Label,
+                  name: linkLabel,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  label: Author Label,
+                  name: authorLabel,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  label: Button Label,
+                  name: buttonLabel,
+                  widget: string,
+                  required: false,
+                }
+
+  # === BLOG POSTS (blogPosts.json) ===
+  - name: blogPosts
+    label: Blog Posts
+    files:
+      - name: blogPosts
+        label: Blog Posts
+        file: "src/content/blogPosts.json"
+        format: json
+        fields:
+          - label: Posts
+            name: posts
+            widget: list
+            allow_add: true
+            collapsed: false
+            summary: "{{fields.title}} ({{fields.slug}})"
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Slug, name: slug, widget: string }
+              - { label: Category, name: category, widget: string }
+              - { label: Excerpt, name: excerpt, widget: text }
+              - { label: Date, name: date, widget: datetime }
+              - {
+                  label: Thumbnail Image,
+                  name: image,
+                  widget: image,
+                  required: false,
+                }
+              - {
+                  label: Hero Image Key (optional,
+                  for hero mapping),
+                  name: imageKey,
+                  widget: string,
+                  required: false,
+                }
+              - { label: Body, name: body, widget: text, required: false }
+
+  # === SPONSOR LOGOS (sponsors.json) ===
+  - name: sponsors
+    label: Sponsor Logos
+    files:
+      - name: sponsors
+        label: Sponsor Logos
+        file: "src/content/sponsors.json"
+        format: json
+        fields:
+          - label: Logos
+            name: logos
+            widget: list
+            allow_add: true
+            fields:
+              - { label: Logo Image, name: src, widget: image }
+              - { label: Name, name: name, widget: string, required: false }
+              - { label: Alt Text, name: alt, widget: string, required: false }
+
+  # === SITE SETTINGS (settings.json) ===
+  - name: settings
+    label: Site Settings
+    files:
+      - name: settings
+        label: Site Settings
+        file: "src/content/settings.json"
+        format: json
+        fields:
+          - label: Palette
+            name: palette
+            widget: object
+            fields:
+              - { label: Primary, name: primary, widget: string }
+              - { label: Secondary, name: secondary, widget: string }
+              - { label: Background, name: background, widget: string }
+
+          - label: Footer
+            name: footer
+            widget: object
+            fields:
+              - { label: Text, name: text, widget: text, required: false }
+              - {
+                  label: Show Events in Footer,
+                  name: showEventsInFooter,
+                  widget: boolean,
+                  required: false,
+                  default: false,
+                }
+
+          - label: Navigation
+            name: nav
+            widget: list
+            summary: "{{fields.label}} → {{fields.type}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - label: Link Type
+                name: type
+                widget: select
+                options:
+                  - { label: Home, value: home }
+                  - { label: About, value: about }
+                  - { label: Events, value: events }
+                  - { label: Blog, value: blog }
+                  - { label: Partners, value: partners }
+                  - { label: FAQ, value: faq }
+              - {
+                  label: URL Override (optional),
+                  name: url,
+                  widget: string,
+                  required: false,
+                  hint: "Override the default route if needed.",
+                }

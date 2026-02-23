@@ -1,58 +1,49 @@
 {
-  "heroPreset": "events",
-
   "hero": {
-    "eyebrow": "EVENTS",
-    "title": "Upcoming & Past Events",
-    "description": "Exclusive gatherings across the global media landscape."
+    "image": "/uploads/hero-placeholder230226.jpeg",
+    "eyebrow": "Our events",
+    "title": "Our  Events",
+    "description": "Breakfasts, receptions and roundtables that bring media professionals together.",
+    "theme": "dark",
+    "overlayStrength": 0.5
   },
-
+  "intro": {
+    "title": "Our Events",
+    "body": "We host relaxed, invite-only breakfasts, receptions and roundtables for senior media, broadcast and technology professionals. Each event is designed to create space for real conversations, not just business cards."
+  },
   "events": [
     {
+      "details": "This invite-only breakfast brings together senior leaders from broadcasters, studios and technology companies attending IBC. Expect an informal, facilitated conversation over coffee and breakfast, with plenty of time to connect with peers before the show floor opens.",
+      "time": "09:00",
+      "date": "2026-09-14",
+      "venue": "The Traveller, RAI",
+      "location": "Amsterdam",
+      "title": "IBC Breakfast Roundtable",
+      "type": "upcoming",
       "id": 1,
-      "title": "NAB Review 2026",
-      "location": "White City, London, UK",
-      "venue": "The Broadcaster",
-      "imageKey": "broadcaster",
-      "date": "2026-04-24",
-      "time": "18:00 - 21:00",
-      "description": "Join us for an evening of insights and discussion as we review the highlights from NAB Show. Industry experts will share key takeaways and emerging trends from the world's largest broadcasting event.",
-      "type": "upcoming",
-      "keywordIds": [
-        "ai-automation",
-        "cloud-workflows",
-        "production-workflows",
-        "data-driven-insights"
-      ]
+      "description": "Join us for a relaxed breakfast at IBC to discuss trends, challenges and opportunities in media and broadcast."
     },
     {
+      "details": "Hosted upstairs at the Hand and Flower, this reception is an opportunity to unwind after a busy day and catch up with familiar faces and new contacts. We’ll provide drinks, light food and some gentle facilitation to make introductions easy and natural.",
+      "time": "18:00",
+      "date": "2026-03-12",
+      "venue": "Hand and Flower",
+      "location": "London",
+      "title": "Media Leaders Reception",
+      "type": "upcoming",
       "id": 2,
-      "title": "MPTS Reception",
-      "location": "Olympia London, UK",
-      "venue": "The Hand & Flower",
-      "imageKey": "handandflower",
-      "date": "2025-03-12",
-      "time": "17:30 - 20:00",
-      "description": "Unwind after MPTS with drinks and canapés at this charming venue just steps from Olympia.",
-      "type": "upcoming",
-      "keywordIds": ["virtual-production", "creator-economy", "ai-generative"]
+      "description": "An evening reception for media leaders to reconnect, share experiences and meet new collaborators."
     },
     {
-      "id": 3,
-      "title": "IBC Breakfast",
-      "location": "RAI, Amsterdam, Netherlands",
+      "details": "This intimate summit brought together product, operations and technology leaders to share practical experiences with AI in scheduling, playout, personalisation and production workflows. Sessions combined short talks with small-group discussions and feedback.",
+      "time": "10:00",
+      "date": "2026-05-08",
       "venue": "The Traveller",
-      "imageKey": "traveller",
-      "date": "2025-09-14",
-      "time": "08:30 - 10:30",
-      "description": "Start your IBC experience with an exclusive breakfast gathering. Connect with industry leaders and fellow professionals over artisan coffee and pastries in a relaxed, intimate setting.",
-      "type": "upcoming",
-      "keywordIds": [
-        "ai-generative",
-        "cloud-native-supply-chains",
-        "personalisation",
-        "metadata-semantic-tagging"
-      ]
+      "location": "Berlin",
+      "title": "AI in Broadcasting Summit",
+      "type": "past",
+      "id": 3,
+      "description": "A half-day summit exploring how AI is reshaping broadcast operations and audience experiences."
     }
   ]
 }

@@ -1,54 +1,62 @@
 // src/App.tsx
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Pages
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
-import Events from "./pages/Events";
-import Partners from "./pages/Partners";
-import Sponsors from "./pages/Sponsors";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Wireframe from "./pages/Wireframe";
-import NotFound from "./pages/NotFound";
-import Admin from "./pages/Admin";
-import TopicsIndex from "./pages/TopicsIndex";
-import TopicPage from "./pages/TopicPage";
+import Home from "@/pages/Home";
+import About from "@/pages/About";
+import Events from "@/pages/Events";
+import EventDetails from "@/pages/EventDetails";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
+import Partners from "@/pages/Partners";
+import FAQ from "@/pages/FAQ";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import MyNewPage from "@/pages/MyNewPage";
+import Admin from "@/pages/Admin";
+import Wireframe from "@/pages/Wireframe";
+import NotFound from "@/pages/NotFound";
 
-const App: React.FC = () => {
+const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Routes>
-        {/* Main site pages */}
+        {/* Core pages */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
 
-        {/* Blog list + single post */}
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/blog/:slug" element={<BlogPost />} />
-
-        {/* Events & partners */}
+        {/* Events */}
         <Route path="/events" element={<Events />} />
+        {/* If EventDetails uses an ID or slug, adjust the param name */}
+        <Route path="/events/:id" element={<EventDetails />} />
+
+        {/* Blog listing + individual posts */}
+        <Route path="/blog" element={<Blog />} />
+        <Route
+          path="/blog/:slug"
+          element={
+            <BlogPost
+              sections={[]} // Replace with actual sections data
+              posts={[]} // Replace with actual posts data
+            />
+          }
+        />
+
+        {/* Partners & Sponsors */}
         <Route path="/partners" element={<Partners />} />
-        <Route path="/sponsors" element={<Sponsors />} />
 
-        {/* Topics */}
-        <Route path="/topics" element={<TopicsIndex />} />
-        <Route path="/topics/:topicId" element={<TopicPage />} />
-
-        {/* Legal / misc */}
+        {/* FAQ & Policy */}
+        <Route path="/faq" element={<FAQ />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+        {/* Extra pages */}
+        <Route path="/my-new-page" element={<MyNewPage />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/wireframe" element={<Wireframe />} />
 
-        {/* Admin */}
-        <Route path="/admin" element={<Admin />} />
-
-        {/* Catch-all */}
+        {/* Catch-all for unknown routes */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 };
 

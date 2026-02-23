@@ -1,0 +1,25 @@
+{
+  "type": "testimonials",
+  "title": "What People Say",
+  "description": "Feedback from senior leaders, innovators, and creatives who have joined us at recent events.",
+  "items": [
+    {
+      "quote": "A rare opportunity to meet people I wouldn’t normally cross paths with. The conversations were genuinely inspiring.",
+      "name": "Sarah Mitchell",
+      "role": "Director of Strategy",
+      "company": "Sky"
+    },
+    {
+      "quote": "Beautifully curated. Great mix of people, excellent hosting, and a refreshingly human atmosphere.",
+      "name": "James Carter",
+      "role": "Head of Partnerships",
+      "company": "BBC Studios"
+    },
+    {
+      "quote": "Canvas has become a favourite in my calendar. Brilliant conversations every time.",
+      "name": "Priya Desai",
+      "role": "Co‑Founder",
+      "company": "Creative Futures"
+    }
+  ]
+}

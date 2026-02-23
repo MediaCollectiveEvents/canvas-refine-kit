@@ -1,0 +1,71 @@
+name: Deploy site to IONOS via SFTP
+
+on:
+  push:
+    branches: ["main"] # deploys on every push to main
+  workflow_dispatch: # allows manual deploy
+
+env:
+  NODE_VERSION: "20"
+  BUILD_DIR: dist
+  REMOTE_DIR: ${{ secrets.SFTP_TARGET_DIR }}
+
+jobs:
+  build:
+    name: Build Vite site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Vite site
+        run: npm run build
+
+      - name: Ensure .htaccess is included
+        run: |
+          if [ -f ".htaccess" ] && [ ! -f "dist/.htaccess" ]; then
+            cp .htaccess dist/.htaccess
+          fi
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: ${{ env.BUILD_DIR }}
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to IONOS over SFTP
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: ${{ env.BUILD_DIR }}
+
+      - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.5
+        with:
+          server: access-5017155687.webspace-host.com
+          port: 22
+          username: a1473039
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_path: dist/*
+          remote_path: /
+          delete: true
+          exclude: >
+            **/.git*
+            **/node_modules/**

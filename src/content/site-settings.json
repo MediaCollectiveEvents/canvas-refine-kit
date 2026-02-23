@@ -1,0 +1,16 @@
+{
+  "styleTitle": {
+    "align": "center",
+    "tone": "default",
+    "disableEmphasis": false,
+    "eyebrow": "",
+    "sub": ""
+  },
+  "styleWrapper": {
+    "variant": "clean",
+    "padding": "regular",
+    "noise": false,
+    "grid": false,
+    "withFades": true
+  }
+}

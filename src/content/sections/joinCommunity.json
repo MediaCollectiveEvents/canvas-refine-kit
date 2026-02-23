@@ -1,0 +1,9 @@
+{
+  "type": "joinCommunity",
+  "heading": "Join the Community",
+  "body": "Be part of a growing network of senior leaders, innovators, and creatives. Our events are invite‑only and designed to foster meaningful conversations that lead to real collaboration.",
+  "cta": {
+    "label": "Register Your Interest",
+    "url": "/register"
+  }
+}

@@ -1,26 +1,55 @@
 // src/pages/Home.tsx
-import React from "react";
-import PageLayout from "@/components/layout/PageLayout";
+import { useState } from "react";
+
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/shared/PageHero";
-import SectionDivider from "@/components/shared/SectionDivider";
-import SectionRenderer from "@/lib/sectionRenderer";
+import EventRegistrationForm from "@/components/EventRegistrationForm";
 
-import homepage from "@/content/homepage.json";
+// ✅ Default import – matches `export default HomepageRenderer`
+import HomepageRenderer from "@/components/sections/HomepageRenderer";
 
-const Home: React.FC = () => {
+import homepageContent from "@/content/homepage.json";
+
+const Home = () => {
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
+  // homepage.json shape: { hero, sections, ... }
+  const { hero, sections } = homepageContent as any;
+
+  const handleOpenRegister = () => setIsFormOpen(true);
+
+  // ✅ Use CMS-driven hero image (homepage.json → hero.image)
+  const heroBackgroundImage: string | undefined = hero?.image;
+
   return (
-    <PageLayout>
-      {/* HERO WITH BACKGROUND IMAGE */}
-      <PageHero
-        heroPreset="home"
-        eyebrow="Welcome"
-        title={homepage.heroTitle}
-        description={homepage.heroSubtitle}
-      />
+    <div className="min-h-screen bg-background">
+      <Header />
 
-      {/* HOMEPAGE SECTIONS FROM JSON */}
-      <SectionRenderer sections={homepage.sections as any[]} />
-    </PageLayout>
+      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+
+      {/* Top padding equals header height */}
+      <main className="pt-20 sm:pt-24 lg:pt-28">
+        <PageHero
+          eyebrow={hero?.subtitle}
+          title={hero?.title}
+          description={hero?.description}
+          primaryCtaText={hero?.primaryCta?.label}
+          onPrimaryClick={handleOpenRegister}
+          secondaryCtaText={hero?.secondaryCta?.label}
+          secondaryCtaHref={hero?.secondaryCta?.url}
+          variant="image"
+          backgroundImage={heroBackgroundImage}
+          overlayStrength={hero?.overlayStrength ?? 0.5}
+          theme={hero?.theme ?? "dark"}
+        />
+
+        {/* JSON-driven homepage sections (order = order in homepage.json) */}
+        <HomepageRenderer sections={sections} onRegister={handleOpenRegister} />
+      </main>
+
+      <Footer />
+    </div>
   );
 };
 

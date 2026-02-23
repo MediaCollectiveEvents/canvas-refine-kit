@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "image": "/uploads/hero-placeholder230226.jpeg",
+    "eyebrow": "Insights & Updates",
+    "title": "The Blog",
+    "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective.",
+    "variant": "solid",
+    "theme": "dark",
+    "align": "center",
+    "overlayStrength": 1
+  },
+  "sections": [
+    {
+      "variant": "default",
+      "authorLabel": "The Media Collective",
+      "hidden": false,
+      "layout": "two-column",
+      "title": "Latest posts",
+      "linkLabel": "Read More",
+      "type": "postsGrid",
+      "id": "posts-grid",
+      "description": "Browse the most recent articles from our team."
+    },
+    {
+      "id": "divider",
+      "type": "divider",
+      "variant": "default",
+      "hidden": false,
+      "style": "triple",
+      "spacing": "large"
+    },
+    {
+      "id": "cta",
+      "type": "cta",
+      "variant": "accent",
+      "hidden": false,
+      "title": "Want to stay",
+      "accentWord": "Informed?",
+      "description": "Join our community and get exclusive access to industry insights, event updates, and networking opportunities.",
+      "buttonLabel": "Register Interest"
+    }
+  ]
+}

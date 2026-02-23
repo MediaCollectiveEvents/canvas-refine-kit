@@ -1,68 +1,49 @@
 // src/pages/About.tsx
-import React, { useState } from "react";
+import { useState } from "react";
 
-import PageLayout from "@/components/layout/PageLayout";
-import PageHero from "@/components/shared/PageHero";
-import PageSection from "@/components/shared/PageSection";
-import PageCTA from "@/components/shared/PageCTA";
-
-import WhoAttendsSection from "@/components/sections/WhoAttendsSection";
-import MissionValuesSection from "@/components/sections/MissionValuesSection";
-import EventFormatsSection from "@/components/sections/EventFormatsSection";
-import TestimonialsSection from "@/components/sections/TestimonialsSection";
-import FAQSection from "@/components/sections/FAQSection";
-
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
+import PageHero from "@/components/shared/PageHero";
 
-// Use the same hero artwork as the homepage.
-// Make sure this file exists in src/assets:
+import AboutPageRenderer from "@/components/sections/AboutPageRenderer";
 
-const About: React.FC = () => {
+import about from "@/content/about.json";
+
+const About = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
+  const { hero, sections } = about as any;
+
+  const openRegister = () => setIsFormOpen(true);
+
+  // ✅ Use CMS hero.image (uploaded via Decap)
+  const heroBackgroundImage: string | undefined = hero?.image;
+
   return (
-    <PageLayout>
-      {/* Registration modal */}
+    <div className="min-h-screen bg-background">
+      <Header />
+
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      {/* HERO – unified with homepage */}
-      <PageHero
-        heroPreset="about"
-        eyebrow="OUR COMMUNITY"
-        title="Our Story"
-        description="Born during a period of limited in-person interaction, The Media Collective was created to reconnect the industry."
-      />
+      <main className="pt-20 sm:pt-24 lg:pt-28">
+        <PageHero
+          eyebrow={hero.eyebrow}
+          title={hero.title}
+          description={hero.description}
+          primaryCtaText={hero.primaryCta?.label}
+          onPrimaryClick={openRegister}
+          variant="image"
+          backgroundImage={heroBackgroundImage}
+          overlayStrength={hero.overlayStrength ?? 0.5}
+          theme={hero.theme ?? "dark"}
+        />
 
-      {/* WHO ATTENDS */}
-      <PageSection variant="default">
-        <WhoAttendsSection />
-      </PageSection>
+        <AboutPageRenderer sections={sections} onRegister={openRegister} />
+      </main>
 
-      {/* MISSION & VALUES */}
-      <PageSection variant="accent">
-        <MissionValuesSection />
-      </PageSection>
-
-      {/* EVENT FORMATS */}
-      <PageSection variant="darker">
-        <EventFormatsSection />
-      </PageSection>
-
-      {/* TESTIMONIALS */}
-      <PageSection variant="default">
-        <TestimonialsSection />
-      </PageSection>
-
-      {/* FAQ */}
-      <PageSection variant="darker">
-        <FAQSection />
-      </PageSection>
-
-      {/* CALL TO ACTION */}
-      <PageSection variant="accent" className="py-20">
-        <PageCTA onClick={() => setIsFormOpen(true)} />
-      </PageSection>
-    </PageLayout>
+      <Footer />
+    </div>
   );
 };
 

@@ -1,0 +1,21 @@
+{
+  "type": "whoAttends",
+  "heading": "Who Attends",
+  "audienceGroups": [
+    "Senior media leaders",
+    "Innovators and entrepreneurs",
+    "Creative executives",
+    "Industry pioneers",
+    "Tech, strategy, and operational leaders"
+  ],
+  "statistics": {
+    "companies": "Over 300 companies",
+    "boardLevel": "Over 100 board‑level executives",
+    "founders": "34 startup founders"
+  },
+  "highlights": [
+    "The Top 3 — Global Tech Giants",
+    "The Major 5 — Hollywood Studios",
+    "The Leading 8 — Streaming Platforms"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "type": "missionValues",
+  "title": "Mission & Values",
+  "accentWord": "Guiding Principles",
+  "description": "We're committed to cultivating a community grounded in integrity, collaboration, and forward thinking. These values shape the experiences we create and the connections we foster.",
+  "values": [
+    {
+      "icon": "users",
+      "title": "Community First",
+      "description": "We believe meaningful relationships drive meaningful outcomes. Every event prioritises genuine human connection.",
+      "color": "#0ea5e9",
+      "bgColor": "#f0f9ff"
+    },
+    {
+      "icon": "heart",
+      "title": "Hospitality at the Core",
+      "description": "We design environments where people feel welcomed, valued, and relaxed — the foundation of great conversation.",
+      "color": "#ec4899",
+      "bgColor": "#fdf2f8"
+    },
+    {
+      "icon": "star",
+      "title": "Curated With Purpose",
+      "description": "Every gathering is thoughtfully crafted to bring together diverse perspectives and elevate industry discourse.",
+      "color": "#f59e0b",
+      "bgColor": "#fffbeb"
+    }
+  ]
+}

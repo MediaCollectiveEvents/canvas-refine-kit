@@ -1,0 +1,35 @@
+{
+  "hero": {
+    "image": "/uploads/hero-placeholder230226.jpeg",
+    "eyebrow": "Frequently Asked",
+    "title": "Your questions answered",
+    "description": "Find answers to the most common questions about our events and community.",
+    "variant": "solid",
+    "theme": "dark",
+    "align": "center"
+  },
+  "sections": [
+    {
+      "id": "faq-list",
+      "type": "faqSection",
+      "variant": "default",
+      "hidden": false,
+      "title": "Common questions",
+      "description": "If you can't find what you're looking for, we're always here to help."
+    },
+    {
+      "id": "cta",
+      "type": "cta",
+      "variant": "accent",
+      "hidden": false,
+      "title": "Still have",
+      "accentWord": "questions?",
+      "description": "We're always happy to answer anything about our events.",
+      "buttonLabel": "Contact us"
+    },
+    {
+      "hidden": false,
+      "type": "faqSection"
+    }
+  ]
+}

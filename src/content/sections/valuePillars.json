@@ -1,0 +1,29 @@
+{
+  "type": "valuePillars",
+  "title": "Our Value Pillars",
+  "accentWord": "Foundations",
+  "description": "Everything we create is shaped by a set of core principles that define how we operate, connect and serve the media community.",
+  "values": [
+    {
+      "icon": "users",
+      "title": "People at the Centre",
+      "description": "We build environments where senior leaders, innovators and creators can meet on equal footing — without ego, agenda or pressure.",
+      "color": "#0ea5e9",
+      "bgColor": "#f0f9ff"
+    },
+    {
+      "icon": "star",
+      "title": "Quality over Quantity",
+      "description": "Every event is curated with intention. We prioritise relevance, seniority and meaningful conversation over scale.",
+      "color": "#f59e0b",
+      "bgColor": "#fffbeb"
+    },
+    {
+      "icon": "heart",
+      "title": "Hospitality Matters",
+      "description": "Thoughtful hosting sets the tone. We create warm, relaxed spaces where people feel comfortable enough to talk openly.",
+      "color": "#ec4899",
+      "bgColor": "#fdf2f8"
+    }
+  ]
+}

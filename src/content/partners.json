@@ -1,27 +1,36 @@
 {
-  "title": "Our Partners",
-  "intro": "Canvas Refine Kit is built in collaboration with organisations that share our vision for better prototyping, rapid experimentation, and collaborative workflows.",
-  "items": [
+  "hero": {
+    "image": "/uploads/hero-placeholder230226.jpeg",
+    "eyebrow": "Partnership Opportunities",
+    "title": "Boost your business",
+    "description": "Partner with The Media Collective and connect your brand with influential organisations across media and technology.",
+    "theme": "dark",
+    "overlayStrength": 0.5,
+    "primaryCta": {
+      "label": "Register Your Interest",
+      "url": "/register"
+    }
+  },
+  "sections": [
     {
-      "name": "DesignOps Collective",
-      "logo": "/images/partners/designops-collective.svg",
-      "url": "https://designopscollective.example.com",
-      "tier": "Strategic Partner",
-      "description": "A global community focused on scaling design operations across product teams."
+      "id": "logos",
+      "type": "partnersLogos",
+      "hidden": false
     },
     {
-      "name": "ProtoFlow Labs",
-      "logo": "/images/partners/protoflow-labs.svg",
-      "url": "https://protoflowlabs.example.com",
-      "tier": "Tooling Partner",
-      "description": "Building experimentation tools that connect research, design, and engineering workflows."
+      "id": "benefits",
+      "type": "partnersBenefits",
+      "hidden": false
     },
     {
-      "name": "FutureCanvas Studio",
-      "logo": "/images/partners/futurecanvas-studio.svg",
-      "url": "https://futurecanvas.example.com",
-      "tier": "Community Partner",
-      "description": "A studio dedicated to visual frameworks, strategy canvases, and facilitation training."
+      "id": "tiers",
+      "type": "partnersTiers",
+      "hidden": false
+    },
+    {
+      "id": "cta",
+      "type": "joinUs",
+      "hidden": false
     }
   ]
 }

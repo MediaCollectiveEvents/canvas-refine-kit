@@ -1,0 +1,23 @@
+{
+  "type": "faqSection",
+  "title": "Frequently Asked Questions",
+  "description": "Quick answers to the most common questions about our events, community, and how to get involved.",
+  "items": [
+    {
+      "question": "Who attends your events?",
+      "answer": "Our events bring together senior leaders, founders, innovators, creatives, and decision-makers across the media, entertainment, and technology industries."
+    },
+    {
+      "question": "Are your events invite-only?",
+      "answer": "Yes. We curate each event to ensure a balanced, senior, and relevant mix of attendees to encourage meaningful conversations and peer-level networking."
+    },
+    {
+      "question": "How can I get invited?",
+      "answer": "You can register your interest through our website. We take into account industry background, seniority, and interests to match attendees with the right events."
+    },
+    {
+      "question": "Do you work with partners?",
+      "answer": "Yes. We collaborate with organisations aligned to our mission to create thoughtful, high-quality industry experiences. Partnerships are selective and values-led."
+    }
+  ]
+}
