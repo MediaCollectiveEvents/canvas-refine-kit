@@ -57,15 +57,13 @@ jobs:
           path: ${{ env.BUILD_DIR }}
 
       - name: Deploy via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.5
+        uses: presslabs/sftp-deploy@v2.4.0
         with:
           server: access-5017155687.webspace-host.com
           port: 22
           username: a1473039
           password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: dist/*
-          remote_path: /
+          remote_path: ${{ env.REMOTE_DIR }}
+          local_path: ${{ env.BUILD_DIR }}
+          exclude: ".git* node_modules/"
           delete: true
-          exclude: >
-            **/.git*
-            **/node_modules/**
