@@ -5,40 +5,14 @@ interface PageHeroProps {
   eyebrow?: string;
   title: string;
   description?: string;
-
-  // Primary CTA (modal open)
   primaryCtaText?: string;
   onPrimaryClick?: () => void;
-
-  // Secondary CTA (standard link)
   secondaryCtaText?: string;
   secondaryCtaHref?: string;
-
-  /**
-   * Direct background image URL. If provided, this wins over imageKey.
-   */
   backgroundImage?: string;
-
-  /**
-   * Optional key used to pick an image from
-   * Example: "faqHero", "defaultHero", etc.
-   */
   imageKey?: string;
-
   variant?: "image" | "solid";
-
-  /**
-   * Controls overlay intensity; 0=off, 1=heaviest.
-   * Suggested values: 0 | 0.25 | 0.5 | 0.75 | 1
-   * Default is 0.75 (for dark theme).
-   */
   overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
-
-  /**
-   * Visual theme for the hero:
-   * - "dark": darkened bg, light text (existing look)
-   * - "light": light bg, dark text
-   */
   theme?: "dark" | "light";
 }
 
@@ -56,24 +30,17 @@ export default function PageHero({
   overlayStrength = 0.75,
   theme = "dark",
 }: PageHeroProps) {
-  // Parallax motion for background image
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]);
-
   const isLight = theme === "light";
 
-  // Resolve background image:
-  // 1) explicit backgroundImage prop wins
-  // 2) otherwise try imageKey ->
-  // 3) otherwise undefined (no image)
   const resolvedBackgroundImage =
     backgroundImage ??
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
-  // ---- Overlay recipes (dark vs light) ----
   const s = overlayStrength;
 
-  // Dark theme overlays (existing behavior, driven by s)
+  // DARK THEME GRADIENTS
   const darkVignetteClass =
     s >= 0.9
       ? "from-black/80 via-black/60"
@@ -107,13 +74,13 @@ export default function PageHero({
             ? "bg-primary/1"
             : "bg-transparent";
 
-  // Light theme overlays (very subtle, no black vignette)
-  const lightBloomOpacity = "opacity-40"; // subtle by default
+  // LIGHT THEME OVERLAYS
+  const lightBloomOpacity = "opacity-40";
   const lightBloomGradient =
     "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)";
-  const lightTintClass = "bg-white/40 mix-blend-lighten"; // gentle lift for darker photos
+  const lightTintClass = "bg-white/40 mix-blend-lighten";
 
-  // Typography by theme
+  // Typography
   const titleClass = isLight
     ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
     : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
@@ -121,12 +88,11 @@ export default function PageHero({
   const descClass = isLight ? "text-zinc-700" : "text-primary";
   const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
 
-  // CTA styles (primary stays brand-forward; secondary adapts to theme)
   const secondaryButtonClass = isLight
     ? "border-zinc/20 text-zinc-900 bg-white/60 hover:bg-zinc-100"
     : "border-primary/60 text-primary bg-black/40 hover:bg-primary/10";
 
-  // Keyframes for colour‑cycling glows (kept; softened automatically by light bg)
+  // Glow animations
   const titleGlowKeyframes = [
     isLight
       ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 70%)"
@@ -157,46 +123,39 @@ export default function PageHero({
         isLight ? "bg-white" : ""
       }`}
     >
-      {/* PARALLAX BACKGROUND IMAGE */}
+      {/* PARALLAX BACKGROUND */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-center will-change-transform"
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
             y,
-            // Slight lift for light theme
             filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
           }}
           aria-hidden="true"
         />
       )}
 
-      {/* THEME OVERLAYS */}
+      {/* OVERLAYS */}
       {isLight ? (
-        // LIGHT THEME OVERLAYS
         <div
           className="absolute inset-0 pointer-events-none"
           aria-hidden="true"
         >
-          {/* Gentle bright bloom */}
           <div
             className={`absolute inset-0 ${lightBloomOpacity} mix-blend-screen`}
             style={{ background: lightBloomGradient }}
           />
-          {/* Very soft white tint to lift darker images */}
           <div className={`absolute inset-0 ${lightTintClass}`} />
         </div>
       ) : (
-        // DARK THEME OVERLAYS (original behavior)
         <div
           className="absolute inset-0 pointer-events-none"
           aria-hidden="true"
         >
-          {/* Tall soft vignette for contrast */}
           <div
             className={`absolute inset-0 bg-gradient-to-b ${darkVignetteClass} to-transparent`}
           />
-          {/* Teal + cyan ambient bloom */}
           <div
             className={`absolute inset-0 ${darkBloomOpacity} mix-blend-screen`}
             style={{
@@ -204,28 +163,30 @@ export default function PageHero({
                 "radial-gradient(circle at center, rgba(54,224,198,0.14) 0%, rgba(120,180,255,0.08) 40%, rgba(0,0,0,0) 80%)",
             }}
           />
-          {/* Subtle brand wash */}
           <div
             className={`absolute inset-0 ${darkBrandWashClass} mix-blend-soft-light`}
           />
         </div>
       )}
 
-      {/* GRADIENT WIPE INTO PAGE BACKGROUND */}
+      {/* BACKGROUND FADE */}
       <div
-        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/40 to-background"
+        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/20 to-background"
         aria-hidden="true"
       />
 
-      {/* CONTENT */}
+      {/* ⭐ WIDE CONTAINER (matches header & footer) */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="relative z-10 mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-16"
+        className="
+          relative z-10 mx-auto w-full
+          max-w-[1280px]
+          px-4 sm:px-6 lg:px-8 xl:px-12
+        "
       >
         <div className="max-w-3xl mx-auto">
-          {/* Eyebrow */}
           {eyebrow && (
             <p
               className={`${eyebrowClass} font-body tracking-widest uppercase mb-6 text-sm md:text-base`}
@@ -234,9 +195,8 @@ export default function PageHero({
             </p>
           )}
 
-          {/* TITLE + ANIMATED GLOW + LIGHT SWEEP */}
+          {/* TITLE */}
           <div className="relative flex justify-center">
-            {/* Animated glow behind title */}
             <motion.div
               animate={{ background: titleGlowKeyframes }}
               transition={{
@@ -254,10 +214,8 @@ export default function PageHero({
                 ${isLight ? "opacity-70" : "opacity-90"}
                 pointer-events-none
               `}
-              aria-hidden="true"
             />
 
-            {/* Subtle light sweep across title */}
             <motion.div
               animate={{ x: ["-150%", "150%"] }}
               transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
@@ -269,7 +227,6 @@ export default function PageHero({
                 blur-2xl
                 pointer-events-none
               `}
-              aria-hidden="true"
             />
 
             <h1
@@ -278,14 +235,14 @@ export default function PageHero({
                 text-4xl sm:text-5xl md:text-6xl lg:text-7xl
                 ${titleClass}
                 leading-[1.13] md:leading-[1.18]
-                mt-4 mb-10 md:mb-12
+                mt-2 mb-8 md:mb-10
               `}
             >
               {title}
             </h1>
           </div>
 
-          {/* Description */}
+          {/* DESCRIPTION */}
           {description && (
             <p
               className={`
@@ -298,10 +255,9 @@ export default function PageHero({
             </p>
           )}
 
-          {/* CTA BUTTONS + ANIMATED GLOW POOL */}
+          {/* CTA BUTTONS */}
           {(primaryCtaText || secondaryCtaText) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
-              {/* Animated glow pool beneath CTAs */}
               <motion.div
                 animate={{ background: ctaGlowKeyframes }}
                 transition={{
@@ -309,52 +265,44 @@ export default function PageHero({
                   repeat: Infinity,
                   repeatType: "mirror",
                 }}
-                className={`
-                  absolute
-                  left-1/2 top-1/2
+                className="
+                  absolute left-1/2 top-1/2
                   -translate-x-1/2 -translate-y-1/2
                   -inset-x-[30vw] -inset-y-12
-                  -z-10
-                  blur-[120px]
-                  ${isLight ? "opacity-60" : "opacity-80"}
-                  pointer-events-none
-                `}
-                aria-hidden="true"
+                  -z-10 blur-[120px]
+                  opacity-80 pointer-events-none
+                "
               />
 
-              {/* PRIMARY CTA */}
               {primaryCtaText && onPrimaryClick && (
                 <Button
                   size="lg"
                   onClick={onPrimaryClick}
-                  className={`
+                  className="
                     rounded-full px-8 py-3
                     bg-primary text-black
-                    shadow-lg ${
-                      isLight ? "shadow-primary/30" : "shadow-primary/40"
-                    }
+                    shadow-lg shadow-primary/40
                     hover:bg-primary/90
                     hover:shadow-[0_0_40px_rgba(54,224,198,0.65)]
                     transition-transform duration-200 ease-out
                     hover:scale-[1.06]
-                  `}
+                  "
                 >
                   {primaryCtaText}
                 </Button>
               )}
 
-              {/* SECONDARY CTA */}
               {secondaryCtaText && secondaryCtaHref && (
                 <Button
                   asChild
                   size="lg"
                   variant="outline"
-                  className={`
+                  className="
                     rounded-full px-8 py-3
-                    ${secondaryButtonClass}
+                    border-primary/60 text-primary bg-black/40 hover:bg-primary/10
                     transition-transform duration-200 ease-out
                     hover:scale-[1.03]
-                  `}
+                  "
                 >
                   <a href={secondaryCtaHref}>{secondaryCtaText}</a>
                 </Button>
@@ -364,7 +312,7 @@ export default function PageHero({
         </div>
       </motion.div>
 
-      {/* CYAN / TEAL NEON LINE AT BOTTOM */}
+      {/* NEON LINE */}
       <div
         className="
           absolute bottom-0 left-0 right-0

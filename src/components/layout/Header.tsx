@@ -24,7 +24,6 @@ interface SettingsFile {
 const typedSettings = settings as SettingsFile;
 
 function resolveHref(item: RawNavItem): string {
-  // Explicit href/url from CMS wins
   if (item.href) return item.href;
   if (item.url) return item.url;
 
@@ -73,8 +72,15 @@ const Header = () => {
     <>
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <header className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-sm h-20 sm:h-24 lg:h-28">
-        {/* ⭐ ORIGINAL CYAN/TEAL NEON LINE (restored) */}
+      {/* Taller header */}
+      <header
+        className="
+          fixed top-0 left-0 right-0 z-50
+          bg-muted/95 backdrop-blur-sm
+          h-24 sm:h-28 lg:h-36 xl:h-40
+        "
+      >
+        {/* Neon gradient line */}
         <div
           className="
             absolute bottom-0 left-0 right-0
@@ -87,31 +93,42 @@ const Header = () => {
           <div
             className="
               mx-auto w-full max-w-[1280px]
-              px-4 sm:px-6 lg:px-10 xl:px-16
+              px-4 sm:px-6 lg:px-8 xl:px-12
               h-full flex items-center justify-between gap-4
             "
           >
-            {/* Logo */}
+            {/* Bigger Logo */}
             <Link to="/" className="flex items-center">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-14 sm:h-16 lg:h-20 w-auto object-contain"
+                className="
+                  h-16 sm:h-20 lg:h-24 xl:h-28
+                  w-auto object-contain
+                "
               />
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8 xl:gap-10">
+            <nav
+              className="
+                hidden md:flex items-center
+                gap-4 lg:gap-6 xl:gap-8
+              "
+            >
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   to={item.href}
                   className="
                     text-muted-foreground
-                    font-body text-sm uppercase tracking-wider leading-none py-1
-                    transition-colors duration-200 ease-out
-                    hover:text-primary
-                    opacity-80 hover:opacity-100
+                    font-body
+                    text-sm md:text-base lg:text-lg xl:text-xl
+                    uppercase tracking-[0.15em]
+                    leading-none py-3
+                    transition-all duration-200 ease-out
+                    hover:text-primary hover:opacity-100
+                    opacity-90
                   "
                 >
                   {item.label}
@@ -119,14 +136,15 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* CTA Button */}
+            {/* Responsive CTA Button */}
             <div className="hidden md:block">
               <Button
                 onClick={() => setIsFormOpen(true)}
                 className="
-                  bg-primary text-primary-foreground 
-                  font-body uppercase tracking-wider text-sm
-                  px-6 py-2
+                  bg-primary text-primary-foreground
+                  font-body uppercase tracking-wider
+                  text-sm md:text-base lg:text-lg
+                  px-6 py-3
                   hover:bg-primary/90 hover:scale-[1.03]
                   shadow-md shadow-primary/30 transition-transform
                 "
@@ -147,8 +165,14 @@ const Header = () => {
           {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden absolute left-0 right-0 top-full bg-muted/95 border-t border-border">
-              <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-10 xl:px-16 py-4">
-                <div className="flex flex-col gap-3">
+              <div
+                className="
+                  mx-auto w-full max-w-[1280px]
+                  px-4 sm:px-6 lg:px-8 xl:px-12
+                  py-4
+                "
+              >
+                <div className="flex flex-col gap-4">
                   {navItems.map((item) => (
                     <Link
                       key={item.label}
@@ -156,7 +180,9 @@ const Header = () => {
                       onClick={() => setIsMenuOpen(false)}
                       className="
                         text-muted-foreground hover:text-primary
-                        font-body text-sm uppercase tracking-wider py-2
+                        font-body
+                        text-base sm:text-lg
+                        uppercase tracking-wider py-2
                       "
                     >
                       {item.label}
@@ -169,10 +195,11 @@ const Header = () => {
                       setIsFormOpen(true);
                     }}
                     className="
-                      bg-primary text-primary-foreground 
+                      bg-primary text-primary-foreground
                       mt-2 hover:bg-primary/90 hover:scale-[1.03]
                       shadow-md shadow-primary/30 transition-transform
-                      font-body uppercase tracking-wider text-sm
+                      font-body uppercase tracking-wider
+                      text-base sm:text-lg py-3
                     "
                   >
                     Contact Us

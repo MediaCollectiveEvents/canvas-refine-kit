@@ -8,7 +8,7 @@
   },
   "styleWrapper": {
     "variant": "clean",
-    "padding": "lux",
+    "padding": "regular",
     "noise": false,
     "grid": false,
     "withFades": true
