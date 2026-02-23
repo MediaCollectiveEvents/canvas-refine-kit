@@ -3,12 +3,11 @@ name: Deploy site to IONOS via SFTP
 on:
   push:
     branches: ["main"] # deploys on every push to main
-  workflow_dispatch: # allows manual runs from the Actions tab
+  workflow_dispatch: # allows manual deploy
 
 env:
   NODE_VERSION: "20"
   BUILD_DIR: dist
-  # This is resolved at runtime from your GitHub Secrets
   REMOTE_DIR: ${{ secrets.SFTP_TARGET_DIR }}
 
 jobs:
@@ -29,12 +28,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build (Vite)
+      - name: Build Vite site
         run: npm run build
-        # Vite’s static deployment consists of uploading the 'dist/' folder.
 
-      # Ensure .htaccess ships with the build (if you keep it outside /public)
-      - name: Copy .htaccess into dist (optional)
+      - name: Ensure .htaccess is included
         run: |
           if [ -f ".htaccess" ] && [ ! -f "dist/.htaccess" ]; then
             cp .htaccess dist/.htaccess
@@ -48,10 +45,9 @@ jobs:
           if-no-files-found: error
 
   deploy:
-    name: Deploy via SFTP
+    name: Deploy to IONOS over SFTP
     needs: build
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
       - name: Download build artifact
@@ -60,36 +56,16 @@ jobs:
           name: site-dist
           path: ${{ env.BUILD_DIR }}
 
-      # Optional: pre-clean old hashed bundles in remote /assets for cache sanity.
-      # Requires SSH access. If you don't have SSH, rely on the SFTP 'delete: true' below.
-      - name: Pre-clean remote assets/ (optional)
-        if: ${{ secrets.SSH_HOST && secrets.SSH_USER && secrets.SSH_KEY }}
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || '22' }}
-          script: |
-            set -e
-            mkdir -p "${{ env.REMOTE_DIR }}"
-            rm -rf "${{ env.REMOTE_DIR }}/assets"
-
-      # Main deploy step: sync dist/ to your IONOS webspace folder via SFTP
-      - name: SFTP deploy
+      - name: Deploy via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.5
         with:
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT || '22' }}
-          username: ${{ secrets.SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          username: a1473039
           password: ${{ secrets.SFTP_PASSWORD }}
-          # Or use a key instead of password:
-          # ssh_private_key: ${{ secrets.SFTP_PRIVATE_KEY }}
-          local_path: ${{ env.BUILD_DIR }}/*
-          remote_path: ${{ env.REMOTE_DIR }}
-          # Remove remote files that are no longer present locally
+          local_path: dist/*
+          remote_path: /
           delete: true
-          # Keep the deployment clean; ignore irrelevant files
           exclude: >
             **/.git*
             **/node_modules/**
