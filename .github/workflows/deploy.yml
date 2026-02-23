@@ -57,13 +57,14 @@ jobs:
           path: ${{ env.BUILD_DIR }}
 
       - name: Deploy via SFTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
+          username: ${{ secrets.SFTP_USERNAME }}
           server: access-5017155687.webspace-host.com
           port: 22
-          username: ${{ secrets.SFTP_USERNAME }}
           password: ${{ secrets.SFTP_PASSWORD }}
-          protocol: sftp
-          local-dir: ${{ env.BUILD_DIR }}/
-          server-dir: ${{ env.REMOTE_DIR }}/
-          dangerous-clean-slate: true
+          local_path: ${{ env.BUILD_DIR }}
+          remote_path: ${{ env.REMOTE_DIR }}
+          sftp_only: true
+          # optional extra SSH args if you want them:
+          # args: "-o ConnectTimeout=5"
