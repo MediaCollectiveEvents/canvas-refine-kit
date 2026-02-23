@@ -1,15 +1,15 @@
 {
   "hero": {
     "imageKey": "homeHero",
-    "theme": "light",
+    "theme": "dark",
     "primaryCta": {
       "label": "Join us",
       "url": "/register"
     },
-    "overlayStrength": 0.25,
+    "overlayStrength": 1,
     "subtitle": "Media Collective Events",
-    "title": "nvunvein",
-    "image": "/uploads/hero_neon_group.png",
+    "title": "Connecting Media Innovators",
+    "image": "/uploads/hero-placeholder230226.jpeg",
     "description": "Invite only industry gatherings",
     "secondaryCta": {
       "label": "Help us host",
@@ -18,16 +18,13 @@
   },
   "sections": [
     {
-      "type": "forBrands",
-      "heading": "Brands & Partners",
-      "body": "We also work with selected partners to create curated industry experiences.",
-      "cta": {
-        "label": "Explore Partnerships",
-        "url": "/partners"
-      },
+      "type": "aboutIntro",
+      "heading": "About Us",
+      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
+      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
       "styleTitle": {
-        "eyebrow": "Curated experiences",
-        "sub": "Collaborations that feel natural",
+        "eyebrow": "",
+        "sub": "",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
@@ -39,7 +36,7 @@
         "grid": true,
         "withFades": true
       },
-      "hidden": true
+      "hidden": false
     },
     {
       "type": "whoAttends",
@@ -83,27 +80,6 @@
       "hidden": false
     },
     {
-      "type": "aboutIntro",
-      "heading": "About Us",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "hidden": false
-    },
-    {
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -133,6 +109,30 @@
       }
     },
     {
+      "type": "forBrands",
+      "heading": "Brands & Partners",
+      "body": "We also work with selected partners to create curated industry experiences.",
+      "cta": {
+        "label": "Explore Partnerships",
+        "url": "/partners"
+      },
+      "styleTitle": {
+        "eyebrow": "Curated experiences",
+        "sub": "Collaborations that feel natural",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "hidden": true
+    },
+    {
       "type": "newHere",
       "heading": "Our events",
       "body": "If it’s your first time joining us, welcome. Our events bring together senior professionals from across media, entertainment, and technology in a relaxed setting designed for easy conversation. Expect a curated guest list, thoughtful formats, and plenty of time to connect with peers.",
@@ -154,7 +154,7 @@
         "grid": false,
         "withFades": true
       },
-      "hidden": false
+      "hidden": true
     },
     {
       "type": "testimonials",
@@ -217,7 +217,8 @@
         "noise": false,
         "grid": false,
         "withFades": true
-      }
+      },
+      "hidden": true
     }
   ]
 }

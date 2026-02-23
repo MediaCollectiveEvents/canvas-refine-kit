@@ -1,11 +1,11 @@
 {
   "hero": {
-    "image": "/uploads/home-hero.png",
+    "image": "/uploads/hero-placeholder230226.jpeg",
     "eyebrow": "Insights & Updates",
     "title": "The Blog",
     "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective.",
     "variant": "solid",
-    "theme": "light",
+    "theme": "dark",
     "align": "center",
     "overlayStrength": 1
   },
