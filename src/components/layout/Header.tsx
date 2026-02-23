@@ -25,7 +25,7 @@ function resolveHref(item: RawNavItem): string {
   if (item.href) return item.href;
   if (item.url) return item.url;
 
-  const lookup: Record<string, string> = {
+  const map: Record<string, string> = {
     home: "/",
     about: "/about",
     events: "/events",
@@ -34,8 +34,7 @@ function resolveHref(item: RawNavItem): string {
     faq: "/faq",
     sponsors: "/sponsors",
   };
-
-  return lookup[item.type ?? "home"] ?? "/";
+  return map[item.type ?? "home"] ?? "/";
 }
 
 const fallbackNavItems = [
@@ -59,31 +58,51 @@ const Header = () => {
     <>
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      {/* Clean fixed header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-muted/95 backdrop-blur-sm border-b border-border">
-        <div className="container mx-auto px-6">
-          {/* HEIGHT + ALIGNMENT — THE IMPORTANT PART */}
-          <div className="flex items-center justify-between py-4 lg:py-5 gap-6">
-            {/* LOGO — balanced scale */}
+      {/* Tall, fixed header with neon line */}
+      <header
+        className="
+          fixed top-0 left-0 right-0 z-50
+          bg-muted/95 backdrop-blur-sm
+          h-32 sm:h-40 lg:h-48 xl:h-56
+        "
+      >
+        {/* Neon edge line */}
+        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-cyan-400 to-primary" />
+
+        <div className="relative h-full">
+          <div
+            className="
+              container mx-auto px-8 lg:px-10
+              h-full flex items-center
+            "
+          >
+            {/* Logo (unchanged) */}
             <Link to="/" className="flex items-center">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-14 sm:h-16 lg:h-20 w-auto object-contain"
+                className="h-16 sm:h-20 lg:h-24 xl:h-28 w-auto object-contain"
               />
             </Link>
 
-            {/* DESKTOP NAV */}
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8">
+            {/* Desktop Navigation – centered, wider spacing, bigger text */}
+            <nav
+              className="
+                hidden md:flex flex-1 justify-center
+                items-center
+                gap-8 lg:gap-10
+              "
+            >
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   to={item.href}
                   className="
-                    text-muted-foreground font-body 
-                    text-sm lg:text-base 
-                    uppercase tracking-[0.15em]
-                    hover:text-primary transition-colors
+                    text-muted-foreground font-body
+                    text-base lg:text-lg
+                    uppercase tracking-[0.2em]
+                    leading-none py-1
+                    hover:text-primary transition-colors duration-200
                   "
                 >
                   {item.label}
@@ -91,58 +110,68 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* CTA */}
-            <div className="hidden md:block">
+            {/* CTA (unchanged) */}
+            <div className="hidden md:flex justify-end">
               <Button
                 onClick={() => setIsFormOpen(true)}
                 className="
-                  bg-primary text-primary-foreground
-                  px-6 py-2.5 
-                  text-sm font-semibold uppercase tracking-wide
-                  hover:bg-primary/90 transition
+                  bg-primary text-primary-foreground 
+                  font-body uppercase tracking-wider text-sm
+                  px-6 py-3
+                  hover:bg-primary/90 hover:scale-[1.03]
+                  shadow-md shadow-primary/30 transition-transform
                 "
               >
                 Contact Us
               </Button>
             </div>
 
-            {/* MOBILE BUTTON */}
+            {/* Mobile toggle (unchanged) */}
             <button
-              className="md:hidden"
+              className="md:hidden text-foreground ml-auto"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
             >
-              {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
-          {/* MOBILE MENU */}
+          {/* Mobile Navigation (unchanged) */}
           {isMenuOpen && (
-            <nav className="md:hidden py-4 border-t border-border">
-              <div className="flex flex-col gap-4">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.href}
-                    className="
-                      text-muted-foreground font-body text-base
-                      uppercase tracking-wide
-                      hover:text-primary
-                    "
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
+            <nav className="md:hidden absolute left-0 right-0 top-full bg-muted/95 border-t border-border">
+              <div className="container mx-auto px-8 py-4">
+                <div className="flex flex-col gap-4">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.label}
+                      to={item.href}
+                      onClick={() => setIsMenuOpen(false)}
+                      className="
+                        text-muted-foreground hover:text-primary
+                        font-body text-base
+                        uppercase tracking-wider py-2
+                      "
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
 
-                <Button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsFormOpen(true);
-                  }}
-                  className="bg-primary text-primary-foreground py-3 text-base uppercase tracking-wide"
-                >
-                  Contact Us
-                </Button>
+                  <Button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setIsFormOpen(true);
+                    }}
+                    className="
+                      bg-primary text-primary-foreground 
+                      mt-2 hover:bg-primary/90 hover:scale-[1.03]
+                      shadow-md shadow-primary/30 transition-transform
+                      font-body uppercase tracking-wider
+                      text-base py-3
+                    "
+                  >
+                    Contact Us
+                  </Button>
+                </div>
               </div>
             </nav>
           )}
