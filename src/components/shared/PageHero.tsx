@@ -12,9 +12,11 @@ interface PageHeroProps {
   secondaryCtaText?: string;
   secondaryCtaHref?: string;
 
+  // Background inputs from CMS
   backgroundImage?: string; // homepage, events, etc
   image?: string; // FAQ / blogPage hero image
   imageKey?: string; // mapped hero keys
+
   variant?: "image" | "solid";
   overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
   theme?: "dark" | "light";
@@ -29,7 +31,7 @@ export default function PageHero({
   secondaryCtaText,
   secondaryCtaHref,
   backgroundImage,
-  image, // <-- FAQ + blogPage use this
+  image, // FAQ + blogPage use this
   imageKey,
   variant = "image",
   overlayStrength = 0.75,
@@ -39,16 +41,15 @@ export default function PageHero({
   const y = useTransform(scrollY, [0, 500], [0, 140]);
   const isLight = theme === "light";
 
-  // --- UNIVERSAL IMAGE RESOLUTION FIX ---
-  // FAQ hero was NOT receiving a usable image before.
+  // --- UNIVERSAL IMAGE RESOLUTION (FAQ fix) ---
   const resolvedBackgroundImage =
     backgroundImage ||
-    image || // <-- FAQ fix
+    image || // <-- FAQ hero uses hero.image
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
   const s = overlayStrength;
 
-  // DARK theme layers
+  // DARK THEME GRADIENTS
   const darkVignetteClass =
     s >= 0.9
       ? "from-black/80 via-black/60"
@@ -82,13 +83,13 @@ export default function PageHero({
             ? "bg-primary/1"
             : "bg-transparent";
 
-  // LIGHT theme layers
+  // LIGHT THEME OVERLAYS
   const lightBloomOpacity = "opacity-40";
   const lightBloomGradient =
     "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)";
   const lightTintClass = "bg-white/40 mix-blend-lighten";
 
-  // Typography classes
+  // Typography
   const titleClass = isLight
     ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
     : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
@@ -96,6 +97,7 @@ export default function PageHero({
   const descClass = isLight ? "text-zinc-700" : "text-primary";
   const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
 
+  // (Kept for clarity, even though the secondary button currently hard‑codes its classes)
   const secondaryButtonClass = isLight
     ? "border-zinc/20 text-zinc-900 bg-white/60 hover:bg-zinc-100"
     : "border-primary/60 text-primary bg-black/40 hover:bg-primary/10";
@@ -127,11 +129,17 @@ export default function PageHero({
 
   return (
     <header
-      className={`relative w-full min-h-[70vh] md:min-h-[80vh] flex items-center justify-center text-center overflow-hidden ${
-        isLight ? "bg-white" : ""
-      }`}
+      className={`
+        relative w-full
+        min-h-[70vh] md:min-h-[80vh]
+        flex items-center justify-center text-center
+        overflow-hidden
+        ${isLight ? "bg-white" : ""}
+        pt-40 sm:pt-48 lg:pt-56
+        pb-28 sm:pb-32 lg:pb-40
+      `}
     >
-      {/* UNIVERSAL PARALLAX BACKGROUND */}
+      {/* PARALLAX BACKGROUND */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-center will-change-transform"
@@ -144,7 +152,7 @@ export default function PageHero({
         />
       )}
 
-      {/* THEME-SPECIFIC OVERLAYS */}
+      {/* OVERLAYS */}
       {isLight ? (
         <div
           className="absolute inset-0 pointer-events-none"
@@ -177,7 +185,7 @@ export default function PageHero({
         </div>
       )}
 
-      {/* Background fade */}
+      {/* BACKGROUND FADE */}
       <div
         className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/20 to-background"
         aria-hidden="true"
@@ -247,6 +255,7 @@ export default function PageHero({
             </h1>
           </div>
 
+          {/* DESCRIPTION */}
           {description && (
             <p
               className={`
@@ -259,6 +268,7 @@ export default function PageHero({
             </p>
           )}
 
+          {/* CTA BUTTONS */}
           {(primaryCtaText || secondaryCtaText) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
               <motion.div
@@ -327,4 +337,3 @@ export default function PageHero({
     </header>
   );
 }
-``;

@@ -4,7 +4,7 @@
     "eyebrow": "Ask away!",
     "title": "Your questions answered",
     "description": "Find answers to the most common questions about our events and community.",
-    "variant": "solid",
+    "variant": "image",
     "theme": "dark",
     "align": "center"
   },
