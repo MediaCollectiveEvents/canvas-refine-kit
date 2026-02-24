@@ -76,16 +76,21 @@ const Header = () => {
               h-full flex items-center justify-between
             "
           >
-            {/* Logo - prevent shrinking */}
-            <Link to="/" className="flex items-center flex-shrink-0">
-              <img
-                src={logo}
-                alt="The Media Collective"
-                className="h-12 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain"
-              />
+            {/* Logo – fixed zone, no shrinking */}
+            <Link
+              to="/"
+              className="flex items-center flex-shrink-0 min-w-[140px]"
+            >
+              <div className="h-12 sm:h-16 lg:h-20 xl:h-24 flex items-center">
+                <img
+                  src={logo}
+                  alt="The Media Collective"
+                  className="block h-full w-auto object-contain"
+                />
+              </div>
             </Link>
 
-            {/* Desktop Navigation – centered */}
+            {/* Desktop Navigation – flexible center zone */}
             <nav
               className="
                 hidden md:flex flex-1 justify-center
@@ -110,8 +115,8 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* CTA */}
-            <div className="hidden md:flex justify-end flex-shrink-0">
+            {/* CTA – fixed zone, protected from cropping */}
+            <div className="hidden md:flex justify-end flex-shrink-0 min-w-[140px]">
               <Button
                 onClick={() => setIsFormOpen(true)}
                 className="
@@ -182,4 +187,3 @@ const Header = () => {
 };
 
 export default Header;
-``;
