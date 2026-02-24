@@ -8,7 +8,6 @@ on:
 env:
   NODE_VERSION: "20"
   BUILD_DIR: dist
-  REMOTE_DIR: ${{ secrets.SFTP_TARGET_DIR }}
 
 jobs:
   build:
@@ -63,8 +62,8 @@ jobs:
           server: access-5017155687.webspace-host.com
           port: 22
           password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: ${{ env.BUILD_DIR }}
-          remote_path: ${{ env.REMOTE_DIR }}
+          # Upload the *contents* of dist:
+          local_path: ${{ env.BUILD_DIR }}/*
+          # Deploy into the current directory on the SFTP server:
+          remote_path: .
           sftp_only: true
-          # optional extra SSH args if you want them:
-          # args: "-o ConnectTimeout=5"
