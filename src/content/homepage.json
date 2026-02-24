@@ -7,10 +7,10 @@
       "url": "/register"
     },
     "overlayStrength": 0.1,
-    "subtitle": "Media Collective Events",
-    "title": "Connecting Media Innovators",
-    "image": "/uploads/evening-event-background.png",
-    "description": "Invite only industry gatherings",
+    "subtitle": "Media and entertainment industry",
+    "title": "Curated Events",
+    "image": "/uploads/city-background.png",
+    "description": "Invite-only industry gatherings",
     "secondaryCta": {
       "label": "Help us host",
       "url": "/partners"
