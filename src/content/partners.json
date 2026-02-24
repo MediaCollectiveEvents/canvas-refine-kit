@@ -1,10 +1,10 @@
 {
   "hero": {
-    "image": "/uploads/line-hero.png",
+    "image": "/uploads/partners_hero.png",
     "eyebrow": "Partnership Opportunities",
     "title": "Boost your business",
     "description": "Partner with The Media Collective and connect your brand with influential organisations across media and technology.",
-    "theme": "light",
+    "theme": "dark",
     "overlayStrength": 0.5,
     "primaryCta": {
       "label": "Register Your Interest",
