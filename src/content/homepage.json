@@ -6,10 +6,10 @@
       "label": "Join us",
       "url": "/register"
     },
-    "overlayStrength": 1,
+    "overlayStrength": 0.1,
     "subtitle": "Media Collective Events",
     "title": "Connecting Media Innovators",
-    "image": "/uploads/hero-placeholder230226.jpeg",
+    "image": "/uploads/evening-event-background.png",
     "description": "Invite only industry gatherings",
     "secondaryCta": {
       "label": "Help us host",
