@@ -73,19 +73,19 @@ const Header = () => {
           <div
             className="
               container mx-auto px-8 lg:px-10
-              h-full flex items-center
+              h-full flex items-center justify-between
             "
           >
-            {/* Logo (unchanged) */}
-            <Link to="/" className="flex items-center">
+            {/* Logo - prevent shrinking */}
+            <Link to="/" className="flex items-center flex-shrink-0">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-16 sm:h-20 lg:h-24 xl:h-28 w-auto object-contain"
+                className="h-12 sm:h-16 lg:h-20 xl:h-24 w-auto object-contain"
               />
             </Link>
 
-            {/* Desktop Navigation – centered, wider spacing, bigger text */}
+            {/* Desktop Navigation – centered */}
             <nav
               className="
                 hidden md:flex flex-1 justify-center
@@ -110,8 +110,8 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* CTA (unchanged) */}
-            <div className="hidden md:flex justify-end">
+            {/* CTA */}
+            <div className="hidden md:flex justify-end flex-shrink-0">
               <Button
                 onClick={() => setIsFormOpen(true)}
                 className="
@@ -126,7 +126,7 @@ const Header = () => {
               </Button>
             </div>
 
-            {/* Mobile toggle (unchanged) */}
+            {/* Mobile toggle */}
             <button
               className="md:hidden text-foreground ml-auto"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -136,7 +136,7 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Mobile Navigation (unchanged) */}
+          {/* Mobile Navigation */}
           {isMenuOpen && (
             <nav className="md:hidden absolute left-0 right-0 top-full bg-muted/95 border-t border-border">
               <div className="container mx-auto px-8 py-4">
@@ -182,3 +182,4 @@ const Header = () => {
 };
 
 export default Header;
+``;
