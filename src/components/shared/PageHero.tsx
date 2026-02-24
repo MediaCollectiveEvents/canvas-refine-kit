@@ -5,12 +5,16 @@ interface PageHeroProps {
   eyebrow?: string;
   title: string;
   description?: string;
+
   primaryCtaText?: string;
   onPrimaryClick?: () => void;
+
   secondaryCtaText?: string;
   secondaryCtaHref?: string;
-  backgroundImage?: string;
-  imageKey?: string;
+
+  backgroundImage?: string; // homepage, events, etc
+  image?: string; // FAQ / blogPage hero image
+  imageKey?: string; // mapped hero keys
   variant?: "image" | "solid";
   overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
   theme?: "dark" | "light";
@@ -25,6 +29,7 @@ export default function PageHero({
   secondaryCtaText,
   secondaryCtaHref,
   backgroundImage,
+  image, // <-- FAQ + blogPage use this
   imageKey,
   variant = "image",
   overlayStrength = 0.75,
@@ -34,13 +39,16 @@ export default function PageHero({
   const y = useTransform(scrollY, [0, 500], [0, 140]);
   const isLight = theme === "light";
 
+  // --- UNIVERSAL IMAGE RESOLUTION FIX ---
+  // FAQ hero was NOT receiving a usable image before.
   const resolvedBackgroundImage =
-    backgroundImage ??
+    backgroundImage ||
+    image || // <-- FAQ fix
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
   const s = overlayStrength;
 
-  // DARK THEME GRADIENTS
+  // DARK theme layers
   const darkVignetteClass =
     s >= 0.9
       ? "from-black/80 via-black/60"
@@ -74,13 +82,13 @@ export default function PageHero({
             ? "bg-primary/1"
             : "bg-transparent";
 
-  // LIGHT THEME OVERLAYS
+  // LIGHT theme layers
   const lightBloomOpacity = "opacity-40";
   const lightBloomGradient =
     "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)";
   const lightTintClass = "bg-white/40 mix-blend-lighten";
 
-  // Typography
+  // Typography classes
   const titleClass = isLight
     ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
     : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
@@ -123,7 +131,7 @@ export default function PageHero({
         isLight ? "bg-white" : ""
       }`}
     >
-      {/* PARALLAX BACKGROUND */}
+      {/* UNIVERSAL PARALLAX BACKGROUND */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-center will-change-transform"
@@ -136,7 +144,7 @@ export default function PageHero({
         />
       )}
 
-      {/* OVERLAYS */}
+      {/* THEME-SPECIFIC OVERLAYS */}
       {isLight ? (
         <div
           className="absolute inset-0 pointer-events-none"
@@ -169,13 +177,13 @@ export default function PageHero({
         </div>
       )}
 
-      {/* BACKGROUND FADE */}
+      {/* Background fade */}
       <div
         className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/20 to-background"
         aria-hidden="true"
       />
 
-      {/* ⭐ WIDE CONTAINER (matches header & footer) */}
+      {/* CONTENT */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -205,12 +213,10 @@ export default function PageHero({
                 repeatType: "mirror",
               }}
               className={`
-                absolute
-                left-1/2 top-1/2
+                absolute left-1/2 top-1/2
                 -translate-x-1/2 -translate-y-1/2
                 -inset-x-[40vw] -inset-y-[16vh]
-                -z-10
-                blur-[140px]
+                -z-10 blur-[140px]
                 ${isLight ? "opacity-70" : "opacity-90"}
                 pointer-events-none
               `}
@@ -224,8 +230,7 @@ export default function PageHero({
                 bg-gradient-to-r from-transparent ${
                   isLight ? "via-black/5" : "via-white/10"
                 } to-transparent
-                blur-2xl
-                pointer-events-none
+                blur-2xl pointer-events-none
               `}
             />
 
@@ -242,7 +247,6 @@ export default function PageHero({
             </h1>
           </div>
 
-          {/* DESCRIPTION */}
           {description && (
             <p
               className={`
@@ -255,7 +259,6 @@ export default function PageHero({
             </p>
           )}
 
-          {/* CTA BUTTONS */}
           {(primaryCtaText || secondaryCtaText) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
               <motion.div
@@ -324,3 +327,4 @@ export default function PageHero({
     </header>
   );
 }
+``;
