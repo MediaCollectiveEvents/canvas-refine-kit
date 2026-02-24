@@ -597,6 +597,17 @@ collections:
                 options:
                   - { label: Center, value: center }
                   - { label: Left, value: left }
+              - label: Overlay Strength
+                name: overlayStrength
+                widget: select
+                required: false
+                default: 0.75
+                options:
+                  - { label: None (0%), value: 0 }
+                  - { label: Light (25%), value: 0.25 }
+                  - { label: Medium (50%), value: 0.5 }
+                  - { label: Strong (75%), value: 0.75 }
+                  - { label: Full (100%), value: 1 }
 
           - label: Sections
             name: sections
