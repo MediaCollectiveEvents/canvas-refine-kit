@@ -7,16 +7,16 @@
       "label": "Join us",
       "url": "/register"
     },
-    "imageOffset": 0,
+    "imageOffset": 3,
     "cta": {
       "url": "/partners",
       "label": "Help us host"
     },
     "overlayStrength": 0.05,
-    "mobileCrop": "cover",
+    "mobileCrop": "contain",
     "subtitle": "Media and entertainment industry",
     "title": "Curated Events",
-    "image": "/uploads/city-background.png",
+    "image": "/uploads/bloghero2.png",
     "description": "Invite-only free industry gatherings",
     "secondaryCta": {
       "label": "Help us host",
