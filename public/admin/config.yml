@@ -55,6 +55,14 @@ collections:
                 step: 0.05
                 required: false
                 default: 0.5
+              - label: Mobile Background Crop
+                name: mobileCrop
+                widget: select
+                required: false
+                default: cover
+                options:
+                  - { label: "Cover (default)", value: cover }
+                  - { label: "Contain (show full image)", value: contain }
               - label: Primary CTA
                 name: primaryCta
                 widget: object
@@ -232,7 +240,7 @@ collections:
                       default: true,
                     }
 
-              - label: For Brands & Partners
+              - label: For Brands &amp; Partners
                 name: forBrands
                 widget: object
                 fields:
@@ -388,6 +396,14 @@ collections:
                 step: 0.05
                 required: false
                 default: 0.5
+              - label: Mobile Background Crop
+                name: mobileCrop
+                widget: select
+                required: false
+                default: cover
+                options:
+                  - { label: "Cover (default)", value: cover }
+                  - { label: "Contain (show full image)", value: contain }
               - label: Primary CTA
                 name: primaryCta
                 widget: object
@@ -469,7 +485,7 @@ collections:
                     }
                   - { label: Body, name: body, widget: text }
 
-              - label: Mission & Values
+              - label: Mission &amp; Values
                 name: missionValues
                 widget: object
                 fields:
@@ -608,6 +624,14 @@ collections:
                   - { label: Medium (50%), value: 0.5 }
                   - { label: Strong (75%), value: 0.75 }
                   - { label: Full (100%), value: 1 }
+              - label: Mobile Background Crop
+                name: mobileCrop
+                widget: select
+                required: false
+                default: cover
+                options:
+                  - { label: "Cover (default)", value: cover }
+                  - { label: "Contain (show full image)", value: contain }
 
           - label: Sections
             name: sections
@@ -665,7 +689,7 @@ collections:
 
   # === EVENTS CONTENT (events.json) ===
   - name: events
-    label: Events Content & List
+    label: Events Content &amp; List
     files:
       - name: eventsContent
         label: Events Content
@@ -711,6 +735,14 @@ collections:
                 max: 1
                 step: 0.05
                 default: 0.5
+              - label: Mobile Background Crop
+                name: mobileCrop
+                widget: select
+                required: false
+                default: cover
+                options:
+                  - { label: "Cover (default)", value: cover }
+                  - { label: "Contain (show full image)", value: contain }
 
           - label: Intro Section
             name: intro
@@ -837,6 +869,14 @@ collections:
                 max: 1
                 step: 0.05
                 default: 0.5
+              - label: Mobile Background Crop
+                name: mobileCrop
+                widget: select
+                required: false
+                default: cover
+                options:
+                  - { label: "Cover (default)", value: cover }
+                  - { label: "Contain (show full image)", value: contain }
               - label: Primary CTA
                 name: primaryCta
                 widget: object
@@ -911,6 +951,14 @@ collections:
                 max: 1
                 step: 0.05
                 default: 0.5
+              - label: Mobile Background Crop
+                name: mobileCrop
+                widget: select
+                required: false
+                default: cover
+                options:
+                  - { label: "Cover (default)", value: cover }
+                  - { label: "Contain (show full image)", value: contain }
 
           - label: Sections
             name: sections
