@@ -23,22 +23,26 @@ const Blog: React.FC = () => {
   const { hero, sections } = blogPage as any;
   const posts: BlogPost[] = (blogPostsJSON as any).posts || [];
 
-  // ✅ CMS-driven hero image (uploaded via Decap)
-  const heroBackgroundImage: string | undefined = hero?.image;
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="pt-20 sm:pt-24 lg:pt-28">
+      {/* Match header clearance with other pages */}
+      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
         <PageHero
           eyebrow={hero?.eyebrow}
           title={hero?.title}
           description={hero?.description}
-          backgroundImage={heroBackgroundImage}
-          variant="image"
-          overlayStrength={hero?.overlayStrength ?? 0.5}
+          // Unified hero image & controls from CMS
+          image={hero?.image}
           theme={hero?.theme ?? "dark"}
+          overlayStrength={hero?.overlayStrength ?? 0.5}
+          mobileCrop={hero?.mobileCrop}
+          imagePosition={hero?.imagePosition}
+          imageOffset={hero?.imageOffset}
+          // Single CTA – optional
+          primaryCtaText={hero?.cta?.label}
+          primaryCtaHref={hero?.cta?.url}
         />
 
         <BlogPageRenderer sections={sections} posts={posts} />

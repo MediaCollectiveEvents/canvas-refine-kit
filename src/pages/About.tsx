@@ -17,26 +17,28 @@ const About = () => {
 
   const openRegister = () => setIsFormOpen(true);
 
-  // ✅ Use CMS hero.image (uploaded via Decap)
-  const heroBackgroundImage: string | undefined = hero?.image;
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <main className="pt-20 sm:pt-24 lg:pt-28">
+      {/* Top padding to clear fixed header (same as Home) */}
+      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
         <PageHero
-          eyebrow={hero.eyebrow}
-          title={hero.title}
-          description={hero.description}
-          primaryCtaText={hero.primaryCta?.label}
-          onPrimaryClick={openRegister}
-          variant="image"
-          backgroundImage={heroBackgroundImage}
-          overlayStrength={hero.overlayStrength ?? 0.5}
-          theme={hero.theme ?? "dark"}
+          eyebrow={hero?.eyebrow}
+          title={hero?.title}
+          description={hero?.description}
+          // Single CTA – open registration form if label exists
+          primaryCtaText={hero?.cta?.label}
+          onPrimaryClick={hero?.cta?.label ? openRegister : undefined}
+          // Hero image + visual controls from CMS
+          image={hero?.image}
+          theme={hero?.theme ?? "dark"}
+          overlayStrength={hero?.overlayStrength ?? 0.5}
+          mobileCrop={hero?.mobileCrop}
+          imagePosition={hero?.imagePosition}
+          imageOffset={hero?.imageOffset}
         />
 
         <AboutPageRenderer sections={sections} onRegister={openRegister} />

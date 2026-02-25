@@ -200,9 +200,6 @@ const Events: React.FC = () => {
   const hero = (eventsData as any).hero || {};
   const intro = (eventsData as any).intro || {};
 
-  // ✅ Use hero.image from CMS for hero background
-  const heroBackgroundImage: string | undefined = hero?.image;
-
   // JSON-driven events
   const allEvents: Event[] = (eventsData as any).events || [];
   const upcomingEvents = allEvents.filter((e) => e.type === "upcoming");
@@ -228,16 +225,21 @@ const Events: React.FC = () => {
         preselectedEvent={selectedEventId}
       />
 
-      <main className="pt-20 sm:pt-24 lg:pt-28">
+      {/* Match header clearance with other pages */}
+      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
         {/* HERO */}
         <PageHero
           eyebrow={hero.eyebrow}
           title={hero.title}
           description={hero.description}
-          variant="image"
-          backgroundImage={heroBackgroundImage}
-          overlayStrength={hero.overlayStrength ?? 0.5}
+          image={hero.image}
           theme={hero.theme ?? "dark"}
+          overlayStrength={hero.overlayStrength ?? 0.5}
+          mobileCrop={hero.mobileCrop}
+          imagePosition={hero.imagePosition}
+          imageOffset={hero.imageOffset}
+          primaryCtaText={hero.cta?.label}
+          primaryCtaHref={hero.cta?.url}
         />
 
         {/* INTRO SECTION */}

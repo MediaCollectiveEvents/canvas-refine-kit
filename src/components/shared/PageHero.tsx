@@ -11,12 +11,10 @@ interface PageHeroProps {
   title: string;
   description?: string;
 
-  // CTA props (usually mapped from hero.cta or primaryCta in JSON)
+  // Single CTA
   primaryCtaText?: string;
-  onPrimaryClick?: () => void;
-
-  secondaryCtaText?: string;
-  secondaryCtaHref?: string;
+  primaryCtaHref?: string; // optional link URL
+  onPrimaryClick?: () => void; // optional click handler (e.g. open modal)
 
   // Background inputs from CMS
   backgroundImage?: string; // homepage, events, etc.
@@ -38,9 +36,8 @@ export default function PageHero({
   title,
   description,
   primaryCtaText,
+  primaryCtaHref,
   onPrimaryClick,
-  secondaryCtaText,
-  secondaryCtaHref,
   backgroundImage,
   image,
   imageKey,
@@ -57,7 +54,6 @@ export default function PageHero({
   const baseY = useTransform(scrollY, [0, 500], [0, 140]);
 
   // Apply CMS-driven offset to parallax
-  // (simple & robust: hero-level control of image shift)
   const y = useTransform(baseY, (value) => value + imageOffset);
 
   const isLight = theme === "light";
@@ -164,6 +160,9 @@ export default function PageHero({
       ? `bg-contain bg-no-repeat ${positionClass}`
       : `bg-cover ${positionClass}`;
 
+  const hasClickCta = !!(primaryCtaText && onPrimaryClick);
+  const hasLinkCta = !!(primaryCtaText && primaryCtaHref);
+
   return (
     <header
       className={`
@@ -230,7 +229,7 @@ export default function PageHero({
         aria-hidden="true"
       />
 
-      {/* CONTENT */}
+      {/* CONTENT (text vertically centered by flex on header + this inner padding) */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -308,8 +307,8 @@ export default function PageHero({
             </p>
           )}
 
-          {/* CTA BUTTONS */}
-          {(primaryCtaText || secondaryCtaText) && (
+          {/* SINGLE CTA BUTTON */}
+          {primaryCtaText && (hasClickCta || hasLinkCta) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
               <motion.div
                 animate={{ background: ctaGlowKeyframes }}
@@ -327,7 +326,7 @@ export default function PageHero({
                 "
               />
 
-              {primaryCtaText && onPrimaryClick && (
+              {hasClickCta && (
                 <Button
                   size="lg"
                   onClick={onPrimaryClick}
@@ -345,7 +344,7 @@ export default function PageHero({
                 </Button>
               )}
 
-              {secondaryCtaText && secondaryCtaHref && (
+              {!hasClickCta && hasLinkCta && (
                 <Button
                   asChild
                   size="lg"
@@ -357,7 +356,7 @@ export default function PageHero({
                     hover:scale-[1.03]
                   `}
                 >
-                  <a href={secondaryCtaHref}>{secondaryCtaText}</a>
+                  <a href={primaryCtaHref}>{primaryCtaText}</a>
                 </Button>
               )}
             </div>

@@ -16,19 +16,14 @@ const Partners = () => {
 
   const openRegister = () => setIsFormOpen(true);
 
-  // ✅ Resolve hero background from JSON imageKey with a safe fallback
-  // Expecting something like hero.imageKey = "partners-hero.jpg" and the file living in /public/images/
-  const heroBackgroundImage: string | undefined = (hero as any)?.imageKey
-    ? `/images/${(hero as any).imageKey}`
-    : (hero as any)?.image; // optional fallback if your JSON already has a direct URL/path
-
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <main className="pt-20 sm:pt-24 lg:pt-28">
+      {/* Match header clearance with other pages */}
+      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
         <PageHero
           eyebrow={hero?.eyebrow ?? "Partnership Opportunities"}
           title={hero?.title ?? "Become a Partner"}
@@ -36,12 +31,16 @@ const Partners = () => {
             hero?.description ??
             "Partner with The Media Collective and connect your brand with the most influential voices in media and entertainment."
           }
-          primaryCtaText={hero?.primaryCta?.label}
-          onPrimaryClick={openRegister}
-          variant="image"
-          backgroundImage={heroBackgroundImage}
-          overlayStrength={hero?.overlayStrength ?? 0.5}
+          // Single CTA – open registration modal
+          primaryCtaText={hero?.cta?.label}
+          onPrimaryClick={hero?.cta?.label ? openRegister : undefined}
+          // Hero image + visual controls from CMS
+          image={hero?.image}
           theme={hero?.theme ?? "dark"}
+          overlayStrength={hero?.overlayStrength ?? 0.5}
+          mobileCrop={hero?.mobileCrop}
+          imagePosition={hero?.imagePosition}
+          imageOffset={hero?.imageOffset}
         />
 
         <PartnersPageRenderer sections={sections} onRegister={openRegister} />
