@@ -48,6 +48,7 @@ export default function SectionWrapper({
           aria-hidden="true"
         />
       )}
+
       {effVariant === "glow" && (
         <div
           className="absolute inset-0 pointer-events-none"
@@ -66,6 +67,7 @@ export default function SectionWrapper({
           aria-hidden="true"
         />
       )}
+
       {effGrid && (
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
@@ -86,7 +88,7 @@ export default function SectionWrapper({
         </>
       )}
 
-      {/* Content reveal */}
+      {/* Content reveal + inner max-width container */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -94,7 +96,9 @@ export default function SectionWrapper({
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="relative z-10"
       >
-        {children}
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+          {children}
+        </div>
       </motion.div>
     </section>
   );

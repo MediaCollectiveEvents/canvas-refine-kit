@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import logo from "@/assets/logo.png";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
 
-import settings from "@/content/settings.json";
+import { Button } from "../ui/button";
+import logo from "../../assets/logo.png";
+import EventRegistrationForm from "../EventRegistrationForm";
+import SectionWrapper from "./SectionWrapper";
+import settings from "../../content/settings.json";
 
 type RawNavItem = {
   label: string;
@@ -34,6 +35,7 @@ function resolveHref(item: RawNavItem): string {
     faq: "/faq",
     sponsors: "/sponsors",
   };
+
   return map[item.type ?? "home"] ?? "/";
 }
 
@@ -49,25 +51,40 @@ const fallbackNavItems = [
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const navItems = typedSettings.nav?.length
     ? typedSettings.nav.map((i) => ({ label: i.label, href: resolveHref(i) }))
     : fallbackNavItems;
 
+  useEffect(() => {
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handler);
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
   return (
     <>
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      {/* Tall, fixed header with neon line */}
+      {/* HEADER */}
       <header
-        className="
+        className={`
           fixed top-0 left-0 right-0 z-50
-          bg-muted/95 backdrop-blur-sm
+
+          /* ★ Premium Glass Gradient */
+          backdrop-blur-2xl
+          bg-gradient-to-b from-gray-900/70 via-gray-900/55 to-gray-900/40
+
+          /* Height (unchanged structure) */
           h-32 sm:h-40 lg:h-48 xl:h-56
-        "
+
+          /* Prevent neon / padding gaps */
+          overflow-hidden
+        `}
       >
-        {/* Neon edge line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-cyan-400 to-primary" />
+        {/* ★ Neon strip flush to bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-[3px] bg-gradient-to-r from-primary via-cyan-400 to-primary" />
 
         <div className="relative h-full">
           <div
@@ -76,12 +93,12 @@ const Header = () => {
               h-full flex items-center justify-between
             "
           >
-            {/* Logo – fixed zone, no shrinking */}
+            {/* ★ Larger responsive logo */}
             <Link
               to="/"
               className="flex items-center flex-shrink-0 min-w-[140px]"
             >
-              <div className="h-12 sm:h-16 lg:h-20 xl:h-24 flex items-center">
+              <div className="h-16 sm:h-20 lg:h-24 xl:h-28 flex items-center">
                 <img
                   src={logo}
                   alt="The Media Collective"
@@ -90,14 +107,8 @@ const Header = () => {
               </div>
             </Link>
 
-            {/* Desktop Navigation – flexible center zone */}
-            <nav
-              className="
-                hidden md:flex flex-1 justify-center
-                items-center
-                gap-8 lg:gap-10
-              "
-            >
+            {/* NAVIGATION */}
+            <nav className="hidden md:flex flex-1 justify-center items-center gap-8 lg:gap-10">
               {navItems.map((item) => (
                 <Link
                   key={item.label}
@@ -115,7 +126,7 @@ const Header = () => {
               ))}
             </nav>
 
-            {/* CTA – fixed zone, protected from cropping */}
+            {/* CTA */}
             <div className="hidden md:flex justify-end flex-shrink-0 min-w-[140px]">
               <Button
                 onClick={() => setIsFormOpen(true)}
@@ -131,7 +142,7 @@ const Header = () => {
               </Button>
             </div>
 
-            {/* Mobile toggle */}
+            {/* MOBILE MENU TOGGLE */}
             <button
               className="md:hidden text-foreground ml-auto"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -141,7 +152,7 @@ const Header = () => {
             </button>
           </div>
 
-          {/* Mobile Navigation */}
+          {/* MOBILE NAV MENU */}
           {isMenuOpen && (
             <nav className="md:hidden absolute left-0 right-0 top-full bg-muted/95 border-t border-border">
               <div className="container mx-auto px-8 py-4">
