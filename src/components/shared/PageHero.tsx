@@ -29,7 +29,7 @@ interface PageHeroProps {
 
   // Image behaviour controls
   mobileCrop?: MobileCropMode;
-  imagePosition?: ImagePosition; // NEW: control vertical alignment of image
+  imagePosition?: ImagePosition; // control vertical alignment of image
 }
 
 export default function PageHero({
@@ -47,7 +47,7 @@ export default function PageHero({
   overlayStrength = 0.75,
   theme = "dark",
   mobileCrop = "cover",
-  imagePosition = "center", // default: current behaviour
+  imagePosition = "center", // default behaviour
 }: PageHeroProps) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]); // parallax preserved
@@ -229,7 +229,8 @@ export default function PageHero({
           relative z-10 mx-auto w-full
           max-w-[1280px]
           px-4 sm:px-6 lg:px-8 xl:px-12
-          py-10 sm:py-12
+          pt-20 sm:pt-24 lg:pt-28
+          pb-16 sm:pb-20
         "
       >
         <div className="max-w-3xl mx-auto text-center">
