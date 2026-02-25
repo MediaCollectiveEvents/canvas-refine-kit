@@ -7,7 +7,7 @@
     "variant": "solid",
     "theme": "dark",
     "align": "center",
-    "overlayStrength": 1
+    "overlayStrength": 0.95
   },
   "sections": [
     {

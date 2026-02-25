@@ -20,6 +20,9 @@ interface PageHeroProps {
   variant?: "image" | "solid";
   overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
   theme?: "dark" | "light";
+
+  // NEW: mobile background crop behaviour
+  mobileCrop?: "cover" | "contain";
 }
 
 export default function PageHero({
@@ -36,6 +39,7 @@ export default function PageHero({
   variant = "image",
   overlayStrength = 0.75,
   theme = "dark",
+  mobileCrop = "cover", // NEW default
 }: PageHeroProps) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]);
@@ -97,7 +101,6 @@ export default function PageHero({
   const descClass = isLight ? "text-zinc-700" : "text-primary";
   const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
 
-  // (Kept for clarity, even though the secondary button currently hard‑codes its classes)
   const secondaryButtonClass = isLight
     ? "border-zinc/20 text-zinc-900 bg-white/60 hover:bg-zinc-100"
     : "border-primary/60 text-primary bg-black/40 hover:bg-primary/10";
@@ -131,18 +134,27 @@ export default function PageHero({
     <header
       className={`
         relative w-full
-        min-h-[70vh] md:min-h-[80vh]
+        /* STANDARDISED HEIGHT (closer to Curated Events comp) */
+        min-h-[380px] sm:min-h-[520px]
         flex items-center justify-center text-center
         overflow-hidden
         ${isLight ? "bg-white" : ""}
-        pt-40 sm:pt-48 lg:pt-56
-        pb-28 sm:pb-32 lg:pb-40
+        /* Safe spacing under fixed nav, but not OTT */
+        pt-24 sm:pt-32
+        pb-16 sm:pb-20
       `}
     >
       {/* PARALLAX BACKGROUND */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
-          className="absolute inset-0 bg-cover bg-center will-change-transform"
+          className={`
+            absolute inset-0 bg-center will-change-transform
+            ${
+              mobileCrop === "contain"
+                ? "bg-contain bg-no-repeat sm:bg-cover"
+                : "bg-cover"
+            }
+          `}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
             y,
@@ -310,12 +322,12 @@ export default function PageHero({
                   asChild
                   size="lg"
                   variant="outline"
-                  className="
+                  className={`
                     rounded-full px-8 py-3
-                    border-primary/60 text-primary bg-black/40 hover:bg-primary/10
+                    ${secondaryButtonClass}
                     transition-transform duration-200 ease-out
                     hover:scale-[1.03]
-                  "
+                  `}
                 >
                   <a href={secondaryCtaHref}>{secondaryCtaText}</a>
                 </Button>

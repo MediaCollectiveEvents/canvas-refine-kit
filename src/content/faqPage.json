@@ -6,7 +6,8 @@
     "description": "Find answers to the most common questions about our events and community.",
     "variant": "image",
     "theme": "dark",
-    "align": "center"
+    "align": "center",
+    "overlayStrength": 1
   },
   "sections": [
     {
