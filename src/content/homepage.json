@@ -1,12 +1,14 @@
 {
   "hero": {
     "imageKey": "homeHero",
+    "imagePosition": "top",
     "theme": "dark",
     "primaryCta": {
       "label": "Join us",
       "url": "/register"
     },
     "overlayStrength": 0.1,
+    "mobileCrop": "cover",
     "subtitle": "Media and entertainment industry",
     "title": "Curated Events",
     "image": "/uploads/city-background.png",

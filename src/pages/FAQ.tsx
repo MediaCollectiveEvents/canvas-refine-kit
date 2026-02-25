@@ -18,25 +18,32 @@ export default function FAQ() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* FIXED HEADER */}
       <Header />
 
-      <main>
-        {/* Hero controlled by faqPage.json */}
+      {/*
+        IMPORTANT:
+        The header is tall (logo + CTA + padding + neon line).
+        This padding MUST match that height so the hero starts BELOW it.
+
+        These values are stable across breakpoints:
+        - 160px on mobile
+        - 180px on tablets
+        - 200px on desktop
+      */}
+      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
+        {/* HERO (uses PageHero + mobileCrop) */}
         <PageHero {...hero} />
 
-        {/* Sections + FAQ accordion driven by JSON */}
+        {/* FAQ Sections */}
         <FaqPageRenderer
           sections={sections}
           faqs={faqData}
           onCtaClick={() => setIsFormOpen(true)}
         />
-
-        {/* 
-          If you later add a contact / question form modal,
-          you can control it with isFormOpen here.
-        */}
       </main>
 
+      {/* FOOTER */}
       <Footer />
     </div>
   );

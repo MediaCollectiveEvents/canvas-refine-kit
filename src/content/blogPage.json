@@ -1,13 +1,15 @@
 {
   "hero": {
-    "image": "/uploads/blog_hero.png",
-    "eyebrow": "Insights & Updates",
-    "title": "The Blog",
-    "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective.",
+    "imagePosition": "top",
     "variant": "solid",
-    "theme": "dark",
     "align": "center",
-    "overlayStrength": 0.95
+    "theme": "dark",
+    "eyebrow": "Insights & Updates",
+    "overlayStrength": 0.95,
+    "mobileCrop": "contain",
+    "title": "The Blog",
+    "image": "/uploads/blog_hero.png",
+    "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
   },
   "sections": [
     {

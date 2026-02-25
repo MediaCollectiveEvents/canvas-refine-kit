@@ -1,13 +1,15 @@
 {
   "hero": {
-    "image": "/uploads/faq_hero.png",
-    "eyebrow": "Ask away!",
-    "title": "Your questions answered",
-    "description": "Find answers to the most common questions about our events and community.",
+    "imagePosition": "top",
     "variant": "image",
+    "align": "left",
     "theme": "dark",
-    "align": "center",
-    "overlayStrength": 1
+    "eyebrow": "Ask away!",
+    "overlayStrength": 0.25,
+    "mobileCrop": "cover",
+    "title": "Your questions answered",
+    "image": "/uploads/faq_hero.png",
+    "description": "Find answers to the most common questions about our events and community."
   },
   "sections": [
     {

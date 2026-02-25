@@ -1,11 +1,13 @@
 {
   "hero": {
     "image": "/uploads/events_hero2.png",
-    "eyebrow": "Our events",
-    "title": "Our  Events",
+    "eyebrow": "test",
+    "title": "Our Events",
     "description": "Breakfasts, receptions and roundtables that bring media professionals together.",
     "theme": "dark",
-    "overlayStrength": 0.95
+    "overlayStrength": 0.95,
+    "imagePosition": "top",
+    "mobileCrop": "cover"
   },
   "intro": {
     "title": "Our Events",

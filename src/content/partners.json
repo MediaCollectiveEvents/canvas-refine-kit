@@ -9,7 +9,8 @@
     "primaryCta": {
       "label": "Register Your Interest",
       "url": "/register"
-    }
+    },
+    "imagePosition": "top"
   },
   "sections": [
     {

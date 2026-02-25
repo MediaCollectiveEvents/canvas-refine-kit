@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 type Theme = "dark" | "light";
 type Variant = "image" | "solid";
 type MobileCropMode = "cover" | "contain";
+type ImagePosition = "top" | "center" | "bottom";
 
 interface PageHeroProps {
   eyebrow?: string;
   title: string;
   description?: string;
 
+  // CTA props (usually mapped from hero.primaryCta / secondaryCta in JSON)
   primaryCtaText?: string;
   onPrimaryClick?: () => void;
 
@@ -17,14 +19,17 @@ interface PageHeroProps {
   secondaryCtaHref?: string;
 
   // Background inputs from CMS
-  backgroundImage?: string; // homepage, events, etc
-  image?: string; // FAQ / blogPage hero image
-  imageKey?: string; // mapped hero keys
+  backgroundImage?: string; // homepage, events, etc.
+  image?: string; // faqPage / blogPage hero image
+  imageKey?: string; // optional mapped key
 
   variant?: Variant;
   overlayStrength?: number;
   theme?: Theme;
+
+  // Image behaviour controls
   mobileCrop?: MobileCropMode;
+  imagePosition?: ImagePosition; // NEW: control vertical alignment of image
 }
 
 export default function PageHero({
@@ -42,18 +47,19 @@ export default function PageHero({
   overlayStrength = 0.75,
   theme = "dark",
   mobileCrop = "cover",
+  imagePosition = "center", // default: current behaviour
 }: PageHeroProps) {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 140]);
+  const y = useTransform(scrollY, [0, 500], [0, 140]); // parallax preserved
   const isLight = theme === "light";
 
-  // Universal hero image resolution
+  // --- UNIVERSAL IMAGE RESOLUTION ---
   const resolvedBackgroundImage =
     backgroundImage ||
     image ||
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
-  // Handle overlay strength even if CMS gives strings
+  // Support overlayStrength coming from CMS as number or string
   const s = overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
 
   // DARK THEME GRADIENTS
@@ -133,11 +139,27 @@ export default function PageHero({
       : "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
   ];
 
+  // Vertical position classes for the background
+  const positionClass =
+    imagePosition === "top"
+      ? "bg-top"
+      : imagePosition === "bottom"
+        ? "bg-bottom"
+        : "bg-center";
+
+  // Background behaviour:
+  // - cover  → full-bleed hero, allowed to crop
+  // - contain → show full image, no cropping, all breakpoints
+  const backgroundClasses =
+    mobileCrop === "contain"
+      ? `bg-contain bg-no-repeat ${positionClass}`
+      : `bg-cover ${positionClass}`;
+
   return (
     <header
       className={`
         relative w-full
-        min-h-[360px] sm:min-h-[520px] lg:min-h-[560px]
+        min-h-[380px] sm:min-h-[540px] lg:min-h-[580px]
         flex items-center justify-center
         overflow-hidden
         ${isLight ? "bg-white" : "bg-background"}
@@ -147,16 +169,12 @@ export default function PageHero({
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className={`
-            absolute inset-0 bg-center will-change-transform
-            ${
-              mobileCrop === "contain"
-                ? "bg-contain bg-no-repeat sm:bg-cover"
-                : "bg-cover"
-            }
+            absolute inset-0 will-change-transform
+            ${backgroundClasses}
           `}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
-            y,
+            y, // keep parallax enabled
             filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
           }}
           aria-hidden="true"
