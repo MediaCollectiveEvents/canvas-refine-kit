@@ -153,11 +153,11 @@ export default function PageHero({
         : "bg-center";
 
   // Background behaviour:
-  // - cover  → full-bleed hero, allowed to crop
-  // - contain → show full image, no cropping, all breakpoints
+  // - mobile (<640px): honour mobileCrop
+  // - desktop (>=640px): always cover
   const backgroundClasses =
     mobileCrop === "contain"
-      ? `bg-contain bg-no-repeat ${positionClass}`
+      ? `bg-contain bg-no-repeat ${positionClass} sm:bg-cover`
       : `bg-cover ${positionClass}`;
 
   const hasClickCta = !!(primaryCtaText && onPrimaryClick);
@@ -182,7 +182,7 @@ export default function PageHero({
           `}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
-            // keep parallax; allow CMS offset; disable parallax when using contain
+            // keep parallax; disable parallax when using contain (for full-image view on mobile)
             y: mobileCrop === "contain" ? 0 : y,
             filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
           }}

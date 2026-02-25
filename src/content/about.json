@@ -1,14 +1,21 @@
 {
   "hero": {
-    "image": "/uploads/city-background.png",
-    "eyebrow": "Our Community",
-    "title": "About Us",
-    "description": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry.",
+    "imagePosition": "top",
     "theme": "dark",
-    "overlayStrength": 0.5,
+    "eyebrow": "Our Community",
     "primaryCta": {
       "label": "Register Your Interest"
-    }
+    },
+    "imageOffset": 0,
+    "cta": {
+      "label": "register interest",
+      "url": "/"
+    },
+    "overlayStrength": 0.05,
+    "mobileCrop": "contain",
+    "title": "About Us",
+    "image": "/uploads/herobackground.png",
+    "description": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry."
   },
   "sections": [
     {

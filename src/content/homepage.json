@@ -7,7 +7,12 @@
       "label": "Join us",
       "url": "/register"
     },
-    "overlayStrength": 0.1,
+    "imageOffset": 0,
+    "cta": {
+      "url": "/partners",
+      "label": "Help us host"
+    },
+    "overlayStrength": 0.05,
     "mobileCrop": "cover",
     "subtitle": "Media and entertainment industry",
     "title": "Curated Events",

@@ -1,13 +1,18 @@
 {
   "hero": {
-    "image": "/uploads/events_hero2.png",
-    "eyebrow": "test",
-    "title": "Our Events",
-    "description": "Breakfasts, receptions and roundtables that bring media professionals together.",
-    "theme": "dark",
-    "overlayStrength": 0.95,
     "imagePosition": "top",
-    "mobileCrop": "cover"
+    "theme": "dark",
+    "eyebrow": "test",
+    "imageOffset": 40,
+    "cta": {
+      "label": "join us",
+      "url": "/"
+    },
+    "overlayStrength": 1,
+    "mobileCrop": "cover",
+    "title": "Our Events",
+    "image": "/uploads/events_hero.png",
+    "description": "Breakfasts, receptions and roundtables that bring media professionals together."
   },
   "intro": {
     "title": "Our Events",

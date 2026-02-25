@@ -1,16 +1,22 @@
 {
   "hero": {
-    "image": "/uploads/partners_hero.png",
-    "eyebrow": "Partnership Opportunities",
-    "title": "Boost your business",
-    "description": "Partner with The Media Collective and connect your brand with influential organisations across media and technology.",
+    "imagePosition": "top",
     "theme": "dark",
-    "overlayStrength": 0.9,
+    "eyebrow": "Partnership Opportunities",
     "primaryCta": {
       "label": "Register Your Interest",
       "url": "/register"
     },
-    "imagePosition": "top"
+    "imageOffset": 10,
+    "cta": {
+      "label": "join us",
+      "url": "/"
+    },
+    "overlayStrength": 0,
+    "mobileCrop": "cover",
+    "title": "Boost your business",
+    "image": "/uploads/partners_hero.png",
+    "description": "Partner with The Media Collective and connect your brand with influential organisations across media and technology."
   },
   "sections": [
     {

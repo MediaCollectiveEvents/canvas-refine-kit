@@ -1,12 +1,17 @@
 {
   "hero": {
-    "imagePosition": "top",
+    "imagePosition": "center",
     "variant": "solid",
     "align": "center",
     "theme": "dark",
     "eyebrow": "Insights & Updates",
-    "overlayStrength": 0.05,
-    "mobileCrop": "contain",
+    "imageOffset": 50,
+    "cta": {
+      "label": "Help us host",
+      "url": "/partners"
+    },
+    "overlayStrength": 0.75,
+    "mobileCrop": "cover",
     "title": "The Blog",
     "image": "/uploads/blog_hero.png",
     "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."

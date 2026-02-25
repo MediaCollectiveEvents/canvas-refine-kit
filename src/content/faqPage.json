@@ -2,10 +2,11 @@
   "hero": {
     "imagePosition": "top",
     "variant": "image",
-    "align": "left",
+    "align": "center",
     "theme": "dark",
     "eyebrow": "Ask away!",
-    "overlayStrength": 0.25,
+    "imageOffset": -35,
+    "overlayStrength": 1,
     "mobileCrop": "cover",
     "title": "Your questions answered",
     "image": "/uploads/faq_hero.png",
