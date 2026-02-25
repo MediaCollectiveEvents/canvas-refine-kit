@@ -47,13 +47,14 @@ export default function PageHero({
   const y = useTransform(scrollY, [0, 500], [0, 140]);
   const isLight = theme === "light";
 
-  // --- UNIVERSAL IMAGE RESOLUTION ---
+  // Universal hero image resolution
   const resolvedBackgroundImage =
     backgroundImage ||
     image ||
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
-  const s = overlayStrength ?? 0.75;
+  // Handle overlay strength even if CMS gives strings
+  const s = overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
 
   // DARK THEME GRADIENTS
   const darkVignetteClass =
@@ -134,15 +135,13 @@ export default function PageHero({
 
   return (
     <header
-      className="
+      className={`
         relative w-full
         min-h-[360px] sm:min-h-[520px] lg:min-h-[560px]
-        pt-28 sm:pt-36
-        pb-20 sm:pb-24
         flex items-center justify-center
         overflow-hidden
-        bg-transparent
-      "
+        ${isLight ? "bg-white" : "bg-background"}
+      `}
     >
       {/* PARALLAX BACKGROUND (image variant only) */}
       {variant === "image" && resolvedBackgroundImage && (
@@ -212,6 +211,7 @@ export default function PageHero({
           relative z-10 mx-auto w-full
           max-w-[1280px]
           px-4 sm:px-6 lg:px-8 xl:px-12
+          py-10 sm:py-12
         "
       >
         <div className="max-w-3xl mx-auto text-center">
