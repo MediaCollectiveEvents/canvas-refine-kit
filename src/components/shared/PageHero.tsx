@@ -11,7 +11,7 @@ interface PageHeroProps {
   title: string;
   description?: string;
 
-  // CTA props (usually mapped from hero.primaryCta / secondaryCta in JSON)
+  // CTA props (usually mapped from hero.cta or primaryCta in JSON)
   primaryCtaText?: string;
   onPrimaryClick?: () => void;
 
@@ -29,7 +29,8 @@ interface PageHeroProps {
 
   // Image behaviour controls
   mobileCrop?: MobileCropMode;
-  imagePosition?: ImagePosition; // control vertical alignment of image
+  imagePosition?: ImagePosition; // vertical alignment of image
+  imageOffset?: number; // vertical nudge in px (positive = down, negative = up)
 }
 
 export default function PageHero({
@@ -48,9 +49,17 @@ export default function PageHero({
   theme = "dark",
   mobileCrop = "cover",
   imagePosition = "center",
+  imageOffset = 0,
 }: PageHeroProps) {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 140]); // parallax preserved
+
+  // Base parallax motion (0 → 140px)
+  const baseY = useTransform(scrollY, [0, 500], [0, 140]);
+
+  // Apply CMS-driven offset to parallax
+  // (simple & robust: hero-level control of image shift)
+  const y = useTransform(baseY, (value) => value + imageOffset);
+
   const isLight = theme === "light";
 
   // --- UNIVERSAL IMAGE RESOLUTION ---
@@ -159,7 +168,7 @@ export default function PageHero({
     <header
       className={`
         relative w-full
-        min-h-[380px] sm:min-h-[540px] lg:min-h-[580px]
+        min-h-[420px] sm:min-h-[560px] lg:min-h-[600px]
         flex items-center justify-center
         overflow-hidden
         ${isLight ? "bg-white" : "bg-background"}
@@ -174,7 +183,8 @@ export default function PageHero({
           `}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
-            y, // keep parallax enabled
+            // keep parallax; allow CMS offset; disable parallax when using contain
+            y: mobileCrop === "contain" ? 0 : y,
             filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
           }}
           aria-hidden="true"

@@ -5,7 +5,7 @@
     "align": "center",
     "theme": "dark",
     "eyebrow": "Insights & Updates",
-    "overlayStrength": 0.95,
+    "overlayStrength": 0.05,
     "mobileCrop": "contain",
     "title": "The Blog",
     "image": "/uploads/blog_hero.png",

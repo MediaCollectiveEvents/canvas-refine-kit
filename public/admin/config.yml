@@ -19,73 +19,63 @@ collections:
         format: json
         fields:
           - label: Hero
-            name: hero
-            widget: object
-            fields:
-              - { label: Title, name: title, widget: string }
-              - {
-                  label: Subtitle,
-                  name: subtitle,
-                  widget: string,
-                  required: false,
-                }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                required: false
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                required: false
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                required: false
-                default: cover
-                options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                required: false
-                default: center
-                options:
-                  - { label: "Top", value: top }
-                  - { label: "Center (default)", value: center }
-                  - { label: "Bottom", value: bottom }
-              - label: Primary CTA
-                name: primaryCta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
-              - label: Secondary CTA
-                name: secondaryCta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
+    name: hero
+    widget: object
+    fields:
+    - { label: Title, name: title, widget: string }
+    - { label: Subtitle, name: subtitle, widget: string, required: false }
+    - { label: Description, name: description, widget: text, required: false }
+
+    - label: Hero Image
+      name: image
+      widget: image
+      required: false
+
+    - label: Theme
+      name: theme
+      widget: select
+      options:
+        - { label: Dark, value: dark }
+        - { label: Light, value: light }
+
+    - label: Overlay Strength
+      name: overlayStrength
+      widget: number
+      value_type: float
+      min: 0
+      max: 1
+      step: 0.05
+      default: 0.5
+
+    - label: Mobile Background Crop
+      name: mobileCrop
+      widget: select
+      default: cover
+      options:
+        - { label: "Cover (default)", value: cover }
+        - { label: "Contain (show full image)", value: contain }
+
+    - label: Image Position
+      name: imagePosition
+      widget: select
+      default: center
+      options:
+        - { label: "Top", value: top }
+        - { label: "Center", value: center }
+        - { label: "Bottom", value: bottom }
+
+    - label: Image Vertical Offset (px)
+      name: imageOffset
+      widget: number
+      default: 0
+
+    - label: CTA
+      name: cta
+      widget: object
+      required: false
+      fields:
+        - { label: Label, name: label, widget: string }
+        - { label: URL, name: url, widget: string }
 
           - label: Sections
             name: sections
@@ -370,70 +360,62 @@ collections:
         format: json
         fields:
           - label: Hero
-            name: hero
-            widget: object
-            fields:
-              - {
-                  label: Eyebrow,
-                  name: eyebrow,
-                  widget: string,
-                  required: false,
-                }
-              - { label: Title, name: title, widget: string }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                required: false
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                required: false
-                default: cover
-                options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                required: false
-                default: center
-                options:
-                  - { label: "Top", value: top }
-                  - { label: "Center (default)", value: center }
-                  - { label: "Bottom", value: bottom }
-              - label: Primary CTA
-                name: primaryCta
-                widget: object
-                required: false
-                fields:
-                  - {
-                      label: Label,
-                      name: label,
-                      widget: string,
-                      required: false,
-                    }
-                  - { label: URL, name: url, widget: string, required: false }
+    name: hero
+    widget: object
+    fields:
+    - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+    - { label: Title, name: title, widget: string }
+    - { label: Description, name: description, widget: text, required: false }
+
+    - label: Hero Image
+      name: image
+      widget: image
+      required: false
+
+    - label: Theme
+      name: theme
+      widget: select
+      options:
+        - { label: Dark, value: dark }
+        - { label: Light, value: light }
+
+    - label: Overlay Strength
+      name: overlayStrength
+      widget: number
+      min: 0
+      max: 1
+      step: 0.05
+      default: 0.5
+
+    - label: Mobile Background Crop
+      name: mobileCrop
+      widget: select
+      default: cover
+      options:
+        - { label: Cover, value: cover }
+        - { label: Contain, value: contain }
+
+    - label: Image Position
+      name: imagePosition
+      widget: select
+      default: center
+      options:
+        - { label: Top, value: top }
+        - { label: Center, value: center }
+        - { label: Bottom, value: bottom }
+
+    - label: Image Vertical Offset (px)
+      name: imageOffset
+      widget: number
+      default: 0
+
+    - label: CTA
+      name: cta
+      widget: object
+      required: false
+      fields:
+        - { label: Label, name: label, widget: string }
+        - { label: URL, name: url, widget: string }
 
           - label: Sections
             name: sections
@@ -591,74 +573,73 @@ collections:
         format: json
         fields:
           - label: Hero
-            name: hero
-            widget: object
-            fields:
-              - {
-                  label: Eyebrow,
-                  name: eyebrow,
-                  widget: string,
-                  required: false,
-                }
-              - { label: Title, name: title, widget: string }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Variant
-                name: variant
-                widget: select
-                required: false
-                options:
-                  - { label: Solid, value: solid }
-                  - { label: Image, value: image }
-              - label: Align
-                name: align
-                widget: select
-                required: false
-                options:
-                  - { label: Center, value: center }
-                  - { label: Left, value: left }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: select
-                required: false
-                default: 0.75
-                options:
-                  - { label: None (0%), value: 0 }
-                  - { label: Light (25%), value: 0.25 }
-                  - { label: Medium (50%), value: 0.5 }
-                  - { label: Strong (75%), value: 0.75 }
-                  - { label: Full (100%), value: 1 }
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                required: false
-                default: cover
-                options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                required: false
-                default: center
-                options:
-                  - { label: "Top", value: top }
-                  - { label: "Center (default)", value: center }
-                  - { label: "Bottom", value: bottom }
+    name: hero
+    widget: object
+    fields:
+    - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+    - { label: Title, name: title, widget: string }
+    - { label: Description, name: description, widget: text, required: false }
+
+    - label: Hero Image
+      name: image
+      widget: image
+      required: false
+
+    - label: Theme
+      name: theme
+      widget: select
+      options:
+        - { label: Dark, value: dark }
+        - { label: Light, value: light }
+
+    - label: Variant
+      name: variant
+      widget: select
+      required: false
+      options:
+        - { label: Solid, value: solid }
+        - { label: Image, value: image }
+
+    - label: Align
+      name: align
+      widget: select
+      required: false
+      options:
+        - { label: Center, value: center }
+        - { label: Left, value: left }
+
+    - label: Overlay Strength
+      name: overlayStrength
+      widget: select
+      default: 0.75
+      options:
+        - { label: None (0%), value: 0 }
+        - { label: Light (25%), value: 0.25 }
+        - { label: Medium (50%), value: 0.5 }
+        - { label: Strong (75%), value: 0.75 }
+        - { label: Full (100%), value: 1 }
+
+    - label: Mobile Background Crop
+      name: mobileCrop
+      widget: select
+      default: cover
+      options:
+        - { label: Cover, value: cover }
+        - { label: Contain, value: contain }
+
+    - label: Image Position
+      name: imagePosition
+      widget: select
+      default: center
+      options:
+        - { label: Top, value: top }
+        - { label: Center, value: center }
+        - { label: Bottom, value: bottom }
+
+    - label: Image Vertical Offset (px)
+      name: imageOffset
+      widget: number
+      default: 0
 
           - label: Sections
             name: sections
@@ -723,67 +704,55 @@ collections:
         format: json
         fields:
           - label: Hero
-            name: hero
-            widget: object
-            fields:
-              - {
-                  label: Eyebrow,
-                  name: eyebrow,
-                  widget: string,
-                  required: false,
-                }
-              - { label: Title, name: title, widget: string }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                required: false
-                default: dark
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                required: false
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                required: false
-                default: cover
-                options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                required: false
-                default: center
-                options:
-                  - { label: "Top", value: top }
-                  - { label: "Center (default)", value: center }
-                  - { label: "Bottom", value: bottom }
-              - label: Primary CTA
-                name: primaryCta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
+    name: hero
+    widget: object
+    fields:
+    - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+    - { label: Title, name: title, widget: string }
+    - { label: Description, name: description, widget: text, required: false }
+
+    - label: Hero Image
+      name: image
+      widget: image
+      required: false
+
+    - label: Theme
+      name: theme
+      widget: select
+      default: dark
+      options:
+        - { label: Dark, value: dark }
+        - { label: Light, value: light }
+
+    - label: Overlay Strength
+      name: overlayStrength
+      widget: number
+      min: 0
+      max: 1
+      step: 0.05
+      default: 0.5
+
+    - label: Mobile Background Crop
+      name: mobileCrop
+      widget: select
+      default: cover
+      options:
+        - { label: Cover, value: cover }
+        - { label: Contain, value: contain }
+
+    - label: Image Position
+      name: imagePosition
+      widget: select
+      default: center
+      options:
+        - { label: Top, value: top }
+        - { label: Center, value: center }
+        - { label: Bottom, value: bottom }
+
+    - label: Image Vertical Offset (px)
+      name: imageOffset
+      widget: number
+      default: 0
 
           - label: Sections
             name: sections
@@ -816,58 +785,56 @@ collections:
         format: json
         fields:
           - label: Hero
-            name: hero
-            widget: object
-            fields:
-              - {
-                  label: Eyebrow,
-                  name: eyebrow,
-                  widget: string,
-                  required: false,
-                }
-              - { label: Title, name: title, widget: string }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                required: false
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                required: false
-                default: cover
-                options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                required: false
-                default: center
-                options:
-                  - { label: "Top", value: top }
-                  - { label: "Center (default)", value: center }
-                  - { label: "Bottom", value: bottom }
+    name: hero
+    widget: object
+    fields:
+    - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+    - { label: Title, name: title, widget: string }
+    - { label: Description, name: description, widget: text, required: false }
+
+    - label: Hero Image
+      name: image
+      widget: image
+      required: false
+
+    - label: Theme
+      name: theme
+      widget: select
+      required: false
+      options:
+        - { label: Dark, value: dark }
+        - { label: Light, value: light }
+
+    - label: Overlay Strength
+      name: overlayStrength
+      widget: number
+      value_type: float
+      min: 0
+      max: 1
+      step: 0.05
+      default: 0.5
+
+    - label: Mobile Background Crop
+      name: mobileCrop
+      widget: select
+      default: cover
+      options:
+        - { label: Cover, value: cover }
+        - { label: Contain, value: contain }
+
+    - label: Image Position
+      name: imagePosition
+      widget: select
+      default: center
+      options:
+        - { label: Top, value: top }
+        - { label: Center, value: center }
+        - { label: Bottom, value: bottom }
+
+    - label: Image Vertical Offset (px)
+      name: imageOffset
+      widget: number
+      default: 0
 
           - label: Sections
             name: sections
@@ -1050,61 +1017,55 @@ collections:
         format: json
         fields:
           - label: Hero
-            name: hero
-            widget: object
-            fields:
-              - {
-                  label: Eyebrow,
-                  name: eyebrow,
-                  widget: string,
-                  required: false,
-                }
-              - { label: Title, name: title, widget: string }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                  hint: "Short one‑ or two‑sentence summary shown in the hero.",
-                }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                required: false
-                default: dark
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                required: false
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                required: false
-                default: cover
-                options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                required: false
-                default: center
-                options:
-                  - { label: "Top", value: top }
-                  - { label: "Center (default)", value: center }
-                  - { label: "Bottom", value: bottom }
+    name: hero
+    widget: object
+    fields:
+    - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+    - { label: Title, name: title, widget: string }
+    - { label: Description, name: description, widget: text, required: false }
+
+    - label: Hero Image
+      name: image
+      widget: image
+      required: false
+
+    - label: Theme
+      name: theme
+      widget: select
+      default: dark
+      options:
+        - { label: Dark, value: dark }
+        - { label: Light, value: light }
+
+    - label: Overlay Strength
+      name: overlayStrength
+      widget: number
+      min: 0
+      max: 1
+      step: 0.05
+      default: 0.5
+
+    - label: Mobile Background Crop
+      name: mobileCrop
+      widget: select
+      default: cover
+      options:
+        - { label: Cover, value: cover }
+        - { label: Contain, value: contain }
+
+    - label: Image Position
+      name: imagePosition
+      widget: select
+      default: center
+      options:
+        - { label: Top, value: top }
+        - { label: Center, value: center }
+        - { label: Bottom, value: bottom }
+
+    - label: Image Vertical Offset (px)
+      name: imageOffset
+      widget: number
+      default: 0
 
           - label: Intro Section
             name: intro
