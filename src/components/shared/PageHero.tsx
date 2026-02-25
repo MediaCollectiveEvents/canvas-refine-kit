@@ -1,6 +1,10 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
+type Theme = "dark" | "light";
+type Variant = "image" | "solid";
+type MobileCropMode = "cover" | "contain";
+
 interface PageHeroProps {
   eyebrow?: string;
   title: string;
@@ -17,12 +21,10 @@ interface PageHeroProps {
   image?: string; // FAQ / blogPage hero image
   imageKey?: string; // mapped hero keys
 
-  variant?: "image" | "solid";
-  overlayStrength?: 0 | 0.25 | 0.5 | 0.75 | 1;
-  theme?: "dark" | "light";
-
-  // NEW: mobile background crop behaviour
-  mobileCrop?: "cover" | "contain";
+  variant?: Variant;
+  overlayStrength?: number;
+  theme?: Theme;
+  mobileCrop?: MobileCropMode;
 }
 
 export default function PageHero({
@@ -34,24 +36,24 @@ export default function PageHero({
   secondaryCtaText,
   secondaryCtaHref,
   backgroundImage,
-  image, // FAQ + blogPage use this
+  image,
   imageKey,
   variant = "image",
   overlayStrength = 0.75,
   theme = "dark",
-  mobileCrop = "cover", // NEW default
+  mobileCrop = "cover",
 }: PageHeroProps) {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 140]);
   const isLight = theme === "light";
 
-  // --- UNIVERSAL IMAGE RESOLUTION (FAQ fix) ---
+  // --- UNIVERSAL IMAGE RESOLUTION ---
   const resolvedBackgroundImage =
     backgroundImage ||
-    image || // <-- FAQ hero uses hero.image
+    image ||
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
-  const s = overlayStrength;
+  const s = overlayStrength ?? 0.75;
 
   // DARK THEME GRADIENTS
   const darkVignetteClass =
@@ -132,19 +134,17 @@ export default function PageHero({
 
   return (
     <header
-      className={`
+      className="
         relative w-full
-        /* STANDARDISED HEIGHT (closer to Curated Events comp) */
-        min-h-[380px] sm:min-h-[520px]
-        flex items-center justify-center text-center
+        min-h-[360px] sm:min-h-[520px] lg:min-h-[560px]
+        pt-28 sm:pt-36
+        pb-20 sm:pb-24
+        flex items-center justify-center
         overflow-hidden
-        ${isLight ? "bg-white" : ""}
-        /* Safe spacing under fixed nav, but not OTT */
-        pt-24 sm:pt-32
-        pb-16 sm:pb-20
-      `}
+        bg-transparent
+      "
     >
-      {/* PARALLAX BACKGROUND */}
+      {/* PARALLAX BACKGROUND (image variant only) */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className={`
@@ -214,7 +214,7 @@ export default function PageHero({
           px-4 sm:px-6 lg:px-8 xl:px-12
         "
       >
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto text-center">
           {eyebrow && (
             <p
               className={`${eyebrowClass} font-body tracking-widest uppercase mb-6 text-sm md:text-base`}
