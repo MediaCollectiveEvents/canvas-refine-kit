@@ -26,6 +26,9 @@ const BlogPostPage: React.FC = () => {
   const posts: BlogPost[] = (blogPostsJSON as any).posts || [];
   const post = posts.find((p) => p.slug === slug);
 
+  // -----------------------------
+  // ❌ Not Found Case
+  // -----------------------------
   if (!post) {
     return (
       <div className="min-h-screen bg-background">
@@ -36,7 +39,7 @@ const BlogPostPage: React.FC = () => {
               Post not found
             </h1>
             <p className="text-muted-foreground mb-6">
-              We couldn&apos;t find the blog post you were looking for.
+              We couldn’t find the blog post you were looking for.
             </p>
             <Link
               to="/blog"
@@ -51,18 +54,24 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
-  // 👇 Use imageKey →
+  // -----------------------------------
+  // 🎨 Build Hero Image (imageKey first)
+  // -----------------------------------
   const hero = {
     image: post.imageKey
       ? `/images/blog/${post.imageKey}.jpg`
       : post.image || "/images/default-hero.jpg",
   };
 
+  // -----------------------------------
+  // ✔ MAIN RENDER
+  // -----------------------------------
   return (
     <div className="min-h-screen bg-background">
       <Header />
 
       <main className="pt-20 sm:pt-24 lg:pt-28">
+        {/* Hero */}
         <PageHero
           eyebrow={post.category}
           title={post.title}
@@ -73,8 +82,10 @@ const BlogPostPage: React.FC = () => {
           overlayStrength={0.5}
         />
 
+        {/* Body */}
         <section className="py-12 md:py-16 px-6">
           <div className="container mx-auto max-w-3xl">
+            {/* Meta + Back Link */}
             <div className="flex items-center justify-between text-sm text-muted-foreground mb-6">
               <span>
                 {new Date(post.date).toLocaleDateString(undefined, {
@@ -91,9 +102,9 @@ const BlogPostPage: React.FC = () => {
               </Link>
             </div>
 
+            {/* Post Body */}
             {post.body ? (
               <div className="prose prose-invert max-w-none">
-                {/* For now, render as plain text. Later you can switch to markdown. */}
                 <p>{post.body}</p>
               </div>
             ) : (
@@ -104,7 +115,8 @@ const BlogPostPage: React.FC = () => {
           </div>
         </section>
 
-        <SectionDivider variant="triple" className="py-12" />
+        {/* Divider (fixed variant) */}
+        <SectionDivider variant="hairline" className="py-12" />
       </main>
 
       <Footer />

@@ -31,8 +31,10 @@ const Admin = () => {
             </p>
 
             <div>
+              {/* Keep this page OFF the /admin route to avoid path conflicts.
+                 The Decap app lives at /admin/ (note trailing slash). */}
               <Button asChild size="lg" className="mt-4">
-                <a href="/admin">
+                <a href="/admin/" target="_self" rel="noopener">
                   Open Decap CMS
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </a>
@@ -42,7 +44,7 @@ const Admin = () => {
             <p className="text-xs text-muted-foreground border-t pt-6">
               If you ever want this page to evolve into a custom editor that
               writes directly to your JSON files, we can build that. For now,
-              Decap CMS at <code>/admin</code> is your official, Git-backed
+              Decap CMS at <code>/admin/</code> is your official, Git-backed
               content system.
             </p>
           </CardContent>
