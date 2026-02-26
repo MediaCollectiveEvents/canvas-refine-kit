@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
-import { useSectionStyleDefaults } from "@/lib/SectionStyleProvider";
 
-type SectionVariant = "clean" | "tint" | "glow";
+type SectionVariant = "clean" | "tint" | "glow" | "glass";
+type PaddingSize = "regular" | "lux";
 
 interface SectionWrapperProps {
   children: ReactNode;
@@ -10,65 +10,73 @@ interface SectionWrapperProps {
   variant?: SectionVariant;
   noise?: boolean;
   grid?: boolean;
-  padding?: "regular" | "lux";
+  padding?: PaddingSize;
   withFades?: boolean;
 }
 
 export default function SectionWrapper({
   children,
   className = "",
-  variant,
-  noise,
-  grid,
-  padding,
-  withFades,
+  variant = "clean",
+  noise = false,
+  grid = false,
+  padding = "lux",
+  withFades = true,
 }: SectionWrapperProps) {
-  const defaults = useSectionStyleDefaults();
-
-  const effVariant: SectionVariant =
-    (variant as SectionVariant) ??
-    (defaults.styleWrapper.variant as SectionVariant) ??
-    "clean";
-
-  const effNoise = noise ?? defaults.styleWrapper.noise ?? false;
-  const effGrid = grid ?? defaults.styleWrapper.grid ?? false;
-  const effPadding =
-    padding ?? (defaults.styleWrapper.padding as "regular" | "lux") ?? "lux";
-  const effFades = withFades ?? defaults.styleWrapper.withFades ?? true;
-
   const paddingClasses =
-    effPadding === "lux" ? "py-28 md:py-36 lg:py-44" : "py-20 md:py-28";
+    padding === "lux" ? "py-28 md:py-36 lg:py-44" : "py-20 md:py-28";
 
   return (
-    <section className={`relative ${paddingClasses} ${className}`}>
-      {/* Variant backgrounds */}
-      {effVariant === "tint" && (
+    <section
+      className={`relative overflow-hidden ${paddingClasses} ${className}`}
+    >
+      {/* -------------------------------------------------- */}
+      {/* Variant Background Layers                          */}
+      {/* -------------------------------------------------- */}
+
+      {/* Glass variant */}
+      {variant === "glass" && (
         <div
-          className="absolute inset-0 bg-white/[0.03] backdrop-blur-[1px]"
+          className="
+            absolute inset-0
+            bg-gradient-to-b from-white/10 via-white/5 to-transparent
+            backdrop-blur-xl
+            border border-white/10
+            rounded-3xl
+          "
+        />
+      )}
+
+      {/* Tint variant */}
+      {variant === "tint" && (
+        <div
+          className="absolute inset-0 bg-white/[0.03] backdrop-blur-sm"
           aria-hidden="true"
         />
       )}
 
-      {effVariant === "glow" && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden="true"
-        >
-          <div className="absolute -top-[10%] left-1/4 w-[42rem] h-[42rem] bg-primary/10 blur-[160px]" />
-          <div className="absolute -bottom-[12%] right-1/5 w-[34rem] h-[34rem] bg-cyan-400/10 blur-[180px]" />
+      {/* Glow variant */}
+      {variant === "glow" && (
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-[15%] left-1/3 w-[48rem] h-[48rem] bg-primary/10 blur-[160px]" />
+          <div className="absolute -bottom-[20%] right-1/4 w-[40rem] h-[40rem] bg-cyan-400/10 blur-[200px]" />
         </div>
       )}
 
-      {/* Optional micro textures */}
-      {effNoise && (
+      {/* -------------------------------------------------- */}
+      {/* Optional Noise Layer                                */}
+      {/* -------------------------------------------------- */}
+      {noise && (
         <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          className="absolute inset-0 opacity-[0.035] mix-blend-overlay pointer-events-none"
           style={{ backgroundImage: "url('/noise.png')" }}
-          aria-hidden="true"
         />
       )}
 
-      {effGrid && (
+      {/* -------------------------------------------------- */}
+      {/* Optional Grid Overlay                              */}
+      {/* -------------------------------------------------- */}
+      {grid && (
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
           style={{
@@ -76,21 +84,24 @@ export default function SectionWrapper({
               "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
             backgroundSize: "32px 32px",
           }}
-          aria-hidden="true"
         />
       )}
 
-      {/* Soft fades */}
-      {effFades && (
+      {/* -------------------------------------------------- */}
+      {/* Top & Bottom Fades (Premium Depth)                */}
+      {/* -------------------------------------------------- */}
+      {withFades && (
         <>
-          <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background/60 to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background/60 to-transparent pointer-events-none" />
+          <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
         </>
       )}
 
-      {/* Content reveal + inner max-width container */}
+      {/* -------------------------------------------------- */}
+      {/* Content Container + Reveal Animation               */}
+      {/* -------------------------------------------------- */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
+        initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
         transition={{ duration: 0.7, ease: "easeOut" }}

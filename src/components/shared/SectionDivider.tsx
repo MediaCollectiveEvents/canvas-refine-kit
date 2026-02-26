@@ -1,37 +1,56 @@
-import { cn } from "@/lib/utils";
+import React from "react";
+
+type DividerVariant = "hairline" | "muted" | "postHero";
 
 interface SectionDividerProps {
-  variant?: "single" | "triple";
+  variant?: DividerVariant;
   className?: string;
-  /** Use for post-hero gradient transition */
-  gradient?: boolean;
 }
 
-const SectionDivider = ({
-  className,
-  gradient = false,
-}: SectionDividerProps) => {
-  if (gradient) {
+/**
+ * Minimal section divider that avoids adding visible "bands".
+ * - “hairline”: 1px gradient line; no padding; has -mt-px to kiss previous block.
+ * - “muted”: 1px line with a touch more contrast (use sparingly).
+ * - “postHero”: a short vertical gradient band to transition out of a hero (not for normal sections).
+ */
+export default function SectionDivider({
+  variant = "hairline",
+  className = "",
+}: SectionDividerProps) {
+  if (variant === "postHero") {
     return (
       <div
-        className={cn(
-          "relative h-24 bg-gradient-to-b from-primary to-background overflow-hidden",
+        className={[
+          "relative h-16 overflow-hidden",
+          // gentle vertical fade out of a hero
+          "bg-gradient-to-b from-white/[0.06] via-white/[0.02] to-transparent",
           className,
-        )}
+        ].join(" ")}
+        aria-hidden="true"
       >
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+        {/* hairline at the end so it still reads crisp */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
       </div>
     );
   }
 
+  // common 1px lines (no padding, no extra height)
+  const lineBase = "h-px bg-gradient-to-r from-transparent to-transparent";
+  const lineClass =
+    variant === "muted"
+      ? `${lineBase} via-white/18`
+      : `${lineBase} via-white/12`; // hairline (default)
+
   return (
-    <div className={cn("relative py-8", className)}>
-      <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-      <div className="flex justify-center">
-        <div className="w-3 h-3 rounded-full bg-primary/60 ring-4 ring-primary/20" />
-      </div>
+    <div
+      className={[
+        // pull the line up by 1px to avoid hairline gaps caused by adjacent borders/fades
+        "relative -mt-px",
+        className,
+      ].join(" ")}
+      aria-hidden="true"
+    >
+      <div className={lineClass} />
     </div>
   );
-};
-
-export default SectionDivider;
+}

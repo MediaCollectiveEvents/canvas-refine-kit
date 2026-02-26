@@ -8,6 +8,15 @@ backend:
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
+# -------------------------------------------------
+# TOP‑LEVEL EDITOR BLOCK ADDED HERE
+# -------------------------------------------------
+editor:
+  preview: true
+  script: /admin/cms.js
+  # style: /admin/cms.css    # uncomment if you add custom preview styling
+# -------------------------------------------------
+
 collections:
   # === HOMEPAGE CONTENT (homepage.json) ===
   - name: homepage
@@ -62,17 +71,17 @@ collections:
                 widget: select
                 default: cover
                 options:
-                  - { label: "Cover (default)", value: cover }
-                  - { label: "Contain (show full image)", value: contain }
+                  - { label: Cover (default), value: cover }
+                  - { label: Contain (show full image), value: contain }
 
               - label: Image Position
                 name: imagePosition
                 widget: select
                 default: center
                 options:
-                  - { label: "Top", value: top }
-                  - { label: "Center", value: center }
-                  - { label: "Bottom", value: bottom }
+                  - { label: Top, value: top }
+                  - { label: Center, value: center }
+                  - { label: Bottom, value: bottom }
 
               - label: Image Vertical Offset (px)
                 name: imageOffset
@@ -699,7 +708,6 @@ collections:
                   - { label: Default, value: default }
                   - { label: Darker, value: darker }
                   - { label: Accent, value: accent }
-              # Shared fields
               - { label: Title, name: title, widget: string, required: false }
               - {
                   label: Accent Word,
@@ -713,7 +721,6 @@ collections:
                   widget: text,
                   required: false,
                 }
-              # CTA-only
               - {
                   label: Button Label,
                   name: buttonLabel,
@@ -746,7 +753,6 @@ collections:
                   name: description,
                   widget: text,
                   required: false,
-                  hint: "Short one‑ or two‑sentence summary shown in the hero.",
                 }
 
               - label: Hero Image
