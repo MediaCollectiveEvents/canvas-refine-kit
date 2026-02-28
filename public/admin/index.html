@@ -2,11 +2,30 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Content Manager</title>
+    <title>Decap CMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- React + ReactDOM (required for decap-cms-app) -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+    <!-- decap-cms-app build -->
+    <script src="/admin/vendor/decap-cms-app.js"></script>
+
+    <!-- Initialize Decap CMS App -->
+    <script>
+      if (window.DecapCmsApp && typeof window.DecapCmsApp.init === "function") {
+        window.DecapCmsApp.init();
+      }
+    </script>
+
+    <!-- Define process BEFORE the preview bundle runs -->
+    <script>
+      window.process = window.process || { env: { NODE_ENV: "development" } };
+    </script>
+
+    <!-- Your Preview Bundle -->
+    <script src="/admin/cms.bundle.js"></script>
   </head>
-  <body>
-    <!-- Load Decap CMS -->
-    <script src="https://unpkg.com/decap-cms@3.0.0/dist/decap-cms.js"></script>
-  </body>
+  <body></body>
 </html>

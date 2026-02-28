@@ -13,8 +13,7 @@ public_folder: "/uploads"
 # -------------------------------------------------
 editor:
   preview: true
-  script: /admin/cms.js
-  # style: /admin/cms.css    # uncomment if you add custom preview styling
+  # script: /admin/cms.bundle.js   # comment out if you load via index.html
 # -------------------------------------------------
 
 collections:
