@@ -22,13 +22,33 @@ export default function SectionTitle({
   tone,
   disableEmphasis,
 }: SectionTitleProps) {
-  const defaults = useSectionStyleDefaults();
+  // 🛡️ SAFE FALLBACK FOR DECAP PREVIEW — prevents useContext(null) crash
+  let defaults: any = {
+    styleTitle: {
+      align: "center",
+      tone: "default",
+      disableEmphasis: false,
+      eyebrow: "",
+      sub: "",
+    },
+  };
+
+  try {
+    const ctx = useSectionStyleDefaults();
+    if (ctx) defaults = ctx;
+  } catch (_err) {
+    // Decap preview iframe has no provider → fallback values already set
+  }
+
   const effectiveAlign: Align =
     align ?? (defaults.styleTitle.align as Align) ?? "center";
+
   const effectiveTone: Tone =
     tone ?? (defaults.styleTitle.tone as Tone) ?? "default";
+
   const effectiveDisable =
     disableEmphasis ?? defaults.styleTitle.disableEmphasis ?? false;
+
   const effectiveEyebrow = eyebrow ?? defaults.styleTitle.eyebrow ?? "";
   const effectiveSub = sub ?? defaults.styleTitle.sub ?? "";
 
@@ -46,8 +66,8 @@ export default function SectionTitle({
     effectiveAlign === "left"
       ? "text-left"
       : effectiveAlign === "right"
-        ? "text-right"
-        : "text-center";
+      ? "text-right"
+      : "text-center";
 
   const titleColor = effectiveTone === "muted" ? "text-white/90" : "text-white";
   const subColor = "text-white/60";

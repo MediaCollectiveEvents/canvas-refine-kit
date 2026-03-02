@@ -1,4 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+// src/components/shared/PageHero.tsx
+
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 type Theme = "dark" | "light";
@@ -11,24 +13,32 @@ interface PageHeroProps {
   title: string;
   description?: string;
 
-  // Single CTA
   primaryCtaText?: string;
-  primaryCtaHref?: string; // optional link URL
-  onPrimaryClick?: () => void; // optional click handler (e.g. open modal)
+  primaryCtaHref?: string;
+  onPrimaryClick?: () => void;
 
-  // Background inputs from CMS
-  backgroundImage?: string; // homepage, events, etc.
-  image?: string; // faqPage / blogPage hero image
-  imageKey?: string; // optional mapped key
+  backgroundImage?: string;
+  image?: string;
+  imageKey?: string;
 
   variant?: Variant;
   overlayStrength?: number;
   theme?: Theme;
 
-  // Image behaviour controls
   mobileCrop?: MobileCropMode;
-  imagePosition?: ImagePosition; // vertical alignment of image
-  imageOffset?: number; // vertical nudge in px (positive = down, negative = up)
+  imagePosition?: ImagePosition;
+  imageOffset?: number;
+}
+
+/* 🛡️ Detect Decap CMS preview iframe */
+function inDecapPreviewIframe(): boolean {
+  if (typeof document !== "undefined") {
+    return (
+      document.body?.classList?.contains("nc-app-iframe-root") ||
+      typeof (window as any).CMS !== "undefined"
+    );
+  }
+  return false;
 }
 
 export default function PageHero({
@@ -48,66 +58,68 @@ export default function PageHero({
   imagePosition = "center",
   imageOffset = 0,
 }: PageHeroProps) {
-  const { scrollY } = useScroll();
 
-  // Base parallax motion (0 → 140px)
-  const baseY = useTransform(scrollY, [0, 500], [0, 140]);
+  /* 🛡️ SAFE FALLBACK FOR DECAP PREVIEW */
+  const isPreview = inDecapPreviewIframe();
 
-  // Apply CMS-driven offset to parallax
-  const y = useTransform(baseY, (value) => value + imageOffset);
+  let y: MotionValue<number> | 0 = 0;
+  if (!isPreview) {
+    const { scrollY } = useScroll();
+    const baseY = useTransform(scrollY, [0, 500], [0, 140]);
+    y = useTransform(baseY, (value) => value + imageOffset);
+  }
 
   const isLight = theme === "light";
 
-  // --- UNIVERSAL IMAGE RESOLUTION ---
+  // Universal image resolution
   const resolvedBackgroundImage =
     backgroundImage ||
     image ||
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
-  // Support overlayStrength coming from CMS as number or string
-  const s = overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
+  const s =
+    overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
 
-  // DARK THEME GRADIENTS
+  // DARK THEME CLASSES (unchanged)
   const darkVignetteClass =
     s >= 0.9
       ? "from-black/80 via-black/60"
       : s >= 0.75
-        ? "from-black/60 via-black/40"
-        : s >= 0.5
-          ? "from-black/45 via-black/30"
-          : s >= 0.25
-            ? "from-black/30 via-black/20"
-            : "from-black/10 via-black/10";
+      ? "from-black/60 via-black/40"
+      : s >= 0.5
+      ? "from-black/45 via-black/30"
+      : s >= 0.25
+      ? "from-black/30 via-black/20"
+      : "from-black/10 via-black/10";
 
   const darkBloomOpacity =
     s >= 0.9
       ? "opacity-80"
       : s >= 0.75
-        ? "opacity-60"
-        : s >= 0.5
-          ? "opacity-50"
-          : s >= 0.25
-            ? "opacity-40"
-            : "opacity-30";
+      ? "opacity-60"
+      : s >= 0.5
+      ? "opacity-50"
+      : s >= 0.25
+      ? "opacity-40"
+      : "opacity-30";
 
   const darkBrandWashClass =
     s >= 0.9
       ? "bg-primary/5"
       : s >= 0.75
-        ? "bg-primary/3"
-        : s >= 0.5
-          ? "bg-primary/2"
-          : s >= 0.25
-            ? "bg-primary/1"
-            : "bg-transparent";
+      ? "bg-primary/3"
+      : s >= 0.5
+      ? "bg-primary/2"
+      : s >= 0.25
+      ? "bg-primary/1"
+      : "bg-transparent";
 
-  // LIGHT THEME OVERLAYS
+  // LIGHT classes
   const lightBloomOpacity = "opacity-40";
   const lightBloomGradient =
     "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)";
   const lightTintClass = "bg-white/40 mix-blend-lighten";
 
-  // Typography
   const titleClass = isLight
     ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
     : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
@@ -119,42 +131,13 @@ export default function PageHero({
     ? "border-zinc/20 text-zinc-900 bg-white/60 hover:bg-zinc-100"
     : "border-primary/60 text-primary bg-black/40 hover:bg-primary/10";
 
-  // Glow animations
-  const titleGlowKeyframes = [
-    isLight
-      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)",
-    isLight
-      ? "radial-gradient(circle, rgba(250,252,255,0.45) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(120,180,255,0.24) 0%, transparent 70%)",
-    isLight
-      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 70%)"
-      : "radial-gradient(circle, rgba(54,224,198,0.28) 0%, transparent 70%)",
-  ];
-
-  const ctaGlowKeyframes = [
-    isLight
-      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 80%)"
-      : "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
-    isLight
-      ? "radial-gradient(circle, rgba(245,248,255,0.45) 0%, transparent 80%)"
-      : "radial-gradient(circle, rgba(120,180,255,0.26) 0%, transparent 80%)",
-    isLight
-      ? "radial-gradient(circle, rgba(255,255,255,0.55) 0%, transparent 80%)"
-      : "radial-gradient(circle, rgba(54,224,198,0.30) 0%, transparent 80%)",
-  ];
-
-  // Vertical position classes for the background
   const positionClass =
     imagePosition === "top"
       ? "bg-top"
       : imagePosition === "bottom"
-        ? "bg-bottom"
-        : "bg-center";
+      ? "bg-bottom"
+      : "bg-center";
 
-  // Background behaviour:
-  // - mobile (<640px): honour mobileCrop
-  // - desktop (>=640px): always cover
   const backgroundClasses =
     mobileCrop === "contain"
       ? `bg-contain bg-no-repeat ${positionClass} sm:bg-cover`
@@ -173,29 +156,21 @@ export default function PageHero({
         ${isLight ? "bg-white" : "bg-background"}
       `}
     >
-      {/* PARALLAX BACKGROUND (image variant only) */}
+      {/* BACKGROUND */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
-          className={`
-            absolute inset-0 will-change-transform
-            ${backgroundClasses}
-          `}
+          className={`absolute inset-0 will-change-transform ${backgroundClasses}`}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
-            // keep parallax; disable parallax when using contain (for full-image view on mobile)
-            y: mobileCrop === "contain" ? 0 : y,
-            filter: isLight ? "brightness(1.06) contrast(1.02)" : undefined,
+            ...(isPreview ? {} : { y }),
           }}
           aria-hidden="true"
         />
       )}
 
-      {/* OVERLAYS */}
+      {/* OVERLAYS (unchanged) */}
       {isLight ? (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden="true"
-        >
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
             className={`absolute inset-0 ${lightBloomOpacity} mix-blend-screen`}
             style={{ background: lightBloomGradient }}
@@ -203,10 +178,7 @@ export default function PageHero({
           <div className={`absolute inset-0 ${lightTintClass}`} />
         </div>
       ) : (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          aria-hidden="true"
-        >
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
             className={`absolute inset-0 bg-gradient-to-b ${darkVignetteClass} to-transparent`}
           />
@@ -223,13 +195,7 @@ export default function PageHero({
         </div>
       )}
 
-      {/* BACKGROUND FADE */}
-      <div
-        className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-background/20 to-background"
-        aria-hidden="true"
-      />
-
-      {/* CONTENT (text vertically centered by flex on header + this inner padding) */}
+      {/* CONTENT */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -250,95 +216,34 @@ export default function PageHero({
             </p>
           )}
 
-          {/* TITLE */}
-          <div className="relative flex justify-center">
-            <motion.div
-              animate={{ background: titleGlowKeyframes }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                repeatType: "mirror",
-              }}
-              className={`
-                absolute left-1/2 top-1/2
-                -translate-x-1/2 -translate-y-1/2
-                -inset-x-[40vw] -inset-y-[16vh]
-                -z-10 blur-[140px]
-                ${isLight ? "opacity-70" : "opacity-90"}
-                pointer-events-none
-              `}
-            />
+          <h1
+            className={`
+              font-satisfy
+              text-4xl sm:text-5xl md:text-6xl lg:text-7xl
+              ${titleClass}
+              leading-[1.13] md:leading-[1.18]
+              mt-2 mb-8 md:mb-10
+            `}
+          >
+            {title}
+          </h1>
 
-            <motion.div
-              animate={{ x: ["-150%", "150%"] }}
-              transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-              className={`
-                absolute top-0 h-full w-[50%]
-                bg-gradient-to-r from-transparent ${
-                  isLight ? "via-black/5" : "via-white/10"
-                } to-transparent
-                blur-2xl pointer-events-none
-              `}
-            />
-
-            <h1
-              className={`
-                font-satisfy
-                text-4xl sm:text-5xl md:text-6xl lg:text-7xl
-                ${titleClass}
-                leading-[1.13] md:leading-[1.18]
-                mt-2 mb-8 md:mb-10
-              `}
-            >
-              {title}
-            </h1>
-          </div>
-
-          {/* DESCRIPTION */}
           {description && (
             <p
-              className={`
-                ${descClass}
-                font-body text-base sm:text-lg md:text-xl
-                leading-relaxed max-w-xl mx-auto mb-12
-              `}
+              className={`${descClass} font-body text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12`}
             >
               {description}
             </p>
           )}
 
-          {/* SINGLE CTA BUTTON */}
+          {/* CTA */}
           {primaryCtaText && (hasClickCta || hasLinkCta) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
-              <motion.div
-                animate={{ background: ctaGlowKeyframes }}
-                transition={{
-                  duration: 10,
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                }}
-                className="
-                  absolute left-1/2 top-1/2
-                  -translate-x-1/2 -translate-y-1/2
-                  -inset-x-[30vw] -inset-y-12
-                  -z-10 blur-[120px]
-                  opacity-80 pointer-events-none
-                "
-              />
-
               {hasClickCta && (
                 <Button
                   size="lg"
                   onClick={onPrimaryClick}
-                  className="
-                    rounded-full px-8 py-3
-                    bg-primary text-black
-                    shadow-lg shadow-primary/40
-                    hover:bg-primary/90
-                    hover:shadow-[0_0_40px_rgba(54,224,198,0.65)]
-                    transition-transform duration-200 ease-out
-                    hover:scale-[1.06]
-                  "
+                  className="rounded-full px-8 py-3 bg-primary text-black shadow-lg shadow-primary/40 hover:bg-primary/90 hover:scale-[1.06]"
                 >
                   {primaryCtaText}
                 </Button>
@@ -349,12 +254,7 @@ export default function PageHero({
                   asChild
                   size="lg"
                   variant="outline"
-                  className={`
-                    rounded-full px-8 py-3
-                    ${secondaryButtonClass}
-                    transition-transform duration-200 ease-out
-                    hover:scale-[1.03]
-                  `}
+                  className={`rounded-full px-8 py-3 ${secondaryButtonClass} transition-transform hover:scale-[1.03]`}
                 >
                   <a href={primaryCtaHref}>{primaryCtaText}</a>
                 </Button>
@@ -366,11 +266,7 @@ export default function PageHero({
 
       {/* NEON LINE */}
       <div
-        className="
-          absolute bottom-0 left-0 right-0
-          h-[3px]
-          bg-gradient-to-r from-primary via-cyan-400 to-primary
-        "
+        className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-cyan-400 to-primary"
         aria-hidden="true"
       />
     </header>

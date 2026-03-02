@@ -1,31 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Decap CMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- React + ReactDOM (required for decap-cms-app) -->
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Decap CMS config -->
+    config.yml
 
-    <!-- decap-cms-app build -->
-    <script src="/admin/vendor/decap-cms-app.js"></script>
-
-    <!-- Initialize Decap CMS App -->
-    <script>
-      if (window.DecapCmsApp && typeof window.DecapCmsApp.init === "function") {
-        window.DecapCmsApp.init();
-      }
-    </script>
-
-    <!-- Define process BEFORE the preview bundle runs -->
-    <script>
-      window.process = window.process || { env: { NODE_ENV: "development" } };
-    </script>
-
-    <!-- Your Preview Bundle -->
-    <script src="/admin/cms.bundle.js"></script>
+    <title>Decap CMS</title>
   </head>
-  <body></body>
+  <body>
+
+    <!-- 1. Decap CMS core -->
+    /admin/vendor/decap-cms.js</script>
+
+    <!-- 2. Provide process BEFORE preview bundle -->
+    <script>
+      window.process = window.process || {
+        env: { NODE_ENV: "development" }
+      };
+    </script>
+
+    <!-- 3. Load your preview bundle -->
+    /admin/cms.bundle.js</script>
+
+  </body>
 </html>
