@@ -5,11 +5,24 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "framer-motion": path.resolve(__dirname, "./src/cms/framer-shim.ts"), // ← ADD THIS
+
+      // Framer-motion shim for Decap
+      "framer-motion": path.resolve(
+        __dirname,
+        "./public/cms/framer-shim.js"
+      ),
+
+      // React globals for Decap CMS v3
+      react: "react",
+      "react-dom": "react-dom",
     },
   },
 
   build: {
+    // Write bundle directly into /public/admin
+    outDir: "public/admin",
+    emptyOutDir: false,
+
     rollupOptions: {
       external: ["react", "react-dom"],
       output: {
@@ -23,8 +36,8 @@ export default defineConfig({
     lib: {
       entry: "./src/cms/preview.tsx",
       name: "CMSPreview",
+      fileName: () => "cms.bundle.js",
       formats: ["iife"],
-      fileName: "cms.bundle.js",
     },
   },
 });

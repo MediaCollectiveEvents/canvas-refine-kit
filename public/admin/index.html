@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <!-- Decap CMS config -->
-    config.yml
-
     <title>Decap CMS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
+    <!-- Decap CMS will mount its UI here -->
+    <div id="nc-root"></div>
 
-    <!-- 1. Decap CMS core -->
-    /admin/vendor/decap-cms.js</script>
+    <!-- 1) Decap CMS core (this one is CONFIRMED 200 OK on your machine) -->
+    <script src="/admin/vendor/decap-cms.js"></script>
 
-    <!-- 2. Provide process BEFORE preview bundle -->
-    <script>
-      window.process = window.process || {
-        env: { NODE_ENV: "development" }
-      };
-    </script>
-
-    <!-- 3. Load your preview bundle -->
-    /admin/cms.bundle.js</script>
+    <!-- 2) Your preview bundle built by Vite (must load AFTER Decap CMS) -->
+    <script src="/admin/cms.bundle.js"></script>
 
   </body>
 </html>
