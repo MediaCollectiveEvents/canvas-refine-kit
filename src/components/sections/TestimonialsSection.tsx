@@ -1,133 +1,140 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { AnimatePresence, motion } from "framer-motion";
 
 const testimonials = [
   {
-    quote: "Every event delivers genuine value. I've formed partnerships and gained insights that have directly impacted our company's strategic direction.",
+    quote: [
+      "Every event delivers genuine value. I've formed partnerships and gained insights that have directly impacted our company's strategic direction.",
+    ],
     author: "Chris Rovtar",
     title: "Founder",
     company: "Xcell Group",
   },
   {
-    quote: "The intimate format creates opportunities for genuine dialogue with peers. It's not just networking—it's building lasting professional connections.",
+    quote: [
+      "The intimate format creates opportunities for genuine dialogue with peers.",
+      "It's not just networking — it's building lasting professional connections.",
+    ],
     author: "Laurence Mifsud",
     title: "SVP Global Head of Media & Entertainment",
     company: "Software Minds",
   },
   {
-    quote: "Working with The Media Collective has been a key part of us raising and elevating our brand profile within the broadcast media and tech sectors. It's helped connect us with interesting and exciting brands, and enabled us to establish ourselves within the business community through a strong presence at major events including MPTS and IBC.",
+    quote: [
+      "Working with The Media Collective has been key to elevating our profile in the broadcast media and tech sectors.",
+      "It has helped us connect with exciting brands and establish a strong presence at major industry events.",
+    ],
     author: "Daniel Jenkins",
     title: "Commercial Director",
     company: "Wagada Digital",
   },
   {
-    quote: "The sector-focused nature of the event enabled us to really make solid personal connections with like-minded industry peers, allowing us to open dialogues on a basis we'd not achieve at larger events.",
+    quote: [
+      "The sector-focused nature of the event enabled us to make solid personal connections with like-minded peers —",
+      "far deeper than what happens at larger events.",
+    ],
     author: "Vik Nunkoo",
     title: "Commercial Director",
     company: "Tosellmore",
   },
   {
-    quote: "It was great to attend this event and connect with so many talented people in the broadcast and media industry. It's a valuable reminder of the strong community we're part of and the opportunities that arise from coming together in person.",
+    quote: [
+      "It was great to attend and connect with so many talented people in the broadcast and media industry.",
+      "A powerful reminder of the strength of this community.",
+    ],
     author: "Sue Mitchell",
     title: "Director",
     company: "Zixi",
   },
 ];
 
+const INTERVAL = 7000; // 7s
+
 const TestimonialsSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(true);
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
 
-  const changeTestimonial = (newIndex: number) => {
-    setIsVisible(false);
-    setTimeout(() => {
-      setCurrentIndex(newIndex);
-      setIsVisible(true);
-    }, 1000); // 1 second fade out, then change
-  };
-
-  // Auto-advance testimonials every 2.5 seconds (plus 2s for transitions)
   useEffect(() => {
-    const interval = setInterval(() => {
-      changeTestimonial((currentIndex + 1) % testimonials.length);
-    }, 4500); // 2.5s visible + 1s fade out + 1s fade in
-    return () => clearInterval(interval);
-  }, [currentIndex]);
+    if (paused) return;
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % testimonials.length);
+    }, INTERVAL);
+    return () => clearInterval(timer);
+  }, [paused]);
 
-  const nextTestimonial = () => {
-    changeTestimonial((currentIndex + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    changeTestimonial((currentIndex - 1 + testimonials.length) % testimonials.length);
-  };
-
-  const current = testimonials[currentIndex];
+  const current = testimonials[index];
 
   return (
-    <section className="py-24 md:py-32 relative">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Quote icon */}
-          <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-8">
-            <Quote className="w-8 h-8 text-primary" />
-          </div>
+    <section className="relative overflow-hidden py-28 md:py-36 bg-[#0A0F14] text-white">
+      {/* Background glow */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none absolute inset-0
+          bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.08),transparent_75%)]
+        "
+      />
 
-          {/* Testimonial content */}
-          <div className={`transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-            <blockquote className="font-display text-2xl md:text-3xl lg:text-4xl leading-relaxed mb-10">
-              "{current.quote}"
-            </blockquote>
+      <div className="relative max-w-4xl mx-auto px-6 text-center">
+        {/* SECTION LABEL */}
+        <p className="text-xs tracking-[0.2em] uppercase text-gray-400 mb-7">
+          What our guests say
+        </p>
 
-            {/* Author info */}
-            <div className="mb-10">
-              <p className="text-foreground font-body font-semibold text-lg">
-                {current.author}
-              </p>
-              <p className="text-muted-foreground font-body">
-                {current.title}, <span className="text-primary">{current.company}</span>
-              </p>
-            </div>
-          </div>
+        {/* Softer ghost line */}
+        <div className="w-12 h-px bg-white/15 mx-auto mb-12" />
 
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={prevTestimonial}
-              className="border-border hover:border-primary hover:text-primary"
+        {/* QUOTE WRAPPER */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={index}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
+              {/* QUOTE */}
+              <div className="mb-9">
+                <blockquote
+                  className="
+                    font-serif
+                    text-[2.35rem] md:text-[2.5rem] lg:text-[2.6rem]
+                    leading-[1.33]
+                    max-w-[760px] mx-auto
+                    text-white
+                    opacity-[0.92]
+                  "
+                >
+                  {current.quote.map((block, i) => (
+                    <p key={i} className="mb-6 last:mb-0">
+                      “{block}”
+                    </p>
+                  ))}
+                </blockquote>
+              </div>
 
-            {/* Dots */}
-            <div className="flex gap-2 px-4">
-              {testimonials.map((_, index) => (
-                <Button
-                  key={index}
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => changeTestimonial(index)}
-                  className={`w-2 h-2 p-0 rounded-full transition-all ${
-                    index === currentIndex
-                      ? "bg-primary w-6"
-                      : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                  }`}
-                />
-              ))}
-            </div>
+              {/* ATTRIBUTION */}
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.15 }}
+                className="mt-9"
+              >
+                <p className="text-[1.1rem] font-semibold text-white">
+                  {current.author}
+                </p>
 
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={nextTestimonial}
-              className="border-border hover:border-primary hover:text-primary"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+                <p className="text-[0.95rem] text-gray-400 mt-1">
+                  {current.title} —{" "}
+                  <span className="text-[#24BFAE]">{current.company}</span>
+                </p>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </section>
