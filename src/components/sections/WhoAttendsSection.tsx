@@ -1,28 +1,21 @@
-import React from "react";
-import SectionWrapper from "@/components/layout/SectionWrapper";
+// src/components/sections/WhoAttendsSection.tsx
 
-type WhoAttendsSectionData = {
-  type: "whoAttends";
-  heading?: string;
-  statistics?: {
-    companies?: string;
-    boardLevel?: string;
-    founders?: string;
-  };
-};
+import React from "react";
+import SectionWrapper from "../layout/SectionWrapper";
 
 interface WhoAttendsSectionProps {
-  section: WhoAttendsSectionData;
+  section: {
+    heading?: string;
+    statistics?: {
+      companies?: string;
+      boardLevel?: string;
+      founders?: string;
+    };
+  };
 }
 
 const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
-  const { heading } = section;
-
-  // Allow CMS heading, but accent last word in teal (e.g. "In The Room")
-  const rawHeading = heading ?? "In The Room";
-  const words = rawHeading.trim().split(" ");
-  const lastWord = words.pop() ?? "";
-  const firstPart = words.join(" ");
+  const heading = section.heading ?? "In The Room";
 
   const intro =
     "Executives from more than 300 companies have attended our events, including leaders from the world’s most influential technology companies, film studios and streaming platforms.";
@@ -35,99 +28,95 @@ const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
       noise={false}
       grid={false}
       withFades={false}
-      className="
-        relative overflow-hidden
-        pt-[120px] pb-[130px]
-        bg-gradient-to-b from-[#0B1015] to-[#0E1A1D]
-      "
+      className="bg-[#0B1117] text-white py-[120px]"
     >
-      {/* Very soft glow */}
-      <div
-        className="
-          absolute inset-0 pointer-events-none
-          bg-[radial-gradient(circle_at_center,rgba(0,200,170,0.025)_0%,rgba(0,0,0,0)_60%)]
-        "
-      />
-
-      <div className="relative z-10 w-full text-left">
-        {/* 2-COLUMN INTRO – SAME GRID AS ABOUT */}
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-10 md:gap-16 items-start mb-[72px]">
-          {/* LEFT COLUMN – eyebrow + heading */}
+      <div className="relative z-10 w-full">
+        {/* HEADER BLOCK */}
+        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-10 md:gap-16 items-start">
           <div>
             <p className="text-xs tracking-[0.15em] uppercase text-white/60 mb-4">
               Attendees
             </p>
+
             <h2
               className="
                 text-[2.75rem] sm:text-[3rem] md:text-[3.1rem]
                 font-serif font-normal
                 leading-[1.18]
-                text-white
               "
             >
-              {firstPart}{" "}
-              <span className="text-teal-400">{lastWord}</span>
+              In The <span className="text-teal-400">Room</span>
             </h2>
           </div>
 
-          {/* RIGHT COLUMN – paragraph + divider */}
-          <div className="max-w-[620px]">
-            <p className="text-[1.15rem] leading-[1.65] text-white/80">
+          <div className="max-w-[580px]">
+            <p className="text-[1.05rem] leading-[1.65] text-white/80">
               {intro}
             </p>
 
-            {/* Divider aligned to paragraph start */}
-            <div className="mt-7 mb-12">
-              <div
-                className="
-                  h-[2px] w-[160px]
-                  bg-gradient-to-r from-white/30 to-white/0
-                "
-              />
+            <div className="mt-8 mb-12">
+              <div className="h-[2px] w-[160px] bg-white/20" />
             </div>
           </div>
         </div>
 
-        {/* 3–5–8 GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-[64px] md:gap-[80px] items-start">
-          {/* 3 */}
-          <div className="flex flex-col">
-            <span className="text-[64px] sm:text-[68px] md:text-[72px] font-semibold text-white leading-none">
-              3
-            </span>
-            <span className="text-[1.1rem] mt-3 font-semibold text-teal-400">
-              Top
-            </span>
-            <span className="text-[0.95rem] text-white/75 mt-[6px] leading-relaxed">
-              Global Technology Giants
-            </span>
+        {/* PERFECTLY ALIGNED GRID WITH EVENTS */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
+
+          {/* -------- 3 / Top -------- */}
+          <div className="flex justify-center">
+            <div className="max-w-[340px]">
+              <div className="flex items-baseline gap-3">
+                <span className="text-[80px] font-semibold leading-none">
+                  3
+                </span>
+                <span className="text-[1.2rem] font-semibold text-teal-400">
+                  Top
+                </span>
+              </div>
+
+              <p className="text-[1rem] text-white/75 mt-3 leading-relaxed">
+                Global Technology Giants
+              </p>
+            </div>
           </div>
 
-          {/* 5 */}
-          <div className="flex flex-col">
-            <span className="text-[64px] sm:text-[68px] md:text-[72px] font-semibold text-white leading-none">
-              5
-            </span>
-            <span className="text-[1.1rem] mt-3 font-semibold text-teal-400">
-              Major
-            </span>
-            <span className="text-[0.95rem] text-white/75 mt-[6px] leading-relaxed">
-              Hollywood Studios
-            </span>
+          {/* -------- 5 / Major -------- */}
+          <div className="flex justify-center">
+            <div className="max-w-[340px]">
+              <div className="flex items-baseline gap-3">
+                <span className="text-[88px] font-semibold leading-none">
+                  5
+                </span>
+                <span className="text-[1.2rem] font-semibold text-teal-400">
+                  Major
+                </span>
+              </div>
+
+              <p className="text-[1rem] text-white/75 mt-3 leading-relaxed">
+                Hollywood Studios
+              </p>
+            </div>
           </div>
 
-          {/* 8 */}
-          <div className="flex flex-col">
-            <span className="text-[64px] sm:text-[68px] md:text-[72px] font-semibold text-white leading-none">
-              8
-            </span>
-            <span className="text-[1.1rem] mt-3 font-semibold text-teal-400">
-              Leading
-            </span>
-            <span className="text-[0.95rem] text-white/75 mt-[6px] leading-relaxed">
-              Streaming Platforms
-            </span>
+          {/* -------- 8 / Leading -------- */}
+          <div className="flex justify-center">
+            <div className="max-w-[340px]">
+              <div className="flex items-baseline gap-3">
+                <span className="text-[96px] font-semibold leading-none">
+                  8
+                </span>
+                <span className="text-[1.2rem] font-semibold text-teal-400">
+                  Leading
+                </span>
+              </div>
+
+              <p className="text-[1rem] text-white/75 mt-3 leading-relaxed">
+                Streaming Platforms
+              </p>
+            </div>
           </div>
+
         </div>
       </div>
     </SectionWrapper>

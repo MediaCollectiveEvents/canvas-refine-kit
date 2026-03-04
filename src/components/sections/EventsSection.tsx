@@ -3,15 +3,37 @@
 import React from "react";
 import { MapPin, ArrowRight, CalendarDays } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import SectionWrapper from "../layout/SectionWrapper";
 
+// ICONS
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
+import greenlineImg from "@/assets/events/greenline.png";
 
+// CONTENT
 import rawEventsFile from "@/content/events.json";
+
+/* ------------------------------------------------------------------ */
+/* Types                                                              */
+/* ------------------------------------------------------------------ */
+
+interface RawEvent {
+  id?: number;
+  title: string;
+  location: string;
+  venue: string;
+  imageKey?: string;
+  date?: string;
+  format?: string;
+  conferenceAligned?: boolean;
+  inviteOnly?: boolean;
+  complimentary?: boolean;
+  type?: string;
+}
+
+type RawEventsShape = RawEvent[] | { events: RawEvent[] };
 
 interface Event {
   id: number;
@@ -26,72 +48,69 @@ interface Event {
   complimentary?: boolean;
 }
 
-interface RawEvent {
-  id?: number;
-  title: string;
-  location: string;
-  venue: string;
-  imageKey?: string;
-  date?: string;
-  format?: string;
-  conferenceAligned?: boolean;
-  inviteOnly?: boolean;
-  complimentary?: boolean;
-}
+/* ------------------------------------------------------------------ */
+/* Image resolver (includes greenline.png)                            */
+/* ------------------------------------------------------------------ */
 
-type RawEventsShape = RawEvent[] | { events: RawEvent[] };
-
-// Resolve image from key / venue / title
 function getImageForKey(key?: string, venue?: string, title?: string) {
   const val = (key || venue || title || "").toLowerCase();
+
+  if (val.includes("greenline")) return greenlineImg;
   if (val.includes("broadcaster")) return broadcasterImg;
   if (val.includes("hand") && val.includes("flower")) return handandflowerImg;
   if (val.includes("traveller") || val.includes("traveler")) return travellerImg;
+
   return broadcasterImg;
 }
 
 function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   if (Array.isArray(raw)) return raw;
-  if (Array.isArray((raw as any).events)) return (raw as any).events;
+  if ("events" in raw && Array.isArray((raw as any).events)) {
+    return (raw as any).events;
+  }
   return [];
 }
 
-const events: Event[] = normalizeRawEvents(
-  rawEventsFile as RawEventsShape
-).map((e, i) => ({
-  id: e.id ?? i + 1,
-  title: e.title,
-  location: e.location,
-  venue: e.venue,
-  date: e.date,
-  format: e.format,
-  conferenceAligned: e.conferenceAligned,
-  inviteOnly: e.inviteOnly,
-  complimentary: e.complimentary,
-  image: getImageForKey(e.imageKey, e.venue, e.title),
-}));
+/* ------------------------------------------------------------------ */
+/* Date formatting (editorial uppercase)                              */
+/* ------------------------------------------------------------------ */
 
 function ordinal(n: number) {
   const j = n % 10;
   const k = n % 100;
-  if (j === 1 && k !== 11) return `${n}st`;
-  if (j === 2 && k !== 12) return `${n}nd`;
-  if (j === 3 && k !== 13) return `${n}rd`;
-  return `${n}th`;
+
+  if (j === 1 && k !== 11) return `${n}ST`;
+  if (j === 2 && k !== 12) return `${n}ND`;
+  if (j === 3 && k !== 13) return `${n}RD`;
+  return `${n}TH`;
 }
 
 function formatEventDate(input?: string) {
-  if (!input) return;
+  if (!input) return "";
   const d = new Date(input);
-  if (isNaN(d.getTime())) return input;
+  if (isNaN(d.getTime())) return input.toUpperCase();
+
   const months = [
-    "January", "February", "March",
-    "April", "May", "June",
-    "July", "August", "September",
-    "October", "November", "December",
+    "JANUARY",
+    "FEBRUARY",
+    "MARCH",
+    "APRIL",
+    "MAY",
+    "JUNE",
+    "JULY",
+    "AUGUST",
+    "SEPTEMBER",
+    "OCTOBER",
+    "NOVEMBER",
+    "DECEMBER",
   ];
+
   return `${ordinal(d.getDate())} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
+
+/* ------------------------------------------------------------------ */
+/* Component                                                          */
+/* ------------------------------------------------------------------ */
 
 interface EventsSectionProps {
   onRegisterClick: () => void;
@@ -102,11 +121,25 @@ const EventsSection: React.FC<EventsSectionProps> = ({
   onRegisterClick,
   underHeader,
 }) => {
+  const rawEvents = normalizeRawEvents(rawEventsFile as any);
+
+  const events: Event[] = rawEvents.map((e, i) => ({
+    id: e.id ?? i + 1,
+    title: e.title,
+    location: e.location,
+    venue: e.venue,
+    date: e.date,
+    format: e.format,
+    conferenceAligned: e.conferenceAligned,
+    inviteOnly: e.inviteOnly,
+    complimentary: e.complimentary,
+    image: getImageForKey(e.imageKey, e.venue, e.title),
+  }));
+
   if (!events.length) return null;
 
   const subline =
-    underHeader ??
-    "Invitation-only. Complimentary for invited guests.";
+    underHeader ?? "Invitation-only. Complimentary for invited guests.";
 
   return (
     <SectionWrapper
@@ -116,49 +149,64 @@ const EventsSection: React.FC<EventsSectionProps> = ({
       noise={false}
       grid={false}
       withFades={false}
-      className="events-section bg-[#FBFBFA]"
+      className="bg-[#F6F7F7]"
     >
       <div className="relative z-10 w-full">
-        {/* HEADER */}
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 md:gap-16">
-          <div className="space-y-3">
-            <h2
-              className="
-                text-[2.4rem] sm:text-[2.7rem] md:text-[2.9rem]
-                font-serif font-normal
-                leading-[1.16]
-                text-[#111]
-              "
-            >
-              Next <span className="text-teal-500">Gatherings</span>
-            </h2>
-            <p className="text-sm sm:text-[0.95rem] text-[#555] max-w-[480px]">
-              {subline}
-            </p>
-          </div>
+        {/* ------------------------------------------------------------------ */}
+        {/* Header: title + view all                                           */}
+        {/* ------------------------------------------------------------------ */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
+          <h2
+            className="
+              font-serif
+              text-[2.75rem] sm:text-[2.9rem] md:text-[3rem]
+              font-semibold
+              leading-[1.15]
+              text-[#0F172A]
+            "
+          >
+            Next{" "}
+            <span className="text-[#27CDBA]">
+              Gatherings
+            </span>
+          </h2>
+
+          <a
+            href="/events"
+            className="
+              text-[0.95rem]
+              text-[#6B7280]
+              inline-flex items-center gap-2
+              hover:text-[#0F172A]
+              focus-visible:outline-none
+              focus-visible:ring-2
+              focus-visible:ring-[rgba(58,231,213,0.6)]
+              focus-visible:ring-offset-2
+              transition-colors
+            "
+          >
+            <span>View all events</span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[4px]" />
+          </a>
         </div>
 
-        {/* CARDS GRID */}
+        {/* Subline */}
+        <p className="mt-3 text-sm sm:text-[0.95rem] text-[#6B7280] max-w-[480px] leading-[1.55]">
+          {subline}
+        </p>
+
+        {/* ------------------------------------------------------------------ */}
+        {/* Grid of cards                                                      */}
+        {/* ------------------------------------------------------------------ */}
         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {events.map((event, index) => {
             const date = formatEventDate(event.date);
-            const isFeatured = index === 1; // optional subtle emphasis for middle card
 
-            // Build chip set (Invite-only, Complimentary, etc.)
-            const allChips: { label: string; primary: boolean }[] = [];
-            if (event.inviteOnly ?? true) {
-              allChips.push({ label: "Invite-only", primary: true });
-            }
-            if (event.complimentary ?? true) {
-              allChips.push({ label: "Complimentary", primary: false });
-            }
-            if (event.format) {
-              allChips.push({ label: event.format, primary: false });
-            }
-            if (event.conferenceAligned) {
-              allChips.push({ label: "Conference week", primary: false });
-            }
-            const chips = allChips.slice(0, 2); // fewer, stronger
+            const chips: string[] = [];
+            if (event.inviteOnly ?? true) chips.push("Invite-only");
+            if (event.complimentary ?? true) chips.push("Complimentary");
+            if (event.format) chips.push(event.format);
+            if (event.conferenceAligned) chips.push("Conference week");
 
             return (
               <motion.div
@@ -167,141 +215,138 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="flex justify-center"
+                className="flex justify-center h-full"
               >
                 <Card
-                  className={`
-                    event-card
+                  className="
                     group
-                    flex flex-col h-full overflow-hidden
-                    max-w-[340px]
-                    rounded-[16px]
-                    border border-[rgba(0,0,0,0.08)]
-                    bg-[#FFFFFF]
-                    shadow-[0_10px_26px_rgba(0,0,0,0.08)]
-                    transition-transform duration-200
-                    ${isFeatured ? "md:-translate-y-[6px]" : ""}
-                    hover:-translate-y-[4px]
-                    hover:shadow-[0_18px_40px_rgba(0,0,0,0.14)]
-                    hover:border-[rgba(0,255,225,0.35)]
-                  `}
+                    flex flex-col h-full
+                    w-full max-w-[360px]
+                    rounded-[18px]
+                    border border-[rgba(15,23,42,0.08)]
+                    bg-[#050B12]
+                    shadow-[0_14px_32px_rgba(0,0,0,0.35)]
+                    transition-all duration-200
+                    hover:-translate-y-[6px]
+                    hover:shadow-[0_20px_48px_rgba(0,0,0,0.45)]
+                    hover:border-[rgba(148,163,184,0.45)]
+                  "
                 >
-                  {/* DATE STRIP */}
-                  {date && (
-                    <div className="bg-[#F5F6F6] border-b border-black/[0.06] px-4 py-[10px]">
-                      <div className="flex items-center gap-2 text-[13px] text-[#555]">
-                        <span className="h-2 w-2 rounded-full bg-teal-500/65" />
-                        <CalendarDays className="h-4 w-4 text-zinc-400" />
+                  <CardContent className="flex flex-col flex-1 p-6">
+                    {/* DATE */}
+                    {date && (
+                      <div className="mb-4 flex items-center gap-2 text-[12px] tracking-[0.12em] uppercase text-[#9CA3AF]">
+                        <CalendarDays className="h-4 w-4 text-[#9CA3AF]" />
                         <span>{date}</span>
                       </div>
+                    )}
+
+                    {/* ILLUSTRATION – dark card, neon glow */}
+                    <div className="flex justify-center mb-5">
+                      <img
+                        src={event.image}
+                        alt={event.title}
+                        className="
+                          w-[190px]
+                          h-auto
+                          object-contain
+                          filter drop-shadow-[0_10px_24px_rgba(58,231,213,0.6)]
+                          transition-[filter,transform] duration-200
+                          group-hover:drop-shadow-[0_14px_30px_rgba(58,231,213,0.8)]
+                          group-hover:-translate-y-[2px]
+                        "
+                        loading="lazy"
+                      />
                     </div>
-                  )}
 
-                  {/* ILLUSTRATION STAGE – dark 3:2 neon stage */}
-                  <div
-                    className="
-                      event-card__media
-                      aspect-[3/2]
-                      bg-[radial-gradient(120%_120%_at_50%_30%,rgba(0,255,225,0.12),rgba(5,12,18,0.98))]
-                      px-[18px] py-[18px]
-                      border-b border-black/[0.06]
-                      flex items-center justify-center
-                    "
-                  >
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="
-                        w-full h-full
-                        object-contain
-                        transition-transform duration-200
-                        drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]
-                        group-hover:-translate-y-[3px]
-                      "
-                      loading="lazy"
-                    />
-                  </div>
-
-                  {/* BODY */}
-                  <CardContent className="flex flex-col flex-1 p-6">
-                    {/* Title + venue/city */}
-                    <div className="text-left mt-[18px] space-y-[6px]">
+                    {/* TITLE + VENUE/LOCATION */}
+                    <div className="text-left space-y-[6px] mb-4">
                       <h3
                         className="
-                          event-title
-                          text-[19px]
+                          text-[21px]
                           font-semibold
-                          leading-[1.3]
-                          text-[#111]
+                          leading-[1.25]
+                          tracking-[-0.01em]
+                          text-[#F9FAFB]
                         "
                       >
                         {event.title}
                       </h3>
-                      <p className="event-meta text-sm text-zinc-600">
+
+                      <p className="text-sm text-[#9CA3AF] leading-[1.5] flex items-center gap-1">
+                        <MapPin className="h-4 w-4 text-[#9CA3AF]" />
                         {event.venue}
-                        {event.location ? ` • ${event.location}` : ""}
+                        {event.location ? ` — ${event.location}` : ""}
                       </p>
                     </div>
 
-                    {/* CHIPS */}
+                    {/* CHIPS (neutral paper labels) */}
                     {chips.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mt-[14px]">
-                        {chips.map((chip, idx) => (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {chips.slice(0, 2).map((chip, idx) => (
                           <div
                             key={`${event.id}-chip-${idx}`}
-                            className={`
-                              chip
+                            className="
                               inline-flex items-center
-                              rounded-[16px]
-                              px-[10px] py-[4px]
+                              rounded-[6px]
+                              bg-[rgba(15,23,42,0.18)]
+                              border border-[rgba(148,163,184,0.35)]
+                              text-[#E5E7EB]
                               text-[12px]
-                              bg-[#f6f7f8]
-                              border border-[rgba(0,0,0,0.10)]
-                              text-[#444]
-                              ${chip.primary ? "chip-primary text-teal-700" : ""}
-                            `}
+                              px-[10px] py-[4px]
+                              transition-colors duration-200
+                              group-hover:border-[rgba(58,231,213,0.4)]
+                            "
                           >
-                            {chip.primary && (
-                              <span className="mr-2 h-1.5 w-1.5 rounded-full bg-teal-500" />
-                            )}
-                            {chip.label}
+                            {chip}
                           </div>
                         ))}
                       </div>
                     )}
 
-                    {/* CTA + Details */}
-                    <div className="mt-[12px] pt-4 flex flex-col gap-2">
-                      <Button
+                    {/* CTA + DETAILS anchored to bottom */}
+                    <div className="mt-auto flex flex-col gap-3">
+                      {/* Primary text-style CTA (dark → teal on hover) */}
+                      <button
+                        type="button"
                         onClick={onRegisterClick}
                         className="
-                          cta
-                          w-full rounded-full
-                          text-sm font-medium
-                          border border-[rgba(0,200,170,0.60)]
-                          bg-[rgba(0,200,170,0.08)]
-                          text-zinc-900
-                          hover:bg-teal-500
-                          hover:text-white
+                          inline-flex items-center gap-2
+                          text-[0.95rem]
+                          font-medium
+                          text-[#E5E7EB]
+                          hover:text-[#3AE7D5]
+                          focus:outline-none
+                          focus-visible:ring-2
+                          focus-visible:ring-[rgba(58,231,213,0.6)]
+                          focus-visible:ring-offset-2
+                          focus-visible:ring-offset-[#050B12]
+                          transition-all duration-200
                         "
-                        variant="outline"
                       >
-                        Register interest
-                      </Button>
+                        <span>Register interest</span>
+                        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[4px]" />
+                      </button>
 
+                      {/* Secondary details link */}
                       <button
                         type="button"
                         className="
-                          details-link
                           self-start
                           text-[13px]
-                          text-[#777]
+                          text-[#9CA3AF]
                           inline-flex items-center gap-1
-                          hover:text-teal-500
+                          hover:text-[#F9FAFB]
+                          focus:outline-none
+                          focus-visible:ring-2
+                          focus-visible:ring-[rgba(58,231,213,0.6)]
+                          focus-visible:ring-offset-2
+                          focus-visible:ring-offset-[#050B12]
+                          transition-all duration-200
                         "
                       >
                         <span>Details</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
+                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-[3px]" />
                       </button>
                     </div>
                   </CardContent>
@@ -310,24 +355,10 @@ const EventsSection: React.FC<EventsSectionProps> = ({
             );
           })}
         </div>
-
-        {/* VIEW ALL EVENTS – aligned to card grid */}
-        <div className="mt-10 flex justify-end">
-          <a
-            href="/events"
-            className="
-              inline-flex items-center gap-1
-              text-[14px] text-[#555]
-              hover:text-teal-500
-            "
-          >
-            <span>View all events</span>
-            <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
       </div>
     </SectionWrapper>
   );
 };
 
 export default EventsSection;
+``
