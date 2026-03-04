@@ -22,10 +22,10 @@
     {
       "details": "This invite-only breakfast brings together senior leaders from broadcasters, studios and technology companies attending IBC. Expect an informal, facilitated conversation over coffee and breakfast, with plenty of time to connect with peers before the show floor opens.",
       "time": "09:00",
-      "date": "2026-09-14",
-      "venue": "The Traveller, RAI",
-      "location": "Amsterdam",
-      "title": "IBC Breakfast Roundtable",
+      "date": "2026-05-06",
+      "venue": "The Broadcaster",
+      "location": "White City, London",
+      "title": "NAB Review",
       "type": "upcoming",
       "id": 1,
       "description": "Join us for a relaxed breakfast at IBC to discuss trends, challenges and opportunities in media and broadcast."
@@ -33,10 +33,10 @@
     {
       "details": "Hosted upstairs at the Hand and Flower, this reception is an opportunity to unwind after a busy day and catch up with familiar faces and new contacts. We’ll provide drinks, light food and some gentle facilitation to make introductions easy and natural.",
       "time": "18:00",
-      "date": "2026-03-12",
+      "date": "2026-05-12",
       "venue": "Hand and Flower",
-      "location": "London",
-      "title": "Media Leaders Reception",
+      "location": "Olympia, London",
+      "title": "MPTS Reception",
       "type": "upcoming",
       "id": 2,
       "description": "An evening reception for media leaders to reconnect, share experiences and meet new collaborators."
@@ -44,10 +44,10 @@
     {
       "details": "This intimate summit brought together product, operations and technology leaders to share practical experiences with AI in scheduling, playout, personalisation and production workflows. Sessions combined short talks with small-group discussions and feedback.",
       "time": "10:00",
-      "date": "2026-05-08",
-      "venue": "The Traveller",
-      "location": "Berlin",
-      "title": "AI in Broadcasting Summit",
+      "date": "2026-09-10",
+      "venue": "Eurostar ",
+      "location": "London - Amsterdam",
+      "title": "The Greenline to IBC",
       "type": "past",
       "id": 3,
       "description": "A half-day summit exploring how AI is reshaping broadcast operations and audience experiences."

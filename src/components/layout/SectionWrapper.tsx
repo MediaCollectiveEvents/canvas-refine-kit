@@ -12,6 +12,7 @@ interface SectionWrapperProps {
   grid?: boolean;
   padding?: PaddingSize;
   withFades?: boolean;
+  align?: "left" | "center";
 }
 
 export default function SectionWrapper({
@@ -22,18 +23,19 @@ export default function SectionWrapper({
   grid = false,
   padding = "lux",
   withFades = true,
+  align = "center",
 }: SectionWrapperProps) {
   const paddingClasses =
     padding === "lux" ? "py-28 md:py-36 lg:py-44" : "py-20 md:py-28";
+
+  // Shared container — same as header/nav/hero
+  const containerClass =
+    "max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8";
 
   return (
     <section
       className={`relative overflow-hidden ${paddingClasses} ${className}`}
     >
-      {/* -------------------------------------------------- */}
-      {/* Variant Background Layers                          */}
-      {/* -------------------------------------------------- */}
-
       {/* Glass variant */}
       {variant === "glass" && (
         <div
@@ -47,15 +49,12 @@ export default function SectionWrapper({
         />
       )}
 
-      {/* Tint variant */}
+      {/* Tint */}
       {variant === "tint" && (
-        <div
-          className="absolute inset-0 bg-white/[0.03] backdrop-blur-sm"
-          aria-hidden="true"
-        />
+        <div className="absolute inset-0 bg-white/[0.03] backdrop-blur-sm" />
       )}
 
-      {/* Glow variant */}
+      {/* Glow */}
       {variant === "glow" && (
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute -top-[15%] left-1/3 w-[48rem] h-[48rem] bg-primary/10 blur-[160px]" />
@@ -63,9 +62,7 @@ export default function SectionWrapper({
         </div>
       )}
 
-      {/* -------------------------------------------------- */}
-      {/* Optional Noise Layer                                */}
-      {/* -------------------------------------------------- */}
+      {/* Noise */}
       {noise && (
         <div
           className="absolute inset-0 opacity-[0.035] mix-blend-overlay pointer-events-none"
@@ -73,9 +70,7 @@ export default function SectionWrapper({
         />
       )}
 
-      {/* -------------------------------------------------- */}
-      {/* Optional Grid Overlay                              */}
-      {/* -------------------------------------------------- */}
+      {/* Grid overlay */}
       {grid && (
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
@@ -87,9 +82,7 @@ export default function SectionWrapper({
         />
       )}
 
-      {/* -------------------------------------------------- */}
-      {/* Top & Bottom Fades (Premium Depth)                */}
-      {/* -------------------------------------------------- */}
+      {/* Fades */}
       {withFades && (
         <>
           <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
@@ -97,9 +90,6 @@ export default function SectionWrapper({
         </>
       )}
 
-      {/* -------------------------------------------------- */}
-      {/* Content Container + Reveal Animation               */}
-      {/* -------------------------------------------------- */}
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -107,7 +97,7 @@ export default function SectionWrapper({
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="relative z-10"
       >
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={containerClass}>
           {children}
         </div>
       </motion.div>

@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ScrollIndicator } from "@/components/shared/ScrollIndicator";
 
 type Theme = "dark" | "light";
 type Variant = "image" | "solid";
@@ -58,7 +59,7 @@ export default function PageHero({
   imagePosition = "center",
   imageOffset = 0,
 }: PageHeroProps) {
-
+  
   /* 🛡️ SAFE FALLBACK FOR DECAP PREVIEW */
   const isPreview = inDecapPreviewIframe();
 
@@ -168,7 +169,7 @@ export default function PageHero({
         />
       )}
 
-      {/* OVERLAYS (unchanged) */}
+      {/* OVERLAYS */}
       {isLight ? (
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
@@ -264,9 +265,12 @@ export default function PageHero({
         </div>
       </motion.div>
 
-      {/* NEON LINE */}
+      {/* SCROLL INDICATOR (desktop‑only) */}
+      <ScrollIndicator />
+
+      {/* SOFT NEUTRAL DIVIDER — Option A */}
       <div
-        className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary via-cyan-400 to-primary"
+        className="absolute bottom-0 left-0 right-0 h-px bg-zinc-300/15"
         aria-hidden="true"
       />
     </header>

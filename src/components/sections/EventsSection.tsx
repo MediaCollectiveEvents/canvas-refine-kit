@@ -5,13 +5,12 @@ import { MapPin, ArrowRight, CalendarDays } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import SectionHeader from "@/components/shared/SectionHeader";
+import SectionWrapper from "../layout/SectionWrapper";
 
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 
-// 🚨 Ensure tsconfig has: "resolveJsonModule": true
 import rawEventsFile from "@/content/events.json";
 
 interface Event {
@@ -20,7 +19,11 @@ interface Event {
   location: string;
   venue: string;
   image: string;
-  date?: string; // recommended ISO: "YYYY-MM-DD"
+  date?: string;
+  format?: string;
+  conferenceAligned?: boolean;
+  inviteOnly?: boolean;
+  complimentary?: boolean;
 }
 
 interface RawEvent {
@@ -29,60 +32,45 @@ interface RawEvent {
   location: string;
   venue: string;
   imageKey?: string;
-  date?: string; // recommended ISO
+  date?: string;
+  format?: string;
+  conferenceAligned?: boolean;
+  inviteOnly?: boolean;
+  complimentary?: boolean;
 }
 
 type RawEventsShape = RawEvent[] | { events: RawEvent[] };
 
-// Map imageKey -> local asset import
-function getImageForKey(key: string | undefined, venue: string, title: string) {
-  const value = (key || venue || title).toLowerCase();
-
-  if (value.includes("broadcaster")) return broadcasterImg;
-  if (value.includes("hand") && value.includes("flower"))
-    return handandflowerImg;
-  if (value.includes("traveller") || value.includes("traveler"))
-    return travellerImg;
-
-  // Fallback
+// Resolve image from key / venue / title
+function getImageForKey(key?: string, venue?: string, title?: string) {
+  const val = (key || venue || title || "").toLowerCase();
+  if (val.includes("broadcaster")) return broadcasterImg;
+  if (val.includes("hand") && val.includes("flower")) return handandflowerImg;
+  if (val.includes("traveller") || val.includes("traveler")) return travellerImg;
   return broadcasterImg;
 }
 
-// Read either a flat array or { events: [...] }
 function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
-  const maybeWrapped = raw as { events?: RawEvent[] };
-  if (maybeWrapped && Array.isArray(maybeWrapped.events)) {
-    return maybeWrapped.events!;
-  }
-  return raw as RawEvent[];
+  if (Array.isArray(raw)) return raw;
+  if (Array.isArray((raw as any).events)) return (raw as any).events;
+  return [];
 }
 
-const events: Event[] = normalizeRawEvents(rawEventsFile as RawEventsShape).map(
-  (e, index) => ({
-    id: e.id ?? index + 1,
-    title: e.title,
-    location: e.location,
-    venue: e.venue,
-    date: e.date,
-    image: getImageForKey(e.imageKey, e.venue, e.title),
-  }),
-);
+const events: Event[] = normalizeRawEvents(
+  rawEventsFile as RawEventsShape
+).map((e, i) => ({
+  id: e.id ?? i + 1,
+  title: e.title,
+  location: e.location,
+  venue: e.venue,
+  date: e.date,
+  format: e.format,
+  conferenceAligned: e.conferenceAligned,
+  inviteOnly: e.inviteOnly,
+  complimentary: e.complimentary,
+  image: getImageForKey(e.imageKey, e.venue, e.title),
+}));
 
-/** Aspect helpers */
-function padTopPercent(aspect: "3:2" | "16:9" | "1:1"): string {
-  switch (aspect) {
-    case "3:2":
-      return "66.6667%";
-    case "16:9":
-      return "56.25%";
-    case "1:1":
-      return "100%";
-    default:
-      return "66.6667%";
-  }
-}
-
-/** Ordinal suffix: 1 -> 1st, 2 -> 2nd, 3 -> 3rd, others -> nth */
 function ordinal(n: number) {
   const j = n % 10;
   const k = n % 100;
@@ -92,165 +80,253 @@ function ordinal(n: number) {
   return `${n}th`;
 }
 
-/** Format to "13th May 2026"; accepts ISO or Date-parsable strings */
 function formatEventDate(input?: string) {
-  if (!input) return undefined;
+  if (!input) return;
   const d = new Date(input);
-  if (isNaN(d.getTime())) return input; // fallback to raw if unparsable
-
-  const day = d.getDate();
-  const year = d.getFullYear();
+  if (isNaN(d.getTime())) return input;
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "January", "February", "March",
+    "April", "May", "June",
+    "July", "August", "September",
+    "October", "November", "December",
   ];
-  const month = months[d.getMonth()];
-  return `${ordinal(day)} ${month} ${year}`;
+  return `${ordinal(d.getDate())} ${months[d.getMonth()]} ${d.getFullYear()}`;
 }
 
 interface EventsSectionProps {
   onRegisterClick: () => void;
-
-  /** Optional text block that appears directly under the section header */
   underHeader?: string;
-
-  /** Uniform image controls (defaults maintain a clean layout) */
-  imageAspect?: "3:2" | "16:9" | "1:1";
-  imagePadding?: boolean; // inner padding inside aspect box
-  imageFit?: "cover" | "contain"; // default 'contain' to avoid cropping
 }
 
 const EventsSection: React.FC<EventsSectionProps> = ({
   onRegisterClick,
   underHeader,
-  imageAspect = "3:2",
-  imagePadding = true,
-  imageFit = "contain",
 }) => {
   if (!events.length) return null;
 
-  const padTop = padTopPercent(imageAspect);
-  const imgFitClass = imageFit === "cover" ? "object-cover" : "object-contain";
+  const subline =
+    underHeader ??
+    "Invitation-only. Complimentary for invited guests.";
 
   return (
-    <section className="py-24 md:py-32 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section Header */}
-        <SectionHeader title="Upcoming " accentWord="Events" />
-
-        {/* Optional supporting copy */}
-        {underHeader && (
-          <motion.div
-            className="max-w-3xl mx-auto text-center mt-3"
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-          >
-            <p className="text-white/80 font-body text-base md:text-lg leading-relaxed">
-              {underHeader}
+    <SectionWrapper
+      variant="clean"
+      align="left"
+      padding="lux"
+      noise={false}
+      grid={false}
+      withFades={false}
+      className="events-section bg-[#FBFBFA]"
+    >
+      <div className="relative z-10 w-full">
+        {/* HEADER */}
+        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-6 md:gap-16">
+          <div className="space-y-3">
+            <h2
+              className="
+                text-[2.4rem] sm:text-[2.7rem] md:text-[2.9rem]
+                font-serif font-normal
+                leading-[1.16]
+                text-[#111]
+              "
+            >
+              Next <span className="text-teal-500">Gatherings</span>
+            </h2>
+            <p className="text-sm sm:text-[0.95rem] text-[#555] max-w-[480px]">
+              {subline}
             </p>
-          </motion.div>
-        )}
+          </div>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mt-6">
+        {/* CARDS GRID */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {events.map((event, index) => {
-            const formattedDate = formatEventDate(event.date);
+            const date = formatEventDate(event.date);
+            const isFeatured = index === 1; // optional subtle emphasis for middle card
+
+            // Build chip set (Invite-only, Complimentary, etc.)
+            const allChips: { label: string; primary: boolean }[] = [];
+            if (event.inviteOnly ?? true) {
+              allChips.push({ label: "Invite-only", primary: true });
+            }
+            if (event.complimentary ?? true) {
+              allChips.push({ label: "Complimentary", primary: false });
+            }
+            if (event.format) {
+              allChips.push({ label: event.format, primary: false });
+            }
+            if (event.conferenceAligned) {
+              allChips.push({ label: "Conference week", primary: false });
+            }
+            const chips = allChips.slice(0, 2); // fewer, stronger
 
             return (
               <motion.div
                 key={event.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className="flex justify-center"
               >
-                <Card className="bg-card/50 backdrop-blur-sm border-border/50 overflow-hidden group hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 h-full flex flex-col">
-                  {/* Aspect-ratio image area */}
-                  <div className="relative w-full flex-shrink-0">
-                    {/* Ratio spacer */}
-                    <div style={{ paddingTop: padTop }} />
-                    <div
-                      className={[
-                        "absolute inset-0 flex items-center justify-center",
-                        imagePadding ? "p-4 md:p-5" : "",
-                        "bg-gradient-to-br from-muted/30 to-muted/10",
-                      ].join(" ")}
-                    >
-                      <div className="relative h-full w-full rounded-xl overflow-hidden">
-                        <img
-                          src={event.image}
-                          alt={event.title}
-                          className={`h-full w-full ${imgFitClass} transition-transform duration-700 ease-out`}
-                          loading="lazy"
-                        />
+                <Card
+                  className={`
+                    event-card
+                    group
+                    flex flex-col h-full overflow-hidden
+                    max-w-[340px]
+                    rounded-[16px]
+                    border border-[rgba(0,0,0,0.08)]
+                    bg-[#FFFFFF]
+                    shadow-[0_10px_26px_rgba(0,0,0,0.08)]
+                    transition-transform duration-200
+                    ${isFeatured ? "md:-translate-y-[6px]" : ""}
+                    hover:-translate-y-[4px]
+                    hover:shadow-[0_18px_40px_rgba(0,0,0,0.14)]
+                    hover:border-[rgba(0,255,225,0.35)]
+                  `}
+                >
+                  {/* DATE STRIP */}
+                  {date && (
+                    <div className="bg-[#F5F6F6] border-b border-black/[0.06] px-4 py-[10px]">
+                      <div className="flex items-center gap-2 text-[13px] text-[#555]">
+                        <span className="h-2 w-2 rounded-full bg-teal-500/65" />
+                        <CalendarDays className="h-4 w-4 text-zinc-400" />
+                        <span>{date}</span>
                       </div>
-                      {/* Gentle overlay on hover */}
-                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
+                  )}
+
+                  {/* ILLUSTRATION STAGE – dark 3:2 neon stage */}
+                  <div
+                    className="
+                      event-card__media
+                      aspect-[3/2]
+                      bg-[radial-gradient(120%_120%_at_50%_30%,rgba(0,255,225,0.12),rgba(5,12,18,0.98))]
+                      px-[18px] py-[18px]
+                      border-b border-black/[0.06]
+                      flex items-center justify-center
+                    "
+                  >
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="
+                        w-full h-full
+                        object-contain
+                        transition-transform duration-200
+                        drop-shadow-[0_10px_26px_rgba(0,0,0,0.35)]
+                        group-hover:-translate-y-[3px]
+                      "
+                      loading="lazy"
+                    />
                   </div>
 
-                  <CardContent className="p-8 space-y-4 flex flex-col flex-1 text-center items-center">
-                    {/* Date row */}
-                    {formattedDate && (
-                      <div className="flex items-center gap-2 text-white/70">
-                        <CalendarDays className="h-4 w-4 text-primary/80" />
-                        <span className="font-medium text-white/85 text-sm">
-                          {formattedDate}
-                        </span>
+                  {/* BODY */}
+                  <CardContent className="flex flex-col flex-1 p-6">
+                    {/* Title + venue/city */}
+                    <div className="text-left mt-[18px] space-y-[6px]">
+                      <h3
+                        className="
+                          event-title
+                          text-[19px]
+                          font-semibold
+                          leading-[1.3]
+                          text-[#111]
+                        "
+                      >
+                        {event.title}
+                      </h3>
+                      <p className="event-meta text-sm text-zinc-600">
+                        {event.venue}
+                        {event.location ? ` • ${event.location}` : ""}
+                      </p>
+                    </div>
+
+                    {/* CHIPS */}
+                    {chips.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-[14px]">
+                        {chips.map((chip, idx) => (
+                          <div
+                            key={`${event.id}-chip-${idx}`}
+                            className={`
+                              chip
+                              inline-flex items-center
+                              rounded-[16px]
+                              px-[10px] py-[4px]
+                              text-[12px]
+                              bg-[#f6f7f8]
+                              border border-[rgba(0,0,0,0.10)]
+                              text-[#444]
+                              ${chip.primary ? "chip-primary text-teal-700" : ""}
+                            `}
+                          >
+                            {chip.primary && (
+                              <span className="mr-2 h-1.5 w-1.5 rounded-full bg-teal-500" />
+                            )}
+                            {chip.label}
+                          </div>
+                        ))}
                       </div>
                     )}
 
-                    {/* Venue + Title */}
-                    <div className="space-y-2">
-                      <p className="text-xs font-medium tracking-wider uppercase text-primary/80">
-                        {event.venue}
-                      </p>
-                      <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-300">
-                        {event.title}
-                      </h3>
-                    </div>
+                    {/* CTA + Details */}
+                    <div className="mt-[12px] pt-4 flex flex-col gap-2">
+                      <Button
+                        onClick={onRegisterClick}
+                        className="
+                          cta
+                          w-full rounded-full
+                          text-sm font-medium
+                          border border-[rgba(0,200,170,0.60)]
+                          bg-[rgba(0,200,170,0.08)]
+                          text-zinc-900
+                          hover:bg-teal-500
+                          hover:text-white
+                        "
+                        variant="outline"
+                      >
+                        Register interest
+                      </Button>
 
-                    {/* Location */}
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin className="h-4 w-4 text-primary/70 flex-shrink-0" />
-                      <span className="text-sm leading-relaxed">
-                        {event.location}
-                      </span>
+                      <button
+                        type="button"
+                        className="
+                          details-link
+                          self-start
+                          text-[13px]
+                          text-[#777]
+                          inline-flex items-center gap-1
+                          hover:text-teal-500
+                        "
+                      >
+                        <span>Details</span>
+                        <ArrowRight className="h-3.5 w-3.5" />
+                      </button>
                     </div>
-
-                    {/* CTA */}
-                    <Button
-                      onClick={onRegisterClick}
-                      className="w-full mt-auto rounded-full font-body uppercase tracking-wider text-sm bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground border border-primary/30 hover:border-primary transition-all duration-300"
-                    >
-                      Learn More
-                      <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                    </Button>
                   </CardContent>
                 </Card>
               </motion.div>
             );
           })}
         </div>
+
+        {/* VIEW ALL EVENTS – aligned to card grid */}
+        <div className="mt-10 flex justify-end">
+          <a
+            href="/events"
+            className="
+              inline-flex items-center gap-1
+              text-[14px] text-[#555]
+              hover:text-teal-500
+            "
+          >
+            <span>View all events</span>
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 

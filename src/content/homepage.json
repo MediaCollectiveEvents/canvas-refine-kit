@@ -7,17 +7,17 @@
       "label": "Join us",
       "url": "/register"
     },
-    "imageOffset": 3,
+    "imageOffset": 0,
     "cta": {
       "url": "/partners",
-      "label": "Help us host"
+      "label": "Request an Invitation"
     },
-    "overlayStrength": 0.05,
+    "overlayStrength": 1,
     "mobileCrop": "contain",
     "subtitle": "Media and entertainment industry",
     "title": "Curated Events",
     "image": "/uploads/bloghero2.png",
-    "description": "Invite-only free industry gatherings",
+    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
       "label": "Help us host",
       "url": "/partners"
@@ -27,8 +27,8 @@
     {
       "type": "aboutIntro",
       "heading": "About Us",
-      "body": "We bring together senior executives, innovators, and thought leaders from across the global media industry.",
-      "extended": "Our events offer space to catch up with peers and expand your network. From relaxed breakfast briefings to evening receptions, exclusive screenings, talks, and panel discussions. Join us to share and gather insights with great company in a relaxed environment.",
+      "body": "We bring people together at key moments across the media calendar.\n\nOur events range from panel discussions and screenings to informal gatherings, often aligned with major conferences. \n\nSupported by selected sponsors, each event is independently curated and complimentary to attend. ",
+      "extended": "",
       "styleTitle": {
         "eyebrow": "",
         "sub": "",
@@ -47,11 +47,11 @@
     },
     {
       "type": "whoAttends",
-      "heading": "Who Attends",
+      "heading": "In The Room",
       "statistics": {
-        "companies": "Over 300 companies",
-        "boardLevel": "Over 100 board-level executives",
-        "founders": "34 startup founders"
+        "companies": "Executives from over 300 companies have attended our events.",
+        "boardLevel": ".",
+        "founders": "."
       },
       "highlights": [
         {

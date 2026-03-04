@@ -1,64 +1,113 @@
 import SectionWrapper from "../layout/SectionWrapper";
-import SectionTitle from "@/components/layout/SectionTitle";
 import type { AboutIntroSection as AboutIntroSectionType } from "@/lib/homepage";
 
 interface Props {
   section: AboutIntroSectionType & {
+    themeMode?: "light" | "dark";
     styleTitle?: {
       eyebrow?: string;
       sub?: string;
-      align?: "center" | "left" | "right";
-      tone?: "default" | "muted";
-      disableEmphasis?: boolean;
     };
     styleWrapper?: {
-      variant?: "clean" | "tint" | "glow";
       padding?: "lux" | "regular";
-      noise?: boolean;
-      grid?: boolean;
-      withFades?: boolean;
     };
   };
 }
 
 export function AboutIntroSection({ section }: Props) {
-  const t = section.styleTitle ?? {};
   const w = section.styleWrapper ?? {};
+
+  const theme = section.themeMode ?? "light";
+  const isDark = theme === "dark";
+
+  // Accent last word
+  const heading = section.heading ?? "About Us";
+  const parts = heading.split(" ");
+  const last = parts.pop();
+  const first = parts.join(" ");
 
   return (
     <SectionWrapper
-      variant={w.variant ?? "clean"}
-      padding={w.padding ?? "lux"}
-      noise={w.noise ?? false}
-      grid={w.grid ?? false}
-      withFades={w.withFades ?? true}
-      className="relative overflow-hidden"
+      variant="clean"
+      padding={w.padding ?? "regular"}
+      noise={false}
+      grid={false}
+      withFades={false}
+      align="left"
+      className={`
+        relative overflow-hidden
+        ${isDark ? "bg-[#0C1117]" : "bg-[#F7F9FA]"}
+      `}
     >
-      <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Admin‑controlled section title */}
-        <SectionTitle
-          eyebrow={t.eyebrow}
-          sub={t.sub}
-          align={t.align ?? "center"}
-          tone={t.tone ?? "default"}
-          disableEmphasis={t.disableEmphasis ?? false}
-        >
-          {section.heading ?? "About Us"}
-        </SectionTitle>
+      <div className="relative z-10 w-full text-left">
 
-        {/* Primary body */}
-        {section.body && (
-          <p className="text-lg text-white/85 font-body leading-relaxed mb-6">
-            {section.body}
-          </p>
-        )}
+        {/* =============================== */}
+        {/* 40 / 60 GRID (same as In The Room) */}
+        {/* =============================== */}
+        <div className="
+          grid grid-cols-1 
+          md:grid-cols-[40%_60%]
+          gap-10 md:gap-16
+          items-start
+          relative
+        ">
 
-        {/* Extended body */}
-        {section.extended && (
-          <p className="text-lg text-white/70 font-body leading-relaxed">
-            {section.extended}
-          </p>
-        )}
+          {/* -------- LEFT COLUMN -------- */}
+          <div className="pt-0">
+            <h2
+              className={`
+                text-[2.4rem] sm:text-[2.6rem] md:text-[2.75rem]
+                font-serif font-normal leading-[1.18]
+                ${isDark ? "text-white" : "text-[#1A1C1E]"}
+              `}
+            >
+              {first}{" "}
+              <span className="text-teal-500">{last}</span>
+            </h2>
+          </div>
+
+          {/* -------- RIGHT COLUMN -------- */}
+          <div className="max-w-[620px]">
+            {section.body && (
+              <p
+                className={`
+                  text-[1.0625rem]
+                  leading-[1.65]
+                  mb-6
+                  ${isDark ? "text-white/90" : "text-zinc-700"}
+                `}
+              >
+                {section.body}
+              </p>
+            )}
+
+            {section.extended && (
+              <p
+                className={`
+                  text-[1.0625rem]
+                  leading-[1.65]
+                  mb-6
+                  ${isDark ? "text-white/80" : "text-zinc-700"}
+                `}
+              >
+                {section.extended}
+              </p>
+            )}
+          </div>
+
+          {/* =============================== */}
+          {/* VERTICAL DIVIDER BETWEEN COLUMNS */}
+          {/* =============================== */}
+          <div
+            className={`
+              hidden md:block absolute 
+              left-[40%] top-0 bottom-0 
+              w-[2px]
+              ${isDark ? "bg-white/25" : "bg-zinc-800/25"}
+            `}
+          />
+
+        </div>
       </div>
     </SectionWrapper>
   );

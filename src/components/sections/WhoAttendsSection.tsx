@@ -1,18 +1,5 @@
 import React from "react";
 import SectionWrapper from "@/components/layout/SectionWrapper";
-import SectionTitle from "@/components/layout/SectionTitle";
-import { Globe, Film, Play } from "lucide-react";
-
-// Optional shared styles (only if you created them; otherwise keep inline types below)
-// import type { StyleTitle, StyleWrapper } from "@/lib/sectionStyles";
-
-type IconName = "globe" | "film" | "play";
-
-type WhoAttendsHighlight = {
-  title?: string;
-  subtitle?: string;
-  icon?: IconName;
-};
 
 type WhoAttendsSectionData = {
   type: "whoAttends";
@@ -22,147 +9,125 @@ type WhoAttendsSectionData = {
     boardLevel?: string;
     founders?: string;
   };
-  highlights?: WhoAttendsHighlight[];
-
-  // Admin-driven styling (from Decap)
-  styleTitle?: {
-    eyebrow?: string;
-    sub?: string;
-    align?: "center" | "left" | "right";
-    tone?: "default" | "muted";
-    disableEmphasis?: boolean;
-  };
-  styleWrapper?: {
-    variant?: "clean" | "tint" | "glow";
-    padding?: "lux" | "regular";
-    noise?: boolean;
-    grid?: boolean;
-    withFades?: boolean;
-  };
 };
 
 interface WhoAttendsSectionProps {
   section: WhoAttendsSectionData;
 }
 
-const iconMap: Record<IconName, React.FC<any>> = {
-  globe: Globe,
-  film: Film,
-  play: Play,
-};
-
 const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
-  const {
-    heading = "Who Attends",
-    statistics = {},
-    highlights = [],
-    styleTitle,
-    styleWrapper,
-  } = section;
+  const { heading } = section;
 
-  const { companies, boardLevel, founders } = statistics;
+  // Allow CMS heading, but accent last word in teal (e.g. "In The Room")
+  const rawHeading = heading ?? "In The Room";
+  const words = rawHeading.trim().split(" ");
+  const lastWord = words.pop() ?? "";
+  const firstPart = words.join(" ");
 
-  // Intro paragraphs (safe fallbacks)
-  const intro: string[] = [
-    `${companies ?? "Over 300 companies"} across media, entertainment and technology have attended our events.`,
-    `Our events are free‑invite only and curated for a maximum of 120 guests, attracting industry leaders and innovators. This includes ${boardLevel ?? "over 100 board-level executives"} and ${founders ?? "34 startup founders"}.`,
-  ];
-
-  // Defaults if CMS list is empty
-  const defaultHighlights: WhoAttendsHighlight[] = [
-    { title: "The Top 3", subtitle: "Global Tech Giants", icon: "globe" },
-    { title: "The Major 5", subtitle: "Hollywood Studios", icon: "film" },
-    { title: "The Leading 8", subtitle: "Streaming Platforms", icon: "play" },
-  ];
-
-  const effectiveHighlights =
-    highlights && highlights.length > 0 ? highlights : defaultHighlights;
-
-  // Subtle, premium palette per card
-  const iconColorClasses = [
-    "text-teal-300",
-    "text-violet-300",
-    "text-amber-300",
-  ];
-  const circleBgClasses = [
-    "bg-teal-300/15",
-    "bg-violet-300/15",
-    "bg-amber-300/15",
-  ];
-
-  // Title styling defaults (admins can override in CMS)
-  const t = styleTitle ?? {};
-  const w = styleWrapper ?? {};
+  const intro =
+    "Executives from more than 300 companies have attended our events, including leaders from the world’s most influential technology companies, film studios and streaming platforms.";
 
   return (
     <SectionWrapper
-      variant={w.variant ?? "tint"}
-      padding={w.padding ?? "lux"}
-      noise={w.noise ?? false}
-      grid={w.grid ?? true}
-      withFades={w.withFades ?? true}
-      className="overflow-hidden"
+      variant="clean"
+      align="left"
+      padding="lux"
+      noise={false}
+      grid={false}
+      withFades={false}
+      className="
+        relative overflow-hidden
+        pt-[120px] pb-[130px]
+        bg-gradient-to-b from-[#0B1015] to-[#0E1A1D]
+      "
     >
-      <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <SectionTitle
-          eyebrow={t.eyebrow}
-          sub={t.sub ?? "A snapshot of our community"}
-          align={t.align ?? "center"}
-          tone={t.tone ?? "default"}
-          disableEmphasis={t.disableEmphasis ?? false}
-        >
-          {heading}
-        </SectionTitle>
+      {/* Very soft glow */}
+      <div
+        className="
+          absolute inset-0 pointer-events-none
+          bg-[radial-gradient(circle_at_center,rgba(0,200,170,0.025)_0%,rgba(0,0,0,0)_60%)]
+        "
+      />
 
-        {/* Intro paragraphs */}
-        <div className="mx-auto max-w-3xl text-center space-y-4 text-white/80 font-body text-lg leading-relaxed mb-12">
-          {intro.map((p, idx) => (
-            <p key={idx}>{p}</p>
-          ))}
+      <div className="relative z-10 w-full text-left">
+        {/* 2-COLUMN INTRO – SAME GRID AS ABOUT */}
+        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-10 md:gap-16 items-start mb-[72px]">
+          {/* LEFT COLUMN – eyebrow + heading */}
+          <div>
+            <p className="text-xs tracking-[0.15em] uppercase text-white/60 mb-4">
+              Attendees
+            </p>
+            <h2
+              className="
+                text-[2.75rem] sm:text-[3rem] md:text-[3.1rem]
+                font-serif font-normal
+                leading-[1.18]
+                text-white
+              "
+            >
+              {firstPart}{" "}
+              <span className="text-teal-400">{lastWord}</span>
+            </h2>
+          </div>
+
+          {/* RIGHT COLUMN – paragraph + divider */}
+          <div className="max-w-[620px]">
+            <p className="text-[1.15rem] leading-[1.65] text-white/80">
+              {intro}
+            </p>
+
+            {/* Divider aligned to paragraph start */}
+            <div className="mt-7 mb-12">
+              <div
+                className="
+                  h-[2px] w-[160px]
+                  bg-gradient-to-r from-white/30 to-white/0
+                "
+              />
+            </div>
+          </div>
         </div>
 
-        {/* Highlight cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 md:gap-6">
-          {effectiveHighlights.map(({ title, subtitle, icon }, idx) => {
-            const Icon = iconMap[(icon ?? "globe") as IconName];
-            const iconColor =
-              iconColorClasses[idx] ??
-              iconColorClasses[iconColorClasses.length - 1];
-            const circleBg =
-              circleBgClasses[idx] ??
-              circleBgClasses[circleBgClasses.length - 1];
+        {/* 3–5–8 GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-[64px] md:gap-[80px] items-start">
+          {/* 3 */}
+          <div className="flex flex-col">
+            <span className="text-[64px] sm:text-[68px] md:text-[72px] font-semibold text-white leading-none">
+              3
+            </span>
+            <span className="text-[1.1rem] mt-3 font-semibold text-teal-400">
+              Top
+            </span>
+            <span className="text-[0.95rem] text-white/75 mt-[6px] leading-relaxed">
+              Global Technology Giants
+            </span>
+          </div>
 
-            return (
-              <div
-                key={`${title}-${idx}`}
-                className="
-                  group rounded-2xl border border-white/10 bg-white/[0.02] 
-                  p-6 md:p-7 text-center transition
-                  hover:bg-white/[0.04]
-                "
-              >
-                {/* Icon circle */}
-                <div
-                  className={`mx-auto w-14 h-14 rounded-full flex items-center justify-center mb-4 ${circleBg}`}
-                >
-                  <Icon className={`w-7 h-7 ${iconColor}`} />
-                </div>
+          {/* 5 */}
+          <div className="flex flex-col">
+            <span className="text-[64px] sm:text-[68px] md:text-[72px] font-semibold text-white leading-none">
+              5
+            </span>
+            <span className="text-[1.1rem] mt-3 font-semibold text-teal-400">
+              Major
+            </span>
+            <span className="text-[0.95rem] text-white/75 mt-[6px] leading-relaxed">
+              Hollywood Studios
+            </span>
+          </div>
 
-                <h3 className="text-white/90 font-sans text-lg md:text-xl font-medium">
-                  {title ?? "Highlight"}
-                </h3>
-
-                {subtitle && (
-                  <p className="text-white/60 font-body text-sm mt-1">
-                    {subtitle}
-                  </p>
-                )}
-
-                {/* Subtle divider line on hover */}
-                <div className="mt-4 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition" />
-              </div>
-            );
-          })}
+          {/* 8 */}
+          <div className="flex flex-col">
+            <span className="text-[64px] sm:text-[68px] md:text-[72px] font-semibold text-white leading-none">
+              8
+            </span>
+            <span className="text-[1.1rem] mt-3 font-semibold text-teal-400">
+              Leading
+            </span>
+            <span className="text-[0.95rem] text-white/75 mt-[6px] leading-relaxed">
+              Streaming Platforms
+            </span>
+          </div>
         </div>
       </div>
     </SectionWrapper>
@@ -170,4 +135,3 @@ const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
 };
 
 export default WhoAttendsSection;
-``;
