@@ -31,7 +31,6 @@ interface PageHeroProps {
   imageOffset?: number;
 }
 
-/* 🛡️ Detect Decap CMS preview iframe */
 function inDecapPreviewIframe(): boolean {
   if (typeof document !== "undefined") {
     return (
@@ -42,25 +41,25 @@ function inDecapPreviewIframe(): boolean {
   return false;
 }
 
-export default function PageHero({
-  eyebrow,
-  title,
-  description,
-  primaryCtaText,
-  primaryCtaHref,
-  onPrimaryClick,
-  backgroundImage,
-  image,
-  imageKey,
-  variant = "image",
-  overlayStrength = 0.75,
-  theme = "dark",
-  mobileCrop = "cover",
-  imagePosition = "center",
-  imageOffset = 0,
-}: PageHeroProps) {
-  
-  /* 🛡️ SAFE FALLBACK FOR DECAP PREVIEW */
+export default function PageHero(props: PageHeroProps) {
+  const {
+    eyebrow,
+    title,
+    description,
+    primaryCtaText,
+    primaryCtaHref,
+    onPrimaryClick,
+    backgroundImage,
+    image,
+    imageKey,
+    variant = "image",
+    overlayStrength = 0.75,
+    theme = "dark",
+    mobileCrop = "cover",
+    imagePosition = "center",
+    imageOffset = 0,
+  } = props;
+
   const isPreview = inDecapPreviewIframe();
 
   let y: MotionValue<number> | 0 = 0;
@@ -72,16 +71,13 @@ export default function PageHero({
 
   const isLight = theme === "light";
 
-  // Universal image resolution
   const resolvedBackgroundImage =
     backgroundImage ||
     image ||
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
 
-  const s =
-    overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
+  const s = overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
 
-  // DARK THEME CLASSES (unchanged)
   const darkVignetteClass =
     s >= 0.9
       ? "from-black/80 via-black/60"
@@ -93,17 +89,6 @@ export default function PageHero({
       ? "from-black/30 via-black/20"
       : "from-black/10 via-black/10";
 
-  const darkBloomOpacity =
-    s >= 0.9
-      ? "opacity-80"
-      : s >= 0.75
-      ? "opacity-60"
-      : s >= 0.5
-      ? "opacity-50"
-      : s >= 0.25
-      ? "opacity-40"
-      : "opacity-30";
-
   const darkBrandWashClass =
     s >= 0.9
       ? "bg-primary/5"
@@ -114,23 +99,6 @@ export default function PageHero({
       : s >= 0.25
       ? "bg-primary/1"
       : "bg-transparent";
-
-  // LIGHT classes
-  const lightBloomOpacity = "opacity-40";
-  const lightBloomGradient =
-    "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)";
-  const lightTintClass = "bg-white/40 mix-blend-lighten";
-
-  const titleClass = isLight
-    ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
-    : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
-
-  const descClass = isLight ? "text-zinc-700" : "text-primary";
-  const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
-
-  const secondaryButtonClass = isLight
-    ? "border-zinc/20 text-zinc-900 bg-white/60 hover:bg-zinc-100"
-    : "border-primary/60 text-primary bg-black/40 hover:bg-primary/10";
 
   const positionClass =
     imagePosition === "top"
@@ -147,6 +115,13 @@ export default function PageHero({
   const hasClickCta = !!(primaryCtaText && onPrimaryClick);
   const hasLinkCta = !!(primaryCtaText && primaryCtaHref);
 
+  const titleClass = isLight
+    ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
+    : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
+
+  const descClass = isLight ? "text-zinc-700" : "text-primary";
+  const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
+
   return (
     <header
       className={`
@@ -157,7 +132,7 @@ export default function PageHero({
         ${isLight ? "bg-white" : "bg-background"}
       `}
     >
-      {/* BACKGROUND */}
+      {/* BACKGROUND IMAGE */}
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className={`absolute inset-0 will-change-transform ${backgroundClasses}`}
@@ -171,25 +146,41 @@ export default function PageHero({
 
       {/* OVERLAYS */}
       {isLight ? (
+        /* unchanged light mode */
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
-            className={`absolute inset-0 ${lightBloomOpacity} mix-blend-screen`}
-            style={{ background: lightBloomGradient }}
+            className="absolute inset-0 opacity-40 mix-blend-screen"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)",
+            }}
           />
-          <div className={`absolute inset-0 ${lightTintClass}`} />
+          <div className="absolute inset-0 bg-white/40 mix-blend-lighten" />
         </div>
       ) : (
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+          {/* Top/bottom vignette */}
           <div
             className={`absolute inset-0 bg-gradient-to-b ${darkVignetteClass} to-transparent`}
           />
+
+          {/* ⭐ Blue‑tinged dark centre radial filter */}
           <div
-            className={`absolute inset-0 ${darkBloomOpacity} mix-blend-screen`}
+            className="absolute inset-0 opacity-90"
             style={{
-              background:
-                "radial-gradient(circle at center, rgba(54,224,198,0.14) 0%, rgba(120,180,255,0.08) 40%, rgba(0,0,0,0) 80%)",
+              background: `
+                radial-gradient(circle at center,
+                  rgba(15,23,42,1.0) 0%,      /* PURE universal blue centre */
+                  rgba(15,23,42,0.88) 32%,    /* richer blue middle */
+                  rgba(15,23,42,0.55) 60%,    /* soft falloff */
+                  rgba(15,23,42,0) 100%       /* fade to transparent */
+                )
+              `,
+              mixBlendMode: "multiply",
             }}
           />
+
+          {/* Subtle brand wash */}
           <div
             className={`absolute inset-0 ${darkBrandWashClass} mix-blend-soft-light`}
           />
@@ -211,7 +202,11 @@ export default function PageHero({
         <div className="max-w-3xl mx-auto text-center">
           {eyebrow && (
             <p
-              className={`${eyebrowClass} font-body tracking-widest uppercase mb-6 text-sm md:text-base`}
+              className={`
+                ${eyebrowClass}
+                font-body tracking-widest uppercase mb-6
+                text-sm md:text-base
+              `}
             >
               {eyebrow}
             </p>
@@ -231,13 +226,16 @@ export default function PageHero({
 
           {description && (
             <p
-              className={`${descClass} font-body text-base sm:text-lg md:text-xl leading-relaxed max-w-xl mx-auto mb-12`}
+              className={`
+                ${descClass}
+                font-body text-base sm:text-lg md:text-xl
+                leading-relaxed max-w-xl mx-auto mb-12
+              `}
             >
               {description}
             </p>
           )}
 
-          {/* CTA */}
           {primaryCtaText && (hasClickCta || hasLinkCta) && (
             <div className="relative flex flex-wrap justify-center gap-4 mt-4">
               {hasClickCta && (
@@ -255,7 +253,7 @@ export default function PageHero({
                   asChild
                   size="lg"
                   variant="outline"
-                  className={`rounded-full px-8 py-3 ${secondaryButtonClass} transition-transform hover:scale-[1.03]`}
+                  className="rounded-full px-8 py-3 border-primary/60 text-primary bg-black/40 hover:bg-primary/10 hover:scale-[1.03]"
                 >
                   <a href={primaryCtaHref}>{primaryCtaText}</a>
                 </Button>
@@ -265,10 +263,8 @@ export default function PageHero({
         </div>
       </motion.div>
 
-      {/* SCROLL INDICATOR (desktop‑only) */}
       <ScrollIndicator />
 
-      {/* SOFT NEUTRAL DIVIDER — Option A */}
       <div
         className="absolute bottom-0 left-0 right-0 h-px bg-zinc-300/15"
         aria-hidden="true"

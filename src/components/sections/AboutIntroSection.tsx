@@ -1,114 +1,109 @@
-import SectionWrapper from "../layout/SectionWrapper";
-import type { AboutIntroSection as AboutIntroSectionType } from "@/lib/homepage";
+// src/components/sections/AboutIntroSection.tsx
 
-interface Props {
-  section: AboutIntroSectionType & {
-    themeMode?: "light" | "dark";
-    styleTitle?: {
-      eyebrow?: string;
-      sub?: string;
-    };
-    styleWrapper?: {
-      padding?: "lux" | "regular";
-    };
+import React from "react";
+import SectionWrapper from "../layout/SectionWrapper";
+import { motion } from "framer-motion";
+
+interface AboutIntroSectionProps {
+  section: {
+    title?: string;
+    body?: string;
   };
 }
 
-export function AboutIntroSection({ section }: Props) {
-  const w = section.styleWrapper ?? {};
+const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({ section }) => {
+  const bodyText =
+    section?.body ??
+    "We bring people together at key moments across the media calendar. Our events range from panel discussions and screenings to informal gatherings, often aligned with major conferences. Supported by selected sponsors, each event is independently curated and complimentary to attend.";
 
-  const theme = section.themeMode ?? "light";
-  const isDark = theme === "dark";
-
-  // Accent last word
-  const heading = section.heading ?? "About Us";
-  const parts = heading.split(" ");
-  const last = parts.pop();
-  const first = parts.join(" ");
+  const paragraphs = bodyText
+    .split(". ")
+    .map((p) => p.trim())
+    .filter((p) => p.length > 0);
 
   return (
     <SectionWrapper
-      variant="clean"
-      padding={w.padding ?? "regular"}
-      noise={false}
+      variant="light"
+      align="left"
+      padding="lux"
+      noise={true}
       grid={false}
       withFades={false}
-      align="left"
-      className={`
-        relative overflow-hidden
-        ${isDark ? "bg-[#0C1117]" : "bg-[#F7F9FA]"}
-      `}
+      className="bg-[#ECEFF1]"
     >
-      <div className="relative z-10 w-full text-left">
-
-        {/* =============================== */}
-        {/* 40 / 60 GRID (same as In The Room) */}
-        {/* =============================== */}
-        <div className="
-          grid grid-cols-1 
-          md:grid-cols-[40%_60%]
-          gap-10 md:gap-16
-          items-start
+      <div
+        className="
           relative
-        ">
+          grid
+          md:grid-cols-[minmax(0,1.5fr)_1px_minmax(0,3.5fr)]
+          gap-12 md:gap-20
+          items-start
+        "
+      >
 
-          {/* -------- LEFT COLUMN -------- */}
-          <div className="pt-0">
-            <h2
-              className={`
-                text-[2.4rem] sm:text-[2.6rem] md:text-[2.75rem]
-                font-serif font-normal leading-[1.18]
-                ${isDark ? "text-white" : "text-[#1A1C1E]"}
-              `}
-            >
-              {first}{" "}
-              <span className="text-teal-500">{last}</span>
-            </h2>
-          </div>
+        {/* LEFT — Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="pt-[0.25rem]"
+        >
+          <h2
+            className="
+              font-serif
+              text-[2.2rem] sm:text-[2.4rem] md:text-[2.6rem]
+              leading-[1.16]
+              tracking-tight
+              text-[#0F172A]
+            "
+          >
+            About <span className="text-[#27CDBA]">Us</span>
+          </h2>
+        </motion.div>
 
-          {/* -------- RIGHT COLUMN -------- */}
-          <div className="max-w-[620px]">
-            {section.body && (
+        {/* MIDDLE — Divider */}
+        <div
+          aria-hidden="true"
+          className="
+            hidden md:block
+            h-full
+            w-px
+            bg-black/15
+            mt-[0.75rem]
+            mb-[0.75rem]
+          "
+        />
+
+        {/* RIGHT — Text Block */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="pr-10"
+        >
+          <div className="space-y-10">
+            {paragraphs.map((p, i) => (
               <p
-                className={`
-                  text-[1.0625rem]
-                  leading-[1.65]
-                  mb-6
-                  ${isDark ? "text-white/90" : "text-zinc-700"}
-                `}
+                key={i}
+                className="
+                  text-[1.3rem]
+                  leading-[2.1]
+                  font-normal
+                  tracking-[0.005em]
+                  text-[#1E293B]
+                "
+                style={{ wordSpacing: "0.02em" }}
               >
-                {section.body}
+                {p.endsWith(".") ? p : p + "."}
               </p>
-            )}
-
-            {section.extended && (
-              <p
-                className={`
-                  text-[1.0625rem]
-                  leading-[1.65]
-                  mb-6
-                  ${isDark ? "text-white/80" : "text-zinc-700"}
-                `}
-              >
-                {section.extended}
-              </p>
-            )}
+            ))}
           </div>
-
-          {/* =============================== */}
-          {/* VERTICAL DIVIDER BETWEEN COLUMNS */}
-          {/* =============================== */}
-          <div
-            className={`
-              hidden md:block absolute 
-              left-[40%] top-0 bottom-0 
-              w-[2px]
-              ${isDark ? "bg-white/25" : "bg-zinc-800/25"}
-            `}
-          />
-
-        </div>
+        </motion.div>
       </div>
     </SectionWrapper>
   );
-}
+};
+
+export default AboutIntroSection;

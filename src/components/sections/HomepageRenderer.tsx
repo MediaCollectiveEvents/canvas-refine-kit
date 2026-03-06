@@ -1,7 +1,8 @@
 // src/components/sections/HomepageRenderer.tsx
+
 import React from "react";
 
-import { AboutIntroSection } from "./AboutIntroSection";
+import AboutIntroSection from "./AboutIntroSection";
 import WhoAttendsSection from "./WhoAttendsSection";
 import TestimonialsSection from "./TestimonialsSection";
 import ForBrandsSection from "./ForBrandsSection";
@@ -38,18 +39,29 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
           switch (section.type) {
             case "aboutIntro":
               // CMS-driven About Intro section
-              return <AboutIntroSection key={key} section={section as any} />;
+              return (
+                <AboutIntroSection
+                  key={key}
+                  section={section as any}
+                />
+              );
 
             case "whoAttends":
               // CMS-driven Who Attends section
-              return <WhoAttendsSection key={key} section={section as any} />;
+              // (WhoAttendsSection currently expects only `section`)
+              return (
+                <WhoAttendsSection
+                  key={key}
+                  section={section as any}
+                />
+              );
 
             case "upcomingEventsIntro":
-              // Render Upcoming Events block HERE so it reorders with sections
+              // Upcoming events / Next Gatherings block
               return (
                 <EventsSection
                   key={key}
-                  onRegisterClick={onRegister}
+                  onRegisterClick={onRegister ?? (() => {})}
                   underHeader={section.underHeader}
                   imageAspect={section.imageAspect ?? "3:2"}
                   imageFit={section.imageFit ?? "contain"}
@@ -58,11 +70,12 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
                       ? section.imagePadding
                       : true
                   }
+                  section={section as any}
                 />
               );
 
             case "testimonials":
-              // Carousel with testimonials
+              // Editorial pull-quote / testimonials
               return <TestimonialsSection key={key} />;
 
             case "joinCommunity":
@@ -87,11 +100,21 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
 
             case "forBrands":
               // CMS-driven For Brands & Partners section
-              return <ForBrandsSection key={key} section={section as any} />;
+              return (
+                <ForBrandsSection
+                  key={key}
+                  section={section as any}
+                />
+              );
 
             case "partners":
               // Partners section from CMS
-              return <PartnersSection key={key} section={section as any} />;
+              return (
+                <PartnersSection
+                  key={key}
+                  section={section as any}
+                />
+              );
 
             default:
               console.warn(
@@ -106,4 +129,3 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
 }
 
 export default HomepageRenderer;
-``;

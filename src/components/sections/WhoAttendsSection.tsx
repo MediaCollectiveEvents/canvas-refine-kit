@@ -2,125 +2,163 @@
 
 import React from "react";
 import SectionWrapper from "../layout/SectionWrapper";
+import { motion } from "framer-motion";
 
 interface WhoAttendsSectionProps {
-  section: {
-    heading?: string;
-    statistics?: {
-      companies?: string;
-      boardLevel?: string;
-      founders?: string;
-    };
-  };
+  onRegisterClick?: () => void;
+  section?: any;
 }
 
-const WhoAttendsSection: React.FC<WhoAttendsSectionProps> = ({ section }) => {
-  const heading = section.heading ?? "In The Room";
+const intro =
+  "Executives from more than 300 companies have attended our events, including leaders from the world's most influential technology companies, film studios and streaming platforms.";
 
-  const intro =
-    "Executives from more than 300 companies have attended our events, including leaders from the world’s most influential technology companies, film studios and streaming platforms.";
+const STATS = [
+  {
+    num: "3",
+    smallLabel: "TOP",
+    mainLabel: "Global Technology Giants",
+    size: 52,
+  },
+  {
+    num: "5",
+    smallLabel: "MAJOR",
+    mainLabel: "Hollywood Studios",
+    size: 90,
+  },
+  {
+    num: "8",
+    smallLabel: "DOMINANT",
+    mainLabel: "Streaming Platforms",
+    size: 120,
+  },
+];
 
+export default function WhoAttendsSection(props: WhoAttendsSectionProps) {
   return (
     <SectionWrapper
-      variant="clean"
+      variant="dark"
       align="left"
       padding="lux"
-      noise={false}
+      noise={true}
       grid={false}
       withFades={false}
-      className="bg-[#0B1117] text-white py-[120px]"
+      className="bg-[#0F172A] text-white"
     >
-      <div className="relative z-10 w-full">
-        {/* HEADER BLOCK */}
-        <div className="grid grid-cols-1 md:grid-cols-[40%_60%] gap-10 md:gap-16 items-start">
-          <div>
-            <p className="text-xs tracking-[0.15em] uppercase text-white/60 mb-4">
-              Attendees
-            </p>
+      {/* HEADER GRID – heading | intro (divider is a border on intro column) */}
+      <div
+        className="
+          relative
+          grid
+          md:grid-cols-[minmax(0,1.5fr)_minmax(0,3.5fr)]
+          gap-12 md:gap-20
+          items-start
+        "
+      >
+        {/* LEFT — HEADING (weight you liked) */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
+          className="pt-[0.75rem] max-w-fit"
+        >
+          <h2
+            className="
+              font-[Montserrat]
+              text-[2.1rem] sm:text-[2.25rem] md:text-[2.4rem]
+              leading-[1.16]
+              tracking-tight
+              font-light
+              text-white
+              whitespace-nowrap
+            "
+          >
+            Who{" "}
+            <span className="text-[#27CDBA] font-normal">
+              Attends
+            </span>
+          </h2>
+        </motion.div>
 
-            <h2
+        {/* RIGHT — INTRO TEXT WITH DIVIDER */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="
+            md:border-l md:border-white/30   /* vertical divider */
+            md:pl-10                          /* space between divider & text */
+            pr-10
+          "
+        >
+          <p
+            className="
+              text-[1.3rem]
+              leading-[2.1]
+              font-normal
+              tracking-[0.005em]
+              text-white/80
+              max-w-none
+            "
+            style={{ wordSpacing: "0.02em" }}
+          >
+            {intro}
+          </p>
+        </motion.div>
+      </div>
+
+      {/* SPACING BEFORE STATS */}
+      <div className="mt-16 md:mt-20" />
+
+      {/* STATS – with emphasised 5 and 8 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 place-items-center">
+        {STATS.map((s, i) => (
+          <motion.div
+            key={s.num}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45, delay: i * 0.07 }}
+            className="text-center max-w-[360px]"
+          >
+            {/* NUMBER + SMALL LABEL — normalised baseline */}
+            <div className="flex flex-col items-center justify-end h-[130px]">
+              <span
+                className="font-bold text-white leading-none"
+                style={{ fontSize: `${s.size}px` }}
+              >
+                {s.num}
+              </span>
+
+              <span
+                className="
+                  mt-3
+                  text-[0.95rem]
+                  tracking-[0.10em]
+                  uppercase
+                  text-[#27CDBA]
+                "
+              >
+                {s.smallLabel}
+              </span>
+            </div>
+
+            {/* MAIN LABEL */}
+            <p
               className="
-                text-[2.75rem] sm:text-[3rem] md:text-[3.1rem]
-                font-serif font-normal
-                leading-[1.18]
+                mt-2
+                text-[1.35rem]
+                leading-[1.45]
+                font-semibold
+                text-white/90
               "
             >
-              In The <span className="text-teal-400">Room</span>
-            </h2>
-          </div>
-
-          <div className="max-w-[580px]">
-            <p className="text-[1.05rem] leading-[1.65] text-white/80">
-              {intro}
+              {s.mainLabel}
             </p>
-
-            <div className="mt-8 mb-12">
-              <div className="h-[2px] w-[160px] bg-white/20" />
-            </div>
-          </div>
-        </div>
-
-        {/* PERFECTLY ALIGNED GRID WITH EVENTS */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12">
-
-          {/* -------- 3 / Top -------- */}
-          <div className="flex justify-center">
-            <div className="max-w-[340px]">
-              <div className="flex items-baseline gap-3">
-                <span className="text-[80px] font-semibold leading-none">
-                  3
-                </span>
-                <span className="text-[1.2rem] font-semibold text-teal-400">
-                  Top
-                </span>
-              </div>
-
-              <p className="text-[1rem] text-white/75 mt-3 leading-relaxed">
-                Global Technology Giants
-              </p>
-            </div>
-          </div>
-
-          {/* -------- 5 / Major -------- */}
-          <div className="flex justify-center">
-            <div className="max-w-[340px]">
-              <div className="flex items-baseline gap-3">
-                <span className="text-[88px] font-semibold leading-none">
-                  5
-                </span>
-                <span className="text-[1.2rem] font-semibold text-teal-400">
-                  Major
-                </span>
-              </div>
-
-              <p className="text-[1rem] text-white/75 mt-3 leading-relaxed">
-                Hollywood Studios
-              </p>
-            </div>
-          </div>
-
-          {/* -------- 8 / Leading -------- */}
-          <div className="flex justify-center">
-            <div className="max-w-[340px]">
-              <div className="flex items-baseline gap-3">
-                <span className="text-[96px] font-semibold leading-none">
-                  8
-                </span>
-                <span className="text-[1.2rem] font-semibold text-teal-400">
-                  Leading
-                </span>
-              </div>
-
-              <p className="text-[1rem] text-white/75 mt-3 leading-relaxed">
-                Streaming Platforms
-              </p>
-            </div>
-          </div>
-
-        </div>
+          </motion.div>
+        ))}
       </div>
     </SectionWrapper>
   );
-};
-
-export default WhoAttendsSection;
+}

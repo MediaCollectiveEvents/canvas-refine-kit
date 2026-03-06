@@ -48,7 +48,7 @@ const testimonials = [
   },
 ];
 
-const INTERVAL = 7000; // 7s
+const INTERVAL = 7000;
 
 const TestimonialsSection = () => {
   const [index, setIndex] = useState(0);
@@ -65,26 +65,34 @@ const TestimonialsSection = () => {
   const current = testimonials[index];
 
   return (
-    <section className="relative overflow-hidden py-28 md:py-36 bg-[#0A0F14] text-white">
-      {/* Background glow */}
+    <section className="relative overflow-hidden py-32 bg-[#0F172A] text-white">
+      {/* Soft background vignette */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none absolute inset-0
-          bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.08),transparent_75%)]
+          bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0)_75%)]
         "
       />
 
       <div className="relative max-w-4xl mx-auto px-6 text-center">
         {/* SECTION LABEL */}
-        <p className="text-xs tracking-[0.2em] uppercase text-gray-400 mb-7">
+        <p
+          className="
+            text-sm sm:text-base md:text-lg
+            tracking-[0.28em]
+            uppercase 
+            text-white/80 
+            mb-9
+          "
+        >
           What our guests say
         </p>
 
-        {/* Softer ghost line */}
-        <div className="w-12 h-px bg-white/15 mx-auto mb-12" />
+        {/* Divider */}
+        <div className="w-16 h-px bg-white/25 mx-auto mb-14" />
 
-        {/* QUOTE WRAPPER */}
+        {/* QUOTE ROTATOR */}
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
@@ -92,45 +100,51 @@ const TestimonialsSection = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.45, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -18 }}
+              transition={{ duration: 0.9, ease: "easeOut" }}
             >
               {/* QUOTE */}
-              <div className="mb-9">
-                <blockquote
-                  className="
-                    font-serif
-                    text-[2.35rem] md:text-[2.5rem] lg:text-[2.6rem]
-                    leading-[1.33]
-                    max-w-[760px] mx-auto
-                    text-white
-                    opacity-[0.92]
-                  "
-                >
-                  {current.quote.map((block, i) => (
-                    <p key={i} className="mb-6 last:mb-0">
-                      “{block}”
-                    </p>
-                  ))}
-                </blockquote>
-              </div>
+              <blockquote
+                className="
+                  font-serif
+                  text-[2rem] sm:text-[2.3rem] md:text-[2.6rem]
+                  leading-[1.32]
+                  max-w-[760px] mx-auto
+                  text-white opacity-[0.92]
+                "
+              >
+                {/* open curly quote */}
+                <span className="text-white">“</span>
+
+                {current.quote.map((sentence, i) => (
+                  <p
+                    key={i}
+                    className="mb-6 last:mb-0"
+                  >
+                    {sentence}
+                  </p>
+                ))}
+
+                {/* close curly quote */}
+                <span className="text-white">”</span>
+              </blockquote>
 
               {/* ATTRIBUTION */}
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.15 }}
-                className="mt-9"
+                transition={{ duration: 0.7, delay: 0.25 }}
+                className="mt-10"
               >
-                <p className="text-[1.1rem] font-semibold text-white">
+                <p className="text-[1.15rem] font-semibold text-white">
                   {current.author}
                 </p>
 
-                <p className="text-[0.95rem] text-gray-400 mt-1">
+                <p className="text-[1rem] text-white/60 mt-1">
                   {current.title} —{" "}
-                  <span className="text-[#24BFAE]">{current.company}</span>
+                  <span className="text-[#27CDBA]">{current.company}</span>
                 </p>
               </motion.div>
             </motion.div>

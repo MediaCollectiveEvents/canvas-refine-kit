@@ -1,7 +1,26 @@
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
-type SectionVariant = "clean" | "tint" | "glow" | "glass";
+/**
+ * Backwards-compatible variant API:
+ *
+ * OLD (existing across your site):
+ *   "clean" | "tint" | "glow" | "glass"
+ *
+ * NEW (unified design system):
+ *   "light" | "dark" | "transparent"
+ *
+ * Both will now work.
+ */
+type SectionVariant =
+  | "clean"
+  | "tint"
+  | "glow"
+  | "glass"
+  | "light"
+  | "dark"
+  | "transparent";
+
 type PaddingSize = "regular" | "lux";
 
 interface SectionWrapperProps {
@@ -18,59 +37,62 @@ interface SectionWrapperProps {
 export default function SectionWrapper({
   children,
   className = "",
-  variant = "clean",
+  variant = "clean",     // we now SUPPORT "clean"
   noise = false,
   grid = false,
   padding = "lux",
-  withFades = true,
-  align = "center",
+  withFades = false,      // defaults OFF for clean layout
+  align = "left",
 }: SectionWrapperProps) {
+  // Unified vertical spacing
   const paddingClasses =
-    padding === "lux" ? "py-28 md:py-36 lg:py-44" : "py-20 md:py-28";
+    padding === "lux"
+      ? "py-24 md:py-32"
+      : "py-16 md:py-24";
 
-  // Shared container — same as header/nav/hero
-  const containerClass =
-    "max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8";
+  // Unified horizontal max-width container
+  const containerClass = `
+    max-w-6xl
+    mx-auto
+    px-6 md:px-10
+    ${align === "center" ? "text-center" : "text-left"}
+  `;
+
+  // Backwards + new variant mapping
+  const bgClass =
+    variant === "light" || variant === "clean"
+      ? "bg-[#ECEFF1]"
+      : variant === "dark"
+      ? "bg-[#0B1117]"
+      : variant === "transparent"
+      ? "bg-transparent"
+      : variant === "tint"
+      ? "bg-white/5"
+      : variant === "glass"
+      ? "backdrop-blur-xl bg-white/10 border border-white/10"
+      : variant === "glow"
+      ? "bg-[#0B1117]"
+      : "bg-[#ECEFF1]";
 
   return (
     <section
-      className={`relative overflow-hidden ${paddingClasses} ${className}`}
+      className={`
+        relative
+        overflow-visible
+        ${paddingClasses}
+        ${bgClass}
+        ${className}
+      `}
     >
-      {/* Glass variant */}
-      {variant === "glass" && (
-        <div
-          className="
-            absolute inset-0
-            bg-gradient-to-b from-white/10 via-white/5 to-transparent
-            backdrop-blur-xl
-            border border-white/10
-            rounded-3xl
-          "
-        />
-      )}
-
-      {/* Tint */}
-      {variant === "tint" && (
-        <div className="absolute inset-0 bg-white/[0.03] backdrop-blur-sm" />
-      )}
-
-      {/* Glow */}
-      {variant === "glow" && (
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-[15%] left-1/3 w-[48rem] h-[48rem] bg-primary/10 blur-[160px]" />
-          <div className="absolute -bottom-[20%] right-1/4 w-[40rem] h-[40rem] bg-cyan-400/10 blur-[200px]" />
-        </div>
-      )}
-
-      {/* Noise */}
+      {/* Optional noise */}
       {noise && (
         <div
-          className="absolute inset-0 opacity-[0.035] mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none"
           style={{ backgroundImage: "url('/noise.png')" }}
         />
       )}
 
-      {/* Grid overlay */}
+      {/* Optional grid overlay */}
       {grid && (
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
@@ -82,7 +104,7 @@ export default function SectionWrapper({
         />
       )}
 
-      {/* Fades */}
+      {/* Optional fades */}
       {withFades && (
         <>
           <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
@@ -90,16 +112,15 @@ export default function SectionWrapper({
         </>
       )}
 
+      {/* Animated content */}
       <motion.div
-        initial={{ opacity: 0, y: 32 }}
+        initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-10"
       >
-        <div className={containerClass}>
-          {children}
-        </div>
+        <div className={containerClass}>{children}</div>
       </motion.div>
     </section>
   );

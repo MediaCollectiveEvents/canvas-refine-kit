@@ -6,18 +6,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import SectionWrapper from "../layout/SectionWrapper";
 
-// ICONS
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 import greenlineImg from "@/assets/events/greenline.png";
 
-// CONTENT
 import rawEventsFile from "@/content/events.json";
 
-/* ------------------------------------------------------------------ */
-/* Types                                                              */
-/* ------------------------------------------------------------------ */
+/* ------------------ Types & Utilities ------------------ */
 
 interface RawEvent {
   id?: number;
@@ -30,7 +26,7 @@ interface RawEvent {
   conferenceAligned?: boolean;
   inviteOnly?: boolean;
   complimentary?: boolean;
-  type?: string;
+  summary?: string;
 }
 
 type RawEventsShape = RawEvent[] | { events: RawEvent[] };
@@ -46,12 +42,10 @@ interface Event {
   conferenceAligned?: boolean;
   inviteOnly?: boolean;
   complimentary?: boolean;
+  summary?: string;
 }
 
-/* ------------------------------------------------------------------ */
-/* Image resolver (includes greenline.png)                            */
-/* ------------------------------------------------------------------ */
-
+/* Resolve image */
 function getImageForKey(key?: string, venue?: string, title?: string) {
   const val = (key || venue || title || "").toLowerCase();
 
@@ -63,6 +57,7 @@ function getImageForKey(key?: string, venue?: string, title?: string) {
   return broadcasterImg;
 }
 
+/* Normalize events JSON */
 function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   if (Array.isArray(raw)) return raw;
   if ("events" in raw && Array.isArray((raw as any).events)) {
@@ -71,56 +66,27 @@ function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   return [];
 }
 
-/* ------------------------------------------------------------------ */
-/* Date formatting (editorial uppercase)                              */
-/* ------------------------------------------------------------------ */
-
-function ordinal(n: number) {
-  const j = n % 10;
-  const k = n % 100;
-
-  if (j === 1 && k !== 11) return `${n}ST`;
-  if (j === 2 && k !== 12) return `${n}ND`;
-  if (j === 3 && k !== 13) return `${n}RD`;
-  return `${n}TH`;
-}
-
-function formatEventDate(input?: string) {
+/** Format: 8 April 2026 */
+function formatInternationalDate(input?: string) {
   if (!input) return "";
   const d = new Date(input);
-  if (isNaN(d.getTime())) return input.toUpperCase();
-
-  const months = [
-    "JANUARY",
-    "FEBRUARY",
-    "MARCH",
-    "APRIL",
-    "MAY",
-    "JUNE",
-    "JULY",
-    "AUGUST",
-    "SEPTEMBER",
-    "OCTOBER",
-    "NOVEMBER",
-    "DECEMBER",
-  ];
-
-  return `${ordinal(d.getDate())} ${months[d.getMonth()]} ${d.getFullYear()}`;
+  if (isNaN(d.getTime())) return input;
+  return d.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 }
 
-/* ------------------------------------------------------------------ */
-/* Component                                                          */
-/* ------------------------------------------------------------------ */
+/* ------------------ Component ------------------ */
 
 interface EventsSectionProps {
   onRegisterClick: () => void;
   underHeader?: string;
+  section?: any;
 }
 
-const EventsSection: React.FC<EventsSectionProps> = ({
-  onRegisterClick,
-  underHeader,
-}) => {
+const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
   const rawEvents = normalizeRawEvents(rawEventsFile as any);
 
   const events: Event[] = rawEvents.map((e, i) => ({
@@ -133,74 +99,48 @@ const EventsSection: React.FC<EventsSectionProps> = ({
     conferenceAligned: e.conferenceAligned,
     inviteOnly: e.inviteOnly,
     complimentary: e.complimentary,
+    summary:
+      e.summary ??
+      "Placeholder summary describing this event in twelve simple words.",
     image: getImageForKey(e.imageKey, e.venue, e.title),
   }));
 
   if (!events.length) return null;
 
-  const subline =
-    underHeader ?? "Invitation-only. Complimentary for invited guests.";
-
   return (
     <SectionWrapper
-      variant="clean"
+      variant="light"
       align="left"
       padding="lux"
       noise={false}
       grid={false}
       withFades={false}
-      className="bg-[#F6F7F7]"
+      className="relative bg-[#E8E9EA]"
     >
-      <div className="relative z-10 w-full">
-        {/* ------------------------------------------------------------------ */}
-        {/* Header: title + view all                                           */}
-        {/* ------------------------------------------------------------------ */}
-        <div className="flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between">
+      <div className="relative">
+        {/* HEADER — match Who Attends typography */}
+        <div className="max-w-3xl mb-14">
           <h2
             className="
-              font-serif
-              text-[2.75rem] sm:text-[2.9rem] md:text-[3rem]
-              font-semibold
-              leading-[1.15]
+              font-[Montserrat]
+              font-light
+              text-[2.6rem] sm:text-[2.8rem] md:text-[3rem]
+              leading-[1.16]
+              tracking-tight
               text-[#0F172A]
             "
           >
-            Next{" "}
-            <span className="text-[#27CDBA]">
-              Gatherings
+            Upcoming{" "}
+            <span className="font-semibold text-[#21BFA8] drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)]">
+              Events
             </span>
           </h2>
-
-          <a
-            href="/events"
-            className="
-              text-[0.95rem]
-              text-[#6B7280]
-              inline-flex items-center gap-2
-              hover:text-[#0F172A]
-              focus-visible:outline-none
-              focus-visible:ring-2
-              focus-visible:ring-[rgba(58,231,213,0.6)]
-              focus-visible:ring-offset-2
-              transition-colors
-            "
-          >
-            <span>View all events</span>
-            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[4px]" />
-          </a>
         </div>
 
-        {/* Subline */}
-        <p className="mt-3 text-sm sm:text-[0.95rem] text-[#6B7280] max-w-[480px] leading-[1.55]">
-          {subline}
-        </p>
-
-        {/* ------------------------------------------------------------------ */}
-        {/* Grid of cards                                                      */}
-        {/* ------------------------------------------------------------------ */}
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+        {/* CARDS GRID */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 items-stretch">
           {events.map((event, index) => {
-            const date = formatEventDate(event.date);
+            const date = formatInternationalDate(event.date);
 
             const chips: string[] = [];
             if (event.inviteOnly ?? true) chips.push("Invite-only");
@@ -215,87 +155,81 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="flex justify-center h-full"
+                className="flex justify-center"
               >
                 <Card
                   className="
-                    group
-                    flex flex-col h-full
-                    w-full max-w-[360px]
+                    group relative flex flex-col h-full
+                    max-w-[360px] w-full
                     rounded-[18px]
-                    border border-[rgba(15,23,42,0.08)]
-                    bg-[#050B12]
-                    shadow-[0_14px_32px_rgba(0,0,0,0.35)]
-                    transition-all duration-200
+                    border border-white/12
+                    bg-[#0F172A]
+                    shadow-[0_14px_32px_rgba(0,0,0,0.4)]
+                    overflow-hidden
+                    transition-transform duration-200
                     hover:-translate-y-[6px]
-                    hover:shadow-[0_20px_48px_rgba(0,0,0,0.45)]
-                    hover:border-[rgba(148,163,184,0.45)]
                   "
                 >
-                  <CardContent className="flex flex-col flex-1 p-6">
+                  {/* Subtle card texture */}
+                  <div
+                    aria-hidden="true"
+                    className="
+                      pointer-events-none absolute inset-0
+                      bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_65%)]
+                      opacity-20
+                    "
+                  />
+
+                  <CardContent className="relative z-10 flex flex-col p-7 h-full text-center items-center">
+
+                    {/* TITLE */}
+                    <h3 className="font-[Montserrat] text-[21px] font-semibold text-white mb-3">
+                      {event.title}
+                    </h3>
+
                     {/* DATE */}
                     {date && (
-                      <div className="mb-4 flex items-center gap-2 text-[12px] tracking-[0.12em] uppercase text-[#9CA3AF]">
-                        <CalendarDays className="h-4 w-4 text-[#9CA3AF]" />
+                      <div className="mb-5 flex items-center justify-center gap-2 text-[1rem] font-medium text-white/85">
+                        <CalendarDays size={18} />
                         <span>{date}</span>
                       </div>
                     )}
 
-                    {/* ILLUSTRATION – dark card, neon glow */}
-                    <div className="flex justify-center mb-5">
-                      <img
-                        src={event.image}
-                        alt={event.title}
-                        className="
-                          w-[190px]
-                          h-auto
-                          object-contain
-                          filter drop-shadow-[0_10px_24px_rgba(58,231,213,0.6)]
-                          transition-[filter,transform] duration-200
-                          group-hover:drop-shadow-[0_14px_30px_rgba(58,231,213,0.8)]
-                          group-hover:-translate-y-[2px]
-                        "
-                        loading="lazy"
-                      />
-                    </div>
+                    {/* IMAGE — ALL 280px SIZE */}
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="
+                        w-[280px]
+                        mb-6
+                        object-contain
+                        opacity-95
+                      "
+                    />
 
-                    {/* TITLE + VENUE/LOCATION */}
-                    <div className="text-left space-y-[6px] mb-4">
-                      <h3
-                        className="
-                          text-[21px]
-                          font-semibold
-                          leading-[1.25]
-                          tracking-[-0.01em]
-                          text-[#F9FAFB]
-                        "
-                      >
-                        {event.title}
-                      </h3>
+                    {/* VENUE + LOCATION */}
+                    <p className="text-sm text-white/75 leading-[1.5] mb-1 flex items-center justify-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      <span>{event.venue}</span>
+                    </p>
+                    <p className="text-sm text-white/70 leading-[1.5] mb-4">
+                      {event.location}
+                    </p>
 
-                      <p className="text-sm text-[#9CA3AF] leading-[1.5] flex items-center gap-1">
-                        <MapPin className="h-4 w-4 text-[#9CA3AF]" />
-                        {event.venue}
-                        {event.location ? ` — ${event.location}` : ""}
-                      </p>
-                    </div>
+                    {/* SUMMARY */}
+                    <p className="text-white/80 text-[0.95rem] leading-[1.65] mb-5">
+                      {event.summary}
+                    </p>
 
-                    {/* CHIPS (neutral paper labels) */}
+                    {/* TAGS */}
                     {chips.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {chips.slice(0, 2).map((chip, idx) => (
+                      <div className="flex flex-wrap justify-center gap-2 mb-5">
+                        {chips.slice(0, 2).map((chip, i) => (
                           <div
-                            key={`${event.id}-chip-${idx}`}
+                            key={`${event.id}-chip-${i}`}
                             className="
-                              inline-flex items-center
-                              rounded-[6px]
-                              bg-[rgba(15,23,42,0.18)]
-                              border border-[rgba(148,163,184,0.35)]
-                              text-[#E5E7EB]
-                              text-[12px]
-                              px-[10px] py-[4px]
-                              transition-colors duration-200
-                              group-hover:border-[rgba(58,231,213,0.4)]
+                              px-3 py-1 rounded-full text-[11px]
+                              bg-white/8 border border-white/24 text-white/85
                             "
                           >
                             {chip}
@@ -304,49 +238,23 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                       </div>
                     )}
 
-                    {/* CTA + DETAILS anchored to bottom */}
-                    <div className="mt-auto flex flex-col gap-3">
-                      {/* Primary text-style CTA (dark → teal on hover) */}
+                    {/* CTA */}
+                    <div className="mt-auto flex flex-col items-center gap-2">
                       <button
-                        type="button"
                         onClick={onRegisterClick}
                         className="
                           inline-flex items-center gap-2
-                          text-[0.95rem]
-                          font-medium
-                          text-[#E5E7EB]
-                          hover:text-[#3AE7D5]
-                          focus:outline-none
-                          focus-visible:ring-2
-                          focus-visible:ring-[rgba(58,231,213,0.6)]
-                          focus-visible:ring-offset-2
-                          focus-visible:ring-offset-[#050B12]
-                          transition-all duration-200
+                          font-[Montserrat] text-[0.95rem]
+                          text-white hover:text-[#27CDBA]
+                          transition
                         "
                       >
-                        <span>Register interest</span>
-                        <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-[4px]" />
+                        Register interest
+                        <ArrowRight size={16} />
                       </button>
 
-                      {/* Secondary details link */}
-                      <button
-                        type="button"
-                        className="
-                          self-start
-                          text-[13px]
-                          text-[#9CA3AF]
-                          inline-flex items-center gap-1
-                          hover:text-[#F9FAFB]
-                          focus:outline-none
-                          focus-visible:ring-2
-                          focus-visible:ring-[rgba(58,231,213,0.6)]
-                          focus-visible:ring-offset-2
-                          focus-visible:ring-offset-[#050B12]
-                          transition-all duration-200
-                        "
-                      >
-                        <span>Details</span>
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-[3px]" />
+                      <button className="text-white/60 text-[13px] hover:text-white transition">
+                        Details
                       </button>
                     </div>
                   </CardContent>
@@ -361,4 +269,3 @@ const EventsSection: React.FC<EventsSectionProps> = ({
 };
 
 export default EventsSection;
-``
