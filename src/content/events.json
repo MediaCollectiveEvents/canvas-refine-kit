@@ -26,6 +26,7 @@
       "venue": "The Broadcaster",
       "location": "White City, London",
       "title": "NAB Review",
+      "summary": "NAB 2026, unpacked. An expert analysis of the show’s defining technology and trends. Join us for brunch, refreshments, networking, and panel discussions.",
       "type": "upcoming",
       "id": 1,
       "description": "Join us for a relaxed breakfast at IBC to discuss trends, challenges and opportunities in media and broadcast."
@@ -37,6 +38,7 @@
       "venue": "Hand and Flower",
       "location": "Olympia, London",
       "title": "MPTS Reception",
+      "summary": "The show continues at The Hand and Flower. Our signature reception just steps from Olympia. Join us for refreshments and the industry's go-to social.",
       "type": "upcoming",
       "id": 2,
       "description": "An evening reception for media leaders to reconnect, share experiences and meet new collaborators."
@@ -48,6 +50,7 @@
       "venue": "Eurostar ",
       "location": "London - Amsterdam",
       "title": "The Greenline to IBC",
+      "summary": "Make the journey part of IBC. An exclusive Eurostar carriage hosted by Greenline. Enjoy a high-speed journey to Amsterdam with live music, refreshments, and networking.",
       "type": "past",
       "id": 3,
       "description": "A half-day summit exploring how AI is reshaping broadcast operations and audience experiences.",

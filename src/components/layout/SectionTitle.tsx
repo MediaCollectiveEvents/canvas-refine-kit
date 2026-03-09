@@ -1,9 +1,10 @@
 // src/components/layout/SectionTitle.tsx
+
 import { ReactNode } from "react";
-import { useSectionStyleDefaults } from "@/lib/SectionStyleProvider";
+import { useSectionStyleDefaults } from "../../lib/SectionStyleProvider";
 
 type Align = "center" | "left" | "right";
-type Tone = "default" | "muted";
+type Tone = "default" | "muted" | "dark";
 
 interface SectionTitleProps {
   children: ReactNode;
@@ -12,6 +13,7 @@ interface SectionTitleProps {
   align?: Align;
   tone?: Tone;
   disableEmphasis?: boolean;
+  className?: string;
 }
 
 export default function SectionTitle({
@@ -19,10 +21,10 @@ export default function SectionTitle({
   sub,
   eyebrow,
   align,
-  tone,
+  tone = "default",
   disableEmphasis,
+  className = "",
 }: SectionTitleProps) {
-  // 🛡️ SAFE FALLBACK FOR DECAP PREVIEW — prevents useContext(null) crash
   let defaults: any = {
     styleTitle: {
       align: "center",
@@ -30,75 +32,89 @@ export default function SectionTitle({
       disableEmphasis: false,
       eyebrow: "",
       sub: "",
-    },
+      size: "2rem",
+      sizeSm: "2.2rem",
+      sizeMd: "2.35rem",
+      lineHeight: "1.15",
+      weight: "300",
+      accentWeight: "400"
+    }
   };
 
   try {
     const ctx = useSectionStyleDefaults();
     if (ctx) defaults = ctx;
-  } catch (_err) {
-    // Decap preview iframe has no provider → fallback values already set
-  }
+  } catch {}
 
-  const effectiveAlign: Align =
-    align ?? (defaults.styleTitle.align as Align) ?? "center";
+  const st = defaults.styleTitle;
 
-  const effectiveTone: Tone =
-    tone ?? (defaults.styleTitle.tone as Tone) ?? "default";
+  const finalAlign: Align = align ?? st.align;
 
-  const effectiveDisable =
-    disableEmphasis ?? defaults.styleTitle.disableEmphasis ?? false;
+  // NEW: tone system
+  const titleColor =
+    tone === "dark"
+      ? "text-[#0F172A]"
+      : tone === "muted"
+      ? "text-white/90"
+      : "text-white";
 
-  const effectiveEyebrow = eyebrow ?? defaults.styleTitle.eyebrow ?? "";
-  const effectiveSub = sub ?? defaults.styleTitle.sub ?? "";
+  const eyebrowColor =
+    tone === "dark" ? "text-[#475569]" : "text-white/50";
 
+  const subColor =
+    tone === "dark" ? "text-[#64748B]" : "text-white/60";
+
+  const wrapAlign =
+    finalAlign === "left"
+      ? "text-left"
+      : finalAlign === "right"
+      ? "text-right"
+      : "text-center";
+
+  const accentColor =
+    tone === "dark" ? "text-[#27CDBA]" : "text-primary/70";
+
+  // split words if string
   const isString = typeof children === "string";
   let first: ReactNode = children;
   let second: string | undefined;
 
   if (isString) {
-    const words = (children as string).trim().split(/\s+/);
+    const words = children.trim().split(/\s+/);
     first = words[0] ?? "";
     second = words.slice(1).join(" ");
   }
 
-  const wrapAlign =
-    effectiveAlign === "left"
-      ? "text-left"
-      : effectiveAlign === "right"
-      ? "text-right"
-      : "text-center";
-
-  const titleColor = effectiveTone === "muted" ? "text-white/90" : "text-white";
-  const subColor = "text-white/60";
-  const eyebrowColor = "text-white/50";
-
   return (
     <div className={`${wrapAlign} mb-10`}>
-      {effectiveEyebrow && (
+      {eyebrow && (
         <p
-          className={`${eyebrowColor} font-body text-[11px] sm:text-xs uppercase tracking-[0.22em] mb-2`}
+          className={`${eyebrowColor} font-body text-[11px] uppercase tracking-[0.22em] mb-2`}
         >
-          {effectiveEyebrow}
+          {eyebrow}
         </p>
       )}
 
       <h2
         className={[
-          "font-sans font-light",
+          `font-[Montserrat]`,
           titleColor,
-          "text-4xl md:text-5xl lg:text-6xl",
-          "tracking-tight leading-tight",
+          `font-[${st.weight}]`,
+          `text-[${st.size}] sm:text-[${st.sizeSm}] md:text-[${st.sizeMd}]`,
+          `leading-[${st.lineHeight}] tracking-tight`,
+          className,
         ].join(" ")}
       >
         {isString ? (
           <>
             {first}{" "}
             {second &&
-              (effectiveDisable ? (
+              (disableEmphasis ? (
                 <span>{second}</span>
               ) : (
-                <span className="italic text-primary/70">{second}</span>
+                <span className={`${accentColor} font-[${st.accentWeight}]`}>
+                  {second}
+                </span>
               ))}
           </>
         ) : (
@@ -106,11 +122,11 @@ export default function SectionTitle({
         )}
       </h2>
 
-      {effectiveSub && (
+      {sub && (
         <p
           className={`${subColor} font-body text-sm uppercase tracking-[0.18em] mt-3`}
         >
-          {effectiveSub}
+          {sub}
         </p>
       )}
     </div>

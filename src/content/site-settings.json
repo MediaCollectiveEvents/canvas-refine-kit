@@ -1,10 +1,16 @@
 {
   "styleTitle": {
-    "align": "center",
+    "align": "left",
     "tone": "default",
     "disableEmphasis": false,
     "eyebrow": "",
-    "sub": ""
+    "sub": "",
+    "size": "1.7rem",
+    "sizeSm": "1.9rem",
+    "sizeMd": "2.1rem",
+    "lineHeight": "1.16",
+    "weight": "300",
+    "accentWeight": "400"
   },
   "styleWrapper": {
     "variant": "clean",

@@ -11,18 +11,23 @@ interface AboutIntroSectionProps {
   };
 }
 
-const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({ section }) => {
-  const title = section?.title ?? "About Us";
-  const body =
+export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
+  const bodyText =
     section?.body ??
-    "We bring people together at key moments across the media calendar. Our events range from panel discussions and screenings to informal gatherings, often aligned with major conferences. Supported by selected sponsors, each event is independently curated and complimentary to attend.";
+    "We bring people together who are passionate about the future of the media industry. Our events take place at key moments across the media calendar. We create opportunities for people to connect, exchange ideas and build relationships. They range from panel discussions and screenings to informal gatherings, often aligned with major conferences. Supported by selected sponsors, each event is independently curated and complimentary to attend.";
+
+  // Split into sentences and trim them
+  const sentences = bodyText
+    .split(".")
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
 
   return (
     <SectionWrapper
       variant="light"
       align="left"
       padding="lux"
-      noise={false}
+      noise={true}
       grid={false}
       withFades={false}
       className="bg-[#ECEFF1]"
@@ -31,37 +36,23 @@ const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({ section }) => {
         className="
           relative
           grid
-          grid-cols-1
-          md:grid-cols-[2fr_3fr]   /* 40% title / 60% text */
-          gap-12 md:gap-16
+          md:grid-cols-[minmax(0,1.3fr)_1px_minmax(0,4fr)]
+          gap-12 md:gap-20
           items-start
         "
       >
-        {/* Divider positioned exactly at the 40% split */}
-        <div
-          aria-hidden="true"
-          className="
-            hidden md:block
-            absolute
-            left-[40%]
-            top-0
-            h-full
-            w-px
-            bg-[#D1D5DB]
-          "
-        />
-
-        {/* LEFT COLUMN — Heading */}
+        {/* LEFT — Heading */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.45 }}
+          className="pt-[0.25rem]"
         >
           <h2
             className="
-              font-serif
-              text-[2.6rem] sm:text-[2.8rem] md:text-[3rem]
+              font-sans
+              text-[2.4rem] sm:text-[2.6rem] md:text-[2.8rem]
               leading-[1.16]
               tracking-tight
               text-[#0F172A]
@@ -71,26 +62,38 @@ const AboutIntroSection: React.FC<AboutIntroSectionProps> = ({ section }) => {
           </h2>
         </motion.div>
 
-        {/* RIGHT COLUMN — Text */}
+        {/* MIDDLE — vertical divider */}
+        <div
+          aria-hidden="true"
+          className="hidden md:block h-full w-px bg-black/15 mt-[0.75rem] mb-[0.75rem]"
+        />
+
+        {/* RIGHT — wider text column */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.55, delay: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="pr-10 max-w-[900px]"
         >
-          <div
-            className="
-              text-[1.05rem]
-              leading-[1.65]
-              text-[#4B5563]
-              max-w-none
-            "
-            dangerouslySetInnerHTML={{ __html: body }}
-          />
+          <div className="space-y-8">
+            {sentences.map((sentence, i) => (
+              <p
+                key={i}
+                className="
+                  text-[1.28rem]
+                  leading-[2]
+                  font-normal
+                  tracking-[0.005em]
+                  text-[#1E293B]
+                "
+              >
+                {sentence}.
+              </p>
+            ))}
+          </div>
         </motion.div>
       </div>
     </SectionWrapper>
   );
-};
-
-export default AboutIntroSection;
+}

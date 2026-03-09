@@ -69,36 +69,10 @@ export default function PageHero(props: PageHeroProps) {
     y = useTransform(baseY, (value) => value + imageOffset);
   }
 
-  const isLight = theme === "light";
-
   const resolvedBackgroundImage =
     backgroundImage ||
     image ||
     (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
-
-  const s = overlayStrength !== undefined ? Number(overlayStrength) || 0 : 0.75;
-
-  const darkVignetteClass =
-    s >= 0.9
-      ? "from-black/80 via-black/60"
-      : s >= 0.75
-      ? "from-black/60 via-black/40"
-      : s >= 0.5
-      ? "from-black/45 via-black/30"
-      : s >= 0.25
-      ? "from-black/30 via-black/20"
-      : "from-black/10 via-black/10";
-
-  const darkBrandWashClass =
-    s >= 0.9
-      ? "bg-primary/5"
-      : s >= 0.75
-      ? "bg-primary/3"
-      : s >= 0.5
-      ? "bg-primary/2"
-      : s >= 0.25
-      ? "bg-primary/1"
-      : "bg-transparent";
 
   const positionClass =
     imagePosition === "top"
@@ -115,21 +89,14 @@ export default function PageHero(props: PageHeroProps) {
   const hasClickCta = !!(primaryCtaText && onPrimaryClick);
   const hasLinkCta = !!(primaryCtaText && primaryCtaHref);
 
-  const titleClass = isLight
-    ? "text-zinc-900 drop-shadow-[0_0_16px_rgba(255,255,255,0.5)]"
-    : "text-white drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]";
-
-  const descClass = isLight ? "text-zinc-700" : "text-primary";
-  const eyebrowClass = isLight ? "text-zinc-600" : "text-primary";
-
   return (
     <header
       className={`
         relative w-full
-        min-h-[420px] sm:min-h-[560px] lg:min-h-[600px]
+        min-h-[520px] sm:min-h-[640px] lg:min-h-[700px]
         flex items-center justify-center
         overflow-hidden
-        ${isLight ? "bg-white" : "bg-background"}
+        bg-[#0F172A]
       `}
     >
       {/* BACKGROUND IMAGE */}
@@ -144,116 +111,176 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      {/* OVERLAYS */}
-      {isLight ? (
-        /* unchanged light mode */
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          <div
-            className="absolute inset-0 opacity-40 mix-blend-screen"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 45%, rgba(255,255,255,0.65) 0%, rgba(245,248,255,0.45) 30%, rgba(0,0,0,0) 70%)",
-            }}
-          />
-          <div className="absolute inset-0 bg-white/40 mix-blend-lighten" />
-        </div>
-      ) : (
-        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-          {/* Top/bottom vignette */}
-          <div
-            className={`absolute inset-0 bg-gradient-to-b ${darkVignetteClass} to-transparent`}
-          />
+      {/* EXISTING HERO OVERLAY */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              radial-gradient(
+                circle at 50% 40%,
+                rgba(15,23,42,0.9) 0%,
+                rgba(15,23,42,0.65) 45%,
+                rgba(15,23,42,0.25) 75%,
+                rgba(15,23,42,0) 100%
+              )
+            `,
+          }}
+        />
 
-          {/* ⭐ Blue‑tinged dark centre radial filter */}
-          <div
-            className="absolute inset-0 opacity-90"
-            style={{
-              background: `
-                radial-gradient(circle at center,
-                  rgba(15,23,42,1.0) 0%,      /* PURE universal blue centre */
-                  rgba(15,23,42,0.88) 32%,    /* richer blue middle */
-                  rgba(15,23,42,0.55) 60%,    /* soft falloff */
-                  rgba(15,23,42,0) 100%       /* fade to transparent */
-                )
-              `,
-              mixBlendMode: "multiply",
-            }}
-          />
+        <div
+          className="absolute inset-0 opacity-[0.24]"
+          style={{
+            background: `
+              radial-gradient(circle at 8% 72%, rgba(255,196,160,0.6), transparent 40%),
+              radial-gradient(circle at 90% 60%, rgba(255,160,215,0.55), transparent 42%),
+              radial-gradient(circle at 15% 20%, rgba(255,190,160,0.42), transparent 48%)
+            `,
+            mixBlendMode: "screen",
+          }}
+        />
+      </div>
 
-          {/* Subtle brand wash */}
-          <div
-            className={`absolute inset-0 ${darkBrandWashClass} mix-blend-soft-light`}
-          />
-        </div>
-      )}
+      {/* ⭐ ELLIPTICAL CINEMATIC BACKDROP */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          left-1/2
+          top-[22%]
+          -translate-x-1/2
+          w-[92vw] max-w-[1300px]
+          h-[380px]
+          pointer-events-none
+        "
+        style={{
+          background: `
+            radial-gradient(
+              ellipse at center,
+              rgba(0,0,0,0.85) 0%,
+              rgba(0,0,0,0.75) 28%,
+              rgba(0,0,0,0.55) 55%,
+              rgba(0,0,0,0.32) 75%,
+              rgba(0,0,0,0.0) 100%
+            )
+          `,
+          filter: "blur(32px)",
+        }}
+      />
+
+      {/* ⭐ LOWER ELLIPTICAL UNDERGLOW */}
+      <div
+        aria-hidden="true"
+        className="
+          absolute
+          left-1/2
+          top-[46%]
+          -translate-x-1/2
+          w-[88vw] max-w-[1200px]
+          h-[260px]
+          pointer-events-none
+        "
+        style={{
+          background: `
+            radial-gradient(
+              ellipse at center,
+              rgba(0,0,0,0.58) 0%,
+              rgba(0,0,0,0.38) 50%,
+              rgba(0,0,0,0) 100%
+            )
+          `,
+          filter: "blur(28px)",
+        }}
+      />
 
       {/* CONTENT */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="
           relative z-10 mx-auto w-full
           max-w-[1280px]
           px-4 sm:px-6 lg:px-8 xl:px-12
-          py-10 sm:py-12
+          pt-28 pb-20
         "
       >
         <div className="max-w-3xl mx-auto text-center">
+
+          {/* EYEBROW */}
           {eyebrow && (
             <p
-              className={`
-                ${eyebrowClass}
-                font-body tracking-widest uppercase mb-6
-                text-sm md:text-base
-              `}
+              className="
+                text-white/50
+                font-body font-medium
+                uppercase tracking-[0.38em]
+                text-[0.70rem] sm:text-[0.78rem] md:text-[0.85rem]
+                mb-7
+              "
             >
               {eyebrow}
             </p>
           )}
 
+          {/* HEADLINE */}
           <h1
-            className={`
+            className="
               font-satisfy
-              text-4xl sm:text-5xl md:text-6xl lg:text-7xl
-              ${titleClass}
-              leading-[1.13] md:leading-[1.18]
-              mt-2 mb-8 md:mb-10
-            `}
+              text-white
+              text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]
+              tracking-tight leading-[1.02]
+              drop-shadow-[0_0_60px_rgba(0,0,0,0.95)]
+              mb-10
+            "
           >
             {title}
           </h1>
 
+          {/* SUBHEADING */}
           {description && (
             <p
-              className={`
-                ${descClass}
-                font-body text-base sm:text-lg md:text-xl
-                leading-relaxed max-w-xl mx-auto mb-12
-              `}
+              className="
+                text-white/90
+                font-body
+                text-[1.2rem] md:text-[1.3rem]
+                leading-[1.62]
+                max-w-[720px]
+                mx-auto
+                mb-12
+              "
             >
               {description}
             </p>
           )}
 
-          {primaryCtaText && (hasClickCta || hasLinkCta) && (
-            <div className="relative flex flex-wrap justify-center gap-4 mt-4">
+          {/* CTA */}
+          {(hasClickCta || hasLinkCta) && (
+            <div className="flex justify-center gap-4">
               {hasClickCta && (
                 <Button
                   size="lg"
                   onClick={onPrimaryClick}
-                  className="rounded-full px-8 py-3 bg-primary text-black shadow-lg shadow-primary/40 hover:bg-primary/90 hover:scale-[1.06]"
+                  className="
+                    rounded-full px-8 py-3 
+                    bg-primary text-black 
+                    shadow-lg shadow-primary/40 
+                    hover:bg-primary/90 hover:scale-[1.06]
+                  "
                 >
                   {primaryCtaText}
                 </Button>
               )}
 
-              {!hasClickCta && hasLinkCta && (
+              {hasLinkCta && (
                 <Button
                   asChild
                   size="lg"
                   variant="outline"
-                  className="rounded-full px-8 py-3 border-primary/60 text-primary bg-black/40 hover:bg-primary/10 hover:scale-[1.03]"
+                  className="
+                    rounded-full px-8 py-3 
+                    border-primary/60 text-primary 
+                    bg-black/40 hover:bg-primary/10 hover:scale-[1.03]
+                  "
                 >
                   <a href={primaryCtaHref}>{primaryCtaText}</a>
                 </Button>
@@ -264,11 +291,6 @@ export default function PageHero(props: PageHeroProps) {
       </motion.div>
 
       <ScrollIndicator />
-
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px bg-zinc-300/15"
-        aria-hidden="true"
-      />
     </header>
   );
 }

@@ -1,4 +1,5 @@
-// src/context/SectionStyleProvider.tsx
+// src/lib/SectionStyleProvider.tsx
+
 import React, { createContext, useContext, ReactNode, useMemo } from "react";
 import type {
   SiteStyleDefaults,
@@ -8,17 +9,26 @@ import type {
 } from "@/lib/sectionStyles";
 import siteDefaults from "@/content/site-settings.json";
 
+// ----------------------------------------------
+// FALLBACK VALUES – must include ALL keys
+// ----------------------------------------------
 const FALLBACK: SiteStyleDefaults = {
   styleTitle: {
-    align: "center",
+    align: "left",
     tone: "default",
     disableEmphasis: false,
     eyebrow: "",
     sub: "",
+    size: "2rem",
+    sizeSm: "2.2rem",
+    sizeMd: "2.35rem",
+    lineHeight: "1.15",
+    weight: "300",
+    accentWeight: "400",
   },
   styleWrapper: {
     variant: "clean",
-    padding: "lux",
+    padding: "regular",
     noise: false,
     grid: false,
     withFades: true,
@@ -32,11 +42,15 @@ const FALLBACK: SiteStyleDefaults = {
   },
 };
 
-// ❗ Pass an OBJECT, not a function, to createContext
+// ----------------------------------------------
+// CONTEXT
+// ----------------------------------------------
 const SectionStyleContext = createContext<SiteStyleDefaults>(FALLBACK);
 
+// ----------------------------------------------
+// PROVIDER
+// ----------------------------------------------
 export function SectionStyleProvider({ children }: { children: ReactNode }) {
-  // Merge JSON with FALLBACK so all keys are always present
   const merged = useMemo<SiteStyleDefaults>(() => {
     const raw = siteDefaults as any;
 
@@ -52,7 +66,16 @@ export function SectionStyleProvider({ children }: { children: ReactNode }) {
           st.disableEmphasis ?? FALLBACK.styleTitle.disableEmphasis,
         eyebrow: st.eyebrow ?? FALLBACK.styleTitle.eyebrow,
         sub: st.sub ?? FALLBACK.styleTitle.sub,
+
+        // typography overrides
+        size: st.size ?? FALLBACK.styleTitle.size,
+        sizeSm: st.sizeSm ?? FALLBACK.styleTitle.sizeSm,
+        sizeMd: st.sizeMd ?? FALLBACK.styleTitle.sizeMd,
+        lineHeight: st.lineHeight ?? FALLBACK.styleTitle.lineHeight,
+        weight: st.weight ?? FALLBACK.styleTitle.weight,
+        accentWeight: st.accentWeight ?? FALLBACK.styleTitle.accentWeight,
       },
+
       styleWrapper: {
         variant: sw.variant ?? FALLBACK.styleWrapper.variant,
         padding: sw.padding ?? FALLBACK.styleWrapper.padding,
@@ -60,6 +83,7 @@ export function SectionStyleProvider({ children }: { children: ReactNode }) {
         grid: sw.grid ?? FALLBACK.styleWrapper.grid,
         withFades: sw.withFades ?? FALLBACK.styleWrapper.withFades,
       },
+
       eventsDefaults: {
         imageAspect: ev.imageAspect ?? FALLBACK.eventsDefaults.imageAspect,
         imageFit: ev.imageFit ?? FALLBACK.eventsDefaults.imageFit,
@@ -78,9 +102,11 @@ export function SectionStyleProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// ----------------------------------------------
+// HOOK
+// ----------------------------------------------
 export function useSectionStyleDefaults() {
   return useContext(SectionStyleContext);
 }
 
-// Export default too, so you can import SectionStyleProvider either way
 export default SectionStyleProvider;

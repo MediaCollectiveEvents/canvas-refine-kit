@@ -30,7 +30,7 @@ const testimonials = [
   },
   {
     quote: [
-      "The sector-focused nature of the event enabled us to make solid personal connections with like-minded peers —",
+      "The sector-focused nature of the event enabled us to make solid personal connections with like‑minded peers —",
       "far deeper than what happens at larger events.",
     ],
     author: "Vik Nunkoo",
@@ -65,7 +65,7 @@ const TestimonialsSection = () => {
   const current = testimonials[index];
 
   return (
-    <section className="relative overflow-hidden py-32 bg-[#0F172A] text-white">
+    <section className="relative overflow-hidden py-28 bg-[#0F172A] text-white">
       {/* Soft background vignette */}
       <div
         aria-hidden="true"
@@ -79,18 +79,19 @@ const TestimonialsSection = () => {
         {/* SECTION LABEL */}
         <p
           className="
-            text-sm sm:text-base md:text-lg
+            font-body
+            text-xs sm:text-sm md:text-[0.85rem]
             tracking-[0.28em]
-            uppercase 
-            text-white/80 
-            mb-9
+            uppercase
+            text-white/55
+            mb-2
           "
         >
           What our guests say
         </p>
 
         {/* Divider */}
-        <div className="w-16 h-px bg-white/25 mx-auto mb-14" />
+        <div className="w-10 h-[1.5px] bg-white/20 mx-auto mb-12" />
 
         {/* QUOTE ROTATOR */}
         <div
@@ -109,40 +110,44 @@ const TestimonialsSection = () => {
               <blockquote
                 className="
                   font-serif
-                  text-[2rem] sm:text-[2.3rem] md:text-[2.6rem]
-                  leading-[1.32]
-                  max-w-[760px] mx-auto
-                  text-white opacity-[0.92]
+                  text-[1.85rem] sm:text-[2.1rem] md:text-[2.28rem]
+                  leading-[1.6]
+                  max-w-[48ch] mx-auto
+                  text-white/90
+                  font-light
+                  tracking-[-0.005em]
+                  drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]
                 "
               >
-                {/* open curly quote */}
-                <span className="text-white">“</span>
+                {/* Opening quote */}
+                <span className="block text-[#27CDBA] text-[2.6rem] mb-3">
+                  “
+                </span>
 
                 {current.quote.map((sentence, i) => (
-                  <p
-                    key={i}
-                    className="mb-6 last:mb-0"
-                  >
+                  <p key={i} className="mb-4 last:mb-0">
                     {sentence}
                   </p>
                 ))}
 
-                {/* close curly quote */}
-                <span className="text-white">”</span>
+                {/* Closing quote */}
+                <span className="block text-[#27CDBA] text-[2.6rem] mt-4">
+                  ”
+                </span>
               </blockquote>
 
               {/* ATTRIBUTION */}
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.25 }}
-                className="mt-10"
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="mt-8"
               >
-                <p className="text-[1.15rem] font-semibold text-white">
+                <p className="text-[1.05rem] font-medium text-white/90">
                   {current.author}
                 </p>
 
-                <p className="text-[1rem] text-white/60 mt-1">
+                <p className="text-[0.95rem] text-white/60 mt-1">
                   {current.title} —{" "}
                   <span className="text-[#27CDBA]">{current.company}</span>
                 </p>

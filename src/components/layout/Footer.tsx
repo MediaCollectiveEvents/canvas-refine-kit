@@ -21,26 +21,27 @@ export default function Footer() {
         overflow-hidden
       "
     >
-      {/* Neon top strip */}
+      {/* 🌊 Thin teal strip at the TOP – mirrors header underline (but at bottom) */}
       <div
-        className="
-          absolute top-0 inset-x-0 h-[3px]
-          bg-[#27CDBA]
-          shadow-[0_0_14px_rgba(39,205,186,0.65)]
-        "
+        aria-hidden="true"
+        className="absolute top-0 inset-x-0 h-[1px]"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(39,205,186,0.55), rgba(39,205,186,0.12), rgba(39,205,186,0))",
+          boxShadow: "0 0 8px rgba(39,205,186,0.35)",
+        }}
       />
 
-      {/* Radial teal glow */}
+      {/* Subtle teal glow — same as header */}
       <div
         aria-hidden="true"
         className="
-          pointer-events-none absolute inset-0
-          bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.07),transparent_80%)]
+          absolute inset-0 pointer-events-none
+          bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.06),transparent_85%)]
         "
       />
 
       <div className="max-w-4xl mx-auto px-6 text-center">
-
         {/* HEADING */}
         <h4
           className="
@@ -107,7 +108,7 @@ export default function Footer() {
           No spam. Unsubscribe any time.
         </p>
 
-        {/* SOCIAL */}
+        {/* SOCIAL – LinkedIn icon larger */}
         <div className="flex justify-center gap-4 mb-12">
           <a
             href="#"
@@ -120,7 +121,7 @@ export default function Footer() {
               transition
             "
           >
-            <Linkedin className="w-5 h-5" />
+            <Linkedin className="w-6 h-6" strokeWidth={1.75} />
           </a>
         </div>
 

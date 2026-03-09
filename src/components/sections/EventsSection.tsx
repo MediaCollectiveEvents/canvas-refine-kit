@@ -13,7 +13,7 @@ import greenlineImg from "@/assets/events/greenline.png";
 
 import rawEventsFile from "@/content/events.json";
 
-/* ------------------ Types & Utilities ------------------ */
+/* ------------------ Types ------------------ */
 
 interface RawEvent {
   id?: number;
@@ -45,7 +45,8 @@ interface Event {
   summary?: string;
 }
 
-/* Resolve image */
+/* ------------------ Helpers ------------------ */
+
 function getImageForKey(key?: string, venue?: string, title?: string) {
   const val = (key || venue || title || "").toLowerCase();
 
@@ -57,7 +58,6 @@ function getImageForKey(key?: string, venue?: string, title?: string) {
   return broadcasterImg;
 }
 
-/* Normalize events JSON */
 function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   if (Array.isArray(raw)) return raw;
   if ("events" in raw && Array.isArray((raw as any).events)) {
@@ -66,7 +66,6 @@ function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   return [];
 }
 
-/** Format: 8 April 2026 */
 function formatInternationalDate(input?: string) {
   if (!input) return "";
   const d = new Date(input);
@@ -81,12 +80,14 @@ function formatInternationalDate(input?: string) {
 /* ------------------ Component ------------------ */
 
 interface EventsSectionProps {
-  onRegisterClick: () => void;
-  underHeader?: string;
   section?: any;
+  onRegisterClick?: () => void;
 }
 
-const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
+export default function EventsSection({
+  section,
+  onRegisterClick,
+}: EventsSectionProps) {
   const rawEvents = normalizeRawEvents(rawEventsFile as any);
 
   const events: Event[] = rawEvents.map((e, i) => ({
@@ -118,27 +119,42 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
       className="relative bg-[#E8E9EA]"
     >
       <div className="relative">
-        {/* HEADER — match Who Attends typography */}
+
+        {/* ======================= */}
+        {/* SECTION TITLE + UNDERLINE */}
+        {/* ======================= */}
         <div className="max-w-3xl mb-14">
           <h2
             className="
               font-[Montserrat]
               font-light
-              text-[2.6rem] sm:text-[2.8rem] md:text-[3rem]
-              leading-[1.16]
+              text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]
+              leading-[1.15]
               tracking-tight
               text-[#0F172A]
             "
           >
             Upcoming{" "}
-            <span className="font-semibold text-[#21BFA8] drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)]">
+            <span className="font-normal text-[#21BFA8] drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)]">
               Events
             </span>
           </h2>
+
+          <div
+            aria-hidden="true"
+            className="mt-4 h-px w-full"
+            style={{
+              background:
+                "linear-gradient(to right, rgba(15,23,42,0.35), rgba(15,23,42,0))",
+            }}
+          />
         </div>
 
-        {/* CARDS GRID */}
+        {/* ======================= */}
+        {/* GRID OF EVENT CARDS */}
+        {/* ======================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 items-stretch">
+
           {events.map((event, index) => {
             const date = formatInternationalDate(event.date);
 
@@ -170,12 +186,11 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
                     hover:-translate-y-[6px]
                   "
                 >
-                  {/* Subtle card texture */}
                   <div
                     aria-hidden="true"
                     className="
                       pointer-events-none absolute inset-0
-                      bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_65%)]
+                      bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_70%)]
                       opacity-20
                     "
                   />
@@ -183,53 +198,69 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
                   <CardContent className="relative z-10 flex flex-col p-7 h-full text-center items-center">
 
                     {/* TITLE */}
-                    <h3 className="font-[Montserrat] text-[21px] font-semibold text-white mb-3">
+                    <h3
+                      className="
+                        font-[Montserrat]
+                        text-[1.35rem] sm:text-[1.45rem]
+                        font-semibold
+                        text-white
+                        leading-tight
+                        mb-3
+                      "
+                    >
                       {event.title}
                     </h3>
 
                     {/* DATE */}
                     {date && (
-                      <div className="mb-5 flex items-center justify-center gap-2 text-[1rem] font-medium text-white/85">
+                      <div
+                        className="
+                          mb-4 flex items-center justify-center gap-1.5
+                          text-[0.95rem] font-medium text-white/90
+                        "
+                      >
                         <CalendarDays size={18} />
                         <span>{date}</span>
                       </div>
                     )}
 
-                    {/* IMAGE — ALL 280px SIZE */}
+                    {/* IMAGE */}
                     <img
                       src={event.image}
                       alt={event.title}
-                      className="
-                        w-[280px]
-                        mb-6
-                        object-contain
-                        opacity-95
-                      "
+                      className="w-[280px] mb-5 object-contain opacity-95"
                     />
 
                     {/* VENUE + LOCATION */}
-                    <p className="text-sm text-white/75 leading-[1.5] mb-1 flex items-center justify-center gap-2">
+                    <p
+                      className="
+                        text-[0.9rem] text-white/85 font-medium tracking-tight
+                        leading-[1.5] mb-1 flex items-center justify-center gap-2
+                      "
+                    >
                       <MapPin className="h-4 w-4" />
                       <span>{event.venue}</span>
                     </p>
-                    <p className="text-sm text-white/70 leading-[1.5] mb-4">
+
+                    <p className="text-[0.85rem] text-white/60 leading-[1.5] mb-4">
                       {event.location}
                     </p>
 
                     {/* SUMMARY */}
-                    <p className="text-white/80 text-[0.95rem] leading-[1.65] mb-5">
+                    <p className="text-white/90 text-[1rem] leading-[1.65] mb-6">
                       {event.summary}
                     </p>
 
                     {/* TAGS */}
                     {chips.length > 0 && (
-                      <div className="flex flex-wrap justify-center gap-2 mb-5">
+                      <div className="flex flex-wrap justify-center gap-2 mb-6">
                         {chips.slice(0, 2).map((chip, i) => (
                           <div
                             key={`${event.id}-chip-${i}`}
                             className="
-                              px-3 py-1 rounded-full text-[11px]
-                              bg-white/8 border border-white/24 text-white/85
+                              px-3 py-1 rounded-full text-[0.7rem]
+                              uppercase tracking-wide
+                              bg-white/10 border border-white/20 text-white/90
                             "
                           >
                             {chip}
@@ -238,22 +269,35 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
                       </div>
                     )}
 
-                    {/* CTA */}
-                    <div className="mt-auto flex flex-col items-center gap-2">
+                    {/* CTA CLUSTER */}
+                    <div className="mt-auto flex flex-col items-center gap-3 pt-4 w-full">
+                      <div className="w-full h-px bg-white/10 mb-2" />
+
                       <button
-                        onClick={onRegisterClick}
+                        onClick={() => onRegisterClick?.()}
                         className="
                           inline-flex items-center gap-2
-                          font-[Montserrat] text-[0.95rem]
-                          text-white hover:text-[#27CDBA]
-                          transition
+                          font-[Montserrat] text-[0.95rem] font-semibold
+                          bg-[#21BFA8] text-[#0F172A]
+                          px-5 py-2.5 rounded-full
+                          shadow-[0_0_12px_rgba(33,191,168,0.35)]
+                          transition-all duration-200
+                          hover:bg-[#1EB79F]
+                          hover:shadow-[0_0_16px_rgba(33,191,168,0.45)]
+                          hover:scale-[1.03]
                         "
                       >
                         Register interest
                         <ArrowRight size={16} />
                       </button>
 
-                      <button className="text-white/60 text-[13px] hover:text-white transition">
+                      <button
+                        className="
+                          text-white/70 text-[13px]
+                          hover:text-white hover:underline underline-offset-2
+                          transition
+                        "
+                      >
                         Details
                       </button>
                     </div>
@@ -266,6 +310,4 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onRegisterClick }) => {
       </div>
     </SectionWrapper>
   );
-};
-
-export default EventsSection;
+}

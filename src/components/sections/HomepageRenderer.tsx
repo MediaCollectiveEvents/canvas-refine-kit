@@ -14,7 +14,6 @@ import PartnersSection from "./PartnersSection";
 interface HomepageSection {
   type: string;
   hidden?: boolean;
-  // Allow arbitrary fields coming from CMS JSON
   [key: string]: any;
 }
 
@@ -48,7 +47,6 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
 
             case "whoAttends":
               // CMS-driven Who Attends section
-              // (WhoAttendsSection currently expects only `section`)
               return (
                 <WhoAttendsSection
                   key={key}
@@ -119,7 +117,7 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
             default:
               console.warn(
                 "[HomepageRenderer] Unknown section type:",
-                section.type,
+                section.type
               );
               return null;
           }

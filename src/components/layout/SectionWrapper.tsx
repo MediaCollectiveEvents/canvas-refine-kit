@@ -1,17 +1,8 @@
+// src/components/layout/SectionWrapper.tsx
+
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
-/**
- * Backwards-compatible variant API:
- *
- * OLD (existing across your site):
- *   "clean" | "tint" | "glow" | "glass"
- *
- * NEW (unified design system):
- *   "light" | "dark" | "transparent"
- *
- * Both will now work.
- */
 type SectionVariant =
   | "clean"
   | "tint"
@@ -37,20 +28,16 @@ interface SectionWrapperProps {
 export default function SectionWrapper({
   children,
   className = "",
-  variant = "clean",     // we now SUPPORT "clean"
+  variant = "clean",
   noise = false,
   grid = false,
   padding = "lux",
-  withFades = false,      // defaults OFF for clean layout
+  withFades = false,
   align = "left",
 }: SectionWrapperProps) {
-  // Unified vertical spacing
   const paddingClasses =
-    padding === "lux"
-      ? "py-24 md:py-32"
-      : "py-16 md:py-24";
+    padding === "lux" ? "py-24 md:py-32" : "py-16 md:py-24";
 
-  // Unified horizontal max-width container
   const containerClass = `
     max-w-6xl
     mx-auto
@@ -58,7 +45,6 @@ export default function SectionWrapper({
     ${align === "center" ? "text-center" : "text-left"}
   `;
 
-  // Backwards + new variant mapping
   const bgClass =
     variant === "light" || variant === "clean"
       ? "bg-[#ECEFF1]"
@@ -84,15 +70,16 @@ export default function SectionWrapper({
         ${className}
       `}
     >
-      {/* Optional noise */}
+      {/* 🚫 All atmosphere/tint/bloom removed */}
+      {/* You can re-enable noise if you want subtle texture */}
+
       {noise && (
         <div
-          className="absolute inset-0 opacity-[0.04] mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 opacity-[0.05] mix-blend-overlay pointer-events-none"
           style={{ backgroundImage: "url('/noise.png')" }}
         />
       )}
 
-      {/* Optional grid overlay */}
       {grid && (
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
@@ -104,20 +91,11 @@ export default function SectionWrapper({
         />
       )}
 
-      {/* Optional fades */}
-      {withFades && (
-        <>
-          <div className="absolute top-0 inset-x-0 h-32 bg-gradient-to-b from-black/30 to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
-        </>
-      )}
-
-      {/* Animated content */}
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.25 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
         className="relative z-10"
       >
         <div className={containerClass}>{children}</div>

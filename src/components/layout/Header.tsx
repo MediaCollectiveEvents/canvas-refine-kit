@@ -1,3 +1,5 @@
+// src/components/layout/Header.tsx
+
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -86,14 +88,17 @@ const Header = () => {
           "
         />
 
-        {/* Neon underline — cleaner, stronger */}
+        {/* 🌊 Softer teal underline – reduced + fading to the right */}
         <div
           aria-hidden="true"
           className="
-            absolute inset-x-0 bottom-0 h-[3px]
-            bg-[#27CDBA]
-            shadow-[0_0_14px_rgba(39,205,186,0.65)]
+            absolute inset-x-0 bottom-0 h-[1px]
           "
+          style={{
+            background:
+              "linear-gradient(to right, rgba(39,205,186,0.55), rgba(39,205,186,0.12), rgba(39,205,186,0))",
+            boxShadow: "0 0 8px rgba(39,205,186,0.35)",
+          }}
         />
 
         <div className="relative h-full">
@@ -162,9 +167,11 @@ const Header = () => {
           </div>
 
           {isMenuOpen && (
-            <nav className="md:hidden absolute left-0 right-0 top-full 
+            <nav
+              className="md:hidden absolute left-0 right-0 top-full 
               bg-[#0F172A]/95 border-t border-white/15
-            ">
+            "
+            >
               <div className="max-w-6xl mx-auto px-6 md:px-10 py-4">
                 <div className="flex flex-col gap-4">
                   {navItems.map((item) => (
