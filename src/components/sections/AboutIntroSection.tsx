@@ -27,7 +27,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
       noise={true}
       grid={false}
       withFades={false}
-      className="relative bg-[#ECEFF1]"
+      className="relative"
     >
       <div
         className="
@@ -46,12 +46,11 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           transition={{ duration: 0.45 }}
           className="pt-[0.25rem]"
         >
-          {/* Use SectionTitle, but pass custom children so we keep the teal “Us” */}
           <SectionTitle
             align="left"
-            tone="muted"          // tells SectionTitle this is on a light background
-            disableEmphasis={true} // we control the accent ourselves
-            className="!text-[#0F172A]" // ensure dark navy on this section
+            tone="muted"
+            disableEmphasis={true}
+            className="!text-[#0F172A]"
           >
             About <span className="text-[#27CDBA]">Us</span>
           </SectionTitle>
@@ -67,7 +66,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           />
         </motion.div>
 
-        {/* RIGHT — Wider text column (aligned to Who Attends) */}
+        {/* RIGHT — Wider text column */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}

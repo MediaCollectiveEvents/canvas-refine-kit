@@ -12,6 +12,7 @@ import EventsSection from "./EventsSection";
 import PartnersSection from "./PartnersSection";
 
 interface HomepageSection {
+  id?: string;
   type: string;
   hidden?: boolean;
   [key: string]: any;
@@ -22,7 +23,10 @@ interface HomepageRendererProps {
   onRegister?: () => void;
 }
 
-function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
+export default function HomepageRenderer({
+  sections,
+  onRegister,
+}: HomepageRendererProps) {
   const safeSections: HomepageSection[] = Array.isArray(sections)
     ? sections
     : [];
@@ -30,14 +34,13 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
   return (
     <>
       {safeSections
-        // Skip sections flagged as hidden in JSON / CMS
+        // Skip hidden sections
         .filter((section) => !section?.hidden)
         .map((section, index) => {
           const key = section.id ?? `${section.type}-${index}`;
 
           switch (section.type) {
             case "aboutIntro":
-              // CMS-driven About Intro section
               return (
                 <AboutIntroSection
                   key={key}
@@ -46,7 +49,6 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
               );
 
             case "whoAttends":
-              // CMS-driven Who Attends section
               return (
                 <WhoAttendsSection
                   key={key}
@@ -55,10 +57,10 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
               );
 
             case "upcomingEventsIntro":
-              // Upcoming events / Next Gatherings block
               return (
                 <EventsSection
                   key={key}
+                  section={section as any}
                   onRegisterClick={onRegister ?? (() => {})}
                   underHeader={section.underHeader}
                   imageAspect={section.imageAspect ?? "3:2"}
@@ -68,16 +70,13 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
                       ? section.imagePadding
                       : true
                   }
-                  section={section as any}
                 />
               );
 
             case "testimonials":
-              // Editorial pull-quote / testimonials
               return <TestimonialsSection key={key} />;
 
             case "joinCommunity":
-              // CMS-driven Join Community section
               return (
                 <JoinCommunitySection
                   key={key}
@@ -87,7 +86,6 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
               );
 
             case "newHere":
-              // CMS-driven New Here section
               return (
                 <NewHereSection
                   key={key}
@@ -97,33 +95,16 @@ function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
               );
 
             case "forBrands":
-              // CMS-driven For Brands & Partners section
-              return (
-                <ForBrandsSection
-                  key={key}
-                  section={section as any}
-                />
-              );
+              return <ForBrandsSection key={key} section={section as any} />;
 
             case "partners":
-              // Partners section from CMS
-              return (
-                <PartnersSection
-                  key={key}
-                  section={section as any}
-                />
-              );
+              return <PartnersSection key={key} section={section as any} />;
 
             default:
-              console.warn(
-                "[HomepageRenderer] Unknown section type:",
-                section.type
-              );
+              console.warn("[HomepageRenderer] Unknown section:", section.type);
               return null;
           }
         })}
     </>
   );
 }
-
-export default HomepageRenderer;

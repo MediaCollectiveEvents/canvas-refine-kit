@@ -51,8 +51,11 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
         >
           <h2
             className="
+              signature-underline
+              inline-block
               font-sans
-              text-[2.4rem] sm:text-[2.6rem] md:text-[2.8rem]
+              font-light
+              text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]
               leading-[1.16]
               tracking-tight
               text-[#0F172A]
@@ -65,7 +68,14 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
         {/* MIDDLE — vertical divider */}
         <div
           aria-hidden="true"
-          className="hidden md:block h-full w-px bg-black/15 mt-[0.75rem] mb-[0.75rem]"
+          className="
+            hidden md:block
+            h-full
+            w-px
+            bg-black/15
+            mt-[0.75rem]
+            mb-[0.75rem]
+          "
         />
 
         {/* RIGHT — wider text column */}
