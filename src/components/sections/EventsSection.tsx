@@ -1,7 +1,14 @@
 // src/components/sections/EventsSection.tsx
 
 import React, { useState } from "react";
-import { MapPin, ArrowRight, CalendarDays, Mail, MessageCircle } from "lucide-react";
+import {
+  MapPin,
+  ArrowRight,
+  CalendarDays,
+  Mail,
+  MessageCircle,
+  Share2, // 👈 added for Share icon
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import SectionWrapper from "../layout/SectionWrapper";
@@ -254,7 +261,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                       </div>
                     )}
 
-                    {/* IMAGE */}
+                    {/* IMAGE – unchanged size */}
                     <img
                       src={event.image}
                       alt={event.title}
@@ -286,9 +293,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                         </p>
                       )}
                       {remainingSummary && (
-                        <p className="text-white/80">
-                          {remainingSummary}
-                        </p>
+                        <p className="text-white/80">{remainingSummary}</p>
                       )}
                     </div>
 
@@ -345,24 +350,39 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                         Details
                       </button>
 
-                      {/* Share: opens inline popover */}
+                      {/* Share button (pill) – replaces simple text link */}
                       <button
                         type="button"
                         onClick={() =>
-                          setOpenShareId(openShareId === event.id ? null : event.id)
+                          setOpenShareId(
+                            isShareOpen ? null : event.id
+                          )
                         }
-                        className="
-                          mt-1 text-white/60 text-[12px]
-                          hover:text-white hover:underline underline-offset-2
+                        className={`
+                          mt-3
+                          inline-flex items-center justify-center gap-2
+                          rounded-full border border-[#0071e3]
+                          bg-[#eaf3ff]
+                          px-5 py-1.5
+                          text-[13px] font-medium text-[#0f172a]
+                          shadow-sm
                           transition
-                        "
+                          hover:bg-[#d8e8ff]
+                          hover:shadow
+                          focus:outline-none focus-visible:ring-2
+                          focus-visible:ring-[#0071e3] focus-visible:ring-offset-2
+                          focus-visible:ring-offset-[#0F172A]
+                        `}
                       >
-                        {openShareId === event.id
-                          ? "Close share options"
-                          : "Share"}
+                        <Share2
+                          size={14}
+                          className="text-[#0f172a]"
+                          aria-hidden="true"
+                        />
+                        <span>{isShareOpen ? "Close share" : "Share"}</span>
                       </button>
 
-                      {openShareId === event.id && (
+                      {isShareOpen && (
                         <div
                           className="
                             mt-2 w-full

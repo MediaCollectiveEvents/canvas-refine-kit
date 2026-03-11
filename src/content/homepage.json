@@ -1,7 +1,7 @@
 {
   "hero": {
     "imageKey": "homeHero",
-    "imagePosition": "top",
+    "imagePosition": "center",
     "theme": "dark",
     "primaryCta": {
       "label": "Join us",
@@ -10,12 +10,12 @@
     "imageOffset": 0,
     "cta": {
       "url": "/partners",
-      "label": "Request an Invitation"
+      "label": "Register to join us"
     },
-    "overlayStrength": 1,
+    "overlayStrength": 0,
     "mobileCrop": "contain",
     "subtitle": "Media and entertainment industry",
-    "title": "Curated Events",
+    "title": "Curated events",
     "image": "/uploads/bloghero2.png",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
@@ -25,17 +25,7 @@
   },
   "sections": [
     {
-      "type": "aboutIntro",
-      "heading": "What we do",
-      "body": "We bring together people who are passionate about the future of the media industry, the ideas driving it forward, and the community around it.\n\n\nOur events take place at key moments across the media calendar, creating opportunities for people to connect, exchange ideas and build relationships.\n\n\nThey range from panel discussions and screenings to informal gatherings, often aligned with major conferences.\n\n\nSupported by selected sponsors, each event is carefully curated to ensure balance and inclusivity, and is complimentary to attend for invited guests",
-      "extended": "",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
+      "body": "We bring together people who are passionate about the future of the media industry, the ideas driving it forward, and the community around it.\n\nOur events take place at key moments across the media calendar, creating opportunities for people to connect, exchange ideas and build relationships.\n\nThey range from panel discussions and screenings to informal gatherings, often aligned with major conferences.\n\nSupported by selected sponsors, each event is carefully curated to ensure balance and inclusivity, and is complimentary to attend for invited guests",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -43,7 +33,19 @@
         "grid": true,
         "withFades": true
       },
-      "hidden": false
+      "heading": "What we do",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "hidden": false,
+      "motif": "none",
+      "extended": "",
+      "type": "aboutIntro",
+      "texture": "noise"
     },
     {
       "type": "whoAttends",

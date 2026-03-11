@@ -27,12 +27,24 @@ export default function WhoAttendsSection({ section }: WhoAttendsSectionProps) {
       noise={true}
       grid={false}
       withFades={false}
-      className="relative bg-[#0F172A] text-white"
+      // ⬇ base is now a slightly softer dark instead of #0F172A
+      className="relative bg-[#111827] text-white"
     >
-      {/* GRID */}
+      {/* Subtle radial highlight to echo event cards */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute inset-0
+          bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.10),transparent_70%)]
+          opacity-25
+        "
+      />
+
+      {/* CONTENT GRID */}
       <div
         className="
-          relative
+          relative z-10
           grid
           md:grid-cols-[minmax(0,1.3fr)_minmax(0,4fr)]
           gap-12 md:gap-20
@@ -56,13 +68,13 @@ export default function WhoAttendsSection({ section }: WhoAttendsSectionProps) {
             Who <span className="text-[#27CDBA]">Attends</span>
           </SectionTitle>
 
-          {/* Divider */}
+          {/* Divider – light grey gradient, referencing events surface */}
           <div
             aria-hidden="true"
             className="mt-4 h-px w-full"
             style={{
               background:
-                "linear-gradient(to right, rgba(255,255,255,0.45), rgba(255,255,255,0))",
+                "linear-gradient(to right, rgba(236,239,241,0.9), rgba(236,239,241,0))",
             }}
           />
         </motion.div>
@@ -89,10 +101,10 @@ export default function WhoAttendsSection({ section }: WhoAttendsSectionProps) {
       </div>
 
       {/* SPACING BEFORE STATS */}
-      <div className="mt-16 md:mt-20" />
+      <div className="relative z-10 mt-16 md:mt-20" />
 
       {/* STATS GRID */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12 place-items-center">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-12 place-items-center">
         {STATS.map((s, i) => (
           <motion.div
             key={s.num}

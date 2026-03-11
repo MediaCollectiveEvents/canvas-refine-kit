@@ -31,18 +31,8 @@ collections:
             widget: object
             fields:
               - { label: Title, name: title, widget: string }
-              - {
-                  label: Subtitle,
-                  name: subtitle,
-                  widget: string,
-                  required: false,
-                }
-              - {
-                  label: Description,
-                  name: description,
-                  widget: text,
-                  required: false,
-                }
+              - { label: Subtitle, name: subtitle, widget: string, required: false }
+              - { label: Description, name: description, widget: text, required: false }
 
               - label: Hero Image
                 name: image
@@ -100,24 +90,14 @@ collections:
             widget: list
             summary: "{{fields.type}} – {{fields.heading}}"
             types:
+              # --- Join Community ---
               - label: Join Community
                 name: joinCommunity
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "joinCommunity",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "joinCommunity" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Body, name: body, widget: text }
                   - label: CTA
                     name: cta
@@ -127,50 +107,46 @@ collections:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
 
+              # --- About Intro ---
               - label: About Intro
                 name: aboutIntro
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "aboutIntro",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "aboutIntro" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Body, name: body, widget: text }
-                  - {
-                      label: Extended Text,
-                      name: extended,
-                      widget: text,
-                      required: false,
-                    }
+                  - { label: Extended Text, name: extended, widget: text, required: false }
 
+                  # NEW: Texture options for About section
+                  - label: Texture
+                    name: texture
+                    widget: select
+                    required: false
+                    default: none
+                    options:
+                      - { label: None, value: none }
+                      - { label: Noise (wrapper grain), value: noise }
+                      - { label: Vignette (soft radial), value: vignette }
+
+                  # NEW: Motif options for About section
+                  - label: Motif
+                    name: motif
+                    widget: select
+                    required: false
+                    default: none
+                    options:
+                      - { label: None, value: none }
+                      - { label: Corner Square (bottom-right), value: corner-square }
+
+              # --- Who Attends ---
               - label: Who Attends
                 name: whoAttends
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "whoAttends",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "whoAttends" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - label: Statistics
                     name: statistics
                     widget: object
@@ -187,37 +163,17 @@ collections:
                       - { label: Subtitle, name: subtitle, widget: string }
                       - { label: Icon Key, name: icon, widget: string }
 
+              # --- Upcoming Events Intro ---
               - label: Upcoming Events Intro
                 name: upcomingEventsIntro
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "upcomingEventsIntro",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "upcomingEventsIntro" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
-                  - {
-                      label: Description,
-                      name: description,
-                      widget: text,
-                      required: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
+                  - { label: Description, name: description, widget: text, required: false }
                   - { label: Note, name: note, widget: string, required: false }
-                  - {
-                      label: Under-Header Text,
-                      name: underHeader,
-                      widget: text,
-                      required: false,
-                    }
+                  - { label: Under-Header Text, name: underHeader, widget: text, required: false }
                   - label: Primary CTA
                     name: cta
                     widget: object
@@ -249,32 +205,16 @@ collections:
                     options:
                       - { label: Contain (no crop), value: contain }
                       - { label: Cover (crop to fill), value: cover }
-                  - {
-                      label: Card Image Padding,
-                      name: imagePadding,
-                      widget: boolean,
-                      required: false,
-                      default: true,
-                    }
+                  - { label: Card Image Padding, name: imagePadding, widget: boolean, required: false, default: true }
 
+              # --- For Brands & Partners ---
               - label: For Brands & Partners
                 name: forBrands
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "forBrands",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "forBrands" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Body, name: body, widget: text }
                   - label: CTA
                     name: cta
@@ -284,24 +224,14 @@ collections:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
 
+              # --- New Here ---
               - label: New Here
                 name: newHere
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "newHere",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "newHere" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Body, name: body, widget: text }
                   - label: CTA
                     name: cta
@@ -311,58 +241,28 @@ collections:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string }
 
+              # --- Testimonials ---
               - label: Testimonials
                 name: testimonials
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "testimonials",
-                    }
-                  - {
-                      label: Heading,
-                      name: heading,
-                      widget: string,
-                      required: false,
-                    }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "testimonials" }
+                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - label: Items
                     name: items
                     widget: list
                     field: { label: Testimonial, name: item, widget: text }
 
+              # --- Partners Strip ---
               - label: Partners Strip
                 name: partners
                 widget: object
                 fields:
-                  - {
-                      label: Type,
-                      name: type,
-                      widget: hidden,
-                      default: "partners",
-                    }
+                  - { label: Type, name: type, widget: hidden, default: "partners" }
                   - { label: Heading, name: heading, widget: string }
-                  - {
-                      label: Hidden,
-                      name: hidden,
-                      widget: boolean,
-                      required: false,
-                      default: false,
-                    }
-                  - {
-                      label: Description,
-                      name: description,
-                      widget: text,
-                      required: false,
-                    }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
+                  - { label: Description, name: description, widget: text, required: false }
                   - label: Logos
                     name: logos
                     widget: list

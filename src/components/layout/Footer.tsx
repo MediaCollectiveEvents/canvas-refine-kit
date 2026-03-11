@@ -6,7 +6,7 @@ export default function Footer() {
 
   const handleSubscribe = (e: FormEvent) => {
     e.preventDefault();
-    console.log("Newsletter:", email);
+    console.log("Newsletter signup:", email);
     setEmail("");
   };
 
@@ -21,7 +21,7 @@ export default function Footer() {
         overflow-hidden
       "
     >
-      {/* 🌊 Thin teal strip at the TOP – mirrors header underline (but at bottom) */}
+      {/* Thin teal strip at top */}
       <div
         aria-hidden="true"
         className="absolute top-0 inset-x-0 h-[1px]"
@@ -32,7 +32,7 @@ export default function Footer() {
         }}
       />
 
-      {/* Subtle teal glow — same as header */}
+      {/* Teal glow */}
       <div
         aria-hidden="true"
         className="
@@ -47,13 +47,12 @@ export default function Footer() {
           className="
             font-[Montserrat]
             font-light
-            text-[1.5rem] sm:text-[1.65rem]
-            text-white
-            tracking-wide
+            text-[1.9rem] sm:text-[2rem]
+            text-white tracking-wide
             mb-6
           "
         >
-          Stay in the loop
+          Join the Collective
         </h4>
 
         {/* DESCRIPTION */}
@@ -61,17 +60,17 @@ export default function Footer() {
           className="
             font-[Montserrat]
             text-white/75
-            text-[1rem] sm:text-[1.05rem]
+            text-[1rem] sm:text-[1.1rem]
             leading-[1.75]
             max-w-xl mx-auto
             mb-10
           "
         >
-          Get occasional updates about new gatherings, speakers, industry leaders
-          and emerging opportunities.
+          Receive occasional updates about upcoming gatherings, speakers and
+          industry opportunities.
         </p>
 
-        {/* INPUT + BUTTON */}
+        {/* EMAIL FORM */}
         <form
           onSubmit={handleSubscribe}
           className="flex flex-col sm:flex-row gap-3 justify-center max-w-lg mx-auto mb-12"
@@ -81,7 +80,7 @@ export default function Footer() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="Your email address"
+            placeholder="Email address"
             className="
               w-full rounded-md
               bg-white/5 text-white placeholder-white/50
@@ -100,32 +99,34 @@ export default function Footer() {
               whitespace-nowrap
             "
           >
-            Subscribe
+            Join
           </button>
         </form>
 
+        {/* SMALLPRINT */}
+        <p className="text-white/80 text-sm mb-1">Join our community.</p>
         <p className="text-white/40 text-xs mb-14">
-          No spam. Unsubscribe any time.
+          No spam. Unsubscribe anytime.
         </p>
 
-        {/* SOCIAL – LinkedIn icon larger */}
+        {/* SOCIAL – Larger LinkedIn */}
         <div className="flex justify-center gap-4 mb-12">
           <a
             href="#"
             aria-label="LinkedIn"
             className="
-              w-10 h-10 rounded-full
+              w-12 h-12 rounded-full
               border border-white/20
               flex items-center justify-center
               text-white/70 hover:text-white hover:border-white/40
               transition
             "
           >
-            <Linkedin className="w-6 h-6" strokeWidth={1.75} />
+            <Linkedin className="w-7 h-7" strokeWidth={1.75} />
           </a>
         </div>
 
-        {/* LEGAL */}
+        {/* LEGAL LINKS */}
         <div
           className="
             flex justify-center gap-8
@@ -135,17 +136,11 @@ export default function Footer() {
             text-sm text-white/70
           "
         >
-          <a
-            href="/privacy"
-            className="hover:text-white transition-colors"
-          >
+          <a href="/privacy" className="hover:text-white transition-colors">
             Privacy Policy
           </a>
 
-          <a
-            href="/terms"
-            className="hover:text-white transition-colors"
-          >
+          <a href="/terms" className="hover:text-white transition-colors">
             Terms of Service
           </a>
         </div>

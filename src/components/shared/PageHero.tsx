@@ -1,5 +1,3 @@
-// src/components/shared/PageHero.tsx
-
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollIndicator } from "@/components/shared/ScrollIndicator";
@@ -53,8 +51,8 @@ export default function PageHero(props: PageHeroProps) {
     image,
     imageKey,
     variant = "image",
-    overlayStrength = 0.75,
-    theme = "dark",
+    overlayStrength = 0.75, // kept for API compatibility
+    theme = "dark", // kept for API compatibility
     mobileCrop = "cover",
     imagePosition = "center",
     imageOffset = 0,
@@ -111,8 +109,9 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      {/* EXISTING HERO OVERLAY */}
+      {/* HERO OVERLAYS */}
       <div className="absolute inset-0 pointer-events-none">
+        {/* Dark blue vignette over the whole hero */}
         <div
           className="absolute inset-0"
           style={{
@@ -128,6 +127,7 @@ export default function PageHero(props: PageHeroProps) {
           }}
         />
 
+        {/* Colour highlight flares */}
         <div
           className="absolute inset-0 opacity-[0.24]"
           style={{
@@ -141,42 +141,44 @@ export default function PageHero(props: PageHeroProps) {
         />
       </div>
 
-      {/* ⭐ ELLIPTICAL CINEMATIC BACKDROP */}
+      {/* STRONGER ELLIPTICAL GLOWS – NO RECTANGLE */}
+      {/* Outer glow around the whole hero content area */}
       <div
         aria-hidden="true"
         className="
           absolute
           left-1/2
-          top-[22%]
+          top-[20%]
           -translate-x-1/2
-          w-[92vw] max-w-[1300px]
-          h-[380px]
+          w-[100vw] max-w-[1400px]
+          h-[420px]
           pointer-events-none
         "
         style={{
           background: `
             radial-gradient(
               ellipse at center,
-              rgba(0,0,0,0.85) 0%,
-              rgba(0,0,0,0.75) 28%,
-              rgba(0,0,0,0.55) 55%,
-              rgba(0,0,0,0.32) 75%,
-              rgba(0,0,0,0.0) 100%
+              rgba(15,23,42,0) 0%,
+              rgba(15,23,42,0.65) 25%,
+              rgba(15,23,42,0.55) 45%,
+              rgba(15,23,42,0.35) 65%,
+              rgba(15,23,42,0.12) 80%,
+              rgba(15,23,42,0) 100%
             )
           `,
-          filter: "blur(32px)",
+          filter: "blur(50px)",
         }}
       />
 
-      {/* ⭐ LOWER ELLIPTICAL UNDERGLOW */}
+      {/* Inner, more intense glow directly behind the hero text */}
       <div
         aria-hidden="true"
         className="
           absolute
           left-1/2
-          top-[46%]
+          top-[50%]
           -translate-x-1/2
-          w-[88vw] max-w-[1200px]
+          w-[86vw] max-w-[1200px]
           h-[260px]
           pointer-events-none
         "
@@ -184,16 +186,18 @@ export default function PageHero(props: PageHeroProps) {
           background: `
             radial-gradient(
               ellipse at center,
-              rgba(0,0,0,0.58) 0%,
-              rgba(0,0,0,0.38) 50%,
-              rgba(0,0,0,0) 100%
+              rgba(15,23,42,0) 0%,
+              rgba(15,23,42,0.7) 30%,
+              rgba(15,23,42,0.55) 55%,
+              rgba(15,23,42,0.28) 75%,
+              rgba(15,23,42,0) 100%
             )
           `,
-          filter: "blur(28px)",
+          filter: "blur(40px)",
         }}
       />
 
-      {/* CONTENT */}
+      {/* CONTENT (NO BACKGROUND CARD) */}
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
@@ -205,13 +209,17 @@ export default function PageHero(props: PageHeroProps) {
           pt-28 pb-20
         "
       >
-        <div className="max-w-3xl mx-auto text-center">
-
+        <div
+          className="
+            max-w-3xl mx-auto text-center
+            px-6 sm:px-8 lg:px-10
+          "
+        >
           {/* EYEBROW */}
           {eyebrow && (
             <p
               className="
-                text-white/50
+                text-white/60
                 font-body font-medium
                 uppercase tracking-[0.38em]
                 text-[0.70rem] sm:text-[0.78rem] md:text-[0.85rem]
@@ -229,7 +237,7 @@ export default function PageHero(props: PageHeroProps) {
               text-white
               text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]
               tracking-tight leading-[1.02]
-              drop-shadow-[0_0_60px_rgba(0,0,0,0.95)]
+              drop-shadow-[0_0_40px_rgba(0,0,0,0.9)]
               mb-10
             "
           >
