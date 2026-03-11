@@ -1,4 +1,11 @@
 {
+  "seo": {
+    "title": "Curated Events for Media & Entertainment Leaders — The Media Collective",
+    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
+    "keywords": "media events, broadcast, streaming, media technology, industry networking",
+    "ogImage": "/uploads/homepage-og.jpg"
+  },
+
   "hero": {
     "imageKey": "homeHero",
     "imagePosition": "center",
@@ -23,6 +30,7 @@
       "url": "/partners"
     }
   },
+
   "sections": [
     {
       "body": "We bring together people who are passionate about the future of the media industry, the ideas driving it forward, and the community around it.\n\nOur events take place at key moments across the media calendar, creating opportunities for people to connect, exchange ideas and build relationships.\n\nThey range from panel discussions and screenings to informal gatherings, often aligned with major conferences.\n\nSupported by selected sponsors, each event is carefully curated to ensure balance and inclusivity, and is complimentary to attend for invited guests",

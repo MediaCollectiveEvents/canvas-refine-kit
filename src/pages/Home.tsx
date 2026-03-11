@@ -1,5 +1,6 @@
 // src/pages/Home.tsx
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -19,6 +20,45 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
+      {/* --------------------------- */}
+      {/* SEO TAGS FOR HOMEPAGE      */}
+      {/* --------------------------- */}
+      <Helmet>
+        <title>
+          The Media Collective — Curated Events for Media, Broadcast & Tech Leaders
+        </title>
+
+        <meta
+          name="description"
+          content="Exclusive, invite-only gatherings connecting senior leaders across media, broadcast, streaming and technology. Explore events curated to spark meaningful industry conversations."
+        />
+
+        {/* ---- Open Graph (social sharing) ---- */}
+        <meta
+          property="og:title"
+          content="The Media Collective — Curated Events for Media & Tech Leaders"
+        />
+        <meta
+          property="og:description"
+          content="Exclusive events for senior professionals across broadcast, streaming and media technology."
+        />
+        <meta property="og:image" content="/og-default.jpg" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://themediacollective.co/" />
+
+        {/* ---- Twitter Card ---- */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="The Media Collective" />
+        <meta
+          name="twitter:description"
+          content="Invite-only gatherings connecting leaders across media, broadcast and streaming."
+        />
+        <meta name="twitter:image" content="/og-default.jpg" />
+
+        {/* ---- Canonical URL ---- */}
+        <link rel="canonical" href="https://themediacollective.co/" />
+      </Helmet>
+
       <Header />
 
       <EventRegistrationForm
@@ -26,7 +66,7 @@ const Home = () => {
         onOpenChange={setIsFormOpen}
       />
 
-      {/* FULL-WIDTH HERO (RESTORES ORIGINAL LAYOUT) */}
+      {/* FULL-WIDTH HERO */}
       <div className="w-full bg-[#0b111a]">
         <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
           <PageHero
@@ -45,7 +85,7 @@ const Home = () => {
         </main>
       </div>
 
-      {/* PAGE CONTENT (WRAPPED AS NORMAL) */}
+      {/* PAGE CONTENT */}
       <div className="w-full bg-[#f7f7f7]">
         <HomepageRenderer
           sections={sections}
