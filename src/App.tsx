@@ -1,5 +1,7 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import settings from "@/content/settings.json";
 
 // Pages
 import Home from "@/pages/Home";
@@ -12,45 +14,33 @@ import Partners from "@/pages/Partners";
 import FAQ from "@/pages/FAQ";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import MyNewPage from "@/pages/MyNewPage";
-import Admin from "@/pages/Admin"; // your React "Content Manager" page
+import Admin from "@/pages/Admin";
 import Wireframe from "@/pages/Wireframe";
 import NotFound from "@/pages/NotFound";
+import Maintenance from "@/pages/Maintenance"; // 👈 add this
 
 const App = () => {
+  // ⭐ Inject CMS colour palette into CSS variables
+  useEffect(() => {
+    const root = document.documentElement;
+
+    // These two control ALL light & dark section backgrounds
+    root.style.setProperty(
+      "--background-dark",
+      settings.palette.backgroundDark ?? "#0b111a"
+    );
+
+    root.style.setProperty(
+      "--background-light",
+      settings.palette.backgroundLight ?? "#ffffff"
+    );
+  }, []);
+
   return (
     <Router>
       <Routes>
-        {/* Core pages */}
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-
-        {/* Events */}
-        <Route path="/events" element={<Events />} />
-        {/* If EventDetails uses an ID or slug, adjust the param name as needed */}
-        <Route path="/events/:id" element={<EventDetails />} />
-
-        {/* Blog listing + individual posts */}
-        <Route path="/blog" element={<Blog />} />
-        {/* ✅ Option A: stop passing props to BlogPost */}
-        <Route path="/blog/:slug" element={<BlogPost />} />
-
-        {/* Partners & Sponsors */}
-        <Route path="/partners" element={<Partners />} />
-
-        {/* FAQ & Policy */}
-        <Route path="/faq" element={<FAQ />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-
-        {/* Extra pages */}
-        <Route path="/my-new-page" element={<MyNewPage />} />
-
-        {/* ✅ Move app's Admin page off /admin (Decap CMS lives at /admin/) */}
-        <Route path="/manage" element={<Admin />} />
-
-        <Route path="/wireframe" element={<Wireframe />} />
-
-        {/* Catch-all for unknown routes */}
-        <Route path="*" element={<NotFound />} />
+        {/* 🚧 Maintenance mode: send every route to Maintenance */}
+        <Route path="*" element={<Maintenance />} />
       </Routes>
     </Router>
   );

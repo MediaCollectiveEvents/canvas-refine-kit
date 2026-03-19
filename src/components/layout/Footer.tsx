@@ -15,7 +15,7 @@ export default function Footer() {
       id="contact"
       className="
         relative
-        bg-gradient-to-b from-gray-900/70 via-gray-900/55 to-gray-900/40
+        bg-gradient-to-b from-[#0E1526]/80 via-[#0E1526]/60 to-[#0E1526]/40
         backdrop-blur-2xl
         pt-28 pb-20
         overflow-hidden

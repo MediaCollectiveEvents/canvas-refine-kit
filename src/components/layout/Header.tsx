@@ -74,7 +74,7 @@ const Header = () => {
         className={`
           fixed top-0 left-0 right-0 z-50
           backdrop-blur-2xl
-          bg-gradient-to-b from-gray-900/70 via-gray-900/55 to-gray-900/40
+          bg-gradient-to-b from-[#0E1526]/80 via-[#0E1526]/60 to-[#0E1526]/40
           h-32 sm:h-40 lg:h-48 xl:h-56
           overflow-hidden
         `}
@@ -88,7 +88,7 @@ const Header = () => {
           "
         />
 
-        {/* 🌊 Softer teal underline – reduced + fading to the right */}
+        {/* 🌊 Softer teal underline – fading to the right */}
         <div
           aria-hidden="true"
           className="
@@ -131,7 +131,8 @@ const Header = () => {
                   to={item.href}
                   className="
                     font-body uppercase tracking-[0.22em]
-                    text-white/90 hover:text-[#3AE7D5]
+                    text-white/90
+                    hover:text-[#3AE7D5]
                     transition-all duration-200 text-[0.95rem] lg:text-[1rem]
                   "
                 >
@@ -156,7 +157,7 @@ const Header = () => {
               </Button>
             </div>
 
-            {/* MOBILE MENU */}
+            {/* MOBILE MENU TOGGLE */}
             <button
               className="md:hidden text-white/90 ml-auto"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -166,10 +167,11 @@ const Header = () => {
             </button>
           </div>
 
+          {/* MOBILE MENU */}
           {isMenuOpen && (
             <nav
               className="md:hidden absolute left-0 right-0 top-full 
-              bg-[#0F172A]/95 border-t border-white/15
+              bg-[#0E1526]/95 border-t border-white/15
             "
             >
               <div className="max-w-6xl mx-auto px-6 md:px-10 py-4">
@@ -180,7 +182,8 @@ const Header = () => {
                       to={item.href}
                       onClick={() => setIsMenuOpen(false)}
                       className="
-                        text-white/90 hover:text-[#3AE7D5]
+                        text-white/90
+                        hover:text-[#3AE7D5]
                         font-body uppercase tracking-[0.18em]
                         py-2 text-[1rem]
                       "

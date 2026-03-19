@@ -54,13 +54,16 @@ const TestimonialsSection = () => {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
+  // ✅ More robust rotation: useTimeout that depends on index
   useEffect(() => {
     if (paused) return;
-    const timer = setInterval(() => {
+
+    const timer = setTimeout(() => {
       setIndex((i) => (i + 1) % testimonials.length);
     }, INTERVAL);
-    return () => clearInterval(timer);
-  }, [paused]);
+
+    return () => clearTimeout(timer);
+  }, [paused, index]);
 
   const current = testimonials[index];
 
@@ -109,9 +112,9 @@ const TestimonialsSection = () => {
               {/* QUOTE */}
               <blockquote
                 className="
-                  font-serif
-                  text-[1.85rem] sm:text-[2.1rem] md:text-[2.28rem]
-                  leading-[1.6]
+                  font-serif               /* ORIGINAL FONT KEPT */
+                  text-[1.55rem] sm:text-[1.7rem] md:text-[1.82rem]   /* REDUCED ONLY */
+                  leading-[1.55]
                   max-w-[48ch] mx-auto
                   text-white/90
                   font-light
@@ -120,7 +123,7 @@ const TestimonialsSection = () => {
                 "
               >
                 {/* Opening quote */}
-                <span className="block text-[#27CDBA] text-[2.6rem] mb-3">
+                <span className="block text-[#27CDBA] text-[2.3rem] mb-3">
                   “
                 </span>
 
@@ -131,12 +134,12 @@ const TestimonialsSection = () => {
                 ))}
 
                 {/* Closing quote */}
-                <span className="block text-[#27CDBA] text-[2.6rem] mt-4">
+                <span className="block text-[#27CDBA] text-[2.3rem] mt-4">
                   ”
                 </span>
               </blockquote>
 
-              {/* ATTRIBUTION */}
+              {/* ATTRIBUTION (unchanged) */}
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}

@@ -3,9 +3,8 @@
     "title": "Curated Events for Media & Entertainment Leaders — The Media Collective",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "keywords": "media events, broadcast, streaming, media technology, industry networking",
-    "ogImage": "/uploads/homepage-og.jpg"
+    "ogImage": "/uploads/hero_minimalist.png"
   },
-
   "hero": {
     "imageKey": "homeHero",
     "imagePosition": "center",
@@ -23,14 +22,13 @@
     "mobileCrop": "contain",
     "subtitle": "Media and entertainment industry",
     "title": "Curated events",
-    "image": "/uploads/bloghero2.png",
+    "image": "/uploads/mainherolight.png",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
       "label": "Help us host",
       "url": "/partners"
     }
   },
-
   "sections": [
     {
       "body": "We bring together people who are passionate about the future of the media industry, the ideas driving it forward, and the community around it.\n\nOur events take place at key moments across the media calendar, creating opportunities for people to connect, exchange ideas and build relationships.\n\nThey range from panel discussions and screenings to informal gatherings, often aligned with major conferences.\n\nSupported by selected sponsors, each event is carefully curated to ensure balance and inclusivity, and is complimentary to attend for invited guests",
@@ -50,7 +48,7 @@
         "disableEmphasis": false
       },
       "hidden": false,
-      "motif": "none",
+      "motif": "seedling-image",
       "extended": "",
       "type": "aboutIntro",
       "texture": "noise"
@@ -104,7 +102,7 @@
         "grid": true,
         "withFades": true
       },
-      "heading": "Upcoming Event",
+      "heading": "Upcoming Events",
       "styleTitle": {
         "eyebrow": "What’s next",
         "sub": "Don't miss our flagship events.",

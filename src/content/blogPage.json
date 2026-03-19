@@ -10,10 +10,10 @@
       "label": "Help us host",
       "url": "/partners"
     },
-    "overlayStrength": 0.75,
+    "overlayStrength": 0.05,
     "mobileCrop": "cover",
-    "title": "The Blog",
-    "image": "/uploads/blog_hero.png",
+    "title": "Insights",
+    "image": "/uploads/gemini_generated_image_ja303dja303dja30.png",
     "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
   },
   "sections": [

@@ -12,18 +12,23 @@
 @tailwind utilities;
 
 /* -----------------------------------------------------------
-   BASE THEME
+   BASE THEME (CMS DRIVEN)
 ----------------------------------------------------------- */
 
 @layer base {
   :root {
-    --background: 200 15% 12%;
+    /* Injected via App.tsx */
+    --background-dark: #0b111a;
+    --background-light: #ffffff;
+
+    /* Tailwind token mapping — these now use CMS values */
+    --background: var(--background-dark);
     --foreground: 0 0% 98%;
 
-    --card: 200 12% 14%;
+    --card: var(--background-dark);
     --card-foreground: 0 0% 98%;
 
-    --popover: 200 12% 14%;
+    --popover: var(--background-dark);
     --popover-foreground: 0 0% 98%;
 
     --primary: 168 85% 65%;
@@ -51,43 +56,36 @@
     --turquoise: 168 85% 65%;
     --turquoise-glow: 168 85% 75%;
     --coral: 16 85% 65%;
-    --dark-bg: 200 15% 12%;
-    --dark-card: 200 12% 16%;
-    --dark-elevated: 200 10% 20%;
+
+    /* These now map to CMS-driven values */
+    --dark-bg: var(--background-dark);
+    --dark-card: var(--background-dark);
+    --dark-elevated: var(--background-dark);
 
     --icon-lime: 68 82% 50%;
     --icon-cyan: 191 100% 60%;
     --icon-red: 21 100% 65%;
   }
 
+  /* LIGHT MODE OVERRIDE */
+  .light {
+    --background: var(--background-light);
+    --foreground: 0 0% 8%;
+
+    --card: var(--background-light);
+    --card-foreground: 0 0% 8%;
+
+    --popover: var(--background-light);
+    --popover-foreground: 0 0% 8%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 8%;
+  }
+
+  /* DARK MODE OVERRIDE */
   .dark {
-    --background: 0 0% 8%;
+    --background: var(--background-dark);
     --foreground: 0 0% 98%;
-
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 168 85% 65%;
-    --primary-foreground: 0 0% 8%;
-
-    --secondary: 0 0% 14%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 65%;
-
-    --accent: 168 85% 65%;
-    --accent-foreground: 0 0% 8%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 168 85% 65%;
   }
 
   * {
@@ -166,14 +164,14 @@
    CUSTOM GLOBAL STYLES
 ----------------------------------------------------------- */
 
-/* Signature underline (dark navy) */
-.signature-underline {
+.signature-underline,
+.signature-underline-teal {
   position: relative;
   display: inline-block;
 }
 
 .signature-underline::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -8px;
   left: -15px;
@@ -184,14 +182,8 @@
   mask-image: linear-gradient(to right, black 90%, transparent 100%);
 }
 
-/* Optional teal variant */
-.signature-underline-teal {
-  position: relative;
-  display: inline-block;
-}
-
 .signature-underline-teal::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -8px;
   left: -15px;

@@ -1,6 +1,7 @@
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollIndicator } from "@/components/shared/ScrollIndicator";
+import settings from "@/content/settings.json";
 
 type Theme = "dark" | "light";
 type Variant = "image" | "solid";
@@ -27,6 +28,16 @@ interface PageHeroProps {
   mobileCrop?: MobileCropMode;
   imagePosition?: ImagePosition;
   imageOffset?: number;
+
+  // Per-page font colours (optional, overrides heroDefaults)
+  eyebrowColor?: string;
+  titleColor?: string;
+  textColor?: string;
+
+  // Per-page glow controls (optional, overrides heroDefaults)
+  backdropStrength?: number;
+  backdropColor?: string; // "r,g,b"
+  backdropSize?: number;
 }
 
 function inDecapPreviewIframe(): boolean {
@@ -40,6 +51,12 @@ function inDecapPreviewIframe(): boolean {
 }
 
 export default function PageHero(props: PageHeroProps) {
+  const isPreview = inDecapPreviewIframe();
+
+  // Load universal defaults from settings.json
+  const heroDefaults = (settings as any).heroDefaults || {};
+  const palette = (settings as any).palette || {};
+
   const {
     eyebrow,
     title,
@@ -51,14 +68,29 @@ export default function PageHero(props: PageHeroProps) {
     image,
     imageKey,
     variant = "image",
-    overlayStrength = 0.75, // kept for API compatibility
-    theme = "dark", // kept for API compatibility
+    overlayStrength = heroDefaults.overlayStrength ?? 0.5,
+    theme = "dark",
     mobileCrop = "cover",
     imagePosition = "center",
     imageOffset = 0,
+
+    // Resolve per-page or universal hero colours
+    eyebrowColor = heroDefaults.eyebrowColor ?? "white",
+    titleColor = heroDefaults.titleColor ?? "white",
+    textColor = heroDefaults.textColor ?? "white",
+
+    // Glow controls
+    backdropStrength = heroDefaults.backdropStrength ?? 0.6,
+    backdropColor = heroDefaults.backdropColor ?? "15,23,42",
+    backdropSize = heroDefaults.backdropSize ?? 1,
   } = props;
 
-  const isPreview = inDecapPreviewIframe();
+  // Clamp sensitive ranges
+  const clampedOverlay = Math.min(Math.max(overlayStrength, 0), 1);
+  const clampedBackdrop = Math.min(Math.max(backdropStrength, 0), 1);
+
+  // Boost glow so it has more visible range
+  const boostedBackdrop = Math.min(clampedBackdrop * 2.5, 1);
 
   let y: MotionValue<number> | 0 = 0;
   if (!isPreview) {
@@ -67,6 +99,7 @@ export default function PageHero(props: PageHeroProps) {
     y = useTransform(baseY, (value) => value + imageOffset);
   }
 
+  // Background image resolution
   const resolvedBackgroundImage =
     backgroundImage ||
     image ||
@@ -86,6 +119,33 @@ export default function PageHero(props: PageHeroProps) {
 
   const hasClickCta = !!(primaryCtaText && onPrimaryClick);
   const hasLinkCta = !!(primaryCtaText && primaryCtaHref);
+
+  // ------- FONT COLOUR RESOLVER -------
+  function resolveFontClass(color: string): string {
+    switch (color) {
+      case "white":
+        return "text-white";
+      case "black":
+        return "text-black";
+      case "teal":
+        // Brand primary: #36e0c6
+        return "text-[#36e0c6]";
+      case "cyan":
+        return "text-[#22d3ee]";
+      case "darkgrey":
+        return "text-slate-300";
+      case "primary":
+        // Same as teal: brand primary
+        return "text-[#36e0c6]";
+      default:
+        if (color.startsWith("#")) return `text-[${color}]`;
+        return "text-white";
+    }
+  }
+
+  const eyebrowClass = resolveFontClass(eyebrowColor);
+  const titleClass = resolveFontClass(titleColor);
+  const descriptionClass = resolveFontClass(textColor);
 
   return (
     <header
@@ -109,9 +169,9 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      {/* HERO OVERLAYS */}
+      {/* UNIVERSAL DARK OVERLAY + FLARES + LIGHTENING */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Dark blue vignette over the whole hero */}
+        {/* Dark vignette behind text */}
         <div
           className="absolute inset-0"
           style={{
@@ -127,7 +187,7 @@ export default function PageHero(props: PageHeroProps) {
           }}
         />
 
-        {/* Colour highlight flares */}
+        {/* Warm flares (static highlight) */}
         <div
           className="absolute inset-0 opacity-[0.24]"
           style={{
@@ -139,65 +199,47 @@ export default function PageHero(props: PageHeroProps) {
             mixBlendMode: "screen",
           }}
         />
+
+        {/* LIGHTENING LAYER – this is the "sheen" you control with overlayStrength */}
+        {clampedOverlay > 0 && (
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-screen"
+            style={{
+              backgroundColor: `rgba(255,255,255,${clampedOverlay})`,
+            }}
+          />
+        )}
       </div>
 
-      {/* STRONGER ELLIPTICAL GLOWS – NO RECTANGLE */}
-      {/* Outer glow around the whole hero content area */}
+      {/* ELLIPTICAL GLOW – BOOSTED + COLOUR-CONTROLLED */}
       <div
         aria-hidden="true"
-        className="
-          absolute
-          left-1/2
-          top-[20%]
-          -translate-x-1/2
-          w-[100vw] max-w-[1400px]
-          h-[420px]
-          pointer-events-none
-        "
+        className="absolute left-1/2 top-[50%] -translate-x-1/2 pointer-events-none"
         style={{
+          width: `${86 * backdropSize}vw`,
+          maxWidth: `${1200 * backdropSize}px`,
+          height: `${260 * backdropSize}px`,
           background: `
             radial-gradient(
               ellipse at center,
-              rgba(15,23,42,0) 0%,
-              rgba(15,23,42,0.65) 25%,
-              rgba(15,23,42,0.55) 45%,
-              rgba(15,23,42,0.35) 65%,
-              rgba(15,23,42,0.12) 80%,
-              rgba(15,23,42,0) 100%
-            )
-          `,
-          filter: "blur(50px)",
-        }}
-      />
-
-      {/* Inner, more intense glow directly behind the hero text */}
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          left-1/2
-          top-[50%]
-          -translate-x-1/2
-          w-[86vw] max-w-[1200px]
-          h-[260px]
-          pointer-events-none
-        "
-        style={{
-          background: `
-            radial-gradient(
-              ellipse at center,
-              rgba(15,23,42,0) 0%,
-              rgba(15,23,42,0.7) 30%,
-              rgba(15,23,42,0.55) 55%,
-              rgba(15,23,42,0.28) 75%,
-              rgba(15,23,42,0) 100%
+              rgba(${backdropColor},0) 0%,
+              rgba(${backdropColor},${boostedBackdrop}) 30%,
+              rgba(${backdropColor},${Math.min(
+                boostedBackdrop * 0.7,
+                1
+              )}) 55%,
+              rgba(${backdropColor},${Math.min(
+                boostedBackdrop * 0.4,
+                1
+              )}) 75%,
+              rgba(${backdropColor},0) 100%
             )
           `,
           filter: "blur(40px)",
         }}
       />
 
-      {/* CONTENT (NO BACKGROUND CARD) */}
+      {/* HERO CONTENT */}
       <motion.div
         initial={{ opacity: 0, y: 32 }}
         animate={{ opacity: 1, y: 0 }}
@@ -209,53 +251,48 @@ export default function PageHero(props: PageHeroProps) {
           pt-28 pb-20
         "
       >
-        <div
-          className="
-            max-w-3xl mx-auto text-center
-            px-6 sm:px-8 lg:px-10
-          "
-        >
+        <div className="max-w-3xl mx-auto text-center px-6 sm:px-8 lg:px-10">
           {/* EYEBROW */}
           {eyebrow && (
             <p
-              className="
-                text-white/60
+              className={`
+                ${eyebrowClass}
                 font-body font-medium
                 uppercase tracking-[0.38em]
                 text-[0.70rem] sm:text-[0.78rem] md:text-[0.85rem]
-                mb-7
-              "
+                mb-7 opacity-80
+              `}
             >
               {eyebrow}
             </p>
           )}
 
-          {/* HEADLINE */}
+          {/* TITLE */}
           <h1
-            className="
+            className={`
               font-satisfy
-              text-white
+              ${titleClass}
               text-5xl sm:text-6xl md:text-7xl lg:text-[5rem]
               tracking-tight leading-[1.02]
               drop-shadow-[0_0_40px_rgba(0,0,0,0.9)]
               mb-10
-            "
+            `}
           >
             {title}
           </h1>
 
-          {/* SUBHEADING */}
+          {/* DESCRIPTION */}
           {description && (
             <p
-              className="
-                text-white/90
-                font-body
+              className={`
+                ${descriptionClass}
+                opacity-90 font-body
                 text-[1.2rem] md:text-[1.3rem]
                 leading-[1.62]
                 max-w-[720px]
                 mx-auto
                 mb-12
-              "
+              `}
             >
               {description}
             </p>
@@ -269,24 +306,23 @@ export default function PageHero(props: PageHeroProps) {
                   size="lg"
                   onClick={onPrimaryClick}
                   className="
-                    rounded-full px-8 py-3 
-                    bg-primary text-black 
-                    shadow-lg shadow-primary/40 
+                    rounded-full px-8 py-3
+                    bg-primary text-black
+                    shadow-lg shadow-primary/40
                     hover:bg-primary/90 hover:scale-[1.06]
                   "
                 >
                   {primaryCtaText}
                 </Button>
               )}
-
               {hasLinkCta && (
                 <Button
                   asChild
                   size="lg"
                   variant="outline"
                   className="
-                    rounded-full px-8 py-3 
-                    border-primary/60 text-primary 
+                    rounded-full px-8 py-3
+                    border-primary/60 text-primary
                     bg-black/40 hover:bg-primary/10 hover:scale-[1.03]
                   "
                 >

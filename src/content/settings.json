@@ -2,18 +2,53 @@
   "palette": {
     "primary": "#36e0c6",
     "secondary": "#ff4062",
-    "background": "#05050a"
+    "backgroundDark": "#22257e",
+    "backgroundLight": "#fefff9"
+  },
+  "heroDefaults": {
+    "eyebrowColor": "teal",
+    "titleColor": "darkgrey",
+    "textColor": "darkgrey",
+    "overlayStrength": 0.5,
+    "backdropColor": "15,23,42",
+    "backdropStrength": 0.75,
+    "backdropSize": 0.7,
+    "fontColorOptions": [
+      "white",
+      "black",
+      "teal",
+      "cyan",
+      "darkgrey"
+    ]
   },
   "footer": {
     "text": "",
     "showEventsInFooter": false
   },
   "nav": [
-    { "label": "Home", "type": "home" },
-    { "label": "About", "type": "about" },
-    { "label": "Events", "type": "events" },
-    { "label": "Partners", "type": "partners" },
-    { "label": "Blog", "type": "blog" },
-    { "label": "FAQ", "type": "faq" }
+    {
+      "label": "Home",
+      "type": "home"
+    },
+    {
+      "label": "About",
+      "type": "about"
+    },
+    {
+      "label": "Events",
+      "type": "events"
+    },
+    {
+      "label": "Partners",
+      "type": "partners"
+    },
+    {
+      "label": "Insights",
+      "type": "blog"
+    },
+    {
+      "label": "FAQs",
+      "type": "faq"
+    }
   ]
 }

@@ -7,7 +7,7 @@ import {
   CalendarDays,
   Mail,
   MessageCircle,
-  Share2, // 👈 added for Share icon
+  Share2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
@@ -190,14 +190,17 @@ const EventsSection: React.FC<EventsSectionProps> = ({
             const summaryParts = rawSummary.split(". ");
             const firstSentence = summaryParts.shift();
             const remainingSummary = summaryParts.join(". ");
+
             const shareText = encodeURIComponent(
               `${event.title}${date ? ` – ${date}` : ""} at ${
                 event.venue
               }, ${event.location}. ${rawSummary} Find out more: ${baseUrl}`
             );
+
             const mailHref = `mailto:?subject=${encodeURIComponent(
               `Event: ${event.title}`
             )}&body=${shareText}`;
+
             const whatsappHref = `https://wa.me/?text=${shareText}`;
             const isShareOpen = openShareId === event.id;
 
@@ -261,7 +264,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                       </div>
                     )}
 
-                    {/* IMAGE – unchanged size */}
+                    {/* IMAGE */}
                     <img
                       src={event.image}
                       alt={event.title}
@@ -283,7 +286,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                       {event.location}
                     </p>
 
-                    {/* SUMMARY – first sentence stands out */}
+                    {/* SUMMARY */}
                     <div className="text-[1rem] leading-[1.65] mb-6">
                       {firstSentence && (
                         <p className="font-semibold text-white mb-2">
@@ -316,15 +319,16 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                     )}
 
                     {/* CTA CLUSTER */}
-                    <div className="mt-auto flex flex-col items-center gap-2 pt-4 w-full">
-                      {/* Divider above CTAs */}
-                      <div className="w-full h-px bg-white/10 mb-2" />
+                    <div className="mt-auto w-full pt-5">
+                      {/* Divider */}
+                      <div className="w-full h-px bg-white/10 mb-5" />
 
-                      {/* Primary CTA */}
+                      {/* PRIMARY CTA – with animated arrow icon */}
                       <button
                         onClick={() => onRegisterClick?.()}
                         className="
-                          inline-flex items-center gap-2
+                          group/cta
+                          w-full inline-flex items-center justify-center gap-2
                           font-[Montserrat] text-[0.95rem] font-semibold
                           bg-[#21BFA8] text-[#0F172A]
                           px-5 py-2.5 rounded-full
@@ -335,72 +339,79 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                           hover:scale-[1.03]
                         "
                       >
-                        Register interest
-                        <ArrowRight size={16} />
-                      </button>
-
-                      {/* Secondary CTA */}
-                      <button
-                        className="
-                          text-white/70 text-[13px]
-                          hover:text-white hover:underline underline-offset-2
-                          transition
-                        "
-                      >
-                        Details
-                      </button>
-
-                      {/* Share button (pill) – replaces simple text link */}
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setOpenShareId(
-                            isShareOpen ? null : event.id
-                          )
-                        }
-                        className={`
-                          mt-3
-                          inline-flex items-center justify-center gap-2
-                          rounded-full border border-[#0071e3]
-                          bg-[#eaf3ff]
-                          px-5 py-1.5
-                          text-[13px] font-medium text-[#0f172a]
-                          shadow-sm
-                          transition
-                          hover:bg-[#d8e8ff]
-                          hover:shadow
-                          focus:outline-none focus-visible:ring-2
-                          focus-visible:ring-[#0071e3] focus-visible:ring-offset-2
-                          focus-visible:ring-offset-[#0F172A]
-                        `}
-                      >
-                        <Share2
-                          size={14}
-                          className="text-[#0f172a]"
-                          aria-hidden="true"
+                        <span>Register interest</span>
+                        <ArrowRight
+                          size={16}
+                          className="
+                            transition-transform duration-200
+                            group-hover/cta:translate-x-1
+                          "
                         />
-                        <span>{isShareOpen ? "Close share" : "Share"}</span>
                       </button>
 
+                      {/* Secondary row: Details + Share */}
+                      <div className="flex items-center justify-center gap-6 mt-4 text-[13px]">
+                        {/* DETAILS */}
+                        <button
+                          className="
+                            text-white/70
+                            hover:text-white
+                            hover:underline underline-offset-2
+                            transition-colors
+                          "
+                        >
+                          Details
+                        </button>
+
+                        {/* SHARE (animated icon) */}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setOpenShareId(isShareOpen ? null : event.id)
+                          }
+                          className="
+                            group/share
+                            inline-flex items-center gap-1.5
+                            text-white/70
+                            hover:text-white
+                            transition-colors
+                          "
+                        >
+                          <Share2
+                            size={15}
+                            className="
+                              transition-transform duration-200
+                              group-hover/share:-translate-y-[1px]
+                              group-hover/share:rotate-6
+                            "
+                          />
+                          <span>{isShareOpen ? "Close" : "Share"}</span>
+                        </button>
+                      </div>
+
+                      {/* SHARE PANEL */}
                       {isShareOpen && (
                         <div
                           className="
-                            mt-2 w-full
-                            rounded-lg border border-white/15
-                            bg-white/5
+                            mt-4 w-full
+                            rounded-lg border border-white/10
+                            bg-white/5 backdrop-blur-md
                             px-3 py-2
                             flex flex-col gap-2
                             text-[12px] text-white/70
                           "
                         >
-                          <span className="text-xs mb-1 text-white/75">
+                          <span className="text-xs text-white/80 mb-1">
                             Share this event
                           </span>
+
                           <div className="flex items-center justify-center gap-3">
+                            {/* EMAIL */}
                             <a
                               href={mailHref}
                               className="
-                                inline-flex items-center justify-center gap-1.5
+                                group/email
+                                inline-flex items-center gap-1.5
                                 px-3 py-1.5 rounded-full
                                 bg-white/10 border border-white/20
                                 hover:bg-white/15 hover:text-white
@@ -408,15 +419,24 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                               "
                               aria-label={`Share ${event.title} via email`}
                             >
-                              <Mail size={14} />
+                              <Mail
+                                size={14}
+                                className="
+                                  transition-transform duration-200
+                                  group-hover/email:-translate-y-[1px]
+                                "
+                              />
                               <span>Email</span>
                             </a>
+
+                            {/* WHATSAPP */}
                             <a
                               href={whatsappHref}
                               target="_blank"
                               rel="noreferrer"
                               className="
-                                inline-flex items-center justify-center gap-1.5
+                                group/wa
+                                inline-flex items-center gap-1.5
                                 px-3 py-1.5 rounded-full
                                 bg-white/10 border border-white/20
                                 hover:bg-white/15 hover:text-white
@@ -424,7 +444,13 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                               "
                               aria-label={`Share ${event.title} via WhatsApp`}
                             >
-                              <MessageCircle size={14} />
+                              <MessageCircle
+                                size={14}
+                                className="
+                                  transition-transform duration-200
+                                  group-hover/wa:-translate-y-[1px]
+                                "
+                              />
                               <span>WhatsApp</span>
                             </a>
                           </div>

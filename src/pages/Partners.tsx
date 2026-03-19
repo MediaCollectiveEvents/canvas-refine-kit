@@ -25,22 +25,32 @@ const Partners = () => {
       {/* Match header clearance with other pages */}
       <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
         <PageHero
-          eyebrow={hero?.eyebrow ?? "Partnership Opportunities"}
-          title={hero?.title ?? "Become a Partner"}
-          description={
-            hero?.description ??
-            "Partner with The Media Collective and connect your brand with the most influential voices in media and entertainment."
-          }
-          // Single CTA – open registration modal
+          /* TEXT CONTENT */
+          eyebrow={hero?.eyebrow}
+          title={hero?.title}
+          description={hero?.description}
+
+          /* CTA */
           primaryCtaText={hero?.cta?.label}
           onPrimaryClick={hero?.cta?.label ? openRegister : undefined}
-          // Hero image + visual controls from CMS
+
+          /* HERO IMAGE CONTROLS */
           image={hero?.image}
           theme={hero?.theme ?? "dark"}
-          overlayStrength={hero?.overlayStrength ?? 0.5}
+          overlayStrength={hero?.overlayStrength}
           mobileCrop={hero?.mobileCrop}
           imagePosition={hero?.imagePosition}
           imageOffset={hero?.imageOffset}
+
+          /* NEW — PER PAGE FONT COLOUR OVERRIDES */
+          eyebrowColor={hero?.eyebrowColor}
+          titleColor={hero?.titleColor}
+          textColor={hero?.textColor}
+
+          /* NEW — PER PAGE GLOW OVERRIDES */
+          backdropStrength={hero?.backdropStrength}
+          backdropColor={hero?.backdropColor}
+          backdropSize={hero?.backdropSize}
         />
 
         <PartnersPageRenderer sections={sections} onRegister={openRegister} />

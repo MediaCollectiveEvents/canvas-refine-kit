@@ -31,9 +31,12 @@ const UpcomingEventsIntroSection: React.FC<
   const description =
     data?.description ??
     "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.";
+
+  // ⭐ UPDATED NOTE TEXT
   const note =
     data?.note ??
-    "Spaces are limited to keep events focused and conversational.";
+    "Don’t miss the next opportunity to connect.";
+
   const underHeader = data?.underHeader ?? "";
 
   const primaryLabel = data?.cta?.label ?? "Learn More";
@@ -108,6 +111,7 @@ const UpcomingEventsIntroSection: React.FC<
             {description}
           </p>
 
+          {/* ⭐ UPDATED NOTE TEXT HERE */}
           <p className="text-sm font-body text-[#475569]">
             {note}
           </p>
@@ -149,6 +153,7 @@ const UpcomingEventsIntroSection: React.FC<
             </a>
           )}
         </motion.div>
+
       </div>
     </SectionWrapper>
   );
