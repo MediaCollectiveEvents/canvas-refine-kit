@@ -9,11 +9,10 @@ const Maintenance: React.FC = () => {
           We’ll be back soon
         </h1>
         <p className="text-slate-300 mb-6">
-          The site is temporarily offline while we perform some updates and
-          improvements.
+          The site is temporarily unavailable while we make some updates and improvements.
         </p>
         <p className="text-xs text-slate-500">
-          If you need to contact us urgently, please use the usual channels.
+          Please check back later. If you need to contact us urgently, use our usual channels.
         </p>
       </div>
     </div>

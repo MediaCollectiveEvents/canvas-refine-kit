@@ -17,7 +17,7 @@ import MyNewPage from "@/pages/MyNewPage";
 import Admin from "@/pages/Admin";
 import Wireframe from "@/pages/Wireframe";
 import NotFound from "@/pages/NotFound";
-import Maintenance from "@/pages/Maintenance"; // 👈 add this
+import Maintenance from "@/pages/Maintenance"; // 👈 make sure this file exists
 
 const App = () => {
   // ⭐ Inject CMS colour palette into CSS variables
@@ -36,11 +36,51 @@ const App = () => {
     );
   }, []);
 
+  // ⭐ Maintenance mode: ONLY enabled on production builds
+  //    - import.meta.env.PROD = false in `npm run dev` → you see full site
+  //    - import.meta.env.PROD = true on live site → maintenanceMode applies
+  const maintenanceMode =
+    import.meta.env.PROD && (settings as any).maintenanceMode === true;
+
   return (
     <Router>
       <Routes>
-        {/* 🚧 Maintenance mode: send every route to Maintenance */}
-        <Route path="*" element={<Maintenance />} />
+        {maintenanceMode ? (
+          // 🚧 When maintenanceMode is ON in production, all routes go to Maintenance
+          <Route path="*" element={<Maintenance />} />
+        ) : (
+          <>
+            {/* Core pages */}
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+
+            {/* Events */}
+            <Route path="/events" element={<Events />} />
+            <Route path="/events/:id" element={<EventDetails />} />
+
+            {/* Blog listing + individual posts */}
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+
+            {/* Partners & Sponsors */}
+            <Route path="/partners" element={<Partners />} />
+
+            {/* FAQ & Policy */}
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+            {/* Extra pages */}
+            <Route path="/my-new-page" element={<MyNewPage />} />
+
+            {/* Admin dashboard (NOT Decap) */}
+            <Route path="/manage" element={<Admin />} />
+
+            <Route path="/wireframe" element={<Wireframe />} />
+
+            {/* Catch‑all */}
+            <Route path="*" element={<NotFound />} />
+          </>
+        )}
       </Routes>
     </Router>
   );
