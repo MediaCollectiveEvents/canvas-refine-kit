@@ -3,14 +3,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import SectionWrapper from "../layout/SectionWrapper";
-import SeedlingMotif from "../motifs/SeedlingMotif"; // optional SVG fallback
+import SeedlingMotif from "../motifs/SeedlingMotif";
 
 interface AboutIntroSectionProps {
   section: {
     title?: string;
     body?: string;
     texture?: "none" | "noise" | "vignette";
-    motif?: "none" | "corner-square" | "seedling" | "seedling-image";
+    motif?: "none" | "corner-square" | "seedling";
   };
 }
 
@@ -31,6 +31,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
     .map((s) => s.trim())
     .filter(Boolean);
 
+  const enableNoise = texture === "noise";
   const enableVignette = texture === "vignette";
 
   return (
@@ -38,24 +39,24 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
       variant="light"
       align="left"
       padding="lux"
-      noise={texture === "noise"}
+      noise={enableNoise}
       grid={false}
       withFades={false}
       className="relative bg-[#f7f7f7]"
     >
-      {/* Left editorial gutter */}
+      {/* Soft left gutter for editorial feel */}
       <div
         aria-hidden="true"
         className="
           pointer-events-none
           absolute inset-y-0 left-0
-          w-[150px] md:w-[180px]
+          w-[140px] md:w-[160px]
           bg-gradient-to-r from-white via-white/90 to-transparent
           z-0
         "
       />
 
-      {/* Optional vignette */}
+      {/* Optional vignette behind everything */}
       {enableVignette && (
         <div
           aria-hidden="true"
@@ -67,47 +68,26 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
         />
       )}
 
-      {/* ----------------------------- */}
-      {/* 🌱 REAL SEEDLING PNG MOTIF    */}
-      {/* ----------------------------- */}
-      {motif === "seedling-image" && (
-        <img
-          src="/uploads/seedling-motif.png"
-          alt=""
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            z-0
-            left-[20px] md:left-[28px]
-            top-[140px] md:top-[180px]
-            w-[160px] md:w-[220px] lg:w-[260px]
-            opacity-[0.12]
-            rotate-[4deg]
-            select-none
-          "
-        />
-      )}
-
-      {/* (Optional SVG motif fallback) */}
+      {/* 🌱 SVG seedling motif – teal gradient, large, subtle */}
       {motif === "seedling" && (
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute
-            left-[20px] md:left-[28px]
-            top-[140px] md:top-[180px]
+            left-[10px] md:left-[20px]
+            top-[130px] md:top-[150px]
             z-0
+            opacity-[0.12]
+            rotate-[4deg]
+            mix-blend-multiply
           "
         >
-          <SeedlingMotif className="w-[220px] text-teal-400/10 rotate-[4deg]" />
+          <SeedlingMotif className="w-40 sm:w-48 md:w-56" />
         </div>
       )}
 
-      {/* ----------------------------- */}
-      {/* Main Content Grid             */}
-      {/* ----------------------------- */}
+      {/* MAIN CONTENT GRID */}
       <div
         className="
           relative z-[1]
@@ -127,6 +107,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           <h2
             className="
               inline-block
+              font-sans
               font-light
               text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]
               leading-[1.16]
@@ -143,19 +124,19 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           <div className="mt-4 h-px w-16 bg-slate-300" />
         </motion.div>
 
-        {/* Divider */}
+        {/* MIDDLE — subtle vertical divider */}
         <div
           aria-hidden="true"
           className="
             hidden md:block
             h-full
             w-px
-            bg-slate-300/50
+            bg-slate-300/60
             mt-[0.75rem]
           "
         />
 
-        {/* RIGHT — Body */}
+        {/* RIGHT — text column */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -170,6 +151,8 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
                 className="
                   text-[1.18rem]
                   leading-[1.75]
+                  font-normal
+                  tracking-[0.005em]
                   text-[#1E293B]
                 "
               >
@@ -177,6 +160,23 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
               </p>
             ))}
           </div>
+
+          {/* Existing corner-square motif if ever needed */}
+          {motif === "corner-square" && (
+            <div
+              aria-hidden="true"
+              className="
+                mt-10
+                w-24 h-24
+                opacity-[0.04]
+                bg-gradient-to-br from-slate-400 to-transparent
+                rotate-6
+                rounded-2xl
+                blur-[8px]
+                ml-auto
+              "
+            />
+          )}
         </motion.div>
       </div>
     </SectionWrapper>
