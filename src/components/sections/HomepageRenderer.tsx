@@ -1,5 +1,3 @@
-// src/components/sections/HomepageRenderer.tsx
-
 import React from "react";
 
 import AboutIntroSection from "./AboutIntroSection";
@@ -11,10 +9,12 @@ import NewHereSection from "./NewHereSection";
 import EventsSection from "./EventsSection";
 import PartnersSection from "./PartnersSection";
 
-interface HomepageSection {
+export interface HomepageSection {
   id?: string;
   type: string;
   hidden?: boolean;
+  backgroundStyle?: "dark" | "light" | "transparent" | "custom";
+  customBackground?: string | null;
   [key: string]: any;
 }
 
@@ -23,82 +23,113 @@ interface HomepageRendererProps {
   onRegister?: () => void;
 }
 
+const getBackgroundClasses = (section: HomepageSection): string => {
+  switch (section.backgroundStyle) {
+    case "dark":
+      return "bg-[var(--background-dark)]";
+    case "light":
+      return "bg-[var(--background-light)]";
+    case "transparent":
+      return "bg-transparent";
+    case "custom":
+      return "";
+    default:
+      return "bg-transparent";
+  }
+};
+
 export default function HomepageRenderer({
   sections,
   onRegister,
 }: HomepageRendererProps) {
-  const safeSections: HomepageSection[] = Array.isArray(sections)
-    ? sections
-    : [];
+  const safeSections: HomepageSection[] = Array.isArray(sections) ? sections : [];
 
   return (
     <>
       {safeSections
-        // Skip hidden sections
         .filter((section) => !section?.hidden)
         .map((section, index) => {
           const key = section.id ?? `${section.type}-${index}`;
+          const bgClasses = getBackgroundClasses(section);
+
+          const style =
+            section.backgroundStyle === "custom" && section.customBackground
+              ? { backgroundColor: section.customBackground }
+              : undefined;
 
           switch (section.type) {
             case "aboutIntro":
               return (
-                <AboutIntroSection
-                  key={key}
-                  section={section as any}
-                />
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <AboutIntroSection section={section as any} />
+                </section>
               );
 
             case "whoAttends":
               return (
-                <WhoAttendsSection
-                  key={key}
-                  section={section as any}
-                />
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <WhoAttendsSection section={section as any} />
+                </section>
               );
 
             case "upcomingEventsIntro":
               return (
-                <EventsSection
-                  key={key}
-                  section={section as any}
-                  onRegisterClick={onRegister ?? (() => {})}
-                  underHeader={section.underHeader}
-                  imageAspect={section.imageAspect ?? "3:2"}
-                  imageFit={section.imageFit ?? "contain"}
-                  imagePadding={
-                    typeof section.imagePadding === "boolean"
-                      ? section.imagePadding
-                      : true
-                  }
-                />
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <EventsSection
+                    section={section as any}
+                    onRegisterClick={onRegister ?? (() => {})}
+                    underHeader={section.underHeader}
+                    imageAspect={section.imageAspect ?? "3:2"}
+                    imageFit={section.imageFit ?? "contain"}
+                    imagePadding={
+                      typeof section.imagePadding === "boolean"
+                        ? section.imagePadding
+                        : true
+                    }
+                  />
+                </section>
               );
 
             case "testimonials":
-              return <TestimonialsSection key={key} />;
+              return (
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <TestimonialsSection section={section as any} />
+                </section>
+              );
 
             case "joinCommunity":
               return (
-                <JoinCommunitySection
-                  key={key}
-                  section={section as any}
-                  onRegisterClick={onRegister}
-                />
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <JoinCommunitySection
+                    section={section as any}
+                    onRegisterClick={onRegister}
+                  />
+                </section>
               );
 
             case "newHere":
               return (
-                <NewHereSection
-                  key={key}
-                  section={section as any}
-                  onRegisterClick={onRegister}
-                />
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <NewHereSection
+                    section={section as any}
+                    onRegisterClick={onRegister}
+                  />
+                </section>
               );
 
             case "forBrands":
-              return <ForBrandsSection key={key} section={section as any} />;
+              return (
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <ForBrandsSection section={section as any} />
+                </section>
+              );
 
             case "partners":
-              return <PartnersSection key={key} section={section as any} />;
+              return (
+                <section key={key} className={`w-full ${bgClasses}`} style={style}>
+                  <PartnersSection section={section as any} />
+                </section>
+              );
 
             default:
               console.warn("[HomepageRenderer] Unknown section:", section.type);

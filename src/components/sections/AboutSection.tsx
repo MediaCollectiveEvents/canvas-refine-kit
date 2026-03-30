@@ -1,123 +1,157 @@
 // src/components/sections/AboutIntroSection.tsx
 
 import React from "react";
-import SectionWrapper from "../layout/SectionWrapper";
 import { motion } from "framer-motion";
+import SectionWrapper from "../layout/SectionWrapper";
+import SeedlingMotif from "../motifs/SeedlingMotif";
 
 interface AboutIntroSectionProps {
   section: {
     title?: string;
     body?: string;
+    texture?: "none" | "noise" | "vignette";
+    motif?: "none" | "corner-square" | "seedling";
   };
 }
 
 export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
+  const {
+    title = "About Us",
+    body,
+    texture = "none",
+    motif = "none",
+  } = section;
+
   const bodyText =
-    section?.body ??
-    "We bring people together who are passionate about the future of the media industry. Our events take place at key moments across the media calendar. We create opportunities for people to connect, exchange ideas and build relationships. They range from panel discussions and screenings to informal gatherings, often aligned with major conferences. Supported by selected sponsors, each event is independently curated and complimentary to attend.";
+    body ??
+    "We bring together people who are passionate about the future of the media industry. Our events take place at key moments across the media calendar. We create opportunities for people to connect, exchange ideas and build relationships. They range from panel discussions and screenings to informal gatherings, often aligned with major conferences. Supported by selected sponsors, each event is independently curated and complimentary to attend.";
 
   const sentences = bodyText
     .split(".")
     .map((s) => s.trim())
-    .filter((s) => s.length > 0);
+    .filter(Boolean);
+
+  const enableNoise = texture === "noise";
+  const enableVignette = texture === "vignette";
 
   return (
     <SectionWrapper
       variant="light"
+      align="left"
       padding="lux"
-      noise={true}
+      noise={enableNoise}
       grid={false}
       withFades={false}
-      align="left"
-      className="relative"
+      className="relative bg-[#f7f7f7]"
     >
-      {/* Smooth depth transition from hero → section */}
-      <div className="absolute -top-10 left-0 right-0 h-10 pointer-events-none z-[1]">
-        <div className="absolute inset-0 shadow-[0_-22px_38px_rgba(0,0,0,0.45)]" />
-      </div>
+      {/* Soft left gutter – subtle editorial column */}
+      <div
+        aria-hidden="true"
+        className="
+          pointer-events-none
+          absolute inset-y-0 left-0
+          w-[140px] md:w-[160px]
+          bg-gradient-to-r from-white via-white/90 to-transparent
+          z-0
+        "
+      />
 
+      {/* Optional vignette */}
+      {enableVignette && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background:
+              "radial-gradient(circle at 20% 20%, rgba(0,0,0,0.03), transparent 55%)",
+          }}
+        />
+      )}
+
+      {/* 🌱 final motif placement */}
+      {motif === "seedling" && (
+        <div
+          aria-hidden="true"
+          className="
+            pointer-events-none
+            absolute
+            left-[32px] md:left-[48px]
+            top-[115px] md:top-[135px]
+            z-0
+            opacity-[0.14]
+            rotate-[1deg]
+            mix-blend-multiply
+          "
+        >
+          <SeedlingMotif className="w-64 sm:w-72 md:w-80" />
+        </div>
+      )}
+
+      {/* MAIN GRID */}
       <div
         className="
-          relative z-[2]
+          relative z-[1]
           grid
-          md:grid-cols-[minmax(0,1.4fr)_1px_minmax(0,4fr)]
+          md:grid-cols-[minmax(0,1.2fr)_1px_minmax(0,4fr)]
           gap-12 md:gap-20
-          items-start
         "
       >
-        {/* LEFT — Heading + brand accents */}
+        {/* LEFT — Heading */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="pt-1"
+          transition={{ duration: 0.45 }}
+          className="pt-[0.25rem]"
         >
           <h2
             className="
+              inline-block
               font-sans font-light
-              text-[2rem] sm:text-[2.3rem] md:text-[2.6rem]
+              text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]
               leading-[1.16]
               tracking-tight
               text-[#0F172A]
             "
           >
-            About{" "}
-            <span className="text-[#27CDBA] font-medium">
-              Us
+            {title.split(" ")[0]}{" "}
+            <span className="text-[#27CDBA]">
+              {title.split(" ").slice(1).join(" ") || "Us"}
             </span>
           </h2>
 
-          {/* Accent underline */}
-          <div className="mt-4 h-[2px] w-20 bg-[#27CDBA]/70 rounded-full" />
-
-          {/* Soft sub-intro line (fills empty left space) */}
-          <motion.p
-            initial={{ opacity: 0, y: 6 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="
-              text-[1.05rem]
-              text-slate-600
-              mt-6
-              leading-[1.65]
-              max-w-[440px]
-            "
-          >
-            Independent gatherings designed to connect people shaping the
-            future of media.
-          </motion.p>
+          <div className="mt-4 h-px w-16 bg-slate-300" />
         </motion.div>
 
-        {/* MIDDLE — vertical divider */}
+        {/* DIVIDER */}
         <div
           aria-hidden="true"
           className="
             hidden md:block
-            h-full w-px
-            bg-slate-300/40
-            mt-2
+            h-full
+            w-px
+            bg-slate-300/60
+            mt-[0.75rem]
           "
         />
 
-        {/* RIGHT — Paragraph column */}
+        {/* RIGHT — Body copy */}
         <motion.div
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="pr-2 max-w-[900px]"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="pr-10 max-w-[900px]"
         >
-          <div className="space-y-7">
+          <div className="space-y-8">
             {sentences.map((sentence, i) => (
               <p
                 key={i}
                 className="
                   text-[1.18rem]
                   leading-[1.75]
-                  font-light
-                  tracking-[0.003em]
+                  font-normal
+                  tracking-[0.005em]
                   text-[#1E293B]
                 "
               >
@@ -125,6 +159,23 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
               </p>
             ))}
           </div>
+
+          {/* legacy motif support */}
+          {motif === "corner-square" && (
+            <div
+              aria-hidden="true"
+              className="
+                mt-10
+                w-24 h-24
+                opacity-[0.04]
+                bg-gradient-to-br from-slate-400 to-transparent
+                rotate-6
+                rounded-2xl
+                blur-[8px]
+                ml-auto
+              "
+            />
+          )}
         </motion.div>
       </div>
     </SectionWrapper>

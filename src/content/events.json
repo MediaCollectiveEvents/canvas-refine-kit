@@ -1,17 +1,17 @@
 {
   "hero": {
-    "imagePosition": "top",
+    "imagePosition": "center",
     "theme": "dark",
     "eyebrow": "test",
-    "imageOffset": 40,
+    "imageOffset": 0,
     "cta": {
       "label": "join us",
       "url": "/"
     },
-    "overlayStrength": 0,
+    "overlayStrength": 0.1,
     "mobileCrop": "cover",
     "title": "Our Events",
-    "image": "/uploads/new-hero_light.png",
+    "image": "/uploads/chatgpt-image-mar-24-2026-04_34_13-pm.png",
     "description": "Breakfasts, receptions and roundtables that bring media professionals together."
   },
   "intro": {

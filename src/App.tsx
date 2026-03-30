@@ -17,10 +17,10 @@ import MyNewPage from "@/pages/MyNewPage";
 import Admin from "@/pages/Admin";
 import Wireframe from "@/pages/Wireframe";
 import NotFound from "@/pages/NotFound";
-import Maintenance from "@/pages/Maintenance"; // 👈 make sure this file exists
+import Maintenance from "@/pages/Maintenance";
 
 const App = () => {
-  // ⭐ Inject CMS colour palette into CSS variables
+  // Inject CMS colour palette into CSS variables
   useEffect(() => {
     const root = document.documentElement;
 
@@ -36,53 +36,59 @@ const App = () => {
     );
   }, []);
 
-  // ⭐ Maintenance mode: ONLY enabled on production builds
-  //    - import.meta.env.PROD = false in `npm run dev` → you see full site
-  //    - import.meta.env.PROD = true on live site → maintenanceMode applies
+  // Maintenance mode: ONLY enabled on production builds
+  // - import.meta.env.PROD = false in `npm run dev` → you see full site
+  // - import.meta.env.PROD = true on live site → maintenanceMode applies
   const maintenanceMode =
     import.meta.env.PROD && (settings as any).maintenanceMode === true;
 
   return (
-    <Router>
-      <Routes>
-        {maintenanceMode ? (
-          // 🚧 When maintenanceMode is ON in production, all routes go to Maintenance
-          <Route path="*" element={<Maintenance />} />
-        ) : (
-          <>
-            {/* Core pages */}
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+    // 🔵 Global site wrapper using the CMS-driven dark background
+    <div
+      className="min-h-screen text-white"
+      style={{ backgroundColor: "var(--background-dark)" }}
+    >
+      <Router>
+        <Routes>
+          {maintenanceMode ? (
+            // 🚧 When maintenanceMode is ON in production, all routes go to Maintenance
+            <Route path="*" element={<Maintenance />} />
+          ) : (
+            <>
+              {/* Core pages */}
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
 
-            {/* Events */}
-            <Route path="/events" element={<Events />} />
-            <Route path="/events/:id" element={<EventDetails />} />
+              {/* Events */}
+              <Route path="/events" element={<Events />} />
+              <Route path="/events/:id" element={<EventDetails />} />
 
-            {/* Blog listing + individual posts */}
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:slug" element={<BlogPost />} />
+              {/* Blog listing + individual posts */}
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
 
-            {/* Partners & Sponsors */}
-            <Route path="/partners" element={<Partners />} />
+              {/* Partners & Sponsors */}
+              <Route path="/partners" element={<Partners />} />
 
-            {/* FAQ & Policy */}
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              {/* FAQ & Policy */}
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
-            {/* Extra pages */}
-            <Route path="/my-new-page" element={<MyNewPage />} />
+              {/* Extra pages */}
+              <Route path="/my-new-page" element={<MyNewPage />} />
 
-            {/* Admin dashboard (NOT Decap) */}
-            <Route path="/manage" element={<Admin />} />
+              {/* Admin dashboard (NOT Decap) */}
+              <Route path="/manage" element={<Admin />} />
 
-            <Route path="/wireframe" element={<Wireframe />} />
+              <Route path="/wireframe" element={<Wireframe />} />
 
-            {/* Catch‑all */}
-            <Route path="*" element={<NotFound />} />
-          </>
-        )}
-      </Routes>
-    </Router>
+              {/* Catch‑all */}
+              <Route path="*" element={<NotFound />} />
+            </>
+          )}
+        </Routes>
+      </Router>
+    </div>
   );
 };
 

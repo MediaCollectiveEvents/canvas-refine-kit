@@ -5,15 +5,15 @@
     "align": "center",
     "theme": "dark",
     "eyebrow": "Insights & Updates",
-    "imageOffset": 50,
+    "imageOffset": 0,
     "cta": {
       "label": "Help us host",
       "url": "/partners"
     },
-    "overlayStrength": 0.05,
+    "overlayStrength": 0,
     "mobileCrop": "cover",
     "title": "Insights",
-    "image": "/uploads/gemini_generated_image_ja303dja303dja30.png",
+    "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",
     "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
   },
   "sections": [

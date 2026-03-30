@@ -25,7 +25,8 @@ const Home = () => {
       {/* --------------------------- */}
       <Helmet>
         <title>
-          The Media Collective — Curated Events for Media, Broadcast & Tech Leaders
+          The Media Collective — Curated Events for Media, Broadcast & Tech
+          Leaders
         </title>
 
         <meta
@@ -67,26 +68,41 @@ const Home = () => {
       />
 
       {/* FULL-WIDTH HERO */}
-      <div className="w-full bg-[#0b111a]">
+      <div className="w-full bg-[var(--background-dark)]">
         <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
           <PageHero
-            eyebrow={hero?.subtitle}
+            // Eyebrow: prefer new `eyebrow`, fall back to legacy `subtitle`
+            eyebrow={hero?.eyebrow ?? hero?.subtitle}
             title={hero?.title}
             description={hero?.description}
-            primaryCtaText={hero?.cta?.label}
-            onPrimaryClick={hero?.cta?.label ? handleOpenRegister : undefined}
+
+            // Primary CTA from homepage hero JSON
+            primaryCtaText={hero?.primaryCta?.label}
+            primaryCtaHref={hero?.primaryCta?.url}
+            onPrimaryClick={
+              hero?.primaryCta?.url === "/register"
+                ? handleOpenRegister
+                : undefined
+            }
+
+            // Image & basic visual settings
             image={hero?.image}
             theme={hero?.theme ?? "dark"}
-            overlayStrength={hero?.overlayStrength ?? 0.5}
+            overlayStrength={hero?.overlayStrength}
             mobileCrop={hero?.mobileCrop}
             imagePosition={hero?.imagePosition}
             imageOffset={hero?.imageOffset}
+
+            // ⭐ Per-page glow overrides (optional; fall back to Site Settings)
+            backdropColor={hero?.backdropColor}
+            backdropStrength={hero?.backdropStrength}
+            backdropSize={hero?.backdropSize}
           />
         </main>
       </div>
 
       {/* PAGE CONTENT */}
-      <div className="w-full bg-[#f7f7f7]">
+      <div className="w-full">
         <HomepageRenderer
           sections={sections}
           onRegister={handleOpenRegister}

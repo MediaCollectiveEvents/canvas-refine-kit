@@ -34,7 +34,7 @@ interface PageHeroProps {
   titleColor?: string;
   textColor?: string;
 
-  // Per-page glow controls (optional, overrides heroDefaults)
+  // ⭐ Per-page glow controls (optional, override heroDefaults)
   backdropStrength?: number;
   backdropColor?: string; // "r,g,b"
   backdropSize?: number;
@@ -66,7 +66,7 @@ export default function PageHero(props: PageHeroProps) {
     onPrimaryClick,
     backgroundImage,
     image,
-    imageKey,
+    imageKey, // kept for future use if needed
     variant = "image",
     overlayStrength = heroDefaults.overlayStrength ?? 0.5,
     theme = "dark",
@@ -79,15 +79,29 @@ export default function PageHero(props: PageHeroProps) {
     titleColor = heroDefaults.titleColor ?? "white",
     textColor = heroDefaults.textColor ?? "white",
 
-    // Glow controls
-    backdropStrength = heroDefaults.backdropStrength ?? 0.6,
-    backdropColor = heroDefaults.backdropColor ?? "15,23,42",
-    backdropSize = heroDefaults.backdropSize ?? 1,
+    // Per-page glow overrides (may be undefined)
+    backdropStrength,
+    backdropColor,
+    backdropSize,
   } = props;
+
+  // -----------------------------
+  // RESOLVE GLOW VALUES
+  // -----------------------------
+  // If a per-page value is provided, use it.
+  // Otherwise fall back to Site Settings → Hero Defaults.
+  const effectiveBackdropStrength =
+    backdropStrength ?? heroDefaults.backdropStrength ?? 0.6;
+
+  const effectiveBackdropColor =
+    backdropColor ?? heroDefaults.backdropColor ?? "15,23,42";
+
+  const effectiveBackdropSize =
+    backdropSize ?? heroDefaults.backdropSize ?? 1;
 
   // Clamp sensitive ranges
   const clampedOverlay = Math.min(Math.max(overlayStrength, 0), 1);
-  const clampedBackdrop = Math.min(Math.max(backdropStrength, 0), 1);
+  const clampedBackdrop = Math.min(Math.max(effectiveBackdropStrength, 0), 1);
 
   // Boost glow so it has more visible range
   const boostedBackdrop = Math.min(clampedBackdrop * 2.5, 1);
@@ -99,11 +113,13 @@ export default function PageHero(props: PageHeroProps) {
     y = useTransform(baseY, (value) => value + imageOffset);
   }
 
-  // Background image resolution
-  const resolvedBackgroundImage =
-    backgroundImage ||
-    image ||
-    (imageKey ? `/path/to/images/${imageKey}.jpg` : undefined);
+  // -----------------------------
+  // BACKGROUND IMAGE RESOLUTION
+  // -----------------------------
+  // Priority:
+  // 1. Explicit `image` from CMS (hero.image in JSON)
+  // 2. Optional `backgroundImage` override from callers
+  const resolvedBackgroundImage = image || backgroundImage || undefined;
 
   const positionClass =
     imagePosition === "top"
@@ -154,7 +170,7 @@ export default function PageHero(props: PageHeroProps) {
         min-h-[520px] sm:min-h-[640px] lg:min-h-[700px]
         flex items-center justify-center
         overflow-hidden
-        bg-[#0F172A]
+        bg-[var(--background-dark)]
       `}
     >
       {/* BACKGROUND IMAGE */}
@@ -216,23 +232,23 @@ export default function PageHero(props: PageHeroProps) {
         aria-hidden="true"
         className="absolute left-1/2 top-[50%] -translate-x-1/2 pointer-events-none"
         style={{
-          width: `${86 * backdropSize}vw`,
-          maxWidth: `${1200 * backdropSize}px`,
-          height: `${260 * backdropSize}px`,
+          width: `${86 * effectiveBackdropSize}vw`,
+          maxWidth: `${1200 * effectiveBackdropSize}px`,
+          height: `${260 * effectiveBackdropSize}px`,
           background: `
             radial-gradient(
               ellipse at center,
-              rgba(${backdropColor},0) 0%,
-              rgba(${backdropColor},${boostedBackdrop}) 30%,
-              rgba(${backdropColor},${Math.min(
+              rgba(${effectiveBackdropColor},0) 0%,
+              rgba(${effectiveBackdropColor},${boostedBackdrop}) 30%,
+              rgba(${effectiveBackdropColor},${Math.min(
                 boostedBackdrop * 0.7,
                 1
               )}) 55%,
-              rgba(${backdropColor},${Math.min(
+              rgba(${effectiveBackdropColor},${Math.min(
                 boostedBackdrop * 0.4,
                 1
               )}) 75%,
-              rgba(${backdropColor},0) 100%
+              rgba(${effectiveBackdropColor},0) 100%
             )
           `,
           filter: "blur(40px)",

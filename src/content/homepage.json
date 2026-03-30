@@ -3,7 +3,7 @@
     "title": "Curated Events for Media & Entertainment Leaders — The Media Collective",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "keywords": "media events, broadcast, streaming, media technology, industry networking",
-    "ogImage": "/uploads/hero_minimalist.png"
+    "ogImage": "/uploads/chatgpt-image-mar-23-2026-10_58_36-am.png"
   },
   "hero": {
     "imageKey": "homeHero",
@@ -15,23 +15,22 @@
     },
     "imageOffset": 0,
     "cta": {
-      "url": "/partners",
-      "label": "Register to join us"
+      "url": "/register",
+      "label": "Sign up for updates"
     },
     "overlayStrength": 0,
     "mobileCrop": "contain",
     "subtitle": "Media and entertainment industry",
     "title": "Curated events",
-    "image": "/uploads/mainherolight.png",
+    "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
-      "label": "Help us host",
-      "url": "/partners"
+      "label": "See upcoming events",
+      "url": "/events"
     }
   },
   "sections": [
     {
-      "body": "We bring together people who are passionate about the future of the media industry, the ideas driving it forward, and the community around it.\n\nOur events take place at key moments across the media calendar, creating opportunities for people to connect, exchange ideas and build relationships.\n\nThey range from panel discussions and screenings to informal gatherings, often aligned with major conferences.\n\nSupported by selected sponsors, each event is carefully curated to ensure balance and inclusivity, and is complimentary to attend for invited guests",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -39,28 +38,22 @@
         "grid": true,
         "withFades": true
       },
-      "heading": "What we do",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "hidden": false,
-      "motif": "seedling",
-      "extended": "",
-      "type": "aboutIntro",
-      "texture": "noise"
-    },
-    {
-      "type": "whoAttends",
       "heading": "In The Room",
       "statistics": {
         "companies": "Executives from over 300 companies have attended our events.",
         "boardLevel": ".",
         "founders": "."
       },
+      "backgroundStyle": "light",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "Leaders across media & technology",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "hidden": false,
+      "type": "whoAttends",
       "highlights": [
         {
           "title": "The Top 3",
@@ -78,21 +71,7 @@
           "icon": "play"
         }
       ],
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "Leaders across media & technology",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "hidden": false
+      "customBackground": null
     },
     {
       "styleWrapper": {
@@ -103,6 +82,7 @@
         "withFades": true
       },
       "heading": "Upcoming Events",
+      "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "What’s next",
         "sub": "Don't miss our flagship events.",
@@ -121,23 +101,11 @@
       "secondaryCta": {
         "label": "View all events",
         "url": "/events"
-      }
+      },
+      "customBackground": null
     },
     {
-      "type": "forBrands",
-      "heading": "Brands & Partners",
-      "body": "We also work with selected partners to create curated industry experiences.",
-      "cta": {
-        "label": "Explore Partnerships",
-        "url": "/partners"
-      },
-      "styleTitle": {
-        "eyebrow": "Curated experiences",
-        "sub": "Collaborations that feel natural",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
+      "body": "We bring together people shaping the future of the media industry — across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from intimate panel conversations and private screenings to informal evening receptions aligned with major industry milestones.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance, relevance and a high-quality guest mix.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -145,36 +113,45 @@
         "grid": true,
         "withFades": true
       },
-      "hidden": true
-    },
-    {
-      "type": "newHere",
-      "heading": "Our events",
-      "body": "If it’s your first time joining us, welcome. Our events bring together senior professionals from across media, entertainment, and technology in a relaxed setting designed for easy conversation. Expect a curated guest list, thoughtful formats, and plenty of time to connect with peers.",
-      "cta": {
-        "label": "Register Your Interest",
-        "url": "/register"
-      },
+      "heading": "What we do",
+      "backgroundStyle": "light",
       "styleTitle": {
-        "eyebrow": "How it feels",
-        "sub": "Calm, conversational, curated",
+        "eyebrow": "",
+        "sub": "",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
       },
-      "styleWrapper": {
-        "variant": "tint",
-        "padding": "lux",
-        "noise": false,
-        "grid": false,
-        "withFades": true
-      },
-      "hidden": true
+      "hidden": false,
+      "motif": "corner-square",
+      "extended": "",
+      "type": "aboutIntro",
+      "texture": "vignette",
+      "customBackground": null
     },
     {
       "type": "testimonials",
       "heading": "What People Say",
-      "items": [],
+      "items": [
+        {
+          "quote": "Working with The Media Collective has been key to elevating our profile in the broadcast media and tech sectors.\nIt has helped us connect with exciting brands and establish a strong presence at major industry events.",
+          "name": "Daniel Jenkins",
+          "role": "Commercial Director",
+          "company": "Wagada Digital"
+        },
+        {
+          "quote": "It was great to attend and connect with so many talented people in the broadcast and media industry.\nA powerful reminder of the strength of this community.",
+          "name": "Sue Mitchell",
+          "role": "Director",
+          "company": "Zixi"
+        },
+        {
+          "quote": "The intimate format creates opportunities for genuine dialogue with peers.\nIt's not just networking — it's building lasting professional connections.",
+          "name": "Laurence Mifsud",
+          "role": "SVP Global Head of Media & Entertainment",
+          "company": "Software Minds"
+        }
+      ],
       "styleTitle": {
         "eyebrow": "In their words",
         "sub": "Reflections from attendees & partners",
@@ -188,44 +165,12 @@
         "noise": true,
         "grid": true,
         "withFades": true
-      }
+      },
+      "backgroundStyle": "light",
+      "customBackground": null
     },
     {
-      "type": "partners",
-      "heading": "Supported by Our Partner Community",
-      "description": "Our events bring together organisations from across broadcasting, streaming, and media technology.",
-      "logos": [],
-      "styleTitle": {
-        "eyebrow": "Collaborating across the industry",
-        "sub": "A cross‑section of the ecosystem",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "styleWrapper": {
-        "variant": "clean",
-        "padding": "lux",
-        "noise": false,
-        "grid": false,
-        "withFades": true
-      },
-      "hidden": true
-    },
-    {
-      "type": "joinCommunity",
-      "heading": "Join Our Community",
-      "body": "Be part of a growing network of media leaders, innovators, and creatives. Our events are free, invite-only, and designed for great conversations.",
-      "cta": {
-        "label": "Register Your Interest",
-        "url": "/register"
-      },
-      "styleTitle": {
-        "eyebrow": "Be part of it",
-        "sub": "Create • Connect • Grow",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
+      "body": "Be part of a trusted network of media leaders, innovators and partners. Receive early invitations, speaker announcements and priority access to upcoming gatherings.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -233,7 +178,22 @@
         "grid": false,
         "withFades": true
       },
-      "hidden": true
+      "heading": "Join Our Community",
+      "backgroundStyle": "dark",
+      "styleTitle": {
+        "eyebrow": "Stay connected",
+        "sub": "Early invitations and curated updates",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "cta": {
+        "label": "Request updates",
+        "url": "/register"
+      },
+      "type": "joinCommunity",
+      "hidden": false,
+      "customBackground": null
     }
   ]
 }

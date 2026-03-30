@@ -12,6 +12,90 @@ editor:
   preview: true
   # script: /admin/cms.bundle.js   # comment out if you load via index.html
 
+# ===================================
+# SHARED HERO FIELD TEMPLATE
+# ===================================
+hero_fields: &hero_fields
+  - { label: Eyebrow, name: eyebrow, widget: string, required: false }
+  - { label: Title, name: title, widget: string }
+  - { label: Description, name: description, widget: text, required: false }
+
+  - label: Hero Image
+    name: image
+    widget: image
+    required: false
+
+  - label: Theme
+    name: theme
+    widget: select
+    default: dark
+    options:
+      - { label: Dark, value: dark }
+      - { label: Light, value: light }
+
+  - label: Mobile Background Crop
+    name: mobileCrop
+    widget: select
+    default: cover
+    options:
+      - { label: Cover, value: cover }
+      - { label: Contain, value: contain }
+
+  - label: Image Position
+    name: imagePosition
+    widget: select
+    default: center
+    options:
+      - { label: Top, value: top }
+      - { label: Center, value: center }
+      - { label: Bottom, value: bottom }
+
+  - label: Image Vertical Offset (px)
+    name: imageOffset
+    widget: number
+    default: 0
+
+  - label: Primary CTA
+    name: primaryCta
+    widget: object
+    required: false
+    fields:
+      - { label: Label, name: label, widget: string, required: false }
+      - { label: URL, name: url, widget: string, required: false }
+
+  - label: Secondary CTA
+    name: secondaryCta
+    widget: object
+    required: false
+    fields:
+      - { label: Label, name: label, widget: string, required: false }
+      - { label: URL, name: url, widget: string, required: false }
+
+  - label: Override Glow Colour (RGB)
+    name: backdropColor
+    widget: string
+    required: false
+    hint: "Leave empty to use Site Defaults. Format: r,g,b — e.g. 40,80,255"
+    pattern:
+      - "^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$"
+      - "Must be RGB only (e.g. 40,80,255)"
+
+  - label: Override Glow Strength
+    name: backdropStrength
+    widget: number
+    min: 0
+    max: 1
+    step: 0.05
+    required: false
+
+  - label: Override Glow Size
+    name: backdropSize
+    widget: number
+    min: 0.5
+    max: 1.5
+    step: 0.1
+    required: false
+
 collections:
   # === HOMEPAGE CONTENT (homepage.json) ===
   - name: homepage
@@ -88,6 +172,9 @@ collections:
             widget: list
             summary: "{{fields.type}} – {{fields.heading}}"
             types:
+              # -------------------------
+              # JOIN COMMUNITY SECTION
+              # -------------------------
               - label: Join Community
                 name: joinCommunity
                 widget: object
@@ -104,6 +191,27 @@ collections:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
 
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------
+              # ABOUT INTRO SECTION
+              # -------------------------
               - label: About Intro
                 name: aboutIntro
                 widget: object
@@ -120,8 +228,8 @@ collections:
                     default: none
                     options:
                       - { label: None, value: none }
-                      - { label: Noise (wrapper grain), value: noise }
-                      - { label: Vignette (soft radial), value: vignette }
+                      - { label: "Noise (wrapper grain)", value: noise }
+                      - { label: "Vignette (soft radial)", value: vignette }
                   - label: Motif
                     name: motif
                     widget: select
@@ -129,8 +237,29 @@ collections:
                     default: none
                     options:
                       - { label: None, value: none }
-                      - { label: Corner Square (bottom-right), value: corner-square }
+                      - { label: "Corner Square (bottom-right)", value: corner-square }
 
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------
+              # WHO ATTENDS SECTION
+              # -------------------------
               - label: Who Attends
                 name: whoAttends
                 widget: object
@@ -155,6 +284,27 @@ collections:
                       - { label: Subtitle, name: subtitle, widget: string, required: false }
                       - { label: Icon Key, name: icon, widget: string, required: false }
 
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------------
+              # UPCOMING EVENTS INTRO SECTION
+              # -------------------------------
               - label: Upcoming Events Intro
                 name: upcomingEventsIntro
                 widget: object
@@ -164,7 +314,7 @@ collections:
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Description, name: description, widget: text, required: false }
                   - { label: Note, name: note, widget: string, required: false }
-                  - { label: Under-Header Text, name: underHeader, widget: text, required: false }
+                  - { label: "Under-Header Text", name: underHeader, widget: text, required: false }
                   - label: Primary CTA
                     name: cta
                     widget: object
@@ -194,11 +344,32 @@ collections:
                     required: false
                     default: "contain"
                     options:
-                      - { label: Contain (no crop), value: contain }
-                      - { label: Cover (crop to fill), value: cover }
-                  - { label: Card Image Padding, name: imagePadding, widget: boolean, required: false, default: true }
+                      - { label: "Contain (no crop)", value: contain }
+                      - { label: "Cover (crop to fill)", value: cover }
+                  - { label: "Card Image Padding", name: imagePadding, widget: boolean, required: false, default: true }
 
-              - label: For Brands & Partners
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------------
+              # FOR BRANDS & PARTNERS SECTION
+              # -------------------------------
+              - label: "For Brands & Partners"
                 name: forBrands
                 widget: object
                 fields:
@@ -214,6 +385,27 @@ collections:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
 
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------
+              # NEW HERE SECTION
+              # -------------------------
               - label: New Here
                 name: newHere
                 widget: object
@@ -230,6 +422,27 @@ collections:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
 
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------
+              # TESTIMONIALS SECTION
+              # -------------------------
               - label: Testimonials
                 name: testimonials
                 widget: object
@@ -241,8 +454,32 @@ collections:
                     name: items
                     widget: list
                     required: false
-                    field: { label: Testimonial, name: item, widget: text }
+                    field:
+                      label: Testimonial
+                      name: item
+                      widget: text
 
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+
+              # -------------------------
+              # PARTNERS SECTION
+              # -------------------------
               - label: Partners
                 name: partners
                 widget: object
@@ -255,7 +492,30 @@ collections:
                     name: logos
                     widget: list
                     required: false
-                    field: { label: Logo Name, name: logo, widget: string }
+                    field:
+                      label: Logo Name
+                      name: logo
+                      widget: string
+
+                  # Background controls
+                  - label: Background Style
+                    name: backgroundStyle
+                    widget: select
+                    required: false
+                    options:
+                      - { label: "Use site dark background", value: dark }
+                      - { label: "Use site light background", value: light }
+                      - { label: "Transparent (inherit)", value: transparent }
+                      - { label: "Custom colour", value: custom }
+                  - label: Custom Background Colour
+                    name: customBackground
+                    widget: string
+                    required: false
+                    pattern:
+                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
+                required: false
+
   # === ABOUT PAGE (about.json) ===
   - name: aboutPage
     label: About Page
@@ -834,7 +1094,7 @@ collections:
               widget: color
               default: "#ffffff"
 
-        # ---------------------------
+       # ---------------------------
         # ⭐ HERO DEFAULTS
         # ---------------------------
         - label: Hero Defaults
@@ -884,19 +1144,17 @@ collections:
               min: 0
               max: 1
               step: 0.05
-              default: 0.6
+              default: 0.75
 
-            - label: Elliptical Glow Colour
+            # Editable RGB input with validation
+            - label: Elliptical Glow Colour (RGB)
               name: backdropColor
-              widget: select
+              widget: string
               default: "15,23,42"
-              options:
-                - { label: Deep Navy, value: "15,23,42" }
-                - { label: Teal Blue, value: "0,150,255" }
-                - { label: Cyan, value: "0,255,255" }
-                - { label: Soft Blue, value: "96,165,250" }
-                - { label: Electric Teal, value: "45,212,191" }
-                - { label: Royal Blue, value: "37,99,235" }
+              hint: "Use format: r,g,b — e.g. 40,80,255 for a brighter blue"
+              pattern:
+                - "^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$"
+                - "Must be RGB only (e.g. 40,80,255)"
 
             - label: Elliptical Glow Size
               name: backdropSize
@@ -905,7 +1163,7 @@ collections:
               min: 0.5
               max: 1.5
               step: 0.1
-              default: 1
+              default: 0.7
 
         # ---------------------------
         # FOOTER

@@ -44,7 +44,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
       withFades={false}
       className="relative bg-[#f7f7f7]"
     >
-      {/* Soft left gutter for editorial feel */}
+      {/* Left editoral gradient gutter */}
       <div
         aria-hidden="true"
         className="
@@ -56,7 +56,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
         "
       />
 
-      {/* Optional vignette behind everything */}
+      {/* Optional vignette */}
       {enableVignette && (
         <div
           aria-hidden="true"
@@ -68,26 +68,26 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
         />
       )}
 
-      {/* 🌱 SVG seedling motif – teal gradient, large, subtle */}
+      {/* Seedling motif */}
       {motif === "seedling" && (
         <div
           aria-hidden="true"
           className="
             pointer-events-none
             absolute
-            left-[10px] md:left-[20px]
-            top-[130px] md:top-[150px]
+            left-[14px] md:left-[24px]
+            top-[160px] md:top-[190px]
             z-0
-            opacity-[0.12]
-            rotate-[4deg]
+            opacity-[0.18]
+            rotate-[2deg]
             mix-blend-multiply
           "
         >
-          <SeedlingMotif className="w-40 sm:w-48 md:w-56" />
+          <SeedlingMotif className="w-48 sm:w-56 md:w-64" />
         </div>
       )}
 
-      {/* MAIN CONTENT GRID */}
+      {/* Main content grid */}
       <div
         className="
           relative z-[1]
@@ -107,8 +107,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           <h2
             className="
               inline-block
-              font-sans
-              font-light
+              font-sans font-light
               text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]
               leading-[1.16]
               tracking-tight
@@ -124,7 +123,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           <div className="mt-4 h-px w-16 bg-slate-300" />
         </motion.div>
 
-        {/* MIDDLE — subtle vertical divider */}
+        {/* Middle divider */}
         <div
           aria-hidden="true"
           className="
@@ -136,7 +135,7 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
           "
         />
 
-        {/* RIGHT — text column */}
+        {/* RIGHT — Body copy */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -161,19 +160,14 @@ export default function AboutIntroSection({ section }: AboutIntroSectionProps) {
             ))}
           </div>
 
-          {/* Existing corner-square motif if ever needed */}
+          {/* Optional old motif (kept for CMS compatibility) */}
           {motif === "corner-square" && (
             <div
               aria-hidden="true"
               className="
-                mt-10
-                w-24 h-24
-                opacity-[0.04]
+                mt-10 w-24 h-24 opacity-[0.04]
                 bg-gradient-to-br from-slate-400 to-transparent
-                rotate-6
-                rounded-2xl
-                blur-[8px]
-                ml-auto
+                rotate-6 rounded-2xl blur-[8px] ml-auto
               "
             />
           )}

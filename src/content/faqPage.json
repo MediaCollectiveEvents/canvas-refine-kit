@@ -5,11 +5,11 @@
     "align": "center",
     "theme": "dark",
     "eyebrow": "Ask away!",
-    "imageOffset": -35,
-    "overlayStrength": 1,
+    "imageOffset": 0,
+    "overlayStrength": 0.25,
     "mobileCrop": "cover",
     "title": "Your questions answered",
-    "image": "/uploads/faq_hero.png",
+    "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",
     "description": "Find answers to the most common questions about our events and community."
   },
   "sections": [
