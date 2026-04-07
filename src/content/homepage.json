@@ -8,9 +8,9 @@
   "hero": {
     "imageKey": "homeHero",
     "imagePosition": "center",
-    "theme": "dark",
+    "theme": "light",
     "primaryCta": {
-      "label": "Join us",
+      "label": "Request an invitation",
       "url": "/register"
     },
     "imageOffset": 0,
@@ -20,12 +20,14 @@
     },
     "overlayStrength": 0,
     "mobileCrop": "contain",
+    "backdropSize": 1,
+    "backdropStrength": 0,
     "subtitle": "Media and entertainment industry",
-    "title": "Curated events",
-    "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",
+    "title": "Exclusive events",
+    "image": "/uploads/6191b966-6312-42d9-845a-1375f1bd0623.png",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
-      "label": "See upcoming events",
+      "label": "Explore upcoming events",
       "url": "/events"
     }
   },
@@ -133,24 +135,11 @@
       "type": "testimonials",
       "heading": "What People Say",
       "items": [
-        {
-          "quote": "Working with The Media Collective has been key to elevating our profile in the broadcast media and tech sectors.\nIt has helped us connect with exciting brands and establish a strong presence at major industry events.",
-          "name": "Daniel Jenkins",
-          "role": "Commercial Director",
-          "company": "Wagada Digital"
-        },
-        {
-          "quote": "It was great to attend and connect with so many talented people in the broadcast and media industry.\nA powerful reminder of the strength of this community.",
-          "name": "Sue Mitchell",
-          "role": "Director",
-          "company": "Zixi"
-        },
-        {
-          "quote": "The intimate format creates opportunities for genuine dialogue with peers.\nIt's not just networking — it's building lasting professional connections.",
-          "name": "Laurence Mifsud",
-          "role": "SVP Global Head of Media & Entertainment",
-          "company": "Software Minds"
-        }
+        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
+        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
+        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
+        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
+        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User"
       ],
       "styleTitle": {
         "eyebrow": "In their words",
@@ -187,12 +176,12 @@
         "tone": "default",
         "disableEmphasis": false
       },
+      "hidden": false,
       "cta": {
         "label": "Request updates",
         "url": "/register"
       },
       "type": "joinCommunity",
-      "hidden": false,
       "customBackground": null
     }
   ]

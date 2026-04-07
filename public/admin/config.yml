@@ -10,11 +10,7 @@ public_folder: "/uploads"
 
 editor:
   preview: true
-  # script: /admin/cms.bundle.js   # comment out if you load via index.html
 
-# ===================================
-# SHARED HERO FIELD TEMPLATE
-# ===================================
 hero_fields: &hero_fields
   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
   - { label: Title, name: title, widget: string }
@@ -97,7 +93,6 @@ hero_fields: &hero_fields
     required: false
 
 collections:
-  # === HOMEPAGE CONTENT (homepage.json) ===
   - name: homepage
     label: Homepage
     files:
@@ -106,75 +101,16 @@ collections:
         file: "src/content/homepage.json"
         format: json
         fields:
-          - label: SEO
-            name: seo
-            widget: object
-            fields:
-              - { label: "SEO Title", name: "title", widget: string }
-              - { label: "Meta Description", name: "description", widget: text }
-              - { label: "Keywords", name: "keywords", widget: string, required: false }
-              - { label: "Open Graph Image", name: "ogImage", widget: image, required: false }
-
           - label: Hero
             name: hero
             widget: object
-            fields:
-              - { label: Title, name: title, widget: string }
-              - { label: Subtitle, name: subtitle, widget: string, required: false }
-              - { label: Description, name: description, widget: text, required: false }
-              - label: Hero Image
-                name: image
-                widget: image
-                required: false
-              - label: Theme
-                name: theme
-                widget: select
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                default: cover
-                options:
-                  - { label: Cover, value: cover }
-                  - { label: Contain, value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                default: center
-                options:
-                  - { label: Top, value: top }
-                  - { label: Center, value: center }
-                  - { label: Bottom, value: bottom }
-              - label: Image Vertical Offset (px)
-                name: imageOffset
-                widget: number
-                default: 0
-              - label: CTA
-                name: cta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string, required: false }
-                  - { label: URL, name: url, widget: string, required: false }
+            fields: *hero_fields
 
           - label: Sections
             name: sections
             widget: list
             summary: "{{fields.type}} – {{fields.heading}}"
             types:
-              # -------------------------
-              # JOIN COMMUNITY SECTION
-              # -------------------------
               - label: Join Community
                 name: joinCommunity
                 widget: object
@@ -190,8 +126,6 @@ collections:
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
-
-                  # Background controls
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -205,13 +139,7 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------
-              # ABOUT INTRO SECTION
-              # -------------------------
               - label: About Intro
                 name: aboutIntro
                 widget: object
@@ -221,25 +149,6 @@ collections:
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Body, name: body, widget: text }
                   - { label: Extended Text, name: extended, widget: text, required: false }
-                  - label: Texture
-                    name: texture
-                    widget: select
-                    required: false
-                    default: none
-                    options:
-                      - { label: None, value: none }
-                      - { label: "Noise (wrapper grain)", value: noise }
-                      - { label: "Vignette (soft radial)", value: vignette }
-                  - label: Motif
-                    name: motif
-                    widget: select
-                    required: false
-                    default: none
-                    options:
-                      - { label: None, value: none }
-                      - { label: "Corner Square (bottom-right)", value: corner-square }
-
-                  # Background controls
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -253,13 +162,7 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------
-              # WHO ATTENDS SECTION
-              # -------------------------
               - label: Who Attends
                 name: whoAttends
                 widget: object
@@ -283,8 +186,6 @@ collections:
                       - { label: Title, name: title, widget: string, required: false }
                       - { label: Subtitle, name: subtitle, widget: string, required: false }
                       - { label: Icon Key, name: icon, widget: string, required: false }
-
-                  # Background controls
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -298,23 +199,17 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------------
-              # UPCOMING EVENTS INTRO SECTION
-              # -------------------------------
               - label: Upcoming Events Intro
                 name: upcomingEventsIntro
                 widget: object
                 fields:
                   - { label: Type, name: type, widget: hidden, default: "upcomingEventsIntro" }
-                  - { label: Heading, name: heading, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Description, name: description, widget: text, required: false }
                   - { label: Note, name: note, widget: string, required: false }
-                  - { label: "Under-Header Text", name: underHeader, widget: text, required: false }
+                  - { label: Under-Header Text, name: underHeader, widget: text, required: false }
                   - label: Primary CTA
                     name: cta
                     widget: object
@@ -344,11 +239,13 @@ collections:
                     required: false
                     default: "contain"
                     options:
-                      - { label: "Contain (no crop)", value: contain }
-                      - { label: "Cover (crop to fill)", value: cover }
-                  - { label: "Card Image Padding", name: imagePadding, widget: boolean, required: false, default: true }
-
-                  # Background controls
+                      - { label: Contain (no crop), value: contain }
+                      - { label: Cover (crop to fill), value: cover }
+                  - label: Card Image Padding
+                    name: imagePadding
+                    widget: boolean
+                    required: false
+                    default: true
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -362,14 +259,8 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------------
-              # FOR BRANDS & PARTNERS SECTION
-              # -------------------------------
-              - label: "For Brands & Partners"
+              - label: For Brands & Partners
                 name: forBrands
                 widget: object
                 fields:
@@ -384,8 +275,6 @@ collections:
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
-
-                  # Background controls
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -399,13 +288,7 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------
-              # NEW HERE SECTION
-              # -------------------------
               - label: New Here
                 name: newHere
                 widget: object
@@ -421,8 +304,6 @@ collections:
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
-
-                  # Background controls
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -436,13 +317,7 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------
-              # TESTIMONIALS SECTION
-              # -------------------------
               - label: Testimonials
                 name: testimonials
                 widget: object
@@ -454,12 +329,11 @@ collections:
                     name: items
                     widget: list
                     required: false
-                    field:
-                      label: Testimonial
-                      name: item
-                      widget: text
-
-                  # Background controls
+                    fields:
+                      - { label: Quote, name: quote, widget: text, required: false }
+                      - { label: Name, name: name, widget: string, required: false }
+                      - { label: Role, name: role, widget: string, required: false }
+                      - { label: Company, name: company, widget: string, required: false }
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -477,10 +351,7 @@ collections:
                       - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
                       - "Must be a valid hex colour (e.g. #22257E or #fff)"
 
-              # -------------------------
-              # PARTNERS SECTION
-              # -------------------------
-              - label: Partners
+              - label: Partners Strip
                 name: partners
                 widget: object
                 fields:
@@ -496,8 +367,6 @@ collections:
                       label: Logo Name
                       name: logo
                       widget: string
-
-                  # Background controls
                   - label: Background Style
                     name: backgroundStyle
                     widget: select
@@ -511,12 +380,7 @@ collections:
                     name: customBackground
                     widget: string
                     required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
-                required: false
 
-  # === ABOUT PAGE (about.json) ===
   - name: aboutPage
     label: About Page
     files:
@@ -576,6 +440,7 @@ collections:
                 fields:
                   - { label: Label, name: label, widget: string }
                   - { label: URL, name: url, widget: string }
+
           - label: Sections
             name: sections
             widget: list
@@ -597,6 +462,7 @@ collections:
                     required: false
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
+
               - label: Story Section
                 name: story
                 widget: object
@@ -607,6 +473,7 @@ collections:
                   - { label: Title, name: title, widget: string }
                   - { label: Accent Word, name: accentWord, widget: string, required: false }
                   - { label: Body, name: body, widget: text }
+
               - label: Mission & Values
                 name: missionValues
                 widget: object
@@ -626,6 +493,7 @@ collections:
                       - { label: Description, name: description, widget: text }
                       - { label: Color Class, name: color, widget: string, required: false }
                       - { label: BG Class, name: bgColor, widget: string, required: false }
+
               - label: Join Us
                 name: joinUs
                 widget: object
@@ -644,7 +512,6 @@ collections:
                       - { label: Label, name: label, widget: string }
                       - { label: URL, name: url, widget: string, required: false }
 
-  # === FAQ PAGE (faqPage.json) ===
   - name: faqPage
     label: FAQ Page
     files:
@@ -713,6 +580,7 @@ collections:
                 name: imageOffset
                 widget: number
                 default: 0
+
           - label: Sections
             name: sections
             widget: list
@@ -731,15 +599,14 @@ collections:
                 widget: select
                 required: false
                 options:
-                  - { label: Default, value: default }
-                  - { label: Darker, value: darker }
-                  - { label: Accent, value: accent }
+                      - { label: Default, value: default }
+                      - { label: Darker, value: darker }
+                      - { label: Accent, value: accent }
               - { label: Title, name: title, widget: string, required: false }
               - { label: Accent Word, name: accentWord, widget: string, required: false }
               - { label: Description, name: description, widget: text, required: false }
               - { label: Button Label, name: buttonLabel, widget: string, required: false }
 
-  # === EVENTS CONTENT (events.json) ===
   - name: events
     label: Events Content & List
     files:
@@ -800,6 +667,7 @@ collections:
                 fields:
                   - { label: Label, name: label, widget: string }
                   - { label: URL, name: url, widget: string }
+
           - label: Intro Section
             name: intro
             widget: object
@@ -807,6 +675,7 @@ collections:
             fields:
               - { label: Title, name: title, widget: string, required: false }
               - { label: Body, name: body, widget: text, required: false }
+
           - label: Events
             name: events
             widget: list
@@ -822,7 +691,6 @@ collections:
                 required: false
               - { label: Image Key (for mapping), name: imageKey, widget: string, required: false }
 
-  # === EVENTS PAGE (eventsPage.json) ===
   - name: eventsPage
     label: Events Page Layout
     files:
@@ -856,7 +724,6 @@ collections:
                   - { label: Label, name: label, widget: string, required: false }
                   - { label: URL, name: url, widget: string, required: false }
 
-  # === PARTNERS PAGE (partners.json) ===
   - name: partnersPage
     label: Partners Page
     files:
@@ -916,6 +783,7 @@ collections:
                 fields:
                   - { label: Label, name: label, widget: string }
                   - { label: URL, name: url, widget: string }
+
           - label: Sections
             name: sections
             widget: list
@@ -931,7 +799,6 @@ collections:
                   - { label: Join Us CTA, value: joinUs }
               - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
 
-  # === BLOG PAGE (blogPage.json) ===
   - name: blogPage
     label: Blog Page
     files:
@@ -992,6 +859,7 @@ collections:
                 fields:
                   - { label: Label, name: label, widget: string }
                   - { label: URL, name: url, widget: string }
+
           - label: Sections
             name: sections
             widget: list
@@ -1021,7 +889,6 @@ collections:
               - { label: Author Label, name: authorLabel, widget: string, required: false }
               - { label: Button Label, name: buttonLabel, widget: string, required: false }
 
-  # === BLOG POSTS (blogPosts.json) ===
   - name: blogPosts
     label: Blog Posts
     files:
@@ -1046,7 +913,6 @@ collections:
               - { label: Hero Image Key (optional, for hero mapping), name: imageKey, widget: string, required: false }
               - { label: Body, name: body, widget: text, required: false }
 
-  # === SPONSOR LOGOS (sponsors.json) ===
   - name: sponsors
     label: Sponsor Logos
     files:
@@ -1064,146 +930,114 @@ collections:
               - { label: Name, name: name, widget: string, required: false }
               - { label: Alt Text, name: alt, widget: string, required: false }
 
-  # === SITE SETTINGS (settings.json) ===
   - name: settings
     label: Site Settings
     files:
-    - name: settings
-      label: Site Settings
-      file: "src/content/settings.json"
-      format: json
-      fields:
+      - name: settings
+        label: Site Settings
+        file: "src/content/settings.json"
+        format: json
+        fields:
+          - label: Palette
+            name: palette
+            widget: object
+            fields:
+              - { label: Primary, name: primary, widget: string }
+              - { label: Secondary, name: secondary, widget: string }
+              - label: Dark Background Colour
+                name: backgroundDark
+                widget: color
+                default: "#0b111a"
+              - label: Light Background Colour
+                name: backgroundLight
+                widget: color
+                default: "#ffffff"
 
-        # ---------------------------
-        # 🎨 PALETTE (Theme Colors)
-        # ---------------------------
-        - label: Palette
-          name: palette
-          widget: object
-          fields:
-            - { label: Primary, name: primary, widget: string }
-            - { label: Secondary, name: secondary, widget: string }
+          - label: Hero Defaults
+            name: heroDefaults
+            widget: object
+            fields:
+              - label: Eyebrow Font Colour
+                name: eyebrowColor
+                widget: select
+                default: white
+                options:
+                  - { label: White, value: white }
+                  - { label: Black, value: black }
+                  - { label: Teal (brand primary), value: teal }
+                  - { label: Cyan, value: cyan }
+                  - { label: Dark Grey, value: darkgrey }
 
-            - label: Dark Background Colour
-              name: backgroundDark
-              widget: color
-              default: "#0b111a"
+              - label: Title Font Colour
+                name: titleColor
+                widget: select
+                default: white
+                options:
+                  - { label: White, value: white }
+                  - { label: Black, value: black }
+                  - { label: Teal (brand primary), value: teal }
+                  - { label: Cyan, value: cyan }
+                  - { label: Dark Grey, value: darkgrey }
 
-            - label: Light Background Colour
-              name: backgroundLight
-              widget: color
-              default: "#ffffff"
+              - label: Body Text Colour
+                name: textColor
+                widget: select
+                default: white
+                options:
+                  - { label: White, value: white }
+                  - { label: Black, value: black }
+                  - { label: Teal (brand primary), value: teal }
+                  - { label: Cyan, value: cyan }
+                  - { label: Dark Grey, value: darkgrey }
 
-       # ---------------------------
-        # ⭐ HERO DEFAULTS
-        # ---------------------------
-        - label: Hero Defaults
-          name: heroDefaults
-          widget: object
-          fields:
+              - label: Elliptical Glow Strength
+                name: backdropStrength
+                widget: number
+                value_type: float
+                min: 0
+                max: 1
+                step: 0.05
+                default: 0.75
 
-            # Font colours
-            - label: Eyebrow Font Colour
-              name: eyebrowColor
-              widget: select
-              default: white
-              options:
-                - { label: White, value: white }
-                - { label: Black, value: black }
-                - { label: Teal (brand primary), value: teal }
-                - { label: Cyan, value: cyan }
-                - { label: Dark Grey, value: darkgrey }
+              - label: Elliptical Glow Colour (RGB)
+                name: backdropColor
+                widget: string
+                default: "15,23,42"
+                hint: "Use format: r,g,b — e.g. 40,80,255 for a brighter blue"
+                pattern:
+                  - "^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$"
+                  - "Must be RGB only (e.g. 40,80,255)"
 
-            - label: Title Font Colour
-              name: titleColor
-              widget: select
-              default: white
-              options:
-                - { label: White, value: white }
-                - { label: Black, value: black }
-                - { label: Teal (brand primary), value: teal }
-                - { label: Cyan, value: cyan }
-                - { label: Dark Grey, value: darkgrey }
+              - label: Elliptical Glow Size
+                name: backdropSize
+                widget: number
+                value_type: float
+                min: 0.5
+                max: 1.5
+                step: 0.1
+                default: 0.7
 
-            - label: Body Text Colour
-              name: textColor
-              widget: select
-              default: white
-              options:
-                - { label: White, value: white }
-                - { label: Black, value: black }
-                - { label: Teal (brand primary), value: teal }
-                - { label: Cyan, value: cyan }
-                - { label: Dark Grey, value: darkgrey }
+          - label: Footer
+            name: footer
+            widget: object
+            fields:
+              - { label: Text, name: text, widget: text, required: false }
+              - { label: Show Events in Footer, name: showEventsInFooter, widget: boolean, required: false, default: false }
 
-            # Glow settings
-            - label: Elliptical Glow Strength
-              name: backdropStrength
-              widget: number
-              value_type: float
-              min: 0
-              max: 1
-              step: 0.05
-              default: 0.75
-
-            # Editable RGB input with validation
-            - label: Elliptical Glow Colour (RGB)
-              name: backdropColor
-              widget: string
-              default: "15,23,42"
-              hint: "Use format: r,g,b — e.g. 40,80,255 for a brighter blue"
-              pattern:
-                - "^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$"
-                - "Must be RGB only (e.g. 40,80,255)"
-
-            - label: Elliptical Glow Size
-              name: backdropSize
-              widget: number
-              value_type: float
-              min: 0.5
-              max: 1.5
-              step: 0.1
-              default: 0.7
-
-        # ---------------------------
-        # FOOTER
-        # ---------------------------
-        - label: Footer
-          name: footer
-          widget: object
-          fields:
-            - { label: Text, name: text, widget: text, required: false }
-            - {
-                label: Show Events in Footer,
-                name: showEventsInFooter,
-                widget: boolean,
-                required: false,
-                default: false,
-              }
-
-        # ---------------------------
-        # NAVIGATION
-        # ---------------------------
-        - label: Navigation
-          name: nav
-          widget: list
-          summary: "{{fields.label}} → {{fields.type}}"
-          fields:
-            - { label: Label, name: label, widget: string }
-            - label: Link Type
-              name: type
-              widget: select
-              options:
-                - { label: Home, value: home }
-                - { label: About, value: about }
-                - { label: Events, value: events }
-                - { label: Blog, value: blog }
-                - { label: Partners, value: partners }
-                - { label: FAQ, value: faq }
-            - {
-                label: URL Override (optional),
-                name: url,
-                widget: string,
-                required: false,
-                hint: "If set, this link will go here instead of the standard page route.",
-              }
+          - label: Navigation
+            name: nav
+            widget: list
+            summary: "{{fields.label}} → {{fields.type}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - label: Link Type
+                name: type
+                widget: select
+                options:
+                  - { label: Home, value: home }
+                  - { label: About, value: about }
+                  - { label: Events, value: events }
+                  - { label: Blog, value: blog }
+                  - { label: Partners, value: partners }
+                  - { label: FAQ, value: faq }
+              - { label: URL Override (optional), name: url, widget: string, required: false, hint: "If set, this link will go here instead of the standard page route." }

@@ -6,7 +6,7 @@
     "theme": "dark",
     "eyebrow": "Ask away!",
     "imageOffset": 0,
-    "overlayStrength": 0.25,
+    "overlayStrength": 0.5,
     "mobileCrop": "cover",
     "title": "Your questions answered",
     "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",

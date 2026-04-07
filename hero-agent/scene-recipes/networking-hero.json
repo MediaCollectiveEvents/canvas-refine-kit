@@ -1,0 +1,78 @@
+{
+  "sceneName": "networking-hero",
+  "canvas": {
+    "aspectRatio": "16:9",
+    "safeCenterZone": {
+      "xStartPercent": 30,
+      "xEndPercent": 70,
+      "yStartPercent": 10,
+      "yEndPercent": 75
+    }
+  },
+
+  "layout": {
+    "leftCluster": {
+      "groupSize": 3,
+      "positionRangeX": [8, 26],
+      "positionRangeY": [52, 72]
+    },
+
+    "centerCluster": {
+      "groupSize": 2,
+      "positionRangeX": [38, 62],
+      "positionRangeY": [60, 74],
+      "opacity": 0.82
+    },
+
+    "rightCluster": {
+      "groupSize": 3,
+      "positionRangeX": [74, 92],
+      "positionRangeY": [52, 72]
+    }
+  },
+
+  "style": {
+    "characterDetail": "minimal",
+    "outlineWeight": "light",
+    "faceDetail": false,
+    "gesturePreference": [
+      "conversation",
+      "standing relaxed",
+      "seated discussion"
+    ]
+  },
+
+  "colorBands": [
+    {
+      "name": "base",
+      "color": "#eaf3f4",
+      "heightPercent": 100
+    },
+    {
+      "name": "teal-accent",
+      "color": "#d9f2ee",
+      "heightPercent": 32
+    },
+    {
+      "name": "peach-accent",
+      "color": "#f6ddd2",
+      "heightPercent": 18
+    }
+  ],
+
+  "accents": {
+    "tealHighlights": true,
+    "peachHighlights": true,
+    "topGradientAllowed": false
+  },
+
+  "compositionRules": [
+    "leave central headline zone empty",
+    "balance gender representation",
+    "avoid edge crowding",
+    "keep silhouettes smaller than midground band height",
+    "maintain editorial spacing",
+    "no dark overlay at top",
+    "no dense center silhouettes"
+  ]
+}

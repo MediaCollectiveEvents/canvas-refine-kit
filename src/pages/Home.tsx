@@ -1,4 +1,3 @@
-// src/pages/Home.tsx
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -20,9 +19,6 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* --------------------------- */}
-      {/* SEO TAGS FOR HOMEPAGE      */}
-      {/* --------------------------- */}
       <Helmet>
         <title>
           The Media Collective — Curated Events for Media, Broadcast & Tech
@@ -34,7 +30,6 @@ const Home = () => {
           content="Exclusive, invite-only gatherings connecting senior leaders across media, broadcast, streaming and technology. Explore events curated to spark meaningful industry conversations."
         />
 
-        {/* ---- Open Graph (social sharing) ---- */}
         <meta
           property="og:title"
           content="The Media Collective — Curated Events for Media & Tech Leaders"
@@ -47,7 +42,6 @@ const Home = () => {
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://themediacollective.co/" />
 
-        {/* ---- Twitter Card ---- */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="The Media Collective" />
         <meta
@@ -56,7 +50,6 @@ const Home = () => {
         />
         <meta name="twitter:image" content="/og-default.jpg" />
 
-        {/* ---- Canonical URL ---- */}
         <link rel="canonical" href="https://themediacollective.co/" />
       </Helmet>
 
@@ -67,33 +60,40 @@ const Home = () => {
         onOpenChange={setIsFormOpen}
       />
 
-      {/* FULL-WIDTH HERO */}
       <div className="w-full bg-[var(--background-dark)]">
-        <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
+        <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
           <PageHero
-            // Eyebrow: prefer new `eyebrow`, fall back to legacy `subtitle`
             eyebrow={hero?.eyebrow ?? hero?.subtitle}
             title={hero?.title}
             description={hero?.description}
-
-            // Primary CTA from homepage hero JSON
             primaryCtaText={hero?.primaryCta?.label}
-            primaryCtaHref={hero?.primaryCta?.url}
+            primaryCtaHref={
+              hero?.primaryCta?.url === "/register"
+                ? undefined
+                : hero?.primaryCta?.url
+            }
             onPrimaryClick={
               hero?.primaryCta?.url === "/register"
                 ? handleOpenRegister
                 : undefined
             }
-
-            // Image & basic visual settings
+            secondaryCtaText={hero?.secondaryCta?.label}
+            secondaryCtaHref={
+              hero?.secondaryCta?.url === "/register"
+                ? undefined
+                : hero?.secondaryCta?.url
+            }
+            onSecondaryClick={
+              hero?.secondaryCta?.url === "/register"
+                ? handleOpenRegister
+                : undefined
+            }
             image={hero?.image}
             theme={hero?.theme ?? "dark"}
             overlayStrength={hero?.overlayStrength}
             mobileCrop={hero?.mobileCrop}
             imagePosition={hero?.imagePosition}
             imageOffset={hero?.imageOffset}
-
-            // ⭐ Per-page glow overrides (optional; fall back to Site Settings)
             backdropColor={hero?.backdropColor}
             backdropStrength={hero?.backdropStrength}
             backdropSize={hero?.backdropSize}
@@ -101,7 +101,6 @@ const Home = () => {
         </main>
       </div>
 
-      {/* PAGE CONTENT */}
       <div className="w-full">
         <HomepageRenderer
           sections={sections}

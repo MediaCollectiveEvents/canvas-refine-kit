@@ -1,0 +1,49 @@
+{
+  "canvas": {
+    "width": 3840,
+    "height": 1600
+  },
+  "safeZones": {
+    "topClearance": 0.55,
+    "centreClearance": 0.35,
+    "edgeMargin": 0.08
+  },
+  "figurePlacement": {
+    "verticalRange": [0.6, 0.95],
+    "leftClusterZone": [0.0, 0.3],
+    "rightClusterZone": [0.7, 1.0],
+    "centreAllowance": [0.4, 0.6]
+  },
+  "figureScale": {
+    "foreground": 1.0,
+    "midground": 0.82,
+    "background": 0.62,
+    "seatedRelativeToStanding": 0.86,
+    "preferSmallerFigures": true
+  },
+  "terrainLayers": {
+    "count": 8,
+    "flowStyle": "soft-arc",
+    "symmetry": false
+  },
+  "accentBands": {
+    "yellow": 1,
+    "peach": 1,
+    "maxOpacity": 0.18
+  },
+  "silhouetteStyle": {
+    "detailLevel": "minimal",
+    "edgeHighlight": true,
+    "highlightOpacity": 0.12
+  },
+  "backgroundCrowd": {
+    "enabled": true,
+    "opacity": 0.08
+  },
+  "compositionRules": {
+    "keepCentreClear": true,
+    "avoidSymmetry": true,
+    "clusterNearEdges": true,
+    "centreFiguresSubordinate": true
+  }
+}
