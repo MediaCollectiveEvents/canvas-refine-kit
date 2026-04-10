@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 type TestimonialObject = {
@@ -95,7 +95,7 @@ function normalizeTestimonials(
     .map((item): NormalizedTestimonial | null => {
       if (typeof item === "string") {
         const quoteLines = normalizeQuoteText(item);
-        if (quoteLines.length === 0) return null;
+        if (!quoteLines.length) return null;
 
         return {
           quote: quoteLines,
@@ -107,7 +107,7 @@ function normalizeTestimonials(
 
       if (item && typeof item === "object") {
         const quoteLines = item.quote ? normalizeQuoteText(item.quote) : [];
-        if (quoteLines.length === 0) return null;
+        if (!quoteLines.length) return null;
 
         return {
           quote: quoteLines,
@@ -125,20 +125,23 @@ function normalizeTestimonials(
 }
 
 const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
+  const testimonials = useMemo(
+    () => normalizeTestimonials(section?.items),
+    [section?.items]
+  );
+
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-
-  const testimonials = normalizeTestimonials(section?.items);
 
   useEffect(() => {
     if (paused || testimonials.length <= 1) return;
 
-    const timer = setTimeout(() => {
+    const timer = setInterval(() => {
       setIndex((i) => (i + 1) % testimonials.length);
     }, INTERVAL);
 
-    return () => clearTimeout(timer);
-  }, [paused, index, testimonials.length]);
+    return () => clearInterval(timer);
+  }, [paused, testimonials.length]);
 
   useEffect(() => {
     if (index >= testimonials.length) {
@@ -150,35 +153,35 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
   const eyebrow =
     section?.styleTitle?.eyebrow || section?.heading || "What our guests say";
 
+  if (!current) return null;
+
   return (
-    <section className="relative overflow-hidden py-28 bg-[#0F172A] text-white">
+    <section className="relative overflow-hidden py-24 bg-[#0F172A] text-white">
       <div
         aria-hidden="true"
-        className="
-          pointer-events-none absolute inset-0
-          bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0)_75%)]
-        "
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.07)_0%,rgba(0,0,0,0)_62%)]"
       />
 
-      <div className="relative max-w-4xl mx-auto px-6 text-center">
+      <div className="relative max-w-5xl mx-auto px-6 text-center">
         <p
           className="
             font-body
-            text-xs sm:text-sm md:text-[0.85rem]
+            text-xs sm:text-sm
             tracking-[0.28em]
             uppercase
             text-white/55
-            mb-2
+            mb-3
           "
         >
           {eyebrow}
         </p>
 
-        <div className="w-10 h-[1.5px] bg-white/20 mx-auto mb-12" />
+        <div className="w-12 h-px bg-white/20 mx-auto mb-10" />
 
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
+          className="relative"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -186,21 +189,35 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -18 }}
-              transition={{ duration: 0.9, ease: "easeOut" }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
             >
               <blockquote
                 className="
+                  relative
+                  mx-auto
+                  max-w-[38ch]
                   font-serif
-                  text-[1.55rem] sm:text-[1.7rem] md:text-[1.82rem]
+                  text-[1.4rem]
+                  sm:text-[1.55rem]
+                  md:text-[1.7rem]
                   leading-[1.55]
-                  max-w-[48ch] mx-auto
+                  tracking-[-0.01em]
                   text-white/90
-                  font-light
-                  tracking-[-0.005em]
-                  drop-shadow-[0_1px_12px_rgba(0,0,0,0.4)]
                 "
               >
-                <span className="block text-[#27CDBA] text-[2.3rem] mb-3">
+                <span
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    -left-8
+                    -top-3
+                    text-[#36e0c6]
+                    text-[3rem]
+                    sm:text-[3.4rem]
+                    leading-none
+                    opacity-95
+                  "
+                >
                   “
                 </span>
 
@@ -210,7 +227,19 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                   </p>
                 ))}
 
-                <span className="block text-[#27CDBA] text-[2.3rem] mt-4">
+                <span
+                  aria-hidden="true"
+                  className="
+                    absolute
+                    -right-8
+                    -bottom-4
+                    text-[#36e0c6]
+                    text-[3rem]
+                    sm:text-[3.4rem]
+                    leading-none
+                    opacity-95
+                  "
+                >
                   ”
                 </span>
               </blockquote>
@@ -218,27 +247,49 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.2 }}
+                transition={{ delay: 0.18, duration: 0.45 }}
                 className="mt-8"
               >
                 {current.author && (
-                  <p className="text-[1.05rem] font-medium text-white/90">
+                  <p className="font-body text-[1rem] text-white/92 tracking-[0.02em]">
                     {current.author}
                   </p>
                 )}
 
                 {(current.title || current.company) && (
-                  <p className="text-[0.95rem] text-white/60 mt-1">
+                  <p className="font-body text-[0.9rem] text-white/60 mt-1">
                     {current.title}
                     {current.title && current.company ? " — " : ""}
                     {current.company && (
-                      <span className="text-[#27CDBA]">{current.company}</span>
+                      <span className="text-[#36e0c6]">{current.company}</span>
                     )}
                   </p>
                 )}
               </motion.div>
             </motion.div>
           </AnimatePresence>
+
+          {testimonials.length > 1 && (
+            <div className="mt-8 flex justify-center gap-2">
+              {testimonials.map((_, dotIndex) => {
+                const active = dotIndex === index;
+
+                return (
+                  <button
+                    key={dotIndex}
+                    type="button"
+                    aria-label={`Show testimonial ${dotIndex + 1}`}
+                    onClick={() => setIndex(dotIndex)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      active
+                        ? "w-8 bg-[#36e0c6]"
+                        : "w-2 bg-white/20 hover:bg-white/40"
+                    }`}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>

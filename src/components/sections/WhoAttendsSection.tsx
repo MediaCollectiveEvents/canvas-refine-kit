@@ -56,7 +56,7 @@ const intro = (
 const STATS = [
   { num: "3", sizeRem: 3.15, smallLabel: "TOP", mainLabel: "Global Technology Giants" },
   { num: "5", sizeRem: 4.55, smallLabel: "MAJOR", mainLabel: "Hollywood Studios" },
-  { num: "8", sizeRem: 5.85, smallLabel: "DOMINANT", mainLabel: "Streaming Platforms" },
+  { num: "8", sizeRem: 5.85, smallLabel: "LEADING", mainLabel: "Streaming Platforms" },
 ];
 
 export default function WhoAttendsSection({}: WhoAttendsSectionProps) {

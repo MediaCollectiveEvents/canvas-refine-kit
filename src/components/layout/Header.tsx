@@ -32,7 +32,7 @@ function resolveHref(item: RawNavItem): string {
     partners: "/partners",
     blog: "/blog",
     faq: "/faq",
-    sponsors: "/sponsors",
+    sponsors: "/sponsors"
   };
 
   return map[item.type ?? "home"] ?? "/";
@@ -44,7 +44,7 @@ const fallbackNavItems = [
   { label: "Events", href: "/events" },
   { label: "Partners", href: "/partners" },
   { label: "Blog", href: "/blog" },
-  { label: "FAQ", href: "/faq" },
+  { label: "FAQ", href: "/faq" }
 ];
 
 const Header = () => {
@@ -55,11 +55,14 @@ const Header = () => {
 
   const navItems =
     typedSettings.nav?.length
-      ? typedSettings.nav.map((i) => ({ label: i.label, href: resolveHref(i) }))
+      ? typedSettings.nav.map((i) => ({
+          label: i.label,
+          href: resolveHref(i)
+        }))
       : fallbackNavItems;
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 24);
+    const handler = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
@@ -73,37 +76,32 @@ const Header = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       <header
-        className={`
+        className="
           fixed top-0 left-0 right-0 z-50
+          bg-[#08111f]
+          backdrop-blur-md
+          shadow-[0_12px_36px_rgba(0,0,0,0.34)]
           transition-all duration-300 ease-out
-          backdrop-blur-xl
-          border-b
-          ${
-            scrolled
-              ? "bg-white/72 border-black/10 shadow-[0_10px_40px_rgba(0,0,0,0.16)]"
-              : "bg-gradient-to-b from-[#0B1220]/82 via-[#0B1220]/60 to-[#0B1220]/28 border-white/6"
-          }
-        `}
+        "
       >
+        {/* Apple-style glass highlight (top edge) */}
         <div
           aria-hidden="true"
-          className={`
-            absolute inset-0 pointer-events-none transition-opacity duration-300
-            ${
-              scrolled
-                ? "bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.035),transparent_78%)]"
-                : "bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.05),transparent_78%)]"
-            }
-          `}
+          className="absolute inset-x-0 top-0 h-px pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to right, rgba(255,255,255,0.03), rgba(255,255,255,0.22), rgba(255,255,255,0.03))"
+          }}
         />
 
+        {/* Accent separator (bottom edge) */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 h-px"
+          className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
           style={{
-            background: scrolled
-              ? "linear-gradient(to right, rgba(39,205,186,0.22), rgba(39,205,186,0.10), rgba(39,205,186,0))"
-              : "linear-gradient(to right, rgba(39,205,186,0.34), rgba(39,205,186,0.10), rgba(39,205,186,0))",
+            background:
+              "linear-gradient(to right, rgba(39,205,186,0.06), rgba(39,205,186,0.55), rgba(39,205,186,0.06))",
+            boxShadow: "0 0 6px rgba(39,205,186,0.35)"
           }}
         />
 
@@ -112,61 +110,45 @@ const Header = () => {
             relative max-w-7xl mx-auto
             px-5 sm:px-6 lg:px-8 xl:px-10
             transition-all duration-300 ease-out
-            ${scrolled ? "h-[88px] lg:h-[92px]" : "h-[96px] lg:h-[108px]"}
+            ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
           `}
         >
+          {/* MOBILE NAV */}
           <div className="flex h-full items-center lg:hidden">
-            <Link
-              to="/"
-              className="flex shrink-0 items-center"
-              aria-label="The Media Collective home"
-            >
+            <Link to="/" aria-label="The Media Collective home">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className={`
-                  block w-auto shrink-0 object-contain transition-all duration-300 ease-out
-                  ${scrolled ? "h-12" : "h-14"}
-                `}
+                className={scrolled ? "h-11" : "h-14"}
               />
             </Link>
 
             <button
-              className={`
-                ml-auto inline-flex items-center justify-center
-                w-11 h-11 rounded-lg border transition
-                ${
-                  scrolled
-                    ? "border-black/10 bg-black/[0.04] text-[#0B1220]/90 hover:bg-black/[0.08]"
-                    : "border-white/10 bg-white/5 text-white/90 hover:bg-white/10"
-                }
-              `}
+              className="
+                ml-auto w-11 h-11 rounded-lg
+                border border-white/15
+                bg-white/8 text-white
+                hover:bg-white/12
+                transition
+              "
               onClick={() => setIsMenuOpen((prev) => !prev)}
-              aria-label="Toggle menu"
-              aria-expanded={isMenuOpen}
             >
               {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
 
-          <div className="relative hidden h-full lg:flex items-center">
-            <Link
-              to="/"
-              className="relative z-10 flex shrink-0 items-center"
-              aria-label="The Media Collective home"
-            >
+          {/* DESKTOP NAV */}
+          <div className="hidden lg:flex h-full items-center">
+            <Link to="/" className="relative z-10">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className={`
-                  block w-auto shrink-0 object-contain transition-all duration-300 ease-out
-                  ${scrolled ? "h-14" : "h-16 xl:h-[4.5rem]"}
-                `}
+                className={scrolled ? "h-14" : "h-16 xl:h-[4.4rem]"}
               />
             </Link>
 
-            <nav className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <div className="pointer-events-auto flex items-center gap-6 xl:gap-8 2xl:gap-10">
+            <nav className="absolute inset-0 flex items-center justify-center">
+              <div className="flex items-center gap-6 xl:gap-8 2xl:gap-10">
                 {navItems.map((item) => {
                   const isActive =
                     item.href === "/"
@@ -179,29 +161,30 @@ const Header = () => {
                       to={item.href}
                       className={`
                         relative pb-1 whitespace-nowrap
-                        font-body uppercase
+                        font-body uppercase font-medium
                         tracking-[0.14em] xl:tracking-[0.18em]
-                        text-[0.8rem] xl:text-[0.9rem]
-                        transition-colors duration-200
+                        text-[0.82rem] xl:text-[0.9rem]
+                        transition-all duration-200
                         ${
-                          scrolled
-                            ? isActive
-                              ? "text-[#0B1220]"
-                              : "text-[#0B1220]/70 hover:text-[#0B1220]"
-                            : isActive
-                              ? "text-white"
-                              : "text-white/82 hover:text-[#7EF2E4]"
+                          isActive
+                            ? "text-white"
+                            : "text-white/90 hover:text-[#9BF8ED]"
                         }
                       `}
+                      style={{
+                        textShadow: "0 1px 8px rgba(0,0,0,0.45)"
+                      }}
                     >
                       {item.label}
+
                       <span
                         className={`
-                          absolute left-0 right-0 -bottom-[2px] h-px
+                          absolute left-0 right-0 -bottom-[3px]
+                          h-[2px] rounded-full
                           transition-all duration-200
                           ${
                             isActive
-                              ? "bg-[#27CDBA] opacity-100"
+                              ? "bg-[#27CDBA]"
                               : "bg-[#27CDBA] opacity-0"
                           }
                         `}
@@ -212,23 +195,19 @@ const Header = () => {
               </div>
             </nav>
 
-            <div className="relative z-10 ml-auto flex shrink-0 items-center">
+            <div className="ml-auto">
               <Button
                 onClick={() => setIsFormOpen(true)}
-                className={`
+                className="
                   rounded-xl
                   font-body uppercase
-                  tracking-[0.1em] xl:tracking-[0.12em]
-                  text-[0.76rem] xl:text-[0.84rem]
-                  px-4 xl:px-6 py-2.5 xl:py-3
-                  whitespace-nowrap
-                  transition-all duration-200
-                  ${
-                    scrolled
-                      ? "bg-primary text-black hover:bg-primary/92 shadow-[0_0_18px_rgba(39,205,186,0.14)]"
-                      : "bg-primary text-black hover:bg-primary/92 shadow-[0_0_18px_rgba(39,205,186,0.18)]"
-                  }
-                `}
+                  tracking-[0.12em]
+                  text-[0.84rem]
+                  px-6 py-3
+                  bg-primary text-black
+                  hover:bg-primary/92
+                  shadow-[0_0_18px_rgba(39,205,186,0.18)]
+                "
               >
                 Contact Us
               </Button>
@@ -236,69 +215,52 @@ const Header = () => {
           </div>
         </div>
 
+        {/* MOBILE MENU PANEL */}
         {isMenuOpen && (
-          <nav
-            className={`
-              lg:hidden
-              border-t
-              backdrop-blur-xl
-              ${
-                scrolled
-                  ? "border-black/10 bg-white/92"
-                  : "border-white/10 bg-[#0B1220]/96"
-              }
-            `}
-          >
-            <div className="max-w-7xl mx-auto px-6 py-5">
-              <div className="flex flex-col gap-1">
-                {navItems.map((item) => {
-                  const isActive =
-                    item.href === "/"
-                      ? location.pathname === "/"
-                      : location.pathname.startsWith(item.href);
+          <nav className="lg:hidden border-t border-white/10 bg-[#08111f] backdrop-blur-md">
+            <div className="px-6 py-5 flex flex-col gap-1">
+              {navItems.map((item) => {
+                const isActive =
+                  item.href === "/"
+                    ? location.pathname === "/"
+                    : location.pathname.startsWith(item.href);
 
-                  return (
-                    <Link
-                      key={item.label}
-                      to={item.href}
-                      className={`
-                        rounded-lg px-3 py-3
-                        font-body uppercase tracking-[0.16em]
-                        text-[0.92rem] transition
-                        ${
-                          scrolled
-                            ? isActive
-                              ? "bg-black/[0.06] text-[#0B1220]"
-                              : "text-[#0B1220]/75 hover:bg-black/[0.04] hover:text-[#0B1220]"
-                            : isActive
-                              ? "bg-white/8 text-white"
-                              : "text-white/82 hover:bg-white/6 hover:text-[#7EF2E4]"
-                        }
-                      `}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    className={`
+                      rounded-lg px-3 py-3
+                      uppercase tracking-[0.16em]
+                      text-[0.92rem]
+                      transition
+                      ${
+                        isActive
+                          ? "bg-white/10 text-white"
+                          : "text-white/88 hover:bg-white/8 hover:text-[#9BF8ED]"
+                      }
+                    `}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
 
-                <Button
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setIsFormOpen(true);
-                  }}
-                  className="
-                    mt-3 rounded-xl
-                    bg-primary text-black
-                    font-body uppercase tracking-[0.12em] text-[0.9rem]
-                    py-3
-                    hover:bg-primary/92
-                    shadow-[0_0_18px_rgba(39,205,186,0.18)]
-                    transition-all duration-200
-                  "
-                >
-                  Contact Us
-                </Button>
-              </div>
+              <Button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  setIsFormOpen(true);
+                }}
+                className="
+                  mt-3 rounded-xl
+                  bg-primary text-black
+                  uppercase tracking-[0.12em]
+                  text-[0.9rem]
+                  py-3
+                "
+              >
+                Contact Us
+              </Button>
             </div>
           </nav>
         )}

@@ -89,14 +89,6 @@ const Home = () => {
                 : undefined
             }
             image={hero?.image}
-            theme={hero?.theme ?? "dark"}
-            overlayStrength={hero?.overlayStrength}
-            mobileCrop={hero?.mobileCrop}
-            imagePosition={hero?.imagePosition}
-            imageOffset={hero?.imageOffset}
-            backdropColor={hero?.backdropColor}
-            backdropStrength={hero?.backdropStrength}
-            backdropSize={hero?.backdropSize}
           />
         </main>
       </div>
@@ -106,7 +98,7 @@ const Home = () => {
           sections={sections}
           onRegister={handleOpenRegister}
         />
-      </div>
+      </div>  
 
       <Footer />
     </div>

@@ -3,17 +3,17 @@
   "palette": {
     "primary": "#36e0c6",
     "secondary": "#ff4062",
-    "backgroundDark": "#1d1d36",
+    "backgroundDark": "#1b1b30",
     "backgroundLight": "#fefff9"
   },
   "heroDefaults": {
-    "eyebrowColor": "darkgrey",
-    "titleColor": "black",
-    "textColor": "darkgrey",
+    "eyebrowColor": "teal",
+    "titleColor": "white",
+    "textColor": "white",
     "overlayStrength": 0.5,
-    "backdropColor": "40,86,103",
-    "backdropStrength": 0.3,
-    "backdropSize": 0.5,
+    "backdropColor": "83,83,83",
+    "backdropStrength": 0,
+    "backdropSize": 0.6,
     "fontColorOptions": [
       "white",
       "black",

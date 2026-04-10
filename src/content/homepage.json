@@ -7,8 +7,8 @@
   },
   "hero": {
     "imageKey": "homeHero",
-    "imagePosition": "center",
-    "theme": "light",
+    "imagePosition": "top",
+    "theme": "dark",
     "primaryCta": {
       "label": "Request an invitation",
       "url": "/register"
@@ -23,8 +23,8 @@
     "backdropSize": 1,
     "backdropStrength": 0,
     "subtitle": "Media and entertainment industry",
-    "title": "Exclusive events",
-    "image": "/uploads/6191b966-6312-42d9-845a-1375f1bd0623.png",
+    "title": "Curated events",
+    "image": "/uploads/herohome2.png",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
       "label": "Explore upcoming events",
@@ -32,6 +32,31 @@
     }
   },
   "sections": [
+    {
+      "body": "We bring together people shaping the future of the media industry — across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from intimate panel conversations and private screenings to informal evening receptions aligned with major industry milestones.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance, relevance and a high-quality guest mix.",
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "heading": "What we do",
+      "backgroundStyle": "light",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "hidden": false,
+      "motif": "corner-square",
+      "extended": "",
+      "type": "aboutIntro",
+      "texture": "vignette",
+      "customBackground": null
+    },
     {
       "styleWrapper": {
         "variant": "glow",
@@ -107,39 +132,39 @@
       "customBackground": null
     },
     {
-      "body": "We bring together people shaping the future of the media industry — across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from intimate panel conversations and private screenings to informal evening receptions aligned with major industry milestones.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance, relevance and a high-quality guest mix.",
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "heading": "What we do",
-      "backgroundStyle": "light",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "hidden": false,
-      "motif": "corner-square",
-      "extended": "",
-      "type": "aboutIntro",
-      "texture": "vignette",
-      "customBackground": null
-    },
-    {
       "type": "testimonials",
       "heading": "What People Say",
       "items": [
-        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
-        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
-        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
-        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User",
-        "Quote:\nThe intimate format creates opportunities for genuine dialogue with peers.\n\nAuthor:\nTest User"
+        {
+          "quote": "The intimate format creates opportunities for genuine dialogue with peers.",
+          "name": "Laurence Mifsud",
+          "role": "SVP Global Head of Media & Entertainment",
+          "company": "Software Minds"
+        },
+        {
+          "quote": "Every event delivers genuine value. I've formed partnerships and gained insights that have directly impacted our company's strategic direction.",
+          "name": "Chris Rovtar",
+          "role": "Founder",
+          "company": "Xcell Group"
+        },
+        {
+          "quote": "Working with The Media Collective has been key to elevating our profile in the broadcast media and tech sectors. It has helped us connect with exciting brands and establish a strong presence at major industry events.",
+          "name": "Daniel Jenkins",
+          "role": "Commercial Director",
+          "company": "Wagada Digital"
+        },
+        {
+          "quote": "The sector-focused nature of the event enabled us to make solid personal connections with like-minded peers — far deeper than what happens at larger events.",
+          "name": "Vik Nunkoo",
+          "role": "Commercial Director",
+          "company": "Tosellmore"
+        },
+        {
+          "quote": "It was great to attend and connect with so many talented people in the broadcast and media industry. A powerful reminder of the strength of this community.",
+          "name": "Sue Mitchell",
+          "role": "Director",
+          "company": "Zixi"
+        }
       ],
       "styleTitle": {
         "eyebrow": "In their words",
@@ -176,7 +201,7 @@
         "tone": "default",
         "disableEmphasis": false
       },
-      "hidden": false,
+      "hidden": true,
       "cta": {
         "label": "Request updates",
         "url": "/register"
