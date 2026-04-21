@@ -1,4 +1,3 @@
-// src/components/layout/SectionWrapper.tsx
 import { ReactNode, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
@@ -34,24 +33,24 @@ export default function SectionWrapper({
   withFades = false,
   align = "left",
 }: SectionWrapperProps) {
-
   const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 85%", "start 40%"], // triggers later, more visible
+    offset: ["start 85%", "start 40%"],
   });
 
-  // C3 transition: 30px upwards + fade
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [0.7, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [24, 0]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.78, 1]);
 
   const paddingClasses =
-    padding === "lux" ? "py-24 md:py-32" : "py-16 md:py-24";
+    padding === "lux"
+      ? "py-16 md:py-20 lg:py-24"
+      : "py-12 md:py-16 lg:py-20";
 
   const containerClass = `
-    max-w-6xl mx-auto
-    px-6 md:px-10
+    mx-auto max-w-7xl
+    px-5 sm:px-6 lg:px-8 xl:px-8
     ${align === "center" ? "text-center" : "text-left"}
   `;
 
@@ -59,8 +58,8 @@ export default function SectionWrapper({
     variant === "light" || variant === "clean"
       ? "bg-[#f7f7f7]"
       : variant === "dark"
-      ? "bg-[#0b111a]"
-      : "bg-transparent";
+        ? "bg-[#0b111a]"
+        : "bg-transparent";
 
   return (
     <section

@@ -69,13 +69,14 @@ export default function PageHero(props: PageHeroProps) {
   }
 
   return (
-    <header className="relative w-full min-h-[560px] flex items-center justify-center overflow-hidden bg-transparent">
+    <header className="relative w-full h-[560px] flex items-center justify-center overflow-hidden bg-transparent">
+      
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
-          className="absolute -inset-x-1 -top-1 -bottom-2 bg-cover bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-no-repeat"
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
-            backgroundPosition: "center calc(100% + 80px)",
+            backgroundPosition: "center bottom",
             ...(isPreview ? {} : { y }),
           }}
           aria-hidden="true"
@@ -89,14 +90,8 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
+      {/* soft radial glow behind headline */}
       <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.05) 42%, rgba(255,255,255,0) 72%)",
-          }}
-        />
         <div
           className="absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2"
           style={{
@@ -116,7 +111,7 @@ export default function PageHero(props: PageHeroProps) {
         className="relative z-10 w-full max-w-[1200px] px-6 text-center"
       >
         {eyebrowText && (
-          <p className="uppercase tracking-[0.18em] text-[0.9rem] text-[#2E6294] mb-3 font-medium">
+          <p className="uppercase tracking-[0.18em] text-[0.9rem] text-[#27CDBA] mb-3 font-medium">
             {eyebrowText}
           </p>
         )}
@@ -145,59 +140,29 @@ export default function PageHero(props: PageHeroProps) {
           </p>
         )}
 
-        {(primaryCtaText || secondaryCtaText) && (
-          <div className="flex flex-col sm:flex-row gap-5 justify-center">
-            {primaryCtaText && (
-              <Button
-                size="lg"
-                onClick={() => handleClick(primaryCtaHref, onPrimaryClick)}
-                className="
-                  min-w-[270px]
-                  rounded-full
-                  px-10
-                  py-3.5
-                  font-semibold
-                  text-white
-                  border border-white/55
-                  bg-[rgba(28,72,118,0.88)]
-                  backdrop-blur-lg
-                  shadow-[0_18px_40px_rgba(0,0,0,0.28)]
-                  hover:bg-[rgba(28,72,118,0.96)]
-                  hover:border-white/70
-                  hover:-translate-y-[1px]
-                  hover:shadow-[0_22px_48px_rgba(0,0,0,0.34)]
-                  transition-all duration-200
-                "
-              >
-                {primaryCtaText}
-              </Button>
-            )}
-
-            {secondaryCtaText && (
-              <Button
-                size="lg"
-                onClick={() => handleClick(secondaryCtaHref, onSecondaryClick)}
-                className="
-                  min-w-[270px]
-                  rounded-full
-                  px-10
-                  py-3.5
-                  font-semibold
-                  text-white
-                  border border-white/55
-                  bg-[rgba(28,72,118,0.88)]
-                  backdrop-blur-lg
-                  shadow-[0_18px_40px_rgba(0,0,0,0.28)]
-                  hover:bg-[rgba(28,72,118,0.96)]
-                  hover:border-white/70
-                  hover:-translate-y-[1px]
-                  hover:shadow-[0_22px_48px_rgba(0,0,0,0.34)]
-                  transition-all duration-200
-                "
-              >
-                {secondaryCtaText}
-              </Button>
-            )}
+        {primaryCtaText && (
+          <div className="flex justify-center">
+            <Button
+              size="lg"
+              onClick={() => handleClick(primaryCtaHref, onPrimaryClick)}
+              className="
+                min-w-[270px]
+                rounded-full
+                px-10
+                py-3.5
+                font-semibold
+                text-white
+                border border-[#0B1F36]
+                bg-[#27CDBA]
+                shadow-[0_18px_40px_rgba(39,205,186,0.28)]
+                hover:bg-[#20b8a7]
+                hover:-translate-y-[1px]
+                hover:shadow-[0_22px_48px_rgba(39,205,186,0.36)]
+                transition-all duration-200
+              "
+            >
+              {primaryCtaText}
+            </Button>
           </div>
         )}
       </motion.div>

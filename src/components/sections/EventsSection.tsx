@@ -1,9 +1,6 @@
-// src/components/sections/EventsSection.tsx
-
 import React, { useState } from "react";
 import {
   MapPin,
-  ArrowRight,
   CalendarDays,
   Mail,
   MessageCircle,
@@ -19,8 +16,6 @@ import travellerImg from "@/assets/events/traveller.png";
 import greenlineImg from "@/assets/events/greenline.png";
 
 import rawEventsFile from "@/content/events.json";
-
-/* ------------------ Types & Utilities ------------------ */
 
 interface RawEvent {
   id?: number;
@@ -52,7 +47,6 @@ interface Event {
   summary?: string;
 }
 
-/* Resolve image */
 function getImageForKey(key?: string, venue?: string, title?: string) {
   const val = (key || venue || title || "").toLowerCase();
 
@@ -64,7 +58,6 @@ function getImageForKey(key?: string, venue?: string, title?: string) {
   return broadcasterImg;
 }
 
-/* Normalize events JSON */
 function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   if (Array.isArray(raw)) return raw;
   if ("events" in raw && Array.isArray((raw as any).events)) {
@@ -73,7 +66,6 @@ function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
   return [];
 }
 
-/** Format: 8 April 2026 */
 function formatInternationalDate(input?: string) {
   if (!input) return "";
   const d = new Date(input);
@@ -85,8 +77,6 @@ function formatInternationalDate(input?: string) {
   });
 }
 
-/* ------------------ Component ------------------ */
-
 interface EventsSectionProps {
   section?: any;
   onRegisterClick?: () => void;
@@ -96,10 +86,7 @@ interface EventsSectionProps {
   imagePadding?: boolean;
 }
 
-const EventsSection: React.FC<EventsSectionProps> = ({
-  section,
-  onRegisterClick,
-}) => {
+const EventsSection: React.FC<EventsSectionProps> = () => {
   const rawEvents = normalizeRawEvents(rawEventsFile as any);
 
   const events: Event[] = rawEvents.map((e, i) => ({
@@ -133,8 +120,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
       className="relative bg-[#E8E9EA]"
     >
       <div className="relative">
-        {/* HEADER */}
-        <div className="max-w-3xl mb-10">
+        <div className="max-w-[680px] mb-6 md:mb-8">
           <h2
             className="
               font-[Montserrat]
@@ -151,31 +137,30 @@ const EventsSection: React.FC<EventsSectionProps> = ({
             </span>
           </h2>
 
-          {/* Underline divider to match other sections */}
           <div
             aria-hidden="true"
-            className="mt-4 h-px w-full"
+            className="mt-4 h-px w-full max-w-[620px]"
             style={{
               background:
                 "linear-gradient(to right, rgba(15,23,42,0.35), rgba(15,23,42,0))",
             }}
           />
 
-          {/* Lead-in line */}
           <p
             className="
               mt-4
+              max-w-[560px]
               text-[#475569]
               font-body
-              text-base md:text-[1.05rem]
+              text-[0.98rem] md:text-[1rem]
+              leading-[1.6]
             "
           >
-            Don&apos;t miss.
+            Bringing peers together across media and technology.
           </p>
         </div>
 
-        {/* CARDS GRID */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 items-stretch">
+        <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2 md:gap-10 xl:grid-cols-3 xl:gap-12">
           {events.map((event, index) => {
             const date = formatInternationalDate(event.date);
 
@@ -185,7 +170,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
             if (event.format) chips.push(event.format);
             if (event.conferenceAligned) chips.push("Conference week");
 
-            const baseUrl = "/events"; // could be event-specific later
+            const baseUrl = "/events";
             const rawSummary = event.summary ?? "";
             const summaryParts = rawSummary.split(". ");
             const firstSentence = summaryParts.shift();
@@ -215,18 +200,16 @@ const EventsSection: React.FC<EventsSectionProps> = ({
               >
                 <Card
                   className="
-                    group relative flex flex-col h-full
-                    max-w-[360px] w-full
-                    rounded-[18px]
+                    group relative flex h-full w-full max-w-[340px] flex-col
+                    overflow-hidden rounded-[18px]
                     border border-white/12
                     bg-[#0F172A]
-                    shadow-[0_14px_32px_rgba(0,0,0,0.4)]
-                    overflow-hidden
+                    shadow-[0_14px_32px_rgba(0,0,0,0.36)]
                     transition-transform duration-200
                     hover:-translate-y-[6px]
+                    xl:max-w-[350px]
                   "
                 >
-                  {/* Subtle card texture */}
                   <div
                     aria-hidden="true"
                     className="
@@ -236,22 +219,18 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                     "
                   />
 
-                  <CardContent className="relative z-10 flex flex-col p-7 h-full text-center items-center">
-                    {/* TITLE */}
+                  <CardContent className="relative z-10 flex h-full flex-col items-center p-6 text-center md:p-7">
                     <h3
                       className="
-                        font-[Montserrat]
-                        text-[1.35rem] sm:text-[1.45rem]
-                        font-semibold
-                        text-white
-                        leading-tight
                         mb-3
+                        font-[Montserrat]
+                        text-[1.3rem] font-semibold leading-tight text-white
+                        sm:text-[1.4rem]
                       "
                     >
                       {event.title}
                     </h3>
 
-                    {/* DATE */}
                     {date && (
                       <div
                         className="
@@ -264,32 +243,30 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                       </div>
                     )}
 
-                    {/* IMAGE */}
                     <img
                       src={event.image}
                       alt={event.title}
-                      className="w-[280px] mb-5 object-contain opacity-95"
+                      className="mb-4 w-[240px] object-contain opacity-95 md:w-[250px]"
                     />
 
-                    {/* VENUE + LOCATION */}
-                    <p
-                      className="
-                        text-[0.9rem] text-white/85 font-medium tracking-tight
-                        leading-[1.5] mb-1
-                        flex items-center justify-center gap-2
-                      "
-                    >
-                      <MapPin className="h-4 w-4" />
-                      <span>{event.venue}</span>
-                    </p>
-                    <p className="text-[0.85rem] text-white/60 leading-[1.5] mb-4">
-                      {event.location}
-                    </p>
+                    <div className="mb-5 min-h-[44px]">
+                      <p
+                        className="
+                          flex items-center justify-center gap-2
+                          text-[0.9rem] font-medium leading-[1.5] tracking-tight text-white/85
+                        "
+                      >
+                        <MapPin className="h-4 w-4" />
+                        <span>{event.venue}</span>
+                      </p>
+                      <p className="mt-1 text-[0.85rem] leading-[1.5] text-white/60">
+                        {event.location}
+                      </p>
+                    </div>
 
-                    {/* SUMMARY */}
-                    <div className="text-[1rem] leading-[1.65] mb-6">
+                    <div className="mb-5 min-h-[88px] max-w-[26ch] text-[0.98rem] leading-[1.65]">
                       {firstSentence && (
-                        <p className="font-semibold text-white mb-2">
+                        <p className="mb-2 font-semibold text-white">
                           {firstSentence.endsWith(".")
                             ? firstSentence
                             : `${firstSentence}.`}
@@ -300,70 +277,25 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                       )}
                     </div>
 
-                    {/* TAGS */}
-                    {chips.length > 0 && (
-                      <div className="flex flex-wrap justify-center gap-2 mb-6">
-                        {chips.slice(0, 2).map((chip, i) => (
-                          <div
-                            key={`${event.id}-chip-${i}`}
-                            className="
-                              px-3 py-1 rounded-full
-                              text-[0.7rem] uppercase tracking-wide
-                              bg-white/10 border border-white/20 text-white/90
-                            "
-                          >
-                            {chip}
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* CTA CLUSTER */}
-                    <div className="mt-auto w-full pt-5">
-                      {/* Divider */}
-                      <div className="w-full h-px bg-white/10 mb-5" />
-
-                      {/* PRIMARY CTA – with animated arrow icon */}
-                      <button
-                        onClick={() => onRegisterClick?.()}
-                        className="
-                          group/cta
-                          w-full inline-flex items-center justify-center gap-2
-                          font-[Montserrat] text-[0.95rem] font-semibold
-                          bg-[#21BFA8] text-[#0F172A]
-                          px-5 py-2.5 rounded-full
-                          shadow-[0_0_12px_rgba(33,191,168,0.35)]
-                          transition-all duration-200
-                          hover:bg-[#1EB79F]
-                          hover:shadow-[0_0_16px_rgba(33,191,168,0.45)]
-                          hover:scale-[1.03]
-                        "
-                      >
-                        <span>Register interest</span>
-                        <ArrowRight
-                          size={16}
+                    <div className="mb-5 flex min-h-[32px] flex-wrap justify-center gap-2">
+                      {chips.slice(0, 2).map((chip, i) => (
+                        <div
+                          key={`${event.id}-chip-${i}`}
                           className="
-                            transition-transform duration-200
-                            group-hover/cta:translate-x-1
-                          "
-                        />
-                      </button>
-
-                      {/* Secondary row: Details + Share */}
-                      <div className="flex items-center justify-center gap-6 mt-4 text-[13px]">
-                        {/* DETAILS */}
-                        <button
-                          className="
-                            text-white/70
-                            hover:text-white
-                            hover:underline underline-offset-2
-                            transition-colors
+                            rounded-full border border-white/20 bg-white/10
+                            px-3 py-1
+                            text-[0.7rem] uppercase tracking-wide text-white/90
                           "
                         >
-                          Details
-                        </button>
+                          {chip}
+                        </div>
+                      ))}
+                    </div>
 
-                        {/* SHARE (animated icon) */}
+                    <div className="mt-auto w-full pt-4">
+                      <div className="mb-4 h-px w-full bg-white/10" />
+
+                      <div className="flex items-center justify-center text-[13px]">
                         <button
                           type="button"
                           onClick={() =>
@@ -373,8 +305,8 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                             group/share
                             inline-flex items-center gap-1.5
                             text-white/70
-                            hover:text-white
                             transition-colors
+                            hover:text-white
                           "
                         >
                           <Share2
@@ -389,33 +321,29 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                         </button>
                       </div>
 
-                      {/* SHARE PANEL */}
                       {isShareOpen && (
                         <div
                           className="
-                            mt-4 w-full
+                            mt-4 flex w-full flex-col gap-2
                             rounded-lg border border-white/10
-                            bg-white/5 backdrop-blur-md
-                            px-3 py-2
-                            flex flex-col gap-2
-                            text-[12px] text-white/70
+                            bg-white/5 px-3 py-2 text-[12px] text-white/70
+                            backdrop-blur-md
                           "
                         >
-                          <span className="text-xs text-white/80 mb-1">
+                          <span className="mb-1 text-xs text-white/80">
                             Share this event
                           </span>
 
                           <div className="flex items-center justify-center gap-3">
-                            {/* EMAIL */}
                             <a
                               href={mailHref}
                               className="
                                 group/email
                                 inline-flex items-center gap-1.5
-                                px-3 py-1.5 rounded-full
-                                bg-white/10 border border-white/20
-                                hover:bg-white/15 hover:text-white
+                                rounded-full border border-white/20 bg-white/10
+                                px-3 py-1.5
                                 transition
+                                hover:bg-white/15 hover:text-white
                               "
                               aria-label={`Share ${event.title} via email`}
                             >
@@ -429,7 +357,6 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                               <span>Email</span>
                             </a>
 
-                            {/* WHATSAPP */}
                             <a
                               href={whatsappHref}
                               target="_blank"
@@ -437,10 +364,10 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                               className="
                                 group/wa
                                 inline-flex items-center gap-1.5
-                                px-3 py-1.5 rounded-full
-                                bg-white/10 border border-white/20
-                                hover:bg-white/15 hover:text-white
+                                rounded-full border border-white/20 bg-white/10
+                                px-3 py-1.5
                                 transition
+                                hover:bg-white/15 hover:text-white
                               "
                               aria-label={`Share ${event.title} via WhatsApp`}
                             >

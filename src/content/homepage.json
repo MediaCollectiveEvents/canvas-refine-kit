@@ -14,10 +14,6 @@
       "url": "/register"
     },
     "imageOffset": 0,
-    "cta": {
-      "url": "/register",
-      "label": "Sign up for updates"
-    },
     "overlayStrength": 0,
     "mobileCrop": "contain",
     "backdropSize": 1,
@@ -25,15 +21,11 @@
     "subtitle": "Media and entertainment industry",
     "title": "Curated events",
     "image": "/uploads/herohome2.png",
-    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
-    "secondaryCta": {
-      "label": "Explore upcoming events",
-      "url": "/events"
-    }
+    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media."
   },
   "sections": [
     {
-      "body": "We bring together people shaping the future of the media industry — across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from intimate panel conversations and private screenings to informal evening receptions aligned with major industry milestones.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance, relevance and a high-quality guest mix.",
+      "body": "We bring together people shaping the future of the media industry across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from panel conversations and private screenings to informal evening receptions aligned with major industry conferences.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance and relevance.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",

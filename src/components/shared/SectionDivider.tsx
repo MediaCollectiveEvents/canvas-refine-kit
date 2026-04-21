@@ -9,12 +9,12 @@ export default function SectionDivider({
 }: SectionDividerProps) {
   return (
     <div
-      className={["relative h-[10px] -my-px z-10", className].join(" ")}
+      className={["relative h-[6px] z-10", className].join(" ")}
       aria-hidden="true"
     >
-      <div className="absolute inset-x-0 top-0 h-[3px] bg-white/24" />
-      <div className="absolute inset-x-0 top-[5px] h-[2px] bg-white/10" />
-      <div className="absolute inset-x-0 top-[9px] h-px bg-[#36e0c6]" />
+      <div className="absolute inset-x-0 top-0 h-[3px] bg-white/22" />
+      <div className="absolute inset-x-0 top-[3px] h-[2px] bg-white/10" />
+      <div className="absolute inset-x-0 top-[5px] h-px bg-[#36e0c6]/35" />
     </div>
   );
 }

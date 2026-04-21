@@ -80,11 +80,9 @@ const Header = () => {
           fixed top-0 left-0 right-0 z-50
           bg-[#08111f]
           backdrop-blur-md
-          shadow-[0_12px_36px_rgba(0,0,0,0.34)]
           transition-all duration-300 ease-out
         "
       >
-        {/* Apple-style glass highlight (top edge) */}
         <div
           aria-hidden="true"
           className="absolute inset-x-0 top-0 h-px pointer-events-none"
@@ -94,7 +92,6 @@ const Header = () => {
           }}
         />
 
-        {/* Accent separator (bottom edge) */}
         <div
           aria-hidden="true"
           className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
@@ -113,7 +110,6 @@ const Header = () => {
             ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
           `}
         >
-          {/* MOBILE NAV */}
           <div className="flex h-full items-center lg:hidden">
             <Link to="/" aria-label="The Media Collective home">
               <img
@@ -125,19 +121,17 @@ const Header = () => {
 
             <button
               className="
-                ml-auto w-11 h-11 rounded-lg
-                border border-white/15
-                bg-white/8 text-white
-                hover:bg-white/12
+                ml-auto flex h-11 w-11 items-center justify-center
+                text-white
                 transition
               "
               onClick={() => setIsMenuOpen((prev) => !prev)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
 
-          {/* DESKTOP NAV */}
           <div className="hidden lg:flex h-full items-center">
             <Link to="/" className="relative z-10">
               <img
@@ -215,9 +209,8 @@ const Header = () => {
           </div>
         </div>
 
-        {/* MOBILE MENU PANEL */}
         {isMenuOpen && (
-          <nav className="lg:hidden border-t border-white/10 bg-[#08111f] backdrop-blur-md">
+          <nav className="lg:hidden bg-[#08111f] backdrop-blur-md">
             <div className="px-6 py-5 flex flex-col gap-1">
               {navItems.map((item) => {
                 const isActive =

@@ -1,5 +1,3 @@
-// src/components/layout/SectionTitle.tsx
-
 import { ReactNode } from "react";
 import { useSectionStyleDefaults } from "../../lib/SectionStyleProvider";
 
@@ -35,10 +33,10 @@ export default function SectionTitle({
       size: "2rem",
       sizeSm: "2.2rem",
       sizeMd: "2.35rem",
-      lineHeight: "1.15",
+      lineHeight: "1.12",
       weight: "300",
-      accentWeight: "400"
-    }
+      accentWeight: "400",
+    },
   };
 
   try {
@@ -50,7 +48,6 @@ export default function SectionTitle({
 
   const finalAlign: Align = align ?? st.align;
 
-  // NEW: tone system
   const titleColor =
     tone === "dark"
       ? "text-[#0F172A]"
@@ -59,10 +56,10 @@ export default function SectionTitle({
       : "text-white";
 
   const eyebrowColor =
-    tone === "dark" ? "text-[#475569]" : "text-white/50";
+    tone === "dark" ? "text-[#475569]" : "text-white/55";
 
   const subColor =
-    tone === "dark" ? "text-[#64748B]" : "text-white/60";
+    tone === "dark" ? "text-[#64748B]" : "text-white/70";
 
   const wrapAlign =
     finalAlign === "left"
@@ -74,7 +71,6 @@ export default function SectionTitle({
   const accentColor =
     tone === "dark" ? "text-[#27CDBA]" : "text-primary/70";
 
-  // split words if string
   const isString = typeof children === "string";
   let first: ReactNode = children;
   let second: string | undefined;
@@ -85,11 +81,14 @@ export default function SectionTitle({
     second = words.slice(1).join(" ");
   }
 
+  const weightStyle = { fontWeight: Number(st.weight) || 300 };
+  const accentWeightStyle = { fontWeight: Number(st.accentWeight) || 400 };
+
   return (
-    <div className={`${wrapAlign} mb-10`}>
+    <div className={`${wrapAlign} mb-6 md:mb-8`}>
       {eyebrow && (
         <p
-          className={`${eyebrowColor} font-body text-[11px] uppercase tracking-[0.22em] mb-2`}
+          className={`${eyebrowColor} mb-2 font-body text-[0.82rem] uppercase tracking-[0.18em]`}
         >
           {eyebrow}
         </p>
@@ -97,13 +96,13 @@ export default function SectionTitle({
 
       <h2
         className={[
-          `font-[Montserrat]`,
+          "font-[Montserrat]",
           titleColor,
-          `font-[${st.weight}]`,
-          `text-[${st.size}] sm:text-[${st.sizeSm}] md:text-[${st.sizeMd}]`,
-          `leading-[${st.lineHeight}] tracking-tight`,
+          "text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]",
+          "leading-[1.12] tracking-tight",
           className,
         ].join(" ")}
+        style={weightStyle}
       >
         {isString ? (
           <>
@@ -112,7 +111,7 @@ export default function SectionTitle({
               (disableEmphasis ? (
                 <span>{second}</span>
               ) : (
-                <span className={`${accentColor} font-[${st.accentWeight}]`}>
+                <span className={accentColor} style={accentWeightStyle}>
                   {second}
                 </span>
               ))}
@@ -124,7 +123,7 @@ export default function SectionTitle({
 
       {sub && (
         <p
-          className={`${subColor} font-body text-sm uppercase tracking-[0.18em] mt-3`}
+          className={`${subColor} mt-3 max-w-[48ch] font-body text-[0.98rem] leading-[1.6]`}
         >
           {sub}
         </p>
