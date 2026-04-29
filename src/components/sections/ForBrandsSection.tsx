@@ -1,5 +1,7 @@
-// src/components/sections/ForBrandsSection.tsx
 import React from "react";
+import SectionWrapper from "../layout/SectionWrapper";
+import SectionTitle from "../layout/SectionTitle";
+import { Button } from "../ui/button";
 
 interface ForBrandsSectionProps {
   section: {
@@ -16,41 +18,85 @@ interface ForBrandsSectionProps {
 const ForBrandsSection: React.FC<ForBrandsSectionProps> = ({ section }) => {
   const { heading, body, cta } = section;
 
-  return (
-    <section className="border-t border-border bg-background">
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="rounded-2xl border border-border bg-gradient-to-br from-background via-background to-muted/60 px-6 py-10 sm:px-10 md:px-12 md:py-12 lg:flex lg:items-center lg:justify-between lg:gap-10">
-          <div className="max-w-xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary/80">
-              For brands & partners
-            </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              {heading}
-            </h2>
-            {body && (
-              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                {body}
-              </p>
-            )}
-          </div>
+  const handleClick = () => {
+    if (cta?.url) {
+      window.location.href = cta.url;
+    }
+  };
 
-          {cta && (
-            <div className="mt-6 lg:mt-0 lg:flex-shrink-0">
-              <a
-                href={cta.url || "/partners"}
-                className="inline-flex items-center justify-center rounded-md bg-foreground px-6 py-3 text-sm font-semibold text-background shadow-sm transition hover:bg-foreground/90"
-              >
-                {cta.label}
-              </a>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Explore ways to host, collaborate, or support curated media
-                industry experiences.
-              </p>
-            </div>
-          )}
-        </div>
+  return (
+    <SectionWrapper
+      variant="light"
+      align="left"
+      padding="lux"
+      noise={false}
+      grid={false}
+      withFades={false}
+      className="relative bg-[#E8E9EA]"
+    >
+      <div className="max-w-4xl">
+        {/* eyebrow */}
+        <p
+          className="
+            font-body
+            text-[0.72rem]
+            uppercase
+            tracking-[0.22em]
+            text-[#64748B]
+            mb-3
+          "
+        >
+          For brands & partners
+        </p>
+
+        {/* heading */}
+        <SectionTitle align="left" tone="dark">
+          {heading.split(" ")[0]}{" "}
+          <span className="text-[#27CDBA]">
+            {heading.split(" ").slice(1).join(" ")}
+          </span>
+        </SectionTitle>
+
+        {/* body */}
+        {body && (
+          <p
+            className="
+              mt-4
+              max-w-[60ch]
+              font-body
+              text-[1.05rem]
+              leading-[1.75]
+              text-[#475569]
+            "
+          >
+            {body}
+          </p>
+        )}
+
+        {/* CTA */}
+        {cta && (
+          <div className="mt-8">
+            <Button
+              variant="brand"
+              size="lg"
+              onClick={handleClick}
+              className="
+                min-w-[240px]
+                rounded-full
+                px-8 py-3.5
+                font-body
+                text-[0.9rem]
+                font-semibold
+                uppercase
+                tracking-[0.14em]
+              "
+            >
+              {cta.label}
+            </Button>
+          </div>
+        )}
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 

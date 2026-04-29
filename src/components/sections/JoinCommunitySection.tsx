@@ -1,5 +1,7 @@
-// src/components/sections/JoinCommunitySection.tsx
 import React from "react";
+import SectionWrapper from "../layout/SectionWrapper";
+import SectionTitle from "../layout/SectionTitle";
+import { Button } from "../ui/button";
 
 type JoinCommunitySectionData = {
   type: "joinCommunity";
@@ -27,40 +29,66 @@ const JoinCommunitySection: React.FC<JoinCommunitySectionProps> = ({
   const ctaLabel = section.cta?.label ?? "Register Your Interest";
   const ctaUrl = section.cta?.url ?? "/register";
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>,
-  ) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onRegisterClick) {
       e.preventDefault();
       onRegisterClick();
+      return;
+    }
+
+    if (ctaUrl) {
+      window.location.href = ctaUrl;
     }
   };
 
   return (
-    <section className="border-t border-border bg-background">
-      <div className="container mx-auto px-4 py-16 md:py-24">
-        <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
-            {heading}
-          </h2>
+    <SectionWrapper
+      variant="dark"
+      align="center"
+      padding="lux"
+      noise={false}
+      grid={false}
+      withFades={false}
+      className="relative bg-[#0F172A] text-white"
+    >
+      <div className="mx-auto max-w-3xl text-center">
+        <SectionTitle align="center">
+          Join the <span className="text-[#27CDBA]">Community</span>
+        </SectionTitle>
 
-          <p className="mt-4 text-base md:text-lg text-muted-foreground">
-            {body}
-          </p>
+        <p
+          className="
+            mx-auto mt-4 max-w-[46ch]
+            font-body
+            text-[1rem] md:text-[1.0625rem]
+            leading-[1.75]
+            text-white/75
+          "
+        >
+          {body}
+        </p>
 
-          <div className="mt-8 flex justify-center">
-            <a
-              href={ctaUrl}
-              onClick={onRegisterClick ? handleClick : undefined}
-            >
-              <button className="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90">
-                {ctaLabel}
-              </button>
-            </a>
-          </div>
+        <div className="mt-8 flex justify-center">
+          <Button
+            variant="brand"
+            size="lg"
+            onClick={handleClick}
+            className="
+              min-w-[240px]
+              rounded-full
+              px-8 py-3.5
+              font-body
+              text-[0.9rem]
+              font-semibold
+              uppercase
+              tracking-[0.14em]
+            "
+          >
+            {ctaLabel}
+          </Button>
         </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 };
 

@@ -45,9 +45,6 @@ export default function PageHero(props: PageHeroProps) {
     primaryCtaText,
     primaryCtaHref,
     onPrimaryClick,
-    secondaryCtaText,
-    secondaryCtaHref,
-    onSecondaryClick,
     backgroundImage,
     image,
     variant = "image",
@@ -69,8 +66,7 @@ export default function PageHero(props: PageHeroProps) {
   }
 
   return (
-    <header className="relative w-full h-[560px] flex items-center justify-center overflow-hidden bg-transparent">
-      
+    <header className="relative flex min-h-[720px] w-full items-center justify-center overflow-hidden bg-transparent pt-8 pb-16 lg:min-h-[780px]">
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-no-repeat"
@@ -90,15 +86,14 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      {/* soft radial glow behind headline */}
       <div className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2"
+          className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: "min(980px, 82vw)",
-            height: "min(360px, 38vw)",
+            width: "min(1040px, 84vw)",
+            height: "min(380px, 40vw)",
             background:
-              "radial-gradient(ellipse at center, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.22) 28%, rgba(255,255,255,0.08) 55%, rgba(255,255,255,0.02) 72%, rgba(255,255,255,0) 88%)",
+              "radial-gradient(ellipse at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 34%, rgba(255,255,255,0.02) 62%, rgba(255,255,255,0) 82%)",
             filter: "blur(14px)",
           }}
         />
@@ -108,34 +103,42 @@ export default function PageHero(props: PageHeroProps) {
         initial={{ opacity: 0, y: 26 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-[1200px] px-6 text-center"
+        className="relative z-10 w-full max-w-[1280px] px-6 text-center"
       >
         {eyebrowText && (
-          <p className="uppercase tracking-[0.18em] text-[0.9rem] text-[#27CDBA] mb-3 font-medium">
+          <p className="mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]">
             {eyebrowText}
           </p>
         )}
 
         <h1
           className="
+            mb-6
             font-satisfy
-            text-[3.2rem]
-            sm:text-[4.4rem]
-            md:text-[5rem]
-            lg:text-[5.4rem]
-            leading-[0.98]
-            text-[#2E6294]
-            mb-5
+            text-[clamp(4.2rem,8.6vw,7.2rem)]
+            leading-[0.96]
           "
           style={{
-            textShadow: "0 2px 6px rgba(0,0,0,0.08)",
+            color: "#4A86C5",
+            WebkitTextStroke: "1px rgba(35,78,124,0.55)",
+            textShadow: `
+              0 1px 0 #8FC0F0,
+              0 2px 0 #3F79B8,
+              0 3px 0 #376EAA,
+              0 4px 0 #2F639A,
+              0 5px 0 #285887,
+              0 6px 0 #224D78,
+              0 7px 10px rgba(18,44,75,0.22),
+              0 12px 24px rgba(9,24,44,0.16)
+            `,
+            filter: "drop-shadow(0 2px 8px rgba(18,44,75,0.10))",
           }}
         >
           {title}
         </h1>
 
         {description && (
-          <p className="text-[1.12rem] text-[#2a4763] max-w-[570px] mx-auto leading-[1.6] mb-12">
+          <p className="mx-auto mb-12 max-w-[980px] text-[1.18rem] leading-[1.55] text-[#2A4763] md:text-[1.42rem]">
             {description}
           </p>
         )}
@@ -146,20 +149,25 @@ export default function PageHero(props: PageHeroProps) {
               size="lg"
               onClick={() => handleClick(primaryCtaHref, onPrimaryClick)}
               className="
-                min-w-[270px]
+                min-w-[320px]
                 rounded-full
+                border
                 px-10
-                py-3.5
+                py-4
+                text-[1rem]
                 font-semibold
                 text-white
-                border border-[#0B1F36]
-                bg-[#27CDBA]
-                shadow-[0_18px_40px_rgba(39,205,186,0.28)]
-                hover:bg-[#20b8a7]
-                hover:-translate-y-[1px]
-                hover:shadow-[0_22px_48px_rgba(39,205,186,0.36)]
+                backdrop-blur-md
                 transition-all duration-200
+                hover:-translate-y-[1px]
               "
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(14,37,64,0.98) 0%, rgba(8,24,44,1) 100%)",
+                borderColor: "rgba(39,205,186,0.55)",
+                boxShadow:
+                  "inset 0 1px 0 rgba(255,255,255,0.10), 0 12px 28px rgba(5,16,32,0.28), 0 0 0 1px rgba(7,18,34,0.22)",
+              }}
             >
               {primaryCtaText}
             </Button>

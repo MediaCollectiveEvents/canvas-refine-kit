@@ -165,7 +165,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
       <div className="relative z-10 grid items-start gap-10 md:grid-cols-[minmax(0,1.3fr)_minmax(0,4fr)] md:gap-16">
         <div className="pt-[0.75rem]">
           <SectionTitle align="left" disableEmphasis className="text-white">
-            What <span className="text-[#27CDBA]">the community says</span>
+            Community <span className="text-[#27CDBA]">Voices</span>
           </SectionTitle>
 
           <div

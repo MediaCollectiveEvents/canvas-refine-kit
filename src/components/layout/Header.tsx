@@ -21,6 +21,8 @@ interface SettingsFile {
 
 const typedSettings = settings as SettingsFile;
 
+/* Resolve nav link destinations */
+
 function resolveHref(item: RawNavItem): string {
   if (item.href) return item.href;
   if (item.url) return item.url;
@@ -32,11 +34,13 @@ function resolveHref(item: RawNavItem): string {
     partners: "/partners",
     blog: "/blog",
     faq: "/faq",
-    sponsors: "/sponsors"
+    sponsors: "/sponsors",
   };
 
   return map[item.type ?? "home"] ?? "/";
 }
+
+/* Fallback nav */
 
 const fallbackNavItems = [
   { label: "Home", href: "/" },
@@ -44,11 +48,12 @@ const fallbackNavItems = [
   { label: "Events", href: "/events" },
   { label: "Partners", href: "/partners" },
   { label: "Blog", href: "/blog" },
-  { label: "FAQ", href: "/faq" }
+  { label: "FAQ", href: "/faq" },
 ];
 
 const Header = () => {
   const location = useLocation();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -57,15 +62,19 @@ const Header = () => {
     typedSettings.nav?.length
       ? typedSettings.nav.map((i) => ({
           label: i.label,
-          href: resolveHref(i)
+          href: resolveHref(i),
         }))
       : fallbackNavItems;
+
+  /* Scroll shrink behaviour */
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", handler);
     return () => window.removeEventListener("scroll", handler);
   }, []);
+
+  /* Close mobile menu when route changes */
 
   useEffect(() => {
     setIsMenuOpen(false);
@@ -83,14 +92,18 @@ const Header = () => {
           transition-all duration-300 ease-out
         "
       >
+        {/* top glow line */}
+
         <div
           aria-hidden="true"
           className="absolute inset-x-0 top-0 h-px pointer-events-none"
           style={{
             background:
-              "linear-gradient(to right, rgba(255,255,255,0.03), rgba(255,255,255,0.22), rgba(255,255,255,0.03))"
+              "linear-gradient(to right, rgba(255,255,255,0.03), rgba(255,255,255,0.22), rgba(255,255,255,0.03))",
           }}
         />
+
+        {/* bottom teal divider glow */}
 
         <div
           aria-hidden="true"
@@ -98,18 +111,22 @@ const Header = () => {
           style={{
             background:
               "linear-gradient(to right, rgba(39,205,186,0.06), rgba(39,205,186,0.55), rgba(39,205,186,0.06))",
-            boxShadow: "0 0 6px rgba(39,205,186,0.35)"
+            boxShadow: "0 0 6px rgba(39,205,186,0.35)",
           }}
         />
 
+        {/* container */}
+
         <div
           className={`
-            relative max-w-7xl mx-auto
-            px-5 sm:px-6 lg:px-8 xl:px-10
+            relative mx-auto max-w-7xl
+            px-5 sm:px-6 lg:px-8 xl:px-8
             transition-all duration-300 ease-out
             ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
           `}
         >
+          {/* MOBILE HEADER */}
+
           <div className="flex h-full items-center lg:hidden">
             <Link to="/" aria-label="The Media Collective home">
               <img
@@ -120,11 +137,7 @@ const Header = () => {
             </Link>
 
             <button
-              className="
-                ml-auto flex h-11 w-11 items-center justify-center
-                text-white
-                transition
-              "
+              className="ml-auto flex h-11 w-11 items-center justify-center text-white transition"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
@@ -132,7 +145,9 @@ const Header = () => {
             </button>
           </div>
 
-          <div className="hidden lg:flex h-full items-center">
+          {/* DESKTOP HEADER */}
+
+          <div className="hidden h-full items-center lg:flex">
             <Link to="/" className="relative z-10">
               <img
                 src={logo}
@@ -140,6 +155,8 @@ const Header = () => {
                 className={scrolled ? "h-14" : "h-16 xl:h-[4.4rem]"}
               />
             </Link>
+
+            {/* NAVIGATION */}
 
             <nav className="absolute inset-0 flex items-center justify-center">
               <div className="flex items-center gap-6 xl:gap-8 2xl:gap-10">
@@ -154,8 +171,8 @@ const Header = () => {
                       key={item.label}
                       to={item.href}
                       className={`
-                        relative pb-1 whitespace-nowrap
-                        font-body uppercase font-medium
+                        relative whitespace-nowrap pb-1
+                        font-body font-medium uppercase
                         tracking-[0.14em] xl:tracking-[0.18em]
                         text-[0.82rem] xl:text-[0.9rem]
                         transition-all duration-200
@@ -166,7 +183,7 @@ const Header = () => {
                         }
                       `}
                       style={{
-                        textShadow: "0 1px 8px rgba(0,0,0,0.45)"
+                        textShadow: "0 1px 8px rgba(0,0,0,0.45)",
                       }}
                     >
                       {item.label}
@@ -174,8 +191,7 @@ const Header = () => {
                       <span
                         className={`
                           absolute left-0 right-0 -bottom-[3px]
-                          h-[2px] rounded-full
-                          transition-all duration-200
+                          h-[2px] rounded-full transition-all duration-200
                           ${
                             isActive
                               ? "bg-[#27CDBA]"
@@ -189,18 +205,21 @@ const Header = () => {
               </div>
             </nav>
 
+            {/* DESKTOP CTA */}
+
             <div className="ml-auto">
               <Button
+                variant="brand"
                 onClick={() => setIsFormOpen(true)}
                 className="
-                  rounded-xl
-                  font-body uppercase
-                  tracking-[0.12em]
+                  min-w-[210px]
+                  rounded-full
+                  px-7 py-3.5
+                  font-body
                   text-[0.84rem]
-                  px-6 py-3
-                  bg-primary text-black
-                  hover:bg-primary/92
-                  shadow-[0_0_18px_rgba(39,205,186,0.18)]
+                  font-semibold
+                  uppercase
+                  tracking-[0.14em]
                 "
               >
                 Contact Us
@@ -209,9 +228,11 @@ const Header = () => {
           </div>
         </div>
 
+        {/* MOBILE MENU PANEL */}
+
         {isMenuOpen && (
-          <nav className="lg:hidden bg-[#08111f] backdrop-blur-md">
-            <div className="px-6 py-5 flex flex-col gap-1">
+          <nav className="bg-[#08111f] backdrop-blur-md lg:hidden">
+            <div className="flex flex-col gap-1 px-6 py-5">
               {navItems.map((item) => {
                 const isActive =
                   item.href === "/"
@@ -239,17 +260,23 @@ const Header = () => {
                 );
               })}
 
+              {/* MOBILE CTA */}
+
               <Button
+                variant="brand"
                 onClick={() => {
                   setIsMenuOpen(false);
                   setIsFormOpen(true);
                 }}
                 className="
-                  mt-3 rounded-xl
-                  bg-primary text-black
-                  uppercase tracking-[0.12em]
-                  text-[0.9rem]
-                  py-3
+                  mt-3
+                  rounded-full
+                  py-3.5
+                  font-body
+                  text-[0.88rem]
+                  font-semibold
+                  uppercase
+                  tracking-[0.14em]
                 "
               >
                 Contact Us
