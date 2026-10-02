@@ -59,7 +59,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
       {["aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
       <section className="bg-[#f7f7f7] px-5 pt-8 pb-12 sm:px-6 lg:px-0 md:pt-12 md:pb-[72px]">
         <div className="mx-auto grid max-w-7xl items-center gap-8 rounded-3xl border border-[#27CDBA]/50 bg-[#101d24] min-w-0 px-5 py-7 text-white lg:grid-cols-12 lg:gap-10 md:px-8 md:py-10">
-          <div className="min-w-0 lg:col-span-8"><p className="mb-3 text-xs font-normal uppercase tracking-[0.12em] text-white/65">For media and technology brands</p><h2 className="font-display text-[30px] font-light leading-tight md:text-4xl">Find your place in the conversation.</h2><p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">Explore co-hosting, sponsorship and custom events. Compare the formats and find a partnership that fits your business.</p></div>
+          <div className="min-w-0 lg:col-span-8"><p className="mb-3 text-xs font-normal uppercase tracking-[0.12em] text-white/65">For media and technology brands</p><h2 className="font-display text-[30px] font-light leading-tight md:text-4xl">Partner with The Media Collective.</h2><p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">Explore sponsorship, co-hosting and custom events, with opportunities developed collaboratively for each gathering.</p></div>
           <Button asChild variant="brand" size="lg" className="w-full min-w-0 whitespace-normal sm:w-auto lg:col-span-4 lg:justify-self-end"><a href="/partners">Explore partnerships <span aria-hidden="true">→</span></a></Button>
         </div>
       </section>
