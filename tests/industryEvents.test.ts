@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { getEventIndustryContext } from "../src/lib/industryEvents";
 import { showsPlannerExperiences, getPlannerLocations, getIndustryEventIssues, getIndustryEvents, getIndustryMonths, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "../src/lib/industryEvents";
 import { getAllEvents, getEventById } from "../src/lib/events";
 import { getYearCalendarSnapshot } from "../src/lib/eventCalendar";
@@ -7,6 +8,19 @@ import { getYearCalendarSnapshot } from "../src/lib/eventCalendar";
 const external = getIndustryEvents();
 const media = getAllEvents();
 const sample = external[0];
+
+test("industry context uses only reviewed IDs and official dataset URLs", () => {
+  for (const [id, externalId, label] of [[1, "nab-show-2026", "Post-show context"], [2, "mpts-2026", "Around MPTS"], [3, "ibc-2026", "During IBC"]] as const) {
+    const context = getEventIndustryContext(id)!;
+    assert.equal(context.label, label);
+    assert.equal(context.event.id, externalId);
+    assert.equal(context.event.sourceUrl, external.find(event => event.id === externalId)!.sourceUrl);
+  }
+  assert.equal(getEventIndustryContext(4), undefined);
+  assert.equal(getEventIndustryContext(999), undefined);
+  assert.equal(getEventIndustryContext(1, []), undefined);
+  assert.equal(getEventIndustryContext(1)!.event.city, "Las Vegas");
+});
 
 test("verified external dataset validates and preserves all 19 records and ranges", () => {
   assert.deepEqual(getIndustryEventIssues(), []);

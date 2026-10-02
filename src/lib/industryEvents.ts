@@ -67,6 +67,20 @@ export function getIndustryEvents(source: unknown = content): IndustryEvent[] {
   })).sort((a, b) => (a.startDate ?? "9999-99-99").localeCompare(b.startDate ?? "9999-99-99") || a.id.localeCompare(b.id));
 }
 
+// Reviewed associations only; never infer context from names, dates or geography.
+export const EVENT_INDUSTRY_CONTEXT: Readonly<Partial<Record<number, { industryEventId: string; label: string }>>> = Object.freeze({
+  1: { industryEventId: "nab-show-2026", label: "Post-show context" },
+  2: { industryEventId: "mpts-2026", label: "Around MPTS" },
+  3: { industryEventId: "ibc-2026", label: "During IBC" },
+});
+
+export function getEventIndustryContext(eventId: number, events = getIndustryEvents()) {
+  const association = EVENT_INDUSTRY_CONTEXT[eventId];
+  if (!association) return undefined;
+  const event = events.find(record => record.id === association.industryEventId);
+  return event ? { label: association.label, event } : undefined;
+}
+
 export function getIndustryMonths(year: number, events = getIndustryEvents()) {
   return Array.from({ length: 12 }, (_, index) => ({
     month: index + 1,

@@ -6,7 +6,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 import { EVENT_EXPERIENCE_LABELS, formatEventDate, getEventById, isPastEvent } from "@/lib/events";
-import { MEDIA_COLLECTIVE_PLANNER_CITIES } from "@/lib/industryEvents";
+import { getEventIndustryContext, MEDIA_COLLECTIVE_PLANNER_CITIES } from "@/lib/industryEvents";
 
 // Exact, reviewed logistics fragments from the four current records.
 // Keep the canonical copy intact; do not infer programme lists from prose.
@@ -43,6 +43,8 @@ const EventDetails = () => {
       </div>
     );
   }
+
+  const industryContext = getEventIndustryContext(event.id);
 
   return (
     <div className="min-h-screen bg-[#101d24] text-foreground">
@@ -88,6 +90,19 @@ const EventDetails = () => {
             </div>
           </aside>
         </div>
+        {industryContext && <section aria-label={industryContext.label} className="mt-10 max-w-2xl md:mt-12">
+          <h2 className="mb-3 font-display text-2xl font-light">{industryContext.label}</h2>
+          <p className="text-base leading-relaxed text-foreground/80">
+            {industryContext.event.name}
+            {industryContext.event.city && ` · ${industryContext.event.city}`}
+            {industryContext.event.startDate && ` · ${formatEventDate(industryContext.event.startDate)}`}
+            {industryContext.event.endDate && industryContext.event.endDate !== industryContext.event.startDate && ` – ${formatEventDate(industryContext.event.endDate)}`}
+          </p>
+          <a href={industryContext.event.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block text-sm underline underline-offset-4 decoration-primary hover:text-primary">
+            Official information for {industryContext.event.name} ↗
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </section>}
         </div>
       </main>
 
