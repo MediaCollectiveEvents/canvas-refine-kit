@@ -1,5 +1,3 @@
-import { Linkedin } from "lucide-react";
-
 export default function Footer() {
   return (
     <footer
@@ -31,22 +29,6 @@ export default function Footer() {
       />
 
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <div className="flex justify-center gap-4 mb-12">
-          <a
-            href="#"
-            aria-label="LinkedIn"
-            className="
-              w-12 h-12 rounded-full
-              border border-white/20
-              flex items-center justify-center
-              text-white/70 hover:text-white hover:border-white/40
-              transition
-            "
-          >
-            <Linkedin className="w-7 h-7" strokeWidth={1.75} />
-          </a>
-        </div>
-
         <div
           className="
             flex justify-center gap-8
@@ -67,9 +49,6 @@ export default function Footer() {
             Privacy Policy
           </a>
 
-          <a href="/terms" className="hover:text-white transition-colors">
-            Terms of Service
-          </a>
         </div>
       </div>
     </footer>

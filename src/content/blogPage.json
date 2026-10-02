@@ -41,10 +41,11 @@
       "type": "cta",
       "variant": "accent",
       "hidden": false,
-      "title": "Want to stay",
-      "accentWord": "Informed?",
-      "description": "Join our community and get exclusive access to industry insights, event updates, and networking opportunities.",
-      "buttonLabel": "Register Interest"
+      "title": "Explore our",
+      "accentWord": "Events",
+      "description": "Discover Media Collective gatherings and explore what to expect at each event.",
+      "buttonLabel": "View events",
+      "url": "/events"
     }
   ]
 }

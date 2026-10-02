@@ -5,8 +5,8 @@
     "eyebrow": "",
     "imageOffset": 0,
     "cta": {
-      "label": "join us",
-      "url": "/"
+      "label": "View year planner",
+      "url": "/events/calendar"
     },
     "overlayStrength": 0.1,
     "mobileCrop": "cover",

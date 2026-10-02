@@ -39,7 +39,7 @@ const BlogPostPage: React.FC = () => {
               to="/blog"
               className="text-sm font-medium text-primary hover:underline"
             >
-              ← Back to Blog
+              ← Back to Insights
             </Link>
           </div>
         </main>
@@ -84,7 +84,7 @@ const BlogPostPage: React.FC = () => {
                   day: "numeric",
                 })}
               </span>
-              <Link to="/blog" className="text-sm font-medium text-primary hover:underline">← Back to Blog</Link>
+              <Link to="/blog" className="text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
             </div>
             <div className="mt-4 [&>div]:text-slate-300"><ArticleAttribution article={post} /></div>
           </div>
