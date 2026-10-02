@@ -6,9 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import EventExperienceFilters from "@/components/shared/EventExperienceFilters";
 import PageHero from "@/components/shared/PageHero";
-import SectionDivider from "@/components/shared/SectionDivider";
-import SectionHeader from "@/components/shared/SectionHeader";
-import PageCTA from "@/components/shared/PageCTA";
 
 import { getEventContent, getUpcomingEvents, getPastEvents, getRegistrationId, filterEventsByExperience, type EventExperienceFilter, type EventItem } from "@/lib/events";
 
@@ -89,7 +86,7 @@ const EventCard: React.FC<EventCardProps> = ({
         >
           {/* Date / Time */}
           <div
-            className={`flex items-center gap-3 text-muted-foreground font-body text-sm uppercase tracking-widest ${
+            className={`flex flex-wrap items-center gap-x-3 gap-y-2 text-muted-foreground font-body text-sm uppercase tracking-widest ${
               index % 2 === 1 ? "lg:justify-end" : ""
             }`}
           >
@@ -103,13 +100,13 @@ const EventCard: React.FC<EventCardProps> = ({
           </div>
 
           {/* Title – Montserrat via font-display */}
-          <h3 className="font-display text-4xl md:text-5xl text-foreground leading-tight">
+          <h3 className="font-display text-[30px] font-light md:text-4xl text-white leading-tight">
             <a href={`/events/${event.id}`}>{event.title}</a>
           </h3>
 
           {/* Venue / Location */}
           <div
-            className={`flex items-center gap-2 text-primary font-body uppercase tracking-wider text-sm ${
+            className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-white/65 font-body uppercase tracking-wider text-sm ${
               index % 2 === 1 ? "lg:justify-end" : ""
             }`}
           >
@@ -125,7 +122,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
           {/* CTA Row */}
           <div
-            className={`flex gap-4 items-center ${
+            className={`flex flex-wrap gap-4 items-center ${
               index % 2 === 1 ? "lg:justify-end" : ""
             }`}
           >
@@ -180,9 +177,11 @@ export default function EventsListing({ content, onRegisterClick }: {
   const pastEvents = filterEventsByExperience(getPastEvents(content), experience);
   const handleToggleDetails = (id: number) => setOpenEventId(previous => previous === id ? null : id);
   return (
-      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
+      <main className="bg-[#101d24] pt-[88px] sm:pt-[96px] lg:pt-[104px]">
         {/* HERO */}
+        <div className="[&>header]:min-h-[440px] [&>header]:pb-8 [&>header]:lg:min-h-[560px]">
         <PageHero
+          presentation="business"
           eyebrow={hero.eyebrow}
           title={hero.title}
           description={hero.description}
@@ -190,12 +189,13 @@ export default function EventsListing({ content, onRegisterClick }: {
           primaryCtaText={hero.cta?.label}
           primaryCtaHref={hero.cta?.url}
         />
+        </div>
 
         {/* INTRO SECTION */}
         {intro?.title && (
-          <section className="py-12 md:py-16 px-6 bg-gradient-to-b from-background via-secondary/10 to-background">
-            <div className="container mx-auto max-w-3xl text-center">
-              <SectionHeader title={intro.title} accentWord="" />
+          <section className="py-12 md:py-16 px-6">
+            <div className="container mx-auto max-w-6xl">
+              <h2 className="font-display text-[30px] font-light leading-tight text-white md:text-4xl">{intro.title}</h2>
               {intro.body && (
                 <p className="mt-4 text-muted-foreground font-body text-base leading-relaxed">
                   {intro.body}
@@ -222,15 +222,9 @@ export default function EventsListing({ content, onRegisterClick }: {
 
         <div id="event-results">
         {/* UPCOMING EVENTS */}
-        {upcomingEvents.length > 0 && <section className="pt-12 pb-24 md:pt-16 md:pb-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
-          {/* background blobs */}
-          <div className="absolute inset-0 opacity-30">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-          </div>
-
+        {upcomingEvents.length > 0 && <section className="pt-12 pb-16 md:pt-16 md:pb-20 px-6 relative">
           <div className="container mx-auto max-w-6xl relative z-10">
-            <SectionHeader title="Upcoming " accentWord="Events" className="text-left mb-8 md:mb-12" />
+            <h2 className="mb-8 font-display text-[30px] font-light leading-tight text-white md:mb-12 md:text-4xl">Upcoming Events</h2>
             <div className="space-y-24">
               {upcomingEvents.map((event, index) => (
                 <EventCard
@@ -247,12 +241,11 @@ export default function EventsListing({ content, onRegisterClick }: {
         </section>}
 
         {/* PAST EVENTS */}
-        {pastEvents.length > 0 && <SectionDivider />}
 
         {pastEvents.length > 0 && (
-          <section className={`pb-20 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden ${upcomingEvents.length ? "pt-20" : "pt-12 md:pt-16"}`}>
+          <section className={`pb-16 md:pb-20 px-6 border-t border-white/10 ${upcomingEvents.length ? "pt-16 md:pt-20" : "pt-12 md:pt-16"}`}>
             <div className="container mx-auto max-w-6xl">
-              <SectionHeader title="Past " accentWord="Events" className="text-left mb-8 md:mb-12" />
+              <h2 className="mb-8 font-display text-[30px] font-light leading-tight text-white md:mb-12 md:text-4xl">Past Events</h2>
               <div className="space-y-24">
                 {pastEvents.map((event, index) => (
                   <EventCard
@@ -272,14 +265,17 @@ export default function EventsListing({ content, onRegisterClick }: {
         </div>
 
         {/* CTA */}
-        <SectionDivider className="py-12" />
-        <PageCTA
-          title="Want to attend our next"
-          accentWord="event?"
-          description="Anyone can request an invitation. Attendance is subject to The Media Collective’s event curation. All events are free to attend; membership is not required."
-          buttonLabel="Register Interest"
-          onClick={() => onRegisterClick?.("")}
-        />
+        <section className="border-t border-white/10 bg-[#172b31] px-6 py-12 md:py-16">
+          <div className="container mx-auto grid max-w-6xl items-start gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-8">
+              <h2 className="font-display text-[30px] font-light leading-tight text-white md:text-4xl">Want to attend our next event?</h2>
+              <p className="mt-5 max-w-2xl text-base leading-[1.8] text-slate-300">Anyone can request an invitation. Attendance is subject to The Media Collective’s event curation. All events are free to attend; membership is not required.</p>
+            </div>
+            <div className="lg:col-span-4 lg:justify-self-end">
+              <Button variant="brand" size="lg" onClick={() => onRegisterClick?.("")}>Register Interest</Button>
+            </div>
+          </div>
+        </section>
       </main>
   );
 }
