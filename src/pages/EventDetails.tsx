@@ -36,10 +36,10 @@ const events: EventItem[] = Object.entries(eventModules).map(([path, mod]) => {
 });
 
 const EventDetails = () => {
-  const { eventId } = useParams<{ eventId: string }>();
+  const { id } = useParams<{ id: string }>();
 
   // Find the event by slug (or id as a fallback)
-  const event = events.find((ev) => ev.slug === eventId || ev.id === eventId);
+  const event = events.find((ev) => ev.slug === id || ev.id === id);
 
   if (!event) {
     return (
@@ -49,7 +49,7 @@ const EventDetails = () => {
           <h1 className="text-3xl font-display mb-4">Event Not Found</h1>
           <p className="text-muted-foreground">
             We couldn’t find an event matching
-            <span className="font-mono"> {eventId}</span>.
+            <span className="font-mono"> {id}</span>.
           </p>
         </main>
         <Footer />

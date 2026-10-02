@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -104,6 +104,13 @@ const EventRegistrationForm = ({
     },
     mode: "onChange"
   });
+  const { setValue } = form;
+  useEffect(() => {
+    if (open) {
+      setValue("interestedEvents", preselectedEvent ? [preselectedEvent] : [], { shouldValidate: false });
+    }
+  }, [open, preselectedEvent, setValue]);
+
   const validateCurrentStage = async () => {
     let isValid = false;
     if (currentStage === 1) {

@@ -67,7 +67,9 @@ const MissionValues: React.ComponentType<any> = pickExport(MissionValuesMod, "Mi
 const FAQSection: React.ComponentType<any> = pickExport(FAQSectionMod, "FAQSection");
 
 // Styled homepage preview (hero + all homepage sections)
-import HomepagePreview from "./previews/HomepagePreview";
+import HomepagePreview, { PartnersPreview } from "./previews/HomepagePreview";
+import previewCss from "../index.css?inline";
+import settings from "../content/settings.json";
 
 /* ------------------------------------------------------------------ */
 /* 4) Map for generic sections pages (homepage uses HomepagePreview)   */
@@ -149,7 +151,7 @@ async function boot() {
     const css =
       "body{background:#020617;color:#e5e7eb;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}" +
       ".nc-app-iframe-root{background:#020617}";
-    CMS.registerPreviewStyle(css, { raw: true });
+    CMS.registerPreviewStyle(css + previewCss + `:root{--background-dark:${settings.palette.backgroundDark};--background-light:${settings.palette.backgroundLight}}`, { raw: true });
 
     // ✅ Homepage (your styled preview: hero + all homepage sections)
     CMS.registerPreviewTemplate("homepage", HomepagePreview);
@@ -158,7 +160,7 @@ async function boot() {
     CMS.registerPreviewTemplate("aboutPage", SectionsPreview);
     CMS.registerPreviewTemplate("faqPage", SectionsPreview);
     CMS.registerPreviewTemplate("eventsPage", SectionsPreview);
-    CMS.registerPreviewTemplate("partnersPage", SectionsPreview);
+    CMS.registerPreviewTemplate("partnersPage", PartnersPreview);
     CMS.registerPreviewTemplate("blogPage", SectionsPreview);
 
     console.log("[Decap Preview] templates registered.");

@@ -159,8 +159,8 @@ const EventCard: React.FC<EventCardProps> = ({
                   event.id === 1
                     ? "nab-review"
                     : event.id === 2
-                      ? "mpts-reception"
-                      : "ibc-breakfast",
+                      ? "mpts-drinks"
+                      : "networking-breakfast",
                 )
               }
               className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
@@ -197,13 +197,18 @@ const Events: React.FC = () => {
   const [openEventId, setOpenEventId] = useState<number | string | null>(null);
 
   // JSON-driven hero & intro
-  const hero = (eventsData as any).hero || {};
-  const intro = (eventsData as any).intro || {};
+  const hero = eventsData.hero;
+  const intro = eventsData.intro;
 
   // JSON-driven events
-  const allEvents: Event[] = (eventsData as any).events || [];
-  const upcomingEvents = allEvents.filter((e) => e.type === "upcoming");
-  const pastEvents = allEvents.filter((e) => e.type === "past");
+  const allEvents = eventsData.events as Event[];
+  const today = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit",
+  }).format(new Date());
+  const isPast = (event: Event) => event.type === "past" ||
+    (!!event.date && /^\d{4}-\d{2}-\d{2}/.test(event.date) && event.date.slice(0, 10) < today);
+  const upcomingEvents = allEvents.filter((event) => !isPast(event));
+  const pastEvents = allEvents.filter(isPast);
 
   const handleRegisterClick = (eventId: string) => {
     setSelectedEventId(eventId);
@@ -311,7 +316,7 @@ const Events: React.FC = () => {
           accentWord="event?"
           description="Become a member of The Media Collective and get exclusive access to all our events and networking opportunities."
           buttonLabel="Register Interest"
-          onClick={() => setIsFormOpen(true)}
+          onClick={() => handleRegisterClick("")}
         />
       </main>
 

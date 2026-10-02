@@ -1,206 +1,60 @@
-// src/cms/previews/HomepagePreview.tsx
 import React from "react";
+import HomepageRenderer from "../../components/sections/HomepageRenderer";
+import PartnersPageRenderer from "../../components/sections/PartnersPageRenderer";
+import PageHero from "../../components/shared/PageHero";
 
-/** Helper: prefer default export, otherwise a named export */
-function pickExport<T = any>(mod: any, name: string): T {
-  return (mod && (mod.default || mod[name])) as T;
+export interface PreviewEntry {
+  getIn(path: string[]): { toJS(): unknown } | unknown;
 }
 
-// Layout helpers from your app (compat imports: default or named)
-import * as SectionWrapperMod from "../../components/layout/SectionWrapper";
-import * as SectionDividerMod from "../../components/shared/SectionDivider";
-const SectionWrapper: React.ComponentType<any> = pickExport(SectionWrapperMod, "SectionWrapper");
-const SectionDivider: React.ComponentType<any> = pickExport(SectionDividerMod, "SectionDivider");
-
-// Production sections (compat imports: default or named)
-import * as AboutIntroMod from "../../components/sections/AboutIntroSection";
-import * as WhoAttendsMod from "../../components/sections/WhoAttendsSection";
-import * as UpcomingEventsIntroMod from "../../components/sections/UpcomingEventsIntroSection";
-import * as ForBrandsMod from "../../components/sections/ForBrandsSection";
-import * as NewHereMod from "../../components/sections/NewHereSection";
-import * as TestimonialsMod from "../../components/sections/TestimonialsSection";
-import * as PartnersMod from "../../components/sections/PartnersSection";
-import * as JoinCommunityMod from "../../components/sections/JoinCommunitySection";
-
-const AboutIntro: React.ComponentType<any>                 = pickExport(AboutIntroMod, "AboutIntroSection");
-const WhoAttends: React.ComponentType<any>                 = pickExport(WhoAttendsMod, "WhoAttendsSection");
-const UpcomingEventsIntro: React.ComponentType<any>        = pickExport(UpcomingEventsIntroMod, "UpcomingEventsIntroSection");
-const ForBrands: React.ComponentType<any>                  = pickExport(ForBrandsMod, "ForBrandsSection");
-const NewHere: React.ComponentType<any>                    = pickExport(NewHereMod, "NewHereSection");
-const Testimonials: React.ComponentType<any>               = pickExport(TestimonialsMod, "TestimonialsSection");
-const Partners: React.ComponentType<any>                   = pickExport(PartnersMod, "PartnersSection");
-const JoinCommunity: React.ComponentType<any>              = pickExport(JoinCommunityMod, "JoinCommunitySection");
-
-// Accept any props for preview components (prevents TS prop errors)
-type SectionComponent = React.ComponentType<any>;
-
-// Map CMS section types → actual components
-const SECTION_MAP: Record<string, SectionComponent> = {
-  aboutIntro: AboutIntro,
-  whoAttends: WhoAttends,
-  upcomingEventsIntro: UpcomingEventsIntro,
-  forBrands: ForBrands,
-  newHere: NewHere,
-  testimonials: Testimonials,
-  partners: Partners,
-  joinCommunity: JoinCommunity,
+type Hero = React.ComponentProps<typeof PageHero> & {
+  cta?: { label: string; url?: string };
+  primaryCta?: { label: string; url?: string };
+  secondaryCta?: { label: string; url?: string };
 };
 
-// Fallback if an unexpected type appears
-function UnknownSection(props: { type?: string; section?: any; settings?: any }) {
-  const t = props.type || (props.section && props.section.type) || "unknown";
+type PageData = {
+  hero?: Hero;
+  sections?: React.ComponentProps<typeof HomepageRenderer>["sections"];
+};
+
+function readPage(entry: PreviewEntry): PageData {
+  const value = entry.getIn(["data"]);
+  const raw = value && typeof value === "object" && "toJS" in value && typeof value.toJS === "function"
+    ? value.toJS() : value;
+  const data = (raw || {}) as PageData & { content?: PageData; homepage?: PageData };
+  return data.hero || data.sections ? data : data.content || data.homepage || data;
+}
+
+const noop = () => {};
+
+export function PartnersPreview({ entry }: { entry: PreviewEntry }) {
+  const { hero, sections } = readPage(entry);
+  const primary = hero?.primaryCta ?? hero?.cta;
   return (
-    <div
-      style={{
-        padding: 20,
-        background: "#111827",
-        color: "#f87171",
-        border: "1px dashed #f87171",
-        borderRadius: 6,
-      }}
-    >
-      Unknown section type: <strong>{t}</strong>
+    <div className="min-h-screen text-white bg-[var(--background-dark)]">
+      <PageHero presentation="business" title={hero?.title ?? ""} eyebrow={hero?.eyebrow}
+        description={hero?.description} image={hero?.image}
+        primaryCtaText={primary?.label} primaryCtaHref={primary?.url === "/register" ? undefined : primary?.url}
+        onPrimaryClick={primary?.url === "/register" ? noop : undefined} />
+      <PartnersPageRenderer sections={sections} onRegister={noop} />
     </div>
   );
 }
 
-// Normalize homepage data shape from Decap entry (supports nesting under content/homepage)
-function normalizeRoot(raw: any): any {
-  if (raw && (raw.hero || raw.sections)) return raw;
-  if (raw && raw.content && (raw.content.hero || raw.content.sections)) return raw.content;
-  if (raw && raw.homepage && (raw.homepage.hero || raw.homepage.sections)) return raw.homepage;
-  return raw || {};
-}
-
-export default function HomepagePreview(props: any) {
-  const entry = props.entry;
-
-  // Decap entry data -> JS
-  const top = entry.getIn(["data"]);
-  const raw = top && typeof top.toJS === "function" ? top.toJS() : top || {};
-  const root = normalizeRoot(raw);
-
-  const hero = root.hero || {};
-  const sections: any[] = Array.isArray(root.sections) ? root.sections : [];
-
-  // Page + Hero Styles (cast to any to avoid TS CSS union warnings)
-  const pageStyle: any = { background: "#020617", minHeight: "100vh", color: "white" };
-
-  const wrapperStyle: any = {
-    width: "100%",
-    height: "400px",
-    position: "relative",
-    backgroundImage: hero.image ? "url(" + hero.image + ")" : "",
-    backgroundSize: hero.mobileCrop || "cover",
-    backgroundPosition: hero.imagePosition || "center",
-    backgroundColor: hero.theme === "dark" ? "#000000" : "#ffffff",
-    color: hero.theme === "dark" ? "#ffffff" : "#000000",
-    padding: "40px",
-    boxSizing: "border-box",
-  };
-
-  const overlayStyle: any = {
-    position: "absolute",
-    inset: "0",
-    background:
-      hero.theme === "dark"
-        ? "rgba(0,0,0," + (hero.overlayStrength || 0.5) + ")"
-        : "rgba(255,255,255," + (hero.overlayStrength || 0.5) + ")",
-  };
-
-  const contentStyle: any = {
-    position: "relative",
-    zIndex: 2,
-    maxWidth: "960px",
-  };
-
-  // Tiny badge: shows number of sections received
-  const debugBadge: any = {
-    position: "absolute",
-    top: 8,
-    right: 8,
-    zIndex: 3,
-    padding: "4px 8px",
-    background: "#ef4444",
-    color: "white",
-    fontSize: "12px",
-    borderRadius: "3px",
-  };
-
+export default function HomepagePreview({ entry }: { entry: PreviewEntry }) {
+  const { hero, sections } = readPage(entry);
   return (
-    <div style={pageStyle}>
-      <div style={debugBadge}>Sections: {sections.length}</div>
-
-      {/* HERO */}
-      <div style={wrapperStyle}>
-        <div style={overlayStyle}></div>
-        <div style={contentStyle}>
-          <h1 style={{ fontSize: "32px", marginBottom: "8px" }}>{hero.title}</h1>
-
-          {hero.subtitle ? (
-            <h2 style={{ fontSize: "22px", opacity: 0.85, marginBottom: "8px" }}>
-              {hero.subtitle}
-            </h2>
-          ) : null}
-
-          {hero.description ? (
-            <p style={{ fontSize: "16px", lineHeight: "22px", marginBottom: "20px" }}>
-              {hero.description}
-            </p>
-          ) : null}
-
-          {hero.cta && hero.cta.label ? (
-            <a
-              href={hero.cta.url || "#"}
-              style={{
-                display: "inline-block",
-                padding: "10px 20px",
-                background: hero.theme === "dark" ? "#ffffff" : "#000000",
-                color: hero.theme === "dark" ? "#000000" : "#ffffff",
-                borderRadius: "4px",
-                textDecoration: "none",
-                fontWeight: "bold",
-              }}
-            >
-              {hero.cta.label}
-            </a>
-          ) : null}
-        </div>
-      </div>
-
-      {/* SECTIONS */}
-      <div style={{ paddingTop: "40px" }}>
-        {sections.map(function (section: any, index: number) {
-          const type = section && section.type;
-          const Component = (type && SECTION_MAP[type]) || UnknownSection;
-
-          const settings = (section && section.settings) || {};
-          const style = settings.style || {};
-          const divider = settings.divider || {};
-
-          return (
-            <React.Fragment key={index}>
-              <SectionWrapper
-                variant={style.variant ?? "clean"}
-                padding={style.padding ?? "lux"}
-                noise={!!style.noise}
-                grid={!!style.grid}
-                withFades={style.fades !== false}
-              >
-                <Component section={section} settings={settings} />
-              </SectionWrapper>
-
-              {divider.enabled ? (
-                <SectionDivider
-                  variant={divider.variant || "hairline"}
-                  className="max-w-[1280px] mx-auto px-6 md:px-10"
-                />
-              ) : null}
-            </React.Fragment>
-          );
-        })}
-      </div>
+    <div className="min-h-screen text-white bg-[var(--background-dark)]">
+      <PageHero presentation="editorial" title={hero?.title ?? ""} eyebrow={hero?.eyebrow ?? hero?.subtitle}
+        description={hero?.description} image={hero?.image}
+        primaryCtaText={hero?.primaryCta?.label}
+        primaryCtaHref={hero?.primaryCta?.url === "/register" ? undefined : hero?.primaryCta?.url}
+        onPrimaryClick={hero?.primaryCta?.url === "/register" ? noop : undefined}
+        secondaryCtaText={hero?.secondaryCta?.label}
+        secondaryCtaHref={hero?.secondaryCta?.url === "/register" ? undefined : hero?.secondaryCta?.url}
+        onSecondaryClick={hero?.secondaryCta?.url === "/register" ? noop : undefined} />
+      <HomepageRenderer sections={sections} onRegister={noop} />
     </div>
   );
 }
-``
