@@ -1,84 +1,35 @@
-import React, { useState } from "react";
-import {
-  MapPin,
-  CalendarDays,
-  Mail,
-  MessageCircle,
-  Share2,
-} from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { CalendarDays, Clock, MapPin, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import SectionWrapper from "../layout/SectionWrapper";
-
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 import greenlineImg from "@/assets/events/greenline.png";
-
 import rawEventsFile from "@/content/events.json";
 
 interface RawEvent {
   id?: number;
+  type?: string;
   title: string;
   location: string;
   venue: string;
   imageKey?: string;
   date?: string;
+  time?: string;
   format?: string;
   conferenceAligned?: boolean;
   inviteOnly?: boolean;
   complimentary?: boolean;
   summary?: string;
+  description?: string;
+  details?: string;
 }
 
 type RawEventsShape = RawEvent[] | { events: RawEvent[] };
-
-interface Event {
-  id: number;
-  title: string;
-  location: string;
-  venue: string;
-  image: string;
-  date?: string;
-  format?: string;
-  conferenceAligned?: boolean;
-  inviteOnly?: boolean;
-  complimentary?: boolean;
-  summary?: string;
-}
-
-function getImageForKey(key?: string, venue?: string, title?: string) {
-  const val = (key || venue || title || "").toLowerCase();
-
-  if (val.includes("greenline")) return greenlineImg;
-  if (val.includes("broadcaster")) return broadcasterImg;
-  if (val.includes("hand") && val.includes("flower")) return handandflowerImg;
-  if (val.includes("traveller") || val.includes("traveler")) return travellerImg;
-
-  return broadcasterImg;
-}
-
-function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
-  if (Array.isArray(raw)) return raw;
-  if ("events" in raw && Array.isArray((raw as any).events)) {
-    return (raw as any).events;
-  }
-  return [];
-}
-
-function formatInternationalDate(input?: string) {
-  if (!input) return "";
-  const d = new Date(input);
-  if (isNaN(d.getTime())) return input;
-  return d.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
+type Cta = { label?: string; url?: string };
 interface EventsSectionProps {
-  section?: any;
+  section?: { heading?: string; description?: string; note?: string; cta?: Cta; secondaryCta?: Cta };
   onRegisterClick?: () => void;
   underHeader?: boolean;
   imageAspect?: string;
@@ -86,313 +37,90 @@ interface EventsSectionProps {
   imagePadding?: boolean;
 }
 
-const EventsSection: React.FC<EventsSectionProps> = () => {
-  const rawEvents = normalizeRawEvents(rawEventsFile as any);
+function getImageForKey(key?: string, venue?: string, title?: string) {
+  const value = (key || venue || title || "").toLowerCase();
+  if (value.includes("greenline")) return greenlineImg;
+  if (value.includes("hand") && value.includes("flower")) return handandflowerImg;
+  if (value.includes("traveller") || value.includes("traveler")) return travellerImg;
+  return broadcasterImg;
+}
 
-  const events: Event[] = rawEvents.map((e, i) => ({
-    id: e.id ?? i + 1,
-    title: e.title,
-    location: e.location,
-    venue: e.venue,
-    date: e.date,
-    format: e.format,
-    conferenceAligned: e.conferenceAligned,
-    inviteOnly: e.inviteOnly,
-    complimentary: e.complimentary,
-    summary:
-      e.summary ??
-      "Placeholder summary describing this event in twelve simple words.",
-    image: getImageForKey(e.imageKey, e.venue, e.title),
+function formatInternationalDate(input?: string) {
+  if (!input) return "Date to be announced";
+  const date = new Date(input);
+  if (Number.isNaN(date.getTime())) return input;
+  return date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+}
+
+export default function EventsSection({ section, onRegisterClick }: EventsSectionProps) {
+  const raw: RawEventsShape = rawEventsFile;
+  const rawEvents = Array.isArray(raw) ? raw : raw.events;
+  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  const events = rawEvents.map((event, index) => ({
+    ...event,
+    id: event.id ?? index + 1,
+    past: event.type === "past" || (!!event.date && /^\d{4}-\d{2}-\d{2}/.test(event.date) && event.date.slice(0, 10) < today),
   }));
-
+  const upcoming = events.filter(event => !event.past).sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
+  const displayedEvents = upcoming.length ? upcoming.slice(0, 3) : events.filter(event => event.past).sort((a, b) => (b.date ?? "").localeCompare(a.date ?? "")).slice(0, 3);
   const [openShareId, setOpenShareId] = useState<number | null>(null);
 
-  if (!events.length) return null;
+  function renderCta(cta?: Cta, secondary = false) {
+    if (!cta?.label || !cta.url) return null;
+    if (cta.url === "/register") return onRegisterClick ? <Button variant={secondary ? "textcta" : "brand"} size={secondary ? "text" : "default"} onClick={onRegisterClick}>{cta.label}</Button> : null;
+    return <Button asChild variant={secondary ? "textcta" : "brand"} size={secondary ? "text" : "default"}><a href={cta.url}>{cta.label}</a></Button>;
+  }
 
   return (
-    <SectionWrapper
-      variant="light"
-      align="left"
-      padding="lux"
-      noise={false}
-      grid={false}
-      withFades={false}
-      className="relative bg-[#E8E9EA]"
-    >
-      <div className="relative">
-        <div className="max-w-[680px] mb-6 md:mb-8">
-          <h2
-            className="
-              font-[Montserrat]
-              font-light
-              text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]
-              leading-[1.15]
-              tracking-tight
-              text-[#0F172A]
-            "
-          >
-            Upcoming{" "}
-            <span className="font-normal text-[#21BFA8] drop-shadow-[0_1px_1px_rgba(0,0,0,0.12)]">
-              Events
-            </span>
-          </h2>
-
-          <div
-            aria-hidden="true"
-            className="mt-4 h-px w-full max-w-[620px]"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(15,23,42,0.35), rgba(15,23,42,0))",
-            }}
-          />
-
-          <p
-            className="
-              mt-4
-              max-w-[560px]
-              text-[#475569]
-              font-body
-              text-[0.98rem] md:text-[1rem]
-              leading-[1.6]
-            "
-          >
-            Bringing peers together across media and technology.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 items-stretch gap-8 md:grid-cols-2 md:gap-10 xl:grid-cols-3 xl:gap-12">
-          {events.map((event, index) => {
-            const date = formatInternationalDate(event.date);
-
-            const chips: string[] = [];
-            if (event.inviteOnly ?? true) chips.push("Invite-only");
-            if (event.complimentary ?? true) chips.push("Complimentary");
-            if (event.format) chips.push(event.format);
-            if (event.conferenceAligned) chips.push("Conference week");
-
-            const baseUrl = "/events";
-            const rawSummary = event.summary ?? "";
-            const summaryParts = rawSummary.split(". ");
-            const firstSentence = summaryParts.shift();
-            const remainingSummary = summaryParts.join(". ");
-
-            const shareText = encodeURIComponent(
-              `${event.title}${date ? ` – ${date}` : ""} at ${
-                event.venue
-              }, ${event.location}. ${rawSummary} Find out more: ${baseUrl}`
-            );
-
-            const mailHref = `mailto:?subject=${encodeURIComponent(
-              `Event: ${event.title}`
-            )}&body=${shareText}`;
-
-            const whatsappHref = `https://wa.me/?text=${shareText}`;
-            const isShareOpen = openShareId === event.id;
-
-            return (
-              <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="flex justify-center"
-              >
-                <Card
-                  className="
-                    group relative flex h-full w-full max-w-[340px] flex-col
-                    overflow-hidden rounded-[18px]
-                    border border-white/12
-                    bg-[#0F172A]
-                    shadow-[0_14px_32px_rgba(0,0,0,0.36)]
-                    transition-transform duration-200
-                    hover:-translate-y-[6px]
-                    xl:max-w-[350px]
-                  "
-                >
-                  <div
-                    aria-hidden="true"
-                    className="
-                      pointer-events-none absolute inset-0
-                      bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_70%)]
-                      opacity-20
-                    "
-                  />
-
-                  <CardContent className="relative z-10 flex h-full flex-col items-center p-6 text-center md:p-7">
-                    <h3
-                      className="
-                        mb-3
-                        font-[Montserrat]
-                        text-[1.3rem] font-semibold leading-tight text-white
-                        sm:text-[1.4rem]
-                      "
-                    >
-                      {event.title}
-                    </h3>
-
-                    {date && (
-                      <div
-                        className="
-                          mb-4 flex items-center justify-center gap-1.5
-                          text-[0.95rem] font-medium text-white/90
-                        "
-                      >
-                        <CalendarDays size={18} />
-                        <span>{date}</span>
-                      </div>
-                    )}
-
-                    <img
-                      src={event.image}
-                      alt={event.title}
-                      className="mb-4 w-[240px] object-contain opacity-95 md:w-[250px]"
-                    />
-
-                    <div className="mb-5 min-h-[44px]">
-                      <p
-                        className="
-                          flex items-center justify-center gap-2
-                          text-[0.9rem] font-medium leading-[1.5] tracking-tight text-white/85
-                        "
-                      >
-                        <MapPin className="h-4 w-4" />
-                        <span>{event.venue}</span>
-                      </p>
-                      <p className="mt-1 text-[0.85rem] leading-[1.5] text-white/60">
-                        {event.location}
-                      </p>
-                    </div>
-
-                    <div className="mb-5 min-h-[88px] max-w-[26ch] text-[0.98rem] leading-[1.65]">
-                      {firstSentence && (
-                        <p className="mb-2 font-semibold text-white">
-                          {firstSentence.endsWith(".")
-                            ? firstSentence
-                            : `${firstSentence}.`}
-                        </p>
-                      )}
-                      {remainingSummary && (
-                        <p className="text-white/80">{remainingSummary}</p>
-                      )}
-                    </div>
-
-                    <div className="mb-5 flex min-h-[32px] flex-wrap justify-center gap-2">
-                      {chips.slice(0, 2).map((chip, i) => (
-                        <div
-                          key={`${event.id}-chip-${i}`}
-                          className="
-                            rounded-full border border-white/20 bg-white/10
-                            px-3 py-1
-                            text-[0.7rem] uppercase tracking-wide text-white/90
-                          "
-                        >
-                          {chip}
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-auto w-full pt-4">
-                      <div className="mb-4 h-px w-full bg-white/10" />
-
-                      <div className="flex items-center justify-center text-[13px]">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setOpenShareId(isShareOpen ? null : event.id)
-                          }
-                          className="
-                            group/share
-                            inline-flex items-center gap-1.5
-                            text-white/70
-                            transition-colors
-                            hover:text-white
-                          "
-                        >
-                          <Share2
-                            size={15}
-                            className="
-                              transition-transform duration-200
-                              group-hover/share:-translate-y-[1px]
-                              group-hover/share:rotate-6
-                            "
-                          />
-                          <span>{isShareOpen ? "Close" : "Share"}</span>
-                        </button>
-                      </div>
-
-                      {isShareOpen && (
-                        <div
-                          className="
-                            mt-4 flex w-full flex-col gap-2
-                            rounded-lg border border-white/10
-                            bg-white/5 px-3 py-2 text-[12px] text-white/70
-                            backdrop-blur-md
-                          "
-                        >
-                          <span className="mb-1 text-xs text-white/80">
-                            Share this event
-                          </span>
-
-                          <div className="flex items-center justify-center gap-3">
-                            <a
-                              href={mailHref}
-                              className="
-                                group/email
-                                inline-flex items-center gap-1.5
-                                rounded-full border border-white/20 bg-white/10
-                                px-3 py-1.5
-                                transition
-                                hover:bg-white/15 hover:text-white
-                              "
-                              aria-label={`Share ${event.title} via email`}
-                            >
-                              <Mail
-                                size={14}
-                                className="
-                                  transition-transform duration-200
-                                  group-hover/email:-translate-y-[1px]
-                                "
-                              />
-                              <span>Email</span>
-                            </a>
-
-                            <a
-                              href={whatsappHref}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="
-                                group/wa
-                                inline-flex items-center gap-1.5
-                                rounded-full border border-white/20 bg-white/10
-                                px-3 py-1.5
-                                transition
-                                hover:bg-white/15 hover:text-white
-                              "
-                              aria-label={`Share ${event.title} via WhatsApp`}
-                            >
-                              <MessageCircle
-                                size={14}
-                                className="
-                                  transition-transform duration-200
-                                  group-hover/wa:-translate-y-[1px]
-                                "
-                              />
-                              <span>WhatsApp</span>
-                            </a>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            );
-          })}
-        </div>
+    <SectionWrapper variant="transparent" align="left" padding="lux" className="text-slate-900">
+      <div className="mb-9 max-w-2xl">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-teal-700">The event calendar</p>
+        <h2 className="font-display text-3xl font-light leading-tight tracking-tight md:text-4xl">{upcoming.length ? section?.heading || "Upcoming events" : "Recent gatherings"}</h2>
+        <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-600">{upcoming.length ? section?.description || "Bringing peers together across media and technology." : "Explore our recent events while the next gatherings are being planned."}</p>
       </div>
+      <div className="grid items-start gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {displayedEvents.map(event => {
+          const summary = event.summary || event.description;
+          const shareOpen = openShareId === event.id;
+          const chips = [event.format, event.inviteOnly === true ? "Invite-only" : null, event.complimentary === true ? "Complimentary" : null, event.conferenceAligned ? "Conference week" : null].filter(Boolean);
+          const shareText = encodeURIComponent(`${event.title} — ${formatInternationalDate(event.date)}${event.time ? `, ${event.time}` : ""}. ${event.venue}, ${event.location}. ${new URL("/events", window.location.origin).href}`);
+          return (
+            <article key={event.id} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+              <div className="flex aspect-[16/9] items-center justify-center border-b border-slate-200 bg-[#edf0ed] p-5">
+                <img src={getImageForKey(event.imageKey, event.venue, event.title)} alt={event.venue} loading="lazy" className="h-full w-full object-contain" />
+              </div>
+              <div className="p-6">
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">{event.past ? "Past event" : "Upcoming gathering"}</p>
+                <h3 className="font-display text-2xl font-light leading-tight text-slate-900">{event.title}</h3>
+                <dl className="my-4 space-y-2 border-t border-slate-200 pt-3 md:my-5 md:space-y-3 md:pt-4 text-sm text-slate-700">
+                  <div className="flex gap-3"><dt><CalendarDays aria-hidden="true" size={16} /><span className="sr-only">Date</span></dt><dd>{formatInternationalDate(event.date)}</dd></div>
+                  {event.time && <div className="flex gap-3"><dt><Clock aria-hidden="true" size={16} /><span className="sr-only">Time</span></dt><dd>{event.time}</dd></div>}
+                  <div className="flex gap-3"><dt><MapPin aria-hidden="true" size={16} /><span className="sr-only">Venue and location</span></dt><dd><span className="font-medium">{event.venue}</span><span className="mt-1 block text-slate-500">{event.location}</span></dd></div>
+                </dl>
+                {summary && <p className="text-sm leading-[1.8] text-slate-600">{summary}</p>}
+                {chips.length > 0 && <ul className="mt-4 flex flex-wrap gap-2">{chips.map(chip => <li key={chip} className="rounded-sm bg-slate-100 px-2 py-1 text-xs text-slate-600">{chip}</li>)}</ul>}
+                {event.details && (
+                  <details className="mt-4 md:mt-5">
+                    <summary className="cursor-pointer text-sm font-semibold text-teal-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-700">What to expect<span className="sr-only"> at {event.title}</span></summary>
+                    <p className="mt-3 text-sm leading-[1.8] text-slate-600">{event.details}</p>
+                  </details>
+                )}
+                <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200 pt-4">
+                  <Button asChild variant="ghost" size="text"><a href="/events">Explore events <span aria-hidden="true">→</span></a></Button>
+                  <button type="button" aria-label={`Share ${event.title}`} aria-expanded={shareOpen} aria-controls={`event-share-${event.id}`} onClick={() => setOpenShareId(shareOpen ? null : event.id)} className="inline-flex items-center gap-2 text-xs text-slate-600 hover:text-slate-900"><Share2 size={14} aria-hidden="true" />{shareOpen ? "Close" : "Share"}</button>
+                </div>
+                {shareOpen && <div id={`event-share-${event.id}`} className="mt-4 flex gap-4 rounded-sm bg-slate-100 p-3 text-sm text-teal-800">
+                  <a href={`mailto:?subject=${encodeURIComponent(`Event: ${event.title}`)}&body=${shareText}`} aria-label={`Share ${event.title} via email`} className="hover:underline">Email</a>
+                  <a href={`https://wa.me/?text=${shareText}`} target="_blank" rel="noreferrer" aria-label={`Share ${event.title} via WhatsApp`} className="hover:underline">WhatsApp</a>
+                </div>}
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      {!displayedEvents.length && <p className="mt-6 text-slate-600">New event dates will be announced here.</p>}
+      {section?.note && <p className="mt-8 text-sm text-slate-600">{section.note}</p>}
+      <div className="mt-6 flex flex-wrap gap-3">{renderCta(section?.cta)}{section?.secondaryCta?.url !== section?.cta?.url && renderCta(section?.secondaryCta, true)}</div>
     </SectionWrapper>
   );
-};
-
-export default EventsSection;
+}

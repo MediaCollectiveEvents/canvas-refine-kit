@@ -14,6 +14,7 @@ type TestimonialInput = string | TestimonialObject;
 
 interface TestimonialsSectionProps {
   section?: {
+    heading?: string;
     items?: TestimonialInput[];
   };
 }
@@ -140,7 +141,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
     return () => clearInterval(timer);
   }, [paused, testimonials.length]);
 
-  const current = testimonials[index];
+  const current = testimonials[index % testimonials.length];
 
   if (!current) return null;
 
@@ -162,10 +163,11 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
         "
       />
 
-      <div className="relative z-10 grid items-start gap-10 md:grid-cols-[minmax(0,1.3fr)_minmax(0,4fr)] md:gap-16">
+      <div className="relative z-10 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-16">
         <div className="pt-[0.75rem]">
+          <p className="mb-4 text-xs uppercase tracking-[0.16em] text-[#9bd3c8]">Attendees and partners</p>
           <SectionTitle align="left" disableEmphasis className="text-white">
-            Community <span className="text-[#27CDBA]">Voices</span>
+            {section?.heading || "Community voices"}
           </SectionTitle>
 
           <div
@@ -181,7 +183,9 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
         <div
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
-          className="relative max-w-[860px]"
+          onFocusCapture={() => setPaused(true)}
+          onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}
+          className="relative max-w-[860px] pl-6"
         >
           <AnimatePresence mode="wait">
             <motion.div
@@ -194,10 +198,10 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
               <blockquote
                 className="
                   relative
-                  max-w-[34ch]
+                  max-w-[42ch]
                   font-serif
-                  text-[1.28rem] md:text-[1.45rem]
-                  leading-[1.65]
+                  text-[1.3rem] md:text-[1.9rem]
+                  leading-[1.5]
                   tracking-[-0.01em]
                   text-white/90
                 "
@@ -228,20 +232,20 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.16, duration: 0.4 }}
-                className="mt-8"
+                className="mt-7 border-t border-white/15 pt-5"
               >
                 {current.author && (
-                  <p className="text-[1rem] tracking-[0.02em] text-white/92">
+                  <p className="text-[1rem] tracking-[0.02em] font-semibold text-white">
                     {current.author}
                   </p>
                 )}
 
                 {(current.title || current.company) && (
-                  <p className="mt-1 text-[0.9rem] text-white/60">
+                  <p className="mt-1 text-[0.9rem] text-white/85">
                     {current.title}
                     {current.title && current.company ? " — " : ""}
                     {current.company && (
-                      <span className="text-[#27CDBA]">{current.company}</span>
+                      <span className="text-primary">{current.company}</span>
                     )}
                   </p>
                 )}
@@ -250,7 +254,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           </AnimatePresence>
 
           {testimonials.length > 1 && (
-            <div className="mt-8 flex gap-2">
+            <div className="mt-8 flex items-center gap-1">
               {testimonials.map((_, dotIndex) => {
                 const active = dotIndex === index;
 
@@ -259,13 +263,12 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                     key={dotIndex}
                     type="button"
                     aria-label={`Show testimonial ${dotIndex + 1}`}
+                    aria-pressed={active}
                     onClick={() => setIndex(dotIndex)}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      active
-                        ? "w-8 bg-[#27CDBA]"
-                        : "w-2 bg-white/20 hover:bg-white/40"
-                    }`}
-                  />
+                    className="flex h-10 w-10 items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300"
+                  >
+                    <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-[#9bd3c8]" : "w-2 bg-white/40"}`} />
+                  </button>
                 );
               })}
             </div>

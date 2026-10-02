@@ -4,7 +4,7 @@
     "theme": "dark",
     "eyebrow": "Partnership Opportunities",
     "primaryCta": {
-      "label": "Register Your Interest",
+      "label": "Discuss a partnership",
       "url": "/register"
     },
     "imageOffset": 10,
@@ -14,7 +14,7 @@
     },
     "overlayStrength": 0,
     "mobileCrop": "cover",
-    "title": "Boost your business",
+    "title": "Build relationships across media",
     "image": "/uploads/chatgpt-image-mar-30-2026-04_37_26-pm.png",
     "description": "Partner with The Media Collective and connect your brand with influential organisations across media and technology."
   },

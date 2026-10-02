@@ -19,9 +19,13 @@
     "backdropSize": 1,
     "backdropStrength": 0,
     "subtitle": "Media and entertainment industry",
-    "title": "Curated events",
+    "title": "Where media leaders connect",
     "image": "/uploads/herohome2.png",
-    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media."
+    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
+    "secondaryCta": {
+      "label": "Explore partnerships",
+      "url": "/partners"
+    }
   },
   "sections": [
     {

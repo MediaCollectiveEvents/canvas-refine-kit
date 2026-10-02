@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollIndicator } from "@/components/shared/ScrollIndicator";
 
@@ -22,13 +22,14 @@ interface PageHeroProps {
   image?: string;
 
   variant?: Variant;
+  presentation?: "classic" | "business" | "editorial";
 }
 
 function inDecapPreviewIframe(): boolean {
   if (typeof document !== "undefined") {
     return (
       document.body?.classList?.contains("nc-app-iframe-root") ||
-      typeof (window as any).CMS !== "undefined"
+      typeof Reflect.get(window, "CMS") !== "undefined"
     );
   }
   return false;
@@ -44,6 +45,10 @@ export default function PageHero(props: PageHeroProps) {
     description,
     primaryCtaText,
     primaryCtaHref,
+    secondaryCtaText,
+    secondaryCtaHref,
+    onSecondaryClick,
+    presentation = "classic",
     onPrimaryClick,
     backgroundImage,
     image,
@@ -52,21 +57,13 @@ export default function PageHero(props: PageHeroProps) {
 
   const resolvedBackgroundImage = image || backgroundImage || undefined;
   const eyebrowText = eyebrow ?? subtitle;
+  const isModern = presentation !== "classic";
 
-  let y: MotionValue<number> | 0 = 0;
-
-  if (!isPreview) {
-    const { scrollY } = useScroll();
-    y = useTransform(scrollY, [0, 500], [0, 120]);
-  }
-
-  function handleClick(href?: string, click?: () => void) {
-    if (click) return click();
-    if (href) window.location.href = href;
-  }
+  const { scrollY } = useScroll();
+  const y = useTransform(scrollY, [0, 500], [0, 120]);
 
   return (
-    <header className="relative flex min-h-[720px] w-full items-center justify-center overflow-hidden bg-transparent pt-8 pb-16 lg:min-h-[780px]">
+    <header className={`relative flex w-full items-center justify-center overflow-hidden bg-transparent pt-8 pb-16 ${isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className="absolute inset-0 bg-cover bg-no-repeat"
@@ -86,7 +83,9 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      <div className="absolute inset-0 pointer-events-none">
+      {isModern && <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#101d24]/95 via-[#101d24]/85 to-[#101d24]/75" />}
+
+      {!isModern && <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2"
           style={{
@@ -97,28 +96,26 @@ export default function PageHero(props: PageHeroProps) {
             filter: "blur(14px)",
           }}
         />
-      </div>
+      </div>}
 
       <motion.div
         initial={{ opacity: 0, y: 26 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="relative z-10 w-full max-w-[1280px] px-6 text-center"
+        className={`relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8 ${isModern ? "py-12 text-left" : "text-center"}`}
       >
         {eyebrowText && (
-          <p className="mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]">
+          <p className={isModern ? "mb-7 flex items-center gap-4 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]" : "mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
+            {isModern && <span aria-hidden="true" className="h-px w-10 bg-current" />}
             {eyebrowText}
           </p>
         )}
 
         <h1
-          className="
-            mb-6
-            font-satisfy
-            text-[clamp(4.2rem,8.6vw,7.2rem)]
-            leading-[0.96]
-          "
-          style={{
+          className={isModern
+            ? `mb-7 max-w-[15ch] font-display text-[clamp(2.8rem,6.5vw,5.8rem)] leading-[1.06] tracking-[-0.035em] text-[#f7f3eb] font-light`
+            : "mb-6 font-satisfy text-[clamp(4.2rem,8.6vw,7.2rem)] leading-[0.96]"}
+          style={isModern ? undefined : {
             color: "#4A86C5",
             WebkitTextStroke: "1px rgba(35,78,124,0.55)",
             textShadow: `
@@ -138,18 +135,21 @@ export default function PageHero(props: PageHeroProps) {
         </h1>
 
         {description && (
-          <p className="mx-auto mb-12 max-w-[980px] text-[1.18rem] leading-[1.55] text-[#2A4763] md:text-[1.42rem]">
+          <p className={isModern ? "mb-10 max-w-[52ch] text-base leading-[1.8] text-slate-200 md:text-lg" : "mx-auto mb-10 max-w-3xl text-lg leading-relaxed text-[#2A4763] md:text-xl"}>
             {description}
           </p>
         )}
 
-        {primaryCtaText && (
-          <div className="flex justify-center">
+        {(primaryCtaText || secondaryCtaText) && (
+          <div className={`flex flex-col gap-4 sm:flex-row ${isModern ? "max-w-2xl items-start" : "mx-auto max-w-xl justify-center"}`}>
+            {primaryCtaText && (
             <Button
               size="lg"
-              onClick={() => handleClick(primaryCtaHref, onPrimaryClick)}
-              className="
-                min-w-[320px]
+              variant={isModern ? "brand" : "default"}
+              asChild={!!primaryCtaHref && !onPrimaryClick}
+              onClick={onPrimaryClick}
+              className={isModern ? "w-full sm:w-auto" : `
+                w-full sm:w-auto sm:min-w-[240px]
                 rounded-full
                 border
                 px-10
@@ -160,8 +160,8 @@ export default function PageHero(props: PageHeroProps) {
                 backdrop-blur-md
                 transition-all duration-200
                 hover:-translate-y-[1px]
-              "
-              style={{
+              `}
+              style={isModern ? undefined : {
                 background:
                   "linear-gradient(180deg, rgba(14,37,64,0.98) 0%, rgba(8,24,44,1) 100%)",
                 borderColor: "rgba(39,205,186,0.55)",
@@ -169,15 +169,23 @@ export default function PageHero(props: PageHeroProps) {
                   "inset 0 1px 0 rgba(255,255,255,0.10), 0 12px 28px rgba(5,16,32,0.28), 0 0 0 1px rgba(7,18,34,0.22)",
               }}
             >
-              {primaryCtaText}
+              {primaryCtaHref && !onPrimaryClick ? <a href={primaryCtaHref}>{primaryCtaText}</a> : primaryCtaText}
             </Button>
+            )}
+            {secondaryCtaText && (
+              <Button size="text" variant="textcta" asChild={!!secondaryCtaHref && !onSecondaryClick}
+                onClick={onSecondaryClick}
+                className="min-h-11 w-full sm:w-auto">
+                {secondaryCtaHref && !onSecondaryClick ? <a href={secondaryCtaHref}>{secondaryCtaText}</a> : secondaryCtaText}
+              </Button>
+            )}
           </div>
         )}
       </motion.div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
+      {!isModern && <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
         <ScrollIndicator />
-      </div>
+      </div>}
     </header>
   );
 }

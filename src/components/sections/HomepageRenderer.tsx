@@ -15,7 +15,11 @@ export interface HomepageSection {
   hidden?: boolean;
   backgroundStyle?: "dark" | "light" | "transparent" | "custom";
   customBackground?: string | null;
-  [key: string]: any;
+  underHeader?: boolean;
+  imageAspect?: string;
+  imageFit?: string;
+  imagePadding?: boolean;
+  [key: string]: unknown;
 }
 
 interface HomepageRendererProps {
@@ -44,12 +48,7 @@ const SectionTopTransition = () => {
       aria-hidden="true"
       className="pointer-events-none absolute inset-x-0 top-0 z-10"
     >
-      <div className="flex flex-col gap-[2px]">
-        <div className="h-px w-full bg-[#55E6D9]/90" />
-        <div className="h-px w-full bg-[#55E6D9]/65" />
-        <div className="h-px w-full bg-[#55E6D9]/40" />
-        <div className="h-px w-full bg-[#55E6D9]/20" />
-      </div>
+      <div className="h-px w-full bg-slate-400/20" />
     </div>
   );
 };
@@ -63,7 +62,7 @@ export default function HomepageRenderer({
   return (
     <>
       {safeSections
-        .filter((section) => !section?.hidden)
+        .filter((section) => section && !section.hidden)
         .map((section, index) => {
           const key = section.id ?? `${section.type}-${index}`;
           const bgClasses = getBackgroundClasses(section);
@@ -84,7 +83,7 @@ export default function HomepageRenderer({
                   style={style}
                 >
                   {showTransition && <SectionTopTransition />}
-                  <AboutIntroSection section={section as any} />
+                  <AboutIntroSection section={section as React.ComponentProps<typeof AboutIntroSection>["section"]} />
                 </section>
               );
 
@@ -96,7 +95,7 @@ export default function HomepageRenderer({
                   style={style}
                 >
                   {showTransition && <SectionTopTransition />}
-                  <WhoAttendsSection section={section as any} />
+                  <WhoAttendsSection section={section as React.ComponentProps<typeof WhoAttendsSection>["section"]} />
                 </section>
               );
 
@@ -109,8 +108,8 @@ export default function HomepageRenderer({
                 >
                   {showTransition && <SectionTopTransition />}
                   <EventsSection
-                    section={section as any}
-                    onRegisterClick={onRegister ?? (() => {})}
+                    section={section as React.ComponentProps<typeof EventsSection>["section"]}
+                    onRegisterClick={onRegister}
                     underHeader={section.underHeader}
                     imageAspect={section.imageAspect ?? "3:2"}
                     imageFit={section.imageFit ?? "contain"}
@@ -131,7 +130,7 @@ export default function HomepageRenderer({
                   style={style}
                 >
                   {showTransition && <SectionTopTransition />}
-                  <TestimonialsSection section={section as any} />
+                  <TestimonialsSection section={section as React.ComponentProps<typeof TestimonialsSection>["section"]} />
                 </section>
               );
 
@@ -144,7 +143,7 @@ export default function HomepageRenderer({
                 >
                   {showTransition && <SectionTopTransition />}
                   <JoinCommunitySection
-                    section={section as any}
+                    section={section as React.ComponentProps<typeof JoinCommunitySection>["section"]}
                     onRegisterClick={onRegister}
                   />
                 </section>
@@ -159,7 +158,7 @@ export default function HomepageRenderer({
                 >
                   {showTransition && <SectionTopTransition />}
                   <NewHereSection
-                    section={section as any}
+                    section={section as React.ComponentProps<typeof NewHereSection>["section"]}
                     onRegisterClick={onRegister}
                   />
                 </section>
@@ -173,7 +172,7 @@ export default function HomepageRenderer({
                   style={style}
                 >
                   {showTransition && <SectionTopTransition />}
-                  <ForBrandsSection section={section as any} />
+                  <ForBrandsSection section={section as React.ComponentProps<typeof ForBrandsSection>["section"]} />
                 </section>
               );
 
@@ -185,7 +184,7 @@ export default function HomepageRenderer({
                   style={style}
                 >
                   {showTransition && <SectionTopTransition />}
-                  <PartnersSection section={section as any} />
+                  <PartnersSection section={section as React.ComponentProps<typeof PartnersSection>["section"]} />
                 </section>
               );
 

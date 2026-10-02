@@ -1,13 +1,9 @@
 // src/components/sections/PartnersPageRenderer.tsx
 import React from "react";
-import { motion } from "framer-motion";
 
 import PageSection from "@/components/shared/PageSection";
-import SectionDivider from "@/components/shared/SectionDivider";
-import SectionHeader from "@/components/shared/SectionHeader";
-import PageCTA from "@/components/shared/PageCTA";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Eye, Mic } from "lucide-react";
+import { ArrowRight, Users, Eye, Mic, Check } from "lucide-react";
 
 // Sponsor logo imports (your original list)
 import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
@@ -29,7 +25,6 @@ interface BaseSection {
   id?: string;
   type: string;
   hidden?: boolean;
-  [key: string]: any;
 }
 
 interface PartnersPageRendererProps {
@@ -69,7 +64,7 @@ const benefits = [
     icon: Eye,
     title: "Brand Visibility",
     description:
-      "Gain prominent exposure across our events, digital channels, and communications reaching thousands of industry professionals.",
+      "Gain prominent exposure across our events, digital channels, and communications around each gathering.",
     color: "text-[hsl(var(--icon-cyan))]",
     bgColor: "bg-[hsl(var(--icon-cyan)/0.1)]",
   },
@@ -128,249 +123,112 @@ const sponsorshipTiers = [
   },
 ];
 
-const colorStyles = {
-  lime: {
-    card: "bg-background/20 border border-[hsl(var(--icon-lime)/0.3)] backdrop-blur-sm",
-    check: "text-[hsl(var(--icon-lime))]",
-    checkBg: "bg-[hsl(var(--icon-lime)/0.15)]",
-    text: "text-foreground",
-    description: "text-muted-foreground",
-  },
-  cyan: {
-    card: "bg-background/20 border border-[hsl(var(--icon-cyan)/0.3)] backdrop-blur-sm",
-    check: "text-[hsl(var(--icon-cyan))]",
-    checkBg: "bg-[hsl(var(--icon-cyan)/0.15)]",
-    text: "text-foreground",
-    description: "text-muted-foreground",
-  },
-  red: {
-    card: "bg-background/20 border border-[hsl(var(--icon-red)/0.3)] backdrop-blur-sm",
-    check: "text-[hsl(var(--icon-red))]",
-    checkBg: "bg-[hsl(var(--icon-red)/0.15)]",
-    text: "text-foreground",
-    description: "text-muted-foreground",
-  },
+const sectionLinks: Record<string, { label: string; anchor: string }> = {
+  partnersLogos: { label: "Partner community", anchor: "partner-community" },
+  partnersBenefits: { label: "Your objectives", anchor: "partner-objectives" },
+  partnersTiers: { label: "Compare formats", anchor: "partner-formats" },
+  joinUs: { label: "Start a conversation", anchor: "partner-conversation" },
 };
 
-// ===== SMALL INTERNAL COMPONENT (unchanged styling) =====
-
-const SponsorLogo = ({
-  sponsor,
-}: {
-  sponsor: { name: string; logo: string };
-}) => (
-  <div className="flex-shrink-0 mx-4 flex items-center justify-center">
-    <div className="w-auto h-44 bg-white backdrop-blur-sm rounded-lg border border-border flex items-center justify-center px-14 py-6 hover:border-primary/50 transition-colors">
-      <img
-        src={sponsor.logo}
-        alt={sponsor.name}
-        className="h-28 w-auto object-contain"
-      />
+function JourneyHeading({ step, title, description }: { step: string; title: string; description: string }) {
+  return (
+    <div className="mb-10 max-w-2xl">
+      <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-[#9bd3c8]">{step}</p>
+      <h2 className="font-display text-3xl font-light leading-tight text-[#f7f3eb] md:text-4xl">{title}</h2>
+      <p className="mt-4 text-sm leading-[1.8] text-slate-300">{description}</p>
     </div>
-  </div>
-);
+  );
+}
 
-const PartnersPageRenderer: React.FC<PartnersPageRendererProps> = ({
-  sections,
-  onRegister,
-}) => {
+export default function PartnersPageRenderer({ sections, onRegister }: PartnersPageRendererProps) {
   if (!Array.isArray(sections)) return null;
-
-  const visibleSections = sections.filter((section) => !section.hidden);
-
+  const visibleSections = sections.filter(section => !section.hidden);
   return (
     <>
-      {visibleSections.map((section) => {
+      <nav aria-label="Partnership guide" className="border-y border-white/15 bg-[#101d24] px-6 py-5">
+        <div className="mx-auto flex max-w-6xl flex-wrap gap-x-8 gap-y-4">
+          {visibleSections.map(section => {
+            const link = sectionLinks[section.type];
+            return link ? <a key={section.id ?? section.type} href={`#${link.anchor}`} className="text-xs font-medium text-slate-200 underline-offset-4 hover:text-white hover:underline">{link.label} <span aria-hidden="true">↗</span></a> : null;
+          })}
+        </div>
+      </nav>
+      {visibleSections.map(section => {
         switch (section.type) {
           case "partnersLogos":
             return (
-              <PageSection
-                key={section.id ?? section.type}
-                variant="default"
-                className="bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden"
-              >
-                <div className="container mx-auto max-w-6xl mb-16 text-center">
-                  <SectionHeader
-                    title="Our events are made possible with the support of "
-                    accentWord="these companies"
-                  />
-                </div>
-
-                <div className="relative">
-                  <div className="flex animate-scroll py-4">
-                    {[...currentSponsors, ...currentSponsors].map(
-                      (sponsor, index) => (
-                        <SponsorLogo
-                          key={`${sponsor.name}-${index}`}
-                          sponsor={sponsor}
-                        />
-                      ),
-                    )}
-                  </div>
-                </div>
-
-                <SectionDivider variant="single" />
+              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 bg-none bg-[#101d24] py-16 md:py-20">
+                <JourneyHeading step="The partner community" title="In good company." description="Our events are made possible with the support of these media and technology companies." />
+                <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
+                  {currentSponsors.map(sponsor => (
+                    <li key={sponsor.name} className="flex h-24 items-center justify-center rounded-sm bg-white p-3">
+                      <img src={sponsor.logo} alt={sponsor.name} loading="lazy" className="h-16 w-full object-contain" />
+                    </li>
+                  ))}
+                </ul>
               </PageSection>
             );
-
           case "partnersBenefits":
             return (
-              <PageSection
-                key={section.id ?? section.type}
-                variant="default"
-                className="bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden"
-              >
-                <div className="container mx-auto max-w-6xl">
-                  <SectionHeader
-                    eyebrow="Why Partner With Us"
-                    title="Partnership "
-                    accentWord="Benefits"
-                  />
-
-                  <div className="grid md:grid-cols-3 gap-12 max-w-4xl mx-auto">
-                    {benefits.map((benefit, index) => (
-                      <motion.div
-                        key={benefit.title}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        viewport={{ once: true }}
-                        className="text-center"
-                      >
-                        <div
-                          className={`w-16 h-16 rounded-full ${benefit.bgColor} flex items-center justify-center mb-6 mx-auto`}
-                        >
-                          <benefit.icon
-                            className={`w-8 h-8 ${benefit.color}`}
-                          />
-                        </div>
-                        <h3 className="font-display text-xl mb-3">
-                          {benefit.title}
-                        </h3>
-                        <p className="text-muted-foreground font-body text-sm leading-relaxed">
-                          {benefit.description}
-                        </p>
-                      </motion.div>
-                    ))}
-                  </div>
+              <PageSection key={section.id ?? section.type} id="partner-objectives" className="scroll-mt-28 border-b border-white/10 bg-none bg-[#101d24] py-16 md:py-20">
+                <JourneyHeading step="Your objectives" title="What should your partnership achieve?" description="Start with the relationships, visibility or industry conversations that matter to your business." />
+                <div className="grid gap-8 md:grid-cols-3">
+                  {benefits.map(benefit => (
+                    <div key={benefit.title} className="border-t border-[#9bd3c8]/40 pt-6">
+                      <benefit.icon aria-hidden="true" className="mb-5 h-6 w-6 text-[#9bd3c8]" />
+                      <h3 className="mb-3 text-lg font-medium text-white">{benefit.title}</h3>
+                      <p className="max-w-sm text-sm leading-[1.8] text-slate-300">{benefit.description}</p>
+                    </div>
+                  ))}
                 </div>
-
-                <SectionDivider variant="single" />
               </PageSection>
             );
-
           case "partnersTiers":
             return (
-              <PageSection
-                key={section.id ?? section.type}
-                variant="default"
-                className="bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden"
-              >
-                <div className="container mx-auto max-w-6xl">
-                  <SectionHeader title="Partnership " accentWord="Packages" />
-
-                  <div className="grid md:grid-cols-3 gap-8">
-                    {sponsorshipTiers.map((tier, index) => {
-                      const styles = colorStyles[tier.accentColor];
-                      return (
-                        <motion.div
-                          key={tier.name}
-                          initial={{ opacity: 0, y: 30 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.5, delay: index * 0.1 }}
-                          viewport={{ once: true }}
-                          className={`rounded-2xl p-8 ${styles.card}`}
-                        >
-                          <div className="text-center mb-8">
-                            <h3
-                              className={`font-display text-2xl mb-4 ${styles.text}`}
-                            >
-                              {tier.name}
-                            </h3>
-                            <p
-                              className={`font-body text-sm ${styles.description}`}
-                            >
-                              {tier.description}
-                            </p>
-                          </div>
-
-                          <ul className="space-y-4">
-                            {tier.features.map((feature) => (
-                              <li
-                                key={feature}
-                                className="flex items-start gap-3"
-                              >
-                                <div
-                                  className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${styles.checkBg}`}
-                                >
-                                  <svg
-                                    className={`w-3 h-3 ${styles.check}`}
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M5 13l4 4L19 7"
-                                    />
-                                  </svg>
-                                </div>
-                                <span
-                                  className={`font-body text-sm ${
-                                    tier.highlighted ? "font-semibold" : ""
-                                  } text-muted-foreground`}
-                                >
-                                  {feature}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    viewport={{ once: true }}
-                    className="text-center mt-12"
-                  >
-                    <Button
-                      size="lg"
-                      className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
-                      onClick={onRegister}
-                    >
-                      Book a Meeting
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </motion.div>
+              <PageSection key={section.id ?? section.type} id="partner-formats" className="scroll-mt-28 border-b border-white/10 bg-none bg-[#101d24] py-16 md:py-20">
+                <JourneyHeading step="Compare the formats" title="Choose how you want to take part." description="Co-create an event, support an existing gathering or commission an experience around your goals. Use the scope below to guide the conversation." />
+                <div className="grid gap-4 md:grid-cols-3">
+                  {sponsorshipTiers.map(tier => (
+                    <article key={tier.name} className="rounded-lg border border-white/20 bg-white/[0.03] p-6 lg:p-8">
+                      <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.12em] text-[#9bd3c8]">{tier.name === "Co-Host" ? "Co-create the gathering" : tier.name === "Sponsor" ? "Support an existing event" : "Create a bespoke experience"}</p>
+                      <h3 className="font-display text-3xl font-light text-[#f7f3eb]">{tier.name}</h3>
+                      <p className="mt-3 text-sm md:mt-4 md:min-h-[4.5rem] leading-relaxed text-slate-300">{tier.description}</p>
+                      <p className="mb-3 mt-4 border-t border-white/15 pt-3 md:mb-4 md:mt-6 md:pt-5 text-xs font-medium text-white">Partnership scope</p>
+                      <ul className="space-y-2.5 md:space-y-4">
+                        {tier.features.map(feature => <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-slate-300"><Check aria-hidden="true" className="mt-1 h-3.5 w-3.5 shrink-0 text-[#9bd3c8]" />{feature}</li>)}
+                      </ul>
+                    </article>
+                  ))}
                 </div>
-
-                <SectionDivider variant="triple" className="py-12" />
+                <div className="mt-8 flex flex-col items-start justify-between gap-6 border-t border-white/15 pt-6 sm:flex-row sm:items-center">
+                  <p className="max-w-xl text-sm leading-relaxed text-slate-300">Have a format in mind? Tell us your audience, objectives and timing so we can discuss the right scope.</p>
+                  <Button variant="brand" size="lg" onClick={onRegister} className="shrink-0">Discuss a partnership <ArrowRight aria-hidden="true" className="ml-3 h-4 w-4" /></Button>
+                </div>
               </PageSection>
             );
-
           case "joinUs":
             return (
-              <PageSection key={section.id ?? section.type} variant="accent">
-                <PageCTA onClick={onRegister} />
+              <PageSection key={section.id ?? section.type} id="partner-conversation" className="scroll-mt-28 bg-none bg-[#172b31] py-16 md:py-20">
+                <div className="grid gap-10 md:grid-cols-[1.5fr_1fr] md:items-start">
+                  <div>
+                    <JourneyHeading step="Start a conversation" title="Bring us your brief." description="Tell us who you want to connect with and what you want to achieve. We can discuss the right event format and partnership scope for your business." />
+                    <Button variant="brand" size="lg" onClick={onRegister}>Discuss a partnership</Button>
+                  </div>
+                  <div className="border-l border-white/20 pl-6">
+                    <h3 className="mb-5 text-sm font-semibold text-white">Useful to have in mind</h3>
+                    <ul className="space-y-4 text-sm leading-relaxed text-slate-300">
+                      <li>The audience you want to reach</li>
+                      <li>The conversation or business goal</li>
+                      <li>Your preferred event format and timing</li>
+                    </ul>
+                  </div>
+                </div>
               </PageSection>
             );
-
           default:
-            console.warn(
-              "[PartnersPageRenderer] Unknown section type:",
-              section.type,
-            );
             return null;
         }
       })}
     </>
   );
-};
-
-export default PartnersPageRenderer;
+}
