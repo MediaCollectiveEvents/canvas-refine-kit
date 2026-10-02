@@ -1,3 +1,4 @@
+import Seo from "@/components/shared/Seo";
 // src/pages/BlogPost.tsx
 import React from "react";
 import { useParams, Link } from "react-router-dom";
@@ -23,7 +24,7 @@ type BlogPost = {
 const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
 
-  const posts: BlogPost[] = (blogPostsJSON as any).posts || [];
+  const posts: BlogPost[] = blogPostsJSON.posts || [];
   const post = posts.find((p) => p.slug === slug);
 
   // -----------------------------
@@ -68,6 +69,7 @@ const BlogPostPage: React.FC = () => {
   // -----------------------------------
   return (
     <div className="min-h-screen bg-background">
+      <Seo title={`${post.title} — The Media Collective`} description={post.excerpt} url={`/blog/${post.slug}`} type="article" />
       <Header />
 
       <main className="pt-20 sm:pt-24 lg:pt-28">

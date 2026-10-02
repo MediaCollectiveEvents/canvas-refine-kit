@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import Seo from "@/components/shared/Seo";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -21,36 +21,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      <Helmet>
-        <title>{seo.title}</title>
-
-        <meta
-          name="description"
-          content={seo.description}
-        />
-
-        <meta
-          property="og:title"
-          content="The Media Collective — Curated Events for Media & Tech Leaders"
-        />
-        <meta
-          property="og:description"
-          content="Exclusive events for senior professionals across broadcast, streaming and media technology."
-        />
-        <meta property="og:image" content="/og-default.jpg" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://themediacollective.co/" />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="The Media Collective" />
-        <meta
-          name="twitter:description"
-          content="Invite-only gatherings connecting leaders across media, broadcast and streaming."
-        />
-        <meta name="twitter:image" content="/og-default.jpg" />
-
-        <link rel="canonical" href="https://themediacollective.co/" />
-      </Helmet>
+      <Seo title={seo.title} description={seo.description} ogImage={seo.ogImage} />
 
       <Header />
 

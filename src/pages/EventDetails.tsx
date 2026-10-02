@@ -1,3 +1,4 @@
+import Seo from "@/components/shared/Seo";
 // src/pages/EventDetails.tsx
 import { useParams } from "react-router-dom";
 import Header from "@/components/layout/Header";
@@ -14,6 +15,7 @@ const EventDetails = () => {
   if (!event) {
     return (
       <div className="min-h-screen bg-background text-foreground">
+        <Seo title="Event Not Found — The Media Collective" />
         <Header />
         <main className="max-w-5xl mx-auto px-6 py-24">
           <h1 className="text-3xl font-display mb-4">Event Not Found</h1>
@@ -29,6 +31,7 @@ const EventDetails = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <Seo title={`${event.title} — The Media Collective`} description={event.summary || event.description} url={`/events/${event.id}`} />
       <Header />
 
       <main className="max-w-5xl mx-auto px-6 py-24">

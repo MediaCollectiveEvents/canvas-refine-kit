@@ -1,3 +1,4 @@
+import Seo from "@/components/shared/Seo";
 // src/pages/Blog.tsx
 import React from "react";
 
@@ -20,11 +21,12 @@ type BlogPost = {
 };
 
 const Blog: React.FC = () => {
-  const { hero, sections } = blogPage as any;
-  const posts: BlogPost[] = (blogPostsJSON as any).posts || [];
+  const { hero, sections } = blogPage;
+  const posts: BlogPost[] = blogPostsJSON.posts || [];
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
       <Header />
 
       {/* Match header clearance with other pages */}

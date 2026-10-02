@@ -1,3 +1,4 @@
+import Seo from "@/components/shared/Seo";
 // src/pages/Partners.tsx
 import { useState } from "react";
 
@@ -18,6 +19,7 @@ const Partners = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
       <Header />
 
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import Seo from "@/components/shared/Seo";
+import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { useState, type ComponentProps } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import PageHero from "@/components/shared/PageHero";
@@ -11,15 +13,14 @@ import FaqPageRenderer from "@/components/sections/FaqPageRenderer";
 export default function FAQ() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const { hero, sections } = faqPageData as {
-    hero: any;
-    sections: any[];
-  };
+  const { hero, sections } = faqPageData;
 
   return (
     <div className="min-h-screen bg-background">
       {/* FIXED HEADER */}
+      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
       <Header />
+      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       {/*
         IMPORTANT:
@@ -33,11 +34,11 @@ export default function FAQ() {
       */}
       <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
         {/* HERO (uses PageHero + mobileCrop) */}
-        <PageHero {...hero} />
+        <PageHero {...(hero as ComponentProps<typeof PageHero>)} />
 
         {/* FAQ Sections */}
         <FaqPageRenderer
-          sections={sections}
+          sections={sections as ComponentProps<typeof FaqPageRenderer>["sections"]}
           faqs={faqData}
           onCtaClick={() => setIsFormOpen(true)}
         />

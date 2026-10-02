@@ -64,7 +64,7 @@ export default function EventsSection({ section, onRegisterClick }: EventsSectio
               </div>
               <div className="p-6">
                 <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">{isPastEvent(event) ? "Past event" : "Upcoming gathering"}</p>
-                <h3 className="font-display text-2xl font-light leading-tight text-slate-900">{event.title}</h3>
+                <h3 className="font-display text-2xl font-light leading-tight text-slate-900"><a href={`/events/${event.id}`}>{event.title}</a></h3>
                 <dl className="my-4 space-y-2 border-t border-slate-200 pt-3 md:my-5 md:space-y-3 md:pt-4 text-sm text-slate-700">
                   <div className="flex gap-3"><dt><CalendarDays aria-hidden="true" size={16} /><span className="sr-only">Date</span></dt><dd>{formatInternationalDate(event.date)}</dd></div>
                   {event.time && <div className="flex gap-3"><dt><Clock aria-hidden="true" size={16} /><span className="sr-only">Time</span></dt><dd>{event.time}</dd></div>}

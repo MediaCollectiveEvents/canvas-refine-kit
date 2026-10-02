@@ -1,4 +1,6 @@
 import { Helmet } from "react-helmet-async";
+import { useLocation } from "react-router-dom";
+import homepageContent from "@/content/homepage.json";
 
 interface SeoProps {
   title?: string;
@@ -13,10 +15,14 @@ const Seo = ({
   title,
   description,
   keywords,
-  ogImage = "/og-default.jpg",
+  ogImage = homepageContent.seo.ogImage,
   url,
   type = "website",
 }: SeoProps) => {
+  const { pathname } = useLocation();
+  const origin = "https://mediacollective.events";
+  const canonical = new URL(url ?? pathname, origin).href;
+  const socialImage = ogImage ? new URL(ogImage, origin).href : undefined;
   return (
     <Helmet>
       {/* Basic SEO */}
@@ -27,9 +33,10 @@ const Seo = ({
       {/* OpenGraph */}
       {title && <meta property="og:title" content={title} />}
       {description && <meta property="og:description" content={description} />}
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={socialImage} />
       <meta property="og:type" content={type} />
-      {url && <meta property="og:url" content={url} />}
+      <meta property="og:url" content={canonical} />
+      <link rel="canonical" href={canonical} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -37,7 +44,7 @@ const Seo = ({
       {description && (
         <meta name="twitter:description" content={description} />
       )}
-      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image" content={socialImage} />
     </Helmet>
   );
 };

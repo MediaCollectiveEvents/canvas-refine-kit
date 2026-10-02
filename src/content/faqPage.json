@@ -32,7 +32,7 @@
       "buttonLabel": "Contact us"
     },
     {
-      "hidden": false,
+      "hidden": true,
       "type": "faqSection"
     }
   ]

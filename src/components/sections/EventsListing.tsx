@@ -102,7 +102,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
           {/* Title – Montserrat via font-display */}
           <h3 className="font-display text-4xl md:text-5xl text-foreground leading-tight">
-            {event.title}
+            <a href={`/events/${event.id}`}>{event.title}</a>
           </h3>
 
           {/* Venue / Location */}
