@@ -3,13 +3,29 @@ import { contentImage } from "@/lib/contentImages";
 import type { Article } from "@/lib/contentMetadata";
 // src/components/sections/BlogPageRenderer.tsx
 import React from "react";
-import { motion } from "framer-motion";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Calendar, User, ArrowRight } from "lucide-react";
+import { Calendar, ArrowRight } from "lucide-react";
 
 import PageSection from "@/components/shared/PageSection";
-import SectionDivider from "@/components/shared/SectionDivider";
-import PageCTA from "@/components/shared/PageCTA";
+import { Button } from "@/components/ui/button";
+
+// Keep failed assets out of the layout in development as well as production.
+function ArticleImage({ post }: { post: Article }) {
+  const src = contentImage(post.image);
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) return null;
+  return (
+    <img
+      src={src}
+      alt={post.title}
+      onLoad={() => setLoaded(true)}
+      onError={() => setFailed(true)}
+      className={loaded ? "mb-6 aspect-[3/2] w-full object-cover" : "hidden"}
+    />
+  );
+}
 
 // Matches the shape of objects in src/content/blogPosts.json
 type BlogPost = Article;
@@ -39,38 +55,30 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
     <>
       {visibleSections.map((section, index) => {
         const key = section.id ?? `${section.type}-${index}`;
-        const variant = section.variant === "darker" || section.variant === "accent" ? section.variant : "default";
+
 
         switch (section.type) {
           case "postsGrid":
             return (
-              <PageSection key={key} variant={variant}>
-                <div className="container mx-auto max-w-6xl">
-                  <h2 className="font-display text-3xl md:text-4xl mb-8 text-center">
+              <PageSection key={key} className="bg-none bg-[#101d24] py-16 md:py-20">
+                <div>
+                  <h2 className="mb-10 font-display text-[30px] font-light leading-tight text-white md:text-4xl">
                     {section.title ?? "Latest"}{" "}
-                    <span className="text-primary">
+                    <span>
                       {section.accentWord ?? "Articles"}
                     </span>
                   </h2>
 
-                  <div className="grid md:grid-cols-3 gap-10">
+                  <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
                     {posts.map((post) => (
                       <article
                         key={post.slug}
-                        className="bg-card/60 border border-border/80 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+                        className="min-w-0"
                       >
-                        {contentImage(post.image) && (
-                          <div className="h-48 overflow-hidden">
-                            <img
-                              src={contentImage(post.image)}
-                              alt={post.title}
-                              className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                            />
-                          </div>
-                        )}
+                        <ArticleImage key={post.image} post={post} />
 
-                        <div className="p-6 flex flex-col gap-4">
-                          <div className="flex items-center justify-between text-xs uppercase tracking-wide text-muted-foreground">
+                        <div className="flex flex-col gap-4">
+                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs uppercase tracking-[0.12em] text-white/60">
                             <span>{post.category}</span>
                             <div className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
@@ -79,13 +87,13 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                           </div>
 
                           <Link to={`/blog/${post.slug}`}>
-                            <h3 className="font-display text-xl mb-2 hover:text-primary transition-colors">
+                            <h3 className="font-display text-2xl font-light leading-snug text-white transition-colors hover:text-primary">
                               {post.title}
                             </h3>
                           </Link>
 
                           <ArticleAttribution article={post} />
-                          <p className="text-muted-foreground text-sm leading-relaxed">
+                          <p className="text-base leading-[1.8] text-slate-300">
                             {post.excerpt}
                           </p>
 
@@ -104,29 +112,33 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                   </div>
                 </div>
 
-                <SectionDivider className="mt-16" />
               </PageSection>
             );
 
           case "divider":
-            return (
-              <PageSection key={key} variant={variant}>
-                <SectionDivider />
-              </PageSection>
-            );
+            // The closing section supplies one subtle boundary without a spacer.
+            return null;
 
           case "cta":
             return (
-              <PageSection key={key} variant={variant}>
-                <PageCTA
-                  title={section.title}
-                  accentWord={section.accentWord}
-                  description={section.description}
-                  buttonLabel={section.buttonLabel}
-                  onClick={() => {
-                    if (section.url) window.location.href = section.url;
-                  }}
-                />
+              <PageSection key={key} className="border-t border-white/10 bg-none bg-[#172b31] py-12 md:py-16">
+                <div className="grid items-start gap-8 lg:grid-cols-12">
+                  <div className="lg:col-span-8">
+                    <h2 className="font-display text-[30px] font-light leading-tight text-white md:text-4xl">
+                      {section.title ?? "Ready to"}{" "}{section.accentWord ?? "Join Us?"}
+                    </h2>
+                    <p className="mt-5 max-w-2xl text-base leading-[1.8] text-slate-300">
+                      {section.description ?? "Be part of the next generation of media industry connections. Our events are free, invite-only, and designed for high-value networking."}
+                    </p>
+                  </div>
+                  <div className="lg:col-span-4 lg:justify-self-end">
+                    <Button variant="brand" size="lg" onClick={() => {
+                      if (section.url) window.location.href = section.url;
+                    }}>
+                      {section.buttonLabel ?? "Register Your Interest"}
+                    </Button>
+                  </div>
+                </div>
               </PageSection>
             );
 

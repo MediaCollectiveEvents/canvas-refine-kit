@@ -23,8 +23,9 @@ const Blog: React.FC = () => {
       <Header />
 
       {/* Match header clearance with other pages */}
-      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
+      <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
         <PageHero
+          presentation="business"
           eyebrow={hero?.eyebrow}
           title={hero?.title}
           description={hero?.description}
