@@ -45,11 +45,12 @@ const EventDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#101d24] text-foreground">
       <Seo title={`${event.title} — The Media Collective`} description={event.summary || event.description} url={`/events/${event.id}`} />
       <Header />
 
-      <main className="container mx-auto max-w-6xl px-6 pb-16 pt-32 md:pb-24 md:pt-40 font-body">
+      <main className="px-6 pb-16 pt-32 md:pb-24 md:pt-40 font-body">
+        <div className="container mx-auto max-w-6xl">
         <header className="mb-10 md:mb-14">
           <div className="mb-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
             <span className="text-primary">{isPastEvent(event) ? "Past event" : "Upcoming event"}</span>
@@ -86,6 +87,7 @@ const EventDetails = () => {
               <Link to="/events/calendar" className="text-sm underline underline-offset-4 decoration-primary hover:text-primary">View year planner →</Link>
             </div>
           </aside>
+        </div>
         </div>
       </main>
 

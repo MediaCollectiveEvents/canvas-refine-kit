@@ -153,7 +153,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
       noise={false}
       grid={false}
       withFades={false}
-      className="relative text-slate-900 !pt-16 !pb-12 md:!pt-[72px] md:!pb-[60px] lg:!pt-[88px] lg:!pb-[72px]"
+      className="relative text-slate-900 !pt-16 !pb-8 md:!pt-[72px] md:!pb-12 lg:!pt-[88px] lg:!pb-12"
     >
       <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">

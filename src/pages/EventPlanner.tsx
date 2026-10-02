@@ -50,14 +50,14 @@ export default function EventPlanner() {
               {option.label}
             </Button>)}
           </div>
-          <div role="group" aria-label="Planner year" className="mt-7 flex flex-wrap gap-2">
+          <div role="group" aria-label="Planner year" className="mt-3 flex flex-wrap gap-2">
             {years.map(option => <Button key={option} variant="ghost" aria-pressed={year === option} onClick={() => { setYear(option); setLocation("all"); }}
               className={`rounded-full px-4 text-sm ${year === option ? "bg-[#eaf4f2] font-medium text-[#245d55]" : "text-slate-600"}`}>{option}</Button>)}
           </div>
-          {showsPlannerExperiences(source) && <div className="mt-6">
+          {showsPlannerExperiences(source) && <div className="mt-3">
             <EventExperienceFilters value={experience} onChange={setExperience} resultsId="year-planner" light />
           </div>}
-          <div className="mt-4 flex flex-wrap items-center gap-3">
+          <div className="mt-3 flex flex-wrap items-center gap-3">
             <label htmlFor="planner-location" className="text-sm text-slate-600">Location</label>
             <select id="planner-location" value={location} onChange={event => setLocation(event.target.value)} aria-controls="year-planner"
               className="max-w-full rounded-full border border-slate-200 bg-transparent py-2 pl-3 pr-8 text-sm text-[#0B1F36] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#27CDBA]">
@@ -65,8 +65,8 @@ export default function EventPlanner() {
               {locations.map(city => <option key={city} value={city}>{city}</option>)}
             </select>
           </div>
-          {source === "all" && <p className="mt-3 text-sm text-slate-500">Experience filters apply to Media Collective events. External industry events remain visible in this view.</p>}
-          <div className="mt-6">
+          {source === "all" && <p className="mt-2 text-sm text-slate-500">Experience filters apply to Media Collective events. External industry events remain visible in this view.</p>}
+          <div className="mt-4">
             <Button variant="ghost" disabled={!snapshot.includedCount}
               onClick={() => downloadCalendarFile(snapshot.ics, snapshot.filename)}
               className="h-auto max-w-full rounded-full px-4 py-2 whitespace-normal text-left text-sm text-[#0B1F36] hover:bg-slate-100 hover:text-[#0B1F36] focus-visible:ring-2 focus-visible:ring-[#27CDBA]">
