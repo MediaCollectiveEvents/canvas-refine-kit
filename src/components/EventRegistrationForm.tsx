@@ -338,7 +338,7 @@ const EventRegistrationForm = ({
                   <div className="p-4 bg-muted/50 rounded-lg text-sm text-muted-foreground leading-relaxed">
                     <p>
                       During sign-up, guests consent to the use and sharing of relevant contact information for event management and appropriate event follow-up. Sharing remains subject to explicit consent and our privacy policy; contact information is not automatically shared with all partners. We respect your privacy. By submitting this form, you agree that we may store and process your personal data to manage your event registration and notify you about relevant opportunities. Your data will not be shared with third parties without your consent. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
-                      <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>.
+                      <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
                     </p>
                   </div>
 
