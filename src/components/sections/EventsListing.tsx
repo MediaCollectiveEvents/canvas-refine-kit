@@ -4,12 +4,13 @@ import { motion } from "framer-motion";
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import EventExperienceFilters from "@/components/shared/EventExperienceFilters";
 import PageHero from "@/components/shared/PageHero";
 import SectionDivider from "@/components/shared/SectionDivider";
 import SectionHeader from "@/components/shared/SectionHeader";
 import PageCTA from "@/components/shared/PageCTA";
 
-import { getEventContent, getUpcomingEvents, getPastEvents, getRegistrationId, EVENT_EXPERIENCE_FILTERS, filterEventsByExperience, type EventExperienceFilter, type EventItem } from "@/lib/events";
+import { getEventContent, getUpcomingEvents, getPastEvents, getRegistrationId, filterEventsByExperience, type EventExperienceFilter, type EventItem } from "@/lib/events";
 
 // Event artwork from assets
 import greenline from "@/assets/events/greenline.png";
@@ -207,18 +208,10 @@ export default function EventsListing({ content, onRegisterClick }: {
         <section aria-label="Filter events by experience" className="px-6 pt-8 md:pt-12">
           <div className="container mx-auto max-w-6xl">
             <p className="mb-4 font-body text-sm text-muted-foreground">Explore by experience</p>
-            <div role="group" aria-label="Event experience" className="flex flex-wrap items-center justify-start gap-2 md:gap-3">
-              {EVENT_EXPERIENCE_FILTERS.map(({ value, label }) => (
-                <Button key={value} type="button" size="default"
-                  variant={experience === value ? "brand" : "ghost"}
-                  aria-pressed={experience === value}
-                  aria-controls="event-results"
-                  onClick={() => setExperience(value)}
-                  className="h-10 rounded-full px-4 py-2 font-body text-sm leading-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
-                  {label}
-                </Button>
-              ))}
-            </div>
+            <EventExperienceFilters value={experience} onChange={setExperience} resultsId="event-results" />
+            <Button asChild variant="textcta" size="text" className="mt-6">
+              <a href="/events/calendar">View year planner →</a>
+            </Button>
             <p role="status" className="mt-4 font-body text-sm text-muted-foreground">
               {upcomingEvents.length + pastEvents.length === 0
                 ? "No events match this experience yet. Explore all events."

@@ -1,4 +1,4 @@
-import type { EventItem } from "./events";
+import { getEventYear, sortEvents, type EventItem } from "./events";
 
 export interface EventCalendarActions {
   googleUrl: string;
@@ -58,6 +58,24 @@ function foldLine(line: string): string {
   return result;
 }
 
+function eventLines(event: EventItem, start: Date, end: Date, generatedAt: Date): string[] {
+  const location = [event.venue, event.location].filter(Boolean).join(", ");
+  const description = event.description || event.summary || "";
+  return [
+    "BEGIN:VEVENT", `UID:${getCalendarUid(event.id)}`,
+    `DTSTAMP:${utcStamp(generatedAt)}`, `DTSTART:${utcStamp(start)}`, `DTEND:${utcStamp(end)}`,
+    `SUMMARY:${escapeText(event.title)}`,
+    ...(description ? [`DESCRIPTION:${escapeText(description)}`] : []),
+    ...(location ? [`LOCATION:${escapeText(location)}`] : []),
+    "END:VEVENT",
+  ];
+}
+
+function calendarFile(entries: string[][]): string {
+  return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//The Media Collective//Events//EN", "CALSCALE:GREGORIAN",
+    ...entries.flat(), "END:VCALENDAR"].map(foldLine).join("\r\n") + "\r\n";
+}
+
 export function getEventCalendar(event: EventItem, generatedAt = new Date()): EventCalendarActions | undefined {
   if (!event.timeZone || !Number.isSafeInteger(event.id) || event.id < 1) return undefined;
   const start = scheduledInstant(event.startsAt, event.timeZone);
@@ -78,17 +96,40 @@ export function getEventCalendar(event: EventItem, generatedAt = new Date()): Ev
     startdt: start.toISOString(), enddt: end.toISOString(), allday: "false",
     body: description, location,
   }).toString();
-  const lines = [
-    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//The Media Collective//Events//EN",
-    "CALSCALE:GREGORIAN", "BEGIN:VEVENT", `UID:${getCalendarUid(event.id)}`,
-    `DTSTAMP:${utcStamp(generatedAt)}`, `DTSTART:${utcStamp(start)}`, `DTEND:${utcStamp(end)}`,
-    `SUMMARY:${escapeText(event.title)}`,
-    ...(description ? [`DESCRIPTION:${escapeText(description)}`] : []),
-    ...(location ? [`LOCATION:${escapeText(location)}`] : []),
-    "END:VEVENT", "END:VCALENDAR",
-  ];
   return {
     googleUrl: google.toString(), outlookUrl: outlook.toString(),
-    ics: lines.map(foldLine).join("\r\n") + "\r\n", filename: `media-collective-event-${event.id}.ics`,
+    ics: calendarFile([eventLines(event, start, end, generatedAt)]), filename: `media-collective-event-${event.id}.ics`,
   };
+}
+
+export interface YearCalendarSnapshot {
+  ics: string;
+  filename: string;
+  includedCount: number;
+  omittedCount: number;
+}
+
+export function getYearCalendarSnapshot(events: readonly EventItem[], year: number, generatedAt = new Date()): YearCalendarSnapshot {
+  const announced = sortEvents([...events].filter(event => getEventYear(event) === year));
+  const entries = announced.flatMap(event => {
+    if (!event.timeZone || !Number.isSafeInteger(event.id) || event.id < 1) return [];
+    const start = scheduledInstant(event.startsAt, event.timeZone);
+    const end = scheduledInstant(event.endsAt, event.timeZone);
+    return start && end && end > start ? [eventLines(event, start, end, generatedAt)] : [];
+  });
+  return {
+    ics: calendarFile(entries), filename: `media-collective-${year}-events.ics`,
+    includedCount: entries.length, omittedCount: announced.length - entries.length,
+  };
+}
+
+export function downloadCalendarFile(ics: string, filename: string): void {
+  const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

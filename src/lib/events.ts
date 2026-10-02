@@ -196,3 +196,29 @@ export function getRegistrationOptions(source: unknown = aggregateContent): { id
   });
   return [...options, { id: "all-events", label: "All Events" }];
 }
+
+export interface EventPlannerMonth {
+  month: number;
+  events: EventItem[];
+  announcedCount: number;
+}
+
+export function getEventYear(event: EventItem): number | undefined {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(event.date)) return undefined;
+  const date = new Date(`${event.date}T00:00:00Z`);
+  if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== event.date) return undefined;
+  return Number(event.date.slice(0, 4));
+}
+
+export function getEventMonths(year: number, category: EventExperienceFilter = "all", source: unknown = aggregateContent): EventPlannerMonth[] {
+  const events = getAllEvents(source).filter(event => getEventYear(event) === year);
+  return Array.from({ length: 12 }, (_, index) => {
+    const announced = events.filter(event => Number(event.date.slice(5, 7)) === index + 1);
+    return { month: index + 1, events: filterEventsByExperience(announced, category), announcedCount: announced.length };
+  });
+}
+
+export function getPlannerEmptyMessage(month: EventPlannerMonth): string | undefined {
+  if (month.events.length) return undefined;
+  return month.announcedCount ? "No matching events this month" : "No events announced";
+}

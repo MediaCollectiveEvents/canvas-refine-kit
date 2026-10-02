@@ -7,6 +7,7 @@ import settings from "@/content/settings.json";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Events from "@/pages/Events";
+import EventPlanner from "@/pages/EventPlanner";
 import EventDetails from "@/pages/EventDetails";
 import Blog from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
@@ -40,7 +41,7 @@ const App = () => {
   // - import.meta.env.PROD = false in `npm run dev` → you see full site
   // - import.meta.env.PROD = true on live site → maintenanceMode applies
   const maintenanceMode =
-    import.meta.env.PROD && (settings as any).maintenanceMode === true;
+    import.meta.env.PROD && (settings as { maintenanceMode?: boolean }).maintenanceMode === true;
 
   return (
     // 🔵 Global site wrapper using the CMS-driven dark background
@@ -61,6 +62,7 @@ const App = () => {
 
               {/* Events */}
               <Route path="/events" element={<Events />} />
+              <Route path="/events/calendar" element={<EventPlanner />} />
               <Route path="/events/:id" element={<EventDetails />} />
 
               {/* Blog listing + individual posts */}
