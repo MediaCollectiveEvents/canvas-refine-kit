@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getAllEvents, getEventById, getEventIssues, getPastEvents, getRegistrationId,
-  getRegistrationOptions, getUpcomingEvents, normalizeEvents,
+  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience,
 } from "../src/lib/events";
 
 const now = new Date("2026-10-02T12:00:00Z");
@@ -107,4 +107,23 @@ test("approved calendar offsets and IBC display label remain consistent", () => 
   assert.equal(ibc.endsAt, "2026-09-12T10:00:00+02:00");
   assert.equal(ibc.timeZone, "Europe/Amsterdam");
   assert.equal(ibc.time, "08:00–10:00 CEST");
+});
+
+for (const [category, expected] of [
+  ["all", [1, 2, 3, 4]],
+  ["networking-social", [1, 2, 3, 4]],
+  ["conference-aligned", [1, 2, 3]],
+  ["knowledge-discussion", [1, 4]],
+] as const) {
+  test(`experience filter ${category} preserves canonical membership and order`, () => {
+    assert.deepEqual(filterEventsByExperience(getAllEvents(), category).map(event => event.id), expected);
+  });
+}
+
+test("unclassified events stay in All; empty categories remain empty without inference", () => {
+  const events = normalizeEvents({ events: [{ id: 10, title: "Networking conference", date: "2027-01-01" }] });
+  assert.deepEqual(filterEventsByExperience(events, "all").map(event => event.id), [10]);
+  assert.deepEqual(filterEventsByExperience(events, "networking-social"), []);
+  assert.deepEqual(filterEventsByExperience(events, "conference-aligned"), []);
+  assert.deepEqual(filterEventsByExperience(events, "knowledge-discussion"), []);
 });

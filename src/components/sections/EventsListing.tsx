@@ -9,7 +9,7 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import SectionHeader from "@/components/shared/SectionHeader";
 import PageCTA from "@/components/shared/PageCTA";
 
-import { getEventContent, getUpcomingEvents, getPastEvents, getRegistrationId, type EventItem } from "@/lib/events";
+import { getEventContent, getUpcomingEvents, getPastEvents, getRegistrationId, EVENT_EXPERIENCE_FILTERS, filterEventsByExperience, type EventExperienceFilter, type EventItem } from "@/lib/events";
 
 // Event artwork from assets
 import greenline from "@/assets/events/greenline.png";
@@ -173,9 +173,10 @@ export default function EventsListing({ content, onRegisterClick }: {
   onRegisterClick?: (registrationId: string) => void;
 }) {
   const [openEventId, setOpenEventId] = useState<number | null>(null);
+  const [experience, setExperience] = useState<EventExperienceFilter>("all");
   const { hero, intro } = getEventContent(content);
-  const upcomingEvents = getUpcomingEvents(undefined, content);
-  const pastEvents = getPastEvents(content);
+  const upcomingEvents = filterEventsByExperience(getUpcomingEvents(undefined, content), experience);
+  const pastEvents = filterEventsByExperience(getPastEvents(content), experience);
   const handleToggleDetails = (id: number) => setOpenEventId(previous => previous === id ? null : id);
   return (
       <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
@@ -203,8 +204,32 @@ export default function EventsListing({ content, onRegisterClick }: {
           </section>
         )}
 
+        <section aria-label="Filter events by experience" className="px-6 pt-8 md:pt-12">
+          <div className="container mx-auto max-w-6xl">
+            <p className="mb-4 font-body text-sm text-muted-foreground">Explore by experience</p>
+            <div role="group" aria-label="Event experience" className="flex flex-wrap items-center justify-start gap-2 md:gap-3">
+              {EVENT_EXPERIENCE_FILTERS.map(({ value, label }) => (
+                <Button key={value} type="button" size="default"
+                  variant={experience === value ? "brand" : "ghost"}
+                  aria-pressed={experience === value}
+                  aria-controls="event-results"
+                  onClick={() => setExperience(value)}
+                  className="h-10 rounded-full px-4 py-2 font-body text-sm leading-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+                  {label}
+                </Button>
+              ))}
+            </div>
+            <p role="status" className="mt-4 font-body text-sm text-muted-foreground">
+              {upcomingEvents.length + pastEvents.length === 0
+                ? "No events match this experience yet. Explore all events."
+                : `${upcomingEvents.length + pastEvents.length} events`}
+            </p>
+          </div>
+        </section>
+
+        <div id="event-results">
         {/* UPCOMING EVENTS */}
-        <section className="py-24 md:py-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
+        {upcomingEvents.length > 0 && <section className="pt-12 pb-24 md:pt-16 md:pb-32 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
           {/* background blobs */}
           <div className="absolute inset-0 opacity-30">
             <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
@@ -212,7 +237,7 @@ export default function EventsListing({ content, onRegisterClick }: {
           </div>
 
           <div className="container mx-auto max-w-6xl relative z-10">
-            <SectionHeader title="Upcoming " accentWord="Events" />
+            <SectionHeader title="Upcoming " accentWord="Events" className="text-left mb-8 md:mb-12" />
             <div className="space-y-24">
               {upcomingEvents.map((event, index) => (
                 <EventCard
@@ -226,15 +251,15 @@ export default function EventsListing({ content, onRegisterClick }: {
               ))}
             </div>
           </div>
-        </section>
+        </section>}
 
         {/* PAST EVENTS */}
         {pastEvents.length > 0 && <SectionDivider />}
 
         {pastEvents.length > 0 && (
-          <section className="py-20 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden">
+          <section className={`pb-20 px-6 bg-gradient-to-b from-background via-secondary/20 to-background relative overflow-hidden ${upcomingEvents.length ? "pt-20" : "pt-12 md:pt-16"}`}>
             <div className="container mx-auto max-w-6xl">
-              <SectionHeader title="Past " accentWord="Events" />
+              <SectionHeader title="Past " accentWord="Events" className="text-left mb-8 md:mb-12" />
               <div className="space-y-24">
                 {pastEvents.map((event, index) => (
                   <EventCard
@@ -250,6 +275,8 @@ export default function EventsListing({ content, onRegisterClick }: {
             </div>
           </section>
         )}
+
+        </div>
 
         {/* CTA */}
         <SectionDivider className="py-12" />

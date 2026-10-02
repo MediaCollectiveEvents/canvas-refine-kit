@@ -14,6 +14,24 @@ export const EVENT_IDENTITIES: Readonly<Partial<Record<number, EventIdentity>>> 
 
 export type EventExperienceCategory = "networking-social" | "conference-aligned" | "knowledge-discussion";
 
+export const EVENT_EXPERIENCE_LABELS: Readonly<Record<EventExperienceCategory, string>> = {
+  "networking-social": "Networking & social",
+  "conference-aligned": "Conference-aligned",
+  "knowledge-discussion": "Knowledge & discussion",
+};
+
+export type EventExperienceFilter = "all" | EventExperienceCategory;
+
+export const EVENT_EXPERIENCE_FILTERS: readonly { value: EventExperienceFilter; label: string }[] = [
+  { value: "all", label: "All events" },
+  ...Object.entries(EVENT_EXPERIENCE_LABELS).map(([value, label]) => ({ value: value as EventExperienceCategory, label })),
+];
+
+// Filtering retains the caller's date/status ordering and never infers categories.
+export function filterEventsByExperience(events: EventItem[], category: EventExperienceFilter): EventItem[] {
+  return events.filter(event => category === "all" || event.experienceCategories?.includes(category));
+}
+
 const experienceCategories = new Set<EventExperienceCategory>([
   "networking-social", "conference-aligned", "knowledge-discussion",
 ]);
