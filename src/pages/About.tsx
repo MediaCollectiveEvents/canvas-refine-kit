@@ -13,7 +13,7 @@ import about from "@/content/about.json";
 const About = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const { hero, sections } = about as any;
+  const { hero, sections } = about;
 
   const openRegister = () => setIsFormOpen(true);
 
@@ -24,8 +24,9 @@ const About = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       {/* Top padding to clear fixed header (same as Home) */}
-      <main className="pt-[160px] sm:pt-[180px] lg:pt-[200px]">
+      <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
         <PageHero
+          presentation="business"
           eyebrow={hero?.eyebrow}
           title={hero?.title}
           description={hero?.description}
@@ -34,11 +35,7 @@ const About = () => {
           onPrimaryClick={hero?.cta?.label ? openRegister : undefined}
           // Hero image + visual controls from CMS
           image={hero?.image}
-          theme={hero?.theme ?? "dark"}
-          overlayStrength={hero?.overlayStrength ?? 0.5}
-          mobileCrop={hero?.mobileCrop}
-          imagePosition={hero?.imagePosition}
-          imageOffset={hero?.imageOffset}
+
         />
 
         <AboutPageRenderer sections={sections} onRegister={openRegister} />
