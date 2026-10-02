@@ -2,10 +2,27 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getAllEvents, getEventById, getEventIssues, getPastEvents, getRegistrationId,
-  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience,
+  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents,
 } from "../src/lib/events";
 
 const now = new Date("2026-10-02T12:00:00Z");
+
+test("related events rank approved overlap, then date distance, and exclude the current event", () => {
+  const expected = [[2, 3], [1, 3], [2, 1], [1, 3]];
+  for (const id of [1, 2, 3, 4]) {
+    const current = getEventById(id)!;
+    assert.deepEqual(getRelatedEvents(current).map(event => event.id), expected[id - 1]);
+    assert.deepEqual(getRelatedEvents(current, { events: [...getAllEvents()].reverse() }).map(event => event.id), expected[id - 1]);
+  }
+});
+
+test("related events require approved categories and use numeric ID for equal date-distance ties", () => {
+  const current = getEventById(1)!;
+  assert.deepEqual(getRelatedEvents({ ...current, experienceCategories: undefined }), []);
+  const candidates = [3, 2].map(id => ({ ...current, id }));
+  assert.deepEqual(getRelatedEvents(current, { events: candidates }).map(event => event.id), [2, 3]);
+  assert.deepEqual(getRelatedEvents(current, { events: [{ ...current, id: 5, experienceCategories: ["unsupported"] }] }), []);
+});
 
 test("aggregate IDs survive reordering and resolve numeric detail routes", () => {
   const events = getAllEvents();

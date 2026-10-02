@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-import { EVENT_EXPERIENCE_LABELS, formatEventDate, getEventById, isPastEvent } from "@/lib/events";
+import { EVENT_EXPERIENCE_LABELS, formatEventDate, getEventById, getRelatedEvents, isPastEvent } from "@/lib/events";
 import { getEventIndustryContext, MEDIA_COLLECTIVE_PLANNER_CITIES } from "@/lib/industryEvents";
 
 // Exact, reviewed logistics fragments from the four current records.
@@ -45,6 +45,7 @@ const EventDetails = () => {
   }
 
   const industryContext = getEventIndustryContext(event.id);
+  const relatedEvents = getRelatedEvents(event);
 
   return (
     <div className="min-h-screen bg-[#101d24] text-foreground">
@@ -102,6 +103,17 @@ const EventDetails = () => {
             Official information for {industryContext.event.name} ↗
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
+        </section>}
+        {relatedEvents.length > 0 && <section aria-label="Related Media Collective events" className="mt-10 max-w-2xl md:mt-12">
+          <h2 className="mb-3 font-display text-2xl font-light">Related Media Collective events</h2>
+          <p className="text-sm text-muted-foreground">Gatherings with shared experience categories.</p>
+          <ul className="mt-5 space-y-6">
+            {relatedEvents.map(related => <li key={related.id}>
+              <h3 className="text-lg font-medium leading-relaxed"><Link to={`/events/${related.id}`} className="underline underline-offset-4 decoration-primary hover:text-primary">{related.title}</Link></h3>
+              <p className="mt-2 text-sm text-foreground/80"><time dateTime={related.date}>{formatEventDate(related.date)}</time> · {isPastEvent(related) ? "Past event" : "Upcoming event"}</p>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{related.experienceCategories?.map(category => EVENT_EXPERIENCE_LABELS[category]).join(" · ")}</p>
+            </li>)}
+          </ul>
         </section>}
         </div>
       </main>

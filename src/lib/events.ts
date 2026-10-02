@@ -160,6 +160,20 @@ export function getAllEvents(source: unknown = aggregateContent): EventItem[] {
   return sortEvents(normalizeEvents(source));
 }
 
+// Discovery by approved category overlap only, never an endorsement or inferred relationship.
+export function getRelatedEvents(current: EventItem, source: unknown = aggregateContent): EventItem[] {
+  const categories = new Set(current.experienceCategories?.filter(category => experienceCategories.has(category)));
+  const currentDate = Date.parse(current.date);
+  return getAllEvents(source).filter(event => event.id !== current.id).map(event => {
+    const shared = new Set(event.experienceCategories?.filter(category => categories.has(category))).size;
+    const date = Date.parse(event.date);
+    const distance = Number.isFinite(currentDate) && Number.isFinite(date) ? Math.abs(date - currentDate) : Infinity;
+    return { event, shared, distance };
+  }).filter(candidate => candidate.shared > 0).sort((a, b) =>
+    b.shared - a.shared || (a.distance === b.distance ? 0 : a.distance - b.distance) || a.event.id - b.event.id
+  ).slice(0, 2).map(candidate => candidate.event);
+}
+
 export function getUpcomingEvents(limit?: number, source: unknown = aggregateContent, now = new Date()): EventItem[] {
   const events = getAllEvents(source).filter(event => !isPastEvent(event, now));
   return typeof limit === "number" ? events.slice(0, limit) : events;
