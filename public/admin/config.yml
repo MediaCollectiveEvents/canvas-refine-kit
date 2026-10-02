@@ -692,6 +692,19 @@ collections:
                 widget: select
                 required: false
                 options: [upcoming, past]
+              - label: Experience Categories
+                name: experienceCategories
+                widget: select
+                multiple: true
+                required: false
+                options:
+                  - { label: Networking & social gatherings, value: networking-social }
+                  - { label: Conference-aligned gatherings, value: conference-aligned }
+                  - { label: Knowledge & discussion forums, value: knowledge-discussion }
+                hint: "Assign only confirmed categories. Status is controlled separately."
+              - { label: Starts At, name: startsAt, widget: string, required: false, hint: "Confirmed ISO 8601 timestamp with UTC offset. Leave blank until confirmed." }
+              - { label: Ends At, name: endsAt, widget: string, required: false, hint: "Confirmed ISO 8601 timestamp with UTC offset. Leave blank until confirmed." }
+              - { label: Time Zone, name: timeZone, widget: string, required: false, hint: "Confirmed IANA zone, for example Europe/London. Do not infer from venue." }
               - { label: Time, name: time, widget: string, required: false }
               - { label: Summary, name: summary, widget: text, required: false }
               - { label: Description, name: description, widget: text, required: false }

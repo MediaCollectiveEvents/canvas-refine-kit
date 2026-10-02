@@ -29,7 +29,15 @@
       "title": "Post-NAB Review Breakfast 2026: Signals, Strategy and Operating Reality",
       "type": "upcoming",
       "id": 1,
-      "description": "Breakfast networking at The Broadcaster, White City, London, with Caretta Research market intelligence, industry perspectives and a panel discussion on signals, strategy and operating reality."
+      "description": "Breakfast networking at The Broadcaster, White City, London, with Caretta Research market intelligence, industry perspectives and a panel discussion on signals, strategy and operating reality.",
+      "startsAt": "2026-05-06T09:30:00+01:00",
+      "endsAt": "2026-05-06T12:00:00+01:00",
+      "timeZone": "Europe/London",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned",
+        "knowledge-discussion"
+      ]
     },
     {
       "details": "Wednesday 13 May 2026, 5:00 PM–9:00 PM, at The Hand & Flower, Olympia, London. This informal, invite-only after-show reception takes place in the private first-floor bar, with complimentary Prosecco on arrival, canapés and refreshments for guests across broadcast, streaming and media technology.",
@@ -41,20 +49,53 @@
       "title": "The Media Collective – MPTS 2026 – After Show Drinks Reception",
       "type": "upcoming",
       "id": 2,
-      "description": "Meet peers after MPTS in the private first-floor bar at The Hand & Flower, Olympia, London, with complimentary Prosecco on arrival, canapés and refreshments."
+      "description": "Meet peers after MPTS in the private first-floor bar at The Hand & Flower, Olympia, London, with complimentary Prosecco on arrival, canapés and refreshments.",
+      "startsAt": "2026-05-13T17:00:00+01:00",
+      "endsAt": "2026-05-13T21:00:00+01:00",
+      "timeZone": "Europe/London",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ]
     },
     {
-      "details": "Saturday 12 September 2026, 8:00 AM–10:00 AM CET, at The Traveller, 2 Europaplein, 1078 GZ Amsterdam. An informal networking breakfast for media, broadcast and entertainment professionals.",
+      "details": "Saturday 12 September 2026, 8:00 AM–10:00 AM CEST, at The Traveller, 2 Europaplein, 1078 GZ Amsterdam. An informal networking breakfast for media, broadcast and entertainment professionals.",
       "imageKey": "",
       "summary": "An informal networking breakfast for media, broadcast and entertainment professionals at The Traveller, Amsterdam.",
-      "time": "08:00–10:00 CET",
+      "time": "08:00–10:00 CEST",
       "date": "2026-09-12",
       "venue": "The Traveller",
       "location": "2 Europaplein, 1078 GZ Amsterdam",
       "title": "Join us at The Media Collective Networking Breakfast @ IBC 2026",
       "type": "past",
       "id": 3,
-      "description": "Connect with media, broadcast and entertainment professionals over an informal networking breakfast at The Traveller during IBC 2026."
+      "description": "Connect with media, broadcast and entertainment professionals over an informal networking breakfast at The Traveller during IBC 2026.",
+      "startsAt": "2026-09-12T08:00:00+02:00",
+      "endsAt": "2026-09-12T10:00:00+02:00",
+      "timeZone": "Europe/Amsterdam",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "OFF AIR: The Unfiltered Future of Media",
+      "date": "2026-11-24",
+      "time": "15:00–18:00",
+      "venue": "The Broadcaster",
+      "location": "White City, London",
+      "startsAt": "2026-11-24T15:00:00+00:00",
+      "endsAt": "2026-11-24T18:00:00+00:00",
+      "timeZone": "Europe/London",
+      "experienceCategories": [
+        "networking-social",
+        "knowledge-discussion"
+      ],
+      "summary": "An invitation-only forum bringing senior media leaders together for candid discussion, audience participation, executive networking and the decodeTV Impact Awards.",
+      "description": "Presented by The Media Collective, Faultline and decodeTV, OFF AIR brings leaders across broadcasting, streaming, content and media technology together to explore the technologies, business models and strategic choices shaping media through candid industry debate, audience-led discussion and practical insight.",
+      "details": "24 November 2026, 15:00–18:00, at The Broadcaster, White City, London. The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards, followed by drinks and executive networking. The programme will evolve and be developed in consultation with Strategic Partners and invited industry figures.",
+      "imageKey": "off-air"
     }
   ]
 }

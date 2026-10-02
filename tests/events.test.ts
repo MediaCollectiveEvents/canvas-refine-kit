@@ -10,7 +10,7 @@ const now = new Date("2026-10-02T12:00:00Z");
 test("aggregate IDs survive reordering and resolve numeric detail routes", () => {
   const events = getAllEvents();
   const reordered = { events: [...events].reverse() };
-  for (const id of [1, 2, 3]) {
+  for (const id of [1, 2, 3, 4]) {
     assert.equal(getEventById(String(id), reordered)?.id, id);
   }
   assert.equal(getEventById("nab-review-2026"), undefined);
@@ -36,9 +36,9 @@ test("missing and duplicate IDs never acquire position-based identities", () => 
 });
 
 test("an unmapped event resolves by its ID without borrowing an IBC registration", () => {
-  const source = { events: [...getAllEvents(), { id: 4, title: "IBC BREAKFAST", date: "2027-01-01" }] };
-  assert.equal(getEventById("4", source)?.id, 4);
-  assert.equal(getRegistrationId(4, source), undefined);
+  const source = { events: [...getAllEvents(), { id: 5, title: "IBC BREAKFAST", date: "2027-01-01" }] };
+  assert.equal(getEventById("5", source)?.id, 5);
+  assert.equal(getRegistrationId(5, source), undefined);
   assert.equal(getRegistrationOptions(source).length, 4);
 });
 
@@ -57,4 +57,54 @@ test("draft CMS data supplies content without mutating canonical records", () =>
   const source = { events: [{ ...getEventById(1), title: "Draft title" }] };
   assert.equal(getEventById(1, source)?.title, "Draft title");
   assert.equal(getEventById(1)?.title, original);
+});
+
+test("optional experience categories are explicit, validated and deduplicated", () => {
+  const events = normalizeEvents({ events: [
+    { id: 10, title: "Networking conference", type: "upcoming" },
+    { id: 11, experienceCategories: ["networking-social", "knowledge-discussion", "networking-social", "unknown", 12] },
+  ] });
+  assert.equal(events[0].experienceCategories, undefined);
+  assert.equal(events[0].type, "upcoming");
+  assert.deepEqual(events[1].experienceCategories, ["networking-social", "knowledge-discussion"]);
+});
+
+test("calendar metadata is optional and retained without inferring timestamps", () => {
+  const events = normalizeEvents({ events: [
+    { id: 10, date: "2026-05-06", time: "09:30–12:00", venue: "London" },
+    { id: 11, startsAt: "2027-01-02T09:00:00+00:00", endsAt: "2027-01-02T10:00:00+00:00", timeZone: "Europe/London" },
+  ] });
+  assert.equal(events[0].startsAt, undefined);
+  assert.equal(events[0].endsAt, undefined);
+  assert.equal(events[0].timeZone, undefined);
+  assert.equal(events[0].date, "2026-05-06");
+  assert.equal(events[1].startsAt, "2027-01-02T09:00:00+00:00");
+  assert.equal(events[1].endsAt, "2027-01-02T10:00:00+00:00");
+  assert.equal(events[1].timeZone, "Europe/London");
+});
+
+
+test("OFF AIR is upcoming, routable and remains explicitly unmapped for registration", () => {
+  assert.equal(getAllEvents().length, 4);
+  assert.deepEqual(getUpcomingEvents(undefined, undefined, now).map(event => event.id), [4]);
+  assert.deepEqual(getPastEvents(undefined, now).map(event => event.id), [3, 2, 1]);
+  const event = getEventById("4")!;
+  assert.equal(event.title, "OFF AIR: The Unfiltered Future of Media");
+  assert.deepEqual(event.experienceCategories, ["networking-social", "knowledge-discussion"]);
+  assert.equal(event.startsAt, "2026-11-24T15:00:00+00:00");
+  assert.equal(event.endsAt, "2026-11-24T18:00:00+00:00");
+  assert.equal(event.timeZone, "Europe/London");
+  assert.match(event.details!, /provisional programme/);
+  assert.equal(getRegistrationId(4), undefined);
+  assert.equal(getRegistrationOptions().some(option => option.label.includes("OFF AIR")), false);
+});
+
+test("approved calendar offsets and IBC display label remain consistent", () => {
+  assert.equal(getEventById(1)?.startsAt, "2026-05-06T09:30:00+01:00");
+  assert.equal(getEventById(2)?.endsAt, "2026-05-13T21:00:00+01:00");
+  const ibc = getEventById(3)!;
+  assert.equal(ibc.startsAt, "2026-09-12T08:00:00+02:00");
+  assert.equal(ibc.endsAt, "2026-09-12T10:00:00+02:00");
+  assert.equal(ibc.timeZone, "Europe/Amsterdam");
+  assert.equal(ibc.time, "08:00–10:00 CEST");
 });

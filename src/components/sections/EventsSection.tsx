@@ -19,6 +19,7 @@ interface EventsSectionProps {
 }
 
 function getImageForKey(key?: string, venue?: string, title?: string) {
+  if (key === "off-air") return "/uploads/off-air.png";
   const value = (key || venue || title || "").toLowerCase();
   if (value.includes("greenline")) return greenlineImg;
   if (value.includes("hand") && value.includes("flower")) return handandflowerImg;

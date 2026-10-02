@@ -18,6 +18,7 @@ import handandflower from "@/assets/events/handandflower.png";
 import traveller from "@/assets/events/traveller.png";
 
 const eventImages: Record<string, string> = {
+  "off-air": "/uploads/off-air.png",
   greenline,
   broadcaster,
   handandflower,

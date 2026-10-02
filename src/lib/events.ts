@@ -12,8 +12,18 @@ export const EVENT_IDENTITIES: Readonly<Partial<Record<number, EventIdentity>>> 
   3: { routeAliases: [], registrationId: "networking-breakfast" },
 });
 
+export type EventExperienceCategory = "networking-social" | "conference-aligned" | "knowledge-discussion";
+
+const experienceCategories = new Set<EventExperienceCategory>([
+  "networking-social", "conference-aligned", "knowledge-discussion",
+]);
+
 export interface EventItem {
   id: number;
+  experienceCategories?: EventExperienceCategory[];
+  startsAt?: string;
+  endsAt?: string;
+  timeZone?: string;
   title: string;
   date: string;
   location: string;
@@ -78,6 +88,13 @@ export function normalizeEvents(source: unknown = aggregateContent): EventItem[]
   });
   return records.filter(row => validId(row.id) && counts.get(row.id) === 1).map(row => ({
     id: row.id as number,
+    experienceCategories: Array.isArray(row.experienceCategories)
+      ? [...new Set(row.experienceCategories.filter((value): value is EventExperienceCategory =>
+        typeof value === "string" && experienceCategories.has(value as EventExperienceCategory)))]
+      : undefined,
+    startsAt: typeof row.startsAt === "string" ? row.startsAt : undefined,
+    endsAt: typeof row.endsAt === "string" ? row.endsAt : undefined,
+    timeZone: typeof row.timeZone === "string" ? row.timeZone : undefined,
     title: text(row.title), date: text(row.date), location: text(row.location),
     venue: text(row.venue), type: text(row.type), imageKey: text(row.imageKey),
     time: text(row.time), summary: text(row.summary), description: text(row.description),
