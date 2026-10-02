@@ -255,7 +255,7 @@ export default function EventsListing({ content, onRegisterClick }: {
         <PageCTA
           title="Want to attend our next"
           accentWord="event?"
-          description="Become a member of The Media Collective and get exclusive access to all our events and networking opportunities."
+          description="Anyone can request an invitation. Attendance is subject to The Media Collective’s event curation. All events are free to attend; membership is not required."
           buttonLabel="Register Interest"
           onClick={() => onRegisterClick?.("")}
         />

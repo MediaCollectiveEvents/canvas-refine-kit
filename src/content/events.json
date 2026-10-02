@@ -2,7 +2,7 @@
   "hero": {
     "imagePosition": "center",
     "theme": "dark",
-    "eyebrow": "test",
+    "eyebrow": "",
     "imageOffset": 0,
     "cta": {
       "label": "join us",
@@ -15,46 +15,46 @@
     "description": "Breakfasts, receptions and roundtables that bring media professionals together."
   },
   "intro": {
-    "title": "Our Events",
-    "body": "We host relaxed, invite-only breakfasts, receptions and roundtables for senior media, broadcast and technology professionals. Each event is designed to create space for real conversations, not just business cards."
+    "title": "",
+    "body": ""
   },
   "events": [
     {
-      "details": "This invite-only breakfast brings together senior leaders from broadcasters, studios and technology companies attending IBC. Expect an informal, facilitated conversation over coffee and breakfast, with plenty of time to connect with peers before the show floor opens.",
-      "summary": "NAB 2026, unpacked. An expert analysis of the show’s defining technology and trends. Join us for brunch, refreshments, networking, and panel discussions.",
-      "time": "09:00",
+      "details": "Wednesday 6 May 2026, 9:30 AM–12:00 PM, at The Broadcaster, White City, London. The programme combines breakfast networking, Caretta Research market intelligence, expert perspectives, panel discussion and practical discussion, including security and organisational change.",
+      "summary": "A post-NAB breakfast combining networking, market intelligence, expert perspectives and practical discussion.",
+      "time": "09:30–12:00",
       "date": "2026-05-06",
       "venue": "The Broadcaster",
       "location": "White City, London",
-      "title": "NAB Review",
+      "title": "Post-NAB Review Breakfast 2026: Signals, Strategy and Operating Reality",
       "type": "upcoming",
       "id": 1,
-      "description": "Join us for a relaxed breakfast at IBC to discuss trends, challenges and opportunities in media and broadcast."
+      "description": "Breakfast networking at The Broadcaster, White City, London, with Caretta Research market intelligence, industry perspectives and a panel discussion on signals, strategy and operating reality."
     },
     {
-      "details": "Hosted upstairs at the Hand and Flower, this reception is an opportunity to unwind after a busy day and catch up with familiar faces and new contacts. We’ll provide drinks, light food and some gentle facilitation to make introductions easy and natural.",
-      "summary": "The show continues at The Hand and Flower. Our signature reception just steps from Olympia. Join us for refreshments and the industry's go-to social.",
-      "time": "18:00",
-      "date": "2026-05-12",
-      "venue": "Hand and Flower",
+      "details": "Wednesday 13 May 2026, 5:00 PM–9:00 PM, at The Hand & Flower, Olympia, London. This informal, invite-only after-show reception takes place in the private first-floor bar, with complimentary Prosecco on arrival, canapés and refreshments for guests across broadcast, streaming and media technology.",
+      "summary": "An informal, invite-only after-show drinks reception for people across broadcast, streaming and media technology.",
+      "time": "17:00–21:00",
+      "date": "2026-05-13",
+      "venue": "The Hand & Flower",
       "location": "Olympia, London",
-      "title": "MPTS Reception",
+      "title": "The Media Collective – MPTS 2026 – After Show Drinks Reception",
       "type": "upcoming",
       "id": 2,
-      "description": "An evening reception for media leaders to reconnect, share experiences and meet new collaborators."
+      "description": "Meet peers after MPTS in the private first-floor bar at The Hand & Flower, Olympia, London, with complimentary Prosecco on arrival, canapés and refreshments."
     },
     {
-      "details": "This intimate summit brought together product, operations and technology leaders to share practical experiences with AI in scheduling, playout, personalisation and production workflows. Sessions combined short talks with small-group discussions and feedback.",
+      "details": "Saturday 12 September 2026, 8:00 AM–10:00 AM CET, at The Traveller, 2 Europaplein, 1078 GZ Amsterdam. An informal networking breakfast for media, broadcast and entertainment professionals.",
       "imageKey": "",
-      "summary": "Make the journey part of IBC. An exclusive Eurostar carriage hosted by Greenline. Enjoy a high-speed journey to Amsterdam with live music, refreshments, and networking.",
-      "time": "10:00",
+      "summary": "An informal networking breakfast for media, broadcast and entertainment professionals at The Traveller, Amsterdam.",
+      "time": "08:00–10:00 CET",
       "date": "2026-09-12",
       "venue": "The Traveller",
-      "location": "RAI, Amsterdam",
-      "title": "IBC BREAKFAST",
+      "location": "2 Europaplein, 1078 GZ Amsterdam",
+      "title": "Join us at The Media Collective Networking Breakfast @ IBC 2026",
       "type": "past",
       "id": 3,
-      "description": "A half-day summit exploring how AI is reshaping broadcast operations and audience experiences."
+      "description": "Connect with media, broadcast and entertainment professionals over an informal networking breakfast at The Traveller during IBC 2026."
     }
   ]
 }

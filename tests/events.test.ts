@@ -48,7 +48,7 @@ test("registration preserves confirmed IDs and past-event eligibility with canon
   assert.equal(getRegistrationId(3), "networking-breakfast");
   const options = getRegistrationOptions();
   assert.equal(options.length, 4);
-  assert.match(options.find(option => option.id === "mpts-drinks")!.label, /12 May 2026/);
+  assert.match(options.find(option => option.id === "mpts-drinks")!.label, /13 May 2026/);
   assert.deepEqual(options.at(-1), { id: "all-events", label: "All Events" });
 });
 

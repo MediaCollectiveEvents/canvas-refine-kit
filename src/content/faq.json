@@ -1,7 +1,7 @@
 [
   {
     "question": "Who are these events for?",
-    "answer": "Our events are designed for senior leaders and decision-makers across media, entertainment, and technology who want curated, high-value networking."
+    "answer": "Our events bring together people across media, entertainment and technology. Anyone can request an invitation; The Media Collective curates each event and decides whether it is the right fit for the applicant."
   },
   {
     "question": "How often do you run events?",
@@ -9,6 +9,22 @@
   },
   {
     "question": "Can I suggest a topic or partner?",
-    "answer": "Yes – we actively collaborate with sponsors and partners to shape formats and themes that align with their strategic goals."
+    "answer": "Yes. Standard partnership packages exist, and custom packages may be considered. Speaking opportunities are subject to fit for the event and agreement with The Media Collective. Custom events are developed collaboratively and only where they are considered a good fit for the community."
+  },
+  {
+    "question": "How does the invitation process work?",
+    "answer": "Anyone can request an invitation. Requesting an invitation does not guarantee attendance. The Media Collective curates each event and decides whether it is the right fit for the applicant. Applicants should receive a response by email within 5 working days. If accepted, they receive a link to register for the event. Membership is not required."
+  },
+  {
+    "question": "How much does it cost to attend?",
+    "answer": "All events are free to attend. Membership is not required."
+  },
+  {
+    "question": "How is guest contact information used?",
+    "answer": "During sign-up, guests consent to the use and sharing of relevant contact information for event management and appropriate event follow-up. Sharing remains subject to explicit consent and our privacy policy; contact information is not automatically shared with all partners."
+  },
+  {
+    "question": "What happens after a partner enquiry?",
+    "answer": "The Media Collective will make contact and arrange an introductory call within 3 working days."
   }
 ]

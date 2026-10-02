@@ -1,13 +1,13 @@
 {
   "posts": [
     {
-      "excerpt": "How to design event experiences that help people build genuine, long-term relationships.",
-      "body": "nviwjevnbciubcv3rv",
-      
-      "author": "Me",
+      "excerpt": "How The Media Collective creates space for discussion, introductions and collaboration across media.",
+      "body": "The Media Collective brings together people across broadcast, studios, streaming platforms and technology partners. Our invitation-only gatherings are designed for senior leaders and decision-makers across media, entertainment and technology. Events take place at key moments in the industry calendar, with formats ranging from panel conversations and private screenings to informal evening receptions. Each gathering is curated for balance and relevance, creating space for thoughtful discussion, introductions and collaboration.",
+
+      "author": "The Media Collective",
       "slug": "authentic-relationships",
       "date": "2025-01-01",
-      "title": "Test test test and test",
+      "title": "Creating space for media industry connections",
       "image": "/src/assets/blog/authentic-relationships.jpg",
       "category": "Community"
     }
