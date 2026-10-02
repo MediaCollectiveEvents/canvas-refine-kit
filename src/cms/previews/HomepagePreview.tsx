@@ -51,9 +51,7 @@ export default function HomepagePreview({ entry }: { entry: PreviewEntry }) {
         primaryCtaText={hero?.primaryCta?.label}
         primaryCtaHref={hero?.primaryCta?.url === "/register" ? undefined : hero?.primaryCta?.url}
         onPrimaryClick={hero?.primaryCta?.url === "/register" ? noop : undefined}
-        secondaryCtaText={hero?.secondaryCta?.label}
-        secondaryCtaHref={hero?.secondaryCta?.url === "/register" ? undefined : hero?.secondaryCta?.url}
-        onSecondaryClick={hero?.secondaryCta?.url === "/register" ? noop : undefined} />
+ />
       <HomepageRenderer sections={sections} onRegister={noop} />
     </div>
   );

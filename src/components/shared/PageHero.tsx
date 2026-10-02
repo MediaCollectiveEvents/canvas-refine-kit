@@ -58,19 +58,40 @@ export default function PageHero(props: PageHeroProps) {
   const resolvedBackgroundImage = image || backgroundImage || undefined;
   const eyebrowText = eyebrow ?? subtitle;
   const isModern = presentation !== "classic";
+  const isEditorial = presentation === "editorial";
 
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 120]);
 
+  if (isEditorial) {
+    return (
+      <header className="bg-[#f7f7f7] py-12 text-slate-900 md:py-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-5 sm:px-6 lg:grid-cols-12 lg:gap-10 lg:px-8">
+          <div className="min-w-0 lg:col-span-6">
+            {eyebrowText && <p className="mb-5 text-xs font-normal uppercase tracking-[0.12em] text-slate-500">{eyebrowText}</p>}
+            <h1 className="max-w-[16ch] font-display text-[40px] font-light leading-[1.08] tracking-tight md:text-[64px]">{title}</h1>
+            {description && <p className="mt-6 max-w-[48ch] font-body text-base leading-relaxed text-slate-600">{description}</p>}
+            {primaryCtaText && <Button size="lg" variant="brand" className="mt-8" asChild={!!primaryCtaHref && !onPrimaryClick} onClick={onPrimaryClick}>
+              {primaryCtaHref && !onPrimaryClick ? <a href={primaryCtaHref}>{primaryCtaText}</a> : primaryCtaText}
+            </Button>}
+          </div>
+          {resolvedBackgroundImage && <div className="overflow-hidden lg:col-span-6">
+            <img src={resolvedBackgroundImage} alt="" className="aspect-[2/1] w-full object-cover object-[82%_bottom] lg:aspect-[3/2] lg:object-right-bottom" />
+          </div>}
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className={`relative flex w-full items-center justify-center overflow-hidden bg-transparent pt-8 pb-16 ${isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
+    <header className={`relative flex w-full items-center justify-center overflow-hidden bg-transparent ${isEditorial ? "pt-8 pb-8 md:pb-10" : "pt-8 pb-16"} ${isEditorial ? "min-h-[520px] lg:min-h-[580px]" : isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
-          className="absolute inset-0 bg-cover bg-no-repeat"
+          className={`absolute inset-0 bg-cover bg-no-repeat ${isEditorial ? "bg-[position:82%_bottom] md:bg-[position:right_bottom]" : ""}`}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
-            backgroundPosition: "center bottom",
-            ...(isPreview ? {} : { y }),
+            ...(isEditorial ? {} : { backgroundPosition: "center bottom" }),
+            ...(isPreview || isEditorial ? {} : { y }),
           }}
           aria-hidden="true"
         />
@@ -83,7 +104,7 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      {isModern && <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-[#101d24]/95 via-[#101d24]/85 to-[#101d24]/75" />}
+      {isModern && <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-r ${isEditorial ? "from-[#101d24]/95 via-[#101d24]/80 to-[#101d24]/50" : "from-[#101d24]/95 via-[#101d24]/85 to-[#101d24]/75"}`} />}
 
       {!isModern && <div className="absolute inset-0 pointer-events-none">
         <div
@@ -102,10 +123,10 @@ export default function PageHero(props: PageHeroProps) {
         initial={{ opacity: 0, y: 26 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className={`relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8 ${isModern ? "py-12 text-left" : "text-center"}`}
+        className={`relative z-10 mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8 ${isModern ? `${isEditorial ? "py-8 md:py-10" : "py-12"} text-left` : "text-center"}`}
       >
         {eyebrowText && (
-          <p className={isModern ? "mb-7 flex items-center gap-4 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]" : "mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
+          <p className={isModern ? (isEditorial ? "mb-7 flex items-center gap-4 text-[0.6875rem] font-normal uppercase tracking-[0.12em] text-white/65" : "mb-7 flex items-center gap-4 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]") : "mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
             {isModern && <span aria-hidden="true" className="h-px w-10 bg-current" />}
             {eyebrowText}
           </p>

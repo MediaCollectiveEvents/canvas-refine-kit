@@ -147,37 +147,23 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
 
   return (
     <SectionWrapper
-      variant="dark"
+      variant="light"
       align="left"
       padding="lux"
-      noise={true}
+      noise={false}
       grid={false}
       withFades={false}
-      className="relative bg-[#111827] text-white"
+      className="relative text-slate-900 !pt-16 !pb-12 md:!pt-[72px] md:!pb-[60px] lg:!pt-[88px] lg:!pb-[72px]"
     >
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none absolute inset-0
-          bg-[radial-gradient(circle_at_center,rgba(39,205,186,0.04),transparent_72%)]
-        "
-      />
-
-      <div className="relative z-10 grid items-start gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] md:gap-16">
-        <div className="pt-[0.75rem]">
-          <p className="mb-4 text-xs uppercase tracking-[0.16em] text-[#9bd3c8]">Attendees and partners</p>
-          <SectionTitle align="left" disableEmphasis className="text-white">
+      <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-4">
+          <p className="mb-4 text-xs font-normal uppercase tracking-[0.12em] text-slate-500">Attendees and partners</p>
+          <SectionTitle align="left" disableEmphasis className="!text-[30px] md:!text-4xl" tone="dark">
             {section?.heading || "Community voices"}
           </SectionTitle>
 
-          <div
-            aria-hidden="true"
-            className="mt-4 h-px w-full max-w-[320px]"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(236,239,241,0.8), rgba(236,239,241,0))",
-            }}
-          />
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-600">Thoughtful discussion, introductions and collaboration.</p>
+
         </div>
 
         <div
@@ -185,11 +171,27 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}
-          className="relative max-w-[860px] pl-6"
+          className="relative min-w-0 pt-6 font-body lg:col-span-8"
         >
+          <div className="grid">
+            {/* Invisible copies reserve only the height required by the longest CMS item at this width. */}
+            {testimonials.map((item, itemIndex) => (
+              <div key={itemIndex} aria-hidden="true" className="invisible pointer-events-none [grid-area:1/1]">
+                <blockquote className="max-w-[40ch] font-body font-normal text-xl md:text-[27px] leading-[1.6]">
+                  {item.quote.map((sentence, sentenceIndex) => <p key={sentenceIndex} className="mb-4 last:mb-0">{sentence}</p>)}
+                </blockquote>
+                <div className="mt-3">
+                  {item.author && <p className="text-[1rem] tracking-[0.02em] font-medium">{item.author}</p>}
+                  {(item.title || item.company) && <p className="mt-1 text-[0.9rem]">{item.title}{item.title && item.company ? " — " : ""}{item.company}</p>}
+                </div>
+                {testimonials.length > 1 && <div className="mt-4 h-10" />}
+              </div>
+            ))}
+          <div className="[grid-area:1/1]">
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
+              className="[grid-area:1/1]"
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -18 }}
@@ -198,20 +200,20 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
               <blockquote
                 className="
                   relative
-                  max-w-[42ch]
-                  font-serif
-                  text-[1.3rem] md:text-[1.9rem]
-                  leading-[1.5]
-                  tracking-[-0.01em]
-                  text-white/90
+                  max-w-[40ch]
+                  font-body font-normal
+                  text-xl md:text-[27px]
+                  leading-[1.6]
+
+                  text-slate-900
                 "
               >
                 <span
                   aria-hidden="true"
                   className="
                     absolute
-                    -left-6
-                    -top-2
+                    left-0
+                    -top-7
                     text-[#27CDBA]
                     text-[2.2rem]
                     leading-none
@@ -232,20 +234,20 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.16, duration: 0.4 }}
-                className="mt-7 border-t border-white/15 pt-5"
+                className="mt-3"
               >
                 {current.author && (
-                  <p className="text-[1rem] tracking-[0.02em] font-semibold text-white">
+                  <p className="text-[1rem] tracking-[0.02em] font-medium text-slate-900">
                     {current.author}
                   </p>
                 )}
 
                 {(current.title || current.company) && (
-                  <p className="mt-1 text-[0.9rem] text-white/85">
+                  <p className="mt-1 text-[0.9rem] text-slate-600">
                     {current.title}
                     {current.title && current.company ? " — " : ""}
                     {current.company && (
-                      <span className="text-primary">{current.company}</span>
+                      <span>{current.company}</span>
                     )}
                   </p>
                 )}
@@ -254,7 +256,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           </AnimatePresence>
 
           {testimonials.length > 1 && (
-            <div className="mt-8 flex items-center gap-1">
+            <div className="mt-4 flex items-center gap-1">
               {testimonials.map((_, dotIndex) => {
                 const active = dotIndex === index;
 
@@ -267,12 +269,14 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                     onClick={() => setIndex(dotIndex)}
                     className="flex h-10 w-10 items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300"
                   >
-                    <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-[#9bd3c8]" : "w-2 bg-white/40"}`} />
+                    <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-slate-700" : "w-2 bg-slate-400"}`} />
                   </button>
                 );
               })}
             </div>
           )}
+          </div>
+          </div>
         </div>
       </div>
     </SectionWrapper>

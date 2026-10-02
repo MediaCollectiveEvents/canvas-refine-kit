@@ -43,46 +43,28 @@ const JoinCommunitySection: React.FC<JoinCommunitySectionProps> = ({
 
   return (
     <SectionWrapper
-      variant="dark"
+      variant="light"
       align="center"
       padding="lux"
       noise={false}
       grid={false}
       withFades={false}
-      className="relative bg-[#0F172A] text-white"
+      className="relative text-slate-900 !py-12 md:!py-[60px] lg:!py-[72px]"
     >
       <div className="mx-auto max-w-3xl text-center">
-        <SectionTitle align="center">
-          Join the <span className="text-[#27CDBA]">Community</span>
+        <SectionTitle align="center" tone="dark" disableEmphasis className="!text-[30px] md:!text-4xl">
+          {heading}
         </SectionTitle>
 
-        <p
-          className="
-            mx-auto mt-4 max-w-[46ch]
-            font-body
-            text-[1rem] md:text-[1.0625rem]
-            leading-[1.75]
-            text-white/75
-          "
-        >
-          {body}
-        </p>
+        <div className="mx-auto mt-4 max-w-[42ch] space-y-4 font-body text-[1rem] leading-[1.75] text-slate-600">
+          {body.split("\n\n").filter(Boolean).map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        </div>
 
         <div className="mt-8 flex justify-center">
           <Button
             variant="brand"
             size="lg"
             onClick={handleClick}
-            className="
-              min-w-[240px]
-              rounded-full
-              px-8 py-3.5
-              font-body
-              text-[0.9rem]
-              font-semibold
-              uppercase
-              tracking-[0.14em]
-            "
           >
             {ctaLabel}
           </Button>

@@ -29,7 +29,7 @@
   },
   "sections": [
     {
-      "body": "We bring together people shaping the future of the media industry across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from panel conversations and private screenings to informal evening receptions aligned with major industry conferences.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance and relevance.\n\nAnyone can request an invitation. Requesting an invitation does not guarantee attendance. The Media Collective curates each event and decides whether it is the right fit for the applicant. Applicants should receive a response by email within 5 working days. If accepted, they receive a link to register for the event. Membership is not required. All events are free to attend.",
+      "body": "We bring together people shaping the future of the media industry across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from panel conversations and private screenings to informal evening receptions aligned with major industry conferences.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance and relevance.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -129,7 +129,7 @@
     },
     {
       "type": "testimonials",
-      "heading": "What People Say",
+      "heading": "Why people come",
       "items": [
         {
           "quote": "The intimate format creates opportunities for genuine dialogue with peers.",
@@ -180,7 +180,7 @@
       "customBackground": null
     },
     {
-      "body": "Be part of a trusted network of media leaders, innovators and partners. Receive early invitations, speaker announcements and priority access to upcoming gatherings.",
+      "body": "Anyone can request an invitation. Requesting an invitation does not guarantee attendance. The Media Collective curates each event and decides whether it is the right fit for the applicant.\n\nApplicants should receive a response by email within 5 working days. If accepted, they receive a link to register for the event. Membership is not required. All events are free to attend.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -188,7 +188,7 @@
         "grid": false,
         "withFades": true
       },
-      "heading": "Join Our Community",
+      "heading": "Request an invitation",
       "backgroundStyle": "dark",
       "styleTitle": {
         "eyebrow": "Stay connected",
@@ -199,7 +199,7 @@
       },
       "hidden": true,
       "cta": {
-        "label": "Request updates",
+        "label": "Request an invitation",
         "url": "/register"
       },
       "type": "joinCommunity",
