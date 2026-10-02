@@ -1,3 +1,6 @@
+import ArticleAttribution from "@/components/shared/ArticleAttribution";
+import { contentImage } from "@/lib/contentImages";
+import type { Article } from "@/lib/contentMetadata";
 // src/components/sections/BlogPageRenderer.tsx
 import React from "react";
 import { motion } from "framer-motion";
@@ -9,17 +12,20 @@ import SectionDivider from "@/components/shared/SectionDivider";
 import PageCTA from "@/components/shared/PageCTA";
 
 // Matches the shape of objects in src/content/blogPosts.json
-type BlogPost = {
-  slug: string;
-  title: string;
-  category: string;
-  excerpt: string;
-  date: string;
-  image?: string; // CMS uploaded hero image for the post
-};
+type BlogPost = Article;
 
 interface BlogPageRendererProps {
-  sections: any[];
+  sections: {
+    id?: string;
+    type: string;
+    hidden?: boolean;
+    variant?: string;
+    title?: string;
+    accentWord?: string;
+    description?: string;
+    buttonLabel?: string;
+    url?: string;
+  }[];
   posts: BlogPost[];
 }
 
@@ -33,7 +39,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
     <>
       {visibleSections.map((section, index) => {
         const key = section.id ?? `${section.type}-${index}`;
-        const variant = section.variant ?? "default";
+        const variant = section.variant === "darker" || section.variant === "accent" ? section.variant : "default";
 
         switch (section.type) {
           case "postsGrid":
@@ -53,10 +59,10 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                         key={post.slug}
                         className="bg-card/60 border border-border/80 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
                       >
-                        {post.image && (
+                        {contentImage(post.image) && (
                           <div className="h-48 overflow-hidden">
                             <img
-                              src={post.image}
+                              src={contentImage(post.image)}
                               alt={post.title}
                               className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
                             />
@@ -78,6 +84,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                             </h3>
                           </Link>
 
+                          <ArticleAttribution article={post} />
                           <p className="text-muted-foreground text-sm leading-relaxed">
                             {post.excerpt}
                           </p>
@@ -97,14 +104,14 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                   </div>
                 </div>
 
-                <SectionDivider variant="triple" className="mt-16" />
+                <SectionDivider className="mt-16" />
               </PageSection>
             );
 
           case "divider":
             return (
               <PageSection key={key} variant={variant}>
-                <SectionDivider variant="triple" />
+                <SectionDivider />
               </PageSection>
             );
 

@@ -1,3 +1,6 @@
+import { getOrganisations, getRelatedArticles, getOrganisationById } from "@/lib/organisations";
+import { contentImage } from "@/lib/contentImages";
+import posts from "@/content/blogPosts.json";
 // src/components/sections/PartnersPageRenderer.tsx
 import React from "react";
 
@@ -6,20 +9,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Eye, Mic, Check } from "lucide-react";
 
 // Sponsor logo imports (your original list)
-import giantWorldwideLogo from "@/assets/sponsors/giant-worldwide.png";
-import mrMxfLogo from "@/assets/sponsors/mr-mxf.png";
-import invenioLsiLogo from "@/assets/sponsors/invenio-lsi.png";
-import matrixLogo from "@/assets/sponsors/matrix.png";
-import lucidlinkLogo from "@/assets/sponsors/lucidlink.png";
-import utoSolutionsLogo from "@/assets/sponsors/uto-solutions.png";
-import broadviewSoftwareLogo from "@/assets/sponsors/broadview-software.png";
-import convergentIdsLogo from "@/assets/sponsors/convergent-ids.png";
-import wagadaDigitalLogo from "@/assets/sponsors/wagada-digital.png";
-import uhdAllianceLogo from "@/assets/sponsors/uhd-alliance.png";
-import rarecrewLogo from "@/assets/sponsors/rarecrew.png";
-import dceAgencyLogo from "@/assets/sponsors/dce-agency.png";
-import uicDigitalLogo from "@/assets/sponsors/uic-digital.png";
-import rsgMediaLogo from "@/assets/sponsors/rsg-media.png";
 
 interface BaseSection {
   id?: string;
@@ -34,22 +23,7 @@ interface PartnersPageRendererProps {
 
 // ===== CONTENT ARRAYS FROM ORIGINAL Partners.tsx =====
 
-const currentSponsors = [
-  { name: "BroadView Software", logo: broadviewSoftwareLogo },
-  { name: "Convergent IDS", logo: convergentIdsLogo },
-  { name: "DCe Agency", logo: dceAgencyLogo },
-  { name: "Giant Worldwide", logo: giantWorldwideLogo },
-  { name: "Invenio LSI", logo: invenioLsiLogo },
-  { name: "LucidLink", logo: lucidlinkLogo },
-  { name: "Matrix", logo: matrixLogo },
-  { name: "Mr MXF", logo: mrMxfLogo },
-  { name: "Rarecrew", logo: rarecrewLogo },
-  { name: "RSG Media", logo: rsgMediaLogo },
-  { name: "UHD Alliance", logo: uhdAllianceLogo },
-  { name: "UIC Digital", logo: uicDigitalLogo },
-  { name: "UTO Solutions", logo: utoSolutionsLogo },
-  { name: "Wagada Digital", logo: wagadaDigitalLogo },
-];
+const currentSponsors = getOrganisations();
 
 const benefits = [
   {
@@ -152,11 +126,22 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
                 <JourneyHeading step="The partner community" title="In good company." description="Our events are made possible with the support of these media and technology companies." />
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
                   {currentSponsors.map(sponsor => (
-                    <li key={sponsor.name} className="flex h-24 items-center justify-center rounded-sm bg-white p-3">
-                      <img src={sponsor.logo} alt={sponsor.name} loading="lazy" className="h-16 w-full object-contain" />
+                    <li key={sponsor.src} id={sponsor.id && getOrganisationById(sponsor.id) ? `organisation-${sponsor.id}` : undefined} className="flex h-24 items-center justify-center rounded-sm bg-white p-3">
+                      <img src={contentImage(sponsor.src)} alt={sponsor.alt || sponsor.name || "Organisation logo"} loading="lazy" className="h-16 w-full object-contain" />
                     </li>
                   ))}
                 </ul>
+                <div className="mt-8 space-y-8">
+                  {currentSponsors.filter(organisation => organisation.description || organisation.contribution || organisation.website || (organisation.id && getRelatedArticles(organisation.id, posts.posts).length)).map(organisation => (
+                    <div key={organisation.src}>
+                      <h3 className="text-lg font-medium">{organisation.name || organisation.alt}</h3>
+                      {organisation.description && <p className="mt-2 text-sm text-white/75">{organisation.description}</p>}
+                      {organisation.contribution && <p className="mt-2 text-sm text-white/75">{organisation.contribution}</p>}
+                      {organisation.website && <a href={organisation.website} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm underline">Visit website ↗</a>}
+                      {organisation.id && getRelatedArticles(organisation.id, posts.posts).map(article => <p key={article.slug} className="mt-2"><a className="text-sm underline" href={`/blog/${article.slug}`}>{article.title}</a></p>)}
+                    </div>
+                  ))}
+                </div>
               </PageSection>
             );
           case "partnersBenefits":

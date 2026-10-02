@@ -935,11 +935,26 @@ collections:
               - { label: Title, name: title, widget: string }
               - { label: Slug, name: slug, widget: string }
               - { label: Category, name: category, widget: string }
+              - { label: Author, name: author, widget: string, required: false }
+              - { label: Organisation, name: organisation, widget: string, required: false }
+              - label: Related Events
+                name: relatedEventIds
+                widget: list
+                required: false
+                field: { label: Event ID, name: eventId, widget: number, value_type: int, min: 1 }
+                hint: "Existing canonical numeric event IDs only."
+              - label: Related Partners
+                name: relatedPartnerIds
+                widget: list
+                required: false
+                field: { label: Partner ID, name: partnerId, widget: string }
+                hint: "Confirmed sponsor profile IDs only; leave blank until profiles are migrated."
+
               - { label: Excerpt, name: excerpt, widget: text }
               - { label: Date, name: date, widget: datetime }
               - { label: Thumbnail Image, name: image, widget: image, required: false }
               - { label: Hero Image Key (optional, for hero mapping), name: imageKey, widget: string, required: false }
-              - { label: Body, name: body, widget: text, required: false }
+              - { label: Body, name: body, widget: text, required: false, hint: "Separate paragraphs with a blank line. Plain text; Markdown is not interpreted." }
 
   - name: sponsors
     label: Sponsor Logos
@@ -957,6 +972,22 @@ collections:
               - { label: Logo Image, name: src, widget: image }
               - { label: Name, name: name, widget: string, required: false }
               - { label: Alt Text, name: alt, widget: string, required: false }
+              - { label: Profile ID, name: id, widget: string, required: false, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Unique stable identifier; keep unchanged once referenced." }
+              - { label: Description, name: description, widget: text, required: false }
+              - { label: Website, name: website, widget: string, required: false }
+              - label: Partnership Types
+                name: partnershipTypes
+                widget: list
+                required: false
+                field: { label: Partnership Type, name: partnershipType, widget: string }
+              - label: Related Events
+                name: relatedEventIds
+                widget: list
+                required: false
+                field: { label: Event ID, name: eventId, widget: number, value_type: int, min: 1 }
+                hint: "Existing canonical numeric event IDs only."
+              - { label: Contribution / Focus, name: contribution, widget: text, required: false }
+
 
   - name: settings
     label: Site Settings

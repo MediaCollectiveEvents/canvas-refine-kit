@@ -1,8 +1,74 @@
 {
   "logos": [
     {
-      "src": "/uploads/logo-placeholder.png",
-      "alt": "Sponsor Logo"
+      "name": "BroadView Software",
+      "src": "/src/assets/sponsors/broadview-software.png",
+      "alt": "BroadView Software"
+    },
+    {
+      "name": "Convergent IDS",
+      "src": "/src/assets/sponsors/convergent-ids.png",
+      "alt": "Convergent IDS"
+    },
+    {
+      "name": "DCe Agency",
+      "src": "/src/assets/sponsors/dce-agency.png",
+      "alt": "DCe Agency"
+    },
+    {
+      "name": "Giant Worldwide",
+      "src": "/src/assets/sponsors/giant-worldwide.png",
+      "alt": "Giant Worldwide"
+    },
+    {
+      "name": "Invenio LSI",
+      "src": "/src/assets/sponsors/invenio-lsi.png",
+      "alt": "Invenio LSI"
+    },
+    {
+      "name": "LucidLink",
+      "src": "/src/assets/sponsors/lucidlink.png",
+      "alt": "LucidLink"
+    },
+    {
+      "name": "Matrix",
+      "src": "/src/assets/sponsors/matrix.png",
+      "alt": "Matrix"
+    },
+    {
+      "name": "Mr MXF",
+      "src": "/src/assets/sponsors/mr-mxf.png",
+      "alt": "Mr MXF"
+    },
+    {
+      "name": "Rarecrew",
+      "src": "/src/assets/sponsors/rarecrew.png",
+      "alt": "Rarecrew"
+    },
+    {
+      "name": "RSG Media",
+      "src": "/src/assets/sponsors/rsg-media.png",
+      "alt": "RSG Media"
+    },
+    {
+      "name": "UHD Alliance",
+      "src": "/src/assets/sponsors/uhd-alliance.png",
+      "alt": "UHD Alliance"
+    },
+    {
+      "name": "UIC Digital",
+      "src": "/src/assets/sponsors/uic-digital.png",
+      "alt": "UIC Digital"
+    },
+    {
+      "name": "UTO Solutions",
+      "src": "/src/assets/sponsors/uto-solutions.png",
+      "alt": "UTO Solutions"
+    },
+    {
+      "name": "Wagada Digital",
+      "src": "/src/assets/sponsors/wagada-digital.png",
+      "alt": "Wagada Digital"
     }
   ]
 }

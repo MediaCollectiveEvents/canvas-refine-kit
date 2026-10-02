@@ -1,3 +1,4 @@
+import ArticlesPreview from "./previews/ArticlesPreview";
 // src/cms/preview.tsx
 
 // 0) Make React global BEFORE anything else so Decap v3 portal can use it
@@ -161,6 +162,8 @@ async function boot() {
   try {
     const CMS = await waitForCMSReady();
     console.log("[Decap Preview] CMS ready.");
+
+    CMS.registerPreviewTemplate("blogPosts", ArticlesPreview);
 
     // Minimal preview CSS
     const css =

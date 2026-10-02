@@ -1,3 +1,4 @@
+import type { Article } from "@/lib/contentMetadata";
 import Seo from "@/components/shared/Seo";
 // src/pages/Blog.tsx
 import React from "react";
@@ -10,15 +11,7 @@ import BlogPageRenderer from "@/components/sections/BlogPageRenderer";
 import blogPage from "@/content/blogPage.json";
 import blogPostsJSON from "@/content/blogPosts.json";
 
-type BlogPost = {
-  slug: string;
-  title: string;
-  category: string;
-  date: string;
-  excerpt: string;
-  image?: string;
-  body?: string;
-};
+type BlogPost = Article;
 
 const Blog: React.FC = () => {
   const { hero, sections } = blogPage;
@@ -37,11 +30,6 @@ const Blog: React.FC = () => {
           description={hero?.description}
           // Unified hero image & controls from CMS
           image={hero?.image}
-          theme={hero?.theme ?? "dark"}
-          overlayStrength={hero?.overlayStrength ?? 0.5}
-          mobileCrop={hero?.mobileCrop}
-          imagePosition={hero?.imagePosition}
-          imageOffset={hero?.imageOffset}
           // Single CTA – optional
           primaryCtaText={hero?.cta?.label}
           primaryCtaHref={hero?.cta?.url}

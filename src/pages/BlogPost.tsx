@@ -1,3 +1,7 @@
+import ArticleContent from "@/components/shared/ArticleContent";
+import ArticleAttribution from "@/components/shared/ArticleAttribution";
+import { contentImage } from "@/lib/contentImages";
+import type { Article } from "@/lib/contentMetadata";
 import Seo from "@/components/shared/Seo";
 // src/pages/BlogPost.tsx
 import React from "react";
@@ -10,16 +14,7 @@ import SectionDivider from "@/components/shared/SectionDivider";
 
 import blogPostsJSON from "@/content/blogPosts.json";
 
-type BlogPost = {
-  slug: string;
-  title: string;
-  category: string;
-  date: string;
-  excerpt: string;
-  image?: string;
-  imageKey?: string;
-  body?: string;
-};
+type BlogPost = Article;
 
 const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -61,7 +56,7 @@ const BlogPostPage: React.FC = () => {
   const hero = {
     image: post.imageKey
       ? `/images/blog/${post.imageKey}.jpg`
-      : post.image || "/images/default-hero.jpg",
+      : contentImage(post.image),
   };
 
   // -----------------------------------
@@ -79,9 +74,7 @@ const BlogPostPage: React.FC = () => {
           title={post.title}
           description={post.excerpt}
           variant="image"
-          theme="dark"
           backgroundImage={hero.image}
-          overlayStrength={0.5}
         />
 
         {/* Body */}
@@ -104,11 +97,10 @@ const BlogPostPage: React.FC = () => {
               </Link>
             </div>
 
+            <div className="mb-6"><ArticleAttribution article={post} /></div>
             {/* Post Body */}
             {post.body ? (
-              <div className="prose prose-invert max-w-none">
-                <p>{post.body}</p>
-              </div>
+              <ArticleContent body={post.body} />
             ) : (
               <p className="text-muted-foreground">
                 Full content for this post is coming soon.
@@ -118,7 +110,7 @@ const BlogPostPage: React.FC = () => {
         </section>
 
         {/* Divider (fixed variant) */}
-        <SectionDivider variant="hairline" className="py-12" />
+        <SectionDivider className="py-12" />
       </main>
 
       <Footer />

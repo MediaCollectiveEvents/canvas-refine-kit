@@ -1,14 +1,15 @@
+import type { SponsorProfileMetadata } from "@/lib/contentMetadata";
 // src/components/sections/PartnersSection.tsx
 import PageSection from "@/components/shared/PageSection";
 import SectionHeader from "@/components/shared/SectionHeader";
 
 type PartnerLogo =
   | string
-  | {
+  | (SponsorProfileMetadata & {
       name?: string;
       logo?: string;
       url?: string;
-    };
+    });
 
 interface PartnersSectionProps {
   section: {
