@@ -3,43 +3,13 @@ import { useParams } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-// Event type (you can expand this as your schema grows)
-type EventItem = {
-  slug?: string;
-  id?: string;
-  title?: string;
-  date?: string;
-  location?: string;
-  summary?: string;
-  body?: string;
-};
-
-// Load all event JSON files from src/content/events/*.json
-// NOTE: This must be at the top level (not inside the component).
-const eventModules = import.meta.glob("../content/events/*.json", {
-  eager: true,
-}) as Record<string, { default: EventItem }>;
-
-// Normalise into an array of events, deriving slug from filename if missing.
-const events: EventItem[] = Object.entries(eventModules).map(([path, mod]) => {
-  const data = { ...mod.default };
-
-  if (!data.slug) {
-    // Derive slug from filename (e.g. "networking-breakfast" from ".../networking-breakfast.json")
-    const match = path.match(/\/([^/]+)\.json$/);
-    if (match) {
-      data.slug = match[1];
-    }
-  }
-
-  return data;
-});
+import { getEventById } from "@/lib/events";
 
 const EventDetails = () => {
   const { id } = useParams<{ id: string }>();
 
-  // Find the event by slug (or id as a fallback)
-  const event = events.find((ev) => ev.slug === id || ev.id === id);
+  // Resolve the stable numeric ID or an explicitly registered route alias.
+  const event = getEventById(id);
 
   if (!event) {
     return (
@@ -80,12 +50,11 @@ const EventDetails = () => {
           <p className="text-lg font-body leading-relaxed">{event.summary}</p>
         )}
 
-        {/* Optional full HTML body (if you add it later) */}
-        {event.body && (
-          <article
-            className="prose prose-invert max-w-none mt-10"
-            dangerouslySetInnerHTML={{ __html: event.body }}
-          />
+        {event.description && event.description !== event.summary && (
+          <p className="mt-6 font-body leading-relaxed">{event.description}</p>
+        )}
+        {event.details && (
+          <p className="mt-6 whitespace-pre-line font-body leading-relaxed">{event.details}</p>
         )}
       </main>
 

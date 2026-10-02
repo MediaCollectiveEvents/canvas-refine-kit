@@ -2,34 +2,39 @@
 
 // 0) Make React global BEFORE anything else so Decap v3 portal can use it
 import React from "react";
-(window as any).React = React;
+window.React = React;
 
 // 1) Process shim early
 import "./shim-process";
 
+type PreviewProps = { entry: import("./previews/HomepagePreview").PreviewEntry };
+interface CMSApi {
+  registerPreviewTemplate(name: string, component: React.ComponentType<PreviewProps>): void;
+  registerPreviewStyle(css: string, options: { raw: boolean }): void;
+}
+
 declare global {
   interface Window {
-    CMS?: any;
-    DecapCMS?: any;
-    React?: any;
+    CMS?: CMSApi;
+    DecapCMS?: CMSApi;
+    React?: typeof React;
   }
 }
 
-// 2) Helpers
-function pickExport<T = any>(mod: any, named: string): T {
-  return (mod && (mod.default || mod[named])) as T;
+function pickExport<T>(mod: Record<string, unknown>, named: string): T {
+  return (mod.default || mod[named]) as T;
 }
 
-function toJS(v: any): any {
-  if (v && typeof v.toJS === "function") return v.toJS();
-  return v;
+function toJS(value: unknown): unknown {
+  if (value && typeof value === "object" && "toJS" in value && typeof value.toJS === "function") return value.toJS();
+  return value;
 }
 
-function getCMS(): any | undefined {
-  return (window as any).CMS || (window as any).DecapCMS;
+function getCMS(): CMSApi | undefined {
+  return window.CMS || window.DecapCMS;
 }
 
-function waitForCMSReady(timeout = 10000, poll = 50): Promise<any> {
+function waitForCMSReady(timeout = 10000, poll = 50): Promise<CMSApi> {
   return new Promise((resolve, reject) => {
     const start = Date.now();
     (function tick() {
@@ -55,26 +60,37 @@ function waitForCMSReady(timeout = 10000, poll = 50): Promise<any> {
 // Layout helpers (default or named)
 import * as SectionWrapperMod from "../components/layout/SectionWrapper";
 import * as SectionDividerMod from "../components/shared/SectionDivider";
-const SectionWrapper: React.ComponentType<any> = pickExport(SectionWrapperMod, "SectionWrapper");
-const SectionDivider: React.ComponentType<any> = pickExport(SectionDividerMod, "SectionDivider");
+const SectionWrapper = pickExport<typeof SectionWrapperMod.default>(SectionWrapperMod, "SectionWrapper");
+const SectionDivider = pickExport<typeof SectionDividerMod.default>(SectionDividerMod, "SectionDivider");
 
 // Generic site sections (used by non‑homepage pages)
 import * as AboutIntroMod from "../components/sections/AboutIntroSection";
 import * as MissionValuesMod from "../components/sections/MissionValuesSection";
 import * as FAQSectionMod from "../components/sections/FAQSection";
-const AboutIntro: React.ComponentType<any> = pickExport(AboutIntroMod, "AboutIntroSection");
-const MissionValues: React.ComponentType<any> = pickExport(MissionValuesMod, "MissionValuesSection");
-const FAQSection: React.ComponentType<any> = pickExport(FAQSectionMod, "FAQSection");
+const AboutIntro = pickExport<React.ComponentType<GenericSectionProps>>(AboutIntroMod, "AboutIntroSection");
+const MissionValues = pickExport<React.ComponentType<GenericSectionProps>>(MissionValuesMod, "MissionValuesSection");
+const FAQSection = pickExport<React.ComponentType<GenericSectionProps>>(FAQSectionMod, "FAQSection");
 
 // Styled homepage preview (hero + all homepage sections)
 import HomepagePreview, { PartnersPreview } from "./previews/HomepagePreview";
+import EventsPreview from "./previews/EventsPreview";
 import previewCss from "../index.css?inline";
 import settings from "../content/settings.json";
 
 /* ------------------------------------------------------------------ */
 /* 4) Map for generic sections pages (homepage uses HomepagePreview)   */
 /* ------------------------------------------------------------------ */
-const SECTION_MAP: Record<string, React.ComponentType<any>> = {
+interface GenericSection {
+  type?: string;
+  settings?: {
+    style?: Partial<React.ComponentProps<typeof SectionWrapper>> & { fades?: boolean };
+    divider?: { enabled?: boolean; variant?: string };
+  };
+  [key: string]: unknown;
+}
+type GenericSectionProps = { section: GenericSection; settings: GenericSection["settings"] };
+
+const SECTION_MAP: Record<string, React.ComponentType<GenericSectionProps>> = {
   aboutIntro: AboutIntro,
   missionValues: MissionValues,
   faqSection: FAQSection,
@@ -83,14 +99,14 @@ const SECTION_MAP: Record<string, React.ComponentType<any>> = {
 /* ------------------------------------------------------------------ */
 /* 5) Generic SectionsPreview (aboutPage, faqPage, eventsPage, …)      */
 /* ------------------------------------------------------------------ */
-function SectionsPreview({ entry }: { entry: any }) {
+export function SectionsPreview({ entry }: PreviewProps) {
   try {
-    const data = toJS(entry.getIn(["data"])) || {};
+    const data = (toJS(entry.getIn(["data"])) || {}) as { sections?: GenericSection[] };
     const sections = data.sections || [];
 
     return (
       <div style={{ background: "#020617", minHeight: "100vh", color: "white" }}>
-        {sections.map((section: any, index: number) => {
+        {sections.map((section: GenericSection, index: number) => {
           const Cmp = SECTION_MAP[section?.type as string];
           if (!Cmp) {
             return (
@@ -100,7 +116,7 @@ function SectionsPreview({ entry }: { entry: any }) {
             );
           }
 
-          const settings = section?.settings || {};
+          const settings: NonNullable<GenericSection["settings"]> = section?.settings || {};
           const style = settings?.style || {};
           const divider = settings?.divider || {};
           const withFades = (style.fades !== false) && !divider.enabled;
@@ -119,7 +135,6 @@ function SectionsPreview({ entry }: { entry: any }) {
 
               {divider.enabled ? (
                 <SectionDivider
-                  variant={divider.variant || "hairline"}
                   className="max-w-[1280px] mx-auto px-6 md:px-10"
                 />
               ) : null}
@@ -128,11 +143,11 @@ function SectionsPreview({ entry }: { entry: any }) {
         })}
       </div>
     );
-  } catch (err: any) {
+  } catch (err) {
     console.error("[Decap Preview] render error:", err);
     return (
       <div style={{ padding: 20, color: "#f87171" }}>
-        Preview render error: {String(err?.message || err)}
+        Preview render error: {String(err instanceof Error ? err.message : err)}
       </div>
     );
   }
@@ -155,6 +170,7 @@ async function boot() {
 
     // ✅ Homepage (your styled preview: hero + all homepage sections)
     CMS.registerPreviewTemplate("homepage", HomepagePreview);
+    CMS.registerPreviewTemplate("eventsContent", EventsPreview);
 
     // Other page types use generic sections renderer
     CMS.registerPreviewTemplate("aboutPage", SectionsPreview);

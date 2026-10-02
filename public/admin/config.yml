@@ -681,6 +681,21 @@ collections:
             widget: list
             allow_add: true
             fields:
+              - label: Stable Event ID
+                name: id
+                widget: number
+                value_type: int
+                min: 1
+                hint: "Use a unique positive integer. Keep existing IDs unchanged; new registration mappings require confirmation."
+              - label: Status
+                name: type
+                widget: select
+                required: false
+                options: [upcoming, past]
+              - { label: Time, name: time, widget: string, required: false }
+              - { label: Summary, name: summary, widget: text, required: false }
+              - { label: Description, name: description, widget: text, required: false }
+              - { label: Details, name: details, widget: text, required: false }
               - { label: Title, name: title, widget: string }
               - { label: Location, name: location, widget: string }
               - { label: Venue, name: venue, widget: string }

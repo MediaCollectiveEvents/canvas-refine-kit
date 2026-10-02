@@ -11,18 +11,7 @@ import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 
-import rawEventsFile from "@/content/events.json";
-
-interface RawEvent {
-  id?: number;
-  title: string;
-  location: string;
-  venue: string;
-  imageKey?: string;
-  date?: string;
-}
-
-type RawEventsShape = RawEvent[] | { events: RawEvent[] };
+import { getAllEvents } from "@/lib/events";
 
 interface Event {
   id: number;
@@ -46,22 +35,10 @@ function getImageForKey(key?: string, venue?: string, title?: string) {
   return broadcasterImg;
 }
 
-function normalizeRawEvents(raw: RawEventsShape): RawEvent[] {
-  const maybe = raw as { events?: RawEvent[] };
-  if (maybe && Array.isArray(maybe.events)) return maybe.events;
-  return raw as RawEvent[];
-}
-
-const events: Event[] = normalizeRawEvents(rawEventsFile as RawEventsShape).map(
-  (e, index) => ({
-    id: e.id ?? index + 1,
-    title: e.title,
-    location: e.location,
-    venue: e.venue,
-    date: e.date,
-    image: getImageForKey(e.imageKey, e.venue, e.title),
-  }),
-);
+const events: Event[] = getAllEvents().map(event => ({
+  ...event,
+  image: getImageForKey(event.imageKey, event.venue, event.title),
+}));
 
 // === Formatting functions (match homepage style) ===
 function ordinal(n: number) {

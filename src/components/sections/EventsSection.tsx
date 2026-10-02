@@ -6,27 +6,8 @@ import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
 import greenlineImg from "@/assets/events/greenline.png";
-import rawEventsFile from "@/content/events.json";
+import { getUpcomingEvents, getPastEvents, isPastEvent } from "@/lib/events";
 
-interface RawEvent {
-  id?: number;
-  type?: string;
-  title: string;
-  location: string;
-  venue: string;
-  imageKey?: string;
-  date?: string;
-  time?: string;
-  format?: string;
-  conferenceAligned?: boolean;
-  inviteOnly?: boolean;
-  complimentary?: boolean;
-  summary?: string;
-  description?: string;
-  details?: string;
-}
-
-type RawEventsShape = RawEvent[] | { events: RawEvent[] };
 type Cta = { label?: string; url?: string };
 interface EventsSectionProps {
   section?: { heading?: string; description?: string; note?: string; cta?: Cta; secondaryCta?: Cta };
@@ -53,16 +34,8 @@ function formatInternationalDate(input?: string) {
 }
 
 export default function EventsSection({ section, onRegisterClick }: EventsSectionProps) {
-  const raw: RawEventsShape = rawEventsFile;
-  const rawEvents = Array.isArray(raw) ? raw : raw.events;
-  const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-  const events = rawEvents.map((event, index) => ({
-    ...event,
-    id: event.id ?? index + 1,
-    past: event.type === "past" || (!!event.date && /^\d{4}-\d{2}-\d{2}/.test(event.date) && event.date.slice(0, 10) < today),
-  }));
-  const upcoming = events.filter(event => !event.past).sort((a, b) => (a.date ?? "").localeCompare(b.date ?? ""));
-  const displayedEvents = upcoming.length ? upcoming.slice(0, 3) : events.filter(event => event.past).sort((a, b) => (b.date ?? "").localeCompare(a.date ?? "")).slice(0, 3);
+  const upcoming = getUpcomingEvents();
+  const displayedEvents = upcoming.length ? upcoming.slice(0, 3) : getPastEvents().slice(0, 3);
   const [openShareId, setOpenShareId] = useState<number | null>(null);
 
   function renderCta(cta?: Cta, secondary = false) {
@@ -90,7 +63,7 @@ export default function EventsSection({ section, onRegisterClick }: EventsSectio
                 <img src={getImageForKey(event.imageKey, event.venue, event.title)} alt={event.venue} loading="lazy" className="h-full w-full object-contain" />
               </div>
               <div className="p-6">
-                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">{event.past ? "Past event" : "Upcoming gathering"}</p>
+                <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-teal-700">{isPastEvent(event) ? "Past event" : "Upcoming gathering"}</p>
                 <h3 className="font-display text-2xl font-light leading-tight text-slate-900">{event.title}</h3>
                 <dl className="my-4 space-y-2 border-t border-slate-200 pt-3 md:my-5 md:space-y-3 md:pt-4 text-sm text-slate-700">
                   <div className="flex gap-3"><dt><CalendarDays aria-hidden="true" size={16} /><span className="sr-only">Date</span></dt><dd>{formatInternationalDate(event.date)}</dd></div>

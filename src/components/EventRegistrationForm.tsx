@@ -12,20 +12,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 
-// Define the events list
-const upcomingEvents = [{
-  id: "networking-breakfast",
-  label: "Networking Breakfast - IBC Amsterdam (14th Sept 2025)"
-}, {
-  id: "nab-review",
-  label: "NAB Review - London (24th April 2025)"
-}, {
-  id: "mpts-drinks",
-  label: "MPTS Drinks Reception - London (12th March 2025)"
-}, {
-  id: "all-events",
-  label: "All Events"
-}];
+import { getRegistrationOptions } from "@/lib/events";
+
+const eventOptions = getRegistrationOptions();
 const engagementOptions = [{
   id: "attend",
   label: "Attend"
@@ -99,7 +88,7 @@ const EventRegistrationForm = ({
       companyName: "",
       email: "",
       engagementTypes: [],
-      interestedEvents: preselectedEvent ? [preselectedEvent] : [],
+      interestedEvents: eventOptions.some(option => option.id === preselectedEvent) ? [preselectedEvent] : [],
       gdprConsent: false
     },
     mode: "onChange"
@@ -107,7 +96,7 @@ const EventRegistrationForm = ({
   const { setValue } = form;
   useEffect(() => {
     if (open) {
-      setValue("interestedEvents", preselectedEvent ? [preselectedEvent] : [], { shouldValidate: false });
+      setValue("interestedEvents", eventOptions.some(option => option.id === preselectedEvent) ? [preselectedEvent] : [], { shouldValidate: false });
     }
   }, [open, preselectedEvent, setValue]);
 
@@ -155,7 +144,7 @@ const EventRegistrationForm = ({
     setIsSubmitting(true);
     try {
       const eventLabels = data.interestedEvents
-        .map(id => upcomingEvents.find(e => e.id === id)?.label || id)
+        .map(id => eventOptions.find(e => e.id === id)?.label || id)
         .join(", ");
       
       const engagementLabels = data.engagementTypes
@@ -290,7 +279,7 @@ const EventRegistrationForm = ({
 
                   <FormField control={form.control} name="interestedEvents" render={() => <FormItem>
                         <div className="grid grid-cols-1 gap-3">
-                          {upcomingEvents.map(event => <FormField key={event.id} control={form.control} name="interestedEvents" render={({
+                          {eventOptions.map(event => <FormField key={event.id} control={form.control} name="interestedEvents" render={({
                     field
                   }) => <FormItem className="flex items-center space-x-3 space-y-0 p-3 rounded-lg border border-input hover:border-primary transition-colors cursor-pointer">
                                   <FormControl>
@@ -378,7 +367,7 @@ const EventRegistrationForm = ({
 
             {/* Navigation Buttons */}
             <div className="flex justify-between pt-4 border-t border-border">
-              {currentStage > 1 ? <Button type="button" variant="outline" onClick={prevStage} className="gap-2">
+              {currentStage > 1 ? <Button type="button" variant="ghost" onClick={prevStage} className="gap-2">
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </Button> : <div />}
