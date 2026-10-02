@@ -2,10 +2,20 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getAllEvents, getEventById, getEventIssues, getPastEvents, getRegistrationId,
-  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents,
+  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents, getAttendanceRegistrationId,
 } from "../src/lib/events";
 
 const now = new Date("2026-10-02T12:00:00Z");
+
+test("attendance CTAs exclude past and unmapped events without removing historical mappings", () => {
+  for (const id of [1, 2, 3, 4]) assert.equal(getAttendanceRegistrationId(getEventById(id)!, undefined, now), undefined);
+  assert.equal(getAttendanceRegistrationId(getEventById(1)!, undefined, new Date("2026-04-01T12:00:00Z")), "nab-review");
+  assert.equal(getAttendanceRegistrationId(getEventById(3)!, undefined, new Date("2026-04-01T12:00:00Z")), undefined);
+  assert.equal(getRegistrationId(1), "nab-review");
+  assert.equal(getRegistrationId(2), "mpts-drinks");
+  assert.equal(getRegistrationId(3), "networking-breakfast");
+  assert.equal(getRegistrationId(4), undefined);
+});
 
 test("related events rank approved overlap, then date distance, and exclude the current event", () => {
   const expected = [[2, 3], [1, 3], [2, 1], [1, 3]];

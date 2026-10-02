@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 import EventExperienceFilters from "@/components/shared/EventExperienceFilters";
 import PageHero from "@/components/shared/PageHero";
 
-import { getEventContent, getUpcomingEvents, getPastEvents, getRegistrationId, filterEventsByExperience, type EventExperienceFilter, type EventItem } from "@/lib/events";
+import { getEventContent, getUpcomingEvents, getPastEvents, getAttendanceRegistrationId, isPastEvent, filterEventsByExperience, type EventExperienceFilter, type EventItem } from "@/lib/events";
 
 // Event artwork from assets
 import greenline from "@/assets/events/greenline.png";
@@ -40,7 +40,7 @@ interface EventCardProps {
   index: number;
   isOpen: boolean;
   onToggleDetails: () => void;
-  onRegisterClick: (eventId: number) => void;
+  onRegisterClick?: () => void;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
@@ -91,6 +91,7 @@ const EventCard: React.FC<EventCardProps> = ({
             }`}
           >
             <span>{formattedDate}</span>
+            {isPastEvent(event) && <span className="normal-case tracking-normal">Past event</span>}
             {event.time && (
               <>
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" />
@@ -135,14 +136,11 @@ const EventCard: React.FC<EventCardProps> = ({
               {isOpen ? "Hide Details" : "View Details"}
             </Button>
 
-            {/* Register Interest (still opens form) */}
-            <Button
-              onClick={() => onRegisterClick(event.id)}
-              className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-6"
-            >
-              Register Interest
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            {onRegisterClick ? <Button variant="brand" onClick={onRegisterClick}>
+              Register Interest <ArrowRight className="ml-2 h-4 w-4" />
+            </Button> : <Button asChild variant="textcta" size="text">
+              <a href={`/events/${event.id}`}>View event <ArrowRight className="ml-2 h-4 w-4" /></a>
+            </Button>}
           </div>
         </div>
       </div>
@@ -226,16 +224,18 @@ export default function EventsListing({ content, onRegisterClick }: {
           <div className="container mx-auto max-w-6xl relative z-10">
             <h2 className="mb-8 font-display text-[30px] font-light leading-tight text-white md:mb-12 md:text-4xl">Upcoming Events</h2>
             <div className="space-y-24">
-              {upcomingEvents.map((event, index) => (
+              {upcomingEvents.map((event, index) => {
+                const registrationId = getAttendanceRegistrationId(event, content);
+                return (
                 <EventCard
                   key={event.id}
                   event={event}
                   index={index}
                   isOpen={openEventId === event.id}
                   onToggleDetails={() => handleToggleDetails(event.id)}
-                  onRegisterClick={(id) => onRegisterClick?.(getRegistrationId(id, content) ?? "")}
+                  onRegisterClick={registrationId && onRegisterClick ? () => onRegisterClick(registrationId) : undefined}
                 />
-              ))}
+              );})}
             </div>
           </div>
         </section>}
@@ -254,7 +254,6 @@ export default function EventsListing({ content, onRegisterClick }: {
                     index={index}
                     isOpen={openEventId === event.id}
                     onToggleDetails={() => handleToggleDetails(event.id)}
-                    onRegisterClick={(id) => onRegisterClick?.(getRegistrationId(id, content) ?? "")}
                   />
                 ))}
               </div>
@@ -279,4 +278,3 @@ export default function EventsListing({ content, onRegisterClick }: {
       </main>
   );
 }
-

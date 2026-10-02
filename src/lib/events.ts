@@ -194,6 +194,11 @@ export function getRegistrationId(id: number, source: unknown = aggregateContent
   return getEventById(id, source) ? EVENT_IDENTITIES[id]?.registrationId : undefined;
 }
 
+// CTA eligibility only: historical mappings and form options remain intact.
+export function getAttendanceRegistrationId(event: EventItem, source: unknown = aggregateContent, now = new Date()): string | undefined {
+  return isPastEvent(event, now) ? undefined : getRegistrationId(event.id, source);
+}
+
 export function formatEventDate(date: string): string {
   const parsed = new Date(date);
   return Number.isNaN(parsed.getTime()) ? date : parsed.toLocaleDateString("en-GB", {
