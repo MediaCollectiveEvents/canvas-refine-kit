@@ -227,7 +227,7 @@ const Header = () => {
                   tracking-[0.14em]
                 "
               >
-                Contact Us
+                Register interest
               </Button>
             </div>
           </div>
@@ -283,7 +283,7 @@ const Header = () => {
                   tracking-[0.14em]
                 "
               >
-                Contact Us
+                Register interest
               </Button>
             </div>
           </nav>
