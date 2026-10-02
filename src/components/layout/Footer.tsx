@@ -56,6 +56,10 @@ export default function Footer() {
             text-sm text-white/70
           "
         >
+          <a href="/faq" className="hover:text-white transition-colors">
+            FAQ
+          </a>
+
           <a
             href="/privacy-policy"
             className="hover:text-white transition-colors"

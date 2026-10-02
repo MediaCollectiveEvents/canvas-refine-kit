@@ -12,11 +12,10 @@ type RawNavItem = {
   type?: string;
   href?: string;
   url?: string;
-} & Record<string, any>;
+};
 
 interface SettingsFile {
   nav?: RawNavItem[];
-  [key: string]: any;
 }
 
 const typedSettings = settings as SettingsFile;
@@ -65,6 +64,13 @@ const Header = () => {
           href: resolveHref(i),
         }))
       : fallbackNavItems;
+
+  // Choose the longest matching route, respecting path segment boundaries.
+  const activeHref = navItems
+    .filter(item => item.href === "/"
+      ? location.pathname === "/"
+      : location.pathname === item.href || location.pathname.startsWith(`${item.href}/`))
+    .sort((a, b) => b.href.length - a.href.length)[0]?.href;
 
   /* Scroll shrink behaviour */
 
@@ -162,14 +168,13 @@ const Header = () => {
               <div className="flex items-center gap-6 xl:gap-8 2xl:gap-10">
                 {navItems.map((item) => {
                   const isActive =
-                    item.href === "/"
-                      ? location.pathname === "/"
-                      : location.pathname.startsWith(item.href);
+                    item.href === activeHref;
 
                   return (
                     <Link
                       key={item.label}
                       to={item.href}
+                      aria-current={isActive ? "page" : undefined}
                       className={`
                         relative whitespace-nowrap pb-1
                         font-body font-medium uppercase
@@ -235,14 +240,13 @@ const Header = () => {
             <div className="flex flex-col gap-1 px-6 py-5">
               {navItems.map((item) => {
                 const isActive =
-                  item.href === "/"
-                    ? location.pathname === "/"
-                    : location.pathname.startsWith(item.href);
+                  item.href === activeHref;
 
                 return (
                   <Link
                     key={item.label}
                     to={item.href}
+                      aria-current={isActive ? "page" : undefined}
                     className={`
                       rounded-lg px-3 py-3
                       uppercase tracking-[0.16em]
@@ -251,7 +255,7 @@ const Header = () => {
                       ${
                         isActive
                           ? "bg-white/10 text-white"
-                          : "text-white/88 hover:bg-white/8 hover:text-[#9BF8ED]"
+                          : "text-white/90 hover:bg-white/8 hover:text-[#9BF8ED]"
                       }
                     `}
                   >

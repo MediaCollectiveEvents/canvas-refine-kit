@@ -28,28 +28,25 @@
   },
   "nav": [
     {
-      "label": "Home",
-      "type": "home"
-    },
-    {
-      "label": "About",
-      "type": "about"
-    },
-    {
       "label": "Events",
       "type": "events"
     },
     {
-      "label": "Partners",
-      "type": "partners"
+      "label": "Year Planner",
+      "type": "events",
+      "url": "/events/calendar"
     },
     {
       "label": "Insights",
       "type": "blog"
     },
     {
-      "label": "FAQs",
-      "type": "faq"
+      "label": "Partners",
+      "type": "partners"
+    },
+    {
+      "label": "About",
+      "type": "about"
     }
   ]
 }
