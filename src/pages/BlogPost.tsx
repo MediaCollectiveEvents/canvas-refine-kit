@@ -9,8 +9,6 @@ import { useParams, Link } from "react-router-dom";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import PageHero from "@/components/shared/PageHero";
-import SectionDivider from "@/components/shared/SectionDivider";
 
 import blogPostsJSON from "@/content/blogPosts.json";
 
@@ -67,21 +65,18 @@ const BlogPostPage: React.FC = () => {
       <Seo title={`${post.title} — The Media Collective`} description={post.excerpt} url={`/blog/${post.slug}`} type="article" />
       <Header />
 
-      <main className="pt-20 sm:pt-24 lg:pt-28">
-        {/* Hero */}
-        <PageHero
-          eyebrow={post.category}
-          title={post.title}
-          description={post.excerpt}
-          variant="image"
-          backgroundImage={hero.image}
-        />
-
-        {/* Body */}
-        <section className="py-12 md:py-16 px-6">
+      <main className="bg-[#101d24] pt-[88px] sm:pt-[96px] lg:pt-[104px]">
+        <header className="px-6 pt-12 md:pt-16"
+          style={hero.image ? {
+            backgroundImage: `linear-gradient(90deg, rgba(16,29,36,0.95), rgba(16,29,36,0.85)), url(${hero.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center bottom",
+          } : undefined}>
           <div className="container mx-auto max-w-3xl">
-            {/* Meta + Back Link */}
-            <div className="flex items-center justify-between text-sm text-muted-foreground mb-6">
+            {post.category && <p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]">{post.category}</p>}
+            <h1 className="font-display text-[40px] font-light leading-[1.1] tracking-tight text-[#f7f3eb] [overflow-wrap:anywhere] md:text-[56px]">{post.title}</h1>
+            {post.excerpt && <p className="mt-6 text-base leading-[1.8] text-slate-200 md:text-lg">{post.excerpt}</p>}
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-300">
               <span>
                 {new Date(post.date).toLocaleDateString(undefined, {
                   year: "numeric",
@@ -89,15 +84,14 @@ const BlogPostPage: React.FC = () => {
                   day: "numeric",
                 })}
               </span>
-              <Link
-                to="/blog"
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                ← Back to Blog
-              </Link>
+              <Link to="/blog" className="text-sm font-medium text-primary hover:underline">← Back to Blog</Link>
             </div>
+            <div className="mt-4 [&>div]:text-slate-300"><ArticleAttribution article={post} /></div>
+          </div>
+        </header>
 
-            <div className="mb-6"><ArticleAttribution article={post} /></div>
+        <section className="px-6 pb-16 pt-8 md:pb-20 md:pt-10">
+          <div className="container mx-auto max-w-3xl [&_.prose]:text-slate-200">
             {/* Post Body */}
             {post.body ? (
               <ArticleContent body={post.body} />
@@ -109,8 +103,6 @@ const BlogPostPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Divider (fixed variant) */}
-        <SectionDivider className="py-12" />
       </main>
 
       <Footer />
