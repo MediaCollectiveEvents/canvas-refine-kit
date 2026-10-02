@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getPlannerLocations, getIndustryEventIssues, getIndustryEvents, getIndustryMonths, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "../src/lib/industryEvents";
+import { showsPlannerExperiences, getPlannerLocations, getIndustryEventIssues, getIndustryEvents, getIndustryMonths, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "../src/lib/industryEvents";
 import { getAllEvents, getEventById } from "../src/lib/events";
 import { getYearCalendarSnapshot } from "../src/lib/eventCalendar";
 
@@ -100,4 +100,26 @@ test("experience and city combine while external visibility is independent of ex
 test("location options are sorted, unique and derived from the selected year's records", () => {
   assert.deepEqual(getPlannerLocations(2026, media), ["Amsterdam", "Las Vegas", "London", "Los Angeles", "New York", "Paris"]);
   assert.deepEqual(getPlannerLocations(2027, media), ["Amsterdam", "Las Vegas", "London"]);
+});
+
+for (const [source, year, city, experience, expected] of [
+  ["media-collective", 2026, "all", "all", 4],
+  ["external", 2026, "all", "knowledge-discussion", 16],
+  ["external", 2027, "all", "networking-social", 3],
+  ["media-collective", 2027, "all", "all", 0],
+  ["media-collective", 2026, "London", "knowledge-discussion", 2],
+  ["external", 2026, "Amsterdam", "knowledge-discussion", 3],
+  ["all", 2026, "London", "knowledge-discussion", 7],
+] as const) {
+  test(`source ${source} combines with ${year}, ${city}, ${experience}`, () => {
+    const entries = getIndustryPlannerMonths(year, experience, media, external, city, source).flatMap(month => month.entries);
+    assert.equal(entries.length, expected);
+    if (source !== "all") assert.ok(entries.every(entry => entry.kind === source));
+  });
+}
+
+test("Industry calendar hides experience controls; other sources retain them", () => {
+  assert.equal(showsPlannerExperiences("external"), false);
+  assert.equal(showsPlannerExperiences("all"), true);
+  assert.equal(showsPlannerExperiences("media-collective"), true);
 });

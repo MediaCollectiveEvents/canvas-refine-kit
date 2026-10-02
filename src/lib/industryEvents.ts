@@ -88,6 +88,22 @@ export const MEDIA_COLLECTIVE_PLANNER_CITIES: Readonly<Partial<Record<number, st
   1: "London", 2: "London", 3: "Amsterdam", 4: "London",
 });
 
+export type PlannerSource = "all" | "media-collective" | "external";
+
+export const PLANNER_SOURCES: readonly { value: PlannerSource; label: string }[] = [
+  { value: "all", label: "All events" },
+  { value: "media-collective", label: "Media Collective" },
+  { value: "external", label: "Industry calendar" },
+];
+
+export function showsPlannerExperiences(source: PlannerSource): boolean {
+  return source !== "external";
+}
+
+export function filterPlannerEntriesBySource(entries: PlannerEntry[], source: PlannerSource = "all"): PlannerEntry[] {
+  return entries.filter(entry => source === "all" || entry.kind === source);
+}
+
 export function getPlannerEntryCity(entry: PlannerEntry): string | undefined {
   return entry.kind === "media-collective" ? MEDIA_COLLECTIVE_PLANNER_CITIES[entry.event.id] : entry.event.city;
 }
@@ -106,7 +122,7 @@ export function getPlannerEntryLink(entry: PlannerEntry): string {
   return entry.kind === "media-collective" ? `/events/${entry.event.id}` : entry.event.sourceUrl;
 }
 
-export function getIndustryPlannerMonths(year: number, category: EventExperienceFilter, mediaEvents: EventItem[], externalEvents = getIndustryEvents(), city = "all") {
+export function getIndustryPlannerMonths(year: number, category: EventExperienceFilter, mediaEvents: EventItem[], externalEvents = getIndustryEvents(), city = "all", source: PlannerSource = "all") {
   const datedMedia = mediaEvents.filter(event => getEventYear(event) === year);
   const industryMonths = getIndustryMonths(year, externalEvents);
   return industryMonths.map(month => {
@@ -120,7 +136,7 @@ export function getIndustryPlannerMonths(year: number, category: EventExperience
       const dateB = b.kind === "media-collective" ? b.event.date : b.event.startDate!;
       return dateA.localeCompare(dateB) || (a.kind === b.kind ? String(a.event.id).localeCompare(String(b.event.id)) : a.kind === "media-collective" ? -1 : 1);
     });
-    return { month: month.month, entries: filterPlannerEntriesByLocation(entries, city), announcedCount: announced.length + month.events.length };
+    return { month: month.month, entries: filterPlannerEntriesBySource(filterPlannerEntriesByLocation(entries, city), source), announcedCount: (source === "external" ? 0 : announced.length) + (source === "media-collective" ? 0 : month.events.length) };
   });
 }
 

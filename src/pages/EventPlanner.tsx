@@ -12,7 +12,7 @@ import {
 } from "@/lib/events";
 import { downloadCalendarFile, getYearCalendarSnapshot } from "@/lib/eventCalendar";
 
-import { filterPlannerEntriesByLocation, getPlannerLocations, getIndustryEvents, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "@/lib/industryEvents";
+import { PLANNER_SOURCES, showsPlannerExperiences, filterPlannerEntriesBySource, type PlannerSource, filterPlannerEntriesByLocation, getPlannerLocations, getIndustryEvents, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "@/lib/industryEvents";
 
 const mediaEvents = getAllEvents();
 const industryEvents = getIndustryEvents();
@@ -25,10 +25,11 @@ const description = "Plan your year with The Media Collective. Explore networkin
 export default function EventPlanner() {
   const [experience, setExperience] = useState<EventExperienceFilter>("all");
   const [year, setYear] = useState(defaultYear ?? 2026);
+  const [source, setSource] = useState<PlannerSource>("all");
   const [location, setLocation] = useState("all");
   const locations = getPlannerLocations(year, mediaEvents, industryEvents);
-  const months = getIndustryPlannerMonths(year, experience, mediaEvents, industryEvents, location);
-  const visibleUndated = filterPlannerEntriesByLocation(undated.map(event => ({ kind: "external" as const, event })), location).filter(entry => entry.kind === "external");
+  const months = getIndustryPlannerMonths(year, experience, mediaEvents, industryEvents, location, source);
+  const visibleUndated = filterPlannerEntriesBySource(filterPlannerEntriesByLocation(undated.map(event => ({ kind: "external" as const, event })), location), source).filter(entry => entry.kind === "external");
   // Snapshot always includes the whole year, independently of the visible filter.
   const snapshot = getYearCalendarSnapshot(mediaEvents, year);
   const visibleCount = months.reduce((count, month) => count + month.entries.length, 0);
@@ -42,13 +43,20 @@ export default function EventPlanner() {
           <Link to="/events" className="text-sm text-slate-600 underline underline-offset-4 hover:text-[#0B1F36]">← All events</Link>
           <h1 className="mt-8 font-display text-[40px] font-light leading-tight md:text-5xl">{year} Event Planner</h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-600">{description}</p>
+          <div role="group" aria-label="Planner source" className="mt-7 flex flex-wrap items-center gap-2">
+            {PLANNER_SOURCES.map(option => <Button key={option.value} variant={source === option.value ? "brand" : "ghost"}
+              aria-pressed={source === option.value} aria-controls="year-planner" onClick={() => setSource(option.value)}
+              className="h-10 rounded-full px-4 py-2 text-sm leading-5 focus-visible:ring-2 focus-visible:ring-[#27CDBA]">
+              {option.label}
+            </Button>)}
+          </div>
           <div role="group" aria-label="Planner year" className="mt-7 flex flex-wrap gap-2">
             {years.map(option => <Button key={option} variant="ghost" aria-pressed={year === option} onClick={() => { setYear(option); setLocation("all"); }}
               className={`rounded-full px-4 text-sm ${year === option ? "bg-[#eaf4f2] font-medium text-[#245d55]" : "text-slate-600"}`}>{option}</Button>)}
           </div>
-          <div className="mt-6">
+          {showsPlannerExperiences(source) && <div className="mt-6">
             <EventExperienceFilters value={experience} onChange={setExperience} resultsId="year-planner" light />
-          </div>
+          </div>}
           <div className="mt-4 flex flex-wrap items-center gap-3">
             <label htmlFor="planner-location" className="text-sm text-slate-600">Location</label>
             <select id="planner-location" value={location} onChange={event => setLocation(event.target.value)} aria-controls="year-planner"
@@ -57,7 +65,7 @@ export default function EventPlanner() {
               {locations.map(city => <option key={city} value={city}>{city}</option>)}
             </select>
           </div>
-          <p className="mt-3 text-sm text-slate-500">Experience filters apply to Media Collective events. External industry events remain visible in every view.</p>
+          {source === "all" && <p className="mt-3 text-sm text-slate-500">Experience filters apply to Media Collective events. External industry events remain visible in this view.</p>}
           <div className="mt-6">
             <Button variant="ghost" disabled={!snapshot.includedCount}
               onClick={() => downloadCalendarFile(snapshot.ics, snapshot.filename)}
