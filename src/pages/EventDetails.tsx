@@ -1,3 +1,7 @@
+import { CalendarPlus, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { getEventCalendar } from "@/lib/eventCalendar";
 import Seo from "@/components/shared/Seo";
 // src/pages/EventDetails.tsx
 import { useParams } from "react-router-dom";
@@ -29,6 +33,19 @@ const EventDetails = () => {
     );
   }
 
+  const calendar = getEventCalendar(event);
+  const downloadCalendar = () => {
+    if (!calendar) return;
+    const url = URL.createObjectURL(new Blob([calendar.ics], { type: "text/calendar;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = calendar.filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Seo title={`${event.title} — The Media Collective`} description={event.summary || event.description} url={`/events/${event.id}`} />
@@ -46,6 +63,29 @@ const EventDetails = () => {
             {event.date || ""}
             {event.location ? ` · ${event.location}` : ""}
           </p>
+        )}
+
+        {calendar && (
+          <div className="mb-6">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="rounded-full font-body text-sm focus-visible:ring-2 focus-visible:ring-primary">
+                  <CalendarPlus aria-hidden="true" className="h-4 w-4" />
+                  Add to calendar
+                  <ChevronDown aria-hidden="true" className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="max-w-[calc(100vw-48px)] bg-[var(--popover)] font-body">
+                <DropdownMenuItem asChild className="focus:bg-white/10 focus:text-white">
+                  <a href={calendar.googleUrl} target="_blank" rel="noopener noreferrer" aria-label="Add event to Google Calendar (opens in a new tab)">Google Calendar</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="focus:bg-white/10 focus:text-white">
+                  <a href={calendar.outlookUrl} target="_blank" rel="noopener noreferrer" aria-label="Add event to Outlook Calendar (opens in a new tab)">Outlook Calendar</a>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="focus:bg-white/10 focus:text-white" onSelect={downloadCalendar} aria-label="Download event calendar file for Apple and other calendars">Apple &amp; other calendars (.ics)</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         )}
 
         {/* Summary */}
