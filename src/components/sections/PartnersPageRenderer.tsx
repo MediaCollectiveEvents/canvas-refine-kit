@@ -176,18 +176,10 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
           case "joinUs":
             return (
               <PageSection key={section.id ?? section.type} id="partner-conversation" className="scroll-mt-28 bg-none bg-[#172b31] py-16 md:py-20">
-                <div className="grid gap-10 md:grid-cols-[1.5fr_1fr] md:items-start">
+                <div className="max-w-2xl">
                   <div>
                     <JourneyHeading step="Start a conversation" title="Discuss a partnership." description="Tell us about the gathering you have in mind. We’ll follow up to discuss the possibilities." />
                     <Button variant="brand" size="lg" onClick={onRegister}>Discuss a partnership</Button>
-                  </div>
-                  <div className="border-l border-white/20 pl-6">
-                    <h3 className="mb-5 text-sm font-semibold text-white">Useful to have in mind</h3>
-                    <ul className="space-y-4 text-sm leading-relaxed text-slate-300">
-                      <li>Who you would like to bring together</li>
-                      <li>The subject or purpose of the gathering</li>
-                      <li>Your preferred event format and timing</li>
-                    </ul>
                   </div>
                 </div>
               </PageSection>
