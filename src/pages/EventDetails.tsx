@@ -1,3 +1,4 @@
+import { formatArticleDate, getArticlesForEvent } from "@/lib/articles";
 import EventCalendarControl from "@/components/shared/EventCalendarControl";
 import Seo from "@/components/shared/Seo";
 // src/pages/EventDetails.tsx
@@ -46,6 +47,7 @@ const EventDetails = () => {
 
   const industryContext = getEventIndustryContext(event.id);
   const relatedEvents = getRelatedEvents(event);
+  const relatedArticles = getArticlesForEvent(event.id);
 
   return (
     <div className="min-h-screen bg-[#101d24] text-foreground">
@@ -114,6 +116,13 @@ const EventDetails = () => {
               <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{related.experienceCategories?.map(category => EVENT_EXPERIENCE_LABELS[category]).join(" · ")}</p>
             </li>)}
           </ul>
+        </section>}
+        {relatedArticles.length > 0 && <section aria-label="Related Insights" className="mt-10 max-w-2xl md:mt-12">
+          <h2 className="mb-4 font-display text-2xl font-light">Related Insights</h2>
+          <ul className="space-y-5">{relatedArticles.map(article => <li key={article.slug}>
+            <Link to={`/blog/${article.slug}`} className="text-lg font-medium underline decoration-primary underline-offset-4 hover:text-primary">{article.title}</Link>
+            <p className="mt-2 text-sm text-muted-foreground">{formatArticleDate(article.date)}</p>
+          </li>)}</ul>
         </section>}
         </div>
       </main>

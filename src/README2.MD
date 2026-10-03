@@ -28,7 +28,7 @@ src/
 │ ├── faq.json
 │ ├── settings.json
 │ ├── events.json
-│ ├── blog.json
+│ ├── blogPosts.json
 │ ├── sponsors.json
 │ ├── partners.json
 │ └── speakers.json
@@ -74,7 +74,7 @@ Examples:
 Homepage
 JSON{ "heroTitle": "...", "heroSubtitle": "...", "sections": []}Show more lines
 Blog Posts
-blog.json contains all posts including full body content.
+blogPosts.json contains all posts including full body content.
 Events
 events.json stores event cards for the homepage Events section.
 FAQ
@@ -164,7 +164,7 @@ Typical tasks include:
 Adding new sections → create SectionNameSection.tsx in components/sections
 Adding content → update JSON in src/content
 Adding routes → update App.tsx
-Adding new blog posts → update blog.json
+Adding new blog posts → update blogPosts.json
 Adding new events → update events.json
 
 📦 Deployment

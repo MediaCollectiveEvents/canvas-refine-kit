@@ -9,7 +9,7 @@ src/content/
 This folder contains JSON files that control each section of the website.
 Important files:
 
-FileWhat it Controlshomepage.jsonHome hero text, homepage sectionsabout.jsonAbout section copyfaq.jsonFAQ questions + answerssettings.jsonNavigation items + Footer contentevents.jsonUpcoming Events on homepageblog.jsonBlog list + full article contentsponsors.jsonSponsors pagepartners.jsonPartners pagespeakers.jsonFuture speakers section
+FileWhat it Controlshomepage.jsonHome hero text, homepage sectionsabout.jsonAbout section copyfaq.jsonFAQ questions + answerssettings.jsonNavigation items + Footer contentevents.jsonUpcoming Events on homepageblogPosts.jsonBlog list + full article contentsponsors.jsonSponsors pagepartners.jsonPartners pagespeakers.jsonFuture speakers section
 Updating these files updates the website instantly after deployment.
 
 ✏️ How to Edit Content (General Rules)
@@ -71,7 +71,7 @@ Example:
 JSON{ "question": "Who are the events for?", "answer": "Senior executives, founders and media leaders."}Show more lines
 
 4. Blog Posts
-   src/content/blog.json
+   src/content/blogPosts.json
 
 Each blog article contains:
 

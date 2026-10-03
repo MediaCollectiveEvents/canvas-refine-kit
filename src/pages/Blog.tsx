@@ -1,4 +1,4 @@
-import type { Article } from "@/lib/contentMetadata";
+import { getArticles } from "@/lib/articles";
 import Seo from "@/components/shared/Seo";
 // src/pages/Blog.tsx
 import React from "react";
@@ -9,13 +9,11 @@ import PageHero from "@/components/shared/PageHero";
 
 import BlogPageRenderer from "@/components/sections/BlogPageRenderer";
 import blogPage from "@/content/blogPage.json";
-import blogPostsJSON from "@/content/blogPosts.json";
 
-type BlogPost = Article;
 
 const Blog: React.FC = () => {
   const { hero, sections } = blogPage;
-  const posts: BlogPost[] = blogPostsJSON.posts || [];
+  const posts = getArticles();
 
   return (
     <div className="min-h-screen bg-background">

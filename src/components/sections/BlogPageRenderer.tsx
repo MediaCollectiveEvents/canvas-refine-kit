@@ -1,3 +1,4 @@
+import { formatArticleDate, sortArticles } from "@/lib/articles";
 import ArticleAttribution from "@/components/shared/ArticleAttribution";
 import { contentImage } from "@/lib/contentImages";
 import type { Article } from "@/lib/contentMetadata";
@@ -30,7 +31,7 @@ function ArticleImage({ post }: { post: Article }) {
 // Matches the shape of objects in src/content/blogPosts.json
 type BlogPost = Article;
 
-interface BlogPageRendererProps {
+export interface BlogPageRendererProps {
   sections: {
     id?: string;
     type: string;
@@ -63,14 +64,12 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
               <PageSection key={key} className="site-surface-dark">
                 <div>
                   <h2 className="mb-10 font-display text-[30px] font-light leading-tight text-white md:text-4xl">
-                    {section.title ?? "Latest"}{" "}
-                    <span>
-                      {section.accentWord ?? "Articles"}
-                    </span>
+                    {section.title ?? "Latest articles"}
+                    {section.accentWord && <> {section.accentWord}</>}
                   </h2>
 
                   <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
-                    {posts.map((post) => (
+                    {sortArticles(posts).map((post) => (
                       <article
                         key={post.slug}
                         className="min-w-0"
@@ -82,7 +81,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                             <span>{post.category}</span>
                             <div className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
-                              <span>{post.date}</span>
+                              <span>{formatArticleDate(post.date)}</span>
                             </div>
                           </div>
 

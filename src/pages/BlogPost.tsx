@@ -1,7 +1,8 @@
 import ArticleContent from "@/components/shared/ArticleContent";
 import ArticleAttribution from "@/components/shared/ArticleAttribution";
 import { contentImage } from "@/lib/contentImages";
-import type { Article } from "@/lib/contentMetadata";
+import { formatArticleDate, getArticleBySlug } from "@/lib/articles";
+import ArticleRelatedEvents from "@/components/shared/ArticleRelatedEvents";
 import Seo from "@/components/shared/Seo";
 // src/pages/BlogPost.tsx
 import React from "react";
@@ -10,15 +11,12 @@ import { useParams, Link } from "react-router-dom";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-import blogPostsJSON from "@/content/blogPosts.json";
 
-type BlogPost = Article;
 
 const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
 
-  const posts: BlogPost[] = blogPostsJSON.posts || [];
-  const post = posts.find((p) => p.slug === slug);
+  const post = getArticleBySlug(slug);
 
   // -----------------------------
   // ❌ Not Found Case
@@ -78,11 +76,7 @@ const BlogPostPage: React.FC = () => {
             {post.excerpt && <p className="mt-6 text-base leading-[1.8] text-slate-200 md:text-lg">{post.excerpt}</p>}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-300">
               <span>
-                {new Date(post.date).toLocaleDateString(undefined, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
+                {formatArticleDate(post.date)}
               </span>
               <Link to="/blog" className="text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
             </div>
@@ -100,6 +94,8 @@ const BlogPostPage: React.FC = () => {
                 Full content for this post is coming soon.
               </p>
             )}
+            <ArticleRelatedEvents article={post} />
+            <Link to="/blog" className="mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
           </div>
         </section>
 

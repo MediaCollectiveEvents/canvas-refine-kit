@@ -916,6 +916,7 @@ collections:
               - { label: Link Label, name: linkLabel, widget: string, required: false }
               - { label: Author Label, name: authorLabel, widget: string, required: false }
               - { label: Button Label, name: buttonLabel, widget: string, required: false }
+              - { label: CTA URL, name: url, widget: string, required: false }
 
   - name: blogPosts
     label: Blog Posts

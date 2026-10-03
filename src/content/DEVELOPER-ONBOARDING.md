@@ -37,7 +37,7 @@ src/
 │ ├── about.json
 │ ├── faq.json
 │ ├── settings.json
-│ ├── blog.json
+│ ├── blogPosts.json
 │ ├── events.json
 │ ├── sponsors.json
 │ ├── partners.json
@@ -84,7 +84,7 @@ FAQ items array:
 JSON{ "question": "", "answer": "" }Show more lines
 settings.json
 Navigation + Footer configuration.
-blog.json
+blogPosts.json
 All blog posts, including:
 
 heroImage
@@ -132,7 +132,7 @@ This ensures visual consistency across the site.
 
 🛠 9. How to Update Content
 
-Pick the JSON file (e.g., blog.json)
+Pick the JSON file (e.g., blogPosts.json)
 Edit the values
 Save
 Refresh the site

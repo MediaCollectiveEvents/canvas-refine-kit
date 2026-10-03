@@ -1,3 +1,4 @@
+import BlogPagePreview from "./previews/BlogPagePreview";
 import ArticlesPreview from "./previews/ArticlesPreview";
 // src/cms/preview.tsx
 
@@ -180,7 +181,7 @@ async function boot() {
     CMS.registerPreviewTemplate("faqPage", SectionsPreview);
     CMS.registerPreviewTemplate("eventsPage", SectionsPreview);
     CMS.registerPreviewTemplate("partnersPage", PartnersPreview);
-    CMS.registerPreviewTemplate("blogPage", SectionsPreview);
+    CMS.registerPreviewTemplate("blogPage", BlogPagePreview);
 
     console.log("[Decap Preview] templates registered.");
   } catch (err) {
