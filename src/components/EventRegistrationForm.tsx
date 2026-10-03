@@ -308,7 +308,7 @@ const EventRegistrationForm = ({
 
                   <FormField control={form.control} name="engagementTypes" render={() => <FormItem>
                         <div className="grid grid-cols-1 gap-3">
-                          {engagementOptions.map(option => <FormField key={option.id} control={form.control} name="engagementTypes" render={({
+                          {engagementOptions.filter(option => option.id !== "notifications").map(option => <FormField key={option.id} control={form.control} name="engagementTypes" render={({
                     field
                   }) => <FormItem className="flex items-center space-x-3 space-y-0 p-3 rounded-lg border border-input hover:border-primary transition-colors cursor-pointer">
                                   <FormControl>
