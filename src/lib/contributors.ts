@@ -1,3 +1,4 @@
+import { normalizeTaxonomyMetadata } from "./taxonomy";
 import directory from "@/content/contributors.json";
 import type { ArticleMetadata, Contributor } from "./contentMetadata";
 
@@ -13,7 +14,7 @@ export function getContributors(source: unknown = directory): Contributor[] {
   if (!Array.isArray(rows)) return [];
   return rows.flatMap(row => {
     if (!row || typeof row !== "object" || !validId(row.id) || typeof row.displayName !== "string" || !row.displayName.trim()) return [];
-    const contributor: Contributor = { id: row.id, displayName: row.displayName.trim() };
+    const contributor: Contributor = { id: row.id, displayName: row.displayName.trim(), ...normalizeTaxonomyMetadata(row) };
     for (const key of ["role", "organisation", "biography"] as const) {
       if (typeof row[key] === "string" && row[key].trim()) contributor[key] = row[key].trim();
     }

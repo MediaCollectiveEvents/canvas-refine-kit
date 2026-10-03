@@ -1,3 +1,4 @@
+import { normalizeTaxonomyMetadata } from "./taxonomy";
 import blogPosts from "@/content/blogPosts.json";
 import type { Article } from "@/lib/contentMetadata";
 import { getEventById } from "@/lib/events";
@@ -19,8 +20,15 @@ export function formatArticleDate(value: string): string {
   return date ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(date) : "Publication date unavailable";
 }
 
+export function normalizeArticles(articles: readonly Article[] = blogPosts.posts): Article[] {
+  return articles.map(article => {
+    const { areas, topics, ...rest } = article;
+    return { ...rest, ...normalizeTaxonomyMetadata({ areas, topics }) };
+  });
+}
+
 export function sortArticles(articles: readonly Article[]): Article[] {
-  return [...articles].sort((a, b) => {
+  return normalizeArticles(articles).sort((a, b) => {
     const first = articleDate(a.date)?.getTime();
     const second = articleDate(b.date)?.getTime();
     if (first !== second) {
@@ -37,7 +45,7 @@ export function getArticles(): Article[] {
 }
 
 export function getArticleBySlug(slug: string | undefined, articles: readonly Article[] = getArticles()): Article | undefined {
-  return slug ? articles.find(article => article.slug === slug) : undefined;
+  return slug ? normalizeArticles(articles).find(article => article.slug === slug) : undefined;
 }
 
 export function getArticleEvents(article: Pick<Article, "relatedEventIds">) {

@@ -1,3 +1,4 @@
+import { normalizeTaxonomyMetadata, type TaxonomyMetadata } from "./taxonomy";
 import aggregateContent from "@/content/events.json";
 
 export interface EventIdentity {
@@ -36,7 +37,7 @@ const experienceCategories = new Set<EventExperienceCategory>([
   "networking-social", "conference-aligned", "knowledge-discussion",
 ]);
 
-export interface EventItem {
+export interface EventItem extends TaxonomyMetadata {
   id: number;
   experienceCategories?: EventExperienceCategory[];
   startsAt?: string;
@@ -106,6 +107,7 @@ export function normalizeEvents(source: unknown = aggregateContent): EventItem[]
   });
   return records.filter(row => validId(row.id) && counts.get(row.id) === 1).map(row => ({
     id: row.id as number,
+    ...normalizeTaxonomyMetadata(row),
     experienceCategories: Array.isArray(row.experienceCategories)
       ? [...new Set(row.experienceCategories.filter((value): value is EventExperienceCategory =>
         typeof value === "string" && experienceCategories.has(value as EventExperienceCategory)))]

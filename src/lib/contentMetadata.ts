@@ -1,3 +1,5 @@
+import type { TaxonomyMetadata } from "./taxonomy";
+
 // Optional editorial metadata; existing records and rendering remain valid.
 export interface SponsorProfileMetadata {
   id?: string;
@@ -14,7 +16,7 @@ export interface SponsorLogo extends SponsorProfileMetadata {
   alt?: string;
 }
 
-export interface Contributor {
+export interface Contributor extends TaxonomyMetadata {
   id: string;
   displayName: string;
   role?: string;
@@ -23,7 +25,7 @@ export interface Contributor {
   image?: string;
 }
 
-export interface ArticleMetadata {
+export interface ArticleMetadata extends TaxonomyMetadata {
   writerId?: string;
   author?: string;
   organisation?: string;

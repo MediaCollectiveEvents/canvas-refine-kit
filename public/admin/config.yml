@@ -702,6 +702,28 @@ collections:
                   - { label: Conference-aligned gatherings, value: conference-aligned }
                   - { label: Knowledge & discussion forums, value: knowledge-discussion }
                 hint: "Assign only confirmed categories. Status is controlled separately."
+              - label: Areas
+                name: areas
+                widget: relation
+                required: false
+                collection: taxonomy
+                file: taxonomy
+                search_fields: ["areas.*.label", "areas.*.id"]
+                display_fields: ["areas.*.label"]
+                value_field: "areas.*.id"
+                multiple: true
+                hint: "Functions and subjects relevant to this gathering; not attendance eligibility or experience format. Select approved active values only; retain inactive values only for historical records."
+              - label: Topics
+                name: topics
+                widget: relation
+                required: false
+                collection: taxonomy
+                file: taxonomy
+                search_fields: ["topics.*.label", "topics.*.id"]
+                display_fields: ["topics.*.label"]
+                value_field: "topics.*.id"
+                multiple: true
+                hint: "Subjects addressed by this gathering; not attendance eligibility or experience format. Select approved active values only; retain inactive values only for historical records."
               - { label: Starts At, name: startsAt, widget: string, required: false, hint: "Confirmed ISO 8601 timestamp with UTC offset. Leave blank until confirmed." }
               - { label: Ends At, name: endsAt, widget: string, required: false, hint: "Confirmed ISO 8601 timestamp with UTC offset. Leave blank until confirmed." }
               - { label: Time Zone, name: timeZone, widget: string, required: false, hint: "Confirmed IANA zone, for example Europe/London. Do not infer from venue." }
@@ -936,6 +958,29 @@ collections:
               - { label: Title, name: title, widget: string }
               - { label: Slug, name: slug, widget: string }
               - { label: Category, name: category, widget: string }
+              - label: Areas
+                name: areas
+                widget: relation
+                required: false
+                collection: taxonomy
+                file: taxonomy
+                search_fields: ["areas.*.label", "areas.*.id"]
+                display_fields: ["areas.*.label"]
+                value_field: "areas.*.id"
+                multiple: true
+                hint: "Professional functions relevant to this article. Select approved active values only; retain inactive values only for historical records."
+              - label: Topics
+                name: topics
+                widget: relation
+                required: false
+                collection: taxonomy
+                file: taxonomy
+                search_fields: ["topics.*.label", "topics.*.id"]
+                display_fields: ["topics.*.label"]
+                value_field: "topics.*.id"
+                multiple: true
+                hint: "Subjects substantively addressed by this article. Select approved active values only; retain inactive values only for historical records."
+
               - label: Primary Contributor
                 name: writerId
                 widget: relation
@@ -1128,7 +1173,57 @@ collections:
             fields:
               - { label: Stable ID, name: id, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Must be unique. Keep unchanged once referenced by articles." }
               - { label: Display Name, name: displayName, widget: string }
+              - label: Areas
+                name: areas
+                widget: relation
+                required: false
+                collection: taxonomy
+                file: taxonomy
+                search_fields: ["areas.*.label", "areas.*.id"]
+                display_fields: ["areas.*.label"]
+                value_field: "areas.*.id"
+                multiple: true
+                hint: "Approved contributor expertise; do not infer from authored articles. Select approved active values only; retain inactive values only for historical records."
+              - label: Topics
+                name: topics
+                widget: relation
+                required: false
+                collection: taxonomy
+                file: taxonomy
+                search_fields: ["topics.*.label", "topics.*.id"]
+                display_fields: ["topics.*.label"]
+                value_field: "topics.*.id"
+                multiple: true
+                hint: "Approved subject expertise; do not infer from authored articles. Select approved active values only; retain inactive values only for historical records."
+
               - { label: Role, name: role, widget: string, required: false }
               - { label: Organisation, name: organisation, widget: string, required: false }
               - { label: Short Biography, name: biography, widget: text, required: false }
               - { label: Image, name: image, widget: image, required: false }
+
+  - name: taxonomy
+    label: Shared Taxonomy
+    files:
+      - name: taxonomy
+        label: Shared Taxonomy
+        file: "src/content/taxonomy.json"
+        format: json
+        fields:
+          - label: Areas
+            name: areas
+            widget: list
+            summary: "{{fields.label}} ({{fields.id}})"
+            fields:
+              - { label: Stable ID, name: id, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Unique across areas and topics. Never rename or delete referenced IDs; retire them instead." }
+              - { label: Label, name: label, widget: string }
+              - { label: Definition, name: description, widget: text }
+              - { label: Active, name: active, widget: boolean, default: true }
+          - label: Topics
+            name: topics
+            widget: list
+            summary: "{{fields.label}} ({{fields.id}})"
+            fields:
+              - { label: Stable ID, name: id, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Unique across areas and topics. Never rename or delete referenced IDs; retire them instead." }
+              - { label: Label, name: label, widget: string }
+              - { label: Definition, name: description, widget: text }
+              - { label: Active, name: active, widget: boolean, default: true }

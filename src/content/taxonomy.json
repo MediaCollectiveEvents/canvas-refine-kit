@@ -1,0 +1,126 @@
+{
+  "areas": [
+    {
+      "id": "production",
+      "label": "Production",
+      "description": "Creating and executing media productions, including production management and craft workflows; distinct from editorial commissioning and ongoing service operations.",
+      "active": true
+    },
+    {
+      "id": "operations",
+      "label": "Media operations",
+      "description": "Running recurring media services, including asset handling, scheduling, operational workflows, service delivery and operational reliability.",
+      "active": true
+    },
+    {
+      "id": "content",
+      "label": "Content & editorial",
+      "description": "Commissioning, acquiring, programming, curating and making editorial decisions about content; distinct from executing production.",
+      "active": true
+    },
+    {
+      "id": "distribution-delivery",
+      "label": "Distribution & delivery",
+      "description": "Getting media to audiences through distribution platforms, channels, delivery systems and associated partnerships.",
+      "active": true
+    },
+    {
+      "id": "technology",
+      "label": "Engineering & technology",
+      "description": "Designing, integrating, developing and maintaining media technology, systems and infrastructure.",
+      "active": true
+    },
+    {
+      "id": "commercial",
+      "label": "Commercial",
+      "description": "Revenue, sales, business development, advertising business, commercial partnerships and commercial rights activity.",
+      "active": true
+    },
+    {
+      "id": "strategy-leadership",
+      "label": "Strategy & leadership",
+      "description": "Organisational direction, executive decision-making, investment priorities and business strategy; not a measure of seniority or invitation eligibility.",
+      "active": true
+    }
+  ],
+  "topics": [
+    {
+      "id": "monetisation",
+      "label": "Monetisation",
+      "description": "How media creates revenue and economic value, including subscriptions, transactions, pricing and revenue models; advertising is one mechanism, not a synonym.",
+      "active": true
+    },
+    {
+      "id": "discovery",
+      "label": "Content discovery",
+      "description": "How people find and choose content through search, recommendations, navigation, metadata and prominence; distinct from continuing engagement.",
+      "active": true
+    },
+    {
+      "id": "ai-automation",
+      "label": "AI & automation",
+      "description": "AI applications and automated processes in media; workflow or organisational change does not automatically imply AI.",
+      "active": true
+    },
+    {
+      "id": "workflow-transformation",
+      "label": "Workflow transformation",
+      "description": "Changes to how work moves between people, tools and stages, focusing on processes and implementation rather than organisational structure or culture.",
+      "active": true
+    },
+    {
+      "id": "streaming",
+      "label": "Streaming",
+      "description": "Internet-delivered media services and their operation, product experience and delivery.",
+      "active": true
+    },
+    {
+      "id": "cloud-infrastructure",
+      "label": "Cloud & infrastructure",
+      "description": "Compute, storage, networking, hosting and infrastructure architecture supporting media, including on-premises and hybrid infrastructure.",
+      "active": true
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "description": "Protecting systems, content, services and information against threats, including access controls and resilience to attacks; not automatically privacy or regulatory compliance.",
+      "active": true
+    },
+    {
+      "id": "audience-engagement",
+      "label": "Audience engagement",
+      "description": "Participation, retention, loyalty and audience relationships; distinct from finding content.",
+      "active": true
+    },
+    {
+      "id": "advertising",
+      "label": "Advertising",
+      "description": "Advertising products, inventory, buying and selling, targeting, delivery and effectiveness; distinct from broader revenue strategy.",
+      "active": true
+    },
+    {
+      "id": "rights-licensing",
+      "label": "Rights & licensing",
+      "description": "Ownership, permissions, exploitation rights, licensing agreements and rights management; not a general legal or compliance category.",
+      "active": true
+    },
+    {
+      "id": "data-measurement",
+      "label": "Data & measurement",
+      "description": "Collecting, managing, analysing and measuring media, business and audience data; apply only where data or measurement is a substantive subject.",
+      "active": true
+    },
+    {
+      "id": "organisational-change",
+      "label": "Organisational change",
+      "description": "Changes to organisational structure, roles, skills, culture and operating models; distinct from changing an individual workflow.",
+      "active": true
+    },
+    {
+      "id": "industry-strategy",
+      "label": "Industry strategy",
+      "description": "Media-industry direction, competitive positioning, business-model choices, investment and market structure; distinct from revenue mechanics.",
+      "active": true
+    }
+  ]
+}
