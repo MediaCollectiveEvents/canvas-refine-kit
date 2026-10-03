@@ -15,6 +15,7 @@ type TestimonialInput = string | TestimonialObject;
 interface TestimonialsSectionProps {
   section?: {
     heading?: string;
+    styleTitle?: { sub?: string };
     items?: TestimonialInput[];
   };
 }
@@ -162,7 +163,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
             {section?.heading || "Community voices"}
           </SectionTitle>
 
-          <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-600">Thoughtful discussion, introductions and collaboration.</p>
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-600">{section?.styleTitle?.sub || "Thoughtful discussion, introductions and collaboration."}</p>
 
         </div>
 

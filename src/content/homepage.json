@@ -129,7 +129,7 @@
     },
     {
       "type": "testimonials",
-      "heading": "Why people come",
+      "heading": "Smaller by design",
       "items": [
         {
           "quote": "The intimate format creates opportunities for genuine dialogue with peers.",
@@ -164,7 +164,7 @@
       ],
       "styleTitle": {
         "eyebrow": "In their words",
-        "sub": "Reflections from attendees & partners",
+        "sub": "We favour focused rooms over large audiences — creating more space for discussion, participation and peer exchange.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
