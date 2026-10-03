@@ -29,6 +29,8 @@
       "title": "Post-NAB Review Breakfast 2026: Signals, Strategy and Operating Reality",
       "type": "upcoming",
       "id": 1,
+      "areas": ["strategy-leadership"],
+      "topics": ["security", "organisational-change", "industry-strategy"],
       "description": "Breakfast networking at The Broadcaster, White City, London, with Caretta Research market intelligence, industry perspectives and a panel discussion on signals, strategy and operating reality.",
       "startsAt": "2026-05-06T09:30:00+01:00",
       "endsAt": "2026-05-06T12:00:00+01:00",
@@ -80,6 +82,8 @@
     },
     {
       "id": 4,
+      "areas": ["strategy-leadership"],
+      "topics": ["industry-strategy"],
       "title": "OFF AIR: The Unfiltered Future of Media",
       "date": "2026-11-24",
       "time": "15:00–18:00",

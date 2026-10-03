@@ -46,8 +46,21 @@ test("absent metadata stays absent and explicit empty arrays remain empty", () =
  assert.deepEqual(normalizeTaxonomyMetadata({}),{});
  assert.deepEqual(normalizeTaxonomyMetadata({areas:[],topics:[]}),{areas:[],topics:[]});
  assert.deepEqual(normalizeTaxonomyMetadata({areas:"production",topics:null}),{});
- for(const row of [...normalizeArticles([article]),...getAllEvents(),...getContributors({contributors:[{id:"writer",displayName:"Writer"}]})]) {
+ for(const row of [...normalizeArticles([article]),...getContributors({contributors:[{id:"writer",displayName:"Writer"}]})]) {
   assert.equal(Object.hasOwn(row,"areas"),false); assert.equal(Object.hasOwn(row,"topics"),false);
+ }
+ const events=getAllEvents();
+ const nab=events.find(event=>event.id===1);
+ const offAir=events.find(event=>event.id===4);
+ assert.ok(nab); assert.ok(offAir);
+ assert.deepEqual(nab.areas,["strategy-leadership"]);
+ assert.deepEqual(nab.topics,["security","organisational-change","industry-strategy"]);
+ assert.deepEqual(offAir.areas,["strategy-leadership"]);
+ assert.deepEqual(offAir.topics,["industry-strategy"]);
+ for(const id of [2,3]) {
+  const event=events.find(row=>row.id===id);
+  assert.ok(event);
+  assert.equal(Object.hasOwn(event,"areas"),false); assert.equal(Object.hasOwn(event,"topics"),false);
  }
 });
 test("article metadata survives canonical helper normalization without changing existing identity", () => {
