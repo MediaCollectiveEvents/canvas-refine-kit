@@ -60,7 +60,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
         switch (section.type) {
           case "postsGrid":
             return (
-              <PageSection key={key} className="bg-none bg-[#101d24] py-16 md:py-20">
+              <PageSection key={key} className="site-surface-dark">
                 <div>
                   <h2 className="mb-10 font-display text-[30px] font-light leading-tight text-white md:text-4xl">
                     {section.title ?? "Latest"}{" "}

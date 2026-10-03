@@ -16,8 +16,8 @@ export default function WhoAttendsSection({ section = {} }: WhoAttendsSectionPro
     <SectionWrapper variant="light" align="left" padding="lux" className="!bg-[#eef4f2] text-slate-900 !py-10 md:!py-[60px] lg:!py-[72px]">
       <div className="grid gap-6 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
-          <p className="mb-3 text-xs font-normal uppercase tracking-[0.12em] text-slate-500">Audience credentials</p>
-          <SectionTitle align="left" tone="dark" disableEmphasis className="!text-[30px] md:!text-4xl">{section.heading || "Who attends"}</SectionTitle>
+          <p className="mb-3 site-eyebrow text-slate-500">Audience credentials</p>
+          <SectionTitle align="left" tone="dark" disableEmphasis>{section.heading || "Who attends"}</SectionTitle>
           <p className="max-w-sm text-base leading-relaxed text-slate-600">A cross-section of the media and technology industry.</p>
         </div>
         <div className="grid content-start gap-6 sm:grid-cols-3 lg:col-span-8">

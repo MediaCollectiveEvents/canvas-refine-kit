@@ -38,7 +38,7 @@ export default function EventsSection({ section, onRegisterClick }: EventsSectio
   return (
     <SectionWrapper variant="light" padding="lux" className="!pt-8 !pb-12 md:!py-[60px] lg:!py-[72px]">
       <div className="mb-10 grid gap-5 lg:grid-cols-12 lg:gap-10 lg:items-end">
-        <div className="lg:col-span-4"><span aria-hidden="true" className="mb-5 block h-px w-12 bg-[#27CDBA]" /><p className="mb-3 text-xs font-normal uppercase tracking-[0.12em] text-slate-500">The event calendar</p><h2 className="font-display text-[30px] font-light text-slate-900 md:text-4xl">{upcoming.length ? section?.heading || "Upcoming events" : "Recent gatherings"}</h2><p className="mt-4 text-base leading-relaxed text-slate-600">{upcoming.length ? section?.description : "Explore our recent events while the next gatherings are being planned."}</p></div>
+        <div className="lg:col-span-4"><span aria-hidden="true" className="mb-5 block h-px w-12 bg-[#27CDBA]" /><p className="mb-3 site-eyebrow text-slate-500">The event calendar</p><h2 className="site-heading text-slate-900">{upcoming.length ? section?.heading || "Upcoming events" : "Recent gatherings"}</h2><p className="mt-4 text-base leading-relaxed text-slate-600">{upcoming.length ? section?.description : "Explore our recent events while the next gatherings are being planned."}</p></div>
         {listing?.url && listing.url !== "/register" && <Button asChild variant="textcta" size="text" className="!text-teal-800 lg:col-span-8 lg:justify-self-end"><a href={listing.url}>{listing.label}</a></Button>}
       </div>
       <div className="grid items-start gap-10 lg:grid-cols-12">

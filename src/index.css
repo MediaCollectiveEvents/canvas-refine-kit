@@ -115,6 +115,37 @@
   }
 }
 
+/* Shared editorial primitives. Local Tailwind utilities can retain compact exceptions. */
+@layer components {
+  .site-container {
+    @apply mx-auto w-full max-w-6xl;
+  }
+
+  .site-gutter {
+    @apply px-6;
+  }
+
+  .site-section {
+    @apply px-6 py-16 md:py-20;
+  }
+
+  .site-heading {
+    @apply font-display text-[30px] font-light leading-tight md:text-4xl;
+  }
+
+  .site-eyebrow {
+    @apply font-body text-xs font-medium uppercase tracking-[0.16em];
+  }
+
+  .site-surface-dark {
+    background-color: #101d24;
+  }
+
+  .site-surface-emphasis {
+    background-color: #172b31;
+  }
+}
+
 /* -----------------------------------------------------------
    UTILITIES
 ----------------------------------------------------------- */

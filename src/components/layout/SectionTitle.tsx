@@ -23,26 +23,7 @@ export default function SectionTitle({
   disableEmphasis,
   className = "",
 }: SectionTitleProps) {
-  let defaults: any = {
-    styleTitle: {
-      align: "center",
-      tone: "default",
-      disableEmphasis: false,
-      eyebrow: "",
-      sub: "",
-      size: "2rem",
-      sizeSm: "2.2rem",
-      sizeMd: "2.35rem",
-      lineHeight: "1.12",
-      weight: "300",
-      accentWeight: "400",
-    },
-  };
-
-  try {
-    const ctx = useSectionStyleDefaults();
-    if (ctx) defaults = ctx;
-  } catch {}
+  const defaults = useSectionStyleDefaults();
 
   const st = defaults.styleTitle;
 
@@ -56,7 +37,7 @@ export default function SectionTitle({
       : "text-white";
 
   const eyebrowColor =
-    tone === "dark" ? "text-[#475569]" : "text-white/55";
+    tone === "dark" ? "text-slate-500" : "text-[#9bd3c8]";
 
   const subColor =
     tone === "dark" ? "text-[#64748B]" : "text-white/70";
@@ -88,7 +69,7 @@ export default function SectionTitle({
     <div className={`${wrapAlign} mb-6 md:mb-8`}>
       {eyebrow && (
         <p
-          className={`${eyebrowColor} mb-2 font-body text-[0.82rem] uppercase tracking-[0.18em]`}
+          className={`${eyebrowColor} mb-2 site-eyebrow`}
         >
           {eyebrow}
         </p>
@@ -96,9 +77,8 @@ export default function SectionTitle({
 
       <h2
         className={[
-          "font-[Montserrat]",
+          "site-heading",
           titleColor,
-          "text-[2rem] sm:text-[2.2rem] md:text-[2.35rem]",
           "leading-[1.12] tracking-tight",
           className,
         ].join(" ")}

@@ -158,8 +158,8 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
     >
       <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
-          <p className="mb-4 text-xs font-normal uppercase tracking-[0.12em] text-slate-500">Attendees and partners</p>
-          <SectionTitle align="left" disableEmphasis className="!text-[30px] md:!text-4xl" tone="dark">
+          <p className="mb-4 site-eyebrow text-slate-500">Attendees and partners</p>
+          <SectionTitle align="left" disableEmphasis tone="dark">
             {section?.heading || "Community voices"}
           </SectionTitle>
 

@@ -89,8 +89,8 @@ const sectionLinks: Record<string, { label: string; anchor: string }> = {
 function JourneyHeading({ step, title, description }: { step: string; title: string; description: string }) {
   return (
     <div className="mb-10 max-w-2xl">
-      <p className="mb-3 text-xs font-medium uppercase tracking-[0.16em] text-[#9bd3c8]">{step}</p>
-      <h2 className="font-display text-3xl font-light leading-tight text-[#f7f3eb] md:text-4xl">{title}</h2>
+      <p className="mb-3 site-eyebrow text-[#9bd3c8]">{step}</p>
+      <h2 className="site-heading text-[#f7f3eb]">{title}</h2>
       <p className="mt-4 text-sm leading-[1.8] text-slate-300">{description}</p>
     </div>
   );
@@ -113,7 +113,7 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
         switch (section.type) {
           case "partnersLogos":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 bg-none bg-[#101d24] py-16 md:py-20">
+              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
                 <JourneyHeading step="The partner community" title="In good company." description="Our events are made possible with the support of these media and technology companies." />
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
                   {currentSponsors.map(sponsor => (
@@ -137,7 +137,7 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
             );
           case "partnersBenefits":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-objectives" className="scroll-mt-28 border-b border-white/10 bg-none bg-[#101d24] py-16 md:py-20">
+              <PageSection key={section.id ?? section.type} id="partner-objectives" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
                 <JourneyHeading step="Audience and delivery" title="Develop a programme together." description="We develop the programme together, considering the audience, subject and format." />
                 <div className="grid gap-8 md:grid-cols-3">
                   {benefits.map(benefit => (
@@ -152,7 +152,7 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
             );
           case "partnersTiers":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-formats" className="scroll-mt-28 border-b border-white/10 bg-none bg-[#101d24] py-16 md:py-20">
+              <PageSection key={section.id ?? section.type} id="partner-formats" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
                 <JourneyHeading step="Ways to participate" title="Explore ways to take part." description="Partnership opportunities vary by event. These formats outline possible ways to participate; scope and inclusions are agreed directly. Any sharing of guest information remains subject to explicit consent and our privacy policy." />
                 <div className="grid gap-4 md:grid-cols-3">
                   {sponsorshipTiers.map(tier => (
@@ -175,7 +175,7 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
             );
           case "joinUs":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-conversation" className="scroll-mt-28 bg-none bg-[#172b31] py-16 md:py-20">
+              <PageSection key={section.id ?? section.type} id="partner-conversation" className="scroll-mt-28 site-surface-emphasis">
                 <div className="max-w-2xl">
                   <div>
                     <JourneyHeading step="Start a conversation" title="Discuss a partnership." description="Tell us about the gathering you have in mind. We’ll follow up to discuss the possibilities." />

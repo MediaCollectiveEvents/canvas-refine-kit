@@ -45,12 +45,11 @@ export default function SectionWrapper({
 
   const paddingClasses =
     padding === "lux"
-      ? "py-16 md:py-20 lg:py-24"
-      : "py-12 md:py-16 lg:py-20";
+      ? "site-section"
+      : "site-gutter py-12 md:py-16";
 
   const containerClass = `
-    mx-auto max-w-7xl
-    px-5 sm:px-6 lg:px-8 xl:px-8
+    site-container
     ${align === "center" ? "text-center" : "text-left"}
   `;
 
@@ -58,7 +57,7 @@ export default function SectionWrapper({
     variant === "light" || variant === "clean"
       ? "bg-[#f7f7f7]"
       : variant === "dark"
-        ? "bg-[#0b111a]"
+        ? "site-surface-dark"
         : "bg-transparent";
 
   return (
