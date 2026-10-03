@@ -996,16 +996,26 @@ collections:
               - { label: Organisation, name: organisation, widget: string, required: false }
               - label: Related Events
                 name: relatedEventIds
-                widget: list
+                widget: event-relation
                 required: false
-                field: { label: Event ID, name: eventId, widget: number, value_type: int, min: 1 }
-                hint: "Existing canonical numeric event IDs only."
-              - label: Related Partners
+                collection: events
+                file: eventsContent
+                search_fields: ["events.*.title"]
+                display_fields: ["events.*.title", "events.*.date"]
+                value_field: "events.*.id"
+                multiple: true
+                hint: "Select canonical Media Collective events by title and date. Numeric IDs are preserved."
+              - label: Related Organisations
                 name: relatedPartnerIds
-                widget: list
+                widget: organisation-relation
                 required: false
-                field: { label: Partner ID, name: partnerId, widget: string }
-                hint: "Confirmed sponsor profile IDs only; leave blank until profiles are migrated."
+                collection: sponsors
+                file: sponsors
+                search_fields: ["logos.*.name"]
+                display_fields: ["logos.*.name"]
+                value_field: "logos.*.id"
+                multiple: true
+                hint: "Only named organisations with unique stable IDs are eligible. Logo presence does not establish sponsorship."
 
               - { label: Excerpt, name: excerpt, widget: text }
               - { label: Date, name: date, widget: datetime }
@@ -1039,10 +1049,15 @@ collections:
                 field: { label: Partnership Type, name: partnershipType, widget: string }
               - label: Related Events
                 name: relatedEventIds
-                widget: list
+                widget: event-relation
                 required: false
-                field: { label: Event ID, name: eventId, widget: number, value_type: int, min: 1 }
-                hint: "Existing canonical numeric event IDs only."
+                collection: events
+                file: eventsContent
+                search_fields: ["events.*.title"]
+                display_fields: ["events.*.title", "events.*.date"]
+                value_field: "events.*.id"
+                multiple: true
+                hint: "Select canonical Media Collective events by title and date. Numeric IDs are preserved."
               - { label: Contribution / Focus, name: contribution, widget: text, required: false }
 
 

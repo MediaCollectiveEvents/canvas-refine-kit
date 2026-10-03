@@ -1,3 +1,4 @@
+import { registerReferenceWidgets, type ReferenceWidgetCMS } from "./controls/ReferenceRelationControl";
 import BlogPagePreview from "./previews/BlogPagePreview";
 import ArticlesPreview from "./previews/ArticlesPreview";
 // src/cms/preview.tsx
@@ -10,7 +11,7 @@ window.React = React;
 import "./shim-process";
 
 type PreviewProps = { entry: import("./previews/HomepagePreview").PreviewEntry };
-interface CMSApi {
+interface CMSApi extends ReferenceWidgetCMS {
   registerPreviewTemplate(name: string, component: React.ComponentType<PreviewProps>): void;
   registerPreviewStyle(css: string, options: { raw: boolean }): void;
 }
@@ -164,6 +165,7 @@ async function boot() {
     const CMS = await waitForCMSReady();
     console.log("[Decap Preview] CMS ready.");
 
+    registerReferenceWidgets(CMS);
     CMS.registerPreviewTemplate("blogPosts", ArticlesPreview);
 
     // Minimal preview CSS

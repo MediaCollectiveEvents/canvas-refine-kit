@@ -1,3 +1,4 @@
+import { directoryRows, getStableDirectoryIssues, validateEditorialReferences } from "./editorialRelationships";
 import directory from "@/content/sponsors.json";
 import type { Article, SponsorLogo } from "./contentMetadata";
 
@@ -36,7 +37,8 @@ export function getRelatedArticles(id: string, articles: Article[], organisation
   return getOrganisationById(id, organisations) ? articles.filter(article => article.relatedPartnerIds?.includes(id)) : [];
 }
 
-export function getOrganisationIssues(organisations = getOrganisations()): string[] {
-  const ids = organisations.flatMap(organisation => organisation.id ?? []);
-  return [...new Set(ids)].filter(id => ids.filter(value => value === id).length > 1).map(id => `Duplicate organisation ID: ${id}`);
+export function getOrganisationIssues(organisations?: SponsorLogo[]): string[] {
+  const source = organisations ? { logos: organisations } : directory;
+  return [...getStableDirectoryIssues(source, "logos", true), ...directoryRows(source, "logos").flatMap((row, index) =>
+    validateEditorialReferences("event", row.relatedEventIds).map(issue => `logos[${index}]: ${issue}`))];
 }

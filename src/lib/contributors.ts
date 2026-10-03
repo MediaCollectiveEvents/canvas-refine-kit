@@ -1,3 +1,4 @@
+import { getStableDirectoryIssues } from "./editorialRelationships";
 import { normalizeTaxonomyMetadata } from "./taxonomy";
 import directory from "@/content/contributors.json";
 import type { ArticleMetadata, Contributor } from "./contentMetadata";
@@ -38,4 +39,8 @@ export function getArticleAttribution(article: ArticleMetadata, contributors = g
   return contributor
     ? { author: contributor.displayName, organisation: contributor.organisation }
     : { author: article.author, organisation: article.organisation };
+}
+
+export function getContributorIssues(source: unknown = directory): string[] {
+  return getStableDirectoryIssues(source, "contributors", false);
 }
