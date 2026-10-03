@@ -175,8 +175,8 @@ const EventRegistrationForm = ({
       );
 
       toast({
-        title: "Thank You for Your Enquiry!",
-        description: "Your enquiry has been received. Invitation applicants should receive a response by email within 5 working days; if accepted, they will receive a registration link. For partner enquiries, The Media Collective will make contact and arrange an introductory call within 3 working days."
+        title: "Thank you for your enquiry",
+        description: "Your enquiry was sent, but we cannot confirm receipt here. Registering interest does not confirm attendance or a partnership."
       });
 
       form.reset();
@@ -186,8 +186,8 @@ const EventRegistrationForm = ({
     } catch (error) {
       console.error("Webhook submission error:", error);
       toast({
-        title: "Submission Failed",
-        description: "Please try again later.",
+        title: "Unable to send",
+        description: "We couldn’t send your enquiry. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -217,7 +217,7 @@ const EventRegistrationForm = ({
   return <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[540px] max-h-[90vh] overflow-y-auto bg-background border-border">
         <DialogHeader className="sr-only">
-          <DialogTitle>Register Interest</DialogTitle>
+          <DialogTitle>Register interest or enquire</DialogTitle>
         </DialogHeader>
 
         <ProgressIndicator currentStage={currentStage} totalStages={4} />
@@ -230,7 +230,7 @@ const EventRegistrationForm = ({
               duration: 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
-                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Your Details</h3>
+                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Your details</h3>
                   </div>
 
                   <FormField control={form.control} name="fullName" render={({
@@ -269,12 +269,12 @@ const EventRegistrationForm = ({
               duration: 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
-                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">WHICH EVENTS ARE YOU INTERESTED IN?</h3>
-                    <p className="text-muted-foreground text-sm mt-2">Select all that apply</p>
+                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Which events does your enquiry concern?</h3>
+                    <p className="text-muted-foreground text-sm mt-2">Select all that apply. Choose All Events for a broader event or partnership enquiry.</p>
                   </div>
 
                   <div className="p-3 bg-muted/50 rounded-lg text-xs text-muted-foreground leading-relaxed text-center">
-                    <p>Please note: Registering interest does not guarantee entry. All events are free and by invitation only.</p>
+                    <p>Registering interest does not guarantee attendance. Events are free and invitation-only.</p>
                   </div>
 
                   <FormField control={form.control} name="interestedEvents" render={() => <FormItem>
@@ -302,8 +302,8 @@ const EventRegistrationForm = ({
               duration: 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
-                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">How would you like to engage?</h3>
-                    <p className="text-muted-foreground text-sm mt-2">Select all that apply</p>
+                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">What are you interested in?</h3>
+                    <p className="text-muted-foreground text-sm mt-2">Select all that apply. These choices express your interest; they do not confirm attendance or a partnership.</p>
                   </div>
 
                   <FormField control={form.control} name="engagementTypes" render={() => <FormItem>
@@ -331,13 +331,13 @@ const EventRegistrationForm = ({
               duration: 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
-                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Consent & Verification</h3>
+                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Privacy and consent</h3>
                   </div>
 
 
                   <div className="p-4 bg-muted/50 rounded-lg text-sm text-muted-foreground leading-relaxed">
                     <p>
-                      During sign-up, guests consent to the use and sharing of relevant contact information for event management and appropriate event follow-up. Sharing remains subject to explicit consent and our privacy policy; contact information is not automatically shared with all partners. We respect your privacy. By submitting this form, you agree that we may store and process your personal data to manage your event registration and notify you about relevant opportunities. Your data will not be shared with third parties without your consent. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
+                      We use the details you provide to handle your enquiry and any relevant event follow-up. Contact information is not automatically shared with all partners. Any sharing remains subject to explicit consent and our Privacy Policy. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
                       <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
                     </p>
                   </div>
@@ -350,7 +350,7 @@ const EventRegistrationForm = ({
                         </FormControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel className="text-foreground">
-                            I consent to the processing of my personal data for the purposes described above. *
+                            I consent to the processing of my personal data to handle this enquiry, as described above.
                           </FormLabel>
                           <FormMessage />
                         </div>
@@ -376,7 +376,7 @@ const EventRegistrationForm = ({
                   Next
                   <ChevronRight className="w-4 h-4" />
                 </Button> : <Button type="submit" disabled={isSubmitting} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-                  {isSubmitting ? "Submitting..." : "Register Interest"}
+                  {isSubmitting ? "Sending…" : "Submit enquiry"}
                 </Button>}
             </div>
           </form>
