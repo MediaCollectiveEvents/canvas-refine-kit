@@ -1,3 +1,4 @@
+import ContributorBiography from "@/components/shared/ContributorBiography";
 import { MemoryRouter } from "react-router-dom";
 import { formatArticleDate, sortArticles } from "@/lib/articles";
 import ArticleRelatedEvents from "@/components/shared/ArticleRelatedEvents";
@@ -13,6 +14,6 @@ export default function ArticlesPreview({ entry }: { entry: PreviewEntry }) {
   return <MemoryRouter><main className="mx-auto max-w-3xl space-y-12 p-6">{sortArticles(posts).map(post => <article key={post.slug}>
     <p>{post.category} · {formatArticleDate(post.date)}</p><h1 className="font-display text-3xl">{post.title}</h1>
     {contentImage(post.image) && <img src={contentImage(post.image)} alt={post.title} className="my-4 max-h-64 object-contain" />}
-    <p className="my-4">{post.excerpt}</p><ArticleAttribution article={post} /><ArticleContent body={post.body} /><ArticleRelatedEvents article={post} />
+    <p className="my-4">{post.excerpt}</p><ArticleAttribution article={post} /><ArticleContent body={post.body} /><ContributorBiography article={post} /><ArticleRelatedEvents article={post} />
   </article>)}</main></MemoryRouter>;
 }

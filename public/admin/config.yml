@@ -936,6 +936,17 @@ collections:
               - { label: Title, name: title, widget: string }
               - { label: Slug, name: slug, widget: string }
               - { label: Category, name: category, widget: string }
+              - label: Primary Contributor
+                name: writerId
+                widget: relation
+                required: false
+                collection: contributors
+                file: contributors
+                search_fields: ["contributors.*.displayName", "contributors.*.id"]
+                display_fields: ["contributors.*.displayName"]
+                value_field: "contributors.*.id"
+                multiple: false
+                hint: "Select one contributor. Author and Organisation remain fallbacks when no contributor resolves."
               - { label: Author, name: author, widget: string, required: false }
               - { label: Organisation, name: organisation, widget: string, required: false }
               - label: Related Events
@@ -1101,3 +1112,23 @@ collections:
                   - { label: Partners, value: partners }
                   - { label: FAQ, value: faq }
               - { label: URL Override (optional), name: url, widget: string, required: false, hint: "If set, this link will go here instead of the standard page route." }
+  - name: contributors
+    label: Editorial Contributors
+    files:
+      - name: contributors
+        label: Editorial Contributors
+        file: "src/content/contributors.json"
+        format: json
+        fields:
+          - label: Contributors
+            name: contributors
+            widget: list
+            allow_add: true
+            summary: "{{fields.displayName}} ({{fields.id}})"
+            fields:
+              - { label: Stable ID, name: id, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Must be unique. Keep unchanged once referenced by articles." }
+              - { label: Display Name, name: displayName, widget: string }
+              - { label: Role, name: role, widget: string, required: false }
+              - { label: Organisation, name: organisation, widget: string, required: false }
+              - { label: Short Biography, name: biography, widget: text, required: false }
+              - { label: Image, name: image, widget: image, required: false }

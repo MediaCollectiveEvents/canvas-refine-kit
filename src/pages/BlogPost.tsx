@@ -1,3 +1,4 @@
+import ContributorBiography from "@/components/shared/ContributorBiography";
 import ArticleContent from "@/components/shared/ArticleContent";
 import ArticleAttribution from "@/components/shared/ArticleAttribution";
 import { contentImage } from "@/lib/contentImages";
@@ -94,6 +95,7 @@ const BlogPostPage: React.FC = () => {
                 Full content for this post is coming soon.
               </p>
             )}
+            <ContributorBiography article={post} />
             <ArticleRelatedEvents article={post} />
             <Link to="/blog" className="mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
           </div>

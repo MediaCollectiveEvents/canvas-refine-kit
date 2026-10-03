@@ -14,7 +14,17 @@ export interface SponsorLogo extends SponsorProfileMetadata {
   alt?: string;
 }
 
+export interface Contributor {
+  id: string;
+  displayName: string;
+  role?: string;
+  organisation?: string;
+  biography?: string;
+  image?: string;
+}
+
 export interface ArticleMetadata {
+  writerId?: string;
   author?: string;
   organisation?: string;
   relatedEventIds?: number[];
