@@ -206,14 +206,23 @@ export function formatEventDate(date: string): string {
   });
 }
 
+const REGISTRATION_DISPLAY_LABELS: Readonly<Record<string, string>> = {
+  "nab-review": "NAB Review",
+  "mpts-drinks": "MPTS Reception",
+  "networking-breakfast": "IBC Breakfast",
+  "all-events": "All future Media Collective events",
+};
+
+// Keep edition-specific submission labels separate from future-series display copy.
 // Existing behaviour allows past events. Only explicitly mapped events are selectable.
-export function getRegistrationOptions(source: unknown = aggregateContent): { id: string; label: string }[] {
+export function getRegistrationOptions(source: unknown = aggregateContent): { id: string; label: string; displayLabel: string }[] {
   const options = getAllEvents(source).flatMap(event => {
     const id = getRegistrationId(event.id, source);
     if (!id) return [];
-    return [{ id, label: `${event.title}${event.location ? ` - ${event.location}` : ""}${event.date ? ` (${formatEventDate(event.date)})` : ""}` }];
+    const label = `${event.title}${event.location ? ` - ${event.location}` : ""}${event.date ? ` (${formatEventDate(event.date)})` : ""}`;
+    return [{ id, label, displayLabel: REGISTRATION_DISPLAY_LABELS[id] ?? label }];
   });
-  return [...options, { id: "all-events", label: "All Events" }];
+  return [...options, { id: "all-events", label: "All Events", displayLabel: REGISTRATION_DISPLAY_LABELS["all-events"] }];
 }
 
 export interface EventPlannerMonth {

@@ -76,7 +76,7 @@ test("registration preserves confirmed IDs and past-event eligibility with canon
   const options = getRegistrationOptions();
   assert.equal(options.length, 4);
   assert.match(options.find(option => option.id === "mpts-drinks")!.label, /13 May 2026/);
-  assert.deepEqual(options.at(-1), { id: "all-events", label: "All Events" });
+  assert.deepEqual(options.at(-1), { id: "all-events", label: "All Events", displayLabel: "All future Media Collective events" });
 });
 
 test("draft CMS data supplies content without mutating canonical records", () => {
@@ -153,4 +153,37 @@ test("unclassified events stay in All; empty categories remain empty without inf
   assert.deepEqual(filterEventsByExperience(events, "networking-social"), []);
   assert.deepEqual(filterEventsByExperience(events, "conference-aligned"), []);
   assert.deepEqual(filterEventsByExperience(events, "knowledge-discussion"), []);
+});
+
+
+const unchangedSubmissionLabels = {
+  "nab-review": "Post-NAB Review Breakfast 2026: Signals, Strategy and Operating Reality - White City, London (6 May 2026)",
+  "mpts-drinks": "The Media Collective – MPTS 2026 – After Show Drinks Reception - Olympia, London (13 May 2026)",
+  "networking-breakfast": "Join us at The Media Collective Networking Breakfast @ IBC 2026 - 2 Europaplein, 1078 GZ Amsterdam (12 September 2026)",
+  "all-events": "All Events",
+};
+
+test("future-edition display labels preserve exact submitted edition labels", () => {
+  const options = getRegistrationOptions();
+  const displayLabels = {
+    "nab-review": "NAB Review",
+    "mpts-drinks": "MPTS Reception",
+    "networking-breakfast": "IBC Breakfast",
+    "all-events": "All future Media Collective events",
+  };
+  assert.equal(options.length, 4);
+  for (const [id, label] of Object.entries(unchangedSubmissionLabels)) {
+    const option = options.find(option => option.id === id)!;
+    assert.equal(option.label, label);
+    assert.equal(option.displayLabel, displayLabels[id]);
+  }
+  assert.equal(getRegistrationId(4), undefined);
+});
+
+test("multi-select payload retains comma-joined submission labels, not display labels", () => {
+  const options = getRegistrationOptions();
+  const selectedIds = ["nab-review", "networking-breakfast", "all-events"];
+  const submitted = selectedIds.map(id => options.find(option => option.id === id)?.label || id).join(", ");
+  assert.equal(submitted, [unchangedSubmissionLabels["nab-review"], unchangedSubmissionLabels["networking-breakfast"], "All Events"].join(", "));
+  assert.equal(submitted.includes("All future Media Collective events"), false);
 });

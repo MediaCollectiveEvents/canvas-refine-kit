@@ -269,12 +269,12 @@ const EventRegistrationForm = ({
               duration: 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
-                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Which events does your enquiry concern?</h3>
-                    <p className="text-muted-foreground text-sm mt-2">Select all that apply. Choose All Events for a broader event or partnership enquiry.</p>
+                    <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Which event series interest you?</h3>
+                    <p className="text-muted-foreground text-sm mt-2">Select the event series you’re interested in hearing about for future editions. Select all that apply.</p>
                   </div>
 
                   <div className="p-3 bg-muted/50 rounded-lg text-xs text-muted-foreground leading-relaxed text-center">
-                    <p>Registering interest does not guarantee attendance. Events are free and invitation-only.</p>
+                    <p>This records interest in future editions, not attendance at a past event. Dates and invitations are not confirmed by submitting this form.</p>
                   </div>
 
                   <FormField control={form.control} name="interestedEvents" render={() => <FormItem>
@@ -289,7 +289,7 @@ const EventRegistrationForm = ({
                       }} />
                                   </FormControl>
                                   <FormLabel className="font-normal cursor-pointer flex-1 text-sm text-foreground">
-                                    {event.label}
+                                    {event.displayLabel}
                                   </FormLabel>
                                 </FormItem>} />)}
                         </div>
