@@ -13,7 +13,6 @@ import joinUs from "../content/sections/joinUs.json";
 import missionValues from "../content/sections/missionValues.json";
 import newHere from "../content/sections/newHere.json";
 import ourStory from "../content/sections/ourStory.json";
-import partners from "../content/sections/partners.json";
 import testimonials from "../content/sections/testimonials.json";
 import valuePillars from "../content/sections/valuePillars.json";
 import whoAttends from "../content/sections/whoAttends.json";
@@ -30,7 +29,6 @@ export const sectionDataBySlug = {
   missionValues,
   newHere,
   ourStory,
-  partners,
   testimonials,
   valuePillars,
   whoAttends,

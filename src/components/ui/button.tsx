@@ -12,6 +12,9 @@ const buttonVariants = cva(
         default:
           "bg-primary text-primary-foreground hover:bg-primary/90",
 
+        outline:
+          "rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+
         brand:
           "rounded-full border border-[#0B1F36] bg-[#27CDBA] text-[#0B1F36] shadow-[0_12px_28px_rgba(39,205,186,0.18)] hover:-translate-y-[1px] hover:bg-[#20b8a7] hover:shadow-[0_16px_34px_rgba(39,205,186,0.24)]",
 
@@ -29,6 +32,7 @@ const buttonVariants = cva(
         default: "h-10 px-4 py-2",
         sm: "h-9 px-3",
         lg: "h-11 px-8",
+        icon: "h-10 w-10 p-0",
         text: "px-0 py-0",
       },
     },
