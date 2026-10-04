@@ -4,6 +4,7 @@ backend:
   name: github
   repo: MediaCollectiveEvents/canvas-refine-kit
   branch: main
+  site_domain: themediacollective.netlify.app
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
