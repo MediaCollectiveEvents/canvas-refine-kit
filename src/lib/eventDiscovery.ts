@@ -1,7 +1,7 @@
 import { getUpcomingEvents, type EventItem } from "./events";
 import { getEventIndustryContext } from "./industryEvents";
 
-export const DISCOVERY_INTEREST_IDS = ["forums", "breakfasts", "receptions", "socials", "discussions", "special-interest", "industry-shows"] as const;
+export const DISCOVERY_INTEREST_IDS = ["networking-social", "forums", "breakfasts", "receptions", "socials", "discussions", "special-interest", "industry-shows"] as const;
 export type DiscoveryInterest = typeof DISCOVERY_INTEREST_IDS[number];
 export const DISCOVERY_SHOW_IDS = ["nab-show-2026", "mpts-2026", "ibc-2026", "other"] as const;
 export type DiscoveryShow = typeof DISCOVERY_SHOW_IDS[number];
@@ -13,6 +13,10 @@ export function recommendEvents(interests: readonly DiscoveryInterest[], shows: 
   return getUpcomingEvents(undefined, source, now).filter(event => /^\d{4}-\d{2}-\d{2}$/.test(event.date) && Number.isFinite(Date.parse(event.date))).map(event => {
     const reasons: string[] = [];
     let score = 0;
+    if (interests.includes("networking-social") && event.experienceCategories?.includes("networking-social")) {
+      reasons.push("Networking & social");
+      score += 1;
+    }
     if (interests.includes("discussions") && event.experienceCategories?.includes("knowledge-discussion")) {
       reasons.push("Knowledge & discussion");
       score += 1;

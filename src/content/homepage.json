@@ -18,10 +18,10 @@
     "mobileCrop": "contain",
     "backdropSize": 1,
     "backdropStrength": 0,
-    "subtitle": "Media and entertainment industry",
-    "title": "Where media leaders connect",
-    "image": "/uploads/herohome2.png",
-    "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
+    "subtitle": "CURATED EVENTS & NETWORKING",
+    "title": "THE MEDIA COLLECTIVE",
+    "image": "/uploads/home-hero-v12.png",
+    "description": "Meet peers • Stay connected • Enjoy good company",
     "secondaryCta": {
       "label": "Get involved",
       "url": "#get-involved"
@@ -30,21 +30,13 @@
   "sections": [
     {
       "type": "eventDiscovery",
-      "heading": "Events for you",
-      "intro": "Choose what interests you and see what’s coming up.",
-      "interestsLabel": "Event interests",
+      "heading": "We have lots of exciting events planned.",
+      "intro": "Discover our events.",
+      "interestsLabel": "Browse by interest",
       "interests": [
         {
-          "id": "forums",
-          "label": "Forums"
-        },
-        {
-          "id": "breakfasts",
-          "label": "Networking breakfasts"
-        },
-        {
-          "id": "receptions",
-          "label": "Receptions"
+          "id": "networking-social",
+          "label": "Networking"
         },
         {
           "id": "socials",
@@ -60,14 +52,14 @@
         },
         {
           "id": "industry-shows",
-          "label": "Industry shows"
+          "label": "Industry shows & conferences"
         }
       ],
-      "showsLabel": "Which industry events do you attend?",
+      "showsLabel": "Which ones do you attend?",
       "shows": [
         {
           "id": "nab-show-2026",
-          "label": "NAB Show"
+          "label": "Post-NAB"
         },
         {
           "id": "mpts-2026",
@@ -92,29 +84,37 @@
     {
       "type": "getInvolved",
       "heading": "Get involved",
-      "intro": "There are a few ways to take part.",
+      "intro": "There are different ways to take part.",
       "items": [
         {
-          "heading": "Speak",
-          "body": "Contribute your experience or perspective where it fits the event.",
+          "heading": "Guest",
+          "body": "Come along to events that interest you and meet others from across the media and technology community.",
+          "cta": {
+            "label": "See what’s on",
+            "url": "#events-for-you"
+          }
+        },
+        {
+          "heading": "Speaker",
+          "body": "Share your experience or perspective where it fits the event.",
           "cta": {
             "label": "Speak at an event",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         },
         {
-          "heading": "Support",
-          "body": "Support an event through sponsorship, hosting or another contribution that suits the occasion.",
+          "heading": "Supporter",
+          "body": "Support an event through sponsorship, hosting or another contribution.",
           "cta": {
             "label": "Support an event",
             "url": "/partners"
           }
         },
         {
-          "heading": "Create",
-          "body": "Have an idea for an event? We can shape the format and approach together.",
+          "heading": "Partner",
+          "body": "Work with us on ideas, events or collaborations that bring the right people together.",
           "cta": {
-            "label": "Create an event with us",
+            "label": "Work with us",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         }
@@ -154,7 +154,7 @@
         "grid": true,
         "withFades": true
       },
-      "heading": "In The Room",
+      "heading": "Who attends",
       "statistics": {
         "companies": "Executives from over 300 companies have attended our events.",
         "boardLevel": ".",
@@ -163,7 +163,7 @@
       "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "",
-        "sub": "Leaders across media & technology",
+        "sub": "Connecting broadcasters, studios and streaming platforms with the technology companies shaping the future of media.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
@@ -173,17 +173,17 @@
       "highlights": [
         {
           "title": "The Top 3",
-          "subtitle": "Global Tech Giants",
+          "subtitle": "Global technology companies",
           "icon": "globe"
         },
         {
           "title": "The Major 5",
-          "subtitle": "Hollywood Studios",
+          "subtitle": "Hollywood studios",
           "icon": "film"
         },
         {
           "title": "The Foremost 8",
-          "subtitle": "Streaming Platforms",
+          "subtitle": "Streaming platforms",
           "icon": "play"
         }
       ],

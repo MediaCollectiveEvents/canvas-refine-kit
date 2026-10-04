@@ -32,10 +32,6 @@ interface HomepageRendererProps {
 
 export default function HomepageRenderer({ sections, onRegister }: HomepageRendererProps) {
   const visible = (Array.isArray(sections) ? sections : []).filter(section => section && !section.hidden);
-  const audience = visible.find(section => section.type === "whoAttends") as React.ComponentProps<typeof WhoAttendsSection>["section"];
-  const voices = visible.find(section => section.type === "testimonials") as React.ComponentProps<typeof TestimonialsSection>["section"];
-  const statement = Object.values(audience?.statistics ?? {}).find(value => typeof value === "string" && /[a-z0-9]/i.test(value));
-  const quote = voices?.items?.find(item => typeof item !== "string" && item.quote && item.quote.length < 100);
   function render(section: HomepageSection) {
     const key = section.id ?? section.type;
     switch (section.type) {
@@ -54,21 +50,22 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
   }
   return (
     <>
-      {["eventDiscovery", "getInvolved"].flatMap(type => visible.filter(section => section.type === type).map(render))}
-      {(statement || quote) && <section aria-label="Community proof" className="site-gutter bg-[#f7f7f7] py-7 text-slate-700">
-        <div className="site-container flex flex-col justify-between gap-4 text-sm md:flex-row md:gap-12">
-          {statement && <p>{statement}</p>}
-          {quote && typeof quote !== "string" && <p><span className="font-body font-normal">“{quote.quote}”</span><span className="mt-1 block text-xs text-slate-500">{quote.name}{quote.company ? ` — ${quote.company}` : ""}</span></p>}
-        </div>
-      </section>}
-      {["aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
-      <section className="site-gutter bg-[#f7f7f7] pt-8 pb-12 md:pt-12 md:pb-[72px]">
-        <div className="site-container grid items-center gap-8 rounded-3xl border border-[#27CDBA]/50 site-surface-dark min-w-0 px-5 py-7 text-white lg:grid-cols-12 lg:gap-10 md:px-8 md:py-10">
-          <div className="min-w-0 lg:col-span-8"><p className="mb-3 site-eyebrow text-[#9bd3c8]">For media and technology brands</p><h2 className="site-heading">Partner with The Media Collective.</h2><p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">Explore sponsorship, co-hosting and custom events, with opportunities developed collaboratively for each gathering.</p></div>
-          <Button asChild variant="brand" size="lg" className="w-full min-w-0 whitespace-normal sm:w-auto lg:col-span-4 lg:justify-self-end"><a href="/partners">Explore partnerships <span aria-hidden="true">→</span></a></Button>
+      {["eventDiscovery", "upcomingEventsIntro", "getInvolved", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
+      <section className="site-gutter site-surface-dark pt-8 pb-12 md:pt-12 md:pb-[72px]">
+        <div className="site-container grid min-w-0 items-center gap-8 text-[#f7f3eb] lg:grid-cols-12 lg:gap-10">
+          <div className="min-w-0 lg:col-span-8">
+            <h2 className="site-heading !font-medium">See what’s coming up</h2>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">Explore upcoming events or register your interest for future gatherings.</p>
+          </div>
+          <div className="flex min-w-0 flex-col items-start gap-6 sm:flex-row sm:items-center lg:col-span-4 lg:flex-col lg:items-end">
+            <Button asChild variant="brand" size="lg" className="w-full min-w-0 whitespace-normal sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
+              <a href="#events-for-you">See what’s on <span aria-hidden="true">→</span></a>
+            </Button>
+            <Button type="button" variant="textcta" size="text" onClick={onRegister} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">Register interest</Button>
+          </div>
         </div>
       </section>
-      {visible.filter(section => !["eventDiscovery", "getInvolved", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
+      {visible.filter(section => !["eventDiscovery", "getInvolved", "eventInterests", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
       {visible.filter(section => section.type === "joinCommunity").map(render)}
     </>
   );

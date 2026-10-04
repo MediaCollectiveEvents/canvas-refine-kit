@@ -47,3 +47,12 @@ test("unknown metadata, dates and external calendar records cannot become recomm
   ] };
   assert.deepEqual(recommendEvents(["discussions", "industry-shows"], [], source, now), []);
 });
+
+
+test("Networking uses the existing networking-social category without inferring specific formats", () => {
+  const results = recommendEvents(["networking-social"], [], undefined, now);
+  assert.deepEqual(results.map(result => result.event.id), [4]);
+  assert.deepEqual(results[0].reasons, ["Networking & social"]);
+  assert.deepEqual(recommendEvents(["networking-social", "discussions"], [], future, now).map(result => result.event.id), [1, 4, 2]);
+  assert.deepEqual(recommendEvents(["networking-social"], [], { events: [{ id: 10, date: "2027-01-01", experienceCategories: ["knowledge-discussion"] }] }, now), []);
+});

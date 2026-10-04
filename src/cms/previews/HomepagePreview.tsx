@@ -46,7 +46,7 @@ export default function HomepagePreview({ entry }: { entry: PreviewEntry }) {
   const { hero, sections } = readPage(entry);
   return (
     <div className="min-h-screen text-white bg-[var(--background-dark)]">
-      <PageHero presentation="editorial" title={hero?.title ?? ""} eyebrow={hero?.eyebrow ?? hero?.subtitle}
+      <PageHero presentation="business" imageParallax={false} imageOverlayClassName="from-[#101d24]/95 via-[#101d24]/60 to-transparent" title={hero?.title ?? ""} eyebrow={hero?.eyebrow ?? hero?.subtitle}
         description={hero?.description} image={hero?.image}
         primaryCtaText={hero?.primaryCta?.label}
         primaryCtaHref={hero?.primaryCta?.url === "/register" ? undefined : hero?.primaryCta?.url}

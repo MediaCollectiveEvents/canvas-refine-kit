@@ -28,6 +28,10 @@
   },
   "nav": [
     {
+      "label": "Home",
+      "type": "home"
+    },
+    {
       "label": "Events",
       "type": "events"
     },

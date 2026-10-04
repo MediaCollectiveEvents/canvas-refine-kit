@@ -128,17 +128,17 @@ const Header = () => {
             relative mx-auto max-w-7xl
             px-5 sm:px-6 lg:px-8 xl:px-8
             transition-all duration-300 ease-out
-            ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
+            ${scrolled ? "h-[84px] lg:h-[108px]" : "h-[92px] lg:h-[108px]"}
           `}
         >
           {/* MOBILE HEADER */}
 
           <div className="flex h-full items-center lg:hidden">
-            <Link to="/" aria-label="The Media Collective home">
+            <Link to="/" aria-label="The Media Collective home" className="shrink-0">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className={scrolled ? "h-11" : "h-14"}
+                className="h-20 w-auto shrink-0"
               />
             </Link>
 
@@ -154,18 +154,18 @@ const Header = () => {
           {/* DESKTOP HEADER */}
 
           <div className="hidden h-full items-center lg:flex">
-            <Link to="/" className="relative z-10">
+            <Link to="/" className="relative z-10 shrink-0">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className={scrolled ? "h-14" : "h-16 xl:h-[4.4rem]"}
+                className="h-24 w-auto shrink-0"
               />
             </Link>
 
             {/* NAVIGATION */}
 
-            <nav className="absolute inset-0 flex items-center justify-center">
-              <div className="flex items-center gap-6 xl:gap-8 2xl:gap-10">
+            <nav className="relative ml-auto mr-5 flex items-center xl:mr-8">
+              <div className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
                 {navItems.map((item) => {
                   const isActive =
                     item.href === activeHref;
@@ -178,8 +178,8 @@ const Header = () => {
                       className={`
                         relative whitespace-nowrap pb-1
                         font-body font-medium uppercase
-                        tracking-[0.14em] xl:tracking-[0.18em]
-                        text-[0.82rem] xl:text-[0.9rem]
+                        tracking-[0.1em] xl:tracking-[0.18em]
+                        text-[0.75rem] xl:text-[0.9rem]
                         transition-all duration-200
                         ${
                           isActive
@@ -217,11 +217,11 @@ const Header = () => {
                 variant="brand"
                 onClick={() => setIsFormOpen(true)}
                 className="
-                  min-w-[210px]
+                  min-w-[190px] xl:min-w-[210px]
                   rounded-full
-                  px-7 py-3.5
+                  px-5 xl:px-7 py-3.5
                   font-body
-                  text-[0.84rem]
+                  text-[0.75rem] xl:text-[0.84rem]
                   font-semibold
                   uppercase
                   tracking-[0.14em]

@@ -148,22 +148,22 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
 
   return (
     <SectionWrapper
-      variant="light"
+      variant="dark"
       align="left"
       padding="lux"
       noise={false}
       grid={false}
       withFades={false}
-      className="relative text-slate-900 !pt-16 !pb-8 md:!pt-[72px] md:!pb-12 lg:!pt-[88px] lg:!pb-12"
+      className="relative text-[#f7f3eb] !pb-8 md:!pb-12"
     >
       <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
-          <p className="mb-4 site-eyebrow text-slate-500">Attendees and partners</p>
-          <SectionTitle align="left" disableEmphasis tone="dark">
+          <p className="mb-4 site-eyebrow text-[#9bd3c8]">Attendees and partners</p>
+          <SectionTitle align="left" disableEmphasis tone="default">
             {section?.heading || "Community voices"}
           </SectionTitle>
 
-          <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-600">{section?.styleTitle?.sub || "Thoughtful discussion, introductions and collaboration."}</p>
+          <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-300">{section?.styleTitle?.sub || "Thoughtful discussion, introductions and collaboration."}</p>
 
         </div>
 
@@ -206,7 +206,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                   text-xl md:text-[27px]
                   leading-[1.6]
 
-                  text-slate-900
+                  text-[#f7f3eb]
                 "
               >
                 <span
@@ -238,13 +238,13 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                 className="mt-3"
               >
                 {current.author && (
-                  <p className="text-[1rem] tracking-[0.02em] font-medium text-slate-900">
+                  <p className="text-[1rem] tracking-[0.02em] font-medium text-[#f7f3eb]">
                     {current.author}
                   </p>
                 )}
 
                 {(current.title || current.company) && (
-                  <p className="mt-1 text-[0.9rem] text-slate-600">
+                  <p className="mt-1 text-[0.9rem] text-slate-300">
                     {current.title}
                     {current.title && current.company ? " — " : ""}
                     {current.company && (
@@ -270,7 +270,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                     onClick={() => setIndex(dotIndex)}
                     className="flex h-10 w-10 items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300"
                   >
-                    <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-slate-700" : "w-2 bg-slate-400"}`} />
+                    <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-[#9bd3c8]" : "w-2 bg-slate-500"}`} />
                   </button>
                 );
               })}
