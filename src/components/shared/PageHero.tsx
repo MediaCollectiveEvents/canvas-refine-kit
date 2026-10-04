@@ -8,6 +8,7 @@ interface PageHeroProps {
   eyebrow?: string;
   subtitle?: string;
   title: string;
+  titleSizeClassName?: string;
   description?: string;
 
   primaryCtaText?: string;
@@ -17,7 +18,11 @@ interface PageHeroProps {
   secondaryCtaText?: string;
   secondaryCtaHref?: string;
   onSecondaryClick?: () => void;
+  equalCtas?: boolean;
+  editorialCoherence?: boolean;
 
+  imageOverlayClassName?: string;
+  imageParallax?: boolean;
   backgroundImage?: string;
   image?: string;
 
@@ -42,14 +47,19 @@ export default function PageHero(props: PageHeroProps) {
     eyebrow,
     subtitle,
     title,
+    titleSizeClassName,
     description,
     primaryCtaText,
     primaryCtaHref,
     secondaryCtaText,
     secondaryCtaHref,
     onSecondaryClick,
+    equalCtas = false,
+    editorialCoherence = false,
     presentation = "classic",
     onPrimaryClick,
+    imageOverlayClassName,
+    imageParallax = true,
     backgroundImage,
     image,
     variant = "image",
@@ -84,14 +94,14 @@ export default function PageHero(props: PageHeroProps) {
   }
 
   return (
-    <header className={`site-gutter relative flex w-full items-center justify-center overflow-hidden bg-transparent ${isEditorial ? "pt-8 pb-8 md:pb-10" : "pt-8 pb-16"} ${isEditorial ? "min-h-[520px] lg:min-h-[580px]" : isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
+    <header className={`site-gutter relative flex w-full ${editorialCoherence ? "items-start" : "items-center"} justify-center overflow-hidden bg-transparent ${isEditorial ? "pt-8 pb-8 md:pb-10" : "pt-8 pb-16"} ${isEditorial ? "min-h-[520px] lg:min-h-[580px]" : editorialCoherence ? "min-h-[560px] lg:min-h-[620px]" : isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
           className={`absolute inset-0 bg-cover bg-no-repeat ${isEditorial ? "bg-[position:82%_bottom] md:bg-[position:right_bottom]" : ""}`}
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
             ...(isEditorial ? {} : { backgroundPosition: "center bottom" }),
-            ...(isPreview || isEditorial ? {} : { y }),
+            ...(isPreview || isEditorial || !imageParallax || editorialCoherence ? {} : { y }),
           }}
           aria-hidden="true"
         />
@@ -104,7 +114,7 @@ export default function PageHero(props: PageHeroProps) {
         />
       )}
 
-      {isModern && <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-r ${isEditorial ? "from-[#101d24]/95 via-[#101d24]/80 to-[#101d24]/50" : "from-[#101d24]/95 via-[#101d24]/85 to-[#101d24]/75"}`} />}
+      {isModern && <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-r ${imageOverlayClassName ?? (editorialCoherence ? "from-[#101d24]/95 via-[#101d24]/80 to-[#101d24]/50" : isEditorial ? "from-[#101d24]/95 via-[#101d24]/80 to-[#101d24]/50" : "from-[#101d24]/95 via-[#101d24]/85 to-[#101d24]/75")}`} />}
 
       {!isModern && <div className="absolute inset-0 pointer-events-none">
         <div
@@ -134,7 +144,7 @@ export default function PageHero(props: PageHeroProps) {
 
         <h1
           className={isModern
-            ? `mb-7 max-w-[15ch] font-display text-[clamp(2.8rem,6.5vw,5.8rem)] leading-[1.06] tracking-[-0.035em] text-[#f7f3eb] font-light`
+            ? `mb-7 max-w-[15ch] font-display ${titleSizeClassName ?? (editorialCoherence ? "text-[2.75rem] md:text-[3.75rem] xl:text-[4.5rem]" : "text-[clamp(2.8rem,6.5vw,5.8rem)]")} leading-[1.06] tracking-[-0.035em] text-[#f7f3eb] font-light`
             : "mb-6 font-satisfy text-[clamp(4.2rem,8.6vw,7.2rem)] leading-[0.96]"}
           style={isModern ? undefined : {
             color: "#4A86C5",
@@ -169,7 +179,7 @@ export default function PageHero(props: PageHeroProps) {
               variant={isModern ? "brand" : "default"}
               asChild={!!primaryCtaHref && !onPrimaryClick}
               onClick={onPrimaryClick}
-              className={isModern ? "w-full sm:w-auto" : `
+              className={isModern ? (equalCtas ? "w-full sm:w-[210px]" : "w-full sm:w-auto") : `
                 w-full sm:w-auto sm:min-w-[240px]
                 rounded-full
                 border
@@ -194,9 +204,9 @@ export default function PageHero(props: PageHeroProps) {
             </Button>
             )}
             {secondaryCtaText && (
-              <Button size="text" variant="textcta" asChild={!!secondaryCtaHref && !onSecondaryClick}
+              <Button size={equalCtas ? "lg" : "text"} variant={equalCtas ? "brand" : "textcta"} asChild={!!secondaryCtaHref && !onSecondaryClick}
                 onClick={onSecondaryClick}
-                className="min-h-11 w-full sm:w-auto">
+                className={equalCtas ? "w-full sm:w-[210px]" : "min-h-11 w-full sm:w-auto"}>
                 {secondaryCtaHref && !onSecondaryClick ? <a href={secondaryCtaHref}>{secondaryCtaText}</a> : secondaryCtaText}
               </Button>
             )}

@@ -23,7 +23,7 @@ export default function FAQ() {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
-        <PageHero {...(hero as ComponentProps<typeof PageHero>)} presentation="business" />
+        <PageHero {...(hero as ComponentProps<typeof PageHero>)} presentation="business" editorialCoherence />
 
         {/* FAQ Sections */}
         <FaqPageRenderer

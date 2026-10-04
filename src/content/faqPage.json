@@ -4,11 +4,11 @@
     "variant": "image",
     "align": "center",
     "theme": "dark",
-    "eyebrow": "Ask away!",
+    "eyebrow": "FAQ",
     "imageOffset": 0,
     "overlayStrength": 0.5,
     "mobileCrop": "cover",
-    "title": "Your questions answered",
+    "title": "What you need to know",
     "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",
     "description": "Find answers to the most common questions about our events and community."
   },
