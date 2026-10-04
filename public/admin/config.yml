@@ -3,7 +3,7 @@ local_backend: true
 backend:
   name: github
   repo: MediaCollectiveEvents/canvas-refine-kit
-  branch: minviableproduct
+  branch: main
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
