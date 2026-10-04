@@ -10,8 +10,8 @@
     "imagePosition": "top",
     "theme": "dark",
     "primaryCta": {
-      "label": "Request an invitation",
-      "url": "/register"
+      "label": "See what’s on",
+      "url": "#events-for-you"
     },
     "imageOffset": 0,
     "overlayStrength": 0,
@@ -23,11 +23,104 @@
     "image": "/uploads/herohome2.png",
     "description": "Invitation-only gatherings connecting senior leaders, innovators and technology partners across broadcast, streaming and media.",
     "secondaryCta": {
-      "label": "Explore partnerships",
-      "url": "/partners"
+      "label": "Get involved",
+      "url": "#get-involved"
     }
   },
   "sections": [
+    {
+      "type": "eventDiscovery",
+      "heading": "Events for you",
+      "intro": "Choose what interests you and see what’s coming up.",
+      "interestsLabel": "Event interests",
+      "interests": [
+        {
+          "id": "forums",
+          "label": "Forums"
+        },
+        {
+          "id": "breakfasts",
+          "label": "Networking breakfasts"
+        },
+        {
+          "id": "receptions",
+          "label": "Receptions"
+        },
+        {
+          "id": "socials",
+          "label": "Socials & parties"
+        },
+        {
+          "id": "discussions",
+          "label": "Industry discussions"
+        },
+        {
+          "id": "special-interest",
+          "label": "Special interest events"
+        },
+        {
+          "id": "industry-shows",
+          "label": "Industry shows"
+        }
+      ],
+      "showsLabel": "Which industry events do you attend?",
+      "shows": [
+        {
+          "id": "nab-show-2026",
+          "label": "NAB Show"
+        },
+        {
+          "id": "mpts-2026",
+          "label": "MPTS"
+        },
+        {
+          "id": "ibc-2026",
+          "label": "IBC"
+        },
+        {
+          "id": "other",
+          "label": "Other"
+        }
+      ],
+      "ctaLabel": "Show me events",
+      "resultsHeading": "Coming up for you",
+      "emptyHeading": "Nothing quite right at the moment?",
+      "emptyBody": "Register your interest and we’ll keep you in mind when something relevant comes up.",
+      "emptyCtaLabel": "Register interest",
+      "hidden": false
+    },
+    {
+      "type": "getInvolved",
+      "heading": "Get involved",
+      "intro": "There are a few ways to take part.",
+      "items": [
+        {
+          "heading": "Speak",
+          "body": "Contribute your experience or perspective where it fits the event.",
+          "cta": {
+            "label": "Speak at an event",
+            "url": "https://calendly.com/mediacollective/call-with-chris"
+          }
+        },
+        {
+          "heading": "Support",
+          "body": "Support an event through sponsorship, hosting or another contribution that suits the occasion.",
+          "cta": {
+            "label": "Support an event",
+            "url": "/partners"
+          }
+        },
+        {
+          "heading": "Create",
+          "body": "Have an idea for an event? We can shape the format and approach together.",
+          "cta": {
+            "label": "Create an event with us",
+            "url": "https://calendly.com/mediacollective/call-with-chris"
+          }
+        }
+      ],
+      "hidden": false
+    },
     {
       "body": "We bring together people shaping the future of the media industry across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from panel conversations and private screenings to informal evening receptions aligned with major industry conferences.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance and relevance.",
       "styleWrapper": {

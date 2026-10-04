@@ -1,6 +1,8 @@
 import React from "react";
 import { Button } from "../ui/button";
 
+import EventDiscoverySection from "./EventDiscoverySection";
+import GetInvolvedSection from "./GetInvolvedSection";
 import AboutIntroSection from "./AboutIntroSection";
 import WhoAttendsSection from "./WhoAttendsSection";
 import TestimonialsSection from "./TestimonialsSection";
@@ -37,6 +39,8 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
   function render(section: HomepageSection) {
     const key = section.id ?? section.type;
     switch (section.type) {
+      case "eventDiscovery": return <EventDiscoverySection key={key} section={section as unknown as React.ComponentProps<typeof EventDiscoverySection>["section"]} onRegister={onRegister} />;
+      case "getInvolved": return <GetInvolvedSection key={key} section={section as unknown as React.ComponentProps<typeof GetInvolvedSection>["section"]} />;
       case "aboutIntro": return <AboutIntroSection key={key} section={section as React.ComponentProps<typeof AboutIntroSection>["section"]} />;
       case "upcomingEventsIntro": return <EventsSection key={key} section={section as React.ComponentProps<typeof EventsSection>["section"]} onRegisterClick={onRegister} />;
       case "whoAttends": return <WhoAttendsSection key={key} section={section as React.ComponentProps<typeof WhoAttendsSection>["section"]} />;
@@ -50,6 +54,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
   }
   return (
     <>
+      {["eventDiscovery", "getInvolved"].flatMap(type => visible.filter(section => section.type === type).map(render))}
       {(statement || quote) && <section aria-label="Community proof" className="site-gutter bg-[#f7f7f7] py-7 text-slate-700">
         <div className="site-container flex flex-col justify-between gap-4 text-sm md:flex-row md:gap-12">
           {statement && <p>{statement}</p>}
@@ -63,7 +68,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
           <Button asChild variant="brand" size="lg" className="w-full min-w-0 whitespace-normal sm:w-auto lg:col-span-4 lg:justify-self-end"><a href="/partners">Explore partnerships <span aria-hidden="true">→</span></a></Button>
         </div>
       </section>
-      {visible.filter(section => !["aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
+      {visible.filter(section => !["eventDiscovery", "getInvolved", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
       {visible.filter(section => section.type === "joinCommunity").map(render)}
     </>
   );

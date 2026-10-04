@@ -111,6 +111,60 @@ collections:
             widget: list
             summary: "{{fields.type}} – {{fields.heading}}"
             types:
+              - label: Events for you
+                name: eventDiscovery
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "eventDiscovery" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Intro, name: intro, widget: text }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
+                  - { label: Interests label, name: interestsLabel, widget: string }
+                  - label: Interests
+                    name: interests
+                    widget: list
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: Matching ID, name: id, widget: select, options: [forums, breakfasts, receptions, socials, discussions, special-interest, industry-shows] }
+                      - { label: Label, name: label, widget: string }
+                  - { label: Industry events label, name: showsLabel, widget: string }
+                  - label: Industry events
+                    name: shows
+                    widget: list
+                    summary: "{{fields.label}}"
+                    fields:
+                      - { label: Matching ID, name: id, widget: select, options: [nab-show-2026, mpts-2026, ibc-2026, other] }
+                      - { label: Label, name: label, widget: string }
+                  - { label: Action label, name: ctaLabel, widget: string }
+                  - { label: Results heading, name: resultsHeading, widget: string }
+                  - { label: No-match heading, name: emptyHeading, widget: string }
+                  - { label: No-match body, name: emptyBody, widget: text }
+                  - { label: No-match action label, name: emptyCtaLabel, widget: string }
+
+              - label: Get involved
+                name: getInvolved
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: "getInvolved" }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Intro, name: intro, widget: text }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
+                  - label: Ways to participate
+                    name: items
+                    widget: list
+                    min: 3
+                    max: 3
+                    summary: "{{fields.heading}}"
+                    fields:
+                      - { label: Heading, name: heading, widget: string }
+                      - { label: Body, name: body, widget: text }
+                      - label: CTA
+                        name: cta
+                        widget: object
+                        fields:
+                          - { label: Label, name: label, widget: string }
+                          - { label: URL, name: url, widget: string }
+
               - label: Join Community
                 name: joinCommunity
                 widget: object

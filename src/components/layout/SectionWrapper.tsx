@@ -21,6 +21,7 @@ interface SectionWrapperProps {
   padding?: PaddingSize;
   withFades?: boolean;
   align?: "left" | "center";
+  animateOnScroll?: boolean;
 }
 
 export default function SectionWrapper({
@@ -32,6 +33,7 @@ export default function SectionWrapper({
   padding = "lux",
   withFades = false,
   align = "left",
+  animateOnScroll = true,
 }: SectionWrapperProps) {
   const ref = useRef(null);
 
@@ -70,7 +72,7 @@ export default function SectionWrapper({
         ${className}
       `}
     >
-      <motion.div style={{ y, opacity }} className="relative z-10">
+      <motion.div style={animateOnScroll ? { y, opacity } : undefined} className="relative z-10">
         <div className={containerClass}>{children}</div>
       </motion.div>
     </section>

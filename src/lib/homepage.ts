@@ -1,6 +1,9 @@
+import type { DiscoveryInterest, DiscoveryShow } from "./eventDiscovery";
 // src/lib/homepage.ts
 
 export type HomepageSectionType =
+  | "eventDiscovery"
+  | "getInvolved"
   | "aboutIntro"
   | "whoAttends"
   | "upcomingEventsIntro"
@@ -10,6 +13,30 @@ export type HomepageSectionType =
   | "newHere"
   | "forBrands"
   | "cta";
+
+export interface EventDiscoverySection {
+  type: "eventDiscovery";
+  heading: string;
+  intro: string;
+  interestsLabel: string;
+  interests: { id: DiscoveryInterest; label: string }[];
+  showsLabel: string;
+  shows: { id: DiscoveryShow; label: string }[];
+  ctaLabel: string;
+  resultsHeading: string;
+  emptyHeading: string;
+  emptyBody: string;
+  emptyCtaLabel: string;
+  hidden?: boolean;
+}
+
+export interface GetInvolvedSection {
+  type: "getInvolved";
+  heading: string;
+  intro: string;
+  items: { heading: string; body: string; cta: { label: string; url: string } }[];
+  hidden?: boolean;
+}
 
 export interface CtaSection {
   type: "cta";
@@ -94,6 +121,8 @@ export interface ForBrandsSection {
 }
 
 export type HomepageSection =
+  | EventDiscoverySection
+  | GetInvolvedSection
   | AboutIntroSection
   | WhoAttendsSection
   | UpcomingEventsIntroSection
