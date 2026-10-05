@@ -8,13 +8,13 @@
     },
     "imageOffset": 0,
     "cta": {
-      "label": "register interest",
+      "label": "Register interest",
       "url": "/"
     },
     "overlayStrength": 0,
     "mobileCrop": "cover",
     "title": "Our Story",
-    "image": "/uploads/hero4.png",
+    "image": "/uploads/website-hero_about-us.png",
     "description": "Born during remote work and limited in-person interaction, The Media Collective was created to reconnect the industry."
   },
   "sections": [
