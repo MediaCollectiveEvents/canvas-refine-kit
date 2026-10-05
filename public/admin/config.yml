@@ -13,6 +13,11 @@ editor:
   preview: true
 
 hero_fields: &hero_fields
+  - label: Current Hero Eyebrow / Fallback
+    name: subtitle
+    widget: string
+    required: false
+    hint: "Current homepage eyebrow. If hero.eyebrow is present, it takes precedence over this fallback."
   - { label: Eyebrow, name: eyebrow, widget: string, required: false }
   - { label: Title, name: title, widget: string }
   - { label: Description, name: description, widget: text, required: false }
@@ -102,6 +107,13 @@ collections:
         file: "src/content/homepage.json"
         format: json
         fields:
+          - label: SEO
+            name: seo
+            widget: object
+            fields:
+              - { label: Browser / SEO Title, name: title, widget: string }
+              - { label: SEO Description, name: description, widget: text }
+              - { label: Social Sharing Image, name: ogImage, widget: image }
           - label: Hero
             name: hero
             widget: object
@@ -224,6 +236,12 @@ collections:
                 fields:
                   - { label: Type, name: type, widget: hidden, default: "whoAttends" }
                   - { label: Heading, name: heading, widget: string }
+                  - label: Supporting Copy
+                    name: styleTitle
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Supporting Paragraph, name: sub, widget: text, required: false }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - label: Statistics
                     name: statistics
@@ -379,6 +397,12 @@ collections:
                 fields:
                   - { label: Type, name: type, widget: hidden, default: "testimonials" }
                   - { label: Heading, name: heading, widget: string, required: false }
+                  - label: Supporting Copy
+                    name: styleTitle
+                    widget: object
+                    required: false
+                    fields:
+                      - { label: Supporting Paragraph, name: sub, widget: text, required: false }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - label: Items
                     name: items
@@ -881,6 +905,13 @@ collections:
                 name: imageOffset
                 widget: number
                 default: 0
+              - label: Primary CTA
+                name: primaryCta
+                widget: object
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
               - label: CTA
                 name: cta
                 widget: object
@@ -1124,6 +1155,10 @@ collections:
         file: "src/content/settings.json"
         format: json
         fields:
+          - label: "Production Maintenance Mode — disables normal public routes"
+            name: maintenanceMode
+            widget: boolean
+            hint: "WARNING: enabling this setting replaces normal public routes with the maintenance page in production."
           - label: Palette
             name: palette
             widget: object
