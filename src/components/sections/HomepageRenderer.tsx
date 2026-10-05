@@ -65,7 +65,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
           </div>
         </div>
       </section>
-      {visible.filter(section => !["eventDiscovery", "getInvolved", "eventInterests", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
+      {visible.filter(section => !["eventDiscovery", "getInvolved", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
       {visible.filter(section => section.type === "joinCommunity").map(render)}
     </>
   );
