@@ -24,14 +24,12 @@ const Blog: React.FC = () => {
       <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
         <PageHero
           presentation="business"
+          editorialCoherence
           eyebrow={hero?.eyebrow}
           title={hero?.title}
           description={hero?.description}
           // Unified hero image & controls from CMS
           image={hero?.image}
-          // Single CTA – optional
-          primaryCtaText={hero?.cta?.label}
-          primaryCtaHref={hero?.cta?.url}
         />
 
         <BlogPageRenderer sections={sections} posts={posts} />

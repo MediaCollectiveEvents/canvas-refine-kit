@@ -6,15 +6,11 @@
     "theme": "dark",
     "eyebrow": "Insights & Updates",
     "imageOffset": 0,
-    "cta": {
-      "label": "Help us host",
-      "url": "/partners"
-    },
     "overlayStrength": 0,
     "mobileCrop": "cover",
     "title": "Insights",
-    "image": "/uploads/chatgpt-image-mar-24-2026-03_53_23-pm.png",
-    "description": "Stay informed with the latest industry insights, event recaps, and community updates from The Media Collective."
+    "image": "/uploads/insights-hero-v4.png",
+    "description": "Ideas, perspectives and event stories from people working across the media industry."
   },
   "sections": [
     {

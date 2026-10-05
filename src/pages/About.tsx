@@ -27,6 +27,7 @@ const About = () => {
       <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
         <PageHero
           presentation="business"
+          editorialCoherence
           eyebrow={hero?.eyebrow}
           title={hero?.title}
           description={hero?.description}
