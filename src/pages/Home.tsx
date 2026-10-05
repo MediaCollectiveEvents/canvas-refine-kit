@@ -11,11 +11,11 @@ import HomepageRenderer, { type HomepageSection } from "@/components/sections/Ho
 
 import homepageContent from "@/content/homepage.json";
 
-const Home = () => {
+const Home = ({ content = homepageContent }: { content?: typeof homepageContent }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
-  const { sections, seo } = homepageContent;
-  const hero: typeof homepageContent.hero & { eyebrow?: string } = homepageContent.hero;
+  const { sections, seo } = content;
+  const hero: typeof homepageContent.hero & { eyebrow?: string } = content.hero;
 
   const handleOpenRegister = () => setIsFormOpen(true);
 
