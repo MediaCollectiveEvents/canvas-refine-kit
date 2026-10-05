@@ -177,9 +177,9 @@ export default function EventsListing({ content, onRegisterClick }: {
   return (
       <main className="bg-[#101d24] pt-[88px] sm:pt-[96px] lg:pt-[104px]">
         {/* HERO */}
-        <div className="[&>header]:min-h-[440px] [&>header]:pb-8 [&>header]:lg:min-h-[560px]">
         <PageHero
           presentation="business"
+          editorialCoherence
           eyebrow={hero.eyebrow}
           title={hero.title}
           description={hero.description}
@@ -187,7 +187,6 @@ export default function EventsListing({ content, onRegisterClick }: {
           primaryCtaText={hero.cta?.label}
           primaryCtaHref={hero.cta?.url}
         />
-        </div>
 
         {/* INTRO SECTION */}
         {intro?.title && (
