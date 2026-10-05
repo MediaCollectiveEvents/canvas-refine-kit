@@ -1,11 +1,10 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import settings from "@/content/settings.json";
 
 // Pages
 import Home from "@/pages/Home";
-import About from "@/pages/About";
 import Events from "@/pages/Events";
 import EventPlanner from "@/pages/EventPlanner";
 import EventDetails from "@/pages/EventDetails";
@@ -58,7 +57,7 @@ const App = () => {
             <>
               {/* Core pages */}
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
+              <Route path="/about" element={<Navigate to="/" replace />} />
 
               {/* Events */}
               <Route path="/events" element={<Events />} />

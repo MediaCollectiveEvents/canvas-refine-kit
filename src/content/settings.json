@@ -47,10 +47,6 @@
     {
       "label": "Partners",
       "type": "partners"
-    },
-    {
-      "label": "About",
-      "type": "about"
     }
   ]
 }
