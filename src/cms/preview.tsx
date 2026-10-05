@@ -1,6 +1,7 @@
 import { registerReferenceWidgets, type ReferenceWidgetCMS } from "./controls/ReferenceRelationControl";
 import BlogPagePreview from "./previews/BlogPagePreview";
 import ArticlesPreview from "./previews/ArticlesPreview";
+import adaptPreview from "./React18PreviewAdapter";
 // src/cms/preview.tsx
 
 // 0) Make React global BEFORE anything else so Decap v3 portal can use it
@@ -166,7 +167,7 @@ async function boot() {
     console.log("[Decap Preview] CMS ready.");
 
     registerReferenceWidgets(CMS);
-    CMS.registerPreviewTemplate("blogPosts", ArticlesPreview);
+    CMS.registerPreviewTemplate("blogPosts", adaptPreview(ArticlesPreview));
 
     // Minimal preview CSS
     const css =
@@ -175,15 +176,15 @@ async function boot() {
     CMS.registerPreviewStyle(css + previewCss + `:root{--background-dark:${settings.palette.backgroundDark};--background-light:${settings.palette.backgroundLight}}`, { raw: true });
 
     // ✅ Homepage (your styled preview: hero + all homepage sections)
-    CMS.registerPreviewTemplate("homepage", HomepagePreview);
-    CMS.registerPreviewTemplate("eventsContent", EventsPreview);
+    CMS.registerPreviewTemplate("homepage", adaptPreview(HomepagePreview));
+    CMS.registerPreviewTemplate("eventsContent", adaptPreview(EventsPreview));
 
     // Other page types use generic sections renderer
-    CMS.registerPreviewTemplate("aboutPage", SectionsPreview);
-    CMS.registerPreviewTemplate("faqPage", SectionsPreview);
-    CMS.registerPreviewTemplate("eventsPage", SectionsPreview);
-    CMS.registerPreviewTemplate("partnersPage", PartnersPreview);
-    CMS.registerPreviewTemplate("blogPage", BlogPagePreview);
+    CMS.registerPreviewTemplate("aboutPage", adaptPreview(SectionsPreview));
+    CMS.registerPreviewTemplate("faqPage", adaptPreview(SectionsPreview));
+    CMS.registerPreviewTemplate("eventsPage", adaptPreview(SectionsPreview));
+    CMS.registerPreviewTemplate("partnersPage", adaptPreview(PartnersPreview));
+    CMS.registerPreviewTemplate("blogPage", adaptPreview(BlogPagePreview));
 
     console.log("[Decap Preview] templates registered.");
   } catch (err) {
