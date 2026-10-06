@@ -139,7 +139,8 @@ test("Industry calendar hides experience controls; other sources retain them", (
 });
 
 test("2027 planner includes all three announcements using only confirmed show and location mappings", () => {
-  const months = getIndustryPlannerMonths(2027, "all", media, external, "all", "media-collective");
+  const months = getIndustryPlannerMonths(2027, "all", [...media].reverse(), [...external].reverse(), "all", "media-collective");
+  assert.deepEqual(months, getIndustryPlannerMonths(2027, "all", media, external, "all", "media-collective"));
   assert.deepEqual(months.filter(month => month.entries.length).map(month =>
     [month.month, month.entries.map(entry => entry.event.id)]), [[5, [5]], [9, [6, 7]]]);
   assert.equal(getEventIndustryContext(5)?.event.startDate, getEventById(5)?.date);

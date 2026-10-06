@@ -211,3 +211,20 @@ test("2027 announcements are upcoming, ordered, routable and leave unknown detai
   assert.deepEqual(events[1].experienceCategories, getEventById(3)?.experienceCategories);
   assert.deepEqual(events[2].experienceCategories, ["networking-social"]);
 });
+
+
+test("public upcoming selectors sort before limiting or filtering, independent of source order", () => {
+  const source = { events: getAllEvents().reverse() };
+  const originalOrder = source.events.map(event => event.id);
+  const upcoming = getUpcomingEvents(undefined, source, now);
+  assert.deepEqual(upcoming.map(event => event.date), [
+    "2026-11-24", "2027-05-12", "2027-09-11", "2027-09-12",
+  ]);
+  assert.deepEqual(getUpcomingEvents(3, source, now).map(event => event.date),
+    upcoming.slice(0, 3).map(event => event.date));
+  assert.deepEqual(filterEventsByExperience(upcoming, "conference-aligned").map(event => event.date),
+    ["2027-05-12", "2027-09-11"]);
+  assert.deepEqual(getPastEvents(source, now).map(event => event.date),
+    ["2026-09-12", "2026-05-13", "2026-05-06"]);
+  assert.deepEqual(source.events.map(event => event.id), originalOrder);
+});

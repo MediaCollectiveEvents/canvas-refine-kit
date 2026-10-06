@@ -120,3 +120,14 @@ test("snapshot download creates the calendar Blob, clicks its filename and relea
     else Reflect.deleteProperty(globalThis, "document");
   }
 });
+
+
+test("2027 planner orders announcements by date rather than source-array order", () => {
+  const source = { events: getAllEvents().reverse() };
+  const months = getEventMonths(2027, "all", source);
+  assert.deepEqual(months.flatMap(month => month.events.map(event => [event.title, event.date])), [
+    ["MPTS Reception", "2027-05-12"],
+    ["IBC Breakfast", "2027-09-11"],
+    ["IBC Decompression Party", "2027-09-12"],
+  ]);
+});
