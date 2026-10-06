@@ -88,9 +88,9 @@
       "items": [
         {
           "heading": "Guest",
-          "body": "Come along to events that interest you and meet others from across the media and technology community.",
+          "body": "Come along to events that interest you and meet others in the community.",
           "cta": {
-            "label": "See what’s on",
+            "label": "Find an event",
             "url": "#events-for-you"
           }
         },
@@ -98,7 +98,7 @@
           "heading": "Speaker",
           "body": "Share your experience or perspective where it fits the event.",
           "cta": {
-            "label": "Speak at an event",
+            "label": "Register interest",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         },
@@ -106,15 +106,15 @@
           "heading": "Supporter",
           "body": "Support an event through sponsorship, hosting or another contribution.",
           "cta": {
-            "label": "Support an event",
+            "label": "Register interest",
             "url": "/partners"
           }
         },
         {
           "heading": "Partner",
-          "body": "Work with us on ideas, events or collaborations that bring the right people together.",
+          "body": "Work with us on ideas, events or collaborations.",
           "cta": {
-            "label": "Work with us",
+            "label": "Register interest",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         }
