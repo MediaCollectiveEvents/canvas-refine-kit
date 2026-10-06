@@ -11,7 +11,7 @@ export default function EventsPreview({ entry }: { entry: PreviewEntry }) {
   return (
     <PreviewLayout route="/events" ownMain>
       {issues.length > 0 && <div role="alert" className="p-4 text-red-300">{issues.join(" ")}</div>}
-      <EventsListing content={content} />
+      <EventsListing content={content} showPastEventsInitially />
     </PreviewLayout>
   );
 }
@@ -22,6 +22,6 @@ export function LegacyEventsPagePreview() {
     <div role="note" className="relative z-[60] bg-[#101d24] p-4 text-sm text-slate-300">
       This legacy configuration is not used by the live Events page. The preview below shows current Events Content &amp; List; edit that collection to update /events.
     </div>
-    <EventsListing />
+    <EventsListing showPastEventsInitially />
   </PreviewLayout>;
 }

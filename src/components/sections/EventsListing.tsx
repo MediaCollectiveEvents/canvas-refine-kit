@@ -164,15 +164,19 @@ const EventCard: React.FC<EventCardProps> = ({
   );
 };
 
-export default function EventsListing({ content, onRegisterClick }: {
+export default function EventsListing({ content, onRegisterClick, showPastEventsInitially = false }: {
   content?: unknown;
+  // Editors must still see historical records in the draft preview.
+  showPastEventsInitially?: boolean;
   onRegisterClick?: (registrationId: string) => void;
 }) {
+  const [showPastEvents, setShowPastEvents] = useState(showPastEventsInitially);
   const [openEventId, setOpenEventId] = useState<number | null>(null);
   const [experience, setExperience] = useState<EventExperienceFilter>("all");
   const { hero, intro } = getEventContent(content);
   const upcomingEvents = filterEventsByExperience(getUpcomingEvents(undefined, content), experience);
   const pastEvents = filterEventsByExperience(getPastEvents(content), experience);
+  const visibleEventCount = upcomingEvents.length + (showPastEvents ? pastEvents.length : 0);
   const handleToggleDetails = (id: number) => setOpenEventId(previous => previous === id ? null : id);
   return (
       <main className="bg-[#101d24] pt-[88px] sm:pt-[96px] lg:pt-[104px]">
@@ -210,9 +214,9 @@ export default function EventsListing({ content, onRegisterClick }: {
               <a href="/events/calendar">View year planner →</a>
             </Button>
             <p role="status" className="mt-4 font-body text-sm text-muted-foreground">
-              {upcomingEvents.length + pastEvents.length === 0
+              {visibleEventCount === 0
                 ? "No events match this experience yet. Explore all events."
-                : `${upcomingEvents.length + pastEvents.length} events`}
+                : `${visibleEventCount} events`}
             </p>
           </div>
         </section>
@@ -239,10 +243,24 @@ export default function EventsListing({ content, onRegisterClick }: {
           </div>
         </section>}
 
+        {pastEvents.length > 0 && <div className="px-6 pb-12">
+          <div className="container mx-auto max-w-6xl">
+            <button
+              type="button"
+              aria-expanded={showPastEvents}
+              aria-controls="past-events"
+              onClick={() => setShowPastEvents(previous => !previous)}
+              className="inline-block py-3 font-display text-sm font-medium text-[#35C5BB] underline-offset-[6px] transition-opacity hover:underline hover:opacity-80 focus-visible:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4"
+            >
+              {showPastEvents ? "Hide past events" : "View past events"}
+            </button>
+          </div>
+        </div>}
+
         {/* PAST EVENTS */}
 
-        {pastEvents.length > 0 && (
-          <section className={`pb-16 md:pb-20 px-6 border-t border-white/10 ${upcomingEvents.length ? "pt-16 md:pt-20" : "pt-12 md:pt-16"}`}>
+        {showPastEvents && pastEvents.length > 0 && (
+          <section id="past-events" className={`pb-16 md:pb-20 px-6 border-t border-white/10 ${upcomingEvents.length ? "pt-16 md:pt-20" : "pt-12 md:pt-16"}`}>
             <div className="container mx-auto max-w-6xl">
               <h2 className="mb-8 font-display text-[30px] font-light leading-tight text-white md:mb-12 md:text-4xl">Past Events</h2>
               <div className="space-y-24">
