@@ -11,7 +11,7 @@ const config: Config = {
       fontFamily: {
         satisfy: ['Satisfy', 'cursive'],
         display: ['Montserrat', 'sans-serif'],
-        body: ['Montserrat', 'sans-serif'],
+        body: ['Source Sans 3', 'sans-serif'],
         script: ['Playlist Script', 'cursive'],
       },
       colors: {
@@ -53,4 +53,3 @@ const config: Config = {
 };
 
 export default config;
-``

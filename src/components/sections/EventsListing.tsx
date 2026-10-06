@@ -86,7 +86,7 @@ const EventCard: React.FC<EventCardProps> = ({
         >
           {/* Date / Time */}
           <div
-            className={`flex flex-wrap items-center gap-x-3 gap-y-2 text-muted-foreground font-body text-sm uppercase tracking-widest ${
+            className={`flex flex-wrap items-center gap-x-3 gap-y-2 text-muted-foreground font-display text-sm uppercase tracking-widest ${
               index % 2 === 1 ? "lg:justify-end" : ""
             }`}
           >
@@ -107,7 +107,7 @@ const EventCard: React.FC<EventCardProps> = ({
 
           {/* Venue / Location */}
           <div
-            className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-white/65 font-body uppercase tracking-wider text-sm ${
+            className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-white/65 font-display uppercase tracking-wider text-sm ${
               index % 2 === 1 ? "lg:justify-end" : ""
             }`}
           >
@@ -130,7 +130,7 @@ const EventCard: React.FC<EventCardProps> = ({
             {/* View details (expands in-page) */}
             <Button
               variant="ghost"
-              className="rounded-full font-body uppercase tracking-wider text-xs px-4"
+              className="rounded-full font-display uppercase tracking-wider text-xs px-4"
               onClick={onToggleDetails}
             >
               {isOpen ? "Hide Details" : "View Details"}
@@ -204,7 +204,7 @@ export default function EventsListing({ content, onRegisterClick }: {
 
         <section aria-label="Filter events by experience" className="px-6 pt-8 md:pt-12">
           <div className="container mx-auto max-w-6xl">
-            <p className="mb-4 font-body text-sm text-muted-foreground">Explore by experience</p>
+            <p className="mb-4 font-display text-sm text-muted-foreground">Explore by experience</p>
             <EventExperienceFilters value={experience} onChange={setExperience} resultsId="event-results" />
             <Button asChild variant="textcta" size="text" className="mt-6">
               <a href="/events/calendar">View year planner →</a>

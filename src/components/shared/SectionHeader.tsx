@@ -28,7 +28,7 @@ const SectionHeader = ({
       transition={{ duration: 0.6 }}
     >
       {eyebrow && (
-        <p className="text-primary font-body text-sm uppercase tracking-[0.3em] mb-4">
+        <p className="text-primary font-display text-sm uppercase tracking-[0.3em] mb-4">
           {eyebrow}
         </p>
       )}

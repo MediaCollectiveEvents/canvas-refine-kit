@@ -17,7 +17,7 @@ export default function EventExperienceFilters({ value, onChange, resultsId, lig
           aria-pressed={value === category}
           aria-controls={resultsId}
           onClick={() => onChange(category)}
-          className={`h-10 rounded-full px-4 py-2 font-body text-sm leading-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${light ? "focus-visible:ring-offset-white text-[#0B1F36]" : "focus-visible:ring-offset-background"}`}>
+          className={`h-10 rounded-full px-4 py-2 font-display text-sm leading-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 ${light ? "focus-visible:ring-offset-white text-[#0B1F36]" : "focus-visible:ring-offset-background"}`}>
           {label}
         </Button>
       ))}

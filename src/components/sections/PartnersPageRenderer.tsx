@@ -128,7 +128,7 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
                       <h3 className="text-lg font-medium">{organisation.name || organisation.alt}</h3>
                       {organisation.description && <p className="mt-2 text-sm text-white/75">{organisation.description}</p>}
                       {organisation.contribution && <p className="mt-2 text-sm text-white/75">{organisation.contribution}</p>}
-                      {organisation.website && <a href={organisation.website} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm underline">Visit website ↗</a>}
+                      {organisation.website && <a href={organisation.website} target="_blank" rel="noopener noreferrer" className="font-display mt-2 inline-block text-sm underline">Visit website ↗</a>}
                       {organisation.id && getRelatedArticles(organisation.id, posts.posts).map(article => <p key={article.slug} className="mt-2"><a className="text-sm underline" href={`/blog/${article.slug}`}>{article.title}</a></p>)}
                     </div>
                   ))}
@@ -157,10 +157,10 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
                 <div className="grid gap-4 md:grid-cols-3">
                   {sponsorshipTiers.map(tier => (
                     <article key={tier.name} className="rounded-lg border border-white/20 bg-white/[0.03] p-6 lg:p-8">
-                      <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.12em] text-[#9bd3c8]">{tier.name === "Strategic Partner" ? "Contribute to the programme" : tier.name === "Industry Sponsor" ? "Support the event" : "Develop a bespoke experience"}</p>
+                      <p className="font-display mb-4 text-[11px] font-medium uppercase tracking-[0.12em] text-[#9bd3c8]">{tier.name === "Strategic Partner" ? "Contribute to the programme" : tier.name === "Industry Sponsor" ? "Support the event" : "Develop a bespoke experience"}</p>
                       <h3 className="font-display text-3xl font-light text-[#f7f3eb]">{tier.name}</h3>
                       <p className="mt-3 text-sm md:mt-4 md:min-h-[4.5rem] leading-relaxed text-slate-300">{tier.description}</p>
-                      <p className="mb-3 mt-4 border-t border-white/15 pt-3 md:mb-4 md:mt-6 md:pt-5 text-xs font-medium text-white">Partnership scope</p>
+                      <p className="mb-3 mt-4 border-t border-white/15 pt-3 md:mb-4 md:mt-6 md:pt-5 font-display text-xs font-medium text-white">Partnership scope</p>
                       <ul className="space-y-2.5 md:space-y-4">
                         {tier.features.map(feature => <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-slate-300"><Check aria-hidden="true" className="mt-1 h-3.5 w-3.5 shrink-0 text-[#9bd3c8]" />{feature}</li>)}
                       </ul>

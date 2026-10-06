@@ -102,7 +102,7 @@ export default function WhoAttendsSection({ section = {} }: WhoAttendsSectionPro
               const title = item.title?.match(/^(.*)\s+(\d+)$/);
               return <div key={index} data-audience-credential>
                 <div aria-hidden="true" className="mb-5 h-0.5 w-12 bg-[#35C5BB]" />
-                <h3 aria-label={item.title} className="font-body font-medium">
+                <h3 aria-label={item.title} className="font-display font-medium">
                   <span className="block text-base leading-6 text-[#f7f3eb]">{title ? title[1] : item.title}</span>
                   {title && <span className={`flex h-[78px] items-end text-[#35C5BB] leading-none md:h-[106px] ${numeralSizes[title[2]] || "text-[44px] md:text-[64px]"}`}>
                     {/* The shared largest-size strut aligns text baselines, including font descent. */}

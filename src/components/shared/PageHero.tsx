@@ -136,7 +136,7 @@ export default function PageHero(props: PageHeroProps) {
         className={`relative z-10 site-container ${isModern ? `${isEditorial ? "py-8 md:py-10" : "py-12"} text-left` : "text-center"}`}
       >
         {eyebrowText && (
-          <p className={isModern ? (isEditorial ? "mb-7 flex items-center gap-4 text-[0.6875rem] font-normal uppercase tracking-[0.12em] text-white/65" : "mb-7 flex items-center gap-4 site-eyebrow text-[#9bd3c8]") : "mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
+          <p className={isModern ? (isEditorial ? "font-display mb-7 flex items-center gap-4 text-[0.6875rem] font-normal uppercase tracking-[0.12em] text-white/65" : "mb-7 flex items-center gap-4 site-eyebrow text-[#9bd3c8]") : "font-display mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
             {isModern && <span aria-hidden="true" className="h-px w-10 bg-current" />}
             {eyebrowText}
           </p>

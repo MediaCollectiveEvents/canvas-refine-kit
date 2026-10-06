@@ -36,7 +36,7 @@ const BlogPostPage: React.FC = () => {
             </p>
             <Link
               to="/blog"
-              className="text-sm font-medium text-primary hover:underline"
+              className="font-display text-sm font-medium text-primary hover:underline"
             >
               ← Back to Insights
             </Link>
@@ -72,14 +72,14 @@ const BlogPostPage: React.FC = () => {
             backgroundPosition: "center bottom",
           } : undefined}>
           <div className="container mx-auto max-w-3xl">
-            {post.category && <p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]">{post.category}</p>}
+            {post.category && <p className="font-display mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]">{post.category}</p>}
             <h1 className="font-display text-[40px] font-light leading-[1.1] tracking-tight text-[#f7f3eb] [overflow-wrap:anywhere] md:text-[56px]">{post.title}</h1>
             {post.excerpt && <p className="mt-6 text-base leading-[1.8] text-slate-200 md:text-lg">{post.excerpt}</p>}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-300">
               <span>
                 {formatArticleDate(post.date)}
               </span>
-              <Link to="/blog" className="text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
+              <Link to="/blog" className="font-display text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
             </div>
             <div className="mt-4 [&>div]:text-slate-300"><ArticleAttribution article={post} /></div>
           </div>
@@ -97,7 +97,7 @@ const BlogPostPage: React.FC = () => {
             )}
             <ContributorBiography article={post} />
             <ArticleRelatedEvents article={post} />
-            <Link to="/blog" className="mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
+            <Link to="/blog" className="font-display mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
           </div>
         </section>
 

@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
             <h1 className="font-script text-5xl md:text-7xl text-foreground mb-6">
               Privacy Policy
             </h1>
-            <p className="text-muted-foreground font-body text-sm uppercase tracking-widest">
+            <p className="text-muted-foreground font-display text-sm uppercase tracking-widest">
               Last Updated: January 2025
             </p>
           </motion.div>

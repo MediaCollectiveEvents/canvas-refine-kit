@@ -77,7 +77,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                         <ArticleImage key={post.image} post={post} />
 
                         <div className="flex flex-col gap-4">
-                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs uppercase tracking-[0.12em] text-white/60">
+                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-display text-xs uppercase tracking-[0.12em] text-white/60">
                             <span>{post.category}</span>
                             <div className="flex items-center gap-1">
                               <Calendar className="h-3 w-3" />

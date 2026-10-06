@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Linkedin } from "lucide-react";
 
 export default function Footer() {
-  const linkClassName = "inline-flex min-h-11 items-center font-body text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white/90 transition-colors hover:text-[#9BF8ED] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB] xl:text-[0.9rem] xl:tracking-[0.18em]";
+  const linkClassName = "inline-flex min-h-11 items-center font-display text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white/90 transition-colors hover:text-[#9BF8ED] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB] xl:text-[0.9rem] xl:tracking-[0.18em]";
 
   return (
     <footer id="contact" className="border-t border-[#35C5BB]/20 bg-[#08111f]">

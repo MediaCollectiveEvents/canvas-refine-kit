@@ -39,7 +39,7 @@ export default function PageCTA({
           <Button
             type="button"
             size="lg"
-            className="rounded-full font-body uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
+            className="rounded-full font-display uppercase tracking-wider text-sm bg-primary text-primary-foreground hover:bg-primary/90 px-8"
             onClick={onClick}
           >
             {buttonLabel}

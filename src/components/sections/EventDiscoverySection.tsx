@@ -23,7 +23,7 @@ export default function EventDiscoverySection({ section, onRegister }: { section
             <p className="mt-4 max-w-[45ch] text-base leading-[1.5] text-[#f7f3eb]/75 md:text-lg">{section.intro}</p>
           </div>
           <div className="min-w-0 lg:col-span-7">
-            <p id="discovery-instruction" className="mb-6 max-w-[52ch] text-base leading-[1.5] text-[#f7f3eb]/75">{section.interestsLabel}</p>
+            <p id="discovery-instruction" className="font-display mb-6 max-w-[52ch] text-base leading-[1.5] text-[#f7f3eb]/75">{section.interestsLabel}</p>
             <div role="group" aria-labelledby="discovery-instruction" className="border-t border-white/15">
               {section.interests.map(option => <button type="button" key={option.id} aria-pressed={interests.includes(option.id)} aria-expanded={option.id === "industry-shows" ? interests.includes(option.id) : undefined} aria-controls={option.id === "industry-shows" && interests.includes(option.id) ? "discovery-shows" : undefined} className={`${editorialChoice} ${interests.includes(option.id) ? "text-[#35C5BB]" : "text-[#f7f3eb]/90 hover:text-white"}`} onClick={() => {
                 setInterests(toggle(interests, option.id));
@@ -52,7 +52,7 @@ export default function EventDiscoverySection({ section, onRegister }: { section
                   <h4 className="mt-3 font-display text-xl leading-snug">{event.title}</h4>
                   {event.location && <p className="mt-3 text-sm leading-relaxed text-[#f7f3eb]/75">{event.location}</p>}
                   <p className="mt-3 text-sm text-[#8FC7C1]">{reasons.join(" · ")}</p>
-                  <Link to={`/events/${event.id}`} className="mt-5 inline-block text-[#35C5BB] underline underline-offset-4 hover:text-[#a9e5df] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">View event <span aria-hidden="true">→</span></Link>
+                  <Link to={`/events/${event.id}`} className="font-display mt-5 inline-block text-[#35C5BB] underline underline-offset-4 hover:text-[#a9e5df] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">View event <span aria-hidden="true">→</span></Link>
                 </article>)}
               </div>
             </> : <>

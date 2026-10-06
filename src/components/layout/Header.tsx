@@ -177,7 +177,7 @@ const Header = () => {
                       aria-current={isActive ? "page" : undefined}
                       className={`
                         relative whitespace-nowrap pb-1
-                        font-body font-medium uppercase
+                        font-display font-medium uppercase
                         tracking-[0.1em] xl:tracking-[0.18em]
                         text-[0.75rem] xl:text-[0.9rem]
                         transition-all duration-200
@@ -220,7 +220,7 @@ const Header = () => {
                   min-w-[190px] xl:min-w-[210px]
                   rounded-full
                   px-5 xl:px-7 py-3.5
-                  font-body
+                  font-display
                   text-[0.75rem] xl:text-[0.84rem]
                   font-semibold
                   uppercase
@@ -276,7 +276,7 @@ const Header = () => {
                   mt-3
                   rounded-full
                   py-3.5
-                  font-body
+                  font-display
                   text-[0.88rem]
                   font-semibold
                   uppercase
