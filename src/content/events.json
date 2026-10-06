@@ -100,6 +100,42 @@
       "description": "Presented by The Media Collective, Faultline and decodeTV, OFF AIR brings leaders across broadcasting, streaming, content and media technology together to explore the technologies, business models and strategic choices shaping media through candid industry debate, audience-led discussion and practical insight.",
       "details": "24 November 2026, 15:00–18:00, at The Broadcaster, White City, London. The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards, followed by drinks and executive networking. The programme will evolve and be developed in consultation with Strategic Partners and invited industry figures.",
       "imageKey": "off-air"
+    },
+    {
+      "id": 5,
+      "title": "MPTS Reception",
+      "date": "2027-05-12",
+      "type": "upcoming",
+      "venue": "",
+      "location": "",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "IBC Breakfast",
+      "date": "2027-09-11",
+      "type": "upcoming",
+      "venue": "",
+      "location": "",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "IBC Decompression Party",
+      "date": "2027-09-12",
+      "type": "upcoming",
+      "venue": "",
+      "location": "Amsterdam",
+      "description": "An evening of live music, drinks, canapés and conversation in Amsterdam during IBC. The Decompression Party brings together invited guests from broadcasting, streaming, media technology and entertainment for a relaxed evening away from the exhibition floor.",
+      "experienceCategories": [
+        "networking-social"
+      ]
     }
   ]
 }

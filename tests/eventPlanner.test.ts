@@ -41,7 +41,7 @@ test("grouping never infers a year from invalid dates or admits other years", ()
 });
 
 test("whole-year snapshot contains a single calendar and all four ordered events", () => {
-  const events = getAllEvents();
+  const events = getAllEvents().filter(event => event.date.startsWith("2026-"));
   const snapshot = getYearCalendarSnapshot([...events].reverse(), 2026, now);
   assert.equal(snapshot.includedCount, 4);
   assert.equal(snapshot.omittedCount, 0);
@@ -60,14 +60,14 @@ test("whole-year snapshot contains a single calendar and all four ordered events
 
 test("invalid calendar schedules are omitted and counted within the selected year only", () => {
   const events = normalizeEvents({ events: [
-    ...getAllEvents(), { id: 5, date: "2026-12-01", title: "No schedule" },
-    { id: 6, date: "2027-01-01", title: "Other year" },
+    ...getAllEvents(), { id: 90, date: "2026-12-01", title: "No schedule" },
+    { id: 91, date: "2027-01-01", title: "Other year" },
   ] });
   const snapshot = getYearCalendarSnapshot(events, 2026, now);
   assert.equal(snapshot.includedCount, 4);
   assert.equal(snapshot.omittedCount, 1);
-  assert.equal(snapshot.ics.includes("UID:event-5@"), false);
-  assert.equal(snapshot.ics.includes("UID:event-6@"), false);
+  assert.equal(snapshot.ics.includes("UID:event-90@"), false);
+  assert.equal(snapshot.ics.includes("UID:event-91@"), false);
   assert.equal(getYearCalendarSnapshot([], 2026, now).includedCount, 0);
 });
 

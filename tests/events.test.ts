@@ -63,9 +63,9 @@ test("missing and duplicate IDs never acquire position-based identities", () => 
 });
 
 test("an unmapped event resolves by its ID without borrowing an IBC registration", () => {
-  const source = { events: [...getAllEvents(), { id: 5, title: "IBC BREAKFAST", date: "2027-01-01" }] };
-  assert.equal(getEventById("5", source)?.id, 5);
-  assert.equal(getRegistrationId(5, source), undefined);
+  const source = { events: [...getAllEvents(), { id: 99, title: "IBC BREAKFAST", date: "2027-01-01" }] };
+  assert.equal(getEventById("99", source)?.id, 99);
+  assert.equal(getRegistrationId(99, source), undefined);
   assert.equal(getRegistrationOptions(source).length, 4);
 });
 
@@ -112,8 +112,8 @@ test("calendar metadata is optional and retained without inferring timestamps", 
 
 
 test("OFF AIR is upcoming, routable and remains explicitly unmapped for registration", () => {
-  assert.equal(getAllEvents().length, 4);
-  assert.deepEqual(getUpcomingEvents(undefined, undefined, now).map(event => event.id), [4]);
+  assert.equal(getAllEvents().length, 7);
+  assert.deepEqual(getUpcomingEvents(undefined, undefined, now).map(event => event.id), [4, 5, 6, 7]);
   assert.deepEqual(getPastEvents(undefined, now).map(event => event.id), [3, 2, 1]);
   const event = getEventById("4")!;
   assert.equal(event.title, "OFF AIR: The Unfiltered Future of Media");
@@ -137,9 +137,9 @@ test("approved calendar offsets and IBC display label remain consistent", () => 
 });
 
 for (const [category, expected] of [
-  ["all", [1, 2, 3, 4]],
-  ["networking-social", [1, 2, 3, 4]],
-  ["conference-aligned", [1, 2, 3]],
+  ["all", [1, 2, 3, 4, 5, 6, 7]],
+  ["networking-social", [1, 2, 3, 4, 5, 6, 7]],
+  ["conference-aligned", [1, 2, 3, 5, 6]],
   ["knowledge-discussion", [1, 4]],
 ] as const) {
   test(`experience filter ${category} preserves canonical membership and order`, () => {
@@ -186,4 +186,28 @@ test("multi-select payload retains comma-joined submission labels, not display l
   const submitted = selectedIds.map(id => options.find(option => option.id === id)?.label || id).join(", ");
   assert.equal(submitted, [unchangedSubmissionLabels["nab-review"], unchangedSubmissionLabels["networking-breakfast"], "All Events"].join(", "));
   assert.equal(submitted.includes("All future Media Collective events"), false);
+});
+
+test("2027 announcements are upcoming, ordered, routable and leave unknown details unset", () => {
+  const events = getUpcomingEvents(undefined, undefined, now).filter(event => event.date.startsWith("2027-"));
+  assert.deepEqual(events.map(event => [event.id, event.title, event.date]), [
+    [5, "MPTS Reception", "2027-05-12"],
+    [6, "IBC Breakfast", "2027-09-11"],
+    [7, "IBC Decompression Party", "2027-09-12"],
+  ]);
+  assert.deepEqual(getEventIssues(), []);
+  for (const event of events) {
+    assert.equal(getEventById(String(event.id))?.id, event.id);
+    assert.equal(event.venue, "");
+    assert.equal(event.location, event.id === 7 ? "Amsterdam" : "");
+    assert.equal(event.time, "");
+    if (event.id !== 7) assert.equal(event.description, "");
+    assert.equal(event.startsAt, undefined);
+    assert.equal(event.endsAt, undefined);
+    assert.equal(event.timeZone, undefined);
+    assert.equal(getRegistrationId(event.id), undefined);
+  }
+  assert.deepEqual(events[0].experienceCategories, getEventById(2)?.experienceCategories);
+  assert.deepEqual(events[1].experienceCategories, getEventById(3)?.experienceCategories);
+  assert.deepEqual(events[2].experienceCategories, ["networking-social"]);
 });

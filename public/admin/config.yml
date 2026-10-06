@@ -811,8 +811,8 @@ collections:
               - { label: Description, name: description, widget: text, required: false }
               - { label: Details, name: details, widget: text, required: false }
               - { label: Title, name: title, widget: string }
-              - { label: Location, name: location, widget: string }
-              - { label: Venue, name: venue, widget: string }
+              - { label: Location, name: location, widget: string, required: false }
+              - { label: Venue, name: venue, widget: string, required: false }
               - label: Date
                 name: date
                 widget: date

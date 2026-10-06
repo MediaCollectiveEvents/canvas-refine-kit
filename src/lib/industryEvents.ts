@@ -72,6 +72,9 @@ export const EVENT_INDUSTRY_CONTEXT: Readonly<Partial<Record<number, { industryE
   1: { industryEventId: "nab-show-2026", label: "Post-show context" },
   2: { industryEventId: "mpts-2026", label: "Around MPTS" },
   3: { industryEventId: "ibc-2026", label: "During IBC" },
+  5: { industryEventId: "mpts-2027", label: "Around MPTS" },
+  6: { industryEventId: "ibc-2027", label: "During IBC" },
+  7: { industryEventId: "ibc-2027", label: "During IBC" },
 });
 
 export function getEventIndustryContext(eventId: number, events = getIndustryEvents()) {
@@ -99,7 +102,7 @@ export type PlannerEntry =
 
 // Explicit approved geography; never derive cities from titles or venue text.
 export const MEDIA_COLLECTIVE_PLANNER_CITIES: Readonly<Partial<Record<number, string>>> = Object.freeze({
-  1: "London", 2: "London", 3: "Amsterdam", 4: "London",
+  1: "London", 2: "London", 3: "Amsterdam", 4: "London", 7: "Amsterdam",
 });
 
 export type PlannerSource = "all" | "media-collective" | "external";

@@ -10,7 +10,7 @@ const media = getAllEvents();
 const sample = external[0];
 
 test("industry context uses only reviewed IDs and official dataset URLs", () => {
-  for (const [id, externalId, label] of [[1, "nab-show-2026", "Post-show context"], [2, "mpts-2026", "Around MPTS"], [3, "ibc-2026", "During IBC"]] as const) {
+  for (const [id, externalId, label] of [[1, "nab-show-2026", "Post-show context"], [2, "mpts-2026", "Around MPTS"], [3, "ibc-2026", "During IBC"], [5, "mpts-2027", "Around MPTS"], [6, "ibc-2027", "During IBC"]] as const) {
     const context = getEventIndustryContext(id)!;
     assert.equal(context.label, label);
     assert.equal(context.event.id, externalId);
@@ -120,7 +120,7 @@ for (const [source, year, city, experience, expected] of [
   ["media-collective", 2026, "all", "all", 4],
   ["external", 2026, "all", "knowledge-discussion", 16],
   ["external", 2027, "all", "networking-social", 3],
-  ["media-collective", 2027, "all", "all", 0],
+  ["media-collective", 2027, "all", "all", 3],
   ["media-collective", 2026, "London", "knowledge-discussion", 2],
   ["external", 2026, "Amsterdam", "knowledge-discussion", 3],
   ["all", 2026, "London", "knowledge-discussion", 7],
@@ -136,4 +136,19 @@ test("Industry calendar hides experience controls; other sources retain them", (
   assert.equal(showsPlannerExperiences("external"), false);
   assert.equal(showsPlannerExperiences("all"), true);
   assert.equal(showsPlannerExperiences("media-collective"), true);
+});
+
+test("2027 planner includes all three announcements using only confirmed show and location mappings", () => {
+  const months = getIndustryPlannerMonths(2027, "all", media, external, "all", "media-collective");
+  assert.deepEqual(months.filter(month => month.entries.length).map(month =>
+    [month.month, month.entries.map(entry => entry.event.id)]), [[5, [5]], [9, [6, 7]]]);
+  assert.equal(getEventIndustryContext(5)?.event.startDate, getEventById(5)?.date);
+  assert.equal(getEventIndustryContext(7)?.event.id, "ibc-2027");
+  assert.deepEqual(getIndustryPlannerMonths(2027, "all", media, external, "Amsterdam", "media-collective")
+    .flatMap(month => month.entries).map(entry => entry.event.id), [7]);
+  assert.equal(getIndustryPlannerMonths(2027, "conference-aligned", media, external, "all", "media-collective")
+    .flatMap(month => month.entries).length, 2);
+  const snapshot = getYearCalendarSnapshot(media, 2027);
+  assert.equal(snapshot.includedCount, 0);
+  assert.equal(snapshot.omittedCount, 3);
 });

@@ -77,7 +77,7 @@ test("event metadata survives explicit normalization independently of experience
  assert.deepEqual(events[0].areas,["production"]);assert.deepEqual(events[0].topics,["security"]);
  assert.deepEqual(events[0].experienceCategories,input.experienceCategories);
  assert.equal(filterEventsByExperience(events,"networking-social").length,1);
- assert.equal(filterEventsByExperience(getAllEvents(),"conference-aligned").length,3);
+ assert.equal(filterEventsByExperience(getAllEvents(),"conference-aligned").length,5);
  assert.equal(filterEventsByExperience(getAllEvents(),"knowledge-discussion").length,2);
 });
 test("contributor metadata is preserved as expertise without inheriting article tags", () => {
