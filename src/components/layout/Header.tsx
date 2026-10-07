@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../ui/button";
 import logo from "../../assets/logo.png";
-import EventRegistrationForm from "../EventRegistrationForm";
+import ContactForm from "../ContactForm";
 import settings from "../../content/settings.json";
 
 type RawNavItem = {
@@ -88,7 +88,7 @@ const Header = () => {
 
   return (
     <>
-      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+      <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       <header
         className="
@@ -227,7 +227,7 @@ const Header = () => {
                   tracking-[0.14em]
                 "
               >
-                Register interest
+                Contact us
               </Button>
             </div>
           </div>
@@ -283,7 +283,7 @@ const Header = () => {
                   tracking-[0.14em]
                 "
               >
-                Register interest
+                Contact us
               </Button>
             </div>
           </nav>

@@ -2,7 +2,8 @@ import { getOrganisations, getRelatedArticles, getOrganisationById } from "@/lib
 import { contentImage } from "@/lib/contentImages";
 import posts from "@/content/blogPosts.json";
 // src/components/sections/PartnersPageRenderer.tsx
-import React from "react";
+import React, { useState } from "react";
+import ContactForm from "@/components/ContactForm";
 
 import PageSection from "@/components/shared/PageSection";
 import { Button } from "@/components/ui/button";
@@ -83,7 +84,7 @@ const sectionLinks: Record<string, { label: string; anchor: string }> = {
   partnersLogos: { label: "Partner community", anchor: "partner-community" },
   partnersBenefits: { label: "Audience and delivery", anchor: "partner-objectives" },
   partnersTiers: { label: "Ways to participate", anchor: "partner-formats" },
-  joinUs: { label: "Start a conversation", anchor: "partner-conversation" },
+  joinUs: { label: "Contact us", anchor: "partner-conversation" },
 };
 
 function JourneyHeading({ step, title, description }: { step: string; title: string; description: string }) {
@@ -97,14 +98,17 @@ function JourneyHeading({ step, title, description }: { step: string; title: str
 }
 
 export default function PartnersPageRenderer({ sections, onRegister }: PartnersPageRendererProps) {
+  const [contactOpen, setContactOpen] = useState(false);
   if (!Array.isArray(sections)) return null;
   const visibleSections = sections.filter(section => !section.hidden);
   return (
     <>
+      <ContactForm open={contactOpen} onOpenChange={setContactOpen} />
       <nav aria-label="Partnership guide" className="border-y border-white/15 bg-[#101d24] px-6 py-5">
         <div className="mx-auto flex max-w-6xl flex-wrap gap-x-8 gap-y-4">
           {visibleSections.map(section => {
             const link = sectionLinks[section.type];
+            if (section.type === "joinUs" && link) return <button key={section.id ?? section.type} type="button" onClick={() => setContactOpen(true)} className="font-display text-xs font-medium text-slate-200 underline-offset-4 hover:text-white hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{link.label}</button>;
             return link ? <a key={section.id ?? section.type} href={`#${link.anchor}`} className="text-xs font-medium text-slate-200 underline-offset-4 hover:text-white hover:underline">{link.label} <span aria-hidden="true">↗</span></a> : null;
           })}
         </div>
