@@ -64,7 +64,7 @@ const BlogPostPage: React.FC = () => {
       <Seo title={`${post.title} — The Media Collective`} description={post.excerpt} url={`/blog/${post.slug}`} type="article" />
       <Header />
 
-      <main className="bg-[#101d24] pt-[88px] sm:pt-[96px] lg:pt-[104px]">
+      <main className="bg-[#101d24] site-header-clearance">
         <header className="px-6 pt-12 md:pt-16"
           style={hero.image ? {
             backgroundImage: `linear-gradient(90deg, rgba(16,29,36,0.95), rgba(16,29,36,0.85)), url(${hero.image})`,

@@ -17,6 +17,7 @@ export default function ContactForm({ open, onOpenChange }: {
   const captchaRef = useRef<ReCAPTCHA>(null);
   const [captchaReady, setCaptchaReady] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const form = useForm<ContactData>({
     resolver: zodResolver(contactSchema),
     defaultValues: { fullName: "", email: "", message: "" },
@@ -26,6 +27,7 @@ export default function ContactForm({ open, onOpenChange }: {
     if (isSubmitting) return;
     if (!value) {
       form.reset();
+      setSubmitted(false);
       captchaRef.current?.reset();
     }
     onOpenChange(value);
@@ -43,9 +45,7 @@ export default function ContactForm({ open, onOpenChange }: {
       ]);
       if (!token) throw new Error("Verification unavailable");
       await sendContact(data, token);
-      toast({ title: "Enquiry sent", description: "Your enquiry was sent, but we cannot confirm receipt here." });
-      form.reset();
-      onOpenChange(false);
+      setSubmitted(true);
     } catch {
       toast({ title: "Unable to send", description: "We couldn’t send your message. Please try again.", variant: "destructive" });
     } finally {
@@ -62,7 +62,12 @@ export default function ContactForm({ open, onOpenChange }: {
           <DialogTitle className="font-display text-2xl">Contact us</DialogTitle>
           <DialogDescription>Send us a general enquiry.</DialogDescription>
         </DialogHeader>
-        <Form {...form}>
+        {submitted ? <div role="status" className="space-y-4 py-4">
+          <h3 className="font-display text-xl">Enquiry sent</h3>
+          <p>Your enquiry was sent, but receipt cannot be confirmed here.</p>
+          <p>Your details are used to respond to your enquiry. This is separate from requesting an event invitation.</p>
+          <Button variant="brand" onClick={() => changeOpen(false)}>Close</Button>
+        </div> : <Form {...form}>
           <form onSubmit={form.handleSubmit(submit)} className="space-y-5">
             <FormField control={form.control} name="fullName" render={({ field }) => (
               <FormItem>
@@ -94,7 +99,7 @@ export default function ContactForm({ open, onOpenChange }: {
               {isSubmitting ? "Sending…" : "Submit"}
             </Button>
           </form>
-        </Form>
+        </Form>}
       </DialogContent>
     </Dialog>
   );

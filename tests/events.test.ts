@@ -2,10 +2,32 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getAllEvents, getEventById, getEventIssues, getPastEvents, getRegistrationId,
-  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents, getAttendanceRegistrationId,
+  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents, getAttendanceRegistrationId, getEventCountdownDays,
 } from "../src/lib/events";
 
 const now = new Date("2026-10-02T12:00:00Z");
+
+test("countdown compares London calendar days, including midnight and DST boundaries", () => {
+  assert.equal(getEventCountdownDays("2026-11-24", new Date("2026-10-08T12:00:00Z")), 47);
+  assert.equal(getEventCountdownDays("2026-11-24", new Date("2026-11-23T23:59:00Z")), 1);
+  assert.equal(getEventCountdownDays("2026-11-24", new Date("2026-11-24T00:00:00Z")), 0);
+  assert.equal(getEventCountdownDays("2026-11-24", new Date("2026-11-25T12:00:00Z")), 0);
+  assert.equal(getEventCountdownDays("2027-05-12", new Date("2027-05-11T23:30:00Z")), 0);
+  assert.equal(getEventCountdownDays("2027-03-29", new Date("2027-03-28T00:30:00Z")), 1);
+  assert.equal(getEventCountdownDays("2026-10-26", new Date("2026-10-25T00:30:00Z")), 1);
+  assert.equal(getEventCountdownDays("invalid", now), undefined);
+  assert.equal(getEventCountdownDays("2027-02-30", now), undefined);
+});
+
+test("next-event countdown advances only after the event's London calendar date", () => {
+  const source = { events: [{ id: 10, date: "2027-05-12" }, { id: 11, date: "2027-05-14" }] };
+  const today = new Date("2027-05-12T20:00:00Z");
+  assert.equal(getUpcomingEvents(1, source, today)[0].id, 10);
+  const tomorrow = new Date("2027-05-12T23:00:00Z");
+  const next = getUpcomingEvents(1, source, tomorrow)[0];
+  assert.equal(next.id, 11);
+  assert.equal(getEventCountdownDays(next.date, tomorrow), 1);
+});
 
 test("attendance CTAs exclude past and unmapped events without removing historical mappings", () => {
   for (const id of [1, 2, 3, 4]) assert.equal(getAttendanceRegistrationId(getEventById(id)!, undefined, now), undefined);
@@ -112,8 +134,8 @@ test("calendar metadata is optional and retained without inferring timestamps", 
 
 
 test("OFF AIR is upcoming, routable and remains explicitly unmapped for registration", () => {
-  assert.equal(getAllEvents().length, 7);
-  assert.deepEqual(getUpcomingEvents(undefined, undefined, now).map(event => event.id), [4, 5, 6, 7]);
+  assert.equal(getAllEvents().length, 8);
+  assert.deepEqual(getUpcomingEvents(undefined, undefined, now).map(event => event.id), [4, 5, 8, 6, 7]);
   assert.deepEqual(getPastEvents(undefined, now).map(event => event.id), [3, 2, 1]);
   const event = getEventById("4")!;
   assert.equal(event.title, "OFF AIR: The Unfiltered Future of Media");
@@ -137,9 +159,9 @@ test("approved calendar offsets and IBC display label remain consistent", () => 
 });
 
 for (const [category, expected] of [
-  ["all", [1, 2, 3, 4, 5, 6, 7]],
-  ["networking-social", [1, 2, 3, 4, 5, 6, 7]],
-  ["conference-aligned", [1, 2, 3, 5, 6]],
+  ["all", [1, 2, 3, 4, 5, 8, 6, 7]],
+  ["networking-social", [1, 2, 3, 4, 5, 8, 6, 7]],
+  ["conference-aligned", [1, 2, 3, 5, 8, 6]],
   ["knowledge-discussion", [1, 4]],
 ] as const) {
   test(`experience filter ${category} preserves canonical membership and order`, () => {
@@ -191,25 +213,28 @@ test("multi-select payload retains comma-joined submission labels, not display l
 test("2027 announcements are upcoming, ordered, routable and leave unknown details unset", () => {
   const events = getUpcomingEvents(undefined, undefined, now).filter(event => event.date.startsWith("2027-"));
   assert.deepEqual(events.map(event => [event.id, event.title, event.date]), [
-    [5, "MPTS Reception", "2027-05-12"],
-    [6, "IBC Breakfast", "2027-09-11"],
-    [7, "IBC Decompression Party", "2027-09-12"],
+    [5, "MPTS Networking Reception 2027", "2027-05-12"],
+    [8, "The Green Line", "2027-09-09"],
+    [6, "IBC Networking Breakfast 2027", "2027-09-11"],
+    [7, "IBC Decompression Party 2027", "2027-09-12"],
   ]);
   assert.deepEqual(getEventIssues(), []);
   for (const event of events) {
     assert.equal(getEventById(String(event.id))?.id, event.id);
-    assert.equal(event.venue, "");
-    assert.equal(event.location, event.id === 7 ? "Amsterdam" : "");
+    assert.equal(event.venue, event.id === 5 ? "Olympia" : event.id === 6 ? "RAI" : event.id === 8 ? "Eurostar" : "Piano Bar");
+    assert.equal(event.location, event.id === 5 ? "London" : event.id === 8 ? "St Pancras to Amsterdam Centraal" : "Amsterdam");
     assert.equal(event.time, "");
-    if (event.id !== 7) assert.equal(event.description, "");
+    if (![7, 8].includes(event.id)) assert.equal(event.description, "");
     assert.equal(event.startsAt, undefined);
     assert.equal(event.endsAt, undefined);
     assert.equal(event.timeZone, undefined);
     assert.equal(getRegistrationId(event.id), undefined);
   }
   assert.deepEqual(events[0].experienceCategories, getEventById(2)?.experienceCategories);
-  assert.deepEqual(events[1].experienceCategories, getEventById(3)?.experienceCategories);
-  assert.deepEqual(events[2].experienceCategories, ["networking-social"]);
+  assert.deepEqual(getEventById(6)?.experienceCategories, getEventById(3)?.experienceCategories);
+  assert.deepEqual(getEventById(8)?.experienceCategories, ["networking-social", "conference-aligned"]);
+  assert.match(getEventById(8)?.description || "", /Eurostar carriage.*St Pancras.*Amsterdam Centraal.*IBC/);
+  assert.deepEqual(getEventById(7)?.experienceCategories, ["networking-social"]);
 });
 
 
@@ -218,12 +243,12 @@ test("public upcoming selectors sort before limiting or filtering, independent o
   const originalOrder = source.events.map(event => event.id);
   const upcoming = getUpcomingEvents(undefined, source, now);
   assert.deepEqual(upcoming.map(event => event.date), [
-    "2026-11-24", "2027-05-12", "2027-09-11", "2027-09-12",
+    "2026-11-24", "2027-05-12", "2027-09-09", "2027-09-11", "2027-09-12",
   ]);
   assert.deepEqual(getUpcomingEvents(3, source, now).map(event => event.date),
     upcoming.slice(0, 3).map(event => event.date));
   assert.deepEqual(filterEventsByExperience(upcoming, "conference-aligned").map(event => event.date),
-    ["2027-05-12", "2027-09-11"]);
+    ["2027-05-12", "2027-09-09", "2027-09-11"]);
   assert.deepEqual(getPastEvents(source, now).map(event => event.date),
     ["2026-09-12", "2026-05-13", "2026-05-06"]);
   assert.deepEqual(source.events.map(event => event.id), originalOrder);

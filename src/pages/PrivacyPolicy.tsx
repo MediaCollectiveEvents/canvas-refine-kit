@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
+import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const PrivacyPolicy = () => {
   return (
     <div className="min-h-screen bg-background">
+      <Seo title="Privacy Policy — The Media Collective" />
       <Header />
 
       {/* Hero Section */}
@@ -16,7 +18,7 @@ const PrivacyPolicy = () => {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="font-script text-5xl md:text-7xl text-foreground mb-6">
+            <h1 className="font-display font-light text-[40px] leading-tight md:text-[56px] text-foreground mb-6">
               Privacy Policy
             </h1>
             <p className="text-muted-foreground font-display text-sm uppercase tracking-widest">
@@ -37,7 +39,7 @@ const PrivacyPolicy = () => {
           >
             {/* Introduction */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 1. Introduction
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -50,7 +52,7 @@ const PrivacyPolicy = () => {
 
             {/* Data Controller */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 2. Data Controller
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -66,7 +68,7 @@ const PrivacyPolicy = () => {
 
             {/* Information We Collect */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 3. Information We Collect
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -95,7 +97,7 @@ const PrivacyPolicy = () => {
 
             {/* Legal Basis */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 4. Legal Basis for Processing
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -119,7 +121,7 @@ const PrivacyPolicy = () => {
 
             {/* How We Use Your Data */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 5. How We Use Your Data
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -138,7 +140,7 @@ const PrivacyPolicy = () => {
 
             {/* Data Sharing */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 6. Data Sharing and Third Parties
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -157,7 +159,7 @@ const PrivacyPolicy = () => {
 
             {/* Data Retention */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 7. Data Retention
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -173,7 +175,7 @@ const PrivacyPolicy = () => {
 
             {/* Your Rights */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 8. Your Rights Under GDPR
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -209,7 +211,7 @@ const PrivacyPolicy = () => {
 
             {/* International Transfers */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 9. International Data Transfers
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed">
@@ -219,7 +221,7 @@ const PrivacyPolicy = () => {
 
             {/* Security */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 10. Data Security
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -236,17 +238,17 @@ const PrivacyPolicy = () => {
 
             {/* Cookies */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 11. Cookies
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed">
-                Our website uses cookies to enhance your experience and analyze site usage. For detailed information about the cookies we use and how to manage your preferences, please see our Cookie Policy.
+                Our website uses cookies to enhance your experience and analyze site usage. For detailed information about the cookies we use and how to manage your preferences, please contact us using the details below.
               </p>
             </div>
 
             {/* Children */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 12. Children's Privacy
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed">
@@ -256,7 +258,7 @@ const PrivacyPolicy = () => {
 
             {/* Changes */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 13. Changes to This Policy
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed">
@@ -266,7 +268,7 @@ const PrivacyPolicy = () => {
 
             {/* Complaints */}
             <div className="mb-12">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 14. Complaints
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">
@@ -279,7 +281,7 @@ const PrivacyPolicy = () => {
 
             {/* Contact */}
             <div className="bg-muted/50 p-8 rounded-lg">
-              <h2 className="font-display text-2xl uppercase tracking-wide text-foreground mb-4">
+              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 Contact Us
               </h2>
               <p className="text-muted-foreground font-body leading-relaxed mb-4">

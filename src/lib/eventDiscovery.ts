@@ -3,6 +3,12 @@ import { getEventIndustryContext } from "./industryEvents";
 
 export const DISCOVERY_INTEREST_IDS = ["networking-social", "forums", "breakfasts", "receptions", "socials", "discussions", "special-interest", "industry-shows"] as const;
 export type DiscoveryInterest = typeof DISCOVERY_INTEREST_IDS[number];
+const reviewedShowEditions: Partial<Record<DiscoveryShow, readonly string[]>> = {
+  "nab-show-2026": ["nab-show-2026", "nab-show-2027"],
+  "mpts-2026": ["mpts-2026", "mpts-2027"],
+  "ibc-2026": ["ibc-2026", "ibc-2027"],
+};
+
 export const DISCOVERY_SHOW_IDS = ["nab-show-2026", "mpts-2026", "ibc-2026", "other"] as const;
 export type DiscoveryShow = typeof DISCOVERY_SHOW_IDS[number];
 
@@ -23,7 +29,7 @@ export function recommendEvents(interests: readonly DiscoveryInterest[], shows: 
     }
     if (interests.includes("industry-shows") && event.experienceCategories?.includes("conference-aligned")) {
       const context = getEventIndustryContext(event.id);
-      if (shows.length ? context && shows.includes(context.event.id as DiscoveryShow) : true) {
+      if (shows.length ? context && shows.some(show => reviewedShowEditions[show]?.includes(context.event.id)) : true) {
         reasons.push(context?.label ?? "Conference-aligned");
         score += shows.length ? 2 : 1;
       }

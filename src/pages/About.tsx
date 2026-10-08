@@ -24,7 +24,7 @@ const About = () => {
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       {/* Top padding to clear fixed header (same as Home) */}
-      <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
+      <main className="site-header-clearance">
         <PageHero
           presentation="business"
           editorialCoherence

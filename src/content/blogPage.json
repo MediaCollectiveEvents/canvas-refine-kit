@@ -18,8 +18,8 @@
       "authorLabel": "The Media Collective",
       "hidden": false,
       "layout": "two-column",
-      "title": "Latest posts",
-      "linkLabel": "Read More",
+      "title": "Insights from the collective",
+      "linkLabel": "Read more",
       "type": "postsGrid",
       "id": "posts-grid",
       "description": "Browse the most recent articles from our team."

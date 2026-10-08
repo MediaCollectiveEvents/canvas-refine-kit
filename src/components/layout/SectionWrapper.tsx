@@ -1,5 +1,5 @@
 import { ReactNode, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 
 type SectionVariant =
   | "clean"
@@ -42,6 +42,7 @@ export default function SectionWrapper({
     offset: ["start 85%", "start 40%"],
   });
 
+  const reducedMotion = useReducedMotion();
   const y = useTransform(scrollYProgress, [0, 1], [24, 0]);
   const opacity = useTransform(scrollYProgress, [0, 1], [0.78, 1]);
 
@@ -72,7 +73,7 @@ export default function SectionWrapper({
         ${className}
       `}
     >
-      <motion.div style={animateOnScroll ? { y, opacity } : undefined} className="relative z-10">
+      <motion.div style={animateOnScroll && !reducedMotion ? { y, opacity } : undefined} className="relative z-10">
         <div className={containerClass}>{children}</div>
       </motion.div>
     </section>

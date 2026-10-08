@@ -7,7 +7,7 @@ import ContactForm from "@/components/ContactForm";
 
 import PageSection from "@/components/shared/PageSection";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Eye, Mic, Check } from "lucide-react";
+
 
 // Sponsor logo imports (your original list)
 
@@ -28,28 +28,25 @@ const currentSponsors = getOrganisations();
 
 const benefits = [
   {
-    icon: Users,
     title: "Who you can connect with",
     description: "Our community spans broadcast, streaming, studios, content and media technology, including founders and senior decision-makers across technology, content, operations and commercial strategy. Each event audience is curated for relevance.",
   },
   {
-    icon: Mic,
-    title: "How we create the programme",
-    description: "The Media Collective manages event logistics, content creation and audience curation. Programme themes and format are developed collaboratively.",
+    title: "Less work to bring people together",
+    description: "Work with us on the purpose, audience and format. The agreed scope can include invitations, communications and event delivery, reducing the organising effort for your team. Final guest and programme curation remains with The Media Collective.",
   },
   {
-    icon: Eye,
-    title: "What your partnership can include",
-    description: "Partnerships may include programme participation and branding across event promotion, communications and the venue. Inclusions are agreed for each event.",
+    title: "Shared commitment",
+    description: "Supporting an existing gathering can share the cost and operational commitment of bringing people together. Contributions, recognition and programme involvement are agreed individually; particular guests, meetings or speaking roles are not guaranteed.",
   },
 ];
 
 const sponsorshipTiers = [
   {
     name: "Strategic Partner",
-    description: "Contribute to the programme, with any featured speaking role, topic and format agreed together.",
+    description: "Build relationships through relevant, carefully curated gatherings, with purpose and participation agreed together.",
     features: [
-      "Featured speaking role subject to event fit and agreement",
+      "Programme contribution subject to audience relevance and agreement",
       "Branding across promotion, communications and venue signage",
     ],
     highlighted: false,
@@ -57,9 +54,9 @@ const sponsorshipTiers = [
   },
   {
     name: "Industry Sponsor",
-    description: "Support the event, with opportunities to participate in audience-led discussions agreed for the programme.",
+    description: "Help make a gathering possible through sponsorship, hosting or practical support.",
     features: [
-      "Participation in audience-led discussions, subject to agreement",
+      "Contribution and recognition agreed for the event",
       "Branding across promotion, communications and venue signage",
     ],
     highlighted: true,
@@ -67,7 +64,7 @@ const sponsorshipTiers = [
   },
   {
     name: "Custom Event",
-    description: "Develop a bespoke event with The Media Collective, only where it is a good fit for the community. Scope and deliverables are agreed collaboratively.",
+    description: "Develop a gathering around a relevant audience, subject and format.",
     features: [
       "Programme themes and format developed together",
       "Audience curated around relevance and community fit",
@@ -92,12 +89,12 @@ function JourneyHeading({ step, title, description }: { step: string; title: str
     <div className="mb-10 max-w-2xl">
       <p className="mb-3 site-eyebrow text-[#9bd3c8]">{step}</p>
       <h2 className="site-heading text-[#f7f3eb]">{title}</h2>
-      <p className="mt-4 text-sm leading-[1.8] text-slate-300">{description}</p>
+      <p className="mt-4 text-base leading-[1.6] text-slate-300">{description}</p>
     </div>
   );
 }
 
-export default function PartnersPageRenderer({ sections, onRegister }: PartnersPageRendererProps) {
+export default function PartnersPageRenderer({ sections }: PartnersPageRendererProps) {
   const [contactOpen, setContactOpen] = useState(false);
   if (!Array.isArray(sections)) return null;
   const visibleSections = sections.filter(section => !section.hidden);
@@ -109,7 +106,7 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
           {visibleSections.map(section => {
             const link = sectionLinks[section.type];
             if (section.type === "joinUs" && link) return <button key={section.id ?? section.type} type="button" onClick={() => setContactOpen(true)} className="font-display text-xs font-medium text-slate-200 underline-offset-4 hover:text-white hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{link.label}</button>;
-            return link ? <a key={section.id ?? section.type} href={`#${link.anchor}`} className="text-xs font-medium text-slate-200 underline-offset-4 hover:text-white hover:underline">{link.label} <span aria-hidden="true">↗</span></a> : null;
+            return link ? <a key={section.id ?? section.type} href={`#${link.anchor}`} className="text-xs font-medium text-slate-200 underline-offset-4 hover:text-white hover:underline">{link.label}</a> : null;
           })}
         </div>
       </nav>
@@ -142,13 +139,13 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
           case "partnersBenefits":
             return (
               <PageSection key={section.id ?? section.type} id="partner-objectives" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
-                <JourneyHeading step="Audience and delivery" title="Develop a programme together." description="We develop the programme together, considering the audience, subject and format." />
+                <JourneyHeading step="Audience and delivery" title="Develop a programme together." description="A trusted setting for relationship building, with shared commitment and less organising effort for your team." />
                 <div className="grid gap-8 md:grid-cols-3">
                   {benefits.map(benefit => (
                     <div key={benefit.title} className="border-t border-[#9bd3c8]/40 pt-6">
-                      <benefit.icon aria-hidden="true" className="mb-5 h-6 w-6 text-[#9bd3c8]" />
+
                       <h3 className="mb-3 text-lg font-medium text-white">{benefit.title}</h3>
-                      <p className="max-w-sm text-sm leading-[1.8] text-slate-300">{benefit.description}</p>
+                      <p className="max-w-sm text-base leading-[1.6] text-slate-300">{benefit.description}</p>
                     </div>
                   ))}
                 </div>
@@ -157,24 +154,21 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
           case "partnersTiers":
             return (
               <PageSection key={section.id ?? section.type} id="partner-formats" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
-                <JourneyHeading step="Ways to participate" title="Explore ways to take part." description="Partnership opportunities vary by event. These formats outline possible ways to participate; scope and inclusions are agreed directly. Any sharing of guest information remains subject to explicit consent and our privacy policy." />
+                <JourneyHeading step="Ways to participate" title="Explore ways to take part." description="Explore the formats below. Programme participation, branding and scope are agreed for each event. Any sharing of guest information requires explicit consent." />
                 <div className="grid gap-4 md:grid-cols-3">
                   {sponsorshipTiers.map(tier => (
-                    <article key={tier.name} className="rounded-lg border border-white/20 bg-white/[0.03] p-6 lg:p-8">
+                    <article key={tier.name} className="min-w-0 border-t border-[#8FC7C1]/30 pt-6">
                       <p className="font-display mb-4 text-[11px] font-medium uppercase tracking-[0.12em] text-[#9bd3c8]">{tier.name === "Strategic Partner" ? "Contribute to the programme" : tier.name === "Industry Sponsor" ? "Support the event" : "Develop a bespoke experience"}</p>
                       <h3 className="font-display text-3xl font-light text-[#f7f3eb]">{tier.name}</h3>
-                      <p className="mt-3 text-sm md:mt-4 md:min-h-[4.5rem] leading-relaxed text-slate-300">{tier.description}</p>
+                      <p className="mt-3 text-base md:mt-4 md:min-h-[6rem] leading-relaxed text-slate-300">{tier.description}</p>
                       <p className="mb-3 mt-4 border-t border-white/15 pt-3 md:mb-4 md:mt-6 md:pt-5 font-display text-xs font-medium text-white">Partnership scope</p>
                       <ul className="space-y-2.5 md:space-y-4">
-                        {tier.features.map(feature => <li key={feature} className="flex items-start gap-3 text-sm leading-relaxed text-slate-300"><Check aria-hidden="true" className="mt-1 h-3.5 w-3.5 shrink-0 text-[#9bd3c8]" />{feature}</li>)}
+                        {tier.features.map(feature => <li key={feature} className="text-base leading-relaxed text-slate-300">{feature}</li>)}
                       </ul>
                     </article>
                   ))}
                 </div>
-                <div className="mt-8 flex flex-col items-start justify-between gap-6 border-t border-white/15 pt-6 sm:flex-row sm:items-center">
-                  <p className="max-w-xl text-sm leading-relaxed text-slate-300">Tell us about the gathering you have in mind.</p>
-                  <Button variant="brand" size="lg" onClick={onRegister} className="shrink-0">Discuss a partnership <ArrowRight aria-hidden="true" className="ml-3 h-4 w-4" /></Button>
-                </div>
+
               </PageSection>
             );
           case "joinUs":
@@ -182,8 +176,8 @@ export default function PartnersPageRenderer({ sections, onRegister }: PartnersP
               <PageSection key={section.id ?? section.type} id="partner-conversation" className="scroll-mt-28 site-surface-emphasis">
                 <div className="max-w-2xl">
                   <div>
-                    <JourneyHeading step="Start a conversation" title="Discuss a partnership." description="Tell us about the gathering you have in mind. We’ll follow up to discuss the possibilities." />
-                    <Button variant="brand" size="lg" onClick={onRegister}>Discuss a partnership</Button>
+                    <JourneyHeading step="Partner with us" title="Discuss a partnership." description="Tell us about the gathering you have in mind. We’ll follow up to discuss the possibilities." />
+                    <Button variant="brand" size="lg" onClick={() => setContactOpen(true)}>Discuss a partnership</Button>
                   </div>
                 </div>
               </PageSection>

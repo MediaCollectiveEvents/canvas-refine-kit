@@ -140,12 +140,30 @@ export function getEventContent(source: unknown = aggregateContent) {
   };
 }
 
-export function isPastEvent(event: EventItem, now = new Date()): boolean {
-  const today = new Intl.DateTimeFormat("en-CA", {
+export function getLondonCalendarDate(now = new Date()): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "Europe/London", year: "numeric", month: "2-digit", day: "2-digit",
-  }).format(now);
-  return event.type === "past" ||
-    (!!event.date && /^\d{4}-\d{2}-\d{2}/.test(event.date) && event.date.slice(0, 10) < today);
+  }).formatToParts(now);
+  const part = (type: string) => parts.find(value => value.type === type)!.value;
+  return `${part("year")}-${part("month")}-${part("day")}`;
+}
+
+export function getEventCountdownDays(date: string, now = new Date()): number | undefined {
+  const calendarDate = date.slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(calendarDate)) return undefined;
+  const eventDay = Date.parse(`${calendarDate}T00:00:00Z`);
+  if (!Number.isFinite(eventDay) || new Date(eventDay).toISOString().slice(0, 10) !== calendarDate) return undefined;
+  const today = Date.parse(`${getLondonCalendarDate(now)}T00:00:00Z`);
+  return Math.max(0, (eventDay - today) / 86_400_000);
+}
+
+export function isPastEventDate(date: string, now = new Date()): boolean {
+  const today = getLondonCalendarDate(now);
+  return !!date && /^\d{4}-\d{2}-\d{2}/.test(date) && date.slice(0, 10) < today;
+}
+
+export function isPastEvent(event: EventItem, now = new Date()): boolean {
+  return event.type === "past" || isPastEventDate(event.date, now);
 }
 
 export function sortEvents(events: EventItem[], order: "asc" | "desc" = "asc"): EventItem[] {

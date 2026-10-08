@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SectionWrapper from "../layout/SectionWrapper";
 import SectionTitle from "../layout/SectionTitle";
 
@@ -15,7 +15,7 @@ type TestimonialInput = string | TestimonialObject;
 interface TestimonialsSectionProps {
   section?: {
     heading?: string;
-    styleTitle?: { sub?: string };
+    styleTitle?: { eyebrow?: string; sub?: string };
     items?: TestimonialInput[];
   };
 }
@@ -129,18 +129,19 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
     [section?.items]
   );
 
+  const reducedMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (paused || testimonials.length <= 1) return;
+    if (reducedMotion || paused || testimonials.length <= 1) return;
 
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % testimonials.length);
     }, INTERVAL);
 
     return () => clearInterval(timer);
-  }, [paused, testimonials.length]);
+  }, [reducedMotion, paused, testimonials.length]);
 
   const current = testimonials[index % testimonials.length];
 
@@ -158,7 +159,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
     >
       <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-4">
-          <p className="mb-4 site-eyebrow text-[#9bd3c8]">Attendees and partners</p>
+          <p className="mb-4 site-eyebrow text-[#9bd3c8]">{section?.styleTitle?.eyebrow || "Attendees and partners"}</p>
           <SectionTitle align="left" disableEmphasis tone="default">
             {section?.heading || "Community voices"}
           </SectionTitle>

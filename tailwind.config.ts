@@ -15,16 +15,16 @@ const config: Config = {
         script: ['Playlist Script', 'cursive'],
       },
       colors: {
-        primary: 'hsl(168, 85%, 65%)', // Turquoise accent
+        primary: '#35C5BB', // Turquoise accent
         'primary-foreground': 'hsl(0, 0%, 8%)',
         secondary: 'hsl(200, 10%, 18%)',
         'secondary-foreground': 'hsl(0, 0%, 98%)',
-        accent: 'hsl(168, 85%, 65%)',
+        accent: '#35C5BB',
         'accent-foreground': 'hsl(0, 0%, 8%)',
         muted: 'hsl(200, 8%, 22%)',
         'muted-foreground': 'hsl(200, 5%, 65%)',
         border: 'hsl(200, 10%, 24%)',
-        background: 'hsl(200, 15%, 12%)',
+        background: 'var(--background-dark)',
         foreground: 'hsl(0, 0%, 98%)',
         icon: {
           lime: 'hsl(68, 82%, 50%)',

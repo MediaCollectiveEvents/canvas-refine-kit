@@ -66,7 +66,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
               <h3 className={editorial ? "mb-3 text-lg font-medium text-white" : "text-lg md:text-xl font-semibold text-foreground mb-2"}>
                 {item.question}
               </h3>
-              <p className={editorial ? "max-w-4xl text-base leading-[1.8] text-slate-300" : "text-sm md:text-base text-muted-foreground leading-relaxed"}>
+              <p className={editorial ? "max-w-[65ch] text-base leading-[1.8] text-slate-300" : "text-sm md:text-base text-muted-foreground leading-relaxed"}>
                 {item.answer}
               </p>
             </div>

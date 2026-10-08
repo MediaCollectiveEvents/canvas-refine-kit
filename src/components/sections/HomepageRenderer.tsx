@@ -1,5 +1,4 @@
 import React from "react";
-import { Button } from "../ui/button";
 
 import EventDiscoverySection from "./EventDiscoverySection";
 import GetInvolvedSection from "./GetInvolvedSection";
@@ -36,7 +35,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
     const key = section.id ?? section.type;
     switch (section.type) {
       case "eventDiscovery": return <EventDiscoverySection key={key} section={section as unknown as React.ComponentProps<typeof EventDiscoverySection>["section"]} onRegister={onRegister} />;
-      case "getInvolved": return <GetInvolvedSection key={key} section={section as unknown as React.ComponentProps<typeof GetInvolvedSection>["section"]} />;
+      case "getInvolved": return <GetInvolvedSection key={key} section={section as unknown as React.ComponentProps<typeof GetInvolvedSection>["section"]} onRegister={onRegister} />;
       case "aboutIntro": return <AboutIntroSection key={key} section={section as React.ComponentProps<typeof AboutIntroSection>["section"]} />;
       case "upcomingEventsIntro": return <EventsSection key={key} section={section as React.ComponentProps<typeof EventsSection>["section"]} onRegisterClick={onRegister} />;
       case "whoAttends": return <WhoAttendsSection key={key} section={section as React.ComponentProps<typeof WhoAttendsSection>["section"]} />;
@@ -50,21 +49,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
   }
   return (
     <>
-      {["eventDiscovery", "upcomingEventsIntro", "getInvolved", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
-      <section className="site-gutter site-surface-dark pt-8 pb-12 md:pt-12 md:pb-[72px]">
-        <div className="site-container grid min-w-0 items-center gap-8 text-[#f7f3eb] lg:grid-cols-12 lg:gap-10">
-          <div className="min-w-0 lg:col-span-8">
-            <h2 className="site-heading !font-medium">See what’s coming up</h2>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-300">Explore upcoming events or register your interest for future gatherings.</p>
-          </div>
-          <div className="flex min-w-0 flex-col items-start gap-6 sm:flex-row sm:items-center lg:col-span-4 lg:flex-col lg:items-end">
-            <Button asChild variant="brand" size="lg" className="w-full min-w-0 whitespace-normal sm:w-auto focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
-              <a href="#events-for-you">See what’s on <span aria-hidden="true">→</span></a>
-            </Button>
-            <Button type="button" variant="textcta" size="text" onClick={onRegister} className="focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">Register interest</Button>
-          </div>
-        </div>
-      </section>
+      {["aboutIntro", "eventDiscovery", "upcomingEventsIntro", "getInvolved", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
       {visible.filter(section => !["eventDiscovery", "getInvolved", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
       {visible.filter(section => section.type === "joinCommunity").map(render)}
     </>

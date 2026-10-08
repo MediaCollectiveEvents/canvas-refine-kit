@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollIndicator } from "@/components/shared/ScrollIndicator";
 
@@ -19,6 +19,7 @@ interface PageHeroProps {
   secondaryCtaHref?: string;
   onSecondaryClick?: () => void;
   equalCtas?: boolean;
+  showCtas?: boolean;
   editorialCoherence?: boolean;
 
   imageOverlayClassName?: string;
@@ -42,6 +43,7 @@ function inDecapPreviewIframe(): boolean {
 
 export default function PageHero(props: PageHeroProps) {
   const isPreview = inDecapPreviewIframe();
+  const reducedMotion = useReducedMotion();
 
   const {
     eyebrow,
@@ -55,10 +57,10 @@ export default function PageHero(props: PageHeroProps) {
     secondaryCtaHref,
     onSecondaryClick,
     equalCtas = false,
+    showCtas = false,
     editorialCoherence = false,
     presentation = "classic",
     onPrimaryClick,
-    imageOverlayClassName,
     imageParallax = true,
     backgroundImage,
     image,
@@ -81,7 +83,7 @@ export default function PageHero(props: PageHeroProps) {
             {eyebrowText && <p className="mb-5 site-eyebrow text-slate-500">{eyebrowText}</p>}
             <h1 className="max-w-[16ch] font-display text-[40px] font-light leading-[1.08] tracking-tight md:text-[64px]">{title}</h1>
             {description && <p className="mt-6 max-w-[48ch] font-body text-base leading-relaxed text-slate-600">{description}</p>}
-            {primaryCtaText && <Button size="lg" variant="brand" className="mt-8" asChild={!!primaryCtaHref && !onPrimaryClick} onClick={onPrimaryClick}>
+            {showCtas && primaryCtaText && <Button size="lg" variant="brand" className="mt-8" asChild={!!primaryCtaHref && !onPrimaryClick} onClick={onPrimaryClick}>
               {primaryCtaHref && !onPrimaryClick ? <a href={primaryCtaHref}>{primaryCtaText}</a> : primaryCtaText}
             </Button>}
           </div>
@@ -101,7 +103,7 @@ export default function PageHero(props: PageHeroProps) {
           style={{
             backgroundImage: `url(${resolvedBackgroundImage})`,
             ...(isEditorial ? {} : { backgroundPosition: "center bottom" }),
-            ...(isPreview || isEditorial || !imageParallax || editorialCoherence ? {} : { y }),
+            ...(reducedMotion || isPreview || isEditorial || !imageParallax || editorialCoherence ? {} : { y }),
           }}
           aria-hidden="true"
         />
@@ -113,21 +115,6 @@ export default function PageHero(props: PageHeroProps) {
           aria-hidden="true"
         />
       )}
-
-      {isModern && <div aria-hidden="true" className={`absolute inset-0 bg-gradient-to-r ${imageOverlayClassName ?? (editorialCoherence ? "from-[#101d24]/95 via-[#101d24]/80 to-[#101d24]/50" : isEditorial ? "from-[#101d24]/95 via-[#101d24]/80 to-[#101d24]/50" : "from-[#101d24]/95 via-[#101d24]/85 to-[#101d24]/75")}`} />}
-
-      {!isModern && <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2"
-          style={{
-            width: "min(1040px, 84vw)",
-            height: "min(380px, 40vw)",
-            background:
-              "radial-gradient(ellipse at center, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 34%, rgba(255,255,255,0.02) 62%, rgba(255,255,255,0) 82%)",
-            filter: "blur(14px)",
-          }}
-        />
-      </div>}
 
       <motion.div
         initial={{ opacity: 0, y: 26 }}
@@ -171,7 +158,7 @@ export default function PageHero(props: PageHeroProps) {
           </p>
         )}
 
-        {(primaryCtaText || secondaryCtaText) && (
+        {showCtas && (primaryCtaText || secondaryCtaText) && (
           <div className={`flex flex-col gap-4 sm:flex-row ${isModern ? "max-w-2xl items-start" : "mx-auto max-w-xl justify-center"}`}>
             {primaryCtaText && (
             <Button

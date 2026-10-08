@@ -8,7 +8,7 @@ import Events from "../src/pages/Events";
 import EventDetails from "../src/pages/EventDetails";
 import { Route, Routes } from "react-router-dom";
 import EventsListing from "../src/components/sections/EventsListing";
-import { getPastEvents, getUpcomingEvents } from "../src/lib/events";
+import { isPastEvent, getAllEvents, getPastEvents, getUpcomingEvents } from "../src/lib/events";
 import Blog from "../src/pages/Blog";
 import Partners from "../src/pages/Partners";
 import FAQ from "../src/pages/FAQ";
@@ -17,6 +17,10 @@ import { AboutPreview, PartnersPreview, FaqPreview } from "../src/cms/previews/E
 import EventsPreview, { LegacyEventsPagePreview } from "../src/cms/previews/EventsPreview";
 import BlogPagePreview from "../src/cms/previews/BlogPagePreview";
 import { PreviewProviders } from "../src/cms/previews/PreviewLayout";
+import EventsSection from "../src/components/sections/EventsSection";
+import EventDiscoverySection from "../src/components/sections/EventDiscoverySection";
+import type { EventDiscoverySection as DiscoveryContent } from "../src/lib/homepage";
+import Footer from "../src/components/layout/Footer";
 import type { PreviewEntry } from "../src/cms/previews/previewData";
 import homepage from "../src/content/homepage.json";
 import about from "../src/content/about.json";
@@ -120,4 +124,126 @@ test("direct past-event routes still render their event details", () => {
   assert.ok(markup.includes(event.title));
   assert.match(markup, /Past event/);
   assert.match(markup, /About this gathering/);
+});
+
+
+test("homepage amendments show the event index and remove the closing promotional block", () => {
+  const markup = render(createElement(PreviewProviders, { route: "/", children: createElement(Home) }));
+  assert.match(markup, /Meet peers • Keep informed • Stay connected/);
+  assert.match(markup, /Flagship events/);
+  assert.match(markup, /About the Collective/);
+  assert.ok(!markup.includes("By interest"));
+  assert.match(markup, /Our approach/);
+  assert.match(markup.replace(/<[^>]*>/g, ""), /Smaller by design/);
+  assert.ok(!markup.includes("WELCOME"));
+  assert.ok(!markup.includes("Browse by interest"));
+  assert.ok(markup.includes("More"));
+  assert.ok(!markup.includes("See what’s coming up"));
+  assert.ok(!markup.includes("Explore upcoming events or register your interest for future gatherings."));
+});
+
+test("homepage event index shows all canonical upcoming events in order without selection controls", () => {
+  const section = homepage.sections.find(section => section.type === "eventDiscovery") as DiscoveryContent;
+  const markup = render(createElement(PreviewProviders, { route: "/", children: createElement(EventDiscoverySection, { section }) }));
+  const expected = getUpcomingEvents(5);
+  const destinations = [...markup.matchAll(/href="\/events\/(\d+)"/g)].map(match => Number(match[1]));
+  assert.deepEqual(destinations, expected.map(event => event.id));
+  assert.equal(markup.split("<article ").length - 1, expected.length);
+  assert.ok(!markup.includes("Learn more"));
+  assert.equal(markup.split('aria-labelledby="homepage-event-').length - 1, expected.length);
+  assert.match(markup, /focus-visible:outline-2/);
+  assert.match(markup, /grid-rows-\[subgrid\]/);
+  for (const event of expected) {
+    assert.ok(markup.includes(event.title));
+    const location = event.imageKey === "greenline" ? "London to Amsterdam" : event.location.split(",").slice(-1)[0].trim();
+    assert.ok(markup.includes(location));
+  }
+  for (const image of ["Handandflower.png", "Eurostar.png", "RAI.png", "Livepiano.png"]) {
+    assert.ok(markup.includes(`/uploads/Venue tiles/${image}`));
+  }
+  assert.ok(markup.includes("/uploads/Venue tiles/broadcaster.png"));
+  assert.match(markup, /href="\/events"[^>]*>More/);
+  assert.ok(!markup.includes("aria-pressed"));
+  assert.ok(!markup.includes("<button"));
+});
+
+test("homepage upcoming presentation shows only the next chronological event", () => {
+  const markup = render(createElement(EventsSection));
+  const [next, ...later] = getUpcomingEvents();
+  assert.ok(next);
+  assert.ok(markup.includes(next.title));
+  assert.equal(markup.split(`href="/events/${next.id}"`).length - 1, 1);
+  assert.equal(markup.split("<article ").length - 1, 1);
+  for (const event of later) {
+    assert.ok(!markup.includes(event.title));
+    assert.ok(!markup.includes(`href="/events/${event.id}"`));
+  }
+  assert.ok(!markup.includes("What to expect"));
+});
+
+test("Events listing retains OFF AIR and renders editable venue captions", () => {
+  const markup = render(createElement(EventsListing));
+  assert.ok(markup.includes("OFF AIR: The Unfiltered Future of Media"));
+  assert.ok(markup.includes('href="/events/4"'));
+  assert.equal(markup.split("<figcaption ").length - 1, 4);
+  assert.match(markup, /<figcaption[^>]*><span[^>]*>Illustrative artwork. Event location:<\/span><span[^>]*>Olympia<\/span><span[^>]*>London<\/span><\/figcaption>/);
+  assert.match(markup, /<figcaption[^>]*><span[^>]*>Illustrative artwork. Event location:<\/span><span[^>]*>RAI<\/span><span[^>]*>Amsterdam<\/span><\/figcaption>/);
+});
+
+
+test("homepage uses the updated attendance description and one shared closing CTA", () => {
+  const markup = render(<PreviewProviders route="/"><Home /></PreviewProviders>);
+  assert.ok(markup.includes("A community of leaders, innovators and decision-makers from across broadcasting, studios, streaming and media technology, including:"));
+  assert.equal(markup.split("Want to attend our next event?").length - 1, 1);
+  assert.ok(markup.indexOf("Want to attend our next event?") < markup.indexOf('<footer'));
+});
+
+test("shared attendance CTA appears on public pages but not admin routes", () => {
+  for (const route of ["/", "/events", "/events/calendar"]) {
+    const markup = render(<PreviewProviders route={route}><Footer /></PreviewProviders>);
+    assert.equal(markup.split("Want to attend our next event?").length - 1, 1);
+    assert.ok(markup.includes("Request an invitation"));
+  }
+  for (const route of ["/admin/", "/manage", "/events/4", "/blog", "/partners", "/faq", "/privacy-policy"]) {
+    const markup = render(<PreviewProviders route={route}><Footer /></PreviewProviders>);
+    assert.ok(!markup.includes("Want to attend our next event?"));
+    assert.ok(markup.includes("<footer"));
+  }
+  const eventsMarkup = render(<PreviewProviders route="/events"><Events /></PreviewProviders>);
+  assert.equal(eventsMarkup.split("Want to attend our next event?").length - 1, 1);
+});
+
+
+test("Media Collective detail pages provide one contextual invitation action", () => {
+  for (const event of getAllEvents()) {
+    const markup = render(<PreviewProviders route={`/events/${event.id}`}>
+      <Routes><Route path="/events/:id" element={<EventDetails />} /></Routes>
+    </PreviewProviders>);
+    assert.equal(markup.split(isPastEvent(event) ? "Interested in a future event?" : "Want to attend?").length - 1, 1);
+    assert.ok(markup.includes(isPastEvent(event) ? ">Register interest</button>" : ">Request an invitation</button>"));
+    assert.ok(!markup.includes("Want to attend our next event?"));
+  }
+});
+
+
+test("event listing does not offer empty detail expansions", () => {
+  const markup = render(<EventsListing />);
+  assert.ok(!markup.includes("View details"));
+  assert.ok(!markup.includes("Explore by experience"));
+  for (const event of getUpcomingEvents()) assert.ok(markup.includes(`href="/events/${event.id}"`));
+});
+
+
+test("audience proof is historical rather than a guaranteed event audience", () => {
+  const markup = render(<PreviewProviders route="/"><Home /></PreviewProviders>);
+  assert.ok(markup.includes("These figures reflect companies represented at our past events"));
+  assert.ok(markup.includes("not a guaranteed audience for any individual gathering"));
+  assert.ok(markup.includes(">Request an invitation</button>"));
+});
+
+test("partner scope explains organising effort, shared commitment and independent curation", () => {
+  const markup = render(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
+  for (const text of ["Less work to bring people together", "Shared commitment", "Final guest and programme curation remains with The Media Collective", "particular guests, meetings or speaking roles are not guaranteed"]) {
+    assert.ok(markup.includes(text));
+  }
 });

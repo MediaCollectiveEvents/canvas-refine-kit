@@ -99,9 +99,9 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                           <div className="mt-2">
                             <Link
                               to={`/blog/${post.slug}`}
-                              className="inline-flex items-center text-primary font-medium hover:underline"
+                              className="font-display inline-flex items-center text-primary font-medium hover:underline"
                             >
-                              Read More
+                              Read more
                               <ArrowRight className="ml-1 h-4 w-4" />
                             </Link>
                           </div>

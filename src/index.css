@@ -18,8 +18,8 @@
 @layer base {
   :root {
     /* Injected via App.tsx */
-    --background-dark: #0b111a;
-    --background-light: #ffffff;
+    --background-dark: #101d24;
+    --background-light: #f7f7f7;
 
     /* Tailwind token mapping — these now use CMS values */
     --background: var(--background-dark);
@@ -31,7 +31,7 @@
     --popover: var(--background-dark);
     --popover-foreground: 0 0% 98%;
 
-    --primary: 168 85% 65%;
+    --primary: 176 57.6923% 49.0196%;
     --primary-foreground: 0 0% 8%;
 
     --secondary: 200 10% 18%;
@@ -40,7 +40,7 @@
     --muted: 200 8% 22%;
     --muted-foreground: 200 5% 65%;
 
-    --accent: 168 85% 65%;
+    --accent: 176 57.6923% 49.0196%;
     --accent-foreground: 0 0% 8%;
 
     --destructive: 0 84.2% 60.2%;
@@ -48,12 +48,12 @@
 
     --border: 200 10% 24%;
     --input: 200 10% 24%;
-    --ring: 168 85% 65%;
+    --ring: 176 57.6923% 49.0196%;
 
     --radius: 0.5rem;
 
     /* Custom tokens */
-    --turquoise: 168 85% 65%;
+    --turquoise: 176 57.6923% 49.0196%;
     --turquoise-glow: 168 85% 75%;
     --coral: 16 85% 65%;
 
@@ -135,6 +135,10 @@
 
   .site-section {
     @apply px-6 py-16 md:py-20;
+  }
+
+  .site-header-clearance {
+    @apply pt-[92px] lg:pt-[100px];
   }
 
   .site-heading {
@@ -236,9 +240,18 @@
 /* Smooth scrolling + rendering improvements */
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 112px;
 }
 
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

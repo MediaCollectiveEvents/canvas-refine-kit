@@ -6,12 +6,12 @@ import { getAllEvents, getAttendanceRegistrationId } from "../src/lib/events";
 const now = new Date("2026-10-04T12:00:00Z");
 const future = { events: getAllEvents().map(event => ({ ...event, type: "upcoming", date: `2027-01-0${event.id}` })) };
 
-test("no selection, unsupported formats and past show editions return no matches", () => {
+test("no selection and unsupported interests or show choices return no matches", () => {
   assert.deepEqual(recommendEvents([], [], undefined, now), []);
   for (const interest of ["forums", "breakfasts", "receptions", "socials", "special-interest"] as const) {
     assert.deepEqual(recommendEvents([interest], [], undefined, now), []);
   }
-  for (const show of ["nab-show-2026", "mpts-2026", "ibc-2026", "other"] as const) {
+  for (const show of ["nab-show-2026", "other"] as const) {
     assert.deepEqual(recommendEvents(["industry-shows"], [show], undefined, now), []);
   }
 });
@@ -28,15 +28,15 @@ test("multiple interests deduplicate matches and rank overlap ahead of date", ()
 });
 
 test("one or multiple show choices use only the reviewed associations", () => {
-  assert.deepEqual(recommendEvents(["industry-shows"], ["mpts-2026"], future, now).map(result => result.event.id), [2]);
+  assert.deepEqual(recommendEvents(["industry-shows"], ["mpts-2026"], future, now).map(result => result.event.id), [2, 5]);
   const results = recommendEvents(["industry-shows"], ["mpts-2026", "ibc-2026"], future, now);
-  assert.deepEqual(results.map(result => result.event.id), [2, 3]);
-  assert.deepEqual(results.map(result => result.reasons), [["Around MPTS"], ["During IBC"]]);
+  assert.deepEqual(results.map(result => result.event.id), [2, 3, 5]);
+  assert.deepEqual(results.map(result => result.reasons), [["Around MPTS"], ["During IBC"], ["Around MPTS"]]);
   assert.deepEqual(recommendEvents(["industry-shows"], ["other"], future, now), []);
 });
 
 test("combined choices rank an exact show context first, then independent discussion matches", () => {
-  assert.deepEqual(recommendEvents(["discussions", "industry-shows"], ["mpts-2026"], future, now).map(result => result.event.id), [2, 1, 4]);
+  assert.deepEqual(recommendEvents(["discussions", "industry-shows"], ["mpts-2026"], future, now).map(result => result.event.id), [2, 5, 1]);
 });
 
 test("unknown metadata, dates and external calendar records cannot become recommendations", () => {
@@ -51,8 +51,14 @@ test("unknown metadata, dates and external calendar records cannot become recomm
 
 test("Networking uses the existing networking-social category without inferring specific formats", () => {
   const results = recommendEvents(["networking-social"], [], undefined, now);
-  assert.deepEqual(results.map(result => result.event.id), [4, 5, 6]);
+  assert.deepEqual(results.map(result => result.event.id), [4, 5, 8]);
   assert.deepEqual(results[0].reasons, ["Networking & social"]);
   assert.deepEqual(recommendEvents(["networking-social", "discussions"], [], future, now).map(result => result.event.id), [1, 4, 2]);
   assert.deepEqual(recommendEvents(["networking-social"], [], { events: [{ id: 10, date: "2027-01-01", experienceCategories: ["knowledge-discussion"] }] }, now), []);
+});
+
+
+test("reviewed show choices include upcoming editions without matching unsupported shows", () => {
+  assert.deepEqual(recommendEvents(["industry-shows"], ["mpts-2026"], undefined, now).map(result => result.event.id), [5]);
+  assert.deepEqual(recommendEvents(["industry-shows"], ["ibc-2026"], undefined, now).map(result => result.event.id), [8, 6]);
 });

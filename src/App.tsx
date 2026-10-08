@@ -27,12 +27,12 @@ const App = () => {
     // These two control ALL light & dark section backgrounds
     root.style.setProperty(
       "--background-dark",
-      settings.palette.backgroundDark ?? "#0b111a"
+      settings.palette.backgroundDark ?? "#101d24"
     );
 
     root.style.setProperty(
       "--background-light",
-      settings.palette.backgroundLight ?? "#ffffff"
+      settings.palette.backgroundLight ?? "#f7f7f7"
     );
   }, []);
 
@@ -76,12 +76,12 @@ const App = () => {
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
 
               {/* Extra pages */}
-              <Route path="/my-new-page" element={<MyNewPage />} />
+              {import.meta.env.DEV && <Route path="/my-new-page" element={<MyNewPage />} />}
 
               {/* Admin dashboard (NOT Decap) */}
               <Route path="/manage" element={<Admin />} />
 
-              <Route path="/wireframe" element={<Wireframe />} />
+              {import.meta.env.DEV && <Route path="/wireframe" element={<Wireframe />} />}
 
               {/* Catch‑all */}
               <Route path="*" element={<NotFound />} />

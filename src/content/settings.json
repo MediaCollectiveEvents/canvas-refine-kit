@@ -1,10 +1,10 @@
 {
-  "maintenanceMode": true,
+  "maintenanceMode": false,
   "palette": {
-    "primary": "#36e0c6",
+    "primary": "#35C5BB",
     "secondary": "#ff4062",
-    "backgroundDark": "#1b1b30",
-    "backgroundLight": "#fefff9"
+    "backgroundDark": "#101d24",
+    "backgroundLight": "#f7f7f7"
   },
   "heroDefaults": {
     "eyebrowColor": "teal",
@@ -36,7 +36,7 @@
       "type": "events"
     },
     {
-      "label": "What’s on",
+      "label": "Industry Calendar",
       "type": "events",
       "url": "/events/calendar"
     },

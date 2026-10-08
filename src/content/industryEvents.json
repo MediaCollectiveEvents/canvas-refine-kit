@@ -1,5 +1,17 @@
 [
   {
+    "id": "ise-2027",
+    "name": "ISE 2027",
+    "organiser": "Integrated Systems Events",
+    "startDate": "2027-02-02",
+    "endDate": "2027-02-05",
+    "city": "Barcelona",
+    "country": "Spain",
+    "sourceUrl": "https://www.iseurope.org/",
+    "status": "confirmed",
+    "category": "trade-show"
+  },
+  {
     "id": "nab-show-2026",
     "name": "NAB Show 2026",
     "organiser": "NAB",

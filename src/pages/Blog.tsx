@@ -21,7 +21,7 @@ const Blog: React.FC = () => {
       <Header />
 
       {/* Match header clearance with other pages */}
-      <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
+      <main className="site-header-clearance">
         <PageHero
           presentation="business"
           editorialCoherence

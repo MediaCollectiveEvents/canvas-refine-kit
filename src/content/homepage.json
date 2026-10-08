@@ -10,7 +10,7 @@
     "imagePosition": "top",
     "theme": "dark",
     "primaryCta": {
-      "label": "See what’s on",
+      "label": "What’s on",
       "url": "#events-for-you"
     },
     "imageOffset": 0,
@@ -21,7 +21,7 @@
     "subtitle": "CURATED EVENTS & NETWORKING",
     "title": "THE MEDIA COLLECTIVE",
     "image": "/uploads/home-hero-v14.png",
-    "description": "Meet peers • Stay connected • Enjoy good company",
+    "description": "Meet peers • Keep informed • Stay connected",
     "secondaryCta": {
       "label": "Get involved",
       "url": "#get-involved"
@@ -30,9 +30,9 @@
   "sections": [
     {
       "type": "eventDiscovery",
-      "heading": "We have lots of exciting events planned.",
-      "intro": "Discover our events.",
-      "interestsLabel": "Browse by interest",
+      "heading": "Find an event",
+      "intro": "Flagship events",
+      "interestsLabel": "By interest",
       "interests": [
         {
           "id": "networking-social",
@@ -77,44 +77,44 @@
       "ctaLabel": "Show me events",
       "resultsHeading": "Coming up for you",
       "emptyHeading": "Nothing quite right at the moment?",
-      "emptyBody": "Register your interest and we’ll keep you in mind when something relevant comes up.",
+      "emptyBody": "Browse all upcoming events or register your interest in future gatherings.",
       "emptyCtaLabel": "Register interest",
       "hidden": false
     },
     {
       "type": "getInvolved",
       "heading": "Get involved",
-      "intro": "There are different ways to take part.",
+      "intro": "",
       "items": [
         {
           "heading": "Guest",
-          "body": "Come along to events that interest you and meet others in the community.",
+          "body": "Meet people from across the industry in a welcoming setting.",
           "cta": {
-            "label": "Find an event",
+            "label": "Request an invitation",
             "url": "#events-for-you"
           }
         },
         {
           "heading": "Speaker",
-          "body": "Share your experience or perspective where it fits the event.",
+          "body": "Share your experience, perspective or ideas with others.",
           "cta": {
-            "label": "Register interest",
+            "label": "Speak with us",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         },
         {
           "heading": "Supporter",
-          "body": "Support an event through sponsorship, hosting or another contribution.",
+          "body": "Help make a gathering possible through sponsorship, hosting or another contribution.",
           "cta": {
-            "label": "Register interest",
+            "label": "Support an event",
             "url": "/partners"
           }
         },
         {
           "heading": "Partner",
-          "body": "Work with us on ideas, events or collaborations.",
+          "body": "Collaborate with us on ideas, events and opportunities.",
           "cta": {
-            "label": "Register interest",
+            "label": "Work with us",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         }
@@ -122,7 +122,7 @@
       "hidden": false
     },
     {
-      "body": "We bring together people shaping the future of the media industry across broadcast, studios, streaming platforms and technology partners.\n\nOur events take place at key moments in the global media calendar, creating space for thoughtful discussion, introductions and collaboration.\n\nFormats range from panel conversations and private screenings to informal evening receptions aligned with major industry conferences.\n\nSupported by selected partners, each gathering is carefully curated to ensure balance and relevance.",
+      "body": "We bring together people from across media and technology who value the exchange of ideas, collaboration and shared experience.\n\nOur events are deliberately curated to be welcoming, inclusive and comfortable, bringing together people we admire, can learn from and enjoy spending time with. Numbers are kept limited so guests have the space to meet, talk and connect with one another.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -130,7 +130,7 @@
         "grid": true,
         "withFades": true
       },
-      "heading": "What we do",
+      "heading": "About the Collective",
       "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "",
@@ -156,14 +156,14 @@
       },
       "heading": "Who attends",
       "statistics": {
-        "companies": "Executives from over 300 companies have attended our events.",
+        "companies": "Executives from over 300 companies have attended our events, including:",
         "boardLevel": ".",
         "founders": "."
       },
       "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "",
-        "sub": "Connecting broadcasters, studios and streaming platforms with the technology companies shaping the future of media.",
+        "sub": "A community of leaders, innovators and decision-makers from across broadcasting, studios, streaming and media technology, including:",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
@@ -173,7 +173,7 @@
       "highlights": [
         {
           "title": "The Top 3",
-          "subtitle": "Global technology companies",
+          "subtitle": "Tech giants",
           "icon": "globe"
         },
         {
@@ -182,7 +182,7 @@
           "icon": "film"
         },
         {
-          "title": "The Foremost 8",
+          "title": "The Leading 8",
           "subtitle": "Streaming platforms",
           "icon": "play"
         }
@@ -213,7 +213,7 @@
       },
       "note": "Spaces are limited to keep events focused and conversational.",
       "type": "upcomingEventsIntro",
-      "description": "Discover upcoming events bringing together senior leaders from across media, entertainment, and technology.",
+      "description": "Our next gathering for people across broadcasting, streaming, entertainment and media technology.",
       "secondaryCta": {
         "label": "View all events",
         "url": "/events"
@@ -256,8 +256,8 @@
         }
       ],
       "styleTitle": {
-        "eyebrow": "In their words",
-        "sub": "We favour focused rooms over large audiences — creating more space for discussion, participation and peer exchange.",
+        "eyebrow": "Our approach",
+        "sub": "We favour conversation over crowds. Our gatherings are curated around the people, subject and setting, with room to meet peers and exchange perspectives. The aim is simple: meaningful connections in good company.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false

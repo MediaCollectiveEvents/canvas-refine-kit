@@ -71,52 +71,43 @@ export default function WhoAttendsSection({ section = {} }: WhoAttendsSectionPro
     };
   }, [section.highlights]);
 
-  const statementParts = section.statistics?.companies?.split(/(300)/) ?? [];
   const numeralSizes: Record<string, string> = {
-    "3": "text-[44px] md:text-[64px]",
-    "5": "text-[56px] md:text-[80px]",
-    "8": "text-[68px] md:text-[96px]",
+    "300+": "text-[56px] md:text-[80px]",
+    "3": "text-[56px] md:text-[80px]",
+    "5": "text-[68px] md:text-[96px]",
+    "8": "text-[80px] md:text-[112px]",
   };
 
   return (
-    <SectionWrapper variant="dark" align="left" padding="lux" animateOnScroll={false} className="site-surface-emphasis text-[#f7f3eb]">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 hidden overflow-hidden lg:block">
-        <div className="absolute -right-96 -top-96 h-[560px] w-[560px] rounded-full border border-[#8FC7C1]/[0.07]" />
-      </div>
-      <div className="relative grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
-        <div className="lg:col-span-4">
+    <SectionWrapper variant="dark" align="left" padding="lux" animateOnScroll={false} className="!bg-[#101d24] text-[#f7f3eb]">
+      <div className="relative">
+        <div>
           <p className="mb-4 site-eyebrow text-[#8FC7C1]">OUR COMMUNITY</p>
           <h2 className="site-heading !font-medium text-[#f7f3eb]">{section.heading || "In The Room"}</h2>
-          <p className="mt-5 max-w-[40ch] text-sm leading-[1.5] text-[#f7f3eb]/75">{section.styleTitle?.sub || "Connecting broadcasters, studios and streaming platforms with the technology companies shaping the future of media."}</p>
+          <p className="mt-5 text-base leading-[1.5] text-[#f7f3eb]/75">{section.styleTitle?.sub || "Connecting broadcasters, studios and streaming platforms with the technology companies shaping the future of media."}</p>
         </div>
-        <div className="min-w-0 lg:col-span-8">
-          {statementParts.length > 0 && <p className="max-w-2xl font-body text-2xl font-light leading-relaxed text-[#f7f3eb] md:text-[28px]">
-            {statementParts.map((part, index) => part === "300" ? <span key={index} className="font-medium text-[#35C5BB]">{part}</span> : part)}
-          </p>}
-          <div aria-hidden="true" className="relative mb-9 mt-6 hidden grid-cols-3 gap-8 sm:grid">
-            <div className="absolute inset-x-[calc(16.666%_-_10.667px)] top-1/2 -translate-y-1/2 h-px bg-[#8FC7C1]/20" />
-            {[0, 1, 2].map(node => <span key={node} className="relative mx-auto h-1.5 w-1.5 rounded-full bg-[#8FC7C1]/20" />)}
-          </div>
-          <div ref={credentialRow} className="mt-8 grid gap-8 sm:mt-0 sm:grid-cols-3 sm:gap-8">
-            {highlights.map((item, index) => {
-              const title = item.title?.match(/^(.*)\s+(\d+)$/);
-              return <div key={index} data-audience-credential>
-                <div aria-hidden="true" className="mb-5 h-0.5 w-12 bg-[#35C5BB]" />
+          <div ref={credentialRow} className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4">
+            {[{ title: "300+", subtitle: "Companies represented" }, ...highlights].map((item, index) => {
+              const title = index === 0 ? ["300+", "", "300+"] : item.title?.match(/^(.*)\s+(\d+)$/);
+              return <div key={index} data-audience-credential className="min-w-0 border-t border-[#8FC7C1]/20 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:px-6 sm:first:border-l-0 sm:first:pl-0 sm:last:pr-0">
                 <h3 aria-label={item.title} className="font-display font-medium">
-                  <span className="block text-base leading-6 text-[#f7f3eb]">{title ? title[1] : item.title}</span>
-                  {title && <span className={`flex h-[78px] items-end text-[#35C5BB] leading-none md:h-[106px] ${numeralSizes[title[2]] || "text-[44px] md:text-[64px]"}`}>
+                  {title && <span className={`flex h-[96px] items-end text-[#35C5BB] leading-none md:h-[132px] ${numeralSizes[title[2]] || "text-[56px] md:text-[80px]"}`}>
                     {/* The shared largest-size strut aligns text baselines, including font descent. */}
                     <span className="flex items-baseline leading-none">
-                      <span aria-hidden="true" className="w-0 text-[68px] leading-none md:text-[96px]">{"\u200B"}</span>
-                      <span data-audience-numeral className="relative -left-[0.04em] m-0 inline-block leading-none">{title[2]}</span>
+                      <span aria-hidden="true" className="w-0 text-[80px] leading-none md:text-[112px]">{"\u200B"}</span>
+                      {title[1] && <span className="mr-2 inline-flex -translate-y-[0.62em]">
+                        <span className="whitespace-nowrap text-xs font-bold leading-none text-[#f7f3eb]/55">{title[1]}</span>
+                      </span>}
+                      <span data-audience-numeral className="m-0 inline-block leading-none">{title[2]}</span>
                     </span>
                   </span>}
+                  {!title && <span className="text-xs font-normal text-[#f7f3eb]/55">{item.title}</span>}
                 </h3>
-                <p className="mt-6 min-h-12 text-sm leading-6 text-[#f7f3eb]/75">{item.subtitle}</p>
+                <p className="mt-5 min-h-12 font-body text-xl font-semibold leading-[1.3] text-[#f7f3eb] md:text-2xl">{item.subtitle}</p>
               </div>;
             })}
           </div>
-        </div>
+          <p className="mt-3 font-body text-sm text-[#f7f3eb]/65">These figures reflect companies represented at our past events, not a guaranteed audience for any individual gathering.</p>
       </div>
     </SectionWrapper>
   );

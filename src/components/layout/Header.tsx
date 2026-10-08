@@ -115,9 +115,7 @@ const Header = () => {
           aria-hidden="true"
           className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
           style={{
-            background:
-              "linear-gradient(to right, rgba(39,205,186,0.06), rgba(39,205,186,0.55), rgba(39,205,186,0.06))",
-            boxShadow: "0 0 6px rgba(39,205,186,0.35)",
+            background: "rgba(53,197,187,0.2)",
           }}
         />
 
@@ -125,10 +123,10 @@ const Header = () => {
 
         <div
           className={`
-            relative mx-auto max-w-7xl
+            relative mx-auto max-w-6xl
             px-5 sm:px-6 lg:px-8 xl:px-8
             transition-all duration-300 ease-out
-            ${scrolled ? "h-[84px] lg:h-[108px]" : "h-[92px] lg:h-[108px]"}
+            ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
           `}
         >
           {/* MOBILE HEADER */}
@@ -138,7 +136,7 @@ const Header = () => {
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-20 w-auto shrink-0"
+                className="h-14 w-auto shrink-0"
               />
             </Link>
 
@@ -153,18 +151,18 @@ const Header = () => {
 
           {/* DESKTOP HEADER */}
 
-          <div className="hidden h-full items-center lg:flex">
+          <div className="hidden h-full items-center justify-center gap-6 lg:flex xl:gap-10">
             <Link to="/" className="relative z-10 shrink-0">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-24 w-auto shrink-0"
+                className="h-16 w-auto shrink-0"
               />
             </Link>
 
             {/* NAVIGATION */}
 
-            <nav className="relative ml-auto mr-5 flex items-center xl:mr-8">
+            <nav className="relative flex items-center">
               <div className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
                 {navItems.map((item) => {
                   const isActive =
@@ -212,7 +210,7 @@ const Header = () => {
 
             {/* DESKTOP CTA */}
 
-            <div className="ml-auto">
+            <div className="shrink-0">
               <Button
                 variant="brand"
                 onClick={() => setIsFormOpen(true)}

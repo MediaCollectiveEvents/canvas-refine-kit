@@ -1,5 +1,5 @@
 import Seo from "@/components/shared/Seo";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import ContactForm from "@/components/ContactForm";
 import { useState, type ComponentProps } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -20,9 +20,9 @@ export default function FAQ() {
       {/* FIXED HEADER */}
       <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
       <Header />
-      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+      <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <main className="pt-[88px] sm:pt-[96px] lg:pt-[104px]">
+      <main className="site-header-clearance">
         <PageHero {...(hero as ComponentProps<typeof PageHero>)} presentation="business" editorialCoherence />
 
         {/* FAQ Sections */}

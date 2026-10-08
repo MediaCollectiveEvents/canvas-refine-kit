@@ -5,7 +5,7 @@
     "eyebrow": "Media Collective Events",
     "imageOffset": 0,
     "cta": {
-      "label": "View year planner",
+      "label": "Industry Calendar",
       "url": "/events/calendar"
     },
     "overlayStrength": 0.1,
@@ -103,11 +103,26 @@
     },
     {
       "id": 5,
-      "title": "MPTS Reception",
+      "title": "MPTS Networking Reception 2027",
+      "imageKey": "mpts-networking-reception-2027",
       "date": "2027-05-12",
       "type": "upcoming",
-      "venue": "",
-      "location": "",
+      "venue": "Olympia",
+      "location": "London",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "The Green Line",
+      "imageKey": "greenline",
+      "date": "2027-09-09",
+      "type": "upcoming",
+      "venue": "Eurostar",
+      "location": "St Pancras to Amsterdam Centraal",
+      "description": "A Media Collective networking event in a Eurostar carriage travelling from St Pancras to Amsterdam Centraal, taking people to IBC.",
       "experienceCategories": [
         "networking-social",
         "conference-aligned"
@@ -115,11 +130,12 @@
     },
     {
       "id": 6,
-      "title": "IBC Breakfast",
+      "title": "IBC Networking Breakfast 2027",
+      "imageKey": "ibc-networking-breakfast-2027",
       "date": "2027-09-11",
       "type": "upcoming",
-      "venue": "",
-      "location": "",
+      "venue": "RAI",
+      "location": "Amsterdam",
       "experienceCategories": [
         "networking-social",
         "conference-aligned"
@@ -127,10 +143,11 @@
     },
     {
       "id": 7,
-      "title": "IBC Decompression Party",
+      "title": "IBC Decompression Party 2027",
+      "imageKey": "ibc-decompression-party-2027",
       "date": "2027-09-12",
       "type": "upcoming",
-      "venue": "",
+      "venue": "Piano Bar",
       "location": "Amsterdam",
       "description": "An evening of live music, drinks, canapés and conversation in Amsterdam during IBC. The Decompression Party brings together invited guests from broadcasting, streaming, media technology and entertainment for a relaxed evening away from the exhibition floor.",
       "experienceCategories": [

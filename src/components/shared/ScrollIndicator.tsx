@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export function ScrollIndicator({ onClick }: { onClick?: () => void }) {
+  const reducedMotion = useReducedMotion();
   const Wrapper: React.ElementType = onClick ? motion.button : motion.div;
 
   return (
@@ -20,8 +21,8 @@ export function ScrollIndicator({ onClick }: { onClick?: () => void }) {
         {/* Top chevron */}
         <motion.div
           initial={{ opacity: 0.3, y: 0 }}
-          animate={{ opacity: [0.3, 1, 0.3], y: [0, 5, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, delay: 0 }}
+          animate={reducedMotion ? { opacity: 0.3, y: 0 } : { opacity: [0.3, 1, 0.3], y: [0, 5, 0] }}
+          transition={{ duration: 2.2, repeat: reducedMotion ? 0 : Infinity, delay: 0 }}
         >
           <Chevron />
         </motion.div>
@@ -29,8 +30,8 @@ export function ScrollIndicator({ onClick }: { onClick?: () => void }) {
         {/* Middle chevron */}
         <motion.div
           initial={{ opacity: 0.25, y: 0 }}
-          animate={{ opacity: [0.25, 0.85, 0.25], y: [0, 5, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, delay: 0.25 }}
+          animate={reducedMotion ? { opacity: 0.25, y: 0 } : { opacity: [0.25, 0.85, 0.25], y: [0, 5, 0] }}
+          transition={{ duration: 2.2, repeat: reducedMotion ? 0 : Infinity, delay: 0.25 }}
         >
           <Chevron dimmed />
         </motion.div>
@@ -38,8 +39,8 @@ export function ScrollIndicator({ onClick }: { onClick?: () => void }) {
         {/* Bottom chevron */}
         <motion.div
           initial={{ opacity: 0.2, y: 0 }}
-          animate={{ opacity: [0.2, 0.6, 0.2], y: [0, 5, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, delay: 0.5 }}
+          animate={reducedMotion ? { opacity: 0.2, y: 0 } : { opacity: [0.2, 0.6, 0.2], y: [0, 5, 0] }}
+          transition={{ duration: 2.2, repeat: reducedMotion ? 0 : Infinity, delay: 0.5 }}
         >
           <Chevron dimmed moreDim />
         </motion.div>

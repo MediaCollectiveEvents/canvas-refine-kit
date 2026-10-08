@@ -1,5 +1,5 @@
 import content from "@/content/industryEvents.json";
-import { filterEventsByExperience, getEventYear, type EventExperienceFilter, type EventItem } from "./events";
+import { isPastEvent, isPastEventDate, filterEventsByExperience, getEventYear, type EventExperienceFilter, type EventItem } from "./events";
 
 export interface IndustryEvent {
   id: string;
@@ -67,6 +67,17 @@ export function getIndustryEvents(source: unknown = content): IndustryEvent[] {
   })).sort((a, b) => (a.startDate ?? "9999-99-99").localeCompare(b.startDate ?? "9999-99-99") || a.id.localeCompare(b.id));
 }
 
+// Access labels approved by The Media Collective; no ticket prices inferred.
+// ISE/FutureTech/Summit registration and DTG Summer Drinks membership are
+// confirmed by their official event/registration pages.
+export function getIndustryAccessLabel(event: IndustryEvent): string | undefined {
+  if (event.organiser === "DPP" || event.organiser.startsWith("DPP /")) return "Members or paid";
+  if (["NAB", "IBC", "Media Business Insight"].includes(event.organiser)) return "Registration required";
+  if (["ise-2027", "dtg-futuretech-2026", "dtg-summit-2026"].includes(event.id)) return "Registration required";
+  if (event.id === "dtg-summer-drinks-2026") return "Members only";
+  return undefined;
+}
+
 // Reviewed associations only; never infer context from names, dates or geography.
 export const EVENT_INDUSTRY_CONTEXT: Readonly<Partial<Record<number, { industryEventId: string; label: string }>>> = Object.freeze({
   1: { industryEventId: "nab-show-2026", label: "Post-show context" },
@@ -75,6 +86,7 @@ export const EVENT_INDUSTRY_CONTEXT: Readonly<Partial<Record<number, { industryE
   5: { industryEventId: "mpts-2027", label: "Around MPTS" },
   6: { industryEventId: "ibc-2027", label: "During IBC" },
   7: { industryEventId: "ibc-2027", label: "During IBC" },
+  8: { industryEventId: "ibc-2027", label: "Travelling to IBC" },
 });
 
 export function getEventIndustryContext(eventId: number, events = getIndustryEvents()) {
@@ -102,7 +114,7 @@ export type PlannerEntry =
 
 // Explicit approved geography; never derive cities from titles or venue text.
 export const MEDIA_COLLECTIVE_PLANNER_CITIES: Readonly<Partial<Record<number, string>>> = Object.freeze({
-  1: "London", 2: "London", 3: "Amsterdam", 4: "London", 7: "Amsterdam",
+  1: "London", 2: "London", 3: "Amsterdam", 4: "London", 5: "London", 6: "Amsterdam", 7: "Amsterdam",
 });
 
 export type PlannerSource = "all" | "media-collective" | "external";
@@ -115,6 +127,13 @@ export const PLANNER_SOURCES: readonly { value: PlannerSource; label: string }[]
 
 export function showsPlannerExperiences(source: PlannerSource): boolean {
   return source !== "external";
+}
+
+// Multi-day industry events remain upcoming/current until their final day.
+export function filterPlannerEntriesByTime(entries: PlannerEntry[], upcomingOnly: boolean, now = new Date()): PlannerEntry[] {
+  return upcomingOnly ? entries.filter(entry => entry.kind === "media-collective"
+    ? !isPastEvent(entry.event, now)
+    : !isPastEventDate(entry.event.endDate ?? entry.event.startDate ?? "", now)) : entries;
 }
 
 export function filterPlannerEntriesBySource(entries: PlannerEntry[], source: PlannerSource = "all"): PlannerEntry[] {

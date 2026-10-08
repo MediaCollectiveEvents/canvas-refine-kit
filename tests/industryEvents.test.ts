@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getEventIndustryContext } from "../src/lib/industryEvents";
+import { getEventIndustryContext, getIndustryAccessLabel } from "../src/lib/industryEvents";
 import { showsPlannerExperiences, getPlannerLocations, getIndustryEventIssues, getIndustryEvents, getIndustryMonths, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "../src/lib/industryEvents";
 import { getAllEvents, getEventById } from "../src/lib/events";
 import { getYearCalendarSnapshot } from "../src/lib/eventCalendar";
@@ -22,9 +22,9 @@ test("industry context uses only reviewed IDs and official dataset URLs", () => 
   assert.equal(getEventIndustryContext(1)!.event.city, "Las Vegas");
 });
 
-test("verified external dataset validates and preserves all 19 records and ranges", () => {
+test("verified external dataset validates and preserves all 20 records and ranges", () => {
   assert.deepEqual(getIndustryEventIssues(), []);
-  assert.equal(external.length, 19);
+  assert.equal(external.length, 20);
   assert.deepEqual(external.filter(event => event.id.startsWith("nab")).map(event => [event.startDate, event.endDate]), [["2026-04-18", "2026-04-22"], ["2027-04-03", "2027-04-07"]]);
   assert.equal(external.some(event => event.id.includes("plugfest")), false);
 });
@@ -55,7 +55,7 @@ test("external ordering and year/month grouping remain stable", () => {
   assert.deepEqual(getIndustryEvents([...external].reverse()), external);
   assert.deepEqual(getIndustryPlannerYears(media, external), [2026, 2027]);
   assert.equal(getIndustryMonths(2026).flatMap(month => month.events).length, 16);
-  assert.deepEqual(getIndustryMonths(2027).filter(month => month.events.length).map(month => month.month), [4, 5, 9]);
+  assert.deepEqual(getIndustryMonths(2027).filter(month => month.events.length).map(month => month.month), [2, 4, 5, 9]);
 });
 
 for (const [filter, expected] of [["all", 4], ["networking-social", 4], ["conference-aligned", 3], ["knowledge-discussion", 2]] as const) {
@@ -113,14 +113,14 @@ test("experience and city combine while external visibility is independent of ex
 
 test("location options are sorted, unique and derived from the selected year's records", () => {
   assert.deepEqual(getPlannerLocations(2026, media), ["Amsterdam", "Las Vegas", "London", "Los Angeles", "New York", "Paris"]);
-  assert.deepEqual(getPlannerLocations(2027, media), ["Amsterdam", "Las Vegas", "London"]);
+  assert.deepEqual(getPlannerLocations(2027, media), ["Amsterdam", "Barcelona", "Las Vegas", "London"]);
 });
 
 for (const [source, year, city, experience, expected] of [
   ["media-collective", 2026, "all", "all", 4],
   ["external", 2026, "all", "knowledge-discussion", 16],
-  ["external", 2027, "all", "networking-social", 3],
-  ["media-collective", 2027, "all", "all", 3],
+  ["external", 2027, "all", "networking-social", 4],
+  ["media-collective", 2027, "all", "all", 4],
   ["media-collective", 2026, "London", "knowledge-discussion", 2],
   ["external", 2026, "Amsterdam", "knowledge-discussion", 3],
   ["all", 2026, "London", "knowledge-discussion", 7],
@@ -138,18 +138,47 @@ test("Industry calendar hides experience controls; other sources retain them", (
   assert.equal(showsPlannerExperiences("media-collective"), true);
 });
 
-test("2027 planner includes all three announcements using only confirmed show and location mappings", () => {
+test("2027 planner includes all four announcements using only confirmed show and location mappings", () => {
   const months = getIndustryPlannerMonths(2027, "all", [...media].reverse(), [...external].reverse(), "all", "media-collective");
   assert.deepEqual(months, getIndustryPlannerMonths(2027, "all", media, external, "all", "media-collective"));
   assert.deepEqual(months.filter(month => month.entries.length).map(month =>
-    [month.month, month.entries.map(entry => entry.event.id)]), [[5, [5]], [9, [6, 7]]]);
+    [month.month, month.entries.map(entry => entry.event.id)]), [[5, [5]], [9, [8, 6, 7]]]);
   assert.equal(getEventIndustryContext(5)?.event.startDate, getEventById(5)?.date);
   assert.equal(getEventIndustryContext(7)?.event.id, "ibc-2027");
+  assert.equal(getEventIndustryContext(8)?.event.id, "ibc-2027");
   assert.deepEqual(getIndustryPlannerMonths(2027, "all", media, external, "Amsterdam", "media-collective")
-    .flatMap(month => month.entries).map(entry => entry.event.id), [7]);
+    .flatMap(month => month.entries).map(entry => entry.event.id), [6, 7]);
   assert.equal(getIndustryPlannerMonths(2027, "conference-aligned", media, external, "all", "media-collective")
-    .flatMap(month => month.entries).length, 2);
+    .flatMap(month => month.entries).length, 3);
   const snapshot = getYearCalendarSnapshot(media, 2027);
   assert.equal(snapshot.includedCount, 0);
-  assert.equal(snapshot.omittedCount, 3);
+  assert.equal(snapshot.omittedCount, 4);
+});
+
+
+test("2027 external calendar preserves confirmed dates without inventing pending editions", () => {
+  assert.deepEqual(external.filter(event => event.startDate?.startsWith("2027-")).map(event =>
+    [event.id, event.startDate, event.endDate, event.city]), [
+    ["ise-2027", "2027-02-02", "2027-02-05", "Barcelona"],
+    ["nab-show-2027", "2027-04-03", "2027-04-07", "Las Vegas"],
+    ["mpts-2027", "2027-05-12", "2027-05-13", "London"],
+    ["ibc-2027", "2027-09-10", "2027-09-13", "Amsterdam"],
+  ]);
+});
+
+
+test("access labels use approved organiser rules and verified event IDs, leaving unknowns blank", () => {
+  for (const event of external) {
+    const expected = event.organiser.startsWith("DPP") ? "Members or paid"
+      : event.id === "dtg-summer-drinks-2026" ? "Members only"
+      : "Registration required";
+    assert.equal(getIndustryAccessLabel(event), expected);
+  }
+  assert.equal(getIndustryAccessLabel({...sample, id: "unknown-event", organiser: "Unknown"}), undefined);
+  assert.equal(getIndustryAccessLabel({...sample, id: "dtg-futuretech-2027", organiser: "DTG"}), undefined);
+});
+
+
+test("London filter includes the reviewed 2027 MPTS reception", () => {
+  assert.deepEqual(getIndustryPlannerMonths(2027, "all", media, external, "London", "media-collective").flatMap(month => month.entries).map(entry => entry.event.id), [5]);
 });
