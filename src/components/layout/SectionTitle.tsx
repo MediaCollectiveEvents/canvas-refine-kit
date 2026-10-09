@@ -103,7 +103,7 @@ export default function SectionTitle({
 
       {sub && (
         <p
-          className={`${subColor} mt-3 max-w-[48ch] font-body text-[0.98rem] leading-[1.6]`}
+          className={`${subColor} mt-3 max-w-[48ch] font-body text-base leading-[1.6]`}
         >
           {sub}
         </p>

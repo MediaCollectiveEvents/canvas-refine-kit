@@ -74,6 +74,11 @@ test("invalid calendar schedules are omitted and counted within the selected yea
 test("App declares the planner before numeric event details and both routes coexist", () => {
   const app = readFileSync("src/App.tsx", "utf8");
   const paths = [...app.matchAll(/<Route path="([^"]+)"/g)].map(match => match[1]);
+  assert.ok(app.includes('<Route path="/events/calendar" element={<EventPlanner />} />'));
+  const settings = JSON.parse(readFileSync("src/content/settings.json", "utf8"));
+  assert.deepEqual(settings.nav.find((item: { url?: string }) => item.url === "/events/calendar"), { label: "Calendar", type: "events", url: "/events/calendar" });
+  assert.ok(!settings.nav.some((item: { type?: string }) => item.type === "blog"));
+  assert.ok(app.includes('<Route path="/blog" element={<Navigate to="/" replace />} />'));
   assert.ok(paths.indexOf("/events/calendar") > -1);
   assert.ok(paths.indexOf("/events/calendar") < paths.indexOf("/events/:id"));
   const routes = paths.map(path => ({ path }));

@@ -1,22 +1,24 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const PrivacyPolicy = () => {
+  const reducedMotion = useReducedMotion();
   return (
     <div className="min-h-screen bg-background">
       <Seo title="Privacy Policy — The Media Collective" />
       <Header />
 
       {/* Hero Section */}
-      <section className="pt-40 pb-16 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <main className="site-header-clearance">
+      <section className="site-section border-b border-white/10">
+        <div className="site-container">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
+            transition={{ duration: reducedMotion ? 0 : 0.8 }}
+            className="text-left"
           >
             <h1 className="font-display font-light text-[40px] leading-tight md:text-[56px] text-foreground mb-6">
               Privacy Policy
@@ -29,13 +31,13 @@ const PrivacyPolicy = () => {
       </section>
 
       {/* Content */}
-      <section className="pb-24 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <section className="site-section">
+        <div className="site-container">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={reducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="prose prose-lg max-w-none"
+            transition={{ duration: reducedMotion ? 0 : 0.6, delay: reducedMotion ? 0 : 0.2 }}
+            className="prose prose-lg max-w-[65ch]"
           >
             {/* Introduction */}
             <div className="mb-12">
@@ -91,7 +93,7 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
                 <li><strong>Technical Data:</strong> IP address, browser type, device information, operating system</li>
                 <li><strong>Usage Data:</strong> Pages visited, time spent on site, navigation patterns</li>
-                <li><strong>Cookie Data:</strong> Information collected through cookies and similar technologies (see our Cookie Policy)</li>
+                <li><strong>Cookie Data:</strong> Information collected through cookies and similar technologies (see the <a href="#cookies" className="text-primary underline underline-offset-4">Cookies section</a> below)</li>
               </ul>
             </div>
 
@@ -154,6 +156,9 @@ const PrivacyPolicy = () => {
               </ul>
               <p className="text-muted-foreground font-body leading-relaxed">
                 All third-party processors are required to implement appropriate security measures and process data only on our instructions.
+              </p>
+              <p className="mt-4 text-muted-foreground font-body leading-relaxed">
+                Website enquiries and invitation requests are processed through Google Apps Script and stored in Google Sheets. We use Google reCAPTCHA to help prevent automated submissions.
               </p>
             </div>
 
@@ -237,7 +242,7 @@ const PrivacyPolicy = () => {
             </div>
 
             {/* Cookies */}
-            <div className="mb-12">
+            <div id="cookies" className="mb-12 scroll-mt-28">
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 11. Cookies
               </h2>
@@ -297,6 +302,7 @@ const PrivacyPolicy = () => {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

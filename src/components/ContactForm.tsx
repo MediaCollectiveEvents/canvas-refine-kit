@@ -1,3 +1,4 @@
+import { EnquiryDeliveryError } from "@/lib/enquiryTransport";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,7 +11,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { toast } from "@/hooks/use-toast";
 import { contactSchema, sendContact, type ContactData } from "@/lib/contact";
 
-export default function ContactForm({ open, onOpenChange }: {
+export default function ContactForm({ open, onOpenChange, context }: {
+  context?: string;
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
@@ -46,8 +48,8 @@ export default function ContactForm({ open, onOpenChange }: {
       if (!token) throw new Error("Verification unavailable");
       await sendContact(data, token);
       setSubmitted(true);
-    } catch {
-      toast({ title: "Unable to send", description: "We couldn’t send your message. Please try again.", variant: "destructive" });
+    } catch (error) {
+      toast({ title: "Unable to confirm", description: error instanceof EnquiryDeliveryError ? error.message : "Verification could not be completed. Please try again.", variant: "destructive" });
     } finally {
       clearTimeout(timeout!);
       captchaRef.current?.reset();
@@ -60,11 +62,11 @@ export default function ContactForm({ open, onOpenChange }: {
       <DialogContent className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto sm:max-w-[540px]">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Contact us</DialogTitle>
-          <DialogDescription>Send us a general enquiry.</DialogDescription>
+          <DialogDescription>{context || "Send us a general enquiry."}</DialogDescription>
         </DialogHeader>
         {submitted ? <div role="status" className="space-y-4 py-4">
           <h3 className="font-display text-xl">Enquiry sent</h3>
-          <p>Your enquiry was sent, but receipt cannot be confirmed here.</p>
+          <p>Your enquiry has been received.</p>
           <p>Your details are used to respond to your enquiry. This is separate from requesting an event invitation.</p>
           <Button variant="brand" onClick={() => changeOpen(false)}>Close</Button>
         </div> : <Form {...form}>
@@ -90,11 +92,11 @@ export default function ContactForm({ open, onOpenChange }: {
                 <FormMessage />
               </FormItem>
             )} />
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-base leading-relaxed text-muted-foreground">
               We use your details to respond to your enquiry. Read our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
             </p>
             <ReCAPTCHA ref={captchaRef} sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc" size="invisible" asyncScriptOnLoad={() => setCaptchaReady(true)} onErrored={() => setCaptchaReady(false)} />
-            {!captchaReady && <p role="status" className="text-sm text-muted-foreground">Verification is loading. If it stays unavailable, please reload and try again.</p>}
+            {!captchaReady && <p role="status" className="text-base text-muted-foreground">Verification is loading. If it stays unavailable, please reload and try again.</p>}
             <Button type="submit" variant="brand" className="rounded-full" disabled={isSubmitting || !captchaReady}>
               {isSubmitting ? "Sending…" : "Submit"}
             </Button>

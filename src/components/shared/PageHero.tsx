@@ -1,6 +1,8 @@
+import { heroBackground } from "@/lib/heroImages";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ScrollIndicator } from "@/components/shared/ScrollIndicator";
+import MobileHeroArtwork from "@/components/shared/MobileHeroArtwork";
 
 type Variant = "image" | "solid";
 
@@ -21,6 +23,8 @@ interface PageHeroProps {
   equalCtas?: boolean;
   showCtas?: boolean;
   editorialCoherence?: boolean;
+  homepageTextAlignment?: boolean;
+  compactMobile?: boolean;
 
   imageOverlayClassName?: string;
   imageParallax?: boolean;
@@ -59,6 +63,8 @@ export default function PageHero(props: PageHeroProps) {
     equalCtas = false,
     showCtas = false,
     editorialCoherence = false,
+    homepageTextAlignment = false,
+    compactMobile = false,
     presentation = "classic",
     onPrimaryClick,
     imageParallax = true,
@@ -96,18 +102,19 @@ export default function PageHero(props: PageHeroProps) {
   }
 
   return (
-    <header className={`site-gutter relative flex w-full ${editorialCoherence ? "items-start" : "items-center"} justify-center overflow-hidden bg-transparent ${isEditorial ? "pt-8 pb-8 md:pb-10" : "pt-8 pb-16"} ${isEditorial ? "min-h-[520px] lg:min-h-[580px]" : editorialCoherence ? "min-h-[560px] lg:min-h-[620px]" : isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
+    <header className={`site-gutter relative flex w-full ${homepageTextAlignment ? "items-start sm:items-center" : editorialCoherence ? "items-start" : "items-center"} justify-center overflow-hidden bg-transparent ${isEditorial ? "pt-8 pb-8 md:pb-10" : variant === "image" && resolvedBackgroundImage ? "pt-8 pb-[90vw] sm:pb-16" : "pt-8 pb-16"} ${homepageTextAlignment ? "min-h-0 sm:min-h-[560px] lg:min-h-[660px]" : isEditorial ? "min-h-[520px] lg:min-h-[580px]" : editorialCoherence ? "min-h-[560px] lg:min-h-[620px]" : isModern ? "min-h-[560px] lg:min-h-[660px]" : "min-h-[720px] lg:min-h-[780px]"}`}>
       {variant === "image" && resolvedBackgroundImage && (
         <motion.div
-          className={`absolute inset-0 bg-cover bg-no-repeat ${isEditorial ? "bg-[position:82%_bottom] md:bg-[position:right_bottom]" : ""}`}
+          className={`absolute inset-0 hidden bg-cover bg-no-repeat sm:block ${isEditorial ? "bg-[position:82%_bottom] md:bg-[position:right_bottom]" : ""}`}
           style={{
-            backgroundImage: `url(${resolvedBackgroundImage})`,
+            backgroundImage: heroBackground(resolvedBackgroundImage),
             ...(isEditorial ? {} : { backgroundPosition: "center bottom" }),
             ...(reducedMotion || isPreview || isEditorial || !imageParallax || editorialCoherence ? {} : { y }),
           }}
           aria-hidden="true"
         />
       )}
+      {variant === "image" && resolvedBackgroundImage && <MobileHeroArtwork />}
 
       {variant === "solid" && (
         <div
@@ -117,13 +124,13 @@ export default function PageHero(props: PageHeroProps) {
       )}
 
       <motion.div
-        initial={{ opacity: 0, y: 26 }}
+        initial={reducedMotion ? false : { opacity: 0, y: 26 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className={`relative z-10 site-container ${isModern ? `${isEditorial ? "py-8 md:py-10" : "py-12"} text-left` : "text-center"}`}
+        transition={{ duration: reducedMotion ? 0 : 0.6 }}
+        className={`relative z-10 site-container ${homepageTextAlignment ? "sm:min-h-[314px] md:min-h-[347px] xl:min-h-[372.4px]" : ""} ${isModern ? `${isEditorial ? "py-8 md:py-10" : "py-4 sm:py-12"} text-left` : "text-center"}`}
       >
         {eyebrowText && (
-          <p className={isModern ? (isEditorial ? "font-display mb-7 flex items-center gap-4 text-[0.6875rem] font-normal uppercase tracking-[0.12em] text-white/65" : "mb-7 flex items-center gap-4 site-eyebrow text-[#9bd3c8]") : "font-display mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
+          <p className={isModern ? (isEditorial ? "font-display mb-7 flex items-center gap-4 text-sm font-normal uppercase tracking-[0.12em] text-white/65" : `${compactMobile ? "mb-4 sm:mb-7" : "mb-7"} flex items-center gap-4 site-eyebrow text-[#9bd3c8]`) : "font-display mb-4 text-[0.9rem] font-medium uppercase tracking-[0.18em] text-[#27CDBA] md:text-[0.95rem]"}>
             {isModern && <span aria-hidden="true" className="h-px w-10 bg-current" />}
             {eyebrowText}
           </p>
@@ -131,7 +138,7 @@ export default function PageHero(props: PageHeroProps) {
 
         <h1
           className={isModern
-            ? `mb-7 max-w-[15ch] font-display ${titleSizeClassName ?? (editorialCoherence ? "text-[2.75rem] md:text-[3.75rem] xl:text-[4.5rem]" : "text-[clamp(2.8rem,6.5vw,5.8rem)]")} leading-[1.06] tracking-[-0.035em] text-[#f7f3eb] font-light`
+            ? `${homepageTextAlignment ? "mb-5 max-w-[10em]" : "mb-7 max-w-[15ch]"} font-display ${titleSizeClassName ?? (editorialCoherence ? compactMobile ? "text-4xl sm:text-[2.75rem] md:text-[3.75rem] xl:text-[4.5rem]" : "text-[2.75rem] md:text-[3.75rem] xl:text-[4.5rem]" : "text-[clamp(2.8rem,6.5vw,5.8rem)]")} leading-[1.06] tracking-[-0.035em] text-[#f7f3eb] font-light`
             : "mb-6 font-satisfy text-[clamp(4.2rem,8.6vw,7.2rem)] leading-[0.96]"}
           style={isModern ? undefined : {
             color: "#4A86C5",
@@ -153,7 +160,7 @@ export default function PageHero(props: PageHeroProps) {
         </h1>
 
         {description && (
-          <p className={isModern ? "mb-10 max-w-[52ch] text-base leading-[1.8] text-slate-200 md:text-lg" : "mx-auto mb-10 max-w-3xl text-lg leading-relaxed text-[#2A4763] md:text-xl"}>
+          <p className={isModern ? "mb-0 sm:mb-10 max-w-[52ch] text-base leading-[1.8] text-slate-200 md:text-lg" : "mx-auto mb-10 max-w-3xl text-lg leading-relaxed text-[#2A4763] md:text-xl"}>
             {description}
           </p>
         )}

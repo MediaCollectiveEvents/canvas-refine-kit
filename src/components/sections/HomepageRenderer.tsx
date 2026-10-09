@@ -49,7 +49,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
   }
   return (
     <>
-      {["aboutIntro", "eventDiscovery", "upcomingEventsIntro", "getInvolved", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
+      {["aboutIntro", "upcomingEventsIntro", "eventDiscovery", "getInvolved", "whoAttends", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
       {visible.filter(section => !["eventDiscovery", "getInvolved", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "joinCommunity"].includes(section.type)).map(render)}
       {visible.filter(section => section.type === "joinCommunity").map(render)}
     </>

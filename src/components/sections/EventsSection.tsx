@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Share2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import EventRegistrationForm from "@/components/EventRegistrationForm";
 import SectionWrapper from "../layout/SectionWrapper";
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
@@ -7,6 +8,7 @@ import travellerImg from "@/assets/events/traveller.png";
 import { getEventCountdownDays, getLondonCalendarDate, getUpcomingEvents } from "@/lib/events";
 
 type Cta = { label?: string; url?: string };
+const textAction = "font-display inline-flex min-h-11 items-center text-base font-medium text-[#35C5BB] no-underline transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4";
 interface EventsSectionProps {
   section?: { heading?: string; description?: string; note?: string; cta?: Cta; secondaryCta?: Cta };
   onRegisterClick?: () => void;
@@ -54,39 +56,38 @@ export default function EventsSection(_props: EventsSectionProps) {
       document.removeEventListener("visibilitychange", refresh);
     };
   }, [now]);
-  const [openShareId, setOpenShareId] = useState<number | null>(null);
+  const [invitationOpen, setInvitationOpen] = useState(false);
   const days = displayed[0] ? getEventCountdownDays(displayed[0].date, now) : undefined;
   return (
     <SectionWrapper variant="dark" padding="lux" className="border-b border-white/10">
+      <EventRegistrationForm attendanceOnly event={displayed[0]} open={invitationOpen} onOpenChange={setInvitationOpen} />
       <h2 className="mb-7 site-heading !font-medium text-[#f7f3eb] md:mb-8">
         Next event{days === undefined ? "" : days === 0 ? " today" : days === 1 ? " tomorrow" : <> in <span className="text-[#35C5BB]">{days}</span> days</>}
       </h2>
       <div>
         {displayed.map(event => {
-          const shareOpen = openShareId === event.id;
-          const shareText = encodeURIComponent(`${event.title} — ${formatInternationalDate(event.date)}. ${new URL(`/events/${event.id}`, window.location.origin).href}`);
-          return <article key={event.id} className="grid items-center gap-6 text-[#f7f3eb] md:grid-cols-[minmax(0,4fr)_minmax(0,6fr)] md:gap-8 lg:gap-12">
-            <figure className="w-full max-w-[460px]">
-              <img src={getImageForKey(event.imageKey, event.venue, event.title)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full object-contain" />
-              {["mpts-networking-reception-2027", "ibc-networking-breakfast-2027"].includes(event.imageKey || "") && (
-                <figcaption className="pt-3 text-sm leading-[1.5] text-[#f7f3eb]/75">
-                  <span className="block font-display font-medium">{event.venue}</span>
-                  <span className="block font-body">{event.location}</span>
-                </figcaption>
-              )}
+          return <article key={event.id} className="grid items-center gap-6 text-[#f7f3eb] md:items-start md:grid-cols-[minmax(0,38fr)_minmax(0,62fr)] md:gap-6 lg:gap-12">
+            <figure className="w-full max-w-[440px]">
+              <img src={getImageForKey(event.imageKey, event.venue, event.title)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full rounded-xl object-contain" />
             </figure>
             <div className="min-w-0">
               <p className="font-display text-base font-medium text-[#35C5BB]">{formatInternationalDate(event.date)}</p>
-              <h3 className="mt-3 font-display text-[26px] font-medium leading-tight md:text-[28px]">{event.title}</h3>
-              <div className="mt-4 text-sm leading-[1.5] text-[#f7f3eb]/75">
+              <h3 className="mt-2 font-display text-[26px] font-medium leading-tight md:text-[28px]">{event.title}</h3>
+              {event.imageKey === "off-air" && (
+                <div className="mt-3 font-body text-base leading-relaxed">
+                  <p className="text-[#f7f3eb]/75">OFF AIR brings media leaders together to unpack 2026, challenge the consensus and debate what comes next across broadcast, streaming and video.</p>
+                  <p className="mt-2 font-semibold">What happened? What matters now? What comes next?</p>
+                </div>
+              )}
+              <div className="mt-3 text-base leading-[1.5] text-[#f7f3eb]/75">
                 {event.time && <p>{event.time}</p>}
                 {(event.venue || event.location) && <p className="mt-1">{[event.venue, event.location].filter(Boolean).join(" · ")}</p>}
               </div>
-              <div className="mt-5 flex items-center justify-between gap-4">
-                <a href={`/events/${event.id}`} className="font-display text-base font-medium text-[#35C5BB] underline-offset-4 hover:underline transition-colors hover:text-[#8FC7C1] hover:decoration-[#8FC7C1] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">Learn more</a>
-                <button type="button" aria-label={`Share ${event.title}`} aria-expanded={shareOpen} aria-controls={`event-share-${event.id}`} onClick={() => setOpenShareId(shareOpen ? null : event.id)} className="inline-flex items-center gap-2 text-xs text-[#f7f3eb]/75 hover:text-[#35C5BB] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]"><Share2 size={14} aria-hidden="true" />{shareOpen ? "Close" : "Share"}</button>
+              <p className="mt-3 text-base text-[#f7f3eb]/75">Places are limited.</p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <Link to={`/events/${event.id}`} className={textAction}>Learn more</Link>
+                <button type="button" className={textAction} onClick={() => setInvitationOpen(true)}>Request an invitation</button>
               </div>
-              {shareOpen && <div id={`event-share-${event.id}`} className="mt-4 flex gap-4 text-sm"><a href={`mailto:?subject=${encodeURIComponent(event.title)}&body=${shareText}`}>Email</a><a href={`https://wa.me/?text=${shareText}`} target="_blank" rel="noreferrer">WhatsApp</a></div>}
             </div>
           </article>;
         })}

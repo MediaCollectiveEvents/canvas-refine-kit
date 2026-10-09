@@ -34,6 +34,7 @@ const Partners = () => {
 
           presentation="business"
           editorialCoherence
+          homepageTextAlignment
           primaryCtaText={hero?.primaryCta?.label ?? hero?.cta?.label}
           primaryCtaHref={(hero?.primaryCta ?? hero?.cta)?.url === "/register" ? undefined : (hero?.primaryCta ?? hero?.cta)?.url}
           onPrimaryClick={(hero?.primaryCta ?? hero?.cta)?.url === "/register" ? openRegister : undefined}

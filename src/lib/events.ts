@@ -1,4 +1,4 @@
-import { normalizeTaxonomyMetadata, type TaxonomyMetadata } from "./taxonomy";
+import { getTopicById, normalizeTaxonomyMetadata, type TaxonomyMetadata } from "./taxonomy";
 import aggregateContent from "@/content/events.json";
 
 export interface EventIdentity {
@@ -57,6 +57,15 @@ export interface EventItem extends TaxonomyMetadata {
   conferenceAligned?: boolean;
   inviteOnly?: boolean;
   complimentary?: boolean;
+}
+
+/** Display existing reviewed topics only for knowledge/discussion programmes. */
+export function getEventTopicLabels(event: EventItem): string[] {
+  if (!event.experienceCategories?.includes("knowledge-discussion")) return [];
+  return [...new Set(event.topics ?? [])].flatMap(id => {
+    const topic = getTopicById(id);
+    return topic ? [topic.label] : [];
+  });
 }
 
 interface EventHero {

@@ -1,4 +1,3 @@
-import { formatArticleDate, getArticlesForEvent } from "@/lib/articles";
 import EventCalendarControl from "@/components/shared/EventCalendarControl";
 import Seo from "@/components/shared/Seo";
 // src/pages/EventDetails.tsx
@@ -9,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-import { EVENT_EXPERIENCE_LABELS, formatEventDate, getEventById, getRelatedEvents, isPastEvent } from "@/lib/events";
+import { EVENT_EXPERIENCE_LABELS, formatEventDate, getEventById, getEventTopicLabels, getRelatedEvents, isPastEvent } from "@/lib/events";
 import { getEventIndustryContext, MEDIA_COLLECTIVE_PLANNER_CITIES } from "@/lib/industryEvents";
 
 // Exact, reviewed logistics fragments from the four current records.
@@ -37,22 +36,22 @@ const EventDetails = () => {
       <div className="min-h-screen bg-background text-foreground">
         <Seo title="Event Not Found — The Media Collective" />
         <Header />
-        <main className="max-w-5xl mx-auto px-6 py-24">
+        <main className="site-gutter py-24"><div className="site-container">
           <h1 className="text-3xl font-display mb-4">Event Not Found</h1>
           <p className="text-muted-foreground">
             We couldn’t find an event matching
             <span className="font-mono"> {id}</span>.
           </p>
-        </main>
+        </div></main>
         <Footer />
       </div>
     );
   }
 
   const industryContext = getEventIndustryContext(event.id);
+  const topicLabels = getEventTopicLabels(event);
   const past = isPastEvent(event);
   const relatedEvents = getRelatedEvents(event).filter(related => !isPastEvent(related));
-  const relatedArticles = getArticlesForEvent(event.id);
 
   return (
     <div className="min-h-screen bg-[#101d24] text-foreground">
@@ -60,15 +59,20 @@ const EventDetails = () => {
       <Header />
       <EventRegistrationForm attendanceOnly event={event} open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <main className="px-6 pb-16 pt-32 md:pb-24 md:pt-40 font-body">
-        <div className="container mx-auto max-w-6xl">
+      <main className="site-gutter pb-16 pt-32 md:pb-20 md:pt-40 font-body">
+        <div className="site-container">
         <header className="mb-10 md:mb-14">
-          <div className="mb-5 flex flex-wrap gap-x-4 gap-y-2 font-display text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          <div className="mb-5 flex flex-wrap gap-x-4 gap-y-2 font-display text-sm font-medium uppercase tracking-wide text-muted-foreground">
             <span className="text-primary">{isPastEvent(event) ? "Past event" : "Upcoming event"}</span>
             {event.experienceCategories?.map(category => <span key={category}>{EVENT_EXPERIENCE_LABELS[category]}</span>)}
           </div>
           <h1 className="max-w-4xl break-words font-display text-3xl font-light leading-tight md:text-5xl">{event.title}</h1>
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-muted-foreground">
+          {topicLabels.length > 0 && (
+            <ul aria-label="Discussion topics" className="mt-5 flex flex-wrap gap-x-4 gap-y-2 font-display text-sm font-medium text-[#8FC7C1]">
+              {topicLabels.map(label => <li key={label} className="border-b border-[#8FC7C1]/25 pb-1">{label}</li>)}
+            </ul>
+          )}
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-base text-muted-foreground">
             <p><time dateTime={event.date}>{formatEventDate(event.date)}</time>{event.time && ` · ${event.time}`}</p>
             <p>{[event.venue, event.location || MEDIA_COLLECTIVE_PLANNER_CITIES[event.id]].filter(Boolean).join(" · ")}</p>
           </div>
@@ -89,14 +93,14 @@ const EventDetails = () => {
           </article>
 
           <aside aria-label="Event planning" className="order-1 min-w-0 lg:order-2 lg:col-span-4">
-            <h2 className="mb-5 text-xs font-medium uppercase tracking-wide text-muted-foreground">Plan your visit</h2>
-            <dl className="space-y-4 text-sm leading-relaxed">
+            <h2 className="mb-5 text-sm font-medium uppercase tracking-wide text-muted-foreground">Plan your visit</h2>
+            <dl className="space-y-4 text-base leading-relaxed">
               <div><dt className="text-muted-foreground">Date and time</dt><dd className="mt-1">{formatEventDate(event.date)}<span className="block">{event.time || "Time to be confirmed"}</span></dd></div>
               <div><dt className="text-muted-foreground">Venue</dt><dd className="mt-1">{event.venue || "Venue to be confirmed"}{(event.location || MEDIA_COLLECTIVE_PLANNER_CITIES[event.id]) && <span className="block">{event.location || MEDIA_COLLECTIVE_PLANNER_CITIES[event.id]}</span>}</dd></div>
             </dl>
             <div className="mt-5 flex flex-col items-start gap-3">
+              {!past && <Button variant="brand" onClick={() => setIsFormOpen(true)}>Request an invitation</Button>}
               <EventCalendarControl event={event} />
-              <Link to="/events/calendar" className="font-display text-sm underline underline-offset-4 decoration-primary hover:text-primary">Industry Calendar →</Link>
             </div>
           </aside>
         </div>
@@ -108,31 +112,26 @@ const EventDetails = () => {
             {industryContext.event.startDate && ` · ${formatEventDate(industryContext.event.startDate)}`}
             {industryContext.event.endDate && industryContext.event.endDate !== industryContext.event.startDate && ` – ${formatEventDate(industryContext.event.endDate)}`}
           </p>
-          <a href={industryContext.event.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-display text-sm underline underline-offset-4 decoration-primary hover:text-primary">
+          <a href={industryContext.event.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex min-h-11 items-center font-display text-base underline underline-offset-4 decoration-primary hover:text-primary">
             Official information for {industryContext.event.name} ↗
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </section>}
         {relatedEvents.length > 0 && <section aria-label="Related Media Collective events" className="mt-10 max-w-2xl md:mt-12">
           <h2 className="mb-3 font-display text-2xl font-light">Related Media Collective events</h2>
-          <p className="text-sm text-muted-foreground">Other gatherings you may enjoy.</p>
+          <p className="text-base text-muted-foreground">Other gatherings you may enjoy.</p>
           <ul className="mt-5 space-y-6">
             {relatedEvents.map(related => <li key={related.id}>
               <h3 className="text-lg font-medium leading-relaxed"><Link to={`/events/${related.id}`} className="underline underline-offset-4 decoration-primary hover:text-primary">{related.title}</Link></h3>
-              <p className="mt-2 text-sm text-foreground/80"><time dateTime={related.date}>{formatEventDate(related.date)}</time> · {isPastEvent(related) ? "Past event" : "Upcoming event"}</p>
-              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{related.experienceCategories?.map(category => EVENT_EXPERIENCE_LABELS[category]).join(" · ")}</p>
+              <p className="mt-2 text-base text-foreground/80"><time dateTime={related.date}>{formatEventDate(related.date)}</time> · {isPastEvent(related) ? "Past event" : "Upcoming event"}</p>
+              <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{related.experienceCategories?.map(category => EVENT_EXPERIENCE_LABELS[category]).join(" · ")}</p>
             </li>)}
           </ul>
         </section>}
-        {relatedArticles.length > 0 && <section aria-label="Related Insights" className="mt-10 max-w-2xl md:mt-12">
-          <h2 className="mb-4 font-display text-2xl font-light">Related Insights</h2>
-          <ul className="space-y-5">{relatedArticles.map(article => <li key={article.slug}>
-            <Link to={`/blog/${article.slug}`} className="text-lg font-medium underline decoration-primary underline-offset-4 hover:text-primary">{article.title}</Link>
-            <p className="mt-2 text-sm text-muted-foreground">{formatArticleDate(article.date)}</p>
-          </li>)}</ul>
-        </section>}
+        {/* Phase 2: related Insights links are temporarily hidden. */}
         <section aria-labelledby="event-attendance-heading" className="mt-12 border-t border-white/10 pt-8 md:mt-16 md:pt-10">
           <h2 id="event-attendance-heading" className="font-display text-[30px] font-light leading-tight md:text-4xl">{past ? "Interested in a future event?" : "Want to attend?"}</h2>
+          {!past && <p className="mt-4 text-base text-muted-foreground">{event.title} · {formatEventDate(event.date)}{event.location && ` · ${event.location}`}</p>}
           <Button variant="brand" size="lg" className="mt-6" onClick={() => setIsFormOpen(true)}>{past ? "Register interest" : "Request an invitation"}</Button>
         </section>
         </div>

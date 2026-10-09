@@ -1,5 +1,5 @@
 import content from "@/content/industryEvents.json";
-import { isPastEvent, isPastEventDate, filterEventsByExperience, getEventYear, type EventExperienceFilter, type EventItem } from "./events";
+import { isPastEvent, isPastEventDate, getLondonCalendarDate, filterEventsByExperience, getEventYear, type EventExperienceFilter, type EventItem } from "./events";
 
 export interface IndustryEvent {
   id: string;
@@ -65,6 +65,21 @@ export function getIndustryEvents(source: unknown = content): IndustryEvent[] {
     ...(row.city !== undefined ? { city: row.city } : {}),
     ...(row.country !== undefined ? { country: row.country } : {}),
   })).sort((a, b) => (a.startDate ?? "9999-99-99").localeCompare(b.startDate ?? "9999-99-99") || a.id.localeCompare(b.id));
+}
+
+// Curated Phase 1 public view only; retain the full dataset for CMS and other consumers.
+const majorIndustryDates = new Set([
+  "dpp-leaders-briefing-2026",
+  "dpp-media-supply-festival-2026",
+  "dpp-european-broadcaster-summit-2026",
+  "dpp-espresso-summit-2026",
+  "dtg-summit-2026",
+]);
+
+export function getMajorIndustryEvents(events = getIndustryEvents()): IndustryEvent[] {
+  return events.filter(event => event.status === "confirmed" && event.startDate &&
+    (event.category === "trade-show" || majorIndustryDates.has(event.id)))
+    .sort((a, b) => a.startDate!.localeCompare(b.startDate!) || a.id.localeCompare(b.id));
 }
 
 // Access labels approved by The Media Collective; no ticket prices inferred.
@@ -134,6 +149,16 @@ export function filterPlannerEntriesByTime(entries: PlannerEntry[], upcomingOnly
   return upcomingOnly ? entries.filter(entry => entry.kind === "media-collective"
     ? !isPastEvent(entry.event, now)
     : !isPastEventDate(entry.event.endDate ?? entry.event.startDate ?? "", now)) : entries;
+}
+
+// Phase 1 is forward-looking by start date, including today but excluding already-started shows.
+export function getUpcomingCalendarEntries(entries: PlannerEntry[], now = new Date()): PlannerEntry[] {
+  const today = getLondonCalendarDate(now);
+  return entries.filter(entry => {
+    const date = entry.kind === "media-collective" ? entry.event.date : entry.event.startDate;
+    return !!date && isIndustryDate(date) && date >= today &&
+      (entry.kind !== "media-collective" || !isPastEvent(entry.event, now));
+  });
 }
 
 export function filterPlannerEntriesBySource(entries: PlannerEntry[], source: PlannerSource = "all"): PlannerEntry[] {

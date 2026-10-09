@@ -8,13 +8,13 @@ export default function Footer() {
     /^\/(?:faq|partners|privacy-policy|blog)\/?$/.test(pathname) ||
     /^\/events\/(?!calendar(?:\/|$))[^/]+\/?$/.test(pathname);
   const isAdmin = /^\/(?:admin|manage)(?:\/|$)/.test(pathname);
-  const linkClassName = "inline-flex min-h-11 items-center font-display text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white/90 transition-colors hover:text-[#9BF8ED] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB] xl:text-[0.9rem] xl:tracking-[0.18em]";
+  const linkClassName = "inline-flex min-h-11 items-center font-display text-sm font-medium uppercase tracking-[0.1em] text-white/90 transition-colors hover:text-[#9BF8ED] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB] xl:text-[0.9rem] xl:tracking-[0.18em]";
 
   return (
     <>
-      {!isAdmin && !hasContextualEnding && <AttendanceCTA />}
-    <footer id="contact" className="border-t border-[#35C5BB]/20 bg-[#08111f]">
-      <div className="mx-auto flex max-w-6xl flex-col items-start gap-3 px-5 py-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6 sm:px-6 sm:py-3 lg:px-8 xl:gap-10 xl:px-8">
+      {!isAdmin && !hasContextualEnding && <AttendanceCTA calendarContext={pathname === "/events/calendar"} />}
+    <footer id="contact" className="site-gutter border-t border-white/10 bg-[#08111f]">
+      <div className="site-container flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6 sm:py-3 xl:gap-10">
         <a
           href="https://www.linkedin.com/company/the-media-collective-events/"
           aria-label="The Media Collective on LinkedIn"

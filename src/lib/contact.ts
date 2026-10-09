@@ -1,3 +1,4 @@
+import { sendEnquiry } from "./enquiryTransport";
 import { z } from "zod";
 
 export const contactSchema = z.object({
@@ -21,15 +22,5 @@ export function contactPayload(data: ContactData, captchaToken: string) {
 }
 
 export async function sendContact(data: ContactData, captchaToken: string) {
-  const response = await fetch(
-    "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec",
-    {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: JSON.stringify(contactPayload(data, captchaToken)),
-    },
-  );
-  // Apps Script's cross-origin opaque response cannot confirm delivery.
-  if (response.type !== "opaque" && !response.ok) throw new Error("Unable to send enquiry");
+  await sendEnquiry(contactPayload(data, captchaToken));
 }

@@ -122,7 +122,7 @@
       "hidden": false
     },
     {
-      "body": "We bring together people from across media and technology who value the exchange of ideas, collaboration and shared experience.\n\nOur events are deliberately curated to be welcoming, inclusive and comfortable, bringing together people we admire, can learn from and enjoy spending time with. Numbers are kept limited so guests have the space to meet, talk and connect with one another.",
+      "body": "We bring together people from across media and technology to share perspectives, exchange insight and make new connections.\n\nOur events are deliberately curated to bring together a thoughtful mix of people in a welcoming and inclusive setting. Numbers are kept limited, giving guests the space to meet, talk and make new connections.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -156,14 +156,14 @@
       },
       "heading": "Who attends",
       "statistics": {
-        "companies": "Executives from over 300 companies have attended our events, including:",
+        "companies": "In 2026, our events brought together people from more than 300 companies.",
         "boardLevel": ".",
         "founders": "."
       },
       "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "",
-        "sub": "A community of leaders, innovators and decision-makers from across broadcasting, studios, streaming and media technology, including:",
+        "sub": "Our events bring together leaders, innovators and decision-makers from across broadcasting, studios, streaming and media technology. In 2026, attendees represented:",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
@@ -173,7 +173,7 @@
       "highlights": [
         {
           "title": "The Top 3",
-          "subtitle": "Tech giants",
+          "subtitle": "Technology giants",
           "icon": "globe"
         },
         {
@@ -222,7 +222,7 @@
     },
     {
       "type": "testimonials",
-      "heading": "Smaller by design",
+      "heading": "In their words",
       "items": [
         {
           "quote": "The intimate format creates opportunities for genuine dialogue with peers.",
@@ -256,8 +256,8 @@
         }
       ],
       "styleTitle": {
-        "eyebrow": "Our approach",
-        "sub": "We favour conversation over crowds. Our gatherings are curated around the people, subject and setting, with room to meet peers and exchange perspectives. The aim is simple: meaningful connections in good company.",
+        "eyebrow": "WHAT PEOPLE SAY",
+        "sub": "Hear from attendees and partners about their experience of Media Collective events.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false

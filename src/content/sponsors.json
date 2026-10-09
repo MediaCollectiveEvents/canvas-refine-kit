@@ -69,6 +69,81 @@
       "name": "Wagada Digital",
       "src": "/src/assets/sponsors/wagada-digital.png",
       "alt": "Wagada Digital"
+    },
+    {
+      "name": "Caretta Research",
+      "src": "/src/assets/sponsors/Caretta research logo.jpeg",
+      "alt": "Caretta Research"
+    },
+    {
+      "name": "decodeTV",
+      "src": "/src/assets/sponsors/250110-decodeTV-Logo-1.jpg",
+      "alt": "decodeTV"
+    },
+    {
+      "name": "Fabric",
+      "src": "/src/assets/sponsors/fabric.png",
+      "alt": "Fabric"
+    },
+    {
+      "name": "FOO Engine",
+      "src": "/src/assets/sponsors/foo.png",
+      "alt": "FOO Engine"
+    },
+    {
+      "name": "G&L",
+      "src": "/src/assets/sponsors/gl-logo.png",
+      "alt": "G&L"
+    },
+    {
+      "name": "Markham Digital Media",
+      "src": "/src/assets/sponsors/mdm.png",
+      "alt": "Markham Digital Media"
+    },
+    {
+      "name": "modula media",
+      "src": "/src/assets/sponsors/modula-media.png",
+      "alt": "modula media"
+    },
+    {
+      "name": "NetActuate",
+      "src": "/src/assets/sponsors/Netactuate-Black-Logo-H (2).png",
+      "alt": "NetActuate"
+    },
+    {
+      "name": "Norsk",
+      "src": "/src/assets/sponsors/Norsk logo.png",
+      "alt": "Norsk"
+    },
+    {
+      "name": "realitech",
+      "src": "/src/assets/sponsors/realitech.png",
+      "alt": "realitech"
+    },
+    {
+      "name": "Red5",
+      "src": "/src/assets/sponsors/Red5_Logo.png",
+      "alt": "Red5"
+    },
+    {
+      "name": "Rightsline",
+      "src": "/src/assets/sponsors/rightsline.png",
+      "alt": "Rightsline"
+    },
+    {
+      "name": "Testronic",
+      "src": "/src/assets/sponsors/testronic.png",
+      "alt": "Testronic"
+    },
+    {
+      "name": "Wipro",
+      "src": "/src/assets/sponsors/wipro_new_logo_svg.svg",
+      "alt": "Wipro"
+    },
+    {
+      "name": "Zille",
+      "src": "/src/assets/sponsors/zille.png",
+      "alt": "Zille"
     }
   ]
 }

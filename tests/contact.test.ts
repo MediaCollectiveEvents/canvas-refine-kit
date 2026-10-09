@@ -13,13 +13,14 @@ test("contact payload has only enquiry fields and existing verification fields",
   assert.ok(!contactSchema.safeParse({ fullName: " ", email: "bad", message: "" }).success);
 });
 
-test("contact submission uses existing endpoint and does not claim opaque receipt", async () => {
+test("contact submission waits for the existing server acknowledgement", async () => {
   const original = globalThis.fetch;
   globalThis.fetch = async (url, options) => {
     assert.match(String(url), /AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E\/exec$/);
-    assert.equal(options?.mode, "no-cors");
+    assert.equal(options?.mode, "cors");
+    assert.equal((options?.headers as Record<string, string>)["Content-Type"], "text/plain;charset=UTF-8");
     assert.equal(JSON.parse(options?.body as string).message, "Hello");
-    return { type: "opaque", ok: false } as Response;
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
   };
   try { await sendContact({ fullName: "Chris", email: "chris@example.com", message: "Hello" }, "captcha"); }
   finally { globalThis.fetch = original; }
@@ -39,3 +40,18 @@ test("handler preserves registration column order and stores messages separately
   assert.throws(() => post({ formType: "contact", fullName: "Guest", emailAddress: "guest@example.com" }), /Invalid contact details/);
   assert.equal(rows.length, 2);
 });
+
+for (const [name, response] of [
+  ["server rejection", () => new Response(JSON.stringify({ success: false }), { status: 200 })],
+  ["malformed acknowledgement", () => new Response(JSON.stringify({ success: "true" }), { status: 200 })],
+  ["HTTP failure", () => new Response("failure", { status: 500 })],
+  ["opaque response", () => ({ type: "opaque", ok: false } as Response)],
+  ["network failure", () => { throw new Error("Network failure"); }],
+] as const) {
+  test(`contact does not report success on ${name}`, async () => {
+    const original = globalThis.fetch;
+    globalThis.fetch = async () => response();
+    try { await assert.rejects(sendContact({ fullName: "Test", email: "test@example.com", message: "Transport test" }, "captcha"), /not accepted|could not confirm receipt/); }
+    finally { globalThis.fetch = original; }
+  });
+}

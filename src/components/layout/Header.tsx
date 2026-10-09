@@ -92,7 +92,7 @@ const Header = () => {
 
       <header
         className="
-          fixed top-0 left-0 right-0 z-50
+          site-gutter fixed top-0 left-0 right-0 z-50
           bg-[#08111f]
           backdrop-blur-md
           transition-all duration-300 ease-out
@@ -123,8 +123,7 @@ const Header = () => {
 
         <div
           className={`
-            relative mx-auto max-w-6xl
-            px-5 sm:px-6 lg:px-8 xl:px-8
+            relative site-container
             transition-all duration-300 ease-out
             ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
           `}
@@ -144,6 +143,8 @@ const Header = () => {
               className="ml-auto flex h-11 w-11 items-center justify-center text-white transition"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -174,10 +175,10 @@ const Header = () => {
                       to={item.href}
                       aria-current={isActive ? "page" : undefined}
                       className={`
-                        relative whitespace-nowrap pb-1
+                        relative inline-flex min-h-11 items-center whitespace-nowrap pb-1
                         font-display font-medium uppercase
                         tracking-[0.1em] xl:tracking-[0.18em]
-                        text-[0.75rem] xl:text-[0.9rem]
+                        text-sm xl:text-[0.9rem]
                         transition-all duration-200
                         ${
                           isActive
@@ -219,7 +220,7 @@ const Header = () => {
                   rounded-full
                   px-5 xl:px-7 py-3.5
                   font-display
-                  text-[0.75rem] xl:text-[0.84rem]
+                  text-base
                   font-semibold
                   uppercase
                   tracking-[0.14em]
@@ -234,8 +235,8 @@ const Header = () => {
         {/* MOBILE MENU PANEL */}
 
         {isMenuOpen && (
-          <nav className="bg-[#08111f] backdrop-blur-md lg:hidden">
-            <div className="flex flex-col gap-1 px-6 py-5">
+          <nav id="mobile-navigation" className="bg-[#08111f] backdrop-blur-md lg:hidden">
+            <div className="site-container flex flex-col gap-1 py-5">
               {navItems.map((item) => {
                 const isActive =
                   item.href === activeHref;
@@ -275,7 +276,7 @@ const Header = () => {
                   rounded-full
                   py-3.5
                   font-display
-                  text-[0.88rem]
+                  text-base
                   font-semibold
                   uppercase
                   tracking-[0.14em]

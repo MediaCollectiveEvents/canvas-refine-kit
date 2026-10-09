@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import {
   getAllEvents, getEventById, getEventIssues, getPastEvents, getRegistrationId,
-  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents, getAttendanceRegistrationId, getEventCountdownDays,
+  getRegistrationOptions, getUpcomingEvents, normalizeEvents, filterEventsByExperience, getRelatedEvents, getAttendanceRegistrationId, getEventCountdownDays, getEventTopicLabels,
 } from "../src/lib/events";
 
 const now = new Date("2026-10-02T12:00:00Z");
@@ -252,4 +252,17 @@ test("public upcoming selectors sort before limiting or filtering, independent o
   assert.deepEqual(getPastEvents(source, now).map(event => event.date),
     ["2026-09-12", "2026-05-13", "2026-05-06"]);
   assert.deepEqual(source.events.map(event => event.id), originalOrder);
+});
+
+
+test("discussion topic labels use reviewed metadata without tagging social events", () => {
+  assert.deepEqual(getEventTopicLabels(getEventById(1)!), ["Security", "Organisational change", "Industry strategy"]);
+  assert.deepEqual(getEventTopicLabels(getEventById(4)!), ["Industry strategy"]);
+  for (const event of getAllEvents().filter(event => ![1, 4].includes(event.id))) {
+    assert.deepEqual(getEventTopicLabels(event), []);
+  }
+  const discussion = getEventById(4)!;
+  assert.deepEqual(getEventTopicLabels({ ...discussion, topics: ["industry-strategy", "unknown", "industry-strategy"] }), ["Industry strategy"]);
+  assert.deepEqual(getEventTopicLabels({ ...discussion, topics: undefined }), []);
+  assert.deepEqual(getEventTopicLabels({ ...discussion, experienceCategories: ["networking-social"] }), []);
 });

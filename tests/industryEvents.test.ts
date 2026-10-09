@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getEventIndustryContext, getIndustryAccessLabel } from "../src/lib/industryEvents";
+import { getEventIndustryContext, getIndustryAccessLabel, getMajorIndustryEvents, getUpcomingCalendarEntries } from "../src/lib/industryEvents";
 import { showsPlannerExperiences, getPlannerLocations, getIndustryEventIssues, getIndustryEvents, getIndustryMonths, getIndustryPlannerMonths, getIndustryPlannerYears, getPlannerEntryLink, getUndatedIndustryEvents } from "../src/lib/industryEvents";
 import { getAllEvents, getEventById } from "../src/lib/events";
 import { getYearCalendarSnapshot } from "../src/lib/eventCalendar";
@@ -181,4 +181,46 @@ test("access labels use approved organiser rules and verified event IDs, leaving
 
 test("London filter includes the reviewed 2027 MPTS reception", () => {
   assert.deepEqual(getIndustryPlannerMonths(2027, "all", media, external, "London", "media-collective").flatMap(month => month.entries).map(entry => entry.event.id), [5]);
+});
+
+
+test("Phase 1 calendar is a dated, confirmed major-event subset without deleting records", () => {
+  const before = JSON.stringify(external);
+  const major = getMajorIndustryEvents([...external].reverse());
+  assert.equal(major.length, 12);
+  assert.deepEqual(major.filter(event => event.category === "trade-show"), external.filter(event => event.category === "trade-show"));
+  assert.deepEqual(major.filter(event => event.category === "industry-event").map(event => event.id), [
+    "dpp-european-broadcaster-summit-2026", "dtg-summit-2026", "dpp-media-supply-festival-2026",
+    "dpp-espresso-summit-2026", "dpp-leaders-briefing-2026",
+  ]);
+  assert.ok(major.every(event => event.startDate && event.status === "confirmed"));
+  assert.equal(JSON.stringify(external), before);
+  assert.equal(getMajorIndustryEvents([{ ...sample, status: "planned" }, { ...sample, startDate: undefined }]).length, 0);
+  assert.ok(major.every((event, index) => index === 0 || event.startDate! >= major[index - 1].startDate!));
+});
+
+
+test("Phase 1 calendar merges canonical Media Collective dates with only curated external events", () => {
+  for (const year of [2026, 2027]) {
+    const entries = getIndustryPlannerMonths(year, "all", media, getMajorIndustryEvents()).flatMap(month => month.entries);
+    assert.deepEqual(entries.filter(entry => entry.kind === "media-collective").map(entry => entry.event.id), media.filter(event => event.date.startsWith(String(year))).map(event => event.id));
+    assert.ok(entries.filter(entry => entry.kind === "external").every(entry => getMajorIndustryEvents().some(event => event.id === entry.event.id)));
+    const dates = entries.map(entry => entry.kind === "media-collective" ? entry.event.date : entry.event.startDate!);
+    assert.deepEqual(dates, [...dates].sort());
+  }
+});
+
+
+test("public calendar excludes past start dates dynamically without removing canonical history", () => {
+  const before = JSON.stringify({ external, media });
+  const entries = [2026, 2027].flatMap(year => getIndustryPlannerMonths(year, "all", media, getMajorIndustryEvents()).flatMap(month => month.entries));
+  const visible = getUpcomingCalendarEntries(entries, new Date("2026-10-08T12:00:00Z"));
+  assert.deepEqual(visible.filter(entry => entry.kind === "external").map(entry => entry.event.id), ["dpp-leaders-briefing-2026", "ise-2027", "nab-show-2027", "mpts-2027", "ibc-2027"]);
+  const datedShow = entries.find(entry => entry.kind === "external" && entry.event.id === "ibc-2027")!;
+  assert.equal(getUpcomingCalendarEntries([datedShow], new Date("2027-09-10T12:00:00Z")).length, 1);
+  assert.equal(getUpcomingCalendarEntries([datedShow], new Date("2027-09-11T12:00:00Z")).length, 0);
+  assert.equal(getUpcomingCalendarEntries(entries, new Date("2028-01-01T12:00:00Z")).length, 0);
+  const dates = visible.map(entry => entry.kind === "media-collective" ? entry.event.date : entry.event.startDate!);
+  assert.deepEqual(dates, [...dates].sort());
+  assert.equal(JSON.stringify({ external, media }), before);
 });

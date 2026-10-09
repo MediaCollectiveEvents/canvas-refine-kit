@@ -1,22 +1,20 @@
 // src/App.tsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import settings from "@/content/settings.json";
 
 // Pages
 import Home from "@/pages/Home";
-import Events from "@/pages/Events";
-import EventPlanner from "@/pages/EventPlanner";
-import EventDetails from "@/pages/EventDetails";
-import Blog from "@/pages/Blog";
-import BlogPost from "@/pages/BlogPost";
-import Partners from "@/pages/Partners";
-import FAQ from "@/pages/FAQ";
-import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import MyNewPage from "@/pages/MyNewPage";
-import Admin from "@/pages/Admin";
-import Wireframe from "@/pages/Wireframe";
-import NotFound from "@/pages/NotFound";
+const Events = lazy(() => import("@/pages/Events"));
+const EventPlanner = lazy(() => import("@/pages/EventPlanner"));
+const EventDetails = lazy(() => import("@/pages/EventDetails"));
+const Partners = lazy(() => import("@/pages/Partners"));
+const FAQ = lazy(() => import("@/pages/FAQ"));
+const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
+const MyNewPage = lazy(() => import("@/pages/MyNewPage"));
+const Admin = lazy(() => import("@/pages/Admin"));
+const Wireframe = lazy(() => import("@/pages/Wireframe"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 import Maintenance from "@/pages/Maintenance";
 
 const App = () => {
@@ -49,6 +47,7 @@ const App = () => {
       style={{ backgroundColor: "var(--background-dark)" }}
     >
       <Router>
+        <Suspense fallback={<div role="status" className="site-container site-header-clearance py-12 text-base text-white/80">Loading page…</div>}>
         <Routes>
           {maintenanceMode ? (
             // 🚧 When maintenanceMode is ON in production, all routes go to Maintenance
@@ -64,9 +63,9 @@ const App = () => {
               <Route path="/events/calendar" element={<EventPlanner />} />
               <Route path="/events/:id" element={<EventDetails />} />
 
-              {/* Blog listing + individual posts */}
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
+              {/* Phase 2: Insights listing + individual posts temporarily unavailable. */}
+              <Route path="/blog" element={<Navigate to="/" replace />} />
+              <Route path="/blog/:slug" element={<Navigate to="/" replace />} />
 
               {/* Partners & Sponsors */}
               <Route path="/partners" element={<Partners />} />
@@ -88,6 +87,7 @@ const App = () => {
             </>
           )}
         </Routes>
+        </Suspense>
       </Router>
     </div>
   );

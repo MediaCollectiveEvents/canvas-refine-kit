@@ -71,43 +71,44 @@ export default function WhoAttendsSection({ section = {} }: WhoAttendsSectionPro
     };
   }, [section.highlights]);
 
+  const intro = section.styleTitle?.sub || "Connecting broadcasters, studios and streaming platforms with the technology companies shaping the future of media.";
+
   const numeralSizes: Record<string, string> = {
-    "300+": "text-[56px] md:text-[80px]",
-    "3": "text-[56px] md:text-[80px]",
-    "5": "text-[68px] md:text-[96px]",
-    "8": "text-[80px] md:text-[112px]",
+    "300": "text-[64px] md:text-[88px]",
+    "3": "text-[40px] md:text-[56px]",
+    "5": "text-[48px] md:text-[64px]",
+    "8": "text-[56px] md:text-[76px]",
   };
 
   return (
-    <SectionWrapper variant="dark" align="left" padding="lux" animateOnScroll={false} className="!bg-[#101d24] text-[#f7f3eb]">
+    <SectionWrapper variant="transparent" align="left" padding="lux" animateOnScroll={false} className="site-surface-emphasis border-b border-white/10 text-[#f7f3eb]">
       <div className="relative">
         <div>
           <p className="mb-4 site-eyebrow text-[#8FC7C1]">OUR COMMUNITY</p>
           <h2 className="site-heading !font-medium text-[#f7f3eb]">{section.heading || "In The Room"}</h2>
-          <p className="mt-5 text-base leading-[1.5] text-[#f7f3eb]/75">{section.styleTitle?.sub || "Connecting broadcasters, studios and streaming platforms with the technology companies shaping the future of media."}</p>
+          <p className="mt-5 max-w-[65ch] text-base leading-[1.5] text-[#f7f3eb]/75">{intro.split(/(In 2026)/).map((part, index) => part === "In 2026" ? <strong key={index} className="font-semibold">{part}</strong> : part)}</p>
         </div>
-          <div ref={credentialRow} className="mt-6 grid sm:grid-cols-2 lg:grid-cols-4">
-            {[{ title: "300+", subtitle: "Companies represented" }, ...highlights].map((item, index) => {
-              const title = index === 0 ? ["300+", "", "300+"] : item.title?.match(/^(.*)\s+(\d+)$/);
-              return <div key={index} data-audience-credential className="min-w-0 border-t border-[#8FC7C1]/20 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:px-6 sm:first:border-l-0 sm:first:pl-0 sm:last:pr-0">
+          <div ref={credentialRow} className="mt-6 grid gap-y-10 sm:grid-cols-2 xl:grid-cols-4">
+            {[...highlights, { title: "Over 300", subtitle: "Companies represented" }].map((item, index) => {
+              const title = item.title?.match(/^(.*)\s+(\d+)$/);
+              return <div key={index} data-audience-credential className="min-w-0 border-t border-[#8FC7C1]/20 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:px-4 sm:odd:border-l-0 sm:odd:pl-0 sm:even:pr-0 xl:px-5 xl:odd:border-l xl:odd:pl-5 xl:even:pr-5 xl:first:border-l-0 xl:first:pl-0 xl:last:pr-0">
                 <h3 aria-label={item.title} className="font-display font-medium">
                   {title && <span className={`flex h-[96px] items-end text-[#35C5BB] leading-none md:h-[132px] ${numeralSizes[title[2]] || "text-[56px] md:text-[80px]"}`}>
                     {/* The shared largest-size strut aligns text baselines, including font descent. */}
                     <span className="flex items-baseline leading-none">
-                      <span aria-hidden="true" className="w-0 text-[80px] leading-none md:text-[112px]">{"\u200B"}</span>
+                      <span aria-hidden="true" className="w-0 text-[64px] leading-none md:text-[88px]">{"\u200B"}</span>
                       {title[1] && <span className="mr-2 inline-flex -translate-y-[0.62em]">
-                        <span className="whitespace-nowrap text-xs font-bold leading-none text-[#f7f3eb]/55">{title[1]}</span>
+                        <span className="whitespace-nowrap text-sm font-bold leading-none text-[#f7f3eb]/55">{title[1]}</span>
                       </span>}
                       <span data-audience-numeral className="m-0 inline-block leading-none">{title[2]}</span>
                     </span>
                   </span>}
-                  {!title && <span className="text-xs font-normal text-[#f7f3eb]/55">{item.title}</span>}
+                  {!title && <span className="text-sm font-normal text-[#f7f3eb]/55">{item.title}</span>}
                 </h3>
                 <p className="mt-5 min-h-12 font-body text-xl font-semibold leading-[1.3] text-[#f7f3eb] md:text-2xl">{item.subtitle}</p>
               </div>;
             })}
           </div>
-          <p className="mt-3 font-body text-sm text-[#f7f3eb]/65">These figures reflect companies represented at our past events, not a guaranteed audience for any individual gathering.</p>
       </div>
     </SectionWrapper>
   );

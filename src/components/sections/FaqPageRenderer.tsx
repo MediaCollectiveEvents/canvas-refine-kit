@@ -40,7 +40,7 @@ const FaqPageRenderer: React.FC<FaqPageRendererProps> = ({
           switch (section.type) {
             case "faqSection":
               return (
-                <PageSection key={key} id={section.id} className="bg-none bg-[#101d24] py-12 md:py-16">
+                <PageSection key={key} id={section.id} className="border-b border-white/10 site-surface-dark">
                   <FAQSection
                     presentation="editorial"
                     faqs={faqs}
@@ -52,7 +52,7 @@ const FaqPageRenderer: React.FC<FaqPageRendererProps> = ({
 
             case "cta":
               return (
-                <PageSection key={key} id={section.id} className="border-t border-white/10 bg-none bg-[#172b31] py-12 md:py-16">
+                <PageSection key={key} id={section.id} className="border-b border-white/10 site-surface-emphasis">
                   <div className="grid items-start gap-8 lg:grid-cols-12">
                     <div className="lg:col-span-8">
                       <h2 className="font-display text-[30px] font-light leading-tight text-white md:text-4xl">

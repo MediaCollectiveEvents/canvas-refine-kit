@@ -1,11 +1,12 @@
+import { sendEnquiry, EnquiryDeliveryError } from "@/lib/enquiryTransport";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import ReCAPTCHA from "react-google-recaptcha";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { Check, ChevronRight, ChevronLeft, X } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -71,7 +72,7 @@ const ProgressIndicator = ({
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${i + 1 < currentStage ? "bg-primary text-primary-foreground" : i + 1 === currentStage ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background" : "bg-muted text-muted-foreground"}`}>
             {i + 1 < currentStage ? <Check className="w-4 h-4" /> : i + 1}
           </div>
-          <span className={`text-xs mt-1.5 transition-colors duration-300 ${i + 1 <= currentStage ? "text-foreground" : "text-muted-foreground"}`}>
+          <span className={`text-sm mt-1.5 transition-colors duration-300 ${i + 1 <= currentStage ? "text-foreground" : "text-muted-foreground"}`}>
             {labels[i]}
           </span>
         </div>
@@ -90,6 +91,9 @@ const EventRegistrationForm = ({
   const stages = attendanceOnly ? getAttendanceStages(!!getAttendanceSelection(event)) : [1, 2, 3, 4];
   const labels = stages.map(stage => stage === 1 ? "Details" : stage === 2 ? "Event" : stage === 3 ? "Engagement" : "Consent");
   const [currentStage, setCurrentStage] = useState(1);
+  const reducedMotion = useReducedMotion();
+  const [captchaReady, setCaptchaReady] = useState(false);
+  const submissionLock = useRef(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
@@ -137,29 +141,37 @@ const EventRegistrationForm = ({
       setCurrentStage(stages[stages.indexOf(currentStage) - 1]);
     }
   };
-  const handleCaptchaChange = (token: string | null) => {
-    if (token) {
-      // Execute the actual form submission after captcha verification
-      const formData = form.getValues();
-      submitForm(formData, token);
-    }
-  };
-
   const handleFormSubmit = async () => {
-    const isValid = await form.trigger();
-    if (isValid) {
-      // Execute invisible reCAPTCHA
-      captchaRef.current?.execute();
+    if (submissionLock.current || !captchaReady) return;
+    submissionLock.current = true;
+    let verificationTimeout: ReturnType<typeof setTimeout> | undefined;
+    try {
+      if (!await form.trigger()) return;
+      setIsSubmitting(true);
+      const token = await Promise.race([
+        captchaRef.current?.executeAsync(),
+        new Promise<never>((_, reject) => {
+          verificationTimeout = setTimeout(() => reject(new Error("Verification timed out")), 60000);
+        }),
+      ]);
+      if (!token) throw new Error("Verification unavailable");
+      await submitForm(form.getValues(), token);
+    } catch {
+      toast({ title: "Unable to verify", description: "Verification could not be completed. Please try again.", variant: "destructive" });
+    } finally {
+      clearTimeout(verificationTimeout);
+      captchaRef.current?.reset();
+      submissionLock.current = false;
+      setIsSubmitting(false);
     }
   };
 
   const submitForm = async (data: Omit<FormData, 'captchaToken'>, captchaToken: string) => {
-    setIsSubmitting(true);
     try {
       const eventLabels = data.interestedEvents
         .map(id => eventOptions.find(e => e.id === id)?.label || id)
         .join(", ");
-      
+
       const engagementLabels = data.engagementTypes
         .map(id => engagementOptions.find(e => e.id === id)?.label || id)
         .join(", ");
@@ -175,17 +187,7 @@ const EventRegistrationForm = ({
         token: "3Fv9XqT7bLpK2zR8YwS6dN1mHjUaV5eG"
       };
 
-      await fetch(
-        "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec",
-        {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(webhookData),
-        }
-      );
+      await sendEnquiry(webhookData);
 
       setSubmitted(true);
       captchaRef.current?.reset();
@@ -193,11 +195,9 @@ const EventRegistrationForm = ({
       console.error("Webhook submission error:", error);
       toast({
         title: "Unable to send",
-        description: "We couldn’t send your enquiry. Please try again.",
+        description: error instanceof EnquiryDeliveryError ? error.message : "We couldn’t send your enquiry. Please try again.",
         variant: "destructive"
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
   const handleClose = () => {
@@ -210,39 +210,41 @@ const EventRegistrationForm = ({
   };
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 50 : -50,
-      opacity: 0
+      x: reducedMotion ? 0 : direction > 0 ? 50 : -50,
+      opacity: reducedMotion ? 1 : 0
     }),
     center: {
       x: 0,
       opacity: 1
     },
     exit: (direction: number) => ({
-      x: direction < 0 ? 50 : -50,
-      opacity: 0
+      x: reducedMotion ? 0 : direction < 0 ? 50 : -50,
+      opacity: reducedMotion ? 1 : 0
     })
   };
   return <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[540px] max-h-[90vh] overflow-y-auto bg-background border-border">
         <DialogHeader className={attendanceOnly ? "" : "sr-only"}>
           <DialogTitle>{attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
+          <DialogDescription>Send your details so we can review your request. Submitting does not confirm attendance.</DialogDescription>
         </DialogHeader>
 
         {submitted ? <div role="status" className="space-y-4 py-4">
           <h3 className="font-display text-xl">{attendanceOnly ? "Request sent" : "Enquiry sent"}</h3>
-          <p>Your request was sent, but receipt cannot be confirmed here.</p>
+          <p>Your request has been received.</p>
           <p>{attendanceOnly ? "Requests are reviewed. If accepted, you receive a link to register. Sending a request does not confirm attendance." : "Sending an enquiry does not confirm attendance or a partnership. Your details are used to respond to your enquiry."}</p>
           <Button variant="brand" onClick={handleClose}>Close</Button>
         </div> : <>
-        {attendanceOnly && <div className="mb-6"><p className="mt-2 text-sm text-muted-foreground">{event && getAttendanceSelection(event) ? eventOptions.find(option => option.id === selectedId)?.displayLabel : "Choose an upcoming event or express interest in future gatherings."}</p><p className="mt-2 text-sm text-muted-foreground">A request does not confirm attendance. Invitations are subject to event curation.</p></div>}
+        {attendanceOnly && <div className="mb-6"><p className="mt-2 text-base text-muted-foreground">{event && getAttendanceSelection(event) ? eventOptions.find(option => option.id === selectedId)?.displayLabel : "Choose an upcoming event or express interest in future gatherings."}</p><p className="mt-2 text-base text-muted-foreground">A request does not confirm attendance. Invitations are subject to event curation.</p></div>}
         <ProgressIndicator currentStage={stages.indexOf(currentStage) + 1} totalStages={stages.length} labels={labels} />
 
         <Form {...form}>
           <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }} className="space-y-6">
+            <fieldset disabled={isSubmitting} className="space-y-6">
             <AnimatePresence mode="wait" custom={currentStage}>
               {/* Stage 1: Personal Details */}
               {currentStage === 1 && <motion.div key="stage1" custom={1} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
-              duration: 0.3
+              duration: reducedMotion ? 0 : 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Your details</h3>
@@ -281,14 +283,14 @@ const EventRegistrationForm = ({
 
               {/* Stage 2: Event Interest */}
               {currentStage === 2 && <motion.div key="stage2" custom={2} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
-              duration: 0.3
+              duration: reducedMotion ? 0 : 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">{attendanceOnly ? "Which event interests you?" : "Which event series interest you?"}</h3>
-                    <p className="text-muted-foreground text-sm mt-2">{attendanceOnly ? "Select the upcoming events you would like to attend, or choose future gatherings." : "Select the event series you’re interested in hearing about for future editions. Select all that apply."}</p>
+                    <p className="text-muted-foreground text-base mt-2">{attendanceOnly ? "Select the upcoming events you would like to attend, or choose future gatherings." : "Select the event series you’re interested in hearing about for future editions. Select all that apply."}</p>
                   </div>
 
-                  <div className="p-3 bg-muted/50 rounded-lg text-xs text-muted-foreground leading-relaxed text-center">
+                  <div className="p-3 bg-muted/50 rounded-lg text-base text-muted-foreground leading-relaxed text-center">
                     <p>{attendanceOnly ? "Submitting a request does not guarantee an invitation." : "This records interest in future editions, not attendance at a past event. Dates and invitations are not confirmed by submitting this form."}</p>
                   </div>
 
@@ -308,7 +310,7 @@ const EventRegistrationForm = ({
                         field.onChange(newValue);
                       }} />
                                   </FormControl>
-                                  <FormLabel className="font-normal cursor-pointer flex-1 text-sm text-foreground">
+                                  <FormLabel className="font-normal cursor-pointer flex-1 text-base text-foreground">
                                     {event.displayLabel}
                                   </FormLabel>
                                 </FormItem>} />)}
@@ -319,11 +321,11 @@ const EventRegistrationForm = ({
 
               {/* Stage 3: Engagement Types */}
               {currentStage === 3 && <motion.div key="stage3" custom={3} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
-              duration: 0.3
+              duration: reducedMotion ? 0 : 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">What are you interested in?</h3>
-                    <p className="text-muted-foreground text-sm mt-2">Select all that apply. These choices express your interest; they do not confirm attendance or a partnership.</p>
+                    <p className="text-muted-foreground text-base mt-2">Select all that apply. These choices express your interest; they do not confirm attendance or a partnership.</p>
                   </div>
 
                   <FormField control={form.control} name="engagementTypes" render={() => <FormItem>
@@ -348,14 +350,14 @@ const EventRegistrationForm = ({
 
               {/* Stage 4: GDPR Consent & Submit */}
               {currentStage === 4 && <motion.div key="stage4" custom={4} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
-              duration: 0.3
+              duration: reducedMotion ? 0 : 0.3
             }} className="space-y-6">
                   <div className="text-center mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Privacy and consent</h3>
                   </div>
 
 
-                  <div className="p-4 bg-muted/50 rounded-lg text-sm text-muted-foreground leading-relaxed">
+                  <div className="p-4 bg-muted/50 rounded-lg text-base text-muted-foreground leading-relaxed">
                     <p>
                       We use the details you provide to handle your enquiry and any relevant event follow-up. Contact information is not automatically shared with all partners. Any sharing remains subject to explicit consent and our Privacy Policy. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
                       <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
@@ -376,18 +378,21 @@ const EventRegistrationForm = ({
                         </div>
                       </FormItem>} />
 
-                  <ReCAPTCHA 
-                    ref={captchaRef} 
+                  <ReCAPTCHA
+                    ref={captchaRef}
                     sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc"
                     size="invisible"
-                    onChange={handleCaptchaChange} 
+                    asyncScriptOnLoad={() => setCaptchaReady(true)}
+                    onErrored={() => { setCaptchaReady(false); toast({ title: "Verification unavailable", description: "Please reload and try again.", variant: "destructive" }); }}
                   />
                 </motion.div>}
             </AnimatePresence>
 
+            {currentStage === 4 && !captchaReady && <p role="status" className="text-base text-muted-foreground">Loading verification. If it does not load, check your connection and reload.</p>}
+            {isSubmitting && <p role="status" className="text-base text-muted-foreground">Verifying and sending your request. Please wait.</p>}
             {/* Navigation Buttons */}
             <div className="flex justify-between pt-4 border-t border-border">
-              {currentStage > 1 ? <Button type="button" variant="ghost" onClick={prevStage} className="gap-2">
+              {currentStage > 1 ? <Button type="button" disabled={isSubmitting} variant="ghost" onClick={prevStage} className="gap-2">
                   <ChevronLeft className="w-4 h-4" />
                   Previous
                 </Button> : <div />}
@@ -395,10 +400,11 @@ const EventRegistrationForm = ({
               {currentStage < 4 ? <Button key="next" type="button" onClick={nextStage} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                   Next
                   <ChevronRight className="w-4 h-4" />
-                </Button> : <Button key="submit" type="submit" disabled={isSubmitting} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                </Button> : <Button key="submit" type="submit" disabled={isSubmitting || !captchaReady} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                   {isSubmitting ? "Sending…" : attendanceOnly ? "Request an invitation" : "Submit enquiry"}
                 </Button>}
             </div>
+            </fieldset>
           </form>
         </Form>
         </>}

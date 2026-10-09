@@ -132,16 +132,17 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
   const reducedMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
 
   useEffect(() => {
-    if (reducedMotion || paused || testimonials.length <= 1) return;
+    if (reducedMotion || paused || userPaused || testimonials.length <= 1) return;
 
     const timer = setInterval(() => {
       setIndex((i) => (i + 1) % testimonials.length);
     }, INTERVAL);
 
     return () => clearInterval(timer);
-  }, [reducedMotion, paused, testimonials.length]);
+  }, [reducedMotion, paused, userPaused, testimonials.length]);
 
   const current = testimonials[index % testimonials.length];
 
@@ -155,10 +156,11 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
       noise={false}
       grid={false}
       withFades={false}
-      className="relative text-[#f7f3eb] !pb-8 md:!pb-12"
+      animateOnScroll={false}
+      className="relative border-b border-white/10 text-[#f7f3eb]"
     >
-      <div className="relative z-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-10">
-        <div className="lg:col-span-4">
+      <div className="relative z-10 grid items-start gap-y-10 xl:grid-cols-4">
+        <div className="min-w-0 xl:pr-5">
           <p className="mb-4 site-eyebrow text-[#9bd3c8]">{section?.styleTitle?.eyebrow || "Attendees and partners"}</p>
           <SectionTitle align="left" disableEmphasis tone="default">
             {section?.heading || "Community voices"}
@@ -173,18 +175,18 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}
-          className="relative min-w-0 pt-6 font-body lg:col-span-8"
+          className="relative min-w-0 pt-6 font-body xl:col-span-3 xl:pl-5"
         >
           <div className="grid">
             {/* Invisible copies reserve only the height required by the longest CMS item at this width. */}
             {testimonials.map((item, itemIndex) => (
               <div key={itemIndex} aria-hidden="true" className="invisible pointer-events-none [grid-area:1/1]">
-                <blockquote className="max-w-[40ch] font-body font-normal text-xl md:text-[27px] leading-[1.6]">
+                <blockquote className="max-w-[40ch] font-body font-normal text-2xl md:text-3xl leading-[1.6]">
                   {item.quote.map((sentence, sentenceIndex) => <p key={sentenceIndex} className="mb-4 last:mb-0">{sentence}</p>)}
                 </blockquote>
                 <div className="mt-3">
-                  {item.author && <p className="text-[1rem] tracking-[0.02em] font-medium">{item.author}</p>}
-                  {(item.title || item.company) && <p className="mt-1 text-[0.9rem]">{item.title}{item.title && item.company ? " — " : ""}{item.company}</p>}
+                  {item.author && <p className="text-lg tracking-[0.02em] font-semibold">{item.author}</p>}
+                  {(item.title || item.company) && <p className="mt-1 text-base">{item.title}{item.title && item.company ? " — " : ""}{item.company}</p>}
                 </div>
                 {testimonials.length > 1 && <div className="mt-4 h-10" />}
               </div>
@@ -194,20 +196,20 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
             <motion.div
               key={index}
               className="[grid-area:1/1]"
-              initial={{ opacity: 0, y: 18 }}
+              initial={reducedMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -18 }}
-              transition={{ duration: 0.55 }}
+              exit={reducedMotion ? { opacity: 1 } : { opacity: 0, y: -18 }}
+              transition={{ duration: reducedMotion ? 0 : 0.55 }}
             >
               <blockquote
                 className="
                   relative
                   max-w-[40ch]
                   font-body font-normal
-                  text-xl md:text-[27px]
+                  text-2xl md:text-3xl
                   leading-[1.6]
 
-                  text-[#f7f3eb]
+                  text-white
                 "
               >
                 <span
@@ -233,19 +235,19 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
               </blockquote>
 
               <motion.div
-                initial={{ opacity: 0, y: 6 }}
+                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.16, duration: 0.4 }}
+                transition={{ delay: reducedMotion ? 0 : 0.16, duration: reducedMotion ? 0 : 0.4 }}
                 className="mt-3"
               >
                 {current.author && (
-                  <p className="text-[1rem] tracking-[0.02em] font-medium text-[#f7f3eb]">
+                  <p className="text-lg tracking-[0.02em] font-semibold text-[#f7f3eb]">
                     {current.author}
                   </p>
                 )}
 
                 {(current.title || current.company) && (
-                  <p className="mt-1 text-[0.9rem] text-slate-300">
+                  <p className="mt-1 text-base text-[#f7f3eb]">
                     {current.title}
                     {current.title && current.company ? " — " : ""}
                     {current.company && (
@@ -258,7 +260,8 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           </AnimatePresence>
 
           {testimonials.length > 1 && (
-            <div className="mt-4 flex items-center gap-1">
+            <div className="mt-4 flex flex-wrap items-center gap-1">
+              {!reducedMotion && <button type="button" aria-pressed={userPaused} onClick={() => setUserPaused(value => !value)} className="mr-3 inline-flex min-h-11 items-center font-display text-base font-medium text-[#9bd3c8] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300">{userPaused ? "Resume testimonials" : "Pause testimonials"}</button>}
               {testimonials.map((_, dotIndex) => {
                 const active = dotIndex === index;
 
@@ -269,7 +272,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                     aria-label={`Show testimonial ${dotIndex + 1}`}
                     aria-pressed={active}
                     onClick={() => setIndex(dotIndex)}
-                    className="flex h-10 w-10 items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300"
+                    className="flex h-11 w-11 items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300"
                   >
                     <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-[#9bd3c8]" : "w-2 bg-slate-500"}`} />
                   </button>
