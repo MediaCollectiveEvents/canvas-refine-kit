@@ -1,5 +1,5 @@
 {
-  "maintenanceMode": false,
+  "maintenanceMode": true,
   "palette": {
     "primary": "#35C5BB",
     "secondary": "#ff4062",
