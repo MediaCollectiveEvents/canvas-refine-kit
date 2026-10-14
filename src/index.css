@@ -20,6 +20,12 @@
     /* Injected via App.tsx */
     --background-dark: #101d24;
     --background-light: #f7f7f7;
+    --site-content-max-width: 1200px;
+    --site-outer-gutter: 24px;
+    --site-section-space: 64px;
+    --site-reading-width: 65ch;
+    --site-editorial-gap: 48px;
+    --site-event-artwork-max: 440px;
 
     /* Tailwind token mapping — these now use CMS values */
     --background: var(--background-dark);
@@ -125,20 +131,55 @@
 
 /* Shared editorial primitives. Local Tailwind utilities can retain compact exceptions. */
 @layer components {
+  .site-secondary-action {
+    @apply inline-flex min-h-11 items-center justify-center rounded-full border border-[#35C5BB]/20 bg-[#35C5BB]/10 px-4 py-2 font-display text-base font-medium leading-snug text-[#35C5BB] no-underline transition-colors duration-200 hover:border-[#35C5BB]/30 hover:bg-[#35C5BB]/15 hover:text-[#8FC7C1] focus-visible:border-[#35C5BB]/30 focus-visible:bg-[#35C5BB]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB] motion-reduce:transition-none;
+  }
+
   .site-container {
-    @apply mx-auto w-full max-w-6xl;
+    @apply mx-auto w-full;
+    max-width: var(--site-content-max-width);
   }
 
   .site-gutter {
-    @apply px-6;
+    padding-inline: var(--site-outer-gutter);
   }
 
   .site-section {
-    @apply px-6 py-16 md:py-20;
+    padding-inline: var(--site-outer-gutter);
+    padding-block: var(--site-section-space);
+  }
+
+  .site-section-compact {
+    padding-block: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .site-section-compact { padding-block: 56px; }
+  }
+
+  .site-copy {
+    max-width: var(--site-reading-width);
+  }
+
+  .site-event-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    column-gap: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    .site-event-grid {
+      grid-template-columns: minmax(0, min(40%, var(--site-event-artwork-max))) minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      column-gap: var(--site-editorial-gap);
+    }
+
+    .site-event-grid-reversed {
+      grid-template-columns: minmax(0, 1fr) minmax(0, min(40%, var(--site-event-artwork-max)));
+    }
   }
 
   .site-header-clearance {
-    @apply pt-[92px] lg:pt-[100px];
+    @apply pt-[116px] lg:pt-[170px];
   }
 
   .site-heading {
@@ -156,6 +197,18 @@
   .site-surface-emphasis {
     background-color: #172b31;
   }
+}
+
+@media (min-width: 640px) {
+  :root { --site-outer-gutter: 32px; }
+}
+
+@media (min-width: 768px) {
+  :root { --site-section-space: 80px; }
+}
+
+@media (min-width: 1024px) {
+  :root { --site-outer-gutter: clamp(48px, 10vw, 192px); }
 }
 
 /* -----------------------------------------------------------
@@ -255,3 +308,8 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Page-level H1 font size only; retain each heading's existing typography. */
+.site-page-h1 { font-size: 32px !important; }
+@media (min-width: 640px) { .site-page-h1 { font-size: 40px !important; } }
+@media (min-width: 1024px) { .site-page-h1 { font-size: 48px !important; } }

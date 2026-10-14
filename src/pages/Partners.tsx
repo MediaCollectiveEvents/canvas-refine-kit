@@ -31,10 +31,8 @@ const Partners = () => {
           eyebrow={hero?.eyebrow}
           title={hero?.title}
           description={hero?.description}
-
-          presentation="business"
-          editorialCoherence
-          homepageTextAlignment
+          descriptionClassName="!text-[#9bd3c8]"
+          presentation="public"
           primaryCtaText={hero?.primaryCta?.label ?? hero?.cta?.label}
           primaryCtaHref={(hero?.primaryCta ?? hero?.cta)?.url === "/register" ? undefined : (hero?.primaryCta ?? hero?.cta)?.url}
           onPrimaryClick={(hero?.primaryCta ?? hero?.cta)?.url === "/register" ? openRegister : undefined}

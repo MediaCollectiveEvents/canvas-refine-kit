@@ -12,9 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
+import useEnquiryVerification from "@/hooks/useEnquiryVerification";
 
 import { getRegistrationOptions, type EventItem } from "@/lib/events";
 import { getAttendanceOptions, getAttendanceSelection, getAttendanceStages } from "@/lib/attendance";
+import partnersContent from "@/content/partners.json";
 
 const legacyEventOptions = getRegistrationOptions();
 const engagementOptions = [{
@@ -64,10 +66,12 @@ const ProgressIndicator = ({
   currentStage: number;
   totalStages: number;
   labels?: string[];
-}) => <div className="flex items-center justify-center gap-2 mb-8">
+}) => <>
+  <p role="status" aria-live="polite" className="sr-only">Step {currentStage} of {totalStages}: {labels[currentStage - 1]}</p>
+  <ol aria-label="Invitation progress" className="flex items-center justify-center gap-2 mb-8">
     {Array.from({
     length: totalStages
-  }, (_, i) => <div key={i} className="flex items-center">
+  }, (_, i) => <li key={i} aria-current={i + 1 === currentStage ? "step" : undefined} className="flex items-center">
         <div className="flex flex-col items-center">
           <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${i + 1 < currentStage ? "bg-primary text-primary-foreground" : i + 1 === currentStage ? "bg-primary text-primary-foreground ring-2 ring-primary ring-offset-2 ring-offset-background" : "bg-muted text-muted-foreground"}`}>
             {i + 1 < currentStage ? <Check className="w-4 h-4" /> : i + 1}
@@ -77,8 +81,9 @@ const ProgressIndicator = ({
           </span>
         </div>
         {i < totalStages - 1 && <div className={`w-8 h-0.5 mx-1 mb-5 transition-all duration-300 ${i + 1 < currentStage ? "bg-primary" : "bg-muted"}`} />}
-      </div>)}
-  </div>;
+      </li>)}
+  </ol>
+  </>;
 const EventRegistrationForm = ({
   open,
   onOpenChange,
@@ -92,7 +97,10 @@ const EventRegistrationForm = ({
   const labels = stages.map(stage => stage === 1 ? "Details" : stage === 2 ? "Event" : stage === 3 ? "Engagement" : "Consent");
   const [currentStage, setCurrentStage] = useState(1);
   const reducedMotion = useReducedMotion();
-  const [captchaReady, setCaptchaReady] = useState(false);
+  const verification = useEnquiryVerification(open && currentStage === 4);
+  const captchaReady = verification.ready;
+  const [submissionError, setSubmissionError] = useState("");
+  const lastSelectedId = useRef(selectedId);
   const submissionLock = useRef(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -113,20 +121,24 @@ const EventRegistrationForm = ({
   useEffect(() => {
     if (open) {
       if (attendanceOnly) setValue("engagementTypes", ["attend"], { shouldValidate: false });
-      setValue("interestedEvents", eventOptions.some(option => option.id === selectedId) ? [selectedId] : [], { shouldValidate: false });
+      if (lastSelectedId.current !== selectedId) {
+        setCurrentStage(1);
+        setValue("interestedEvents", eventOptions.some(option => option.id === selectedId) ? [selectedId] : [], { shouldValidate: false });
+        lastSelectedId.current = selectedId;
+      }
     }
   }, [open, selectedId, attendanceOnly, eventOptions, setValue]);
 
   const validateCurrentStage = async () => {
     let isValid = false;
     if (currentStage === 1) {
-      isValid = await form.trigger(["fullName", "companyName", "email"]);
+      isValid = await form.trigger(["fullName", "companyName", "email"], { shouldFocus: true });
     } else if (currentStage === 2) {
-      isValid = await form.trigger(["interestedEvents"]);
+      isValid = await form.trigger(["interestedEvents"], { shouldFocus: true });
     } else if (currentStage === 3) {
-      isValid = await form.trigger(["engagementTypes"]);
+      isValid = await form.trigger(["engagementTypes"], { shouldFocus: true });
     } else if (currentStage === 4) {
-      isValid = await form.trigger(["gdprConsent"]);
+      isValid = await form.trigger(["gdprConsent"], { shouldFocus: true });
     }
     return isValid;
   };
@@ -146,7 +158,8 @@ const EventRegistrationForm = ({
     submissionLock.current = true;
     let verificationTimeout: ReturnType<typeof setTimeout> | undefined;
     try {
-      if (!await form.trigger()) return;
+      if (!await form.trigger(undefined, { shouldFocus: true })) return;
+      setSubmissionError("");
       setIsSubmitting(true);
       const token = await Promise.race([
         captchaRef.current?.executeAsync(),
@@ -157,7 +170,8 @@ const EventRegistrationForm = ({
       if (!token) throw new Error("Verification unavailable");
       await submitForm(form.getValues(), token);
     } catch {
-      toast({ title: "Unable to verify", description: "Verification could not be completed. Please try again.", variant: "destructive" });
+      verification.failed();
+      setSubmissionError("Verification could not be completed. Try verification again; your entries are kept.");
     } finally {
       clearTimeout(verificationTimeout);
       captchaRef.current?.reset();
@@ -193,6 +207,7 @@ const EventRegistrationForm = ({
       captchaRef.current?.reset();
     } catch (error) {
       console.error("Webhook submission error:", error);
+      setSubmissionError(error instanceof EnquiryDeliveryError ? error.message : "We couldn’t send your enquiry. Please try again.");
       toast({
         title: "Unable to send",
         description: error instanceof EnquiryDeliveryError ? error.message : "We couldn’t send your enquiry. Please try again.",
@@ -202,9 +217,13 @@ const EventRegistrationForm = ({
   };
   const handleClose = () => {
     if (isSubmitting) return;
-    setSubmitted(false);
-    form.reset();
-    setCurrentStage(1);
+    if (submitted) {
+      form.reset({ fullName: "", companyName: "", email: "", engagementTypes: attendanceOnly ? ["attend"] : [],
+        interestedEvents: eventOptions.some(option => option.id === selectedId) ? [selectedId] : [], gdprConsent: false });
+      setCurrentStage(1);
+      setSubmitted(false);
+      setSubmissionError("");
+    }
     captchaRef.current?.reset();
     onOpenChange(false);
   };
@@ -360,7 +379,7 @@ const EventRegistrationForm = ({
                   <div className="p-4 bg-muted/50 rounded-lg text-base text-muted-foreground leading-relaxed">
                     <p>
                       We use the details you provide to handle your enquiry and any relevant event follow-up. Contact information is not automatically shared with all partners. Any sharing remains subject to explicit consent and our Privacy Policy. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
-                      <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
+                      <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a>.
                     </p>
                   </div>
 
@@ -378,17 +397,25 @@ const EventRegistrationForm = ({
                         </div>
                       </FormItem>} />
 
-                  <ReCAPTCHA
+                  {verification.siteKey && <ReCAPTCHA
+                    key={verification.attempt}
                     ref={captchaRef}
-                    sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc"
+                    sitekey={verification.siteKey}
                     size="invisible"
-                    asyncScriptOnLoad={() => setCaptchaReady(true)}
-                    onErrored={() => { setCaptchaReady(false); toast({ title: "Verification unavailable", description: "Please reload and try again.", variant: "destructive" }); }}
-                  />
+                    asyncScriptOnLoad={verification.loaded}
+                    onErrored={verification.failed}
+                  />}
                 </motion.div>}
             </AnimatePresence>
 
-            {currentStage === 4 && !captchaReady && <p role="status" className="text-base text-muted-foreground">Loading verification. If it does not load, check your connection and reload.</p>}
+            {currentStage === 4 && !captchaReady && <div className="space-y-2">
+              <p role="status" className="text-base text-muted-foreground">{verification.message}</p>
+              {verification.canRetry && <Button type="button" variant="ghost" onClick={verification.retry}>Try verification again</Button>}
+            </div>}
+            {submissionError && <div role="alert" className="space-y-2 text-base text-destructive">
+              <p>{submissionError}</p>
+              <p><a href={partnersContent.hero.primaryCta.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Arrange a call<span className="sr-only"> (opens in a new tab)</span></a> if you need help.</p>
+            </div>}
             {isSubmitting && <p role="status" className="text-base text-muted-foreground">Verifying and sending your request. Please wait.</p>}
             {/* Navigation Buttons */}
             <div className="flex justify-between pt-4 border-t border-border">

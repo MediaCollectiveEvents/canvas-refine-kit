@@ -9,7 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
+import useEnquiryVerification from "@/hooks/useEnquiryVerification";
 import { contactSchema, sendContact, type ContactData } from "@/lib/contact";
+import partnersContent from "@/content/partners.json";
 
 export default function ContactForm({ open, onOpenChange, context }: {
   context?: string;
@@ -17,7 +19,9 @@ export default function ContactForm({ open, onOpenChange, context }: {
   onOpenChange: (open: boolean) => void;
 }) {
   const captchaRef = useRef<ReCAPTCHA>(null);
-  const [captchaReady, setCaptchaReady] = useState(false);
+  const verification = useEnquiryVerification(open);
+  const captchaReady = verification.ready;
+  const [submissionError, setSubmissionError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const form = useForm<ContactData>({
@@ -28,8 +32,11 @@ export default function ContactForm({ open, onOpenChange, context }: {
   const changeOpen = (value: boolean) => {
     if (isSubmitting) return;
     if (!value) {
-      form.reset();
-      setSubmitted(false);
+      if (submitted) {
+        form.reset();
+        setSubmitted(false);
+        setSubmissionError("");
+      }
       captchaRef.current?.reset();
     }
     onOpenChange(value);
@@ -37,6 +44,7 @@ export default function ContactForm({ open, onOpenChange, context }: {
 
   const submit = async (data: ContactData) => {
     setIsSubmitting(true);
+    setSubmissionError("");
     let timeout: ReturnType<typeof setTimeout>;
     try {
       const token = await Promise.race([
@@ -49,7 +57,10 @@ export default function ContactForm({ open, onOpenChange, context }: {
       await sendContact(data, token);
       setSubmitted(true);
     } catch (error) {
-      toast({ title: "Unable to confirm", description: error instanceof EnquiryDeliveryError ? error.message : "Verification could not be completed. Please try again.", variant: "destructive" });
+      if (!(error instanceof EnquiryDeliveryError)) verification.failed();
+      const message = error instanceof EnquiryDeliveryError ? error.message : "Verification could not be completed. Try verification again; your entries are kept.";
+      setSubmissionError(message);
+      toast({ title: "Unable to confirm", description: message, variant: "destructive" });
     } finally {
       clearTimeout(timeout!);
       captchaRef.current?.reset();
@@ -93,10 +104,17 @@ export default function ContactForm({ open, onOpenChange, context }: {
               </FormItem>
             )} />
             <p className="text-base leading-relaxed text-muted-foreground">
-              We use your details to respond to your enquiry. Read our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>.
+              We use your details to respond to your enquiry. Read our <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a>.
             </p>
-            <ReCAPTCHA ref={captchaRef} sitekey="6LeBiU8sAAAAAOmWadJe4sFM-0UaOBkFk-19GyIc" size="invisible" asyncScriptOnLoad={() => setCaptchaReady(true)} onErrored={() => setCaptchaReady(false)} />
-            {!captchaReady && <p role="status" className="text-base text-muted-foreground">Verification is loading. If it stays unavailable, please reload and try again.</p>}
+            {verification.siteKey && <ReCAPTCHA key={verification.attempt} ref={captchaRef} sitekey={verification.siteKey} size="invisible" asyncScriptOnLoad={verification.loaded} onErrored={verification.failed} />}
+            {!captchaReady && <div className="space-y-2">
+              <p role="status" className="text-base text-muted-foreground">{verification.message}</p>
+              {verification.canRetry && <Button type="button" variant="ghost" onClick={verification.retry}>Try verification again</Button>}
+            </div>}
+            {submissionError && <div role="alert" className="space-y-2 text-base text-destructive">
+              <p>{submissionError}</p>
+              <p><a href={partnersContent.hero.primaryCta.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Arrange a call<span className="sr-only"> (opens in a new tab)</span></a> if you need help.</p>
+            </div>}
             <Button type="submit" variant="brand" className="rounded-full" disabled={isSubmitting || !captchaReady}>
               {isSubmitting ? "Sending…" : "Submit"}
             </Button>

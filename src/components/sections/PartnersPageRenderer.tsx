@@ -1,20 +1,26 @@
+import ClosingCTA from "@/components/shared/ClosingCTA";
 import { getOrganisations, getOrganisationById } from "@/lib/organisations";
 import { contentImage } from "@/lib/contentImages";
 // src/components/sections/PartnersPageRenderer.tsx
 import { useReducedMotion } from "framer-motion";
 import React, { useState } from "react";
-import ContactForm from "@/components/ContactForm";
+import OurEventsSection from "./OurEventsSection";
+import AuthorityStrip from "./AuthorityStrip";
 
 import PageSection from "@/components/shared/PageSection";
+import OrganisationsRepresentedSection from "@/components/shared/OrganisationsRepresentedSection";
 import { Button } from "@/components/ui/button";
 
-
-// Sponsor logo imports (your original list)
 
 interface BaseSection {
   id?: string;
   type: string;
   hidden?: boolean;
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  blocks?: { title: string; description?: string }[];
+  cta?: { label: string; url: string };
 }
 
 interface PartnersPageRendererProps {
@@ -22,67 +28,14 @@ interface PartnersPageRendererProps {
   onRegister: () => void;
 }
 
-// ===== CONTENT ARRAYS FROM ORIGINAL Partners.tsx =====
-
 const currentSponsors = getOrganisations();
 
-const benefits = [
-  {
-    title: "Who you can connect with",
-    description: "Bring your organisation into relevant conversations across broadcast, streaming, studios and media technology. We curate a thoughtful mix of people and can facilitate introductions, with space for guests to make their own connections.",
-  },
-  {
-    title: "Less work to bring people together",
-    description: "Agree the purpose, audience and format with us. We can handle invitations, communications and event delivery within the agreed scope, reducing the organising effort for your team.",
-  },
-  {
-    title: "Shared commitment",
-    description: "Supporting an existing gathering can share the cost and operational commitment of bringing people together. Contributions, recognition and programme involvement are agreed individually; particular guests, meetings or speaking roles are not guaranteed.",
-  },
-];
-
-const sponsorshipTiers = [
-  {
-    name: "Strategic Partner",
-    description: "Work with us across a programme of curated gatherings, with a shared purpose and contribution agreed together.",
-    features: [
-      "Programme contribution subject to audience relevance and agreement",
-      "Branding across promotion, communications and venue signage",
-    ],
-    highlighted: false,
-    accentColor: "lime" as const,
-  },
-  {
-    name: "Industry Sponsor",
-    description: "Support a specific event through sponsorship, hosting or a practical contribution.",
-    features: [
-      "Contribution and recognition agreed for the event",
-      "Branding across promotion, communications and venue signage",
-    ],
-    highlighted: true,
-    accentColor: "cyan" as const,
-  },
-  {
-    name: "Custom Event",
-    description: "Develop a gathering around a relevant audience, subject and format.",
-    features: [
-      "Programme themes and format developed together",
-      "Audience curated around relevance and community fit",
-      "Event logistics and content creation managed by The Media Collective",
-      "Branding and venue requirements agreed together",
-      "Programme participation agreed for the event",
-    ],
-    highlighted: false,
-    accentColor: "red" as const,
-  },
-];
-
-function JourneyHeading({ step, title, description }: { step: string; title: string; description: string }) {
+function JourneyHeading({ step, title, description, className = "mb-10" }: { step?: string; title?: string; description?: string; className?: string }) {
   return (
-    <div className="mb-10 max-w-2xl">
-      <p className="mb-3 site-eyebrow text-[#9bd3c8]">{step}</p>
-      <h2 className="site-heading text-[#f7f3eb]">{title}</h2>
-      <p className="mt-4 text-base leading-[1.6] text-slate-300">{description}</p>
+    <div className={`${className} max-w-2xl`}>
+      {step && (title ? <p className="mb-3 site-eyebrow text-[#9bd3c8]">{step}</p> : <h2 className="mb-3 site-eyebrow text-[#9bd3c8]">{step}</h2>)}
+      {title && <h2 className="site-heading text-[#f7f3eb]">{title}</h2>}
+      {description && <p className="font-body mt-4 text-base leading-[1.6] text-slate-300">{description}</p>}
     </div>
   );
 }
@@ -90,41 +43,57 @@ function JourneyHeading({ step, title, description }: { step: string; title: str
 export default function PartnersPageRenderer({ sections }: PartnersPageRendererProps) {
   const reducedMotion = useReducedMotion();
   const [logosPaused, setLogosPaused] = useState(false);
-  const [contactOpen, setContactOpen] = useState(false);
   if (!Array.isArray(sections)) return null;
   const visibleSections = sections.filter(section => !section.hidden);
   return (
     <>
-      <ContactForm open={contactOpen} onOpenChange={setContactOpen} context="Partnership enquiry: tell us whether you would like to support an event or develop a gathering together." />
       {visibleSections.map(section => {
         switch (section.type) {
+          case "authorityStrip":
+            return <AuthorityStrip key={section.id ?? section.type} section={section as React.ComponentProps<typeof AuthorityStrip>["section"]} />;
+          case "partnerProcess":
+            return <PageSection key={section.id ?? section.type} id={section.id} className="site-section-compact border-b border-white/10 bg-background">
+              <JourneyHeading step={section.eyebrow} title={section.heading} />
+              <ol className="max-w-4xl divide-y divide-white/10 text-[#f7f3eb]">
+                {section.blocks?.map((step, index) => <li key={step.title} className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-2 py-5 first:pt-0 last:pb-0 md:grid-cols-[2rem_minmax(0,18rem)_minmax(0,1fr)] md:gap-x-6">
+                  <p aria-hidden="true" className="font-display text-xl font-semibold text-[#8FC7C1]">{index + 1}</p>
+                  <h3 className="font-display text-xl font-medium"><span className="sr-only">Step {index + 1}: </span>{step.title}</h3>
+                  <p className="max-w-[65ch] font-body text-base leading-relaxed text-slate-300 col-start-2 md:col-start-auto">{step.description}</p>
+                </li>)}
+              </ol>
+            </PageSection>;
+          case "ourEvents":
+            return <OurEventsSection presentation="editorial" key={section.id ?? section.type} section={section as React.ComponentProps<typeof OurEventsSection>["section"]} />;
+          case "organisationsRepresented":
+            return <OrganisationsRepresentedSection key={section.id ?? section.type} section={section as React.ComponentProps<typeof OrganisationsRepresentedSection>["section"]} />;
           case "partnersLogos":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
-                <JourneyHeading step="The partner community" title="In good company." description="Our events are made possible with the support of these media and technology companies." />
-                <div tabIndex={0} role="region" aria-label="Partner logos" className="group overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
+              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 bg-background">
+                <JourneyHeading step="THE PARTNER COMMUNITY" title="In good company." description={section.body} />
+                <div tabIndex={0} role="region" aria-label="Partner logos" aria-keyshortcuts="Space" aria-description={reducedMotion ? undefined : logosPaused ? "Logo movement paused. Press Space to resume." : "Press Space to pause logo movement."}
+                  onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setLogosPaused(value => !value); } }} className="group overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
                   {/* Equal-width sequences keep the existing half-track animation seamless. */}
-                  <div style={{ animationDuration: "160s", animationPlayState: logosPaused ? "paused" : undefined }} className="flex w-max motion-safe:animate-scroll group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none">
+                  <div style={{ animationDuration: "53.333333s", animationPlayState: logosPaused ? "paused" : undefined }} className="flex w-max motion-safe:animate-scroll group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none">
                     {[false, true].map(duplicate => (
                       <ul key={String(duplicate)} aria-hidden={duplicate || undefined}
                         className={`flex shrink-0 gap-3 pr-3 ${duplicate ? "motion-reduce:hidden" : "motion-reduce:grid motion-reduce:w-full motion-reduce:grid-cols-2 motion-reduce:pr-0 sm:motion-reduce:grid-cols-3 lg:motion-reduce:grid-cols-7"}`}>
                         {currentSponsors.map(sponsor => (
                           <li key={sponsor.src} id={!duplicate && sponsor.id && getOrganisationById(sponsor.id) ? `organisation-${sponsor.id}` : undefined} className="flex h-24 w-44 shrink-0 items-center justify-center rounded-sm bg-white p-3 motion-reduce:w-auto">
-                            <img src={contentImage(sponsor.src)} alt={duplicate ? "" : sponsor.alt || sponsor.name || "Organisation logo"} loading="lazy" className="h-16 w-full object-contain" />
+                            <img src={contentImage(sponsor.src)} alt={duplicate ? "" : sponsor.alt || sponsor.name || "Organisation logo"} loading="eager" className="h-16 w-full object-contain" />
                           </li>
                         ))}
                       </ul>
                     ))}
                   </div>
                 </div>
-                {!reducedMotion && <button type="button" aria-pressed={logosPaused} onClick={() => setLogosPaused(value => !value)} className="mt-4 inline-flex min-h-11 items-center font-display text-base font-medium text-[#35C5BB] hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">{logosPaused ? "Resume logo movement" : "Pause logo movement"}</button>}
+
                 <div className="mt-8 space-y-8">
                   {currentSponsors.filter(organisation => organisation.description || organisation.contribution || organisation.website).map(organisation => (
                     <div key={organisation.src}>
                       <h3 className="text-lg font-medium">{organisation.name || organisation.alt}</h3>
                       {organisation.description && <p className="mt-2 text-base text-white/75">{organisation.description}</p>}
                       {organisation.contribution && <p className="mt-2 text-base text-white/75">{organisation.contribution}</p>}
-                      {organisation.website && <a href={organisation.website} target="_blank" rel="noopener noreferrer" className="font-display mt-2 inline-flex min-h-11 items-center text-base underline">Visit website ↗</a>}
+                      {organisation.website && <a href={organisation.website} target="_blank" rel="noopener noreferrer" className="site-secondary-action mt-2">Visit website ↗</a>}
                     </div>
                   ))}
                 </div>
@@ -132,14 +101,14 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
             );
           case "partnersBenefits":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-objectives" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
-                <JourneyHeading step="Audience and delivery" title="Develop a programme together." description="A trusted setting for relationship building, with shared commitment and less organising effort for your team." />
-                <div className="grid gap-8 md:grid-cols-3">
-                  {benefits.map(benefit => (
-                    <div key={benefit.title} className="border-t border-white/10 pt-6">
+              <PageSection key={section.id ?? section.type} id="partner-objectives" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">
+                <JourneyHeading step={section.eyebrow} title={section.heading} description={section.body} />
+                <div className="grid gap-x-10 gap-y-6 md:grid-cols-2 md:grid-flow-col md:grid-rows-3">
+                  {(section.blocks ?? []).map(benefit => (
+                    <div key={benefit.title} className="min-w-0 border-t border-white/10 pt-4">
 
-                      <h3 className="mb-3 text-lg font-medium text-white">{benefit.title}</h3>
-                      <p className="max-w-sm text-base leading-[1.6] text-slate-300">{benefit.description}</p>
+                      <h3 className="mb-3 text-lg font-medium text-primary">{benefit.title}</h3>
+                      {benefit.description && <p className="text-base leading-[1.6] text-slate-300">{benefit.description}</p>}
                     </div>
                   ))}
                 </div>
@@ -147,18 +116,15 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
             );
           case "partnersTiers":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-formats" className="scroll-mt-28 border-b border-white/10 site-surface-dark">
-                <JourneyHeading step="Ways to participate" title="Explore ways to take part." description="Support a specific event or develop a tailored partnership. Scope and recognition are agreed together. Final guest and programme curation remains with The Media Collective; introductions and attendance are not guaranteed. Any sharing of guest information requires explicit consent." />
+              <PageSection key={section.id ?? section.type} id="partner-formats" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">
+                <JourneyHeading step={section.eyebrow} title={section.heading} description={section.body} className="mb-10 !max-w-none" />
                 <div className="grid gap-8 md:grid-cols-3">
-                  {sponsorshipTiers.map(tier => (
-                    <article key={tier.name} className="min-w-0 border-t border-white/10 pt-6">
-                      <p className="font-display mb-4 text-sm font-medium uppercase tracking-[0.12em] text-[#9bd3c8]">{tier.name === "Strategic Partner" ? "Contribute to the programme" : tier.name === "Industry Sponsor" ? "Support the event" : "Develop a bespoke experience"}</p>
-                      <h3 className="font-display text-3xl font-light text-[#f7f3eb]">{tier.name}</h3>
-                      <p className="mt-3 text-base md:mt-4 md:min-h-[6rem] leading-relaxed text-slate-300">{tier.description}</p>
-                      <p className="mb-3 mt-4 border-t border-white/10 pt-3 md:mb-4 md:mt-6 md:pt-5 font-display text-sm font-medium text-white">Partnership scope</p>
-                      <ul className="space-y-2.5 md:space-y-4">
-                        {tier.features.map(feature => <li key={feature} className="text-base leading-relaxed text-slate-300">{feature}</li>)}
-                      </ul>
+                  {(section.blocks ?? []).map(block => (
+                    <article key={block.title} className="min-w-0 border-t border-white/10 pt-6">
+                      <h3 className="font-display text-2xl font-light text-[#f7f3eb]">{block.title}</h3>
+                      {block.description?.includes("\n") ? <ul className="mt-3 list-disc space-y-2 pl-4 text-base leading-relaxed text-slate-300 md:mt-4">
+                        {block.description.split("\n").filter(Boolean).map(item => <li key={item}>{item}</li>)}
+                      </ul> : <p className="mt-3 text-base md:mt-4 leading-relaxed text-slate-300">{block.description}</p>}
                     </article>
                   ))}
                 </div>
@@ -167,14 +133,8 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
             );
           case "joinUs":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-conversation" className="scroll-mt-28 site-surface-emphasis">
-                <div className="max-w-2xl">
-                  <div>
-                    <JourneyHeading step="Partner with us" title="Discuss a partnership." description="Tell us about the gathering you have in mind. We’ll follow up to discuss the possibilities." />
-                    <Button variant="brand" size="lg" onClick={() => setContactOpen(true)}>Discuss a partnership</Button>
-                  </div>
-                </div>
-              </PageSection>
+              <ClosingCTA key={section.id ?? section.type} id="partner-conversation" eyebrow={section.eyebrow} heading={section.heading} headingClassName="!text-[25.6px] !leading-[37.5px] md:!leading-10"
+                action={section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>} />
             );
           default:
             return null;

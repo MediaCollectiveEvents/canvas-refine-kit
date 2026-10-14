@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Linkedin } from "lucide-react";
 import AttendanceCTA from "@/components/shared/AttendanceCTA";
 
-export default function Footer() {
+export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCTA?: boolean }) {
   const { pathname } = useLocation();
   const hasContextualEnding =
     /^\/(?:faq|partners|privacy-policy|blog)\/?$/.test(pathname) ||
@@ -12,7 +12,7 @@ export default function Footer() {
 
   return (
     <>
-      {!isAdmin && !hasContextualEnding && <AttendanceCTA calendarContext={pathname === "/events/calendar"} />}
+      {!hideAttendanceCTA && !isAdmin && !hasContextualEnding && <AttendanceCTA calendarContext={pathname === "/events/calendar"} />}
     <footer id="contact" className="site-gutter border-t border-white/10 bg-[#08111f]">
       <div className="site-container flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6 sm:py-3 xl:gap-10">
         <a

@@ -157,7 +157,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
       grid={false}
       withFades={false}
       animateOnScroll={false}
-      className="relative border-b border-white/10 text-[#f7f3eb]"
+      className="relative border-b border-white/10 text-[#f7f3eb] !pb-12 md:!pb-16"
     >
       <div className="relative z-10 grid items-start gap-y-10 xl:grid-cols-4">
         <div className="min-w-0 xl:pr-5">
@@ -166,22 +166,28 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
             {section?.heading || "Community voices"}
           </SectionTitle>
 
-          <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-300">{section?.styleTitle?.sub || "Thoughtful discussion, introductions and collaboration."}</p>
+          <p className="mt-5 max-w-2xl xl:max-w-sm text-base leading-relaxed text-slate-300">{section?.styleTitle?.sub || "Thoughtful discussion, introductions and collaboration."}</p>
 
         </div>
 
         <div
+          tabIndex={0}
+          role="region"
+          aria-label="Testimonials"
+          aria-keyshortcuts="Space"
+          aria-description={reducedMotion ? undefined : userPaused ? "Automatic rotation paused. Press Space to resume." : "Press Space to pause automatic rotation."}
+          onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setUserPaused(value => !value); } }}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocusCapture={() => setPaused(true)}
           onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}
-          className="relative min-w-0 pt-6 font-body xl:col-span-3 xl:pl-5"
+          className="relative min-w-0 pt-6 font-body xl:col-span-3 xl:pl-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300"
         >
           <div className="grid">
             {/* Invisible copies reserve only the height required by the longest CMS item at this width. */}
             {testimonials.map((item, itemIndex) => (
               <div key={itemIndex} aria-hidden="true" className="invisible pointer-events-none [grid-area:1/1]">
-                <blockquote className="max-w-[40ch] font-body font-normal text-2xl md:text-3xl leading-[1.6]">
+                <blockquote className="max-w-[40ch] md:max-w-[52ch] font-body font-normal text-2xl md:text-3xl leading-[1.6]">
                   {item.quote.map((sentence, sentenceIndex) => <p key={sentenceIndex} className="mb-4 last:mb-0">{sentence}</p>)}
                 </blockquote>
                 <div className="mt-3">
@@ -204,7 +210,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
               <blockquote
                 className="
                   relative
-                  max-w-[40ch]
+                  max-w-[40ch] md:max-w-[52ch]
                   font-body font-normal
                   text-2xl md:text-3xl
                   leading-[1.6]
@@ -217,7 +223,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                   className="
                     absolute
                     left-0
-                    -top-7
+                    -top-5
                     text-[#27CDBA]
                     text-[2.2rem]
                     leading-none
@@ -261,7 +267,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
 
           {testimonials.length > 1 && (
             <div className="mt-4 flex flex-wrap items-center gap-1">
-              {!reducedMotion && <button type="button" aria-pressed={userPaused} onClick={() => setUserPaused(value => !value)} className="mr-3 inline-flex min-h-11 items-center font-display text-base font-medium text-[#9bd3c8] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300">{userPaused ? "Resume testimonials" : "Pause testimonials"}</button>}
+
               {testimonials.map((_, dotIndex) => {
                 const active = dotIndex === index;
 

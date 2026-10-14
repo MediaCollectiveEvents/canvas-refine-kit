@@ -2,10 +2,10 @@
   "hero": {
     "imagePosition": "top",
     "theme": "dark",
-    "eyebrow": "Partnership Opportunities",
+    "eyebrow": "PARTNERSHIP OPPORTUNITIES",
     "primaryCta": {
-      "label": "Discuss a partnership",
-      "url": "/register"
+      "label": "Arrange a Call",
+      "url": "https://calendly.com/mediacollective/call-with-chris"
     },
     "imageOffset": 10,
     "cta": {
@@ -14,30 +14,160 @@
     },
     "overlayStrength": 0,
     "mobileCrop": "cover",
-    "title": "Partner with us",
-    "image": "/uploads/partners-hero-v2.png",
-    "description": "Create focused in-person events around the people and conversations that matter to your organisation, without taking on the full cost or operational burden of doing it alone."
+    "title": "We bring together the people you want to work with.",
+    "image": "/uploads/website-hero-partners.png",
+    "description": "Support events and connect with our community."
   },
   "sections": [
     {
-      "id": "benefits",
-      "type": "partnersBenefits",
-      "hidden": false
-    },
-    {
-      "id": "logos",
-      "type": "partnersLogos",
-      "hidden": false
+      "id": "partner-events",
+      "type": "ourEvents",
+      "hidden": false,
+      "eyebrow": "OUR EVENTS",
+      "heading": "Find the right event for your brand.",
+      "body": "The Media Collective delivers a programme of discussions, networking gatherings and social events throughout the year.",
+      "items": [
+        {
+          "eventId": 4,
+          "title": "OFF AIR"
+        },
+        {
+          "eventId": 6,
+          "title": "IBC Networking Breakfast"
+        },
+        {
+          "eventId": 5,
+          "title": "MPTS Networking Reception"
+        },
+        {
+          "eventId": 7,
+          "title": "IBC Decompression Party"
+        },
+        {
+          "eventId": 8,
+          "title": "The Green Line"
+        }
+      ],
+      "showHistory": true
     },
     {
       "id": "tiers",
       "type": "partnersTiers",
-      "hidden": false
+      "hidden": false,
+      "eyebrow": "PARTNERSHIP",
+      "body": "Build your presence, meet the people you want to work with and take an active role before, during and after the event.",
+      "blocks": [
+        {
+          "title": "Before the event",
+          "description": "Branding and a listing on the event registration page\nInclusion in relevant event communications\nWe can invite the people you want to connect with, where appropriate\nOpportunities for you to invite relevant guests\nAssociation with the event and its themes"
+        },
+        {
+          "title": "During the event",
+          "description": "Appropriate on-site branding and presence\nConnect with people from across our community\nWhere the format allows, opportunities to speak, host a session, join a panel or share a case study"
+        },
+        {
+          "title": "After the event",
+          "description": "Inclusion in relevant follow-up communications\nContinued visibility through selected event content\nPhotography or video where available\nOpportunities to build on relationships started at the event\nOngoing association with relevant Media Collective activity where appropriate"
+        }
+      ],
+      "heading": "Visibility is only the start."
+    },
+    {
+      "id": "benefits",
+      "type": "partnersBenefits",
+      "hidden": false,
+      "eyebrow": "",
+      "heading": "Ways to take part.",
+      "body": "For discussion-led events, there may also be opportunities to contribute to the programme.",
+      "blocks": [
+        {
+          "title": "Share your vision",
+          "description": "Bring your perspective to the programme through a keynote, case study, fireside chat or other editorial contribution."
+        },
+        {
+          "title": "Take part in a panel",
+          "description": "Join a discussion with other industry voices and share your experience on a topic relevant to the audience."
+        },
+        {
+          "title": "Host a session",
+          "description": "Host a panel, fireside chat or focused session around a topic relevant to the audience."
+        },
+        {
+          "title": "Present a case study",
+          "description": "Use a real-world example to show how your organisation is approaching a challenge, delivering change or creating new opportunities."
+        },
+        {
+          "title": "Help shape the programme",
+          "description": "Contribute ideas, themes and questions that could inform the event, while Media Collective retains responsibility for the final programme."
+        }
+      ]
     },
     {
       "id": "cta",
       "type": "joinUs",
-      "hidden": false
+      "hidden": false,
+      "eyebrow": "PARTNER WITH US",
+      "heading": "Talk to us about how we can connect you with our community.",
+      "body": "",
+      "cta": {
+        "label": "Arrange a Call",
+        "url": "https://calendly.com/mediacollective/call-with-chris"
+      }
+    },
+    {
+      "id": "partner-authority",
+      "type": "authorityStrip",
+      "hidden": true,
+      "eyebrow": "AT A GLANCE",
+      "metrics": [
+        {
+          "value": "300+",
+          "label": "Companies Represented"
+        },
+        {
+          "value": "5",
+          "label": "Event Formats"
+        }
+      ],
+      "locations": [
+        "London &",
+        "Amsterdam"
+      ]
+    },
+    {
+      "id": "who-youll-meet",
+      "type": "organisationsRepresented",
+      "hidden": true,
+      "eyebrow": "WHO ATTENDS",
+      "heading": "People from across the industry.",
+      "body": "Representatives from these organisations have attended our events. They work across broadcasting, streaming, studios, sports and media technology.",
+      "subheading": "Organisations Represented",
+      "organisations": [
+        "Amazon MGM Studios",
+        "Apple",
+        "BBC",
+        "Canal+",
+        "Channel 4",
+        "Comcast",
+        "DAZN",
+        "Disney",
+        "Formula One",
+        "Google",
+        "ITV",
+        "Netflix",
+        "Paramount",
+        "Premier League",
+        "Roku",
+        "Sky",
+        "Sony",
+        "Warner Bros. Discovery"
+      ]
+    },
+    {
+      "id": "logos",
+      "type": "partnersLogos",
+      "hidden": true,
+      "body": "Working with organisations across media and technology."
     }
   ]
 }

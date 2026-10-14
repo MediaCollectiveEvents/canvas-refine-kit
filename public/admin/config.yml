@@ -124,6 +124,54 @@ collections:
             widget: list
             summary: "{{fields.type}} – {{fields.heading}}"
             types:
+              - label: Our Events
+                name: ourEvents
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: ourEvents }
+                  - { label: ID, name: id, widget: string, required: false }
+                  - { label: Section Label, name: eyebrow, widget: string }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Copy, name: body, widget: text }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
+                  - label: Events
+                    name: items
+                    widget: list
+                    summary: "{{fields.title}}"
+                    fields:
+                      - label: Event
+                        name: eventId
+                        widget: relation
+                        collection: events
+                        file: eventsContent
+                        search_fields: ["events.*.title", "events.*.id"]
+                        display_fields: ["events.*.title"]
+                        value_field: "events.*.id"
+                      - { label: Display Name, name: title, widget: string, required: false }
+              - label: Community Authority Strip
+                name: authorityStrip
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: authorityStrip }
+                  - { label: ID, name: id, widget: string, required: false }
+                  - label: Statistics
+                    name: metrics
+                    widget: list
+                    fields:
+                      - { label: Value, name: value, widget: string }
+                      - { label: Label, name: label, widget: string }
+                  - { label: Sectors, name: sectors, widget: list }
+                  - { label: Locations, name: locations, widget: list }
+              - label: Organisations Represented
+                name: organisationsRepresented
+                widget: object
+                fields:
+                  - { label: Type, name: type, widget: hidden, default: organisationsRepresented }
+                  - { label: ID, name: id, widget: string, required: false }
+                  - { label: Section Label, name: eyebrow, widget: string, required: false }
+                  - { label: Heading, name: heading, widget: string }
+                  - { label: Copy, name: body, widget: text }
+                  - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
               - label: Events for you
                 name: eventDiscovery
                 widget: object
@@ -771,6 +819,27 @@ collections:
                 widget: select
                 required: false
                 options: [upcoming, past]
+              - label: Purpose / Format Tags
+                name: formatTags
+                widget: select
+                multiple: true
+                required: false
+                options: [networking, social, industry-forum, discussion, breakfast, lunch, dinner, reception, drinks, journey]
+                hint: "Include networking for every Media Collective event. Add only confirmed formats; do not use these as subject topics."
+              - label: Conference Alignment
+                name: conferenceAlignment
+                widget: select
+                multiple: true
+                required: false
+                options: [IBC, MPTS, NAB, LSE]
+                hint: "Select only conferences/shows genuinely associated with this event."
+              - label: Event Themes / Topics
+                name: themeTags
+                widget: select
+                multiple: true
+                required: false
+                options: [AI, Monetisation, UX, Streaming, Broadcast, Live sports, Platforms, Distribution, Infrastructure, Production, Advertising, Content, Data, Cloud, Sustainability]
+                hint: "Use only themes explicitly addressed by the agenda or description. Audience sectors alone are not programme topics."
               - label: Experience Categories
                 name: experienceCategories
                 widget: select
@@ -807,10 +876,15 @@ collections:
               - { label: Ends At, name: endsAt, widget: string, required: false, hint: "Confirmed ISO 8601 timestamp with UTC offset. Leave blank until confirmed." }
               - { label: Time Zone, name: timeZone, widget: string, required: false, hint: "Confirmed IANA zone, for example Europe/London. Do not infer from venue." }
               - { label: Time, name: time, widget: string, required: false }
+              - { label: Event History, name: historyLabel, widget: string, required: false }
+              - { label: Capacity, name: capacity, widget: number, value_type: int, min: 1, required: false }
+              - { label: Editorial Capacity Number, name: capacity_number, widget: number, value_type: int, min: 1, required: false }
+              - { label: Editorial Capacity Label, name: capacity_label, widget: select, options: [Attendees, Seats], required: false }
+              - { label: Editorial Event Summary, name: card_summary, widget: text, required: false }
               - { label: Summary, name: summary, widget: text, required: false }
-              - { label: Description, name: description, widget: text, required: false }
+              - { label: Introduction, name: description, widget: text, required: false }
               - { label: Details, name: details, widget: text, required: false }
-              - { label: Title, name: title, widget: string }
+              - { label: Event Name, name: title, widget: string }
               - { label: Location, name: location, widget: string, required: false }
               - { label: Venue, name: venue, widget: string, required: false }
               - label: Date
@@ -819,6 +893,59 @@ collections:
                 format: "YYYY-MM-DD"
                 required: false
               - { label: Image Key (for mapping), name: imageKey, widget: string, required: false }
+              - { label: Partner Event, name: partnerEvent, widget: boolean, required: false, default: false, hint: "Independent organiser; never uses the Media Collective invitation form." }
+              - { label: Partner Event Copy, name: partnerEventCopy, widget: text, required: false }
+              - { label: Departure, name: departure, widget: string, required: false }
+              - { label: Destination, name: destination, widget: string, required: false }
+              - { label: CTA Label, name: ctaLabel, widget: string, required: false }
+              - { label: Subtitle, name: subtitle, widget: string, required: false }
+              - label: Hero Highlights
+                name: heroHighlights
+                widget: list
+                required: false
+                hint: "Short factual audience, format and attendance labels. Replaces the plain hero tag row; taxonomy is unchanged."
+                field: { label: Highlight, name: highlight, widget: string }
+              - label: Status Label
+                name: statusLabel
+                widget: select
+                required: false
+                options: [Next Event, Upcoming Event, Featured Event, Registration Closed]
+                hint: "Optional display label. Date/status still determine whether an event has finished."
+              - { label: Attendance Statement, name: attendanceStatement, widget: text, required: false, hint: "Defaults to free attendance with limited, curated invitations." }
+              - { label: Featured Image, name: image, widget: image, required: false, hint: "Upload artwork for this event. Existing image keys remain supported." }
+              - { label: Who Attends, name: whoAttends, widget: text, required: false }
+              - label: Why Attend
+                name: whyAttend
+                widget: list
+                required: false
+                field: { label: Outcome, name: outcome, widget: string }
+              - label: What To Expect
+                name: whatToExpect
+                widget: list
+                required: false
+                field: { label: Experience, name: experience, widget: text }
+              - label: Programme
+                name: programme
+                widget: list
+                required: false
+                fields:
+                  - { label: Time, name: time, widget: string, required: false }
+                  - { label: Description, name: description, widget: text }
+              - label: Partners
+                name: partners
+                widget: list
+                required: false
+                hint: "Only organisations actively contributing to this event."
+                fields:
+                  - { label: Partner Name, name: name, widget: string }
+                  - { label: Partner Logo, name: logo, widget: image, required: false }
+                  - { label: External URL, name: url, widget: string, required: false }
+              - { label: CTA Heading, name: ctaHeading, widget: string, required: false }
+              - { label: CTA Copy, name: ctaCopy, widget: text, required: false }
+              - { label: Registration Link, name: registrationLink, widget: string, required: false, hint: "Optional HTTP(S) or site URL. Leave blank to use the existing invitation form." }
+              - { label: SEO Title, name: seoTitle, widget: string, required: false }
+              - { label: SEO Description, name: seoDescription, widget: text, required: false }
+              - { label: Social Image, name: socialImage, widget: image, required: false }
 
   - name: eventsPage
     label: Events Page Layout
@@ -838,6 +965,8 @@ collections:
                 name: type
                 widget: select
                 options:
+                  - { label: Event Formats, value: eventFormats }
+                  - { label: Event Categories, value: eventCategories }
                   - { label: Intro Block, value: eventsIntro }
                   - { label: Events List, value: eventsList }
                   - { label: Join Us CTA, value: joinUs }
@@ -845,6 +974,32 @@ collections:
               - { label: Title, name: title, widget: string, required: false }
               - { label: Accent Word, name: accentWord, widget: string, required: false }
               - { label: Body, name: body, widget: text, required: false }
+              - { label: Section Label, name: eyebrow, widget: string, required: false }
+              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Format Events
+                name: items
+                widget: list
+                required: false
+                fields: &programme_event_fields
+                  - label: Event
+                    name: eventId
+                    widget: relation
+                    collection: events
+                    file: eventsContent
+                    search_fields: ["events.*.title", "events.*.id"]
+                    display_fields: ["events.*.title"]
+                    value_field: "events.*.id"
+                  - { label: Display Name, name: title, widget: string, required: false }
+              - label: Categories
+                name: groups
+                widget: list
+                required: false
+                fields:
+                  - { label: Category, name: label, widget: string }
+                  - label: Events
+                    name: items
+                    widget: list
+                    fields: *programme_event_fields
               - label: CTA
                 name: cta
                 widget: object
@@ -930,10 +1085,92 @@ collections:
                 widget: select
                 options:
                   - { label: Partners Logos Carousel, value: partnersLogos }
-                  - { label: Partners Benefits Cards, value: partnersBenefits }
-                  - { label: Partners Tiers Packages, value: partnersTiers }
+                  - { label: Event Programme, value: ourEvents }
+                  - { label: Authority Strip, value: authorityStrip }
+                  - { label: Partnership Process, value: partnerProcess }
+                  - { label: Partnership Opportunities, value: partnersBenefits }
+                  - { label: Organisations Represented, value: organisationsRepresented }
+                  - { label: Ways We Can Work Together, value: partnersTiers }
                   - { label: Join Us CTA, value: joinUs }
               - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
+              - { label: Section Label, name: eyebrow, widget: string, required: false }
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Copy, name: body, widget: text, required: false }
+              - { label: Subheading, name: subheading, widget: string, required: false }
+              - { label: Organisations Represented, name: organisations, widget: list, required: false }
+              - { label: Show Event History, name: showHistory, widget: boolean, required: false, default: false }
+              - { label: Locations, name: locations, widget: list, required: false }
+              - label: Statistics
+                name: metrics
+                widget: list
+                required: false
+                fields:
+                  - { label: Value, name: value, widget: string }
+                  - { label: Label, name: label, widget: string }
+              - label: Content Blocks
+                name: blocks
+                widget: list
+                required: false
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Description, name: description, widget: text, required: false }
+              - label: Programme Events
+                name: items
+                widget: list
+                required: false
+                fields:
+                  - label: Event
+                    name: eventId
+                    widget: relation
+                    collection: events
+                    file: eventsContent
+                    search_fields: ["events.*.title", "events.*.id"]
+                    display_fields: ["events.*.title"]
+                    value_field: "events.*.id"
+                  - { label: Display Name, name: title, widget: string, required: false }
+                  - { label: Context Summary, name: summary, widget: text, required: false }
+              - label: CTA
+                name: cta
+                widget: object
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: URL, name: url, widget: string }
+
+  - name: communityPage
+    label: Community Page
+    files:
+      - name: communityPage
+        label: Community Page Content
+        file: "src/content/community.json"
+        format: json
+        fields:
+          - label: Hero
+            name: hero
+            widget: object
+            fields:
+              - { label: Eyebrow, name: eyebrow, widget: string }
+              - { label: Title, name: title, widget: string }
+              - { label: Supporting Copy, name: description, widget: text }
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.id}}"
+            fields:
+              - { label: ID, name: id, widget: string }
+              - { label: Type, name: type, widget: select, options: [editorial, organisations, faq, cta] }
+              - { label: Section Label, name: eyebrow, widget: string, required: false }
+              - { label: Heading, name: heading, widget: string, required: false }
+              - { label: Copy, name: body, widget: text, required: false }
+              - { label: Organisations Represented, name: organisations, widget: list, required: false }
+              - { label: Button Label, name: buttonLabel, widget: string, required: false }
+              - label: FAQs
+                name: faqs
+                widget: list
+                required: false
+                fields:
+                  - { label: Question, name: question, widget: string }
+                  - { label: Answer, name: answer, widget: text }
 
   - name: blogPage
     label: Blog Page
@@ -1260,6 +1497,7 @@ collections:
                   - { label: Events, value: events }
                   - { label: Blog, value: blog }
                   - { label: Partners, value: partners }
+                  - { label: Community, value: community }
                   - { label: FAQ, value: faq }
               - { label: URL Override (optional), name: url, widget: string, required: false, hint: "If set, this link will go here instead of the standard page route." }
   - name: contributors

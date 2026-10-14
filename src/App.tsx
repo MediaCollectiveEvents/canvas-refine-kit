@@ -6,9 +6,9 @@ import settings from "@/content/settings.json";
 // Pages
 import Home from "@/pages/Home";
 const Events = lazy(() => import("@/pages/Events"));
-const EventPlanner = lazy(() => import("@/pages/EventPlanner"));
 const EventDetails = lazy(() => import("@/pages/EventDetails"));
 const Partners = lazy(() => import("@/pages/Partners"));
+const Community = lazy(() => import("@/pages/Community"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const MyNewPage = lazy(() => import("@/pages/MyNewPage"));
@@ -60,7 +60,8 @@ const App = () => {
 
               {/* Events */}
               <Route path="/events" element={<Events />} />
-              <Route path="/events/calendar" element={<EventPlanner />} />
+              {/* Calendar is temporarily deferred; its page, data and downloads remain intact. */}
+              <Route path="/events/calendar" element={<Navigate to="/" replace />} />
               <Route path="/events/:id" element={<EventDetails />} />
 
               {/* Phase 2: Insights listing + individual posts temporarily unavailable. */}
@@ -69,6 +70,7 @@ const App = () => {
 
               {/* Partners & Sponsors */}
               <Route path="/partners" element={<Partners />} />
+              <Route path="/community" element={<Community />} />
 
               {/* FAQ & Policy */}
               <Route path="/faq" element={<FAQ />} />

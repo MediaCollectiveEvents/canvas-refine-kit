@@ -3,6 +3,11 @@ import test from "node:test";
 import { createElement, type ComponentType, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import Home from "../src/pages/Home";
+import Community from "../src/pages/Community";
+import CommunityPreview from "../src/cms/previews/CommunityPreview";
+import community from "../src/content/community.json";
+import eventsPage from "../src/content/eventsPage.json";
+import OurEventsSection from "../src/components/sections/OurEventsSection";
 import About from "../src/pages/About";
 import Events from "../src/pages/Events";
 import EventDetails from "../src/pages/EventDetails";
@@ -11,6 +16,7 @@ import EventsListing from "../src/components/sections/EventsListing";
 import { formatEventDate, isPastEvent, getAllEvents, getPastEvents, getUpcomingEvents } from "../src/lib/events";
 import Blog from "../src/pages/Blog";
 import Partners from "../src/pages/Partners";
+import PartnersPageRenderer from "../src/components/sections/PartnersPageRenderer";
 import FAQ from "../src/pages/FAQ";
 import HomepagePreview from "../src/cms/previews/HomepagePreview";
 import { AboutPreview, PartnersPreview, FaqPreview } from "../src/cms/previews/EditorialPagePreview";
@@ -46,6 +52,7 @@ function render(node: ReactElement) {
 }
 const cases = [
   { route: "/", Page: Home, Preview: HomepagePreview, data: homepage },
+  { route: "/community", Page: Community, Preview: CommunityPreview, data: community },
   { route: "/about", Page: About, Preview: AboutPreview, data: about },
   { route: "/events", Page: Events, Preview: EventsPreview, data: events },
   { route: "/blog", Page: Blog, Preview: BlogPagePreview, data: blog },
@@ -77,8 +84,25 @@ for (const { route, Page, Preview, data } of cases) {
   });
 }
 
-test("unused legacy events configuration is clearly identified", () => {
-  assert.match(render(createElement(LegacyEventsPagePreview)), /legacy configuration is not used by the live Events page/);
+test("event layout CMS preview renders draft formats and identifies the canonical event source", () => {
+  const draft = { ...eventsPage, sections: eventsPage.sections.map(section => section.type === "eventFormats" ? { ...section, hidden: false, heading: "Draft format heading" } : section) };
+  const html = render(createElement(LegacyEventsPagePreview, { entry: entry(draft) }));
+  assert.match(html, /Draft format heading/);
+  assert.match(html, /Edit Events Content &amp; List for the hero and individual events/);
+});
+
+test("event format references use canonical capacity and omit unresolved records", () => {
+  const html = render(createElement(OurEventsSection, { section: { heading: "Formats", items: [{ eventId: "4", title: "Referenced event" }, { eventId: 999, title: "Missing event" }] } }));
+  assert.match(html, /Referenced event/);
+  assert.match(html, />100</);
+  assert.doesNotMatch(html, /Missing event/);
+});
+
+test("Events listings display confirmed editorial capacities with their attendee or seat labels", () => {
+  const markup = render(createElement(PreviewProviders, { route: "/events", children: createElement(EventsListing) }));
+  for (const event of getUpcomingEvents().filter(event => event.capacity_number !== undefined)) {
+    assert.ok(markup.includes(`Capacity: ${event.capacity_number} ${event.capacity_label?.toLowerCase()}`), event.title);
+  }
 });
 
 
@@ -123,13 +147,13 @@ test("direct past-event routes still render their event details", () => {
   </PreviewProviders>);
   assert.ok(markup.includes(event.title));
   assert.match(markup, /Past event/);
-  assert.match(markup, /About this gathering/);
+  assert.match(markup, /About This Event/);
 });
 
 
 test("homepage introduces the Collective, flagship events and attendee testimonials", () => {
   const markup = render(createElement(PreviewProviders, { route: "/", children: createElement(Home) }));
-  assert.match(markup, /Meet peers • Keep informed • Stay connected/);
+  assert.match(markup, /INSIGHTS\. CONVERSATIONS\. CONNECTIONS\./);
   assert.match(markup, /Flagship events/);
   assert.match(markup, /About the Collective/);
   assert.ok(!markup.includes("By interest"));
@@ -137,7 +161,7 @@ test("homepage introduces the Collective, flagship events and attendee testimoni
   assert.match(markup.replace(/<[^>]*>/g, ""), /In their words/);
   assert.ok(!markup.includes("WELCOME"));
   assert.ok(!markup.includes("Browse by interest"));
-  assert.ok(markup.includes("Full calendar"));
+  assert.ok(!markup.includes("Full calendar"));
   assert.ok(!markup.includes("See what’s coming up"));
   assert.ok(!markup.includes("Explore upcoming events or register your interest for future gatherings."));
 });
@@ -163,7 +187,7 @@ test("homepage event index shows all canonical upcoming events in order without 
   }
   assert.ok(markup.includes("/uploads/Venue tiles/broadcaster.png"));
   assert.match(markup, /href="\/events"[^>]*>View all events/);
-  assert.match(markup, /href="\/events\/calendar"[^>]*>Full calendar/);
+  assert.ok(!markup.includes('href="/events/calendar"'));
   assert.ok(!markup.includes("aria-pressed"));
   assert.ok(!markup.includes("<button"));
 });
@@ -183,7 +207,7 @@ test("homepage upcoming presentation shows only the next chronological event", (
 });
 
 test("Events listing retains OFF AIR, contextual metadata and chronological year groups", () => {
-  const markup = render(createElement(EventsListing));
+  const markup = render(<PreviewProviders route="/events"><EventsListing /></PreviewProviders>);
   assert.ok(markup.includes("OFF AIR: The Unfiltered Future of Media"));
   assert.ok(markup.includes('href="/events/4"'));
   assert.ok(!markup.includes("Illustrative artwork"));
@@ -198,15 +222,16 @@ test("Events listing retains OFF AIR, contextual metadata and chronological year
 
 test("homepage uses the updated attendance description and one shared closing CTA", () => {
   const markup = render(<PreviewProviders route="/"><Home /></PreviewProviders>);
-  assert.ok(markup.includes("Our events bring together leaders, innovators and decision-makers from across broadcasting, studios, streaming and media technology."));
-  assert.equal(markup.split("Want to attend our next event?").length - 1, 1);
-  assert.ok(markup.indexOf("Want to attend our next event?") < markup.indexOf('<footer'));
+  assert.ok(markup.includes("People working in broadcasting, studios, streaming and technology attend our events, including:"));
+  assert.ok(markup.includes("Attendance is curated, and our events are free to attend."));
+  assert.equal(markup.split("Come to our next event").length - 1, 1);
+  assert.ok(markup.indexOf("Come to our next event") < markup.indexOf('<footer'));
 });
 
 test("shared attendance CTA appears on public pages but not admin routes", () => {
   for (const route of ["/", "/events", "/events/calendar"]) {
     const markup = render(<PreviewProviders route={route}><Footer /></PreviewProviders>);
-    assert.equal(markup.split(route === "/events/calendar" ? "Want to attend a Media Collective event?" : "Want to attend our next event?").length - 1, 1);
+    assert.equal(markup.split(route === "/" ? "Come to our next event" : route === "/events/calendar" ? "Want to attend a Media Collective event?" : "Want to attend our next event?").length - 1, 1);
     assert.ok(markup.includes("Request an invitation"));
   }
   for (const route of ["/admin/", "/manage", "/events/4", "/blog", "/partners", "/faq", "/privacy-policy"]) {
@@ -220,58 +245,89 @@ test("shared attendance CTA appears on public pages but not admin routes", () =>
 
 
 test("Media Collective detail pages provide contextual invitation actions without a duplicate global CTA", () => {
-  for (const event of getAllEvents()) {
+  for (const event of getAllEvents().filter(event => !event.partnerEvent)) {
     const markup = render(<PreviewProviders route={`/events/${event.id}`}>
       <Routes><Route path="/events/:id" element={<EventDetails />} /></Routes>
     </PreviewProviders>);
-    assert.equal(markup.split(isPastEvent(event) ? "Interested in a future event?" : "Want to attend?").length - 1, 1);
-    assert.ok(markup.includes(isPastEvent(event) ? ">Register interest</button>" : ">Request an invitation</button>"));
+    const heading = isPastEvent(event) ? "Interested in a future event?" : "Want to join us?";
+    const action = isPastEvent(event) ? "Register interest" : event.ctaLabel || "Request an Invitation";
+    assert.ok(markup.includes(`>${heading}</h2>`));
+    assert.equal(markup.split(`>${action}</button>`).length - 1, 2);
     assert.ok(!markup.includes("Want to attend our next event?"));
   }
 });
 
 
 test("event listing does not offer empty detail expansions", () => {
-  const markup = render(<EventsListing />);
+  const markup = render(<PreviewProviders route="/events"><EventsListing /></PreviewProviders>);
   assert.ok(!markup.includes("View details"));
   assert.ok(!markup.includes("Explore by experience"));
   for (const event of getUpcomingEvents()) assert.ok(markup.includes(`href="/events/${event.id}"`));
 });
 
 
-test("audience proof identifies 2026 and puts Over 300 last with the shared numeral treatment", () => {
+test("audience proof keeps the approved four statistics in order with the shared numeral treatment", () => {
   const markup = render(<PreviewProviders route="/"><Home /></PreviewProviders>);
-  assert.match(markup, /<strong[^>]*>In 2026<\/strong>, attendees represented:/);
+  assert.ok(markup.includes("People working in broadcasting, studios, streaming and technology attend our events, including:"));
   assert.ok(!markup.includes("not a guaranteed audience"));
-  assert.ok(!markup.includes("300+"));
-  const titles = ["The Top 3", "The Major 5", "The Leading 8", "Over 300"];
+  const titles = ["TOP 3", "MAJOR 5", "LEADING 8", "300+"];
   const positions = titles.map(title => markup.indexOf(`aria-label="${title}"`));
   assert.ok(positions.every((position, index) => position >= 0 && (index === 0 || position > positions[index - 1])));
   assert.equal((markup.match(/data-audience-numeral/g) || []).length, 4);
   assert.ok(markup.includes(">Request an invitation</button>"));
 });
 
-test("partner scope explains organising effort, shared commitment and independent curation", () => {
+test("partner scope distinguishes benefits and optional programme participation", () => {
   const markup = render(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
-  for (const text of ["Less work to bring people together", "Shared commitment", "Final guest and programme curation remains with The Media Collective", "particular guests, meetings or speaking roles are not guaranteed"]) {
+  for (const text of ["Visibility is only the start.", "Bring your perspective to the programme through a keynote, case study, fireside chat or other editorial contribution.", "while Media Collective retains responsibility for the final programme.", "For discussion-led events, there may also be opportunities to contribute to the programme.", "Where the format allows, opportunities to speak, host a session, join a panel or share a case study", "Ways to take part.", "Build your presence, meet the people you want to work with and take an active role before, during and after the event."]) {
     assert.ok(markup.includes(text));
   }
+  assert.doesNotMatch(markup, /id="partner-process"|A simple process\.|Identify the right fit/);
+  assert.ok(markup.indexOf('id="partner-objectives"') < markup.indexOf('id="partner-conversation"'));
 });
 
 
-test("motion sections offer persistent pause controls", () => {
+test("motion sections retain keyboard pause support without visible pause buttons", () => {
   const home = render(<PreviewProviders route="/"><Home /></PreviewProviders>);
   const partners = render(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
-  assert.match(home, /Pause testimonials/);
-  assert.match(partners, /Pause logo movement/);
+  assert.doesNotMatch(home, />Pause testimonials<|>Resume testimonials</);
+  assert.doesNotMatch(partners, />Pause logo movement<|>Resume logo movement</);
+  assert.match(home, /role="region" aria-label="Testimonials" aria-keyshortcuts="Space"/);
+  assert.doesNotMatch(partners, /aria-label="Partner logos"/);
+  const logoSection = render(<PartnersPageRenderer sections={[{ type: "partnersLogos" }]} onRegister={() => {}} />);
+  assert.match(logoSection, /role="region" aria-label="Partner logos" aria-keyshortcuts="Space"/);
+  assert.match(home, /aria-label="Show testimonial 2"/);
 });
 
 test("upcoming detail pages keep event context beside the attendance action", () => {
   for (const event of getUpcomingEvents()) {
     const markup = render(<PreviewProviders route={`/events/${event.id}`}><Routes><Route path="/events/:id" element={<EventDetails />} /></Routes></PreviewProviders>);
-    const attendance = markup.slice(markup.indexOf('aria-labelledby="event-attendance-heading"'));
-    assert.ok(attendance.includes(event.title));
-    assert.ok(attendance.includes(formatEventDate(event.date)));
-    assert.equal((markup.match(/>Request an invitation<\/button>/g) || []).length, 2);
+    const main = markup.slice(markup.indexOf("<main"));
+    const header = main.slice(0, main.indexOf("</header>"));
+    assert.ok(header.includes(event.title));
+    assert.ok(header.includes(formatEventDate(event.date)));
+    assert.ok(header.includes(event.location));
+    assert.ok(header.includes(`Capacity: ${event.capacity ?? event.capacity_number}`));
+    if (event.partnerEvent && !event.registrationLink) {
+      assert.ok(header.includes("Organiser: Greenline"));
+      assert.ok(header.includes("Paid tickets."));
+      assert.doesNotMatch(main, /disabled=""|>Register Interest<\/button>/);
+    } else {
+      const action = event.ctaLabel || "Request an Invitation";
+      assert.equal(main.split(`>${action}</button>`).length - 1, 2);
+      assert.ok(header.indexOf(formatEventDate(event.date)) < header.indexOf(`>${action}</button>`));
+      assert.ok(header.indexOf("Capacity:") < header.indexOf(`>${action}</button>`));
+    }
   }
+});
+
+
+test("Community places the verified 2026 seniority snapshot between organisations and FAQ", () => {
+  const markup = render(<PreviewProviders route="/community"><Community /></PreviewProviders>);
+  const start = markup.indexOf('id="community-audience-snapshot"');
+  assert.ok(markup.indexOf('id="community-organisations"') < start);
+  assert.ok(start < markup.indexOf('id="community-faq"'));
+  const snapshot = markup.slice(start, markup.indexOf('</section>', start));
+  for (const text of ["2026 AUDIENCE SNAPSHOT", "321", "senior leaders*", "75", "C-suite guests", "661", "guests across 6 events", "* Founder, Executive, President, Director, Head of Function or equivalent senior leadership titles."]) assert.ok(snapshot.includes(text));
+  assert.doesNotMatch(snapshot, /%|620\+/);
 });

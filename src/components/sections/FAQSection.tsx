@@ -1,4 +1,5 @@
 import React from "react";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import SectionHeader from "@/components/shared/SectionHeader";
 import faq from "@/content/faq.json";
 
@@ -12,6 +13,8 @@ interface FAQSectionProps {
   title?: string;
   description?: string;
   presentation?: "classic" | "editorial";
+  compact?: boolean;
+  expandable?: boolean;
 }
 
 /**
@@ -26,6 +29,8 @@ const FAQSection: React.FC<FAQSectionProps> = ({
   title,
   description,
   presentation = "classic",
+  compact = false,
+  expandable = false,
 }) => {
   // Determine source of FAQ items:
   // 1) `faqs` prop from FaqPageRenderer
@@ -46,32 +51,39 @@ const FAQSection: React.FC<FAQSectionProps> = ({
       id="faq"
       className={editorial ? "w-full" : "w-full py-16 md:py-24 border-t border-[#1f2933]"}
     >
-      <div className={editorial ? "flex flex-col gap-8" : "max-w-5xl mx-auto px-4 md:px-6 flex flex-col gap-10"}>
+      <div className={editorial ? compact ? "flex max-w-3xl flex-col gap-6" : "flex flex-col gap-8" : "max-w-5xl mx-auto px-4 md:px-6 flex flex-col gap-10"}>
         {/* Reuse your standard section header */}
         {editorial ? <div>
-          <h2 className="font-display text-[30px] font-light leading-tight text-white md:text-4xl">{headerTitle}</h2>
-          {headerDescription && <p className="mt-5 max-w-2xl text-base leading-[1.8] text-slate-300">{headerDescription}</p>}
+          <h2 className="site-heading text-white">{headerTitle}</h2>
+          {headerDescription && <p className="mt-5 max-w-2xl text-base leading-[1.6] text-slate-300">{headerDescription}</p>}
         </div> : <SectionHeader
           title={headerTitle}
           accentWord="Questions"
           description={headerDescription}
         />}
 
-        <div className={editorial ? "grid gap-0" : "grid gap-6 md:gap-8"}>
+        {expandable ? <Accordion type="single" collapsible className="w-full motion-reduce:[&_*]:transition-none motion-reduce:[&_[data-state=open]]:animate-none motion-reduce:[&_[data-state=closed]]:animate-none">
+          {items.map((item, index) => <AccordionItem key={item.question} value={`question-${index}`} className="border-white/10 last:border-0">
+            <AccordionTrigger className="gap-4 text-left text-lg font-medium leading-snug text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">{item.question}</AccordionTrigger>
+            <AccordionContent>
+              <p className="max-w-[70ch] text-base leading-[1.7] text-slate-300">{item.answer.includes("\n\n") ? item.answer.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <span key={paragraphIndex} className="mb-4 block last:mb-0">{paragraph}</span>) : item.answer}</p>
+            </AccordionContent>
+          </AccordionItem>)}
+        </Accordion> : <div className={editorial ? "grid gap-0" : "grid gap-6 md:gap-8"}>
           {items.map((item, index) => (
             <div
               key={index}
-              className={editorial ? "border-b border-white/10 py-6 last:border-0" : "rounded-xl border border-[#1f2933] bg-[#05070b]/70 px-5 py-4 md:px-6 md:py-5"}
+              className={editorial ? compact ? "border-b border-white/10 py-4 first:pt-0 last:border-0 last:pb-0" : "border-b border-white/10 py-6 last:border-0" : "rounded-xl border border-[#1f2933] bg-[#05070b]/70 px-5 py-4 md:px-6 md:py-5"}
             >
-              <h3 className={editorial ? "mb-3 text-lg font-medium text-white" : "text-lg md:text-xl font-semibold text-foreground mb-2"}>
+              <h3 className={editorial ? compact ? "mb-2 text-lg font-medium text-white" : "mb-3 text-lg font-medium text-white" : "text-lg md:text-xl font-semibold text-foreground mb-2"}>
                 {item.question}
               </h3>
-              <p className={editorial ? "max-w-[65ch] text-base leading-[1.8] text-slate-300" : "text-sm md:text-base text-muted-foreground leading-relaxed"}>
-                {item.answer}
+              <p className={editorial ? "max-w-[70ch] text-base leading-[1.7] text-slate-300" : "text-sm md:text-base text-muted-foreground leading-relaxed"}>
+                {item.answer.includes("\n\n") ? item.answer.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <span key={paragraphIndex} className="mb-4 block last:mb-0">{paragraph}</span>) : item.answer}
               </p>
             </div>
           ))}
-        </div>
+        </div>}
       </div>
     </section>
   );

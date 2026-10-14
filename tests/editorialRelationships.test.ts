@@ -33,7 +33,7 @@ test("organisation event relationships are checked against canonical IDs",()=>{
  assert.deepEqual(getOrganisationIssues(rows),["logos[0]: Unresolved event reference: 999","logos[0]: Duplicate event reference: 1"]);
 });
 test("legacy logo-only records remain unchanged and do not acquire IDs or roles",()=>{
- const rows=getOrganisations();assert.equal(rows.length,14);
+ const rows=getOrganisations();assert.equal(rows.length,29);
  assert.ok(rows.every(row=>row.id===undefined&&row.partnershipTypes===undefined));
  assert.deepEqual(getOrganisationIssues(),[]);
 });

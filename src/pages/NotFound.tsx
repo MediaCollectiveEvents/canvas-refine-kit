@@ -1,6 +1,8 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import Seo from "@/components/shared/Seo";
 
 const NotFound = () => {
   const location = useLocation();
@@ -10,18 +12,20 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <>
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
+      <Seo title="Page Not Found — The Media Collective" />
+      <Header />
+      <main className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
+        <p className="site-eyebrow mb-4 text-primary">404</p>
+        <h1 className="site-page-h1 mb-4 break-words font-display text-3xl font-light md:text-5xl">Page not found</h1>
+        <p className="text-muted-foreground">We couldn’t find this page. Choose where to go next.</p>
+        <div className="mt-6 flex flex-wrap gap-6 font-display text-base text-primary">
+          <Link to="/" className="site-secondary-action">Home</Link>
+          <Link to="/events" className="site-secondary-action">Events</Link>
+        </div>
+      </div></main>
+      <Footer hideAttendanceCTA />
     </div>
-    <Footer />
-    </>
   );
 };
 

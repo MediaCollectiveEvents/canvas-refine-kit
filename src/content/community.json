@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "eyebrow": "OUR COMMUNITY",
+    "title": "Leaders and innovators from across media and technology.",
+    "description": "Different roles, experience and perspectives at every gathering."
+  },
+  "sections": [
+    {
+      "id": "community-attendance",
+      "type": "editorial",
+      "eyebrow": "WHO ATTENDS",
+      "heading": "A community built across the industry.",
+      "body": "Attendees include executives, specialists, analysts, journalists and people from technology providers. They bring different experience and perspectives to each gathering."
+    },
+    {
+      "id": "community-organisations",
+      "type": "organisations",
+      "eyebrow": "ORGANISATIONS REPRESENTED",
+      "organisations": [
+        "A+E Networks",
+        "All3Media",
+        "Amazon MGM Studios",
+        "Apple",
+        "Banijay",
+        "BBC",
+        "beIN Media Group",
+        "Canal+",
+        "Channel 4",
+        "Comcast",
+        "DAZN",
+        "Disney",
+        "Formula E",
+        "Formula One",
+        "FOX",
+        "Fremantle",
+        "Google",
+        "Hearst",
+        "ITV",
+        "LaLiga",
+        "NBCUniversal",
+        "Netflix",
+        "Off The Fence",
+        "Paramount",
+        "Premier League",
+        "Qvest",
+        "Roku",
+        "RTL",
+        "Sky",
+        "Sony",
+        "SVT",
+        "The FA",
+        "TV Monaco",
+        "UEFA",
+        "Universal Pictures",
+        "Warner Bros. Discovery",
+        "YouView"
+      ],
+      "body": "These are among more than 300 companies represented at Media Collective events across broadcasting, streaming, studios, sports, entertainment and media technology."
+    },
+    {
+      "id": "community-audience-snapshot",
+      "type": "editorial",
+      "eyebrow": "2026 AUDIENCE SNAPSHOT",
+      "heading": "75 — C-suite guests\n321 — senior leaders*\n661 — guests across 6 events",
+      "body": "* Founder, Executive, President, Director, Head of Function or equivalent senior leadership titles."
+    },
+    {
+      "id": "community-faq",
+      "type": "faq",
+      "eyebrow": "FREQUENTLY ASKED QUESTIONS",
+      "faqs": [
+        {
+          "question": "Why is attendance curated?",
+          "answer": "Attendance is curated to create a balanced mix of people with an interest in the event or its topic, while keeping each gathering relevant and useful."
+        },
+        {
+          "question": "Who attends Media Collective events?",
+          "answer": "Our community includes people working across broadcasting, streaming, studios, sports, publishing and media technology."
+        },
+        {
+          "question": "How do I request an invitation?",
+          "answer": "Most Media Collective events are invitation-led. You can request an invitation from the event page, and places are confirmed according to the event audience and available capacity."
+        },
+        {
+          "question": "How can my company partner with The Media Collective?",
+          "answer": "We work with partners in different ways, from supporting an event to contributing experience, ideas or practical help."
+        },
+        {
+          "question": "Do you organise events for companies?",
+          "answer": "Yes. Alongside our own programme, we can work with organisations on separate events where there is a good fit."
+        },
+        {
+          "question": "What types of events do you run?",
+          "answer": "Our programme includes networking breakfasts, panel discussions, receptions and community gatherings across broadcasting, streaming and technology."
+        }
+      ]
+    }
+  ]
+}

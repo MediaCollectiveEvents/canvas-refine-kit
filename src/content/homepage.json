@@ -20,14 +20,117 @@
     "backdropStrength": 0,
     "subtitle": "CURATED EVENTS & NETWORKING",
     "title": "THE MEDIA COLLECTIVE",
-    "image": "/uploads/home-hero-v14.png",
-    "description": "Meet peers • Keep informed • Stay connected",
+    "image": "/uploads/website-hero-home.png",
+    "description": "INSIGHTS. CONVERSATIONS. CONNECTIONS.",
     "secondaryCta": {
       "label": "Get involved",
       "url": "#get-involved"
     }
   },
   "sections": [
+    {
+      "body": "Our events give people across broadcasting, streaming and technology the space to connect, learn and collaborate.\n\nA welcoming, inclusive setting and limited attendance give people more time and space to talk.",
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "heading": "About the Collective",
+      "backgroundStyle": "light",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "hidden": false,
+      "motif": "corner-square",
+      "extended": "",
+      "type": "aboutIntro",
+      "texture": "vignette",
+      "customBackground": null
+    },
+    {
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "heading": "Upcoming Events",
+      "backgroundStyle": "light",
+      "styleTitle": {
+        "eyebrow": "What’s next",
+        "sub": "Don't miss our flagship events.",
+        "align": "left",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "hidden": false,
+      "cta": {
+        "label": "Learn More",
+        "url": "/events"
+      },
+      "note": "Spaces are limited to keep events focused and conversational.",
+      "type": "upcomingEventsIntro",
+      "description": "Our next gathering for people across broadcasting, streaming, entertainment and media technology.",
+      "secondaryCta": {
+        "label": "View all events",
+        "url": "/events"
+      },
+      "customBackground": null
+    },
+    {
+      "styleWrapper": {
+        "variant": "glow",
+        "padding": "lux",
+        "noise": true,
+        "grid": true,
+        "withFades": true
+      },
+      "heading": "Who attends",
+      "statistics": {
+        "companies": "In 2026, our events brought together people from more than 300 companies.",
+        "boardLevel": ".",
+        "founders": "."
+      },
+      "backgroundStyle": "light",
+      "styleTitle": {
+        "eyebrow": "",
+        "sub": "People working in broadcasting, studios, streaming and technology attend our events, including:",
+        "align": "center",
+        "tone": "default",
+        "disableEmphasis": false
+      },
+      "hidden": false,
+      "type": "whoAttends",
+      "highlights": [
+        {
+          "title": "TOP 3",
+          "subtitle": "Technology Giants",
+          "icon": "globe"
+        },
+        {
+          "title": "MAJOR 5",
+          "subtitle": "Hollywood Studios",
+          "icon": "film"
+        },
+        {
+          "title": "LEADING 8",
+          "subtitle": "Streaming Platforms",
+          "icon": "play"
+        },
+        {
+          "title": "300+",
+          "subtitle": "Companies Represented"
+        }
+      ],
+      "customBackground": null
+    },
     {
       "type": "eventDiscovery",
       "heading": "Find an event",
@@ -87,24 +190,24 @@
       "intro": "",
       "items": [
         {
-          "heading": "Guest",
-          "body": "Meet people from across the industry in a welcoming setting.",
+          "heading": "Attend",
+          "body": "Apply to attend an upcoming event.",
           "cta": {
             "label": "Request an invitation",
             "url": "#events-for-you"
           }
         },
         {
-          "heading": "Speaker",
-          "body": "Share your experience, perspective or ideas with others.",
+          "heading": "Present",
+          "body": "Bring your experience and point of view to one of our discussions.",
           "cta": {
             "label": "Speak with us",
             "url": "https://calendly.com/mediacollective/call-with-chris"
           }
         },
         {
-          "heading": "Supporter",
-          "body": "Help make a gathering possible through sponsorship, hosting or another contribution.",
+          "heading": "Sponsor",
+          "body": "Help make a Media Collective event possible.",
           "cta": {
             "label": "Support an event",
             "url": "/partners"
@@ -112,7 +215,7 @@
         },
         {
           "heading": "Partner",
-          "body": "Collaborate with us on ideas, events and opportunities.",
+          "body": "Help shape a programme or develop an event with us.",
           "cta": {
             "label": "Work with us",
             "url": "https://calendly.com/mediacollective/call-with-chris"
@@ -120,105 +223,6 @@
         }
       ],
       "hidden": false
-    },
-    {
-      "body": "We bring together people from across media and technology to share perspectives, exchange insight and make new connections.\n\nOur events are deliberately curated to bring together a thoughtful mix of people in a welcoming and inclusive setting. Numbers are kept limited, giving guests the space to meet, talk and make new connections.",
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "heading": "About the Collective",
-      "backgroundStyle": "light",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "hidden": false,
-      "motif": "corner-square",
-      "extended": "",
-      "type": "aboutIntro",
-      "texture": "vignette",
-      "customBackground": null
-    },
-    {
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "heading": "Who attends",
-      "statistics": {
-        "companies": "In 2026, our events brought together people from more than 300 companies.",
-        "boardLevel": ".",
-        "founders": "."
-      },
-      "backgroundStyle": "light",
-      "styleTitle": {
-        "eyebrow": "",
-        "sub": "Our events bring together leaders, innovators and decision-makers from across broadcasting, studios, streaming and media technology. In 2026, attendees represented:",
-        "align": "center",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "hidden": false,
-      "type": "whoAttends",
-      "highlights": [
-        {
-          "title": "The Top 3",
-          "subtitle": "Technology giants",
-          "icon": "globe"
-        },
-        {
-          "title": "The Major 5",
-          "subtitle": "Hollywood studios",
-          "icon": "film"
-        },
-        {
-          "title": "The Leading 8",
-          "subtitle": "Streaming platforms",
-          "icon": "play"
-        }
-      ],
-      "customBackground": null
-    },
-    {
-      "styleWrapper": {
-        "variant": "glow",
-        "padding": "lux",
-        "noise": true,
-        "grid": true,
-        "withFades": true
-      },
-      "heading": "Upcoming Events",
-      "backgroundStyle": "light",
-      "styleTitle": {
-        "eyebrow": "What’s next",
-        "sub": "Don't miss our flagship events.",
-        "align": "left",
-        "tone": "default",
-        "disableEmphasis": false
-      },
-      "hidden": false,
-      "cta": {
-        "label": "Learn More",
-        "url": "/events"
-      },
-      "note": "Spaces are limited to keep events focused and conversational.",
-      "type": "upcomingEventsIntro",
-      "description": "Our next gathering for people across broadcasting, streaming, entertainment and media technology.",
-      "secondaryCta": {
-        "label": "View all events",
-        "url": "/events"
-      },
-      "customBackground": null
     },
     {
       "type": "testimonials",
@@ -257,7 +261,7 @@
       ],
       "styleTitle": {
         "eyebrow": "WHAT PEOPLE SAY",
-        "sub": "Hear from attendees and partners about their experience of Media Collective events.",
+        "sub": "Experiences from attendees and event partners.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false

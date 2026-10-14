@@ -2,6 +2,8 @@ import EventsListing from "../../components/sections/EventsListing";
 import { getEventIssues } from "../../lib/events";
 import type { PreviewEntry } from "./HomepagePreview";
 import PreviewLayout from "./PreviewLayout";
+import eventsPageContent from "@/content/eventsPage.json";
+import { readPreviewData } from "./previewData";
 
 export default function EventsPreview({ entry }: { entry: PreviewEntry }) {
   const value = entry.getIn(["data"]);
@@ -16,12 +18,14 @@ export default function EventsPreview({ entry }: { entry: PreviewEntry }) {
   );
 }
 
-// eventsPage.json is a legacy collection; /events reads events.json instead.
-export function LegacyEventsPagePreview() {
+// Hero and individual events remain in events.json; this collection controls editorial sections.
+export function LegacyEventsPagePreview({ entry }: { entry: PreviewEntry }) {
+  const draft = readPreviewData<Partial<typeof eventsPageContent>>(entry);
+  const layoutContent = { ...eventsPageContent, ...draft };
   return <PreviewLayout route="/events" ownMain>
     <div role="note" className="relative z-[60] bg-[#101d24] p-4 text-sm text-slate-300">
-      This legacy configuration is not used by the live Events page. The preview below shows current Events Content &amp; List; edit that collection to update /events.
+      This collection controls the introduction, event formats and categories. Edit Events Content &amp; List for the hero and individual events.
     </div>
-    <EventsListing showPastEventsInitially />
+    <EventsListing layoutContent={layoutContent} showPastEventsInitially />
   </PreviewLayout>;
 }

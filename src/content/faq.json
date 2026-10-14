@@ -1,15 +1,15 @@
 [
   {
     "question": "Who are these events for?",
-    "answer": "Our events bring together people across media, entertainment and technology. Anyone can request an invitation; The Media Collective curates each event and decides whether it is the right fit for the applicant."
+    "answer": "People working across media, entertainment and technology."
   },
   {
     "question": "How often do you run events?",
-    "answer": "We host a mix of breakfasts, private receptions, and curated gatherings throughout the year, often aligned with major industry moments."
+    "answer": "We run events throughout the year."
   },
   {
     "question": "Can I suggest a topic or partner?",
-    "answer": "Yes. You can suggest a topic or discuss a partnership with us. Speaking opportunities and collaborations are considered according to the event, audience and programme."
+    "answer": "Yes. Contact us with a topic, speaking proposal or partnership idea. Opportunities depend on the event, audience and programme."
   },
   {
     "question": "How does the invitation process work?",
@@ -17,14 +17,18 @@
   },
   {
     "question": "How much does it cost to attend?",
-    "answer": "All events are free to attend. Membership is not required."
+    "answer": "Media Collective events are free to attend. Independent partner events may charge for tickets, including The Green Line. Check the individual event page for details."
   },
   {
     "question": "How is guest contact information used?",
-    "answer": "During sign-up, guests consent to the use and sharing of relevant contact information for event management and appropriate event follow-up. Sharing remains subject to explicit consent and our privacy policy; contact information is not automatically shared with all partners."
+    "answer": "With consent, we use guest details to manage events and relevant follow-up. Any sharing follows our Privacy Policy and requires explicit consent. Details are not automatically shared with all partners."
   },
   {
     "question": "What happens after a partner enquiry?",
     "answer": "The Media Collective will follow up to discuss your enquiry."
+  },
+  {
+    "question": "Can The Media Collective help us create an event?",
+    "answer": "We can.\n\nMost partnerships support or contribute to existing events. We also help organisations create a gathering around a specific topic, audience or objective.\n\nWe can shape the format, invite the right mix of guests, manage registrations and handle delivery.\n\nNot every proposal will fit, but we're happy to discuss your idea."
   }
 ]

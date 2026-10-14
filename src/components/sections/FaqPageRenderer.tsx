@@ -1,3 +1,4 @@
+import ClosingCTA from "@/components/shared/ClosingCTA";
 import React from "react";
 import PageSection from "@/components/shared/PageSection";
 import { Button } from "@/components/ui/button";
@@ -52,23 +53,10 @@ const FaqPageRenderer: React.FC<FaqPageRendererProps> = ({
 
             case "cta":
               return (
-                <PageSection key={key} id={section.id} className="border-b border-white/10 site-surface-emphasis">
-                  <div className="grid items-start gap-8 lg:grid-cols-12">
-                    <div className="lg:col-span-8">
-                      <h2 className="font-display text-[30px] font-light leading-tight text-white md:text-4xl">
-                        {section.title ?? "Ready to"}{" "}{section.accentWord ?? "Join Us?"}
-                      </h2>
-                      <p className="mt-5 max-w-2xl text-base leading-[1.8] text-slate-300">
-                        {section.description ?? "Be part of the next generation of media industry connections. Our events are free, invite-only, and designed for high-value networking."}
-                      </p>
-                    </div>
-                    <div className="lg:col-span-4 lg:justify-self-end">
-                      <Button variant="brand" size="lg" onClick={onCtaClick}>
-                        {section.buttonLabel ?? "Register Your Interest"}
-                      </Button>
-                    </div>
-                  </div>
-                </PageSection>
+                <ClosingCTA key={key} id={section.id}
+                  heading={<>{section.title ?? "Ready to"}{" "}{section.accentWord ?? "Join Us?"}</>}
+                  support={<p>{section.description ?? "Be part of the next generation of media industry connections. Our events are free, invite-only, and designed for high-value networking."}</p>}
+                  action={<Button variant="brand" size="lg" onClick={onCtaClick}>{section.buttonLabel ?? "Register Your Interest"}</Button>} />
               );
 
             default:

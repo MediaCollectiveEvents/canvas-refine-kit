@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
@@ -31,6 +31,7 @@ function resolveHref(item: RawNavItem): string {
     about: "/about",
     events: "/events",
     partners: "/partners",
+    community: "/community",
     blog: "/blog",
     faq: "/faq",
     sponsors: "/sponsors",
@@ -54,6 +55,7 @@ const Header = () => {
   const location = useLocation();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuToggle = useRef<HTMLButtonElement>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -85,6 +87,17 @@ const Header = () => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [location.pathname]);
+
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setIsMenuOpen(false);
+      menuToggle.current?.focus();
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [isMenuOpen]);
 
   return (
     <>
@@ -125,7 +138,7 @@ const Header = () => {
           className={`
             relative site-container
             transition-all duration-300 ease-out
-            ${scrolled ? "h-[84px] lg:h-[90px]" : "h-[92px] lg:h-[100px]"}
+            ${scrolled ? "h-[108px] lg:h-[164px]" : "h-[116px] lg:h-[170px]"}
           `}
         >
           {/* MOBILE HEADER */}
@@ -135,11 +148,12 @@ const Header = () => {
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-14 w-auto shrink-0"
+                className="h-auto w-[160px] shrink-0 object-contain"
               />
             </Link>
 
             <button
+              ref={menuToggle}
               className="ml-auto flex h-11 w-11 items-center justify-center text-white transition"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -152,19 +166,19 @@ const Header = () => {
 
           {/* DESKTOP HEADER */}
 
-          <div className="hidden h-full items-center justify-center gap-6 lg:flex xl:gap-10">
-            <Link to="/" className="relative z-10 shrink-0">
+          <div className="hidden h-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 lg:grid xl:gap-8">
+            <Link to="/" className="relative z-10 shrink-0 justify-self-start">
               <img
                 src={logo}
                 alt="The Media Collective"
-                className="h-16 w-auto shrink-0"
+                className="h-auto w-[180px] shrink-0 object-contain"
               />
             </Link>
 
             {/* NAVIGATION */}
 
-            <nav className="relative flex items-center">
-              <div className="flex items-center gap-4 xl:gap-6 2xl:gap-8">
+            <nav className="relative flex min-w-0 items-center justify-center">
+              <div className="flex items-center gap-6 xl:gap-10 2xl:gap-12">
                 {navItems.map((item) => {
                   const isActive =
                     item.href === activeHref;
@@ -211,7 +225,7 @@ const Header = () => {
 
             {/* DESKTOP CTA */}
 
-            <div className="shrink-0">
+            <div className="shrink-0 justify-self-end">
               <Button
                 variant="brand"
                 onClick={() => setIsFormOpen(true)}

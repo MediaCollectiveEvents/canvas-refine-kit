@@ -36,9 +36,9 @@
       "type": "events"
     },
     {
-      "label": "Calendar",
-      "type": "events",
-      "url": "/events/calendar"
+      "label": "Community",
+      "type": "community",
+      "href": "/community"
     },
     {
       "label": "Partners",

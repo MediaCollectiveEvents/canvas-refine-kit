@@ -48,6 +48,7 @@ function waitForCMSReady(timeout = 10000, poll = 50): Promise<CMSApi> {
 }
 
 import HomepagePreview from "./previews/HomepagePreview";
+import CommunityPreview from "./previews/CommunityPreview";
 import { AboutPreview, FaqPreview, PartnersPreview } from "./previews/EditorialPagePreview";
 import EventsPreview, { LegacyEventsPagePreview } from "./previews/EventsPreview";
 import previewCss from "../index.css?inline";
@@ -67,6 +68,7 @@ async function boot() {
 
     // ✅ Homepage (your styled preview: hero + all homepage sections)
     CMS.registerPreviewTemplate("homepage", adaptPreview(HomepagePreview));
+    CMS.registerPreviewTemplate("communityPage", adaptPreview(CommunityPreview));
     CMS.registerPreviewTemplate("eventsContent", adaptPreview(EventsPreview));
 
     // Editorial previews reuse the current page renderers.

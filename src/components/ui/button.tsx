@@ -10,13 +10,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-primary/90",
+          "font-semibold bg-primary text-primary-foreground hover:bg-primary/90",
 
         outline:
           "rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
 
         brand:
-          "rounded-full border border-[#0B1F36] bg-[#35C5BB] text-[#0B1F36] hover:bg-[#8FC7C1]",
+          "font-semibold rounded-full border border-[#0B1F36] bg-[#35C5BB] text-[#0B1F36] hover:bg-[#8FC7C1]",
 
         textcta:
           "uppercase tracking-[0.16em] text-base text-[#35C5BB] hover:opacity-80",

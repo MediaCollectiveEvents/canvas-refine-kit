@@ -214,17 +214,17 @@ test("2027 announcements are upcoming, ordered, routable and leave unknown detai
   const events = getUpcomingEvents(undefined, undefined, now).filter(event => event.date.startsWith("2027-"));
   assert.deepEqual(events.map(event => [event.id, event.title, event.date]), [
     [5, "MPTS Networking Reception 2027", "2027-05-12"],
-    [8, "The Green Line", "2027-09-09"],
+    [8, "The Green Line to IBC 2027", "2027-09-09"],
     [6, "IBC Networking Breakfast 2027", "2027-09-11"],
     [7, "IBC Decompression Party 2027", "2027-09-12"],
   ]);
   assert.deepEqual(getEventIssues(), []);
   for (const event of events) {
     assert.equal(getEventById(String(event.id))?.id, event.id);
-    assert.equal(event.venue, event.id === 5 ? "Olympia" : event.id === 6 ? "RAI" : event.id === 8 ? "Eurostar" : "Piano Bar");
-    assert.equal(event.location, event.id === 5 ? "London" : event.id === 8 ? "St Pancras to Amsterdam Centraal" : "Amsterdam");
-    assert.equal(event.time, "");
-    if (![7, 8].includes(event.id)) assert.equal(event.description, "");
+    assert.equal(event.venue, event.id === 5 ? "Olympia" : event.id === 6 ? "The Traveller" : event.id === 8 ? "Eurostar" : "Live Amsterdam Piano Bar");
+    assert.equal(event.location, event.id === 5 ? "London" : event.id === 8 ? "St Pancras to Amsterdam Centraal" : event.id === 6 ? "a one-minute walk from the main entrance of the RAI Amsterdam" : "Amsterdam");
+    assert.equal(event.time, event.id === 7 ? "18:30 – Late" : event.id === 6 ? "08:00–10:00 CET" : event.id === 8 ? "11:04–15:30" : "");
+    assert.ok(event.description, "Migrated events have an introduction without inventing logistics");
     assert.equal(event.startsAt, undefined);
     assert.equal(event.endsAt, undefined);
     assert.equal(event.timeZone, undefined);
@@ -233,7 +233,8 @@ test("2027 announcements are upcoming, ordered, routable and leave unknown detai
   assert.deepEqual(events[0].experienceCategories, getEventById(2)?.experienceCategories);
   assert.deepEqual(getEventById(6)?.experienceCategories, getEventById(3)?.experienceCategories);
   assert.deepEqual(getEventById(8)?.experienceCategories, ["networking-social", "conference-aligned"]);
-  assert.match(getEventById(8)?.description || "", /Eurostar carriage.*St Pancras.*Amsterdam Centraal.*IBC/);
+  assert.equal(getEventById(8)?.partnerEvent, true);
+  assert.match(getEventById(8)?.description || "", /dedicated Eurostar carriage.*London.*Amsterdam/);
   assert.deepEqual(getEventById(7)?.experienceCategories, ["networking-social"]);
 });
 

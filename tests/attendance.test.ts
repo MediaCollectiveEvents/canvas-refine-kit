@@ -10,7 +10,7 @@ const now = new Date("2026-10-07T12:00:00Z");
 
 test("attendance choices use canonical upcoming events in chronological order", () => {
   const options = getAttendanceOptions(undefined, now);
-  assert.deepEqual(options.map(option => option.id), ["4", "5", "8", "6", "7", "all-events"]);
+  assert.deepEqual(options.map(option => option.id), ["4", "5", "6", "7", "all-events"]);
   assert.match(options.find(option => option.id === "6")!.label, /IBC Networking Breakfast 2027 \(11 September 2027\)/);
   assert.ok(options.every(option => !/2026-05|2026-09/.test(option.label)));
   assert.deepEqual(getAttendanceOptions(undefined, new Date("2028-01-01")), [{ id: "all-events", label: "All future Media Collective events", displayLabel: "Future gatherings — no particular event" }]);
@@ -19,6 +19,7 @@ test("attendance choices use canonical upcoming events in chronological order", 
 test("specific attendance requests retain the event and skip selection and engagement", () => {
   assert.equal(getAttendanceSelection(getEventById(6), now), "6");
   assert.equal(getAttendanceSelection(getEventById(3), now), undefined);
+  assert.equal(getAttendanceSelection(getEventById(8), now), undefined);
   assert.equal(getAttendanceSelection(undefined, now), undefined);
   assert.deepEqual(getAttendanceStages(true), [1, 4]);
   assert.deepEqual(getAttendanceStages(false), [1, 2, 4]);

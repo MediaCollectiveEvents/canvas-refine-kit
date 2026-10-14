@@ -13,6 +13,7 @@ type PartnerLogo =
 
 interface PartnersSectionProps {
   section: {
+    id?: string;
     type: "partners";
     heading: string;
     description?: string;

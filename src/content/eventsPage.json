@@ -1,6 +1,6 @@
 {
-  "hero": { "image": "",
-    
+  "hero": {
+    "image": "",
     "eyebrow": "Upcoming Events",
     "title": "Discover Our Events",
     "description": "Exclusive gatherings for media, broadcast, and technology professionals.",
@@ -11,15 +11,90 @@
       "url": "/register"
     }
   },
-
   "sections": [
+    {
+      "id": "event-formats",
+      "type": "eventFormats",
+      "hidden": true,
+      "eyebrow": "EVENT FORMATS",
+      "heading": "Designed for conversation, not crowds.",
+      "body": "Every gathering is intentionally sized to suit the format and purpose of each event.",
+      "items": [
+        {
+          "eventId": 4,
+          "title": "OFF AIR"
+        },
+        {
+          "eventId": 6,
+          "title": "IBC Networking Breakfast"
+        },
+        {
+          "eventId": 5,
+          "title": "MPTS Networking Reception"
+        },
+        {
+          "eventId": 7,
+          "title": "IBC Decompression Party"
+        },
+        {
+          "eventId": 8,
+          "title": "The Green Line"
+        }
+      ]
+    },
+    {
+      "id": "event-categories",
+      "type": "eventCategories",
+      "groups": [
+        {
+          "label": "DISCUSSIONS",
+          "items": [
+            {
+              "eventId": 4,
+              "title": "OFF AIR"
+            }
+          ]
+        },
+        {
+          "label": "NETWORKING",
+          "items": [
+            {
+              "eventId": 6,
+              "title": "IBC Networking Breakfast"
+            },
+            {
+              "eventId": 5,
+              "title": "MPTS Networking Reception"
+            }
+          ]
+        },
+        {
+          "label": "SOCIAL",
+          "items": [
+            {
+              "eventId": 7,
+              "title": "IBC Decompression Party"
+            }
+          ]
+        },
+        {
+          "label": "PARTNER EVENTS",
+          "items": [
+            {
+              "eventId": 8,
+              "title": "The Green Line"
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "eventsIntro",
       "type": "eventsIntro",
       "hidden": false,
       "title": "Upcoming",
       "accentWord": "Events",
-      "body": "Explore our upcoming breakfasts, receptions, and roundtables crafted for genuine conversation and industry insight."
+      "body": "Join us for events bringing together people working across media, broadcast and technology."
     },
     {
       "id": "eventsList",

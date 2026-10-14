@@ -1,3 +1,5 @@
+import ClosingCTA from "@/components/shared/ClosingCTA";
+import { Button } from "@/components/ui/button";
 import { motion, useReducedMotion } from "framer-motion";
 import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
@@ -20,7 +22,7 @@ const PrivacyPolicy = () => {
             transition={{ duration: reducedMotion ? 0 : 0.8 }}
             className="text-left"
           >
-            <h1 className="font-display font-light text-[40px] leading-tight md:text-[56px] text-foreground mb-6">
+            <h1 className="site-page-h1 font-display font-light text-[28px] leading-tight md:text-4xl text-foreground mb-6">
               Privacy Policy
             </h1>
             <p className="text-muted-foreground font-display text-sm uppercase tracking-widest">
@@ -44,10 +46,10 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 1. Introduction
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 The Media Collective ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal data. This Privacy Policy explains how we collect, use, store, and protect your information when you use our website, register for our events, or interact with our services.
               </p>
-              <p className="text-muted-foreground font-body leading-relaxed">
+              <p className="text-muted-foreground font-body leading-[1.7]">
                 This policy complies with the General Data Protection Regulation (GDPR) (EU) 2016/679 and the UK GDPR. By using our services, you acknowledge that you have read and understood this Privacy Policy.
               </p>
             </div>
@@ -57,12 +59,12 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 2. Data Controller
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 The Media Collective is the data controller responsible for your personal data. If you have any questions about this Privacy Policy or our data practices, please contact us at:
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="text-foreground font-body">
-                  <strong>Email:</strong> privacy@themediacollective.com<br />
+                  <strong>Email:</strong> chris@mediacollective.events<br />
                   <strong>Address:</strong> The Media Collective, London, United Kingdom
                 </p>
               </div>
@@ -73,7 +75,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 3. Information We Collect
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 We collect the following categories of personal data:
               </p>
               
@@ -92,7 +94,6 @@ const PrivacyPolicy = () => {
               </h3>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
                 <li><strong>Technical Data:</strong> IP address, browser type, device information, operating system</li>
-                <li><strong>Usage Data:</strong> Pages visited, time spent on site, navigation patterns</li>
                 <li><strong>Cookie Data:</strong> Information collected through cookies and similar technologies (see the <a href="#cookies" className="text-primary underline underline-offset-4">Cookies section</a> below)</li>
               </ul>
             </div>
@@ -102,7 +103,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 4. Legal Basis for Processing
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 We process your personal data based on the following legal grounds under GDPR Article 6:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-3">
@@ -126,7 +127,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 5. How We Use Your Data
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 We use your personal data for the following purposes:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
@@ -145,19 +146,19 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 6. Data Sharing and Third Parties
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 We do not sell your personal data. We may share your data with:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2 mb-4">
                 <li><strong>Event Venues:</strong> To facilitate event logistics and attendance management</li>
-                <li><strong>Service Providers:</strong> Trusted third parties who assist with email delivery, website hosting, and analytics (under strict data processing agreements)</li>
+                <li><strong>Service Providers:</strong> Trusted third parties who assist with email delivery and website hosting (under strict data processing agreements)</li>
                 <li><strong>Event Sponsors:</strong> Only with your explicit consent and for networking purposes</li>
                 <li><strong>Legal Authorities:</strong> When required by law or to protect our legal rights</li>
               </ul>
-              <p className="text-muted-foreground font-body leading-relaxed">
+              <p className="text-muted-foreground font-body leading-[1.7]">
                 All third-party processors are required to implement appropriate security measures and process data only on our instructions.
               </p>
-              <p className="mt-4 text-muted-foreground font-body leading-relaxed">
+              <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
                 Website enquiries and invitation requests are processed through Google Apps Script and stored in Google Sheets. We use Google reCAPTCHA to help prevent automated submissions.
               </p>
             </div>
@@ -167,7 +168,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 7. Data Retention
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
@@ -183,7 +184,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 8. Your Rights Under GDPR
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 Under GDPR, you have the following rights regarding your personal data:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-3">
@@ -209,8 +210,8 @@ const PrivacyPolicy = () => {
                   <strong>Right to Withdraw Consent:</strong> Withdraw consent at any time without affecting the lawfulness of prior processing
                 </li>
               </ul>
-              <p className="text-muted-foreground font-body leading-relaxed mt-4">
-                To exercise any of these rights, please contact us at <a href="mailto:privacy@themediacollective.com" className="text-primary hover:underline">privacy@themediacollective.com</a>. We will respond within 30 days.
+              <p className="text-muted-foreground font-body leading-[1.7] mt-4">
+                To exercise any of these rights, please contact us at <a href="mailto:chris@mediacollective.events" className="text-primary hover:underline">chris@mediacollective.events</a>. We will respond within 30 days.
               </p>
             </div>
 
@@ -219,7 +220,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 9. International Data Transfers
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed">
+              <p className="text-muted-foreground font-body leading-[1.7]">
                 Your data is primarily processed within the European Economic Area (EEA) and the United Kingdom. Where we transfer data outside these regions, we ensure appropriate safeguards are in place, including Standard Contractual Clauses approved by the European Commission, or transfers to countries with an adequacy decision.
               </p>
             </div>
@@ -229,7 +230,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 10. Data Security
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 We implement appropriate technical and organizational measures to protect your personal data, including:
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
@@ -246,8 +247,8 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 11. Cookies
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed">
-                Our website uses cookies to enhance your experience and analyze site usage. For detailed information about the cookies we use and how to manage your preferences, please contact us using the details below.
+              <p className="text-muted-foreground font-body leading-[1.7]">
+                Our website uses cookies to enhance your experience. For detailed information about the cookies we use and how to manage your preferences, please contact us using the details below.
               </p>
             </div>
 
@@ -256,7 +257,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 12. Children's Privacy
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed">
+              <p className="text-muted-foreground font-body leading-[1.7]">
                 Our services are not directed at individuals under 18 years of age. We do not knowingly collect personal data from children. If we become aware that we have collected data from a child, we will take steps to delete it promptly.
               </p>
             </div>
@@ -266,7 +267,7 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 13. Changes to This Policy
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed">
+              <p className="text-muted-foreground font-body leading-[1.7]">
                 We may update this Privacy Policy from time to time. We will notify you of significant changes by posting the updated policy on our website and updating the "Last Updated" date. We encourage you to review this policy periodically.
               </p>
             </div>
@@ -276,32 +277,21 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 14. Complaints
               </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
-                If you have concerns about how we handle your personal data, please contact us first at <a href="mailto:privacy@themediacollective.com" className="text-primary hover:underline">privacy@themediacollective.com</a>.
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                If you have concerns about how we handle your personal data, please contact us first at <a href="mailto:chris@mediacollective.events" className="text-primary hover:underline">chris@mediacollective.events</a>.
               </p>
-              <p className="text-muted-foreground font-body leading-relaxed">
+              <p className="text-muted-foreground font-body leading-[1.7]">
                 You also have the right to lodge a complaint with a supervisory authority. In the UK, this is the Information Commissioner's Office (ICO): <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ico.org.uk</a>
               </p>
             </div>
 
-            {/* Contact */}
-            <div className="bg-muted/50 p-8 rounded-lg">
-              <h2 className="font-display text-2xl font-medium text-foreground mb-4">
-                Contact Us
-              </h2>
-              <p className="text-muted-foreground font-body leading-relaxed mb-4">
-                For any questions or concerns about this Privacy Policy or your personal data, please contact:
-              </p>
-              <p className="text-foreground font-body">
-                <strong>The Media Collective</strong><br />
-                Email: <a href="mailto:privacy@themediacollective.com" className="text-primary hover:underline">privacy@themediacollective.com</a><br />
-                London, United Kingdom
-              </p>
-            </div>
           </motion.div>
         </div>
       </section>
 
+      <ClosingCTA heading="Contact Us"
+        support={<><p>For any questions or concerns about this Privacy Policy or your personal data, please contact:</p><p><strong>The Media Collective</strong><br />London, United Kingdom</p></>}
+        action={<Button variant="brand" size="lg" asChild><a href="mailto:chris@mediacollective.events">Email: chris@mediacollective.events</a></Button>} />
       </main>
       <Footer />
     </div>

@@ -37,8 +37,62 @@ const experienceCategories = new Set<EventExperienceCategory>([
   "networking-social", "conference-aligned", "knowledge-discussion",
 ]);
 
+export const EVENT_FORMAT_TAGS = [
+  "networking", "social", "industry-forum", "discussion", "breakfast", "lunch", "dinner", "reception", "drinks", "journey",
+] as const;
+export type EventFormatTag = typeof EVENT_FORMAT_TAGS[number];
+
+export function normalizeEventFormatTags(value: unknown): EventFormatTag[] {
+  return Array.isArray(value) ? [...new Set<EventFormatTag>(["networking", ...value.filter((tag): tag is EventFormatTag =>
+    typeof tag === "string" && (EVENT_FORMAT_TAGS as readonly string[]).includes(tag))])] : ["networking"];
+}
+
+export const EVENT_CONFERENCE_TAGS = ["IBC", "MPTS", "NAB", "LSE"] as const;
+export type EventConferenceTag = typeof EVENT_CONFERENCE_TAGS[number];
+export const EVENT_THEME_TAGS = [
+  "AI", "Monetisation", "UX", "Streaming", "Broadcast", "Live sports", "Platforms", "Distribution",
+  "Infrastructure", "Production", "Advertising", "Content", "Data", "Cloud", "Sustainability",
+] as const;
+export type EventThemeTag = typeof EVENT_THEME_TAGS[number];
+
+function normalizeControlledTags<T extends string>(value: unknown, allowed: readonly T[]): T[] {
+  return Array.isArray(value) ? [...new Set(value.filter((tag): tag is T =>
+    typeof tag === "string" && (allowed as readonly string[]).includes(tag)))] : [];
+}
+export const normalizeEventConferenceTags = (value: unknown) => normalizeControlledTags(value, EVENT_CONFERENCE_TAGS);
+export const normalizeEventThemeTags = (value: unknown) => normalizeControlledTags(value, EVENT_THEME_TAGS);
+
 export interface EventItem extends TaxonomyMetadata {
   id: number;
+  capacity?: number;
+  historyLabel?: string;
+  capacity_number?: number;
+  capacity_label?: string;
+  card_summary?: string;
+  subtitle?: string;
+  heroHighlights?: string[];
+  partnerEvent?: boolean;
+  partnerEventCopy?: string;
+  departure?: string;
+  destination?: string;
+  ctaLabel?: string;
+  statusLabel?: string;
+  image?: string;
+  whoAttends?: string;
+  whyAttend?: string[];
+  whatToExpect?: string[];
+  programme?: { time?: string; description: string }[];
+  partners?: { name: string; logo?: string; url?: string }[];
+  attendanceStatement?: string;
+  ctaHeading?: string;
+  ctaCopy?: string;
+  registrationLink?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  socialImage?: string;
+  formatTags?: EventFormatTag[];
+  conferenceAlignment?: EventConferenceTag[];
+  themeTags?: EventThemeTag[];
   experienceCategories?: EventExperienceCategory[];
   startsAt?: string;
   endsAt?: string;
@@ -85,6 +139,16 @@ function text(value: unknown): string {
   return typeof value === "string" ? value : "";
 }
 
+function textList(value: unknown): string[] {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && !!item.trim()) : [];
+}
+
+// Editorial links can be local paths or HTTP(S), never executable URL schemes.
+function editorialUrl(value: unknown): string {
+  const url = text(value).trim();
+  return /^(https?:\/\/|\/(?!\/))/.test(url) ? url : "";
+}
+
 function rows(source: unknown): unknown[] {
   const events = Array.isArray(source) ? source : record(source).events;
   return Array.isArray(events) ? events : [];
@@ -116,7 +180,28 @@ export function normalizeEvents(source: unknown = aggregateContent): EventItem[]
   });
   return records.filter(row => validId(row.id) && counts.get(row.id) === 1).map(row => ({
     id: row.id as number,
+    historyLabel: text(row.historyLabel),
+    heroHighlights: textList(row.heroHighlights),
+    partnerEvent: row.partnerEvent === true, partnerEventCopy: text(row.partnerEventCopy),
+    departure: text(row.departure), destination: text(row.destination), ctaLabel: text(row.ctaLabel),
+    subtitle: text(row.subtitle), statusLabel: text(row.statusLabel), image: editorialUrl(row.image),
+    whoAttends: text(row.whoAttends), whyAttend: textList(row.whyAttend), whatToExpect: textList(row.whatToExpect),
+    programme: Array.isArray(row.programme) ? row.programme.map(record).filter(item => text(item.description).trim())
+      .map(item => ({ time: text(item.time), description: text(item.description) })) : [],
+    partners: Array.isArray(row.partners) ? row.partners.map(record).filter(item => text(item.name).trim())
+      .map(item => ({ name: text(item.name), logo: editorialUrl(item.logo), url: editorialUrl(item.url) })) : [],
+    attendanceStatement: text(row.attendanceStatement), ctaHeading: text(row.ctaHeading), ctaCopy: text(row.ctaCopy),
+    registrationLink: editorialUrl(row.registrationLink), seoTitle: text(row.seoTitle),
+    seoDescription: text(row.seoDescription), socialImage: editorialUrl(row.socialImage),
+    capacity: typeof row.capacity === "number" && Number.isSafeInteger(row.capacity) && row.capacity > 0
+      ? row.capacity : undefined,
+    capacity_number: typeof row.capacity_number === "number" && Number.isSafeInteger(row.capacity_number) && row.capacity_number > 0
+      ? row.capacity_number : undefined,
+    capacity_label: text(row.capacity_label), card_summary: text(row.card_summary),
     ...normalizeTaxonomyMetadata(row),
+    formatTags: normalizeEventFormatTags(row.formatTags),
+    conferenceAlignment: normalizeEventConferenceTags(row.conferenceAlignment),
+    themeTags: normalizeEventThemeTags(row.themeTags),
     experienceCategories: Array.isArray(row.experienceCategories)
       ? [...new Set(row.experienceCategories.filter((value): value is EventExperienceCategory =>
         typeof value === "string" && experienceCategories.has(value as EventExperienceCategory)))]
