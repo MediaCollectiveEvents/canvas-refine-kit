@@ -10,6 +10,9 @@
     <!-- Decap CMS will mount its UI here -->
     <div id="nc-root"></div>
 
+    <!-- Register the root-array FAQ adapter before Decap reads any content. -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+
     <!-- 1) Decap CMS core (this one is CONFIRMED 200 OK on your machine) -->
     <script src="/admin/vendor/decap-cms.js"></script>
 

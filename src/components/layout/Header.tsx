@@ -22,9 +22,9 @@ const typedSettings = settings as SettingsFile;
 
 /* Resolve nav link destinations */
 
-function resolveHref(item: RawNavItem): string {
-  if (item.href) return item.href;
+export function resolveHref(item: RawNavItem): string {
   if (item.url) return item.url;
+  if (item.href) return item.href;
 
   const map: Record<string, string> = {
     home: "/",

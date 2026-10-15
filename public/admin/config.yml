@@ -27,77 +27,6 @@ hero_fields: &hero_fields
     widget: image
     required: false
 
-  - label: Theme
-    name: theme
-    widget: select
-    default: dark
-    options:
-      - { label: Dark, value: dark }
-      - { label: Light, value: light }
-
-  - label: Mobile Background Crop
-    name: mobileCrop
-    widget: select
-    default: cover
-    options:
-      - { label: Cover, value: cover }
-      - { label: Contain, value: contain }
-
-  - label: Image Position
-    name: imagePosition
-    widget: select
-    default: center
-    options:
-      - { label: Top, value: top }
-      - { label: Center, value: center }
-      - { label: Bottom, value: bottom }
-
-  - label: Image Vertical Offset (px)
-    name: imageOffset
-    widget: number
-    default: 0
-
-  - label: Primary CTA
-    name: primaryCta
-    widget: object
-    required: false
-    fields:
-      - { label: Label, name: label, widget: string, required: false }
-      - { label: URL, name: url, widget: string, required: false }
-
-  - label: Secondary CTA
-    name: secondaryCta
-    widget: object
-    required: false
-    fields:
-      - { label: Label, name: label, widget: string, required: false }
-      - { label: URL, name: url, widget: string, required: false }
-
-  - label: Override Glow Colour (RGB)
-    name: backdropColor
-    widget: string
-    required: false
-    hint: "Leave empty to use Site Defaults. Format: r,g,b — e.g. 40,80,255"
-    pattern:
-      - "^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$"
-      - "Must be RGB only (e.g. 40,80,255)"
-
-  - label: Override Glow Strength
-    name: backdropStrength
-    widget: number
-    min: 0
-    max: 1
-    step: 0.05
-    required: false
-
-  - label: Override Glow Size
-    name: backdropSize
-    widget: number
-    min: 0.5
-    max: 1.5
-    step: 0.1
-    required: false
-
 collections:
   - name: homepage
     label: Homepage
@@ -177,31 +106,8 @@ collections:
                 widget: object
                 fields:
                   - { label: Type, name: type, widget: hidden, default: "eventDiscovery" }
-                  - { label: Heading, name: heading, widget: string }
                   - { label: Intro, name: intro, widget: text }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
-                  - { label: Interests label, name: interestsLabel, widget: string }
-                  - label: Interests
-                    name: interests
-                    widget: list
-                    summary: "{{fields.label}}"
-                    fields:
-                      - { label: Matching ID, name: id, widget: select, options: [networking-social, forums, breakfasts, receptions, socials, discussions, special-interest, industry-shows] }
-                      - { label: Label, name: label, widget: string }
-                  - { label: Industry events label, name: showsLabel, widget: string }
-                  - label: Industry events
-                    name: shows
-                    widget: list
-                    summary: "{{fields.label}}"
-                    fields:
-                      - { label: Matching ID, name: id, widget: select, options: [nab-show-2026, mpts-2026, ibc-2026, other] }
-                      - { label: Label, name: label, widget: string }
-                  - { label: Action label, name: ctaLabel, widget: string }
-                  - { label: Results heading, name: resultsHeading, widget: string }
-                  - { label: No-match heading, name: emptyHeading, widget: string }
-                  - { label: No-match body, name: emptyBody, widget: text }
-                  - { label: No-match action label, name: emptyCtaLabel, widget: string }
-
               - label: Get involved
                 name: getInvolved
                 widget: object
@@ -241,20 +147,6 @@ collections:
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
               - label: About Intro
                 name: aboutIntro
                 widget: object
@@ -263,21 +155,6 @@ collections:
                   - { label: Heading, name: heading, widget: string }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - { label: Body, name: body, widget: text }
-                  - { label: Extended Text, name: extended, widget: text, required: false }
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
               - label: Who Attends
                 name: whoAttends
                 widget: object
@@ -291,13 +168,6 @@ collections:
                     fields:
                       - { label: Supporting Paragraph, name: sub, widget: text, required: false }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
-                  - label: Statistics
-                    name: statistics
-                    widget: object
-                    fields:
-                      - { label: Companies, name: companies, widget: string, required: false }
-                      - { label: Board Level, name: boardLevel, widget: string, required: false }
-                      - { label: Founders, name: founders, widget: string, required: false }
                   - label: Highlights
                     name: highlights
                     widget: list
@@ -306,81 +176,12 @@ collections:
                     fields:
                       - { label: Title, name: title, widget: string, required: false }
                       - { label: Subtitle, name: subtitle, widget: string, required: false }
-                      - { label: Icon Key, name: icon, widget: string, required: false }
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
               - label: Upcoming Events Intro
                 name: upcomingEventsIntro
                 widget: object
                 fields:
                   - { label: Type, name: type, widget: hidden, default: "upcomingEventsIntro" }
-                  - { label: Heading, name: heading, widget: string }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
-                  - { label: Description, name: description, widget: text, required: false }
-                  - { label: Note, name: note, widget: string, required: false }
-                  - { label: Under-Header Text, name: underHeader, widget: text, required: false }
-                  - label: Primary CTA
-                    name: cta
-                    widget: object
-                    required: false
-                    fields:
-                      - { label: Label, name: label, widget: string, required: false }
-                      - { label: URL, name: url, widget: string, required: false }
-                  - label: Secondary CTA
-                    name: secondaryCta
-                    widget: object
-                    required: false
-                    fields:
-                      - { label: Label, name: label, widget: string, required: false }
-                      - { label: URL, name: url, widget: string, required: false }
-                  - label: Card Image Aspect
-                    name: imageAspect
-                    widget: select
-                    required: false
-                    default: "3:2"
-                    options:
-                      - { label: "3:2", value: "3:2" }
-                      - { label: "16:9", value: "16:9" }
-                      - { label: "1:1", value: "1:1" }
-                  - label: Card Image Fit
-                    name: imageFit
-                    widget: select
-                    required: false
-                    default: "contain"
-                    options:
-                      - { label: Contain (no crop), value: contain }
-                      - { label: Cover (crop to fill), value: cover }
-                  - label: Card Image Padding
-                    name: imagePadding
-                    widget: boolean
-                    required: false
-                    default: true
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
               - label: For Brands & Partners
                 name: forBrands
                 widget: object
@@ -396,20 +197,6 @@ collections:
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
               - label: New Here
                 name: newHere
                 widget: object
@@ -425,20 +212,6 @@ collections:
                     fields:
                       - { label: Label, name: label, widget: string, required: false }
                       - { label: URL, name: url, widget: string, required: false }
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
               - label: Testimonials
                 name: testimonials
                 widget: object
@@ -450,6 +223,7 @@ collections:
                     widget: object
                     required: false
                     fields:
+                      - { label: Eyebrow, name: eyebrow, widget: string, required: false }
                       - { label: Supporting Paragraph, name: sub, widget: text, required: false }
                   - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
                   - label: Items
@@ -461,23 +235,6 @@ collections:
                       - { label: Name, name: name, widget: string, required: false }
                       - { label: Role, name: role, widget: string, required: false }
                       - { label: Company, name: company, widget: string, required: false }
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-                    pattern:
-                      - "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
-                      - "Must be a valid hex colour (e.g. #22257E or #fff)"
-
               - label: Partners Strip
                 name: partners
                 widget: object
@@ -494,20 +251,6 @@ collections:
                       label: Logo Name
                       name: logo
                       widget: string
-                  - label: Background Style
-                    name: backgroundStyle
-                    widget: select
-                    required: false
-                    options:
-                      - { label: "Use site dark background", value: dark }
-                      - { label: "Use site light background", value: light }
-                      - { label: "Transparent (inherit)", value: transparent }
-                      - { label: "Custom colour", value: custom }
-                  - label: Custom Background Colour
-                    name: customBackground
-                    widget: string
-                    required: false
-
   - name: aboutPage
     label: About Page
     files:
@@ -658,12 +401,6 @@ collections:
                 name: image
                 widget: image
                 required: false
-              - label: Theme
-                name: theme
-                widget: select
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
               - label: Variant
                 name: variant
                 widget: select
@@ -671,68 +408,84 @@ collections:
                 options:
                   - { label: Solid, value: solid }
                   - { label: Image, value: image }
-              - label: Align
-                name: align
-                widget: select
-                required: false
-                options:
-                  - { label: Center, value: center }
-                  - { label: Left, value: left }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: select
-                default: 0.75
-                options:
-                  - { label: None (0%), value: 0 }
-                  - { label: Light (25%), value: 0.25 }
-                  - { label: Medium (50%), value: 0.5 }
-                  - { label: Strong (75%), value: 0.75 }
-                  - { label: Full (100%), value: 1 }
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                default: cover
-                options:
-                  - { label: Cover, value: cover }
-                  - { label: Contain, value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                default: center
-                options:
-                  - { label: Top, value: top }
-                  - { label: Center, value: center }
-                  - { label: Bottom, value: bottom }
-              - label: Image Vertical Offset (px)
-                name: imageOffset
-                widget: number
-                default: 0
-
           - label: Sections
             name: sections
             widget: list
             summary: "{{fields.type}} – {{fields.title}}"
+            types:
+              - label: FAQ Section
+                name: faqSection
+                widget: object
+                fields:
+                  - name: type
+                    widget: hidden
+                    default: faqSection
+                  - label: ID
+                    name: id
+                    widget: string
+                    required: false
+                  - label: Hidden
+                    name: hidden
+                    widget: boolean
+                    required: false
+                    default: false
+                  - label: Title
+                    name: title
+                    widget: string
+                    required: false
+                  - label: Description
+                    name: description
+                    widget: text
+                    required: false
+              - label: Call to Action
+                name: cta
+                widget: object
+                fields:
+                  - name: type
+                    widget: hidden
+                    default: cta
+                  - label: ID
+                    name: id
+                    widget: string
+                    required: false
+                  - label: Hidden
+                    name: hidden
+                    widget: boolean
+                    required: false
+                    default: false
+                  - label: Title
+                    name: title
+                    widget: string
+                    required: false
+                  - label: Accent Word
+                    name: accentWord
+                    widget: string
+                    required: false
+                  - label: Description
+                    name: description
+                    widget: text
+                    required: false
+                  - label: Button Label
+                    name: buttonLabel
+                    widget: string
+                    required: false
+
+      - name: faqAnswers
+        label: FAQ questions and answers
+        file: src/content/faq.json
+        format: json
+        fields:
+          - label: Questions and answers
+            name: faqs
+            widget: list
+            summary: '{{fields.question}}'
             fields:
-              - { label: ID, name: id, widget: string, required: false }
-              - label: Type
-                name: type
-                widget: select
-                options:
-                  - { label: FAQ Section, value: faqSection }
-                  - { label: Call to Action, value: cta }
-              - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
-              - label: Variant
-                name: variant
-                widget: select
-                required: false
-                options:
-                      - { label: Default, value: default }
-                      - { label: Darker, value: darker }
-                      - { label: Accent, value: accent }
-              - { label: Title, name: title, widget: string, required: false }
-              - { label: Accent Word, name: accentWord, widget: string, required: false }
-              - { label: Description, name: description, widget: text, required: false }
-              - { label: Button Label, name: buttonLabel, widget: string, required: false }
+              - label: Question
+                name: question
+                widget: string
+              - label: Answer
+                name: answer
+                widget: text
 
   - name: events
     label: Events Content & List
@@ -753,48 +506,6 @@ collections:
                 name: image
                 widget: image
                 required: false
-              - label: Theme
-                name: theme
-                widget: select
-                default: dark
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                default: cover
-                options:
-                  - { label: Cover, value: cover }
-                  - { label: Contain, value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                default: center
-                options:
-                  - { label: Top, value: top }
-                  - { label: Center, value: center }
-                  - { label: Bottom, value: bottom }
-              - label: Image Vertical Offset (px)
-                name: imageOffset
-                widget: number
-                default: 0
-              - label: CTA
-                name: cta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
-
           - label: Intro Section
             name: intro
             widget: object
@@ -958,55 +669,141 @@ collections:
           - label: Sections
             name: sections
             widget: list
-            summary: "{{fields.type}} – {{fields.title}}"
-            fields:
-              - { label: ID, name: id, widget: string, required: false }
-              - label: Type
-                name: type
-                widget: select
-                options:
-                  - { label: Event Formats, value: eventFormats }
-                  - { label: Event Categories, value: eventCategories }
-                  - { label: Intro Block, value: eventsIntro }
-                  - { label: Events List, value: eventsList }
-                  - { label: Join Us CTA, value: joinUs }
-              - { label: Hidden, name: hidden, widget: boolean, required: false, default: false }
-              - { label: Title, name: title, widget: string, required: false }
-              - { label: Accent Word, name: accentWord, widget: string, required: false }
-              - { label: Body, name: body, widget: text, required: false }
-              - { label: Section Label, name: eyebrow, widget: string, required: false }
-              - { label: Heading, name: heading, widget: string, required: false }
-              - label: Format Events
-                name: items
-                widget: list
-                required: false
-                fields: &programme_event_fields
-                  - label: Event
-                    name: eventId
-                    widget: relation
-                    collection: events
-                    file: eventsContent
-                    search_fields: ["events.*.title", "events.*.id"]
-                    display_fields: ["events.*.title"]
-                    value_field: "events.*.id"
-                  - { label: Display Name, name: title, widget: string, required: false }
-              - label: Categories
-                name: groups
-                widget: list
-                required: false
+            summary: "{{fields.type}}"
+            types:
+              - label: Event Formats
+                name: eventFormats
+                widget: object
                 fields:
-                  - { label: Category, name: label, widget: string }
-                  - label: Events
+                  - name: type
+                    widget: hidden
+                    default: eventFormats
+                  - label: ID
+                    name: id
+                    widget: string
+                    required: false
+                  - label: Hidden
+                    name: hidden
+                    widget: boolean
+                    required: false
+                    default: false
+                  - label: Body
+                    name: body
+                    widget: text
+                    required: false
+                  - label: Section Label
+                    name: eyebrow
+                    widget: string
+                    required: false
+                  - label: Heading
+                    name: heading
+                    widget: string
+                    required: false
+                  - label: Format Events
                     name: items
                     widget: list
-                    fields: *programme_event_fields
-              - label: CTA
-                name: cta
+                    required: false
+                    fields:
+                      - label: Event
+                        name: eventId
+                        widget: relation
+                        collection: events
+                        file: eventsContent
+                        search_fields:
+                          - events.*.title
+                          - events.*.id
+                        display_fields:
+                          - events.*.title
+                        value_field: events.*.id
+                      - label: Display Name
+                        name: title
+                        widget: string
+                        required: false
+              - label: Event Categories
+                name: eventCategories
                 widget: object
-                required: false
                 fields:
-                  - { label: Label, name: label, widget: string, required: false }
-                  - { label: URL, name: url, widget: string, required: false }
+                  - name: type
+                    widget: hidden
+                    default: eventCategories
+                  - label: ID
+                    name: id
+                    widget: string
+                    required: false
+                  - label: Hidden
+                    name: hidden
+                    widget: boolean
+                    required: false
+                    default: false
+                  - label: Categories
+                    name: groups
+                    widget: list
+                    required: false
+                    fields:
+                      - label: Category
+                        name: label
+                        widget: string
+                      - label: Events
+                        name: items
+                        widget: list
+                        fields:
+                          - label: Event
+                            name: eventId
+                            widget: relation
+                            collection: events
+                            file: eventsContent
+                            search_fields:
+                              - events.*.title
+                              - events.*.id
+                            display_fields:
+                              - events.*.title
+                            value_field: events.*.id
+                          - label: Display Name
+                            name: title
+                            widget: string
+                            required: false
+              - label: Intro Block
+                name: eventsIntro
+                widget: object
+                fields:
+                  - name: type
+                    widget: hidden
+                    default: eventsIntro
+                  - label: ID
+                    name: id
+                    widget: string
+                    required: false
+                  - label: Hidden
+                    name: hidden
+                    widget: boolean
+                    required: false
+                    default: false
+                  - label: Title
+                    name: title
+                    widget: string
+                    required: false
+                  - label: Accent Word
+                    name: accentWord
+                    widget: string
+                    required: false
+                  - label: Body
+                    name: body
+                    widget: text
+                    required: false
+              - label: Legacy eventsList (unused; preserved)
+                name: eventsList
+                widget: object
+                fields:
+                  - name: type
+                    widget: hidden
+                    default: eventsList
+              - label: Legacy joinUs (unused; preserved)
+                name: joinUs
+                widget: object
+                fields:
+                  - name: type
+                    widget: hidden
+                    default: joinUs
 
   - name: partnersPage
     label: Partners Page
@@ -1027,54 +824,6 @@ collections:
                 name: image
                 widget: image
                 required: false
-              - label: Theme
-                name: theme
-                widget: select
-                default: dark
-                options:
-                  - { label: Dark, value: dark }
-                  - { label: Light, value: light }
-              - label: Overlay Strength
-                name: overlayStrength
-                widget: number
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.5
-              - label: Mobile Background Crop
-                name: mobileCrop
-                widget: select
-                default: cover
-                options:
-                  - { label: Cover, value: cover }
-                  - { label: Contain, value: contain }
-              - label: Image Position
-                name: imagePosition
-                widget: select
-                default: center
-                options:
-                  - { label: Top, value: top }
-                  - { label: Center, value: center }
-                  - { label: Bottom, value: bottom }
-              - label: Image Vertical Offset (px)
-                name: imageOffset
-                widget: number
-                default: 0
-              - label: Primary CTA
-                name: primaryCta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
-              - label: CTA
-                name: cta
-                widget: object
-                required: false
-                fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
-
           - label: Sections
             name: sections
             widget: list
@@ -1400,8 +1149,6 @@ collections:
             name: palette
             widget: object
             fields:
-              - { label: Primary, name: primary, widget: string }
-              - { label: Secondary, name: secondary, widget: string }
               - label: Dark Background Colour
                 name: backgroundDark
                 widget: color
@@ -1410,77 +1157,6 @@ collections:
                 name: backgroundLight
                 widget: color
                 default: "#ffffff"
-
-          - label: Hero Defaults
-            name: heroDefaults
-            widget: object
-            fields:
-              - label: Eyebrow Font Colour
-                name: eyebrowColor
-                widget: select
-                default: white
-                options:
-                  - { label: White, value: white }
-                  - { label: Black, value: black }
-                  - { label: Teal (brand primary), value: teal }
-                  - { label: Cyan, value: cyan }
-                  - { label: Dark Grey, value: darkgrey }
-
-              - label: Title Font Colour
-                name: titleColor
-                widget: select
-                default: white
-                options:
-                  - { label: White, value: white }
-                  - { label: Black, value: black }
-                  - { label: Teal (brand primary), value: teal }
-                  - { label: Cyan, value: cyan }
-                  - { label: Dark Grey, value: darkgrey }
-
-              - label: Body Text Colour
-                name: textColor
-                widget: select
-                default: white
-                options:
-                  - { label: White, value: white }
-                  - { label: Black, value: black }
-                  - { label: Teal (brand primary), value: teal }
-                  - { label: Cyan, value: cyan }
-                  - { label: Dark Grey, value: darkgrey }
-
-              - label: Elliptical Glow Strength
-                name: backdropStrength
-                widget: number
-                value_type: float
-                min: 0
-                max: 1
-                step: 0.05
-                default: 0.75
-
-              - label: Elliptical Glow Colour (RGB)
-                name: backdropColor
-                widget: string
-                default: "15,23,42"
-                hint: "Use format: r,g,b — e.g. 40,80,255 for a brighter blue"
-                pattern:
-                  - "^[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}$"
-                  - "Must be RGB only (e.g. 40,80,255)"
-
-              - label: Elliptical Glow Size
-                name: backdropSize
-                widget: number
-                value_type: float
-                min: 0.5
-                max: 1.5
-                step: 0.1
-                default: 0.7
-
-          - label: Footer
-            name: footer
-            widget: object
-            fields:
-              - { label: Text, name: text, widget: text, required: false }
-              - { label: Show Events in Footer, name: showEventsInFooter, widget: boolean, required: false, default: false }
 
           - label: Navigation
             name: nav

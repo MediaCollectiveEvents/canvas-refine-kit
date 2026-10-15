@@ -2,6 +2,8 @@ import { registerReferenceWidgets, type ReferenceWidgetCMS } from "./controls/Re
 import BlogPagePreview from "./previews/BlogPagePreview";
 import ArticlesPreview from "./previews/ArticlesPreview";
 import adaptPreview from "./React18PreviewAdapter";
+import FaqAnswersPreview from "./previews/FaqAnswersPreview";
+import { registerFaqRootArrayAdapter, type FaqBackendCMS } from "./faqRootArray";
 // src/cms/preview.tsx
 
 // 0) Make React global BEFORE anything else so Decap v3 portal can use it
@@ -12,7 +14,8 @@ window.React = React;
 import "./shim-process";
 
 type PreviewProps = { entry: import("./previews/HomepagePreview").PreviewEntry };
-interface CMSApi extends ReferenceWidgetCMS {
+interface CMSApi extends ReferenceWidgetCMS, FaqBackendCMS {
+  init(): void;
   registerPreviewTemplate(name: string, component: React.ComponentType<PreviewProps>): void;
   registerPreviewStyle(css: string, options: { raw: boolean }): void;
 }
@@ -60,10 +63,14 @@ async function boot() {
     const CMS = await waitForCMSReady();
     console.log("[Decap Preview] CMS ready.");
 
+    registerFaqRootArrayAdapter(CMS);
     registerReferenceWidgets(CMS);
     CMS.registerPreviewTemplate("blogPosts", adaptPreview(ArticlesPreview));
 
-    // Keep font imports first and use the same CSS/palette as the live pages.
+    // Preview iframes do not inherit the font links in the public index.html.
+    CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Satisfy&display=swap", { raw: false });
+    CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap", { raw: false });
+    // Use the same CSS/palette as the live pages.
     CMS.registerPreviewStyle(previewCss + `:root{--background-dark:${settings.palette.backgroundDark};--background-light:${settings.palette.backgroundLight}}`, { raw: true });
 
     // ✅ Homepage (your styled preview: hero + all homepage sections)
@@ -74,11 +81,13 @@ async function boot() {
     // Editorial previews reuse the current page renderers.
     CMS.registerPreviewTemplate("about", adaptPreview(AboutPreview));
     CMS.registerPreviewTemplate("faqPage", adaptPreview(FaqPreview));
+    CMS.registerPreviewTemplate("faqAnswers", adaptPreview(FaqAnswersPreview));
     CMS.registerPreviewTemplate("eventsPage", adaptPreview(LegacyEventsPagePreview));
     CMS.registerPreviewTemplate("partnersPage", adaptPreview(PartnersPreview));
     CMS.registerPreviewTemplate("blogPage", adaptPreview(BlogPagePreview));
 
     console.log("[Decap Preview] templates registered.");
+    CMS.init();
   } catch (err) {
     console.error("[Decap Preview] CMS not ready:", err);
   }
