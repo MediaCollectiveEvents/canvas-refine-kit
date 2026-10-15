@@ -1,3 +1,4 @@
+import { eventsSeo } from "@/lib/pageSeo";
 import Seo from "@/components/shared/Seo";
 import React from "react";
 import Header from "@/components/layout/Header";
@@ -10,7 +11,7 @@ const Events: React.FC = () => {
   const eventContent = getEventContent();
   return (
     <div className="min-h-screen bg-background">
-      <Seo title={`${eventContent.hero.title} — The Media Collective`} description={eventContent.hero.description} />
+      <Seo {...eventsSeo(eventContent)} />
       <Header />
       <EventsListing />
       <Footer />

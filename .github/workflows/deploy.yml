@@ -5,6 +5,11 @@ on:
     branches: ["main"] # Deploy automatically when main is updated
   workflow_dispatch: # Allow manual deploys from GitHub UI
 
+# Keep delivery steps from separate releases from interleaving.
+concurrency:
+  group: ionos-public-site
+  cancel-in-progress: false
+
 env:
   NODE_VERSION: "20"
   BUILD_DIR: dist
@@ -30,17 +35,17 @@ jobs:
       - name: Build Vite site
         run: npm run build
 
-      - name: Ensure .htaccess is included in dist
-        run: |
-          if [ -f ".htaccess" ] && [ ! -f "dist/.htaccess" ]; then
-            cp .htaccess dist/.htaccess
-          fi
+      - name: Validate deployment payload
+        run: node scripts/check-deploy-payload.mjs
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: site-dist
-          path: ${{ env.BUILD_DIR }}
+          path: |
+            ${{ env.BUILD_DIR }}/
+            !${{ env.BUILD_DIR }}/.vite/
+          include-hidden-files: true
           if-no-files-found: error
 
   deploy:
@@ -49,13 +54,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout release validation scripts
+        uses: actions/checkout@v4
+
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: site-dist
           path: ${{ env.BUILD_DIR }}
 
-      - name: Deploy via SFTP
+      - name: Validate downloaded deployment payload
+        run: node scripts/check-deploy-payload.mjs
+
+      - name: Deploy payload via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{ secrets.SFTP_USERNAME }}
@@ -65,5 +76,29 @@ jobs:
           # Upload the *contents* of dist:
           local_path: ${{ env.BUILD_DIR }}/*
           # Deploy into the current directory on the SFTP server:
+          remote_path: .
+          sftp_only: true
+
+      # The existing action uses put -r without deletion. Clean only obsolete
+      # files in our generated directory after targets exist, before activation.
+      - name: Verify remote shells and remove obsolete generated HTML
+        env:
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          if ! command -v sshpass >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y sshpass
+          fi
+          python3 scripts/clean-stale-seo-shells.py
+
+      - name: Activate Apache routing last
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_path: ${{ env.BUILD_DIR }}/.htaccess
           remote_path: .
           sftp_only: true

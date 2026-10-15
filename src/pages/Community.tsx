@@ -1,3 +1,4 @@
+import { communitySeo } from "@/lib/pageSeo";
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -17,7 +18,7 @@ type CommunityContent = Omit<typeof communityContent, "sections"> & {
 export default function Community({ content = communityContent }: { content?: CommunityContent }) {
   const [contactOpen, setContactOpen] = useState(false);
   return <div className="min-h-screen bg-background">
-    <Seo title="Community — The Media Collective" description={content.hero.description} />
+    <Seo {...communitySeo(content)} />
     <Header />
     <ContactForm open={contactOpen} onOpenChange={setContactOpen} />
     <main className="site-header-clearance">

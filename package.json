@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:cms && vite build",
+    "build": "npm run build:cms && vite build --manifest && node scripts/generate-static-heads.mjs",
     "build:cms": "vite build --config vite.cms.config.ts",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",

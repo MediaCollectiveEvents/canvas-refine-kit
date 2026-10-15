@@ -1,7 +1,7 @@
 import type { EventItem } from "./events";
 import { getEventImage } from "./eventImages";
-
-export const SITE_ORIGIN = "https://mediacollective.events";
+import { SITE_ORIGIN } from "./canonicalRoutes.mjs";
+export { SITE_ORIGIN } from "./canonicalRoutes.mjs";
 
 export function organisationData() {
   return {

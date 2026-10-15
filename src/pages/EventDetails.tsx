@@ -1,11 +1,10 @@
 import Seo from "@/components/shared/Seo";
-import { eventData } from "@/lib/structuredData";
+import { eventSeo, errorSeo } from "@/lib/pageSeo";
 // src/pages/EventDetails.tsx
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import EventRegistrationForm from "@/components/EventRegistrationForm";
 import EventPageTemplate from "@/components/shared/EventPageTemplate";
-import { getEventImage } from "@/lib/eventImages";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
@@ -22,7 +21,7 @@ const EventDetails = () => {
   if (!event) {
     return (
       <div className="min-h-screen bg-background text-foreground">
-        <Seo title="Event Not Found — The Media Collective" noindex />
+        <Seo {...errorSeo(true)} />
         <Header />
         <main className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
           <h1 className="site-page-h1 mb-4 break-words font-display text-3xl font-light md:text-5xl">Event not found</h1>
@@ -47,7 +46,7 @@ const EventDetails = () => {
 
   return (
     <div className="min-h-screen bg-[#101d24] text-foreground">
-      <Seo title={event.seoTitle || `${event.title} — The Media Collective`} description={event.seoDescription || event.summary || event.description} ogImage={event.socialImage || getEventImage(event)} url={`/events/${event.id}`} structuredData={eventData(event)} />
+      <Seo {...eventSeo(event)} />
       <Header />
       {!event.partnerEvent && <EventRegistrationForm attendanceOnly event={event} open={isFormOpen} onOpenChange={setIsFormOpen} />}
 

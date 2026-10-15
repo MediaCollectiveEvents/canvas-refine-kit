@@ -1,3 +1,4 @@
+import { faqSeo } from "@/lib/pageSeo";
 import Seo from "@/components/shared/Seo";
 import ContactForm from "@/components/ContactForm";
 import { useState, type ComponentProps } from "react";
@@ -18,7 +19,7 @@ export default function FAQ() {
   return (
     <div className="min-h-screen bg-background">
       {/* FIXED HEADER */}
-      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
+      <Seo {...faqSeo(faqPageData)} />
       <Header />
       <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
