@@ -8,7 +8,7 @@ import SectionWrapper from "../layout/SectionWrapper";
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
 import travellerImg from "@/assets/events/traveller.png";
-import { getUpcomingEvents } from "@/lib/events";
+import { getEventCapacity, getUpcomingEvents } from "@/lib/events";
 
 type Cta = { label?: string; url?: string };
 interface EventsSectionProps {
@@ -45,7 +45,9 @@ export default function EventsSection(_props: EventsSectionProps) {
   return (
     <SectionWrapper variant="dark" padding="lux" className="border-b border-white/10 lg:!pb-12">
       <EventRegistrationForm attendanceOnly event={displayed[0]} open={invitationOpen} onOpenChange={setInvitationOpen} />
-      {displayed.map(event => (
+      {displayed.map(event => {
+        const capacity = getEventCapacity(event);
+        return (
         <article key={event.id} className="grid items-start gap-8 text-[#f7f3eb] md:grid-cols-[minmax(0,38fr)_minmax(0,62fr)] lg:grid-cols-[minmax(0,34fr)_minmax(0,66fr)] lg:gap-12">
           <figure className="w-full max-w-[440px] lg:max-w-[396px]">
             <img src={getImageForKey(event.imageKey, event.venue, event.title)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full rounded-xl object-contain" />
@@ -54,7 +56,7 @@ export default function EventsSection(_props: EventsSectionProps) {
             <p className="mb-4 site-eyebrow text-[#8FC7C1]">NEXT EVENT</p>
             <h2 className="font-display text-3xl font-medium leading-tight md:text-4xl">{event.title}</h2>
             {event.imageKey === "off-air" && <ul aria-label="Event highlights" className="mt-4 flex flex-wrap gap-2 lg:flex-nowrap">
-              {["DISCUSSION", "MEDIA TRENDS", "INDUSTRY LEADERS", ...(event.capacity_number ? [`${event.capacity_number} ATTENDEES`] : [])].map(label => <li key={label}><Badge variant="outline" className="whitespace-nowrap border-primary/20 bg-primary/10 px-2 py-1 font-display text-xs font-medium leading-5 tracking-wide text-[#9bd3c8]">{label}</Badge></li>)}
+              {["DISCUSSION", "MEDIA TRENDS", "INDUSTRY LEADERS", ...(capacity ? [`${capacity} ATTENDEES`] : [])].map(label => <li key={label}><Badge variant="outline" className="whitespace-nowrap border-primary/20 bg-primary/10 px-2 py-1 font-display text-xs font-medium leading-5 tracking-wide text-[#9bd3c8]">{label}</Badge></li>)}
             </ul>}
             <div className="mt-5 max-w-[65ch] font-body text-base leading-relaxed text-[#f7f3eb]/90 md:text-lg">
               <p>{event.imageKey === "off-air" ? "Join broadcasters, streamers, publishers and technology leaders to examine the shifts shaping media in 2027." : event.summary || event.description}</p>
@@ -64,7 +66,7 @@ export default function EventsSection(_props: EventsSectionProps) {
               <li className="flex items-start gap-3"><CalendarDays aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><time dateTime={event.date}>{formatInternationalDate(event.date)}</time></li>
               {event.time && <li className="flex items-start gap-3"><Clock3 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><span>{event.time}</span></li>}
               {(event.venue || event.location) && <li className="flex items-start gap-3"><MapPin aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><span>{[event.venue, event.location].filter(Boolean).join(", ")}</span></li>}
-              <li className="flex items-start gap-3"><Ticket aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><span>{event.imageKey === "off-air" && event.capacity_number ? `${event.capacity_number} Attendees` : "Curated Attendance"}</span></li>
+              <li className="flex items-start gap-3"><Ticket aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><span>{event.imageKey === "off-air" && capacity ? `${capacity} Attendees` : "Curated Attendance"}</span></li>
             </ul>
             {event.imageKey === "off-air" &&
               <p className="mt-6 font-body text-lg font-semibold leading-relaxed">What changed in 2026? What matters in 2027? What's next for media?</p>
@@ -75,7 +77,7 @@ export default function EventsSection(_props: EventsSectionProps) {
             </div>
           </div>
         </article>
-      ))}
+      ); })}
       {!displayed.length && <p className="text-slate-300">New event dates will be announced here.</p>}
     </SectionWrapper>
   );

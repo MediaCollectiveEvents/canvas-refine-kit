@@ -1,14 +1,11 @@
 import { Fragment } from "react";
-
-export type ContextualLink = { text: string; href: string };
+import { getContextualMatches, type ContextualLink } from "@/lib/contextualLinks";
+export type { ContextualLink } from "@/lib/contextualLinks";
 
 // Add explicit internal links to plain content without interpreting CMS text as HTML.
 export default function ContextualText({ text, links }: { text: string; links: ContextualLink[] }) {
   if (!text) return null;
-  const matches = links.flatMap(link => {
-    const index = text.indexOf(link.text);
-    return index < 0 ? [] : [{ ...link, index }];
-  }).sort((a, b) => a.index - b.index);
+  const matches = getContextualMatches(text, links);
   let cursor = 0;
   return <>{matches.map(link => {
     if (link.index < cursor) return null;

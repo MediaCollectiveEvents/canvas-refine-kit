@@ -17,7 +17,7 @@ export interface ReferenceControlProps {
 }
 export interface ReferenceWidgetCMS {
  getWidget(name: string): { control: React.ComponentType<ReferenceControlProps> };
- registerWidget(name: string, control: React.ComponentType<ReferenceControlProps>): void;
+ registerWidget<Props>(name: string, control: React.ComponentType<Props>): void;
 }
 const values = (value: unknown): unknown[] => {
  const raw=value && typeof value === "object" && "toJS" in value && typeof value.toJS === "function" ? value.toJS() : value;

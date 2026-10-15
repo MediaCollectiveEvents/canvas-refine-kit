@@ -13,6 +13,17 @@ export const EVENT_IDENTITIES: Readonly<Partial<Record<number, EventIdentity>>> 
   3: { routeAliases: [], registrationId: "networking-breakfast" },
 });
 
+export const PROTECTED_EVENT_IDS = Object.freeze([1, 2, 3, 4, 5, 6, 7, 8]);
+
+// Confirmed independent organiser, bound to the existing stable event identity.
+// Association/sponsor names are not evidence of who organises an event.
+const partnerOrganisers: Readonly<Partial<Record<number, string>>> = Object.freeze({ 8: "Greenline" });
+
+export function getPartnerOrganiser(event: EventItem): string | undefined {
+  if (!event.partnerEvent) return undefined;
+  return partnerOrganisers[event.id] || event.attendanceStatement?.match(/Organiser:\s*([^\.\n]+)/i)?.[1].trim();
+}
+
 export type EventExperienceCategory = "networking-social" | "conference-aligned" | "knowledge-discussion";
 
 export const EVENT_EXPERIENCE_LABELS: Readonly<Record<EventExperienceCategory, string>> = {
@@ -158,17 +169,44 @@ function validId(id: unknown): id is number {
   return typeof id === "number" && Number.isSafeInteger(id) && id > 0;
 }
 
+// Keep the existing listing/detail/JSON-LD precedence everywhere, including
+// editorial programme displays. Invalid values are diagnosed before CMS saves.
+export function getEventCapacity(event: { capacity?: unknown; capacity_number?: unknown }): number | undefined {
+  return validId(event.capacity) ? event.capacity : validId(event.capacity_number) ? event.capacity_number : undefined;
+}
+
+export function getCapacityIssues(event: { capacity?: unknown; capacity_number?: unknown }): string[] {
+  const issues: string[] = [];
+  for (const key of ["capacity", "capacity_number"] as const) {
+    if (event[key] != null && !validId(event[key])) issues.push(`${key} must be a positive whole number.`);
+  }
+  if (validId(event.capacity) && validId(event.capacity_number) && event.capacity !== event.capacity_number) {
+    issues.push(`Conflicting capacity (${event.capacity}) and capacity_number (${event.capacity_number}); make them agree or leave one blank.`);
+  }
+  return issues;
+}
+
 export function getEventIssues(source: unknown = aggregateContent): string[] {
   const counts = new Map<number, number>();
   const issues: string[] = [];
   rows(source).forEach((value, index) => {
-    const { id } = record(value);
+    const row = record(value);
+    const { id } = row;
     if (!validId(id)) issues.push(`Event ${index + 1} needs a unique positive integer ID.`);
     else counts.set(id, (counts.get(id) ?? 0) + 1);
+    issues.push(...getCapacityIssues(row).map(issue => `Event ${id ?? index + 1}: ${issue}`));
   });
   counts.forEach((count, id) => {
     if (count > 1) issues.push(`Event ID ${id} is duplicated; its records cannot be resolved safely.`);
   });
+  return issues;
+}
+
+export function getEventEditIssues(source: unknown, baseline: unknown = aggregateContent): string[] {
+  const issues = getEventIssues(source);
+  const protectedIds = new Set([...PROTECTED_EVENT_IDS, ...rows(baseline).map(value => record(value).id).filter(validId)]);
+  const draftIds = new Set(rows(source).map(value => record(value).id).filter(validId));
+  for (const id of protectedIds) if (!draftIds.has(id)) issues.push(`Keep event ID ${id}; existing event URLs and references must not be removed or renumbered.`);
   return issues;
 }
 

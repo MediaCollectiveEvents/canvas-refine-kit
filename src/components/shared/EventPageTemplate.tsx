@@ -2,7 +2,7 @@ import ClosingCTA from "./ClosingCTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import EventTags from "./EventTags";
-import { formatEventDate, isPastEvent, type EventItem } from "@/lib/events";
+import { formatEventDate, getEventCapacity, isPastEvent, type EventItem } from "@/lib/events";
 import { getEventImage } from "@/lib/eventImages";
 import { getEventTimeZoneLabel } from "@/lib/eventTimeZone";
 import type { ReactNode } from "react";
@@ -31,7 +31,7 @@ export default function EventPageTemplate({ event, onRequest, context }: {
   const time = event.time ? `${event.time}${zone && !event.time.includes(zone) ? ` (${zone})` : ""}` : "Time to be confirmed";
   const partner = event.partnerEvent;
   const hasAction = !partner || !!event.registrationLink;
-  const capacity = event.capacity ?? event.capacity_number;
+  const capacity = getEventCapacity(event);
   const capacityText = capacity !== undefined ? `${capacity}${event.capacity_label ? ` ${event.capacity_label.toLowerCase()}` : ""}` : undefined;
   const attendance = event.attendanceStatement || (partner ? "Paid tickets. Places are limited and advance booking is required." : DEFAULT_EVENT_ATTENDANCE);
   const actionLabel = event.ctaLabel || (partner ? "Register Interest" : "Request an Invitation");

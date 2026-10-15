@@ -521,10 +521,10 @@ collections:
             fields:
               - label: Stable Event ID
                 name: id
-                widget: number
+                widget: stable-event-id
                 value_type: int
                 min: 1
-                hint: "Use a unique positive integer. Keep existing IDs unchanged; new registration mappings require confirmation."
+                hint: "Existing IDs are locked. New events need an unused positive integer; existing event IDs must not be removed."
               - label: Status
                 name: type
                 widget: select
@@ -588,8 +588,8 @@ collections:
               - { label: Time Zone, name: timeZone, widget: string, required: false, hint: "Confirmed IANA zone, for example Europe/London. Do not infer from venue." }
               - { label: Time, name: time, widget: string, required: false }
               - { label: Event History, name: historyLabel, widget: string, required: false }
-              - { label: Capacity, name: capacity, widget: number, value_type: int, min: 1, required: false }
-              - { label: Editorial Capacity Number, name: capacity_number, widget: number, value_type: int, min: 1, required: false }
+              - { label: Capacity, name: capacity, widget: number, value_type: int, min: 1, required: false, hint: "Primary capacity. If both capacity fields are set, they must agree." }
+              - { label: Editorial Capacity Number, name: capacity_number, widget: number, value_type: int, min: 1, required: false, hint: "Fallback when Capacity is blank. If both fields are set, they must agree." }
               - { label: Editorial Capacity Label, name: capacity_label, widget: select, options: [Attendees, Seats], required: false }
               - { label: Editorial Event Summary, name: card_summary, widget: text, required: false }
               - { label: Summary, name: summary, widget: text, required: false }
@@ -909,7 +909,11 @@ collections:
               - { label: ID, name: id, widget: string }
               - { label: Type, name: type, widget: select, options: [editorial, organisations, faq, cta] }
               - { label: Section Label, name: eyebrow, widget: string, required: false }
-              - { label: Heading, name: heading, widget: string, required: false }
+              - label: Heading
+                name: heading
+                widget: text
+                required: false
+                hint: "Audience snapshot: exactly three lines, each number — label. Keep the community-audience-snapshot section ID unchanged."
               - { label: Copy, name: body, widget: text, required: false }
               - { label: Organisations Represented, name: organisations, widget: list, required: false }
               - { label: Button Label, name: buttonLabel, widget: string, required: false }

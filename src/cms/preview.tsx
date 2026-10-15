@@ -4,6 +4,8 @@ import ArticlesPreview from "./previews/ArticlesPreview";
 import adaptPreview from "./React18PreviewAdapter";
 import FaqAnswersPreview from "./previews/FaqAnswersPreview";
 import { registerFaqRootArrayAdapter, type FaqBackendCMS } from "./faqRootArray";
+import { registerContentValidation, type ContentValidationCMS } from "./contentValidation";
+import StableEventIdControl from "./controls/StableEventIdControl";
 // src/cms/preview.tsx
 
 // 0) Make React global BEFORE anything else so Decap v3 portal can use it
@@ -14,7 +16,7 @@ window.React = React;
 import "./shim-process";
 
 type PreviewProps = { entry: import("./previews/HomepagePreview").PreviewEntry };
-interface CMSApi extends ReferenceWidgetCMS, FaqBackendCMS {
+interface CMSApi extends ReferenceWidgetCMS, FaqBackendCMS, ContentValidationCMS {
   init(): void;
   registerPreviewTemplate(name: string, component: React.ComponentType<PreviewProps>): void;
   registerPreviewStyle(css: string, options: { raw: boolean }): void;
@@ -65,6 +67,8 @@ async function boot() {
 
     registerFaqRootArrayAdapter(CMS);
     registerReferenceWidgets(CMS);
+    CMS.registerWidget("stable-event-id", StableEventIdControl);
+    registerContentValidation(CMS);
     CMS.registerPreviewTemplate("blogPosts", adaptPreview(ArticlesPreview));
 
     // Preview iframes do not inherit the font links in the public index.html.

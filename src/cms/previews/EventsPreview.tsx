@@ -1,5 +1,5 @@
 import EventsListing from "../../components/sections/EventsListing";
-import { getEventIssues } from "../../lib/events";
+import { getEventEditIssues } from "../../lib/events";
 import type { PreviewEntry } from "./HomepagePreview";
 import PreviewLayout from "./PreviewLayout";
 import eventsPageContent from "@/content/eventsPage.json";
@@ -9,7 +9,7 @@ export default function EventsPreview({ entry }: { entry: PreviewEntry }) {
   const value = entry.getIn(["data"]);
   const content = value && typeof value === "object" && "toJS" in value && typeof value.toJS === "function"
     ? value.toJS() : value;
-  const issues = getEventIssues(content);
+  const issues = getEventEditIssues(content);
   return (
     <PreviewLayout route="/events" ownMain>
       {issues.length > 0 && <div role="alert" className="p-4 text-red-300">{issues.join(" ")}</div>}

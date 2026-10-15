@@ -1,4 +1,4 @@
-import type { EventItem } from "./events";
+import { getEventCapacity, getPartnerOrganiser, type EventItem } from "./events";
 import { getEventImage } from "./eventImages";
 import { SITE_ORIGIN } from "./canonicalRoutes.mjs";
 export { SITE_ORIGIN } from "./canonicalRoutes.mjs";
@@ -22,9 +22,7 @@ function confirmedDate(value?: string) {
 
 export function eventData(event: EventItem): Record<string, unknown> {
   const image = getEventImage(event);
-  // The confirmed partner organiser is currently recorded in the access copy.
-  // Never substitute Media Collective for an unnamed independent organiser.
-  const partnerOrganiser = event.attendanceStatement?.match(/Organiser:\s*([^\.\n]+)/i)?.[1].trim();
+  const partnerOrganiser = getPartnerOrganiser(event);
   const place = event.departure || [event.venue, event.location].filter(Boolean).join(" · ");
   return {
     "@type": "Event",
@@ -39,7 +37,7 @@ export function eventData(event: EventItem): Record<string, unknown> {
     organizer: event.partnerEvent
       ? partnerOrganiser ? { "@type": "Organization", name: partnerOrganiser } : undefined
       : { "@id": `${SITE_ORIGIN}/#organisation` },
-    maximumAttendeeCapacity: event.capacity ?? event.capacity_number,
+    maximumAttendeeCapacity: getEventCapacity(event),
   };
 }
 

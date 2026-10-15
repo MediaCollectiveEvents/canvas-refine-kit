@@ -1,5 +1,5 @@
 import PageSection from "../shared/PageSection";
-import { getAllEvents } from "@/lib/events";
+import { getAllEvents, getEventCapacity } from "@/lib/events";
 
 interface OurEventsContent {
   id?: string;
@@ -14,7 +14,8 @@ export default function OurEventsSection({ section, content, presentation }: { s
   const events = getAllEvents(content);
   const items = (section.items ?? []).flatMap(item => {
     const event = events.find(event => event.id === Number(item.eventId));
-    return event?.capacity_number ? [{ event, title: item.title || event.title, summary: item.summary || event.card_summary }] : [];
+    const capacity = event && getEventCapacity(event);
+    return capacity ? [{ event, capacity, title: item.title || event.title, summary: item.summary || event.card_summary }] : [];
   });
 
   const editorial = presentation === "editorial";
@@ -26,12 +27,12 @@ export default function OurEventsSection({ section, content, presentation }: { s
       <p className={`${editorial ? "" : "max-w-[65ch]"} font-body text-base leading-[1.6] text-[#f7f3eb]/75 md:text-lg lg:col-span-7`}>{section.body}</p>
     </div>
     <ul className={editorial ? "mt-6 grid gap-x-8 lg:grid-cols-2" : "mt-10 divide-y divide-white/10 md:mt-12"}>
-      {items.map(({ event, title, summary }) => editorial ? <li key={event.id} className="min-w-0 space-y-2 border-b border-white/10 py-3">
+      {items.map(({ event, capacity, title, summary }) => editorial ? <li key={event.id} className="min-w-0 space-y-2 border-b border-white/10 py-3">
         <h3 className="font-display text-xl leading-snug"><a href={`/events/${event.id}`} className="hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">{title}</a></h3>
         <p className="max-w-[65ch] font-body text-base leading-[1.6] text-[#f7f3eb]/75">{summary}</p>
-        <p className="font-body text-sm text-[#8FC7C1]">{event.capacity_number} {event.capacity_label}{section.showHistory && event.historyLabel ? ` · ${event.historyLabel}` : ""}</p>
+        <p className="font-body text-sm text-[#8FC7C1]">{capacity} {event.capacity_label}{section.showHistory && event.historyLabel ? ` · ${event.historyLabel}` : ""}</p>
       </li> : <li key={event.id} className="grid gap-4 py-6 first:pt-0 last:pb-0 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,3fr)] md:items-center md:gap-8 md:py-8">
-        <p className="font-display text-5xl font-semibold leading-none text-[#8FC7C1] md:text-6xl">{event.capacity_number}</p>
+        <p className="font-display text-5xl font-semibold leading-none text-[#8FC7C1] md:text-6xl">{capacity}</p>
         <div className="min-w-0">
           <h3 className="font-display text-xl leading-snug md:text-2xl">{title}</h3>
           <p className="mt-2 font-body text-sm text-[#f7f3eb]/60">{event.capacity_label}</p>

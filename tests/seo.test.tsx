@@ -56,7 +56,8 @@ test("event JSON-LD preserves confirmed data and independent organiser without i
     if (event.partnerEvent) assert.deepEqual(data.organizer, { "@type": "Organization", name: "Greenline" });
     else assert.equal(data.organizer["@id"], organisationData()["@id"]);
   }
-  assert.equal(eventData({ ...getEventById(8)!, attendanceStatement: "Paid tickets." }).organizer, undefined);
+  assert.deepEqual(eventData({ ...getEventById(8)!, attendanceStatement: "Paid tickets." }).organizer, { "@type": "Organization", name: "Greenline" });
+  assert.equal(eventData({ ...getEventById(8)!, id: 99, attendanceStatement: "Paid tickets." }).organizer, undefined);
   assert.doesNotMatch(serializeStructuredData({ name: "</script><script>alert(1)</script>" }), /</);
 });
 

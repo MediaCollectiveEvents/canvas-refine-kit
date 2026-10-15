@@ -10,6 +10,7 @@ import FAQSection from "@/components/sections/FAQSection";
 import Seo from "@/components/shared/Seo";
 import { Button } from "@/components/ui/button";
 import communityContent from "@/content/community.json";
+import { AUDIENCE_SNAPSHOT_ID, parseAudienceSnapshot } from "@/lib/audienceSnapshot";
 
 type CommunityContent = Omit<typeof communityContent, "sections"> & {
   sections: ((typeof communityContent.sections)[number] & { buttonLabel?: string })[];
@@ -24,11 +25,15 @@ export default function Community({ content = communityContent }: { content?: Co
     <main className="site-header-clearance">
       <PageHero {...content.hero} presentation="public" className="max-sm:!pb-[calc(60vw-1.82rem)]" descriptionClassName="!text-[#9bd3c8]" image="/uploads/website-hero-community.png" />
       {content.sections.map(section => {
-        if (section.type === "editorial" && section.id === "community-audience-snapshot") return <PageSection key={section.id} id={section.id} className="site-section-compact border-b border-white/10" containerClassName="space-y-6">
+        if (section.type === "editorial" && section.id === AUDIENCE_SNAPSHOT_ID) {
+          const parsed = parseAudienceSnapshot(section.heading);
+          const stats = parsed.issues.length
+            ? parseAudienceSnapshot(communityContent.sections.find(item => item.id === AUDIENCE_SNAPSHOT_ID)?.heading).stats
+            : parsed.stats;
+          return <PageSection key={section.id} id={section.id} className="site-section-compact border-b border-white/10" containerClassName="space-y-6">
           <h2 className="site-eyebrow text-[#8FC7C1]">{section.eyebrow}</h2>
           <dl className="grid gap-x-8 gap-y-6 sm:grid-cols-3">
-            {section.heading?.split("\n").map(line => {
-              const [value, label] = line.split(" — ");
+            {stats.map(({ value, label }) => {
               return <div key={label} className="min-w-0 flex flex-col gap-3">
                 <dt className="order-2 font-body text-lg leading-[1.5] text-[#f7f3eb]">{label}</dt>
                 <dd className="order-1 flex items-end font-display text-6xl font-semibold leading-none text-[#35C5BB] md:text-8xl">{value}</dd>
@@ -36,7 +41,7 @@ export default function Community({ content = communityContent }: { content?: Co
             })}
           </dl>
           <p className="max-w-3xl font-body text-base leading-[1.6] text-white/65">{section.body}</p>
-        </PageSection>;
+        </PageSection>; }
         if (section.type === "editorial") return <OrganisationsRepresentedSection key={section.id} section={section} compact={section.id === "curated-attendance"} />;
         if (section.type === "organisations") return <PageSection key={section.id} id={section.id} className="border-b border-white/10 !py-12 md:!py-14">
           <h2 className="site-eyebrow mb-4 text-[#8FC7C1]">{section.eyebrow}</h2>

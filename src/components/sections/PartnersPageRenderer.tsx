@@ -1,4 +1,5 @@
 import ContextualText from "@/components/shared/ContextualText";
+import { COMMUNITY_CONTEXT_LINKS } from "@/lib/contextualLinks";
 import ClosingCTA from "@/components/shared/ClosingCTA";
 import { getOrganisations, getOrganisationById } from "@/lib/organisations";
 import { contentImage } from "@/lib/contentImages";
@@ -124,8 +125,8 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
                     <article key={block.title} className="min-w-0 border-t border-white/10 pt-6">
                       <h3 className="font-display text-2xl font-light text-[#f7f3eb]">{block.title}</h3>
                       {block.description?.includes("\n") ? <ul className="mt-3 list-disc space-y-2 pl-4 text-base leading-relaxed text-slate-300 md:mt-4">
-                        {block.description.split("\n").filter(Boolean).map(item => <li key={item}><ContextualText text={item} links={[{ text: "our community", href: "/community" }]} /></li>)}
-                      </ul> : <p className="mt-3 text-base md:mt-4 leading-relaxed text-slate-300">{block.description}</p>}
+                        {block.description.split("\n").filter(Boolean).map(item => <li key={item}><ContextualText text={item} links={COMMUNITY_CONTEXT_LINKS} /></li>)}
+                      </ul> : <p className="mt-3 text-base md:mt-4 leading-relaxed text-slate-300"><ContextualText text={block.description ?? ""} links={COMMUNITY_CONTEXT_LINKS} /></p>}
                     </article>
                   ))}
                 </div>

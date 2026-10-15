@@ -1,7 +1,8 @@
 import React from "react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import SectionHeader from "@/components/shared/SectionHeader";
-import ContextualText, { type ContextualLink } from "@/components/shared/ContextualText";
+import ContextualText from "@/components/shared/ContextualText";
+import { FAQ_CONTEXT_LINKS } from "@/lib/contextualLinks";
 import faq from "@/content/faq.json";
 
 type FAQItem = {
@@ -9,18 +10,8 @@ type FAQItem = {
   answer: string;
 };
 
-const answerLinks: Record<string, ContextualLink[]> = {
-  "How do I request an invitation?": [{ text: "event page", href: "/events" }],
-  "How can my company partner with The Media Collective?": [{ text: "partners", href: "/partners" }],
-  "How does the invitation process work?": [{ text: "request an invitation", href: "/events" }],
-  "How much does it cost to attend?": [{ text: "The Green Line", href: "/events/8" }, { text: "individual event page", href: "/events" }],
-  "How is guest contact information used?": [{ text: "Privacy Policy", href: "/privacy-policy" }],
-  "Can I suggest a topic or partner?": [{ text: "partnership idea", href: "/partners" }],
-  "Can The Media Collective help us create an event?": [{ text: "partnerships", href: "/partners" }],
-};
-
 function Answer({ item }: { item: FAQItem }) {
-  const links = answerLinks[item.question] ?? [];
+  const links = FAQ_CONTEXT_LINKS;
   return item.answer.includes("\n\n")
     ? <>{item.answer.split(/\n\s*\n/).map((paragraph, index) => <span key={index} className="mb-4 block last:mb-0"><ContextualText text={paragraph} links={links} /></span>)}</>
     : <ContextualText text={item.answer} links={links} />;

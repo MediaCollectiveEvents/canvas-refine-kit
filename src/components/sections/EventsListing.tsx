@@ -8,7 +8,7 @@ import OurEventsSection from "./OurEventsSection";
 import EventCategoriesSection from "./EventCategoriesSection";
 import eventsPageContent from "@/content/eventsPage.json";
 
-import { getEventContent, getUpcomingEvents, getPastEvents, formatEventDate, isPastEvent, type EventItem } from "@/lib/events";
+import { getEventCapacity, getEventContent, getUpcomingEvents, getPastEvents, formatEventDate, isPastEvent, type EventItem } from "@/lib/events";
 
 import { getEventImage } from "@/lib/eventImages";
 
@@ -22,7 +22,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
   const imageSrc = getEventImage(event, false);
   const imageOnRight = index % 2 === 1;
   const textColumn = imageOnRight ? "lg:col-start-1" : "lg:col-start-2";
-  const capacity = event.capacity ?? event.capacity_number;
+  const capacity = getEventCapacity(event);
   return (
     <motion.article
       initial={reducedMotion ? false : { opacity: 0, y: 40 }}
