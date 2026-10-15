@@ -19,7 +19,7 @@ const Partners = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
+      <Seo title="Event Partnerships — The Media Collective" description={hero.description} />
       <Header />
 
       <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />

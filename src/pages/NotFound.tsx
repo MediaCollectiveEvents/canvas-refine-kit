@@ -13,7 +13,7 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <Seo title="Page Not Found — The Media Collective" />
+      <Seo title="Page Not Found — The Media Collective" noindex />
       <Header />
       <main className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
         <p className="site-eyebrow mb-4 text-primary">404</p>

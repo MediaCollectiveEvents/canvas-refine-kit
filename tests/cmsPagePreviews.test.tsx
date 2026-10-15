@@ -72,8 +72,10 @@ for (const { route, Page, Preview, data } of cases) {
       }
       assert.match(live, /View past events/);
       assert.match(preview, /Hide past events/);
+      assert.match(live, /id="past-events" hidden=""/);
+      assert.doesNotMatch(preview, /id="past-events" hidden=""/);
       for (const event of getPastEvents()) {
-        assert.ok(!live.includes(`href="/events/${event.id}"`));
+        assert.ok(live.includes(`href="/events/${event.id}"`));
         assert.ok(preview.includes(`href="/events/${event.id}"`));
       }
     } else assert.equal(preview, live);
@@ -119,14 +121,15 @@ const renderListing = (showPastEventsInitially = false) => render(createElement(
   route: "/events", children: createElement(EventsListing, { content: listingContent, showPastEventsInitially }),
 }));
 
-test("public listing initially excludes past records and sorts upcoming events earliest first", () => {
+test("public listing initially hides past records in the DOM and sorts upcoming events earliest first", () => {
   const markup = renderListing();
   assert.ok(markup.indexOf("Earlier upcoming") < markup.indexOf("Later upcoming"));
-  assert.ok(!markup.includes("Older past"));
-  assert.ok(!markup.includes("Recent past"));
+  const pastMarkup = markup.slice(markup.indexOf('id="past-events"'));
+  assert.ok(pastMarkup.includes("Older past"));
+  assert.ok(pastMarkup.includes("Recent past"));
   assert.match(markup, /aria-expanded="false"/);
   assert.match(markup, /View past events/);
-  assert.ok(!markup.includes('id="past-events"'));
+  assert.match(markup, /id="past-events" hidden=""/);
 });
 
 test("expanded listing retains upcoming order and sorts past events most recent first", () => {
@@ -137,6 +140,7 @@ test("expanded listing retains upcoming order and sorts past events most recent 
   assert.match(markup, /aria-expanded="true"/);
   assert.match(markup, /Hide past events/);
   assert.match(markup, /id="past-events"/);
+  assert.doesNotMatch(markup, /id="past-events" hidden=""/);
 });
 
 

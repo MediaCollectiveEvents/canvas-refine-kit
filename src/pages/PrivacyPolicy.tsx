@@ -9,7 +9,7 @@ const PrivacyPolicy = () => {
   const reducedMotion = useReducedMotion();
   return (
     <div className="min-h-screen bg-background">
-      <Seo title="Privacy Policy — The Media Collective" />
+      <Seo title="Privacy Policy — The Media Collective" description="How The Media Collective collects, uses and protects personal data, and how to contact us about your privacy." />
       <Header />
 
       {/* Hero Section */}
