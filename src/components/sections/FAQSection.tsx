@@ -1,12 +1,30 @@
 import React from "react";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import SectionHeader from "@/components/shared/SectionHeader";
+import ContextualText, { type ContextualLink } from "@/components/shared/ContextualText";
 import faq from "@/content/faq.json";
 
 type FAQItem = {
   question: string;
   answer: string;
 };
+
+const answerLinks: Record<string, ContextualLink[]> = {
+  "How do I request an invitation?": [{ text: "event page", href: "/events" }],
+  "How can my company partner with The Media Collective?": [{ text: "partners", href: "/partners" }],
+  "How does the invitation process work?": [{ text: "request an invitation", href: "/events" }],
+  "How much does it cost to attend?": [{ text: "The Green Line", href: "/events/8" }, { text: "individual event page", href: "/events" }],
+  "How is guest contact information used?": [{ text: "Privacy Policy", href: "/privacy-policy" }],
+  "Can I suggest a topic or partner?": [{ text: "partnership idea", href: "/partners" }],
+  "Can The Media Collective help us create an event?": [{ text: "partnerships", href: "/partners" }],
+};
+
+function Answer({ item }: { item: FAQItem }) {
+  const links = answerLinks[item.question] ?? [];
+  return item.answer.includes("\n\n")
+    ? <>{item.answer.split(/\n\s*\n/).map((paragraph, index) => <span key={index} className="mb-4 block last:mb-0"><ContextualText text={paragraph} links={links} /></span>)}</>
+    : <ContextualText text={item.answer} links={links} />;
+}
 
 interface FAQSectionProps {
   faqs?: FAQItem[];
@@ -66,7 +84,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
           {items.map((item, index) => <AccordionItem key={item.question} value={`question-${index}`} className="border-white/10 last:border-0">
             <AccordionTrigger className="gap-4 text-left text-lg font-medium leading-snug text-white hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">{item.question}</AccordionTrigger>
             <AccordionContent>
-              <p className="max-w-[70ch] text-base leading-[1.7] text-slate-300">{item.answer.includes("\n\n") ? item.answer.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <span key={paragraphIndex} className="mb-4 block last:mb-0">{paragraph}</span>) : item.answer}</p>
+              <p className="max-w-[70ch] text-base leading-[1.7] text-slate-300"><Answer item={item} /></p>
             </AccordionContent>
           </AccordionItem>)}
         </Accordion> : <div className={editorial ? "grid gap-0" : "grid gap-6 md:gap-8"}>
@@ -79,7 +97,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
                 {item.question}
               </h3>
               <p className={editorial ? "max-w-[70ch] text-base leading-[1.7] text-slate-300" : "text-sm md:text-base text-muted-foreground leading-relaxed"}>
-                {item.answer.includes("\n\n") ? item.answer.split(/\n\s*\n/).map((paragraph, paragraphIndex) => <span key={paragraphIndex} className="mb-4 block last:mb-0">{paragraph}</span>) : item.answer}
+                <Answer item={item} />
               </p>
             </div>
           ))}

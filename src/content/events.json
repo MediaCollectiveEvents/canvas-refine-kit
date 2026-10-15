@@ -65,7 +65,9 @@
         "Breakfast networking",
         "Caretta Research market intelligence and industry perspectives",
         "Panel and practical discussion on signals, strategy and operating reality"
-      ]
+      ],
+      "seoDescription": "A post-NAB breakfast at The Broadcaster, London, on 6 May 2026, with Caretta Research market intelligence and discussion of strategy and operating challenges.",
+      "seoTitle": "Post-NAB Review Breakfast 2026 — The Media Collective"
     },
     {
       "details": "Wednesday 13 May 2026, 5:00 PM–9:00 PM, at The Hand & Flower, Olympia, London. This informal, invite-only after-show reception takes place in the private first-floor bar, with complimentary Prosecco on arrival, canapés and refreshments for guests across broadcast, streaming and media technology.",
@@ -104,7 +106,8 @@
       "whatToExpect": [
         "An informal reception in the private first-floor bar",
         "Complimentary Prosecco on arrival, canapés and refreshments"
-      ]
+      ],
+      "seoDescription": "The Media Collective’s MPTS after-show reception at The Hand & Flower, London, on 13 May 2026, with drinks, canapés and refreshments."
     },
     {
       "details": "Saturday 12 September 2026, 8:00 AM–10:00 AM CEST, at The Traveller, 2 Europaplein, 1078 GZ Amsterdam. An informal networking breakfast for media, broadcast and entertainment professionals.",
@@ -200,7 +203,8 @@
       "capacity_number": 100,
       "capacity_label": "Attendees",
       "card_summary": "Industry discussion exploring what matters next.",
-      "historyLabel": "New for 2026"
+      "historyLabel": "New for 2026",
+      "seoDescription": "An invitation-only forum exploring media technology, business models and strategy at The Broadcaster, London, on 24 November 2026."
     },
     {
       "id": 5,
@@ -236,7 +240,8 @@
       "capacity_number": 120,
       "capacity_label": "Attendees",
       "card_summary": "Connect with industry peers during MPTS.",
-      "historyLabel": "Annual Gathering"
+      "historyLabel": "Annual Gathering",
+      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited."
     },
     {
       "id": 8,
@@ -361,7 +366,8 @@
       "capacity_number": 120,
       "capacity_label": "Attendees",
       "card_summary": "Start your IBC day with conversation and introductions.",
-      "historyLabel": "Running Since 2023"
+      "historyLabel": "Running Since 2023",
+      "seoDescription": "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated."
     },
     {
       "id": 7,
@@ -411,7 +417,8 @@
       "capacity_number": 200,
       "capacity_label": "Attendees",
       "card_summary": "Round off IBC with live jazz, hospitality and industry peers.",
-      "historyLabel": "Returning for 2027"
+      "historyLabel": "Returning for 2027",
+      "seoDescription": "An IBC social evening with live jazz, drinks and canapés at Live Amsterdam Piano Bar on 12 September 2027, featuring LDN2BTN and the IBC Allstars."
     }
   ]
 }

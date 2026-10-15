@@ -27,7 +27,7 @@ export default function OurEventsSection({ section, content, presentation }: { s
     </div>
     <ul className={editorial ? "mt-6 grid gap-x-8 lg:grid-cols-2" : "mt-10 divide-y divide-white/10 md:mt-12"}>
       {items.map(({ event, title, summary }) => editorial ? <li key={event.id} className="min-w-0 space-y-2 border-b border-white/10 py-3">
-        <h3 className="font-display text-xl leading-snug">{title}</h3>
+        <h3 className="font-display text-xl leading-snug"><a href={`/events/${event.id}`} className="hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">{title}</a></h3>
         <p className="max-w-[65ch] font-body text-base leading-[1.6] text-[#f7f3eb]/75">{summary}</p>
         <p className="font-body text-sm text-[#8FC7C1]">{event.capacity_number} {event.capacity_label}{section.showHistory && event.historyLabel ? ` · ${event.historyLabel}` : ""}</p>
       </li> : <li key={event.id} className="grid gap-4 py-6 first:pt-0 last:pb-0 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,3fr)] md:items-center md:gap-8 md:py-8">

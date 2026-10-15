@@ -38,11 +38,15 @@ const EventDetails = () => {
     );
   }
 
+  // Only the two confirmed recurring event pairs have edition relationships.
+  const editionIds: Record<number, number> = { 2: 5, 3: 6, 5: 2, 6: 3 };
+  const edition = getEventById(editionIds[event.id]);
+  const editionLabel = edition && edition.date > event.date ? "Next edition" : "Previous edition";
   const industryContext = getEventIndustryContext(event.id);
   // Apply eligibility before the helper ranks and limits candidates.
   const relatedEvents = getRelatedEvents(event, {
     events: getUpcomingEvents().filter(candidate => Number.isFinite(Date.parse(candidate.date))),
-  });
+  }).filter(related => related.id !== edition?.id);
 
   return (
     <div className="min-h-screen bg-[#101d24] text-foreground">
@@ -52,6 +56,9 @@ const EventDetails = () => {
 
       <main className="site-header-clearance font-body">
         <EventPageTemplate event={event} onRequest={() => setIsFormOpen(true)} context={<>
+        {edition && <nav aria-label="Event editions" className="mt-10 md:mt-12">
+          <Link to={`/events/${edition.id}`} className="text-base underline decoration-primary underline-offset-4 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{editionLabel}: {edition.title}</Link>
+        </nav>}
         {industryContext && <section aria-label={industryContext.label} className="mt-10 max-w-2xl md:mt-12">
           <h2 className="mb-3 font-display text-2xl font-light">{industryContext.label}</h2>
           <p className="text-base leading-relaxed text-foreground/80">
