@@ -3,7 +3,7 @@ local_backend: true
 backend:
   name: github
   repo: MediaCollectiveEvents/canvas-refine-kit
-  branch: main
+  branch: staging
   site_domain: themediacollective.netlify.app
 
 media_folder: "public/uploads"

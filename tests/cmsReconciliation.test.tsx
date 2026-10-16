@@ -129,7 +129,7 @@ test("FAQ preview renders edited answers and no stale saved-file answer", () => 
 test("CMS retains collection names, live controls and root-array file path", () => {
   assert.deepEqual(config.collections.map((item: any) => item.name), ["homepage", "aboutPage", "faqPage", "events", "eventsPage", "partnersPage", "communityPage", "blogPage", "blogPosts", "sponsors", "settings", "contributors", "taxonomy"]);
   assert.equal(config.backend.name, "github");
-  assert.equal(config.backend.branch, "main");
+  assert.equal(config.backend.branch, "staging");
   assert.equal(config.media_folder, "public/uploads");
   assert.equal(config.public_folder, "/uploads");
   for (const collection of ["homepage", "events", "partnersPage", "faqPage"]) {

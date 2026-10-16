@@ -68,7 +68,7 @@ test("staging keeps validated hidden-file delivery, scoped cleanup and routing a
   assert.equal(cleanup.env.SFTP_PASSWORD, "${{ secrets.STAGING_SFTP_PASSWORD }}");
   assert.doesNotMatch(stagingText, /delete_remote_files: true|rm -rf/);
   const cms = yaml.load(readFileSync("public/admin/config.yml", "utf8")) as any;
-  assert.equal(cms.backend.branch, "main", "CMS publishing must not switch in this preparation pass");
+  assert.equal(cms.backend.branch, "staging", "CMS publishes reviewed content to staging before production promotion");
 });
 
 test("staging robots header is always applied while production Apache output is byte-identical", () => {
