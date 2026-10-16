@@ -1,0 +1,124 @@
+name: Deploy staging to IONOS via SFTP
+
+on:
+  push:
+    branches: ["staging"]
+  workflow_dispatch: # Allow manual deploys from GitHub UI
+
+# Keep delivery steps from separate releases from interleaving.
+concurrency:
+  group: ionos-staging-site
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "20"
+  BUILD_DIR: dist
+  DEPLOY_TARGET: staging
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/staging'
+    name: Build Vite site
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Vite site
+        run: npm run build
+
+      - name: Add staging-only indexing protection
+        run: node scripts/prepare-staging-payload.mjs
+
+      - name: Validate deployment payload
+        run: node scripts/check-deploy-payload.mjs
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: staging-site-dist
+          path: |
+            ${{ env.BUILD_DIR }}/
+            !${{ env.BUILD_DIR }}/.vite/
+          include-hidden-files: true
+          if-no-files-found: error
+
+  deploy:
+    if: github.ref == 'refs/heads/staging'
+    name: Deploy to IONOS over SFTP
+    needs: build
+    environment:
+      name: staging
+      url: https://staging.mediacollective.events
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release validation scripts
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: staging-site-dist
+          path: ${{ env.BUILD_DIR }}
+
+      - name: Validate downloaded deployment payload
+        run: node scripts/check-deploy-payload.mjs
+
+      - name: Require dedicated staging credentials
+        env:
+          SFTP_USERNAME: ${{ secrets.STAGING_SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.STAGING_SFTP_PASSWORD }}
+        run: |
+          test -n "$SFTP_USERNAME" || { echo "Missing STAGING_SFTP_USERNAME"; exit 1; }
+          test -n "$SFTP_PASSWORD" || { echo "Missing STAGING_SFTP_PASSWORD"; exit 1; }
+
+      - name: Deploy payload via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.STAGING_SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          password: ${{ secrets.STAGING_SFTP_PASSWORD }}
+          # Upload the *contents* of dist:
+          local_path: ${{ env.BUILD_DIR }}/*
+          # Dedicated staging account MUST be restricted to the staging document root:
+          remote_path: .
+          sftp_only: true
+
+      # The existing action uses put -r without deletion. Clean only obsolete
+      # files in our generated directory after targets exist, before activation.
+      - name: Verify remote shells and remove obsolete generated HTML
+        env:
+          SFTP_USERNAME: ${{ secrets.STAGING_SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.STAGING_SFTP_PASSWORD }}
+        run: |
+          if ! command -v sshpass >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y sshpass
+          fi
+          python3 scripts/clean-stale-seo-shells.py
+
+      - name: Activate Apache routing last
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.STAGING_SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          password: ${{ secrets.STAGING_SFTP_PASSWORD }}
+          local_path: ${{ env.BUILD_DIR }}/.htaccess
+          remote_path: .
+          sftp_only: true
