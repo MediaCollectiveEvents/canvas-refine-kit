@@ -103,6 +103,12 @@
       ]
     },
     {
+      "id": "logos",
+      "type": "partnersLogos",
+      "hidden": false,
+      "body": "Working with organisations across media and technology."
+    },
+    {
       "id": "cta",
       "type": "joinUs",
       "hidden": false,
@@ -162,12 +168,6 @@
         "Sony",
         "Warner Bros. Discovery"
       ]
-    },
-    {
-      "id": "logos",
-      "type": "partnersLogos",
-      "hidden": true,
-      "body": "Working with organisations across media and technology."
     }
   ]
 }

@@ -34,6 +34,7 @@ import events from "../src/content/events.json";
 import blog from "../src/content/blogPage.json";
 import partners from "../src/content/partners.json";
 import faq from "../src/content/faqPage.json";
+import { getOrganisations } from "../src/lib/organisations";
 
 const entry = (data: unknown): PreviewEntry => ({ getIn: () => ({ toJS: () => data }) });
 function render(node: ReactElement) {
@@ -297,10 +298,24 @@ test("motion sections retain keyboard pause support without visible pause button
   assert.doesNotMatch(home, />Pause testimonials<|>Resume testimonials</);
   assert.doesNotMatch(partners, />Pause logo movement<|>Resume logo movement</);
   assert.match(home, /role="region" aria-label="Testimonials" aria-keyshortcuts="Space"/);
-  assert.doesNotMatch(partners, /aria-label="Partner logos"/);
+  assert.match(partners, /aria-label="Partner logos"/);
+  assert.ok(partners.indexOf('id="partner-community"') < partners.indexOf('id="partner-conversation"'));
   const logoSection = render(<PartnersPageRenderer sections={[{ type: "partnersLogos" }]} onRegister={() => {}} />);
   assert.match(logoSection, /role="region" aria-label="Partner logos" aria-keyshortcuts="Space"/);
   assert.match(home, /aria-label="Show testimonial 2"/);
+});
+
+test("restored partner carousel retains the canonical logo sequence and closing CTA order", () => {
+  const markup = render(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
+  const section = markup.slice(markup.indexOf('id="partner-community"'), markup.indexOf('id="partner-conversation"'));
+  const sources = [...section.matchAll(/<img[^>]* src="([^"]+)"/g)].map(match => match[1]);
+  const expected = getOrganisations().map(organisation => organisation.src.replace(/&/g, "&amp;").replace(/"/g, "&quot;"));
+  assert.equal(expected.length, 29);
+  assert.deepEqual(sources, [...expected, ...expected], "primary sequence and seamless duplicate preserve directory order");
+  assert.match(section, /aria-hidden="true"/);
+  assert.match(section, /motion-safe:animate-scroll/);
+  assert.match(section, /motion-reduce:animate-none/);
+  assert.match(section, /group-hover:\[animation-play-state:paused\]/);
 });
 
 test("upcoming detail pages keep event context beside the attendance action", () => {
