@@ -19,10 +19,12 @@ export default function ContactForm({ open, onOpenChange, context }: {
   onOpenChange: (open: boolean) => void;
 }) {
   const captchaRef = useRef<ReCAPTCHA>(null);
+  const submissionLock = useRef(false);
   const verification = useEnquiryVerification(open);
   const captchaReady = verification.ready;
   const [submissionError, setSubmissionError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionPhase, setSubmissionPhase] = useState<"idle" | "verifying" | "sending">("idle");
+  const isSubmitting = submissionPhase !== "idle";
   const [submitted, setSubmitted] = useState(false);
   const form = useForm<ContactData>({
     resolver: zodResolver(contactSchema),
@@ -43,7 +45,9 @@ export default function ContactForm({ open, onOpenChange, context }: {
   };
 
   const submit = async (data: ContactData) => {
-    setIsSubmitting(true);
+    if (submissionLock.current || !captchaReady) return;
+    submissionLock.current = true;
+    setSubmissionPhase("verifying");
     setSubmissionError("");
     let timeout: ReturnType<typeof setTimeout>;
     try {
@@ -54,6 +58,7 @@ export default function ContactForm({ open, onOpenChange, context }: {
         }),
       ]);
       if (!token) throw new Error("Verification unavailable");
+      setSubmissionPhase("sending");
       await sendContact(data, token);
       setSubmitted(true);
     } catch (error) {
@@ -64,7 +69,8 @@ export default function ContactForm({ open, onOpenChange, context }: {
     } finally {
       clearTimeout(timeout!);
       captchaRef.current?.reset();
-      setIsSubmitting(false);
+      submissionLock.current = false;
+      setSubmissionPhase("idle");
     }
   };
 
@@ -115,8 +121,9 @@ export default function ContactForm({ open, onOpenChange, context }: {
               <p>{submissionError}</p>
               <p><a href={partnersContent.hero.primaryCta.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Arrange a call<span className="sr-only"> (opens in a new tab)</span></a> if you need help.</p>
             </div>}
+            {isSubmitting && <p role="status" className="text-base text-muted-foreground">{submissionPhase === "verifying" ? "Verifying… If reCAPTCHA asks you to complete a challenge, follow its instructions to continue." : "Sending… Please wait for confirmation before closing this form."}</p>}
             <Button type="submit" variant="brand" className="rounded-full" disabled={isSubmitting || !captchaReady}>
-              {isSubmitting ? "Sending…" : "Submit"}
+              {isSubmitting ? submissionPhase === "verifying" ? "Verifying…" : "Sending…" : "Submit"}
             </Button>
           </form>
         </Form>}

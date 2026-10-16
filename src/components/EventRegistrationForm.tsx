@@ -102,7 +102,8 @@ const EventRegistrationForm = ({
   const [submissionError, setSubmissionError] = useState("");
   const lastSelectedId = useRef(selectedId);
   const submissionLock = useRef(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionPhase, setSubmissionPhase] = useState<"idle" | "verifying" | "sending">("idle");
+  const isSubmitting = submissionPhase !== "idle";
   const [submitted, setSubmitted] = useState(false);
   const captchaRef = useRef<ReCAPTCHA>(null);
   const form = useForm<FormData>({
@@ -160,7 +161,7 @@ const EventRegistrationForm = ({
     try {
       if (!await form.trigger(undefined, { shouldFocus: true })) return;
       setSubmissionError("");
-      setIsSubmitting(true);
+      setSubmissionPhase("verifying");
       const token = await Promise.race([
         captchaRef.current?.executeAsync(),
         new Promise<never>((_, reject) => {
@@ -176,7 +177,7 @@ const EventRegistrationForm = ({
       clearTimeout(verificationTimeout);
       captchaRef.current?.reset();
       submissionLock.current = false;
-      setIsSubmitting(false);
+      setSubmissionPhase("idle");
     }
   };
 
@@ -201,6 +202,7 @@ const EventRegistrationForm = ({
         token: "3Fv9XqT7bLpK2zR8YwS6dN1mHjUaV5eG"
       };
 
+      setSubmissionPhase("sending");
       await sendEnquiry(webhookData);
 
       setSubmitted(true);
@@ -416,7 +418,7 @@ const EventRegistrationForm = ({
               <p>{submissionError}</p>
               <p><a href={partnersContent.hero.primaryCta.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Arrange a call<span className="sr-only"> (opens in a new tab)</span></a> if you need help.</p>
             </div>}
-            {isSubmitting && <p role="status" className="text-base text-muted-foreground">Verifying and sending your request. Please wait.</p>}
+            {isSubmitting && <p role="status" className="text-base text-muted-foreground">{submissionPhase === "verifying" ? "Verifying… If reCAPTCHA asks you to complete a challenge, follow its instructions to continue." : "Sending… Please wait for confirmation before closing this form."}</p>}
             {/* Navigation Buttons */}
             <div className="flex justify-between pt-4 border-t border-border">
               {currentStage > 1 ? <Button type="button" disabled={isSubmitting} variant="ghost" onClick={prevStage} className="gap-2">
@@ -428,7 +430,7 @@ const EventRegistrationForm = ({
                   Next
                   <ChevronRight className="w-4 h-4" />
                 </Button> : <Button key="submit" type="submit" disabled={isSubmitting || !captchaReady} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-                  {isSubmitting ? "Sending…" : attendanceOnly ? "Request an invitation" : "Submit enquiry"}
+                  {isSubmitting ? submissionPhase === "verifying" ? "Verifying…" : "Sending…" : attendanceOnly ? "Request an invitation" : "Submit enquiry"}
                 </Button>}
             </div>
             </fieldset>
