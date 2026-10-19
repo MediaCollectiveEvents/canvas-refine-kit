@@ -3,7 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../ui/button";
-import logo from "../../assets/logo.png";
+import { headerLogoImage } from "@/lib/imageDelivery";
 import ContactForm from "../ContactForm";
 import settings from "../../content/settings.json";
 
@@ -146,7 +146,7 @@ const Header = () => {
           <div className="flex h-full items-center lg:hidden">
             <Link to="/" aria-label="The Media Collective home" className="shrink-0">
               <img
-                src={logo}
+                {...headerLogoImage}
                 alt="The Media Collective"
                 className="h-auto w-[160px] shrink-0 object-contain"
               />
@@ -169,7 +169,7 @@ const Header = () => {
           <div className="hidden h-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 lg:grid xl:gap-8">
             <Link to="/" className="relative z-10 shrink-0 justify-self-start">
               <img
-                src={logo}
+                {...headerLogoImage}
                 alt="The Media Collective"
                 className="h-auto w-[180px] shrink-0 object-contain"
               />

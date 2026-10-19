@@ -1,3 +1,4 @@
+import { responsiveEventImage, eventImageSizes } from "../src/lib/imageDelivery";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createElement, type ComponentType, type ReactElement } from "react";
@@ -188,7 +189,7 @@ test("homepage event index shows all canonical upcoming events in order without 
     assert.ok(markup.includes(location));
   }
   for (const image of ["Handandflower.png", "Eurostar.png", "RAI.png", "Livepiano.png"]) {
-    assert.ok(markup.includes(`/uploads/Venue tiles/${image}`));
+    assert.ok(markup.includes(responsiveEventImage(`/uploads/Venue tiles/${image}`, eventImageSizes.discovery).src));
   }
   assert.ok(markup.includes("/uploads/Venue tiles/broadcaster.png"));
   assert.match(markup, /href="\/events"[^>]*>View all events/);

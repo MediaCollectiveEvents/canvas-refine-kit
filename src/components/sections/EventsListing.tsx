@@ -1,3 +1,4 @@
+import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 // Shared listing content for the public events page and Decap draft preview.
 import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -37,7 +38,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
         {event.historyLabel && <p className="mt-3 font-body text-sm text-white/65">{event.historyLabel}</p>}
       </div>
       <figure className={`col-start-1 row-start-2 lg:row-start-1 lg:row-span-2 ${imageOnRight ? "lg:col-start-2" : "lg:col-start-1"}`}>
-        {imageSrc && <img src={imageSrc} alt="" loading="lazy" width={1080} height={1080} className="aspect-square w-full rounded-xl object-contain" />}
+        {imageSrc && <img {...responsiveEventImage(imageSrc, eventImageSizes.listing)} alt="" loading="lazy" width={1080} height={1080} className="aspect-square w-full rounded-xl object-contain" />}
       </figure>
       <div className={`min-w-0 space-y-4 lg:row-start-2 ${textColumn}`}>
         <p className="font-body text-base leading-relaxed text-white/75">{event.time && <span className="block">{event.time}</span>}{event.venue}{event.venue && event.location && " · "}{event.location}</p>
