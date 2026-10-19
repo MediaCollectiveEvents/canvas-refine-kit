@@ -2,9 +2,7 @@
    FONTS
 ----------------------------------------------------------- */
 
-/* Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap");
+/* Font stylesheets are discovered directly and non-blockingly in index.html. */
 
 /* Tailwind base layers MUST come before custom layers */
 @tailwind base;

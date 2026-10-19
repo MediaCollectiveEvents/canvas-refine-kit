@@ -39,3 +39,18 @@ test("Apache event rules follow inventory changes rather than a blanket event fa
   assert.match(rules, /\^events\/42\/\?\$/);
   assert.doesNotMatch(rules, /\^events\/1\/\?\$/);
 });
+
+test("compression keeps HTML enabled and caches only hashed assets immutably", () => {
+  const rules = generateApacheRouting(events);
+  assert.match(rules, /<IfModule mod_filter.c>/);
+  assert.match(rules, /<IfModule mod_brotli.c>/);
+  assert.match(rules, /<IfModule mod_deflate.c>/);
+  for (const line of rules.split("\n").filter(line => line.includes("AddOutputFilterByType"))) {
+    assert.match(line, /text\/html text\/css text\/javascript application\/javascript/);
+  }
+  assert.match(rules, /max-age=31536000, immutable/);
+  assert.match(rules, /FilesMatch "-\[A-Za-z0-9_-\]\{8,\}/);
+  assert.match(rules, /m#\^\/assets\/#/);
+  assert.match(rules, /max-age=3600, must-revalidate/);
+  assert.match(rules, /Header always set Cache-Control "no-cache"/);
+});

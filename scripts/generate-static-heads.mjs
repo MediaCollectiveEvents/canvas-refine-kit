@@ -3,10 +3,15 @@ import { readFileSync, writeFileSync, mkdirSync, rmSync } from "node:fs";
 import { resolve, relative, dirname } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { getCanonicalRoutes, ERROR_SHELL_FILE } from "../src/lib/canonicalRoutes.mjs";
+import { mobileHeroPreload } from "../src/lib/mobileHero.mjs";
 
 import { writeApacheRouting } from "./generate-apache-routing.mjs";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
+
+export function initialResourceHints(path) {
+  return ["/", "/events", "/community", "/partners"].includes(path) ? mobileHeroPreload() : "";
+}
 
 export function injectHead(template, head) {
   if ((template.match(/<title\b/gi) || []).length !== 1 || !/<div id="root"><\/div>/.test(template)) {
@@ -51,7 +56,8 @@ export async function generateStaticHeads(root = projectRoot) {
   const shells = routes.map(route => {
     const props = getPageSeo(route.path);
     if (props.noindex) throw new Error(`Canonical route has no metadata: ${route.path}`);
-    return { file: route.file, html: injectHead(template, renderSeoHead(createSeoHead(props, route.path))) };
+    const heroHint = initialResourceHints(route.path);
+    return { file: route.file, html: injectHead(template, renderSeoHead(createSeoHead(props, route.path)) + heroHint) };
   });
   shells.push({ file: ERROR_SHELL_FILE, html: injectHead(template, renderSeoHead(createSeoHead(errorSeo(), "/"))) });
 
