@@ -32,6 +32,20 @@ interface PartnersPageRendererProps {
 
 const currentSponsors = getOrganisations();
 
+// Optical sizing compensates for whitespace already present in the source files.
+// CMS order/content and the original artwork remain unchanged.
+const logoScale: Record<string, number> = {
+  "BroadView Software": 1.6, "Convergent IDS": 1.75, "DCe Agency": 1.7,
+  "Giant Worldwide": 1.3, "Invenio LSI": 1.2, "LucidLink": 1.6,
+  "Matrix": 1.85, "Mr MXF": 1.1, "Rarecrew": 1.7, "RSG Media": 1.35,
+  "UHD Alliance": 1.7, "UIC Digital": 1.6, "UTO Solutions": 1.2,
+  "Wagada Digital": 1.6, "Caretta Research": 0.9, "decodeTV": 0.9,
+  "Fabric": 1.55, "FOO Engine": 1.35, "G&L": 0.9,
+  "Markham Digital Media": 1.1, "modula media": 1.5, "NetActuate": 0.9,
+  "Norsk": 1.1, "realitech": 1.5, "Red5": 0.9, "Rightsline": 1.6,
+  "Testronic": 1.6,
+};
+
 function JourneyHeading({ step, title, description, className = "mb-10" }: { step?: string; title?: string; description?: string; className?: string }) {
   return (
     <div className={`${className} max-w-2xl`}>
@@ -73,15 +87,15 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
               <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 bg-background">
                 <JourneyHeading step="THE PARTNER COMMUNITY" title="In good company." description={section.body} />
                 <div tabIndex={0} role="region" aria-label="Partner logos" aria-keyshortcuts="Space" aria-description={reducedMotion ? undefined : logosPaused ? "Logo movement paused. Press Space to resume." : "Press Space to pause logo movement."}
-                  onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setLogosPaused(value => !value); } }} className="group overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
+                  onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setLogosPaused(value => !value); } }} className="group overflow-hidden rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
                   {/* Equal-width sequences keep the existing half-track animation seamless. */}
                   <div style={{ animationDuration: "53.333333s", animationPlayState: logosPaused ? "paused" : undefined }} className="flex w-max motion-safe:animate-scroll group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:w-full motion-reduce:animate-none">
                     {[false, true].map(duplicate => (
                       <ul key={String(duplicate)} aria-hidden={duplicate || undefined}
                         className={`flex shrink-0 gap-3 pr-3 ${duplicate ? "motion-reduce:hidden" : "motion-reduce:grid motion-reduce:w-full motion-reduce:grid-cols-2 motion-reduce:pr-0 sm:motion-reduce:grid-cols-3 lg:motion-reduce:grid-cols-7"}`}>
                         {currentSponsors.map(sponsor => (
-                          <li key={sponsor.src} id={!duplicate && sponsor.id && getOrganisationById(sponsor.id) ? `organisation-${sponsor.id}` : undefined} className="flex h-24 w-44 shrink-0 items-center justify-center rounded-sm bg-white p-3 motion-reduce:w-auto">
-                            <img src={contentImage(sponsor.src)} alt={duplicate ? "" : sponsor.alt || sponsor.name || "Organisation logo"} loading="eager" className="h-16 w-full object-contain" />
+                          <li key={sponsor.src} id={!duplicate && sponsor.id && getOrganisationById(sponsor.id) ? `organisation-${sponsor.id}` : undefined} className="flex h-[7.8rem] w-[14.3rem] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-4 motion-reduce:w-auto">
+                            <img src={contentImage(sponsor.src)} alt={duplicate ? "" : sponsor.alt || sponsor.name || "Organisation logo"} loading="eager" className="h-[5.2rem] w-full object-contain" style={{ transform: `scale(${logoScale[sponsor.name ?? ""] ?? 1})` }} />
                           </li>
                         ))}
                       </ul>
