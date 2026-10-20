@@ -20,9 +20,18 @@ test("mobile preload and picture select identical responsive hero candidates", (
   }
   assert.match(html, /fetchPriority="high"/);
   assert.doesNotMatch(html, /loading="lazy"/);
-  assert.match(html, /width="1620" height="2025"/);
+  assert.match(html, /width="1080" height="1350"/);
+  assert.equal(attr(source, "sizes"), "80vw");
+  assert.match(source, /website-hero-mobile-v2-640.webp 640w/);
   for (const path of ["/faq", "/privacy-policy", "/events/4", "/missing"]) assert.equal(initialResourceHints(path), "");
   for (const candidate of mobileHeroDelivery.srcSet.split(", ")) assert.ok(existsSync(`public${candidate.split(" ")[0]}`), candidate);
+});
+
+test("full-width hero layouts keep their own size hint without changing candidates", () => {
+  const html = renderToStaticMarkup(createElement(MobileHeroArtwork, { sizes: "100vw" }));
+  assert.match(html, /sizes="100vw"/);
+  assert.ok(html.includes(mobileHeroDelivery.srcSet));
+  assert.doesNotMatch(html, /sizes="80vw"/);
 });
 
 test("custom artwork does not inherit the default artwork's responsive candidates", () => {

@@ -183,7 +183,7 @@ export default function PageHero(props: PageHeroProps) {
           aria-hidden="true"
         />
       )}
-      {variant === "image" && resolvedBackgroundImage && <MobileHeroArtwork />}
+      {variant === "image" && resolvedBackgroundImage && <MobileHeroArtwork sizes="100vw" />}
       {variant === "image" && resolvedBackgroundImage && imageOverlayClassName && <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${imageOverlayClassName}`} />}
 
       {variant === "solid" && (
