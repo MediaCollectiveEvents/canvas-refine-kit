@@ -882,9 +882,10 @@ collections:
                 name: cta
                 widget: object
                 required: false
+                hint: "Used by the closing CTA section. Sections without a button can leave these fields empty; existing CTA values are loaded automatically."
                 fields:
-                  - { label: Label, name: label, widget: string }
-                  - { label: URL, name: url, widget: string }
+                  - { label: Label, name: label, widget: string, required: false }
+                  - { label: URL, name: url, widget: string, required: false }
 
   - name: communityPage
     label: Community Page

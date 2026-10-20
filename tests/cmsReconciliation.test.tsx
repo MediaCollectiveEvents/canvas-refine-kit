@@ -168,3 +168,34 @@ test("FAQ adapter and preview registration precede manual Decap initialization",
   const fontLinks = [...publicHtml.matchAll(/href="(https:\/\/fonts\.googleapis\.com\/css2[^\"]+)"/g)].map(match => match[1]);
   for (const url of new Set(fontLinks)) assert.ok(source.includes(`registerPreviewStyle("${url}", { raw: false })`));
 });
+
+
+test("Partners CTA controls map saved values and do not require nonexistent section CTAs", () => {
+  const sectionFields = field(file("partnersPage").fields, "sections").fields;
+  const cta = field(sectionFields, "cta");
+  assert.equal(cta.required, false);
+  assert.equal(field(cta.fields, "label").required, false);
+  assert.equal(field(cta.fields, "url").required, false);
+  const saved = JSON.parse(readFileSync("src/content/partners.json", "utf8"));
+  const closing = saved.sections.find((section: any) => section.type === "joinUs");
+  assert.equal(closing.cta.label, "Arrange a Call");
+  assert.equal(closing.cta.url, "https://calendly.com/mediacollective/call-with-chris");
+  assert.ok(saved.sections.some((section: any) => !section.cta), "CTA-free sections must remain valid");
+});
+
+test("unrelated Partners edits preserve all CTA values through native Decap save/reload", () => {
+  const require = decapModules();
+  const formatter = require(93223).default;
+  const { fromJS } = require(46670);
+  const { serializeValues } = require(33188);
+  const saved = formatter.fromFile(readFileSync("src/content/partners.json", "utf8"));
+  const fields = fromJS(file("partnersPage").fields);
+  const edited = fromJS(saved).setIn(["sections", 0, "body"], "Unrelated editor-only regression fixture");
+  const reloaded = formatter.fromFile(formatter.toFile(serializeValues(edited, fields).toJS()));
+  const expected = structuredClone(saved);
+  expected.sections[0].body = "Unrelated editor-only regression fixture";
+  assert.deepEqual(reloaded, expected, "Save/reload must preserve all other content, CTA objects and absent CTA keys");
+  assert.deepEqual(reloaded.hero.primaryCta, saved.hero.primaryCta);
+  assert.deepEqual(reloaded.hero.cta, saved.hero.cta);
+  assert.deepEqual(reloaded.sections.map((s: any) => s.cta), saved.sections.map((s: any) => s.cta));
+});
