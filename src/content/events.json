@@ -10,7 +10,7 @@
     },
     "overlayStrength": 0.1,
     "mobileCrop": "cover",
-    "title": "Our Events",
+    "title": "OUR EVENTS",
     "image": "/uploads/website-hero-events.png",
     "description": "Designed for conversation, not crowds."
   },
@@ -20,176 +20,155 @@
   },
   "events": [
     {
-      "details": "Wednesday 6 May 2026, 9:30 AM–12:00 PM, at The Broadcaster, White City, London. The programme combines breakfast networking, Caretta Research market intelligence, expert perspectives, panel discussion and practical discussion, including security and organisational change.",
-      "summary": "A post-NAB breakfast combining networking, market intelligence, expert perspectives and practical discussion.",
-      "time": "09:30–12:00",
-      "date": "2026-05-06",
-      "venue": "The Broadcaster",
-      "location": "White City, London",
-      "title": "Post-NAB Review Breakfast 2026: Signals, Strategy and Operating Reality",
-      "type": "upcoming",
-      "id": 1,
-      "formatTags": [
-        "networking",
-        "breakfast",
-        "discussion"
-      ],
-      "conferenceAlignment": [
-        "NAB"
-      ],
-      "themeTags": [],
-      "areas": [
-        "strategy-leadership"
-      ],
-      "topics": [
-        "security",
-        "organisational-change",
-        "industry-strategy"
-      ],
-      "description": "Breakfast networking at The Broadcaster, White City, London, with Caretta Research market intelligence, industry perspectives and a panel discussion on signals, strategy and operating reality.",
-      "startsAt": "2026-05-06T09:30:00+01:00",
-      "endsAt": "2026-05-06T12:00:00+01:00",
-      "timeZone": "Europe/London",
-      "experienceCategories": [
-        "networking-social",
-        "conference-aligned",
-        "knowledge-discussion"
-      ],
-      "whoAttends": "People working across media, broadcast and entertainment, with an interest in industry strategy and operating challenges.",
       "whyAttend": [
         "Compare perspectives on the industry after NAB",
         "Hear market intelligence and practical industry discussion",
         "Meet peers over breakfast"
       ],
+      "themeTags": [],
+      "details": "Wednesday 6 May 2026, 9:30 AM–12:00 PM, at The Broadcaster, White City, London. The programme combines breakfast networking, Caretta Research market intelligence, expert perspectives, panel discussion and practical discussion, including security and organisational change.",
+      "startsAt": "2026-05-06T09:30:00+01:00",
+      "topics": [
+        "security",
+        "organisational-change",
+        "industry-strategy"
+      ],
+      "areas": [
+        "strategy-leadership"
+      ],
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned",
+        "knowledge-discussion"
+      ],
+      "summary": "A post-NAB breakfast combining networking, market intelligence, expert perspectives and practical discussion.",
+      "conferenceAlignment": [
+        "NAB"
+      ],
+      "endsAt": "2026-05-06T12:00:00+01:00",
+      "time": "09:30–12:00",
+      "date": "2026-05-06",
+      "venue": "The Broadcaster",
+      "formatTags": [
+        "networking",
+        "breakfast",
+        "discussion"
+      ],
+      "location": "White City, London",
       "whatToExpect": [
         "Breakfast networking",
         "Caretta Research market intelligence and industry perspectives",
         "Panel and practical discussion on signals, strategy and operating reality"
       ],
-      "seoDescription": "A post-NAB breakfast at The Broadcaster, London, on 6 May 2026, with Caretta Research market intelligence and discussion of strategy and operating challenges.",
-      "seoTitle": "Post-NAB Review Breakfast 2026 — The Media Collective"
+      "title": "Post-NAB Review Breakfast 2026: Signals, Strategy and Operating Reality",
+      "timeZone": "Europe/London",
+      "type": "upcoming",
+      "id": 1,
+      "whoAttends": "People working across media, broadcast and entertainment, with an interest in industry strategy and operating challenges.",
+      "seoTitle": "Post-NAB Review Breakfast 2026 — The Media Collective",
+      "description": "Breakfast networking at The Broadcaster, White City, London, with Caretta Research market intelligence, industry perspectives and a panel discussion on signals, strategy and operating reality.",
+      "seoDescription": "A post-NAB breakfast at The Broadcaster, London, on 6 May 2026, with Caretta Research market intelligence and discussion of strategy and operating challenges."
     },
     {
+      "whyAttend": [
+        "Catch up with peers after MPTS",
+        "Meet people across broadcast, streaming and media technology",
+        "Continue conversations away from the show floor"
+      ],
+      "themeTags": [],
       "details": "Wednesday 13 May 2026, 5:00 PM–9:00 PM, at The Hand & Flower, Olympia, London. This informal, invite-only after-show reception takes place in the private first-floor bar, with complimentary Prosecco on arrival, canapés and refreshments for guests across broadcast, streaming and media technology.",
+      "startsAt": "2026-05-13T17:00:00+01:00",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ],
       "summary": "An informal, invite-only after-show drinks reception for people across broadcast, streaming and media technology.",
+      "conferenceAlignment": [
+        "MPTS"
+      ],
+      "endsAt": "2026-05-13T21:00:00+01:00",
       "time": "17:00–21:00",
       "date": "2026-05-13",
       "venue": "The Hand & Flower",
-      "location": "Olympia, London",
-      "title": "The Media Collective – MPTS 2026 – After Show Drinks Reception",
-      "type": "upcoming",
-      "id": 2,
       "formatTags": [
         "networking",
         "social",
         "reception",
         "drinks"
       ],
-      "conferenceAlignment": [
-        "MPTS"
-      ],
-      "themeTags": [],
-      "description": "Meet peers after MPTS in the private first-floor bar at The Hand & Flower, Olympia, London, with complimentary Prosecco on arrival, canapés and refreshments.",
-      "startsAt": "2026-05-13T17:00:00+01:00",
-      "endsAt": "2026-05-13T21:00:00+01:00",
-      "timeZone": "Europe/London",
-      "experienceCategories": [
-        "networking-social",
-        "conference-aligned"
-      ],
-      "whoAttends": "People working across broadcast, streaming and media technology who are gathering around MPTS.",
-      "whyAttend": [
-        "Catch up with peers after MPTS",
-        "Meet people across broadcast, streaming and media technology",
-        "Continue conversations away from the show floor"
-      ],
+      "location": "Olympia, London",
       "whatToExpect": [
         "An informal reception in the private first-floor bar",
         "Complimentary Prosecco on arrival, canapés and refreshments"
       ],
+      "title": "The Media Collective – MPTS 2026 – After Show Drinks Reception",
+      "timeZone": "Europe/London",
+      "type": "upcoming",
+      "id": 2,
+      "whoAttends": "People working across broadcast, streaming and media technology who are gathering around MPTS.",
+      "description": "Meet peers after MPTS in the private first-floor bar at The Hand & Flower, Olympia, London, with complimentary Prosecco on arrival, canapés and refreshments.",
       "seoDescription": "The Media Collective’s MPTS after-show reception at The Hand & Flower, London, on 13 May 2026, with drinks, canapés and refreshments."
     },
     {
-      "details": "Saturday 12 September 2026, 8:00 AM–10:00 AM CEST, at The Traveller, 2 Europaplein, 1078 GZ Amsterdam. An informal networking breakfast for media, broadcast and entertainment professionals.",
-      "imageKey": "",
-      "summary": "An informal networking breakfast for media, broadcast and entertainment professionals at The Traveller, Amsterdam.",
-      "time": "08:00–10:00 CEST",
-      "date": "2026-09-12",
-      "venue": "The Traveller",
-      "location": "2 Europaplein, 1078 GZ Amsterdam",
-      "title": "Join us at The Media Collective Networking Breakfast @ IBC 2026",
-      "type": "past",
-      "id": 3,
-      "formatTags": [
-        "networking",
-        "breakfast"
-      ],
-      "conferenceAlignment": [
-        "IBC"
-      ],
-      "themeTags": [],
-      "description": "Connect with media, broadcast and entertainment professionals over an informal networking breakfast at The Traveller during IBC 2026.",
-      "startsAt": "2026-09-12T08:00:00+02:00",
-      "endsAt": "2026-09-12T10:00:00+02:00",
-      "timeZone": "Europe/Amsterdam",
-      "experienceCategories": [
-        "networking-social",
-        "conference-aligned"
-      ],
-      "whoAttends": "People working across media, broadcast and entertainment who are attending IBC.",
       "whyAttend": [
         "Catch up with industry peers before the IBC day",
         "Meet people over breakfast"
       ],
+      "themeTags": [],
+      "details": "Saturday 12 September 2026, 8:00 AM–10:00 AM CEST, at The Traveller, 2 Europaplein, 1078 GZ Amsterdam. An informal networking breakfast for media, broadcast and entertainment professionals.",
+      "startsAt": "2026-09-12T08:00:00+02:00",
+      "imageKey": "",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ],
+      "summary": "An informal networking breakfast for media, broadcast and entertainment professionals at The Traveller, Amsterdam.",
+      "conferenceAlignment": [
+        "IBC"
+      ],
+      "endsAt": "2026-09-12T10:00:00+02:00",
+      "time": "08:00–10:00 CEST",
+      "date": "2026-09-12",
+      "venue": "The Traveller",
+      "formatTags": [
+        "networking",
+        "breakfast"
+      ],
+      "location": "2 Europaplein, 1078 GZ Amsterdam",
       "whatToExpect": [
         "An informal networking breakfast",
         "Conversation with media, broadcast and entertainment professionals"
-      ]
+      ],
+      "title": "Join us at The Media Collective Networking Breakfast @ IBC 2026",
+      "timeZone": "Europe/Amsterdam",
+      "type": "past",
+      "id": 3,
+      "whoAttends": "People working across media, broadcast and entertainment who are attending IBC.",
+      "description": "Connect with media, broadcast and entertainment professionals over an informal networking breakfast at The Traveller during IBC 2026."
     },
     {
-      "id": 4,
-      "formatTags": [
-        "networking",
-        "industry-forum",
-        "discussion"
-      ],
-      "conferenceAlignment": [],
-      "themeTags": [],
-      "areas": [
-        "strategy-leadership"
-      ],
-      "topics": [
-        "industry-strategy"
-      ],
-      "title": "OFF AIR: The Unfiltered Future of Media",
-      "date": "2026-11-24",
-      "time": "15:00–18:00",
-      "venue": "The Broadcaster",
-      "location": "White City, London",
-      "startsAt": "2026-11-24T15:00:00+00:00",
-      "endsAt": "2026-11-24T18:00:00+00:00",
-      "timeZone": "Europe/London",
-      "experienceCategories": [
-        "networking-social",
-        "knowledge-discussion"
-      ],
-      "summary": "An invitation-only forum for candid discussion about the future of media.",
-      "description": "Presented by The Media Collective, Faultline and decodeTV, OFF AIR examines the technologies, business models and strategic choices shaping media.",
-      "details": "24 November 2026, 15:00–18:00, at The Broadcaster, White City, London. The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards, followed by drinks and executive networking. The programme will evolve and be developed in consultation with Strategic Partners and invited industry figures.",
-      "imageKey": "off-air",
-      "whoAttends": "Leaders working across broadcasting, streaming, content and media technology.",
+      "historyLabel": "New for 2026",
       "whyAttend": [
         "Test assumptions about where media is heading",
         "Hear perspectives from across broadcasting, streaming and technology",
         "Put questions to the speakers and analysts"
       ],
-      "whatToExpect": [
-        "Debate with audience participation",
-        "The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards",
-        "Drinks after the discussions",
-        "The programme will evolve in consultation with Strategic Partners and invited industry figures"
+      "themeTags": [],
+      "details": "24 November 2026, 15:00–18:00, at The Broadcaster, White City, London. The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards, followed by drinks and executive networking. The programme will evolve and be developed in consultation with Strategic Partners and invited industry figures.",
+      "startsAt": "2026-11-24T15:00:00+00:00",
+      "topics": [
+        "industry-strategy"
       ],
-      "image": "/uploads/off-air.png",
+      "imageKey": "off-air",
+      "areas": [
+        "strategy-leadership"
+      ],
+      "experienceCategories": [
+        "networking-social",
+        "knowledge-discussion"
+      ],
+      "summary": "An invitation-only forum for candid discussion about the future of media.",
+      "conferenceAlignment": [],
       "partners": [
         {
           "name": "Faultline",
@@ -200,85 +179,113 @@
           "logo": "/uploads/featured-decodetv.jpg"
         }
       ],
+      "endsAt": "2026-11-24T18:00:00+00:00",
+      "time": "15:00–18:00",
       "capacity_number": 100,
+      "date": "2026-11-24",
+      "venue": "The Broadcaster",
       "capacity_label": "Attendees",
+      "formatTags": [
+        "networking",
+        "industry-forum",
+        "discussion"
+      ],
+      "location": "White City, London",
       "card_summary": "Industry discussion exploring what matters next.",
-      "historyLabel": "New for 2026",
+      "whatToExpect": [
+        "Debate with audience participation",
+        "The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards",
+        "Drinks after the discussions",
+        "The programme will evolve in consultation with Strategic Partners and invited industry figures"
+      ],
+      "title": "OFF AIR: The Unfiltered Future of Media",
+      "timeZone": "Europe/London",
+      "id": 4,
+      "image": "/uploads/off-air.png",
+      "whoAttends": "Leaders working across broadcasting, streaming, content and media technology.",
+      "description": "Presented by The Media Collective, Faultline and decodeTV, OFF AIR examines the technologies, business models and strategic choices shaping media.",
       "seoDescription": "An invitation-only forum exploring media technology, business models and strategy at The Broadcaster, London, on 24 November 2026."
     },
     {
-      "id": 5,
-      "formatTags": [
-        "networking",
-        "reception"
-      ],
-      "conferenceAlignment": [
-        "MPTS"
-      ],
-      "themeTags": [],
-      "title": "MPTS Networking Reception 2027",
-      "imageKey": "mpts-networking-reception-2027",
-      "date": "2027-05-12",
-      "type": "upcoming",
-      "venue": "Olympia",
-      "location": "London",
-      "experienceCategories": [
-        "networking-social",
-        "conference-aligned"
-      ],
-      "whoAttends": "People working across media and technology who are attending MPTS.",
+      "historyLabel": "Annual Gathering",
       "whyAttend": [
         "Meet peers alongside MPTS",
         "Continue conversations with people across media and technology"
       ],
-      "whatToExpect": [
-        "A networking reception alongside MPTS",
-        "Further programme details will be announced"
-      ],
-      "description": "A networking reception alongside MPTS in London. The gathering gives people working across media and technology time to meet and continue conversations around the show.",
-      "image": "/uploads/Venue tiles/Handandflower.png",
-      "capacity_number": 120,
-      "capacity_label": "Attendees",
-      "card_summary": "Connect with industry peers during MPTS.",
-      "historyLabel": "Annual Gathering",
-      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited."
-    },
-    {
-      "id": 8,
-      "formatTags": [
-        "networking",
-        "social",
-        "journey"
-      ],
-      "conferenceAlignment": [
-        "IBC"
-      ],
       "themeTags": [],
-      "title": "The Green Line to IBC 2027",
-      "seoDescription": "Travel from London to Amsterdam for IBC in a dedicated Eurostar carriage with fellow attendees. An independent, paid-ticket event organised by Greenline.",
-      "imageKey": "greenline",
-      "date": "2027-09-09",
-      "type": "upcoming",
-      "venue": "Eurostar",
-      "location": "St Pancras to Amsterdam Centraal",
-      "description": "The Green Line offers a shared start to IBC, before the exhibition begins.\n\nThe dedicated Eurostar carriage gives participants time together on the way from London to Amsterdam.\n\nRail travel provides an alternative to short-haul flights for those heading to the show.",
+      "imageKey": "mpts-networking-reception-2027",
       "experienceCategories": [
         "networking-social",
         "conference-aligned"
       ],
-      "whoAttends": "People travelling to IBC from broadcasting, streaming, media technology and entertainment.\n\nPassengers typically include executives, specialists, analysts, journalists and suppliers.",
+      "conferenceAlignment": [
+        "MPTS"
+      ],
+      "capacity_number": 120,
+      "date": "2027-05-12",
+      "venue": "Olympia",
+      "capacity_label": "Attendees",
+      "formatTags": [
+        "networking",
+        "reception"
+      ],
+      "location": "London",
+      "card_summary": "Connect with industry peers during MPTS.",
+      "whatToExpect": [
+        "A networking reception alongside MPTS",
+        "Further programme details will be announced"
+      ],
+      "title": "MPTS Networking Reception 2027",
+      "type": "upcoming",
+      "id": 5,
+      "image": "/uploads/Venue tiles/Handandflower.png",
+      "whoAttends": "People working across media and technology who are attending MPTS.",
+      "description": "A networking reception alongside MPTS in London. The gathering gives people working across media and technology time to meet and continue conversations around the show.",
+      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited."
+    },
+    {
+      "historyLabel": "Partner Event",
       "whyAttend": [
         "Spend time with fellow IBC attendees before the show",
         "Exchange perspectives away from the exhibition floor",
         "Support a lower-carbon journey to IBC"
       ],
+      "themeTags": [],
+      "ctaLabel": "Register Interest",
+      "imageKey": "greenline",
+      "ctaCopy": "Tickets are managed by Greenline.\n\nPaid tickets. Places are limited and advance booking is required.",
+      "attendanceStatement": "Paid tickets. Places are limited and advance booking is required. Organiser: Greenline.",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ],
+      "conferenceAlignment": [
+        "IBC"
+      ],
+      "partnerEventCopy": "The Media Collective supports The Green Line as a partner event.\n\nIt is an independent initiative, with ticketing managed by the event organisers.",
+      "time": "11:04–15:30",
+      "destination": "Amsterdam",
+      "capacity_number": 80,
+      "date": "2027-09-09",
+      "venue": "Eurostar",
+      "capacity_label": "Seats",
+      "formatTags": [
+        "networking",
+        "social",
+        "journey"
+      ],
+      "ctaHeading": "Tickets and access",
+      "partnerEvent": true,
+      "departure": "St Pancras International, London",
+      "location": "St Pancras to Amsterdam Centraal",
+      "card_summary": "Travel to IBC alongside fellow attendees on a dedicated Eurostar carriage.",
+      "subtitle": "A shared journey to IBC for people travelling from London to Amsterdam.",
       "whatToExpect": [
         "Dedicated Eurostar carriage for Green Line participants",
         "Food and drinks served on board",
         "Entertainment during the trip"
       ],
-      "image": "/uploads/Venue tiles/Eurostar.png",
-      "partnerEvent": true,
+      "title": "The Green Line to IBC 2027",
       "heroHighlights": [
         "PARTNER EVENT",
         "IBC ATTENDEES",
@@ -286,63 +293,61 @@
         "EUROSTAR",
         "SUSTAINABLE TRAVEL"
       ],
-      "subtitle": "A shared journey to IBC for people travelling from London to Amsterdam.",
-      "departure": "St Pancras International, London",
-      "destination": "Amsterdam",
-      "time": "11:04–15:30",
-      "attendanceStatement": "Paid tickets. Places are limited and advance booking is required. Organiser: Greenline.",
-      "partnerEventCopy": "The Media Collective supports The Green Line as a partner event.\n\nIt is an independent initiative, with ticketing managed by the event organisers.",
-      "ctaHeading": "Tickets and access",
-      "ctaLabel": "Register Interest",
-      "ctaCopy": "Tickets are managed by Greenline.\n\nPaid tickets. Places are limited and advance booking is required.",
-      "capacity_number": 80,
-      "capacity_label": "Seats",
-      "card_summary": "Travel to IBC alongside fellow attendees on a dedicated Eurostar carriage.",
-      "historyLabel": "Partner Event"
+      "type": "upcoming",
+      "id": 8,
+      "image": "/uploads/Venue tiles/Eurostar.png",
+      "whoAttends": "People travelling to IBC from broadcasting, streaming, media technology and entertainment.\n\nPassengers typically include executives, specialists, analysts, journalists and suppliers.",
+      "description": "The Green Line offers a shared start to IBC, before the exhibition begins.\n\nThe dedicated Eurostar carriage gives participants time together on the way from London to Amsterdam.\n\nRail travel provides an alternative to short-haul flights for those heading to the show.",
+      "seoDescription": "Travel from London to Amsterdam for IBC in a dedicated Eurostar carriage with fellow attendees. An independent, paid-ticket event organised by Greenline."
     },
     {
-      "id": 6,
-      "formatTags": [
-        "networking",
-        "breakfast"
-      ],
-      "conferenceAlignment": [
-        "IBC"
-      ],
-      "themeTags": [],
-      "title": "IBC Networking Breakfast 2027",
-      "summary": "Start the day at IBC with an informal breakfast for people working across media, broadcast and technology.",
-      "description": "The breakfast offers an informal start to a busy day at IBC.\n\nAway from the exhibition floor, there is time to share perspectives over breakfast.\n\nThe Traveller is a one-minute walk from the main entrance of the RAI, so guests can head straight to the show afterwards.",
-      "imageKey": "ibc-networking-breakfast-2027",
-      "date": "2027-09-11",
-      "type": "upcoming",
-      "venue": "The Traveller",
-      "location": "a one-minute walk from the main entrance of the RAI Amsterdam",
-      "experienceCategories": [
-        "networking-social",
-        "conference-aligned"
-      ],
-      "whoAttends": "Attendees typically include professionals from broadcasters, streaming platforms, studios, technology providers, media organisations, production companies and industry suppliers.\n\nGuests range from senior executives and industry leaders to specialists, innovators and emerging talent working across the media ecosystem.",
+      "historyLabel": "Running Since 2023",
       "whyAttend": [
         "Spend time with colleagues away from the exhibition floor",
         "Renew existing relationships",
         "Compare perspectives before the day begins"
       ],
+      "themeTags": [],
+      "imageKey": "ibc-networking-breakfast-2027",
+      "ctaCopy": "Request an invitation to the breakfast.\n\nAttendance is curated.",
+      "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
+      "experienceCategories": [
+        "networking-social",
+        "conference-aligned"
+      ],
+      "summary": "Start the day at IBC with an informal breakfast for people working across media, broadcast and technology.",
+      "conferenceAlignment": [
+        "IBC"
+      ],
+      "time": "08:00–10:00 CET",
+      "capacity_number": 120,
+      "date": "2027-09-11",
+      "venue": "The Traveller",
+      "capacity_label": "Attendees",
+      "formatTags": [
+        "networking",
+        "breakfast"
+      ],
+      "ctaHeading": "Request an Invitation",
+      "location": "a one-minute walk from the main entrance of the RAI Amsterdam",
+      "card_summary": "Start your IBC day with conversation and introductions.",
+      "subtitle": "A morning gathering for people attending IBC.",
       "whatToExpect": [
         "Breakfast, coffee and refreshments",
         "An informal gathering with a curated mix of IBC attendees",
         "Time together before the exhibition and conference programme"
       ],
-      "image": "/uploads/Venue tiles/RAI.png",
+      "title": "IBC Networking Breakfast 2027",
       "heroHighlights": [
         "IBC ATTENDEES",
         "BREAKFAST",
         "NETWORKING",
         "CURATED ATTENDANCE"
       ],
-      "subtitle": "A morning gathering for people attending IBC.",
-      "time": "08:00–10:00 CET",
-      "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
+      "type": "upcoming",
+      "id": 6,
+      "image": "/uploads/Venue tiles/RAI.png",
+      "whoAttends": "Attendees typically include professionals from broadcasters, streaming platforms, studios, technology providers, media organisations, production companies and industry suppliers.\n\nGuests range from senior executives and industry leaders to specialists, innovators and emerging talent working across the media ecosystem.",
       "programme": [
         {
           "time": "08:00",
@@ -361,63 +366,58 @@
           "description": "Close"
         }
       ],
-      "ctaHeading": "Request an Invitation",
-      "ctaCopy": "Request an invitation to the breakfast.\n\nAttendance is curated.",
-      "capacity_number": 120,
-      "capacity_label": "Attendees",
-      "card_summary": "Start your IBC day with conversation and introductions.",
-      "historyLabel": "Running Since 2023",
+      "description": "The breakfast offers an informal start to a busy day at IBC.\n\nAway from the exhibition floor, there is time to share perspectives over breakfast.\n\nThe Traveller is a one-minute walk from the main entrance of the RAI, so guests can head straight to the show afterwards.",
       "seoDescription": "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated."
     },
     {
-      "id": 7,
-      "formatTags": [
-        "networking",
-        "social",
-        "drinks"
-      ],
-      "conferenceAlignment": [
-        "IBC"
-      ],
-      "themeTags": [],
-      "title": "IBC Decompression Party 2027",
-      "imageKey": "ibc-decompression-party-2027",
-      "date": "2027-09-12",
-      "type": "upcoming",
-      "venue": "Live Amsterdam Piano Bar",
-      "location": "Amsterdam",
-      "description": "As IBC winds down, the party offers a break from the exhibition floor.\n\nThe evening is built around hospitality and live jazz in Amsterdam.\n\nIt gives guests space to unwind and enjoy the end of the week together.",
-      "experienceCategories": [
-        "networking-social"
-      ],
-      "whoAttends": "People attending IBC from across broadcasting, streaming, technology, production and the wider media industry.\n\nGuests include industry leaders, specialists, innovators, partners, customers, colleagues and friends of The Media Collective community.",
+      "historyLabel": "Returning for 2027",
       "whyAttend": [
         "Take a break after a busy week at IBC",
         "Spend time with colleagues outside the show",
         "Enjoy live music in an informal setting"
       ],
+      "themeTags": [],
+      "imageKey": "ibc-decompression-party-2027",
+      "ctaCopy": "Request an invitation to join us.\n\nAttendance is curated.",
+      "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
+      "experienceCategories": [
+        "networking-social"
+      ],
+      "conferenceAlignment": [
+        "IBC"
+      ],
+      "time": "18:30 – Late",
+      "capacity_number": 200,
+      "date": "2027-09-12",
+      "venue": "Live Amsterdam Piano Bar",
+      "capacity_label": "Attendees",
+      "formatTags": [
+        "networking",
+        "social",
+        "drinks"
+      ],
+      "ctaHeading": "Request an Invitation",
+      "location": "Amsterdam",
+      "card_summary": "Round off IBC with live jazz, hospitality and industry peers.",
+      "subtitle": "A social evening with live jazz for people attending IBC.",
       "whatToExpect": [
         "Drinks and canapés",
         "Live jazz throughout the evening",
         "Performances from LDN2BTN and the IBC Allstars",
         "A carefully curated mix of IBC attendees"
       ],
-      "image": "/uploads/Venue tiles/Livepiano.png",
+      "title": "IBC Decompression Party 2027",
       "heroHighlights": [
         "IBC ATTENDEES",
         "SOCIAL EVENT",
         "LIVE JAZZ",
         "CURATED ATTENDANCE"
       ],
-      "subtitle": "A social evening with live jazz for people attending IBC.",
-      "time": "18:30 – Late",
-      "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
-      "ctaHeading": "Request an Invitation",
-      "ctaCopy": "Request an invitation to join us.\n\nAttendance is curated.",
-      "capacity_number": 200,
-      "capacity_label": "Attendees",
-      "card_summary": "Round off IBC with live jazz, hospitality and industry peers.",
-      "historyLabel": "Returning for 2027",
+      "type": "upcoming",
+      "id": 7,
+      "image": "/uploads/Venue tiles/Livepiano.png",
+      "whoAttends": "People attending IBC from across broadcasting, streaming, technology, production and the wider media industry.\n\nGuests include industry leaders, specialists, innovators, partners, customers, colleagues and friends of The Media Collective community.",
+      "description": "As IBC winds down, the party offers a break from the exhibition floor.\n\nThe evening is built around hospitality and live jazz in Amsterdam.\n\nIt gives guests space to unwind and enjoy the end of the week together.",
       "seoDescription": "An IBC social evening with live jazz, drinks and canapés at Live Amsterdam Piano Bar on 12 September 2027, featuring LDN2BTN and the IBC Allstars."
     }
   ]

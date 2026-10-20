@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { CalendarDays, Clock3, MapPin, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import SectionWrapper from "../layout/SectionWrapper";
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";

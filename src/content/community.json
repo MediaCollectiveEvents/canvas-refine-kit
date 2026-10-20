@@ -1,16 +1,16 @@
 {
   "hero": {
     "eyebrow": "OUR COMMUNITY",
-    "title": "Leaders and innovators from across media and technology",
-    "description": "Different roles, experience and perspectives at every gathering."
+    "title": "WHERE FAMILIAR FACES MEET NEW ONES",
+    "description": "Thoughtfully curated gatherings where conversations flow naturally \nand connections endure."
   },
   "sections": [
     {
       "id": "community-attendance",
       "type": "editorial",
       "eyebrow": "WHO ATTENDS",
-      "heading": "A community built across the industry.",
-      "body": "Attendees include executives, specialists, analysts, journalists and people from technology providers. They bring different experience and perspectives to each gathering."
+      "heading": "A community built across the industry",
+      "body": "From broadcasters and rights holders to streamers, platforms and technology providers, our community reflects the breadth and diversity of the industry itself."
     },
     {
       "id": "community-organisations",

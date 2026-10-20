@@ -14,9 +14,9 @@
     },
     "overlayStrength": 0,
     "mobileCrop": "cover",
-    "title": "We bring together the people you want to work with",
+    "title": "IN GOOD COMPANY",
     "image": "/uploads/website-hero-partners.png",
-    "description": "Support events and connect with our community."
+    "description": "Partner with a community united by expertise, curiosity \nand a shared passion for our industry."
   },
   "sections": [
     {
@@ -24,8 +24,8 @@
       "type": "ourEvents",
       "hidden": false,
       "eyebrow": "OUR EVENTS",
-      "heading": "Find the right event for your brand.",
-      "body": "The Media Collective delivers a programme of discussions, networking gatherings and social events throughout the year.",
+      "heading": "Find the right event for your brand",
+      "body": "A curated community of executives, entrepreneurs, innovators and industry specialists who come together to share ideas, build relationships and create opportunities through meaningful events and conversations.\n",
       "items": [
         {
           "eventId": 4,

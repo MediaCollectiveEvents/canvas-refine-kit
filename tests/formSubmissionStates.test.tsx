@@ -35,6 +35,7 @@ function mount(kind: "registration" | "contact") {
       useRef(initial: any) { const index = cursor++; return slots[index] ??= { current: initial }; },
       useMemo(compute: any) { return compute(); }, useEffect() {},
     },
+    "@/lib/unsavedForm": { protectUnsavedForm: () => () => {} },
     "react-hook-form": { useForm: () => form },
     "@hookform/resolvers/zod": { zodResolver: () => undefined },
     "react-google-recaptcha": { default: Dummy, __esModule: true },

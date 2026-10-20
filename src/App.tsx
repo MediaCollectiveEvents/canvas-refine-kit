@@ -16,6 +16,7 @@ const Admin = lazy(() => import("@/pages/Admin"));
 const Wireframe = lazy(() => import("@/pages/Wireframe"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 import Maintenance from "@/pages/Maintenance";
+import CookieConsent from "@/components/shared/CookieConsent";
 
 const App = () => {
   // Inject CMS colour palette into CSS variables
@@ -91,6 +92,7 @@ const App = () => {
         </Routes>
         </Suspense>
       </Router>
+      <CookieConsent />
     </div>
   );
 };

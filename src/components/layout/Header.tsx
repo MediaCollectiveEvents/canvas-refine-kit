@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../ui/button";
 import { headerLogoImage } from "@/lib/imageDelivery";
-import ContactForm from "../ContactForm";
+import { ContactForm } from "@/components/shared/LazyEnquiryForms";
 import settings from "../../content/settings.json";
 
 type RawNavItem = {
@@ -101,7 +101,7 @@ const Header = () => {
 
   return (
     <>
-      <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+      <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} fallbackFocusRef={menuToggle} />
 
       <header
         className="

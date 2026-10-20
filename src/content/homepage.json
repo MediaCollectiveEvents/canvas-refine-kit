@@ -132,10 +132,8 @@
       "customBackground": null
     },
     {
-      "type": "eventDiscovery",
       "heading": "Find an event",
-      "intro": "Flagship events",
-      "interestsLabel": "By interest",
+      "ctaLabel": "Show me events",
       "interests": [
         {
           "id": "networking-social",
@@ -158,7 +156,13 @@
           "label": "Industry shows & conferences"
         }
       ],
-      "showsLabel": "Which ones do you attend?",
+      "hidden": false,
+      "interestsLabel": "By interest",
+      "resultsHeading": "Coming up for you",
+      "intro": "Flagship events",
+      "emptyBody": "Browse all upcoming events or register your interest in future gatherings.",
+      "emptyCtaLabel": "Register interest",
+      "emptyHeading": "Nothing quite right at the moment?",
       "shows": [
         {
           "id": "nab-show-2026",
@@ -177,52 +181,8 @@
           "label": "Other"
         }
       ],
-      "ctaLabel": "Show me events",
-      "resultsHeading": "Coming up for you",
-      "emptyHeading": "Nothing quite right at the moment?",
-      "emptyBody": "Browse all upcoming events or register your interest in future gatherings.",
-      "emptyCtaLabel": "Register interest",
-      "hidden": false
-    },
-    {
-      "type": "getInvolved",
-      "heading": "Get involved",
-      "intro": "",
-      "items": [
-        {
-          "heading": "Attend",
-          "body": "Apply to attend an upcoming event.",
-          "cta": {
-            "label": "Request an invitation",
-            "url": "#events-for-you"
-          }
-        },
-        {
-          "heading": "Present",
-          "body": "Bring your experience and point of view to one of our discussions.",
-          "cta": {
-            "label": "Speak with us",
-            "url": "https://calendly.com/mediacollective/call-with-chris"
-          }
-        },
-        {
-          "heading": "Sponsor",
-          "body": "Help make a Media Collective event possible.",
-          "cta": {
-            "label": "Support an event",
-            "url": "/partners"
-          }
-        },
-        {
-          "heading": "Partner",
-          "body": "Help shape a programme or develop an event with us.",
-          "cta": {
-            "label": "Work with us",
-            "url": "https://calendly.com/mediacollective/call-with-chris"
-          }
-        }
-      ],
-      "hidden": false
+      "type": "eventDiscovery",
+      "showsLabel": "Which ones do you attend?"
     },
     {
       "type": "testimonials",
@@ -257,6 +217,18 @@
           "name": "Sue Mitchell",
           "role": "Director",
           "company": "Zixi"
+        },
+        {
+          "quote": "The IBC Decompression Party started as a simple idea to throw a party with a partner company. The Media Collective transformed it into a highly successful multi-sponsor event with over 250 select attendees, managing every aspect from planning and promotion to delivery. Having them manage the event was a genuine game-changer, allowing us to focus on our core business while they handled every detail. ",
+          "name": "Dom Robinson",
+          "company": "Norsk Video",
+          "role": "CBDO"
+        },
+        {
+          "quote": "I love the events organised by The Media Collective. I always have a great time, meet friendly faces and have useful takeaways for my business objectives.",
+          "name": "Idunn Sofie Riise",
+          "role": "Founder and MD",
+          "company": "Zille Media"
         }
       ],
       "styleTitle": {

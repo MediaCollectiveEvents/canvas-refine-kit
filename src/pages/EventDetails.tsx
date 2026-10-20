@@ -3,7 +3,7 @@ import { eventSeo, errorSeo } from "@/lib/pageSeo";
 // src/pages/EventDetails.tsx
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import EventPageTemplate from "@/components/shared/EventPageTemplate";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
