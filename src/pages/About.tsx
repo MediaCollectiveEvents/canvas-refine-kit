@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import PageHero from "@/components/shared/PageHero";
 
 import AboutPageRenderer from "@/components/sections/AboutPageRenderer";

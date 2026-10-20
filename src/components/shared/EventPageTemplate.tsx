@@ -1,3 +1,4 @@
+import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 import ClosingCTA from "./ClosingCTA";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -67,7 +68,7 @@ export default function EventPageTemplate({ event, onRequest, context }: {
         {!event.heroHighlights?.length && <EventTags event={event} />}
         {hasAction && <div className="mt-6">{action()}</div>}
       </div>
-      {image && <img src={image} alt="" width={1080} height={1080} className="aspect-square w-full rounded-xl object-contain" />}
+      {image && <img {...responsiveEventImage(image, eventImageSizes.detail)} alt="" width={1080} height={1080} className="aspect-square w-full rounded-xl object-contain" />}
     </header>
 
     <CopySection title="About This Event"><Narrative text={event.description || event.summary || "Event details will be announced."} /></CopySection>

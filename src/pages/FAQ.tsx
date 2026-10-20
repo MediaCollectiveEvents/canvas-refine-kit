@@ -1,6 +1,6 @@
 import { faqSeo } from "@/lib/pageSeo";
 import Seo from "@/components/shared/Seo";
-import ContactForm from "@/components/ContactForm";
+import { ContactForm } from "@/components/shared/LazyEnquiryForms";
 import { useState, type ComponentProps } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";

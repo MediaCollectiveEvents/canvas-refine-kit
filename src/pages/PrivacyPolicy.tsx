@@ -27,7 +27,7 @@ const PrivacyPolicy = () => {
               Privacy Policy
             </h1>
             <p className="text-muted-foreground font-display text-sm uppercase tracking-widest">
-              Last Updated: January 2025
+              Last Updated: 20 October 2026
             </p>
           </motion.div>
         </div>
@@ -175,7 +175,8 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
                 <li><strong>Event Registration Data:</strong> 3 years after the event date</li>
                 <li><strong>Marketing Consent Records:</strong> Until consent is withdrawn, plus 1 year for audit purposes</li>
-                <li><strong>Website Analytics:</strong> 26 months (anonymized data may be retained longer)</li>
+                <li><strong>Google Analytics:</strong> Event-data and user-data retention are both set to 2 months, with reset on new user activity disabled. These controls concern detailed data associated with identifiers and do not limit most standard aggregated reports.</li>
+                <li><strong>Cloudflare Web Analytics:</strong> Published reporting and aggregation periods are described below. Total deletion timing remains unverified.</li>
                 <li><strong>Correspondence:</strong> 3 years from last communication</li>
               </ul>
             </div>
@@ -248,8 +249,35 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 11. Cookies
               </h2>
-              <p className="text-muted-foreground font-body leading-[1.7]">
-                Our website uses cookies to enhance your experience. For detailed information about the cookies we use and how to manage your preferences, please contact us using the details below.
+              <h3 className="font-display text-lg text-foreground mb-3 mt-6">Analytics and preferences</h3>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                With your permission, we use Google Analytics and Cloudflare Web Analytics to understand site usage and performance and improve the website. Neither analytics script loads or sends measurement requests until you accept analytics. Rejecting analytics leaves both services off. Google Analytics uses first-party _ga and _ga_… cookies; Cloudflare documents its beacon as not using cookies or browser storage. That description does not decide its privacy classification.
+              </p>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                Google Consent Mode defaults analytics and advertising consent to denied. Acceptance grants analytics only before GA4 configuration. Advertising consent stays denied; Google signals and advertising personalisation signals are disabled. Route visits begin with the page you are viewing when you accept; earlier visits are not replayed.
+              </p>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                We remember your choice in this browser's local storage under tmc.analytics-consent.v2, with the choice, format version and time it was saved. It applies to both analytics services. The saved choice expires after 180 days, for both acceptance and rejection, or sooner if changed or cleared by you or your browser. Expiry is evaluated on the next document load or cross-tab preference update, so a long-open form is not abruptly reloaded solely because time passes. Choices are separate between browsers and between production and staging origins. Invalid or expired stored records are discarded. Clearing storage or an invalid/expired preference brings the choice interface back and keeps analytics blocked. The earlier GA-only preference is not treated as permission for Cloudflare.
+              </p>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                Use Cookie settings to review or change your choice. Withdrawing acceptance requires a reload to unload both analytics runtimes. The interface warns that unfinished registration/enquiry entries will be lost and offers Keep current choice or Reject and reload. Dirty forms also request a browser warning on document unload, including when another tab withdraws analytics. Cancelling the interface warning retains the existing choice and form values. Form values are not stored across reloads. Accessible GA cookies are cleared on withdrawal; this does not erase data providers have already received. Requests already sent before withdrawal cannot be recalled.
+              </p>
+              <h3 className="font-display text-lg text-foreground mb-3 mt-6">Provider retention</h3>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                In our Google Analytics property, event-data and user-data retention are both set to 2 months, with reset on new user activity disabled. These provider controls concern detailed data associated with identifiers and do not limit most standard aggregated reports. They are separate from the 180-day browser preference.
+              </p>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                According to Cloudflare's published Web Analytics documentation, unsampled beacon data is retained for 7 days and is then aggregated for longer-term storage; reports provide access to the previous six months. These are provider-published details, not independently verified account settings or a promise of complete deletion after either period. The reviewed site settings expose no retention control. Cloudflare's total deletion timing, backend retention and any alternative account controls remain unverified.
+              </p>
+              <h3 className="font-display text-lg text-foreground mb-3 mt-6">Fonts and verification, separate from analytics</h3>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                The site requests Montserrat, Source Sans 3 and Satisfy from Google Fonts. These external requests occur independently of analytics permission.
+              </p>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                Google reCAPTCHA helps assess automated form submissions and is independent of the analytics choice. No reCAPTCHA script is loaded by the closed lazy forms on initial Home/event load. Registration first loads its form on opening, and mounts reCAPTCHA at the consent/verification step. The contact form needs verification for its one-page submission flow and mounts reCAPTCHA on first opening. Once opened, form components remain mounted to preserve values; closing them does not unload third-party code that has already loaded. Google documents _GRECAPTCHA for its risk analysis, and other Google/partitioned storage depends on the browser and existing Google session. This description does not classify these services as legally necessary or exempt.
+              </p>
+              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
+                Submitted invitation/enquiry details are processed using Google Apps Script/Google Sheets, as described in section 6.
               </p>
             </div>
 

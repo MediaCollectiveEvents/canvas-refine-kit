@@ -1,9 +1,10 @@
+import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { CalendarDays, Clock3, MapPin, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import SectionWrapper from "../layout/SectionWrapper";
 import broadcasterImg from "@/assets/events/broadcaster.png";
 import handandflowerImg from "@/assets/events/handandflower.png";
@@ -50,7 +51,7 @@ export default function EventsSection(_props: EventsSectionProps) {
         return (
         <article key={event.id} className="grid items-start gap-8 text-[#f7f3eb] md:grid-cols-[minmax(0,38fr)_minmax(0,62fr)] lg:grid-cols-[minmax(0,34fr)_minmax(0,66fr)] lg:gap-12">
           <figure className="w-full max-w-[440px] lg:max-w-[396px]">
-            <img src={getImageForKey(event.imageKey, event.venue, event.title)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full rounded-xl object-contain" />
+            <img {...responsiveEventImage(getImageForKey(event.imageKey, event.venue, event.title), eventImageSizes.next)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full rounded-xl object-contain" />
           </figure>
           <div className="min-w-0">
             <p className="mb-4 site-eyebrow text-[#8FC7C1]">NEXT EVENT</p>

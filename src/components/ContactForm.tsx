@@ -1,5 +1,6 @@
+import { protectUnsavedForm } from "@/lib/unsavedForm";
 import { EnquiryDeliveryError } from "@/lib/enquiryTransport";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ReCAPTCHA from "react-google-recaptcha";
@@ -30,6 +31,11 @@ export default function ContactForm({ open, onOpenChange, context }: {
     resolver: zodResolver(contactSchema),
     defaultValues: { fullName: "", email: "", message: "" },
   });
+
+  // Includes retained, closed forms and cross-tab consent withdrawal. No data is persisted.
+  useEffect(() => {
+    if (form.formState?.isDirty && !submitted) return protectUnsavedForm(window);
+  }, [form.formState?.isDirty, submitted]);
 
   const changeOpen = (value: boolean) => {
     if (isSubmitting) return;

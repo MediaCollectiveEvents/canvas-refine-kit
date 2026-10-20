@@ -1,11 +1,19 @@
 # Staging deployment preparation
 
-CMS publishing remains on `main`. This preparation does not provision a branch,
-GitHub environment, secrets, DNS, TLS or hosting, and does not deploy anything.
+The reconciled CMS configuration publishes to `staging`. Pushing `staging`
+automatically runs the staging workflow and deploys to
+`https://staging.mediacollective.events` after its build checks pass.
+No commit, push or deployment is authorised by this preparation.
 
-## GitHub settings required before enabling staging
+The hosting controls must still be inspected to verify that the SFTP account
+used by the staging secrets is restricted to the staging document root and
+cannot access production or a parent containing production. Repository paths
+alone cannot prove that restriction. The checklist below records required
+settings; it does not certify the current IONOS account configuration.
 
-- Create `staging` from clean, current production `main`, excluding local pending work.
+## GitHub settings checklist
+
+- `staging` already exists; reconcile reviewed candidate changes with that branch before promotion.
 - Create the GitHub environment `staging`. Restrict its deployment branches to
   `staging` and configure reviewers if wanted.
 - Add environment secrets `STAGING_SFTP_USERNAME` and `STAGING_SFTP_PASSWORD`.
@@ -63,9 +71,9 @@ or analytics are isolated. Confirm Decap OAuth and any required verification
 hostname authorisation before a later CMS switch. Do not submit staging to
 Search Console. A noindex header is not access control.
 
-## Later cutover (not included here)
+## Promotion (requires separate authorisation)
 
-Verify the staging site and delivery first. Only then approve changing Decap's
-publishing branch and site links. Promote reviewed staging commits through a
-pull request to `main`; production hotfixes should be merged back into staging.
+Decap already targets `staging`; retain that setting. Verify the staging site and
+delivery before promotion. Promote reviewed staging commits through a pull
+request to `main`; production hotfixes should be merged back into staging.
 Keep collection schemas, media paths and the authentication provider unchanged.

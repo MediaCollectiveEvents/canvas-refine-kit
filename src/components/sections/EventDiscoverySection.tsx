@@ -1,3 +1,4 @@
+import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 import { Link } from "react-router-dom";
 import SectionWrapper from "../layout/SectionWrapper";
 import { formatEventDate, getUpcomingEvents } from "@/lib/events";
@@ -31,7 +32,7 @@ export default function EventDiscoverySection({ section }: { section: DiscoveryC
               <article key={event.id} className={`${index === 0 || index > 3 ? "hidden md:grid" : "grid"} min-w-0 md:row-span-4 md:grid-rows-[subgrid]`}>
                 <Link to={`/events/${event.id}`} aria-labelledby={`homepage-event-${event.id}`} className="relative isolate grid min-w-0 grid-cols-[minmax(0,1fr)_minmax(0,2fr)] gap-x-4 gap-y-2 md:grid-cols-1 rounded-xl hover:z-20 focus-visible:z-20 after:pointer-events-none after:absolute after:-inset-3 after:z-10 after:rounded-xl after:bg-transparent after:transition-colors after:duration-200 after:ease-out after:content-[''] hover:after:bg-white/5 focus-visible:after:bg-white/5 motion-reduce:after:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8FC7C1] md:row-span-4 md:grid-rows-[subgrid] md:gap-y-3">
                   <div className="row-span-3 md:row-span-1 mb-1 aspect-square w-full overflow-hidden rounded-xl">
-                    {image && <img src={image} alt="" loading="lazy" className="h-full w-full object-contain" />}
+                    {image && <img {...responsiveEventImage(image, eventImageSizes.discovery)} alt="" loading="lazy" className="h-full w-full object-contain" />}
                   </div>
                   <h3 id={`homepage-event-${event.id}`} className="col-start-2 md:col-start-auto font-display text-xl font-medium leading-snug">{event.title}</h3>
                   <p className="col-start-2 md:col-start-auto font-display text-base font-medium text-[#35C5BB]">{formatEventDate(event.date)}</p>

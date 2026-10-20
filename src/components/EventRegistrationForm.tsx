@@ -1,3 +1,4 @@
+import { protectUnsavedForm } from "@/lib/unsavedForm";
 import { sendEnquiry, EnquiryDeliveryError } from "@/lib/enquiryTransport";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
@@ -118,6 +119,11 @@ const EventRegistrationForm = ({
     },
     mode: "onChange"
   });
+  // Includes retained, closed forms and cross-tab consent withdrawal. No data is persisted.
+  useEffect(() => {
+    if (form.formState?.isDirty && !submitted) return protectUnsavedForm(window);
+  }, [form.formState?.isDirty, submitted]);
+
   const { setValue } = form;
   useEffect(() => {
     if (open) {

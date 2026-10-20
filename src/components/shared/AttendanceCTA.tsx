@@ -1,7 +1,7 @@
 import ClosingCTA from "./ClosingCTA";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import { Button } from "@/components/ui/button";
 import { getUpcomingEvents } from "@/lib/events";
 

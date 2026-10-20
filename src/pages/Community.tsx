@@ -2,7 +2,7 @@ import { communitySeo } from "@/lib/pageSeo";
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import ContactForm from "@/components/ContactForm";
+import { ContactForm } from "@/components/shared/LazyEnquiryForms";
 import PageHero from "@/components/shared/PageHero";
 import PageSection from "@/components/shared/PageSection";
 import OrganisationsRepresentedSection from "@/components/shared/OrganisationsRepresentedSection";

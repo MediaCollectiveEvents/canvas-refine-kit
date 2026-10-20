@@ -4,7 +4,7 @@ import Seo from "@/components/shared/Seo";
 
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import EventRegistrationForm from "@/components/EventRegistrationForm";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 
 import HomepageRenderer, { type HomepageSection } from "@/components/sections/HomepageRenderer";
 
