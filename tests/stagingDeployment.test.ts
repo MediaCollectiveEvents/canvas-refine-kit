@@ -37,6 +37,11 @@ test("production and staging triggers, manual runs, credentials and concurrency 
     assert.equal(step.with.server, "access-5017155687.webspace-host.com");
   }
   for (const step of uploads(staging)) {
+    assert.equal(step.uses, "wlixcc/SFTP-Deploy-Action@a5ccb9c6211a94cc59404f0fdb2a9936a6dfee64",
+      "Both staging uploads must use the pinned release with the quoted password-mode check");
+    assert.equal(step.with.sftp_only, true);
+    assert.notEqual(step.with.delete_remote_files, true);
+    assert.ok(!step.with.rsyncArgs, "Keep the direct SFTP path; do not enable rsync filtering");
     assert.equal(step.with.username, "${{ secrets.STAGING_SFTP_USERNAME }}");
     assert.equal(step.with.password, "${{ secrets.STAGING_SFTP_PASSWORD }}");
     assert.equal(step.with.remote_path, ".");
