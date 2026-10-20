@@ -37,7 +37,7 @@ for (const [route, Page] of [["/", Home], ["/events", Events], ["/community", Co
     for (const [preload, picture] of [["imagesrcset", "srcSet"], ["imagesizes", "sizes"], ["media", "media"]]) {
       assert.equal(attribute(hint, preload), attribute(heroes[0], picture), `${route}: ${preload}`);
     }
-    assert.equal(attribute(heroes[0], "sizes"), "80vw");
+    assert.equal(attribute(heroes[0], "sizes"), "100vw");
     assert.equal(attribute(heroes[0], "media"), "(width < 640px)");
   });
 }
@@ -63,7 +63,7 @@ test("mobile preload and picture select identical responsive hero candidates", (
   assert.match(html, /fetchPriority="high"/);
   assert.doesNotMatch(html, /loading="lazy"/);
   assert.match(html, /width="1080" height="1350"/);
-  assert.equal(attr(source, "sizes"), "80vw");
+  assert.equal(attr(source, "sizes"), "100vw");
   assert.match(source, /website-hero-mobile-v2-640.webp 640w/);
   for (const path of ["/faq", "/privacy-policy", "/events/4", "/missing"]) assert.equal(initialResourceHints(path), "");
   for (const candidate of mobileHeroDelivery.srcSet.split(", ")) assert.ok(existsSync(`public${candidate.split(" ")[0]}`), candidate);
