@@ -105,7 +105,7 @@
     {
       "id": "partner-authority",
       "type": "authorityStrip",
-      "hidden": false,
+      "hidden": true,
       "eyebrow": "AT A GLANCE",
       "metrics": [
         {
