@@ -92,7 +92,7 @@
         "grid": true,
         "withFades": true
       },
-      "heading": "Who attends",
+      "heading": "In Good Company",
       "statistics": {
         "companies": "In 2026, our events brought together people from more than 300 companies.",
         "boardLevel": ".",
@@ -101,7 +101,7 @@
       "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "",
-        "sub": "People working in broadcasting, studios, streaming and technology attend our events, including:",
+        "sub": "More than 300 companies have been represented at Media Collective events, from global technology leaders and Hollywood studios to leading streaming platforms.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
