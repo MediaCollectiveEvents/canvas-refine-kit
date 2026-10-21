@@ -143,7 +143,8 @@ test("OFF AIR is upcoming, routable and remains explicitly unmapped for registra
   assert.equal(event.startsAt, "2026-11-24T15:00:00+00:00");
   assert.equal(event.endsAt, "2026-11-24T18:00:00+00:00");
   assert.equal(event.timeZone, "Europe/London");
-  assert.match(event.details!, /provisional programme/);
+  assert.equal(event.programme?.length, 5);
+  assert.match(event.details!, /continue the discussion over food, drinks and networking/);
   assert.equal(getRegistrationId(4), undefined);
   assert.equal(getRegistrationOptions().some(option => option.label.includes("OFF AIR")), false);
 });

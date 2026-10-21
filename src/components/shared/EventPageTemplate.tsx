@@ -1,3 +1,5 @@
+import OffAirEditorial from "./OffAirEditorial";
+import { isOffAir } from "@/lib/offAirEditorial";
 import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 import ClosingCTA from "./ClosingCTA";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +27,7 @@ function CopySection({ title, children }: { title: string; children: ReactNode }
 export default function EventPageTemplate({ event, onRequest, context }: {
   event: EventItem; onRequest: () => void; context?: ReactNode;
 }) {
+  const editorial = isOffAir(event);
   const past = isPastEvent(event);
   const closed = event.statusLabel?.toLowerCase() === "registration closed";
   const image = getEventImage(event);
@@ -71,12 +74,14 @@ export default function EventPageTemplate({ event, onRequest, context }: {
       {image && <img {...responsiveEventImage(image, eventImageSizes.detail)} alt="" width={1080} height={1080} className="aspect-square w-full rounded-xl object-contain" />}
     </header>
 
+    {editorial ? <OffAirEditorial event={event} /> : <>
     <CopySection title="About This Event"><Narrative text={event.description || event.summary || "Event details will be announced."} /></CopySection>
     {event.whoAttends && <CopySection title="Who Attends"><Narrative text={event.whoAttends} /></CopySection>}
     {!!event.whyAttend?.length && <CopySection title="Why Attend"><ul className="list-disc space-y-2 pl-5">{event.whyAttend.map((item, i) => <li key={i}>{item}</li>)}</ul></CopySection>}
     {(!!event.whatToExpect?.length || event.details) && <CopySection title="What To Expect">
       {event.whatToExpect?.length ? <ul className="list-disc space-y-2 pl-5">{event.whatToExpect.map((item, i) => <li key={i}>{item}</li>)}</ul> : <Narrative text={event.details!} />}
     </CopySection>}
+    </>}
     <CopySection title="Event Details">
       <dl className="grid gap-6 sm:grid-cols-2">
         <div><dt className="text-muted-foreground">Date</dt><dd className="mt-1"><time dateTime={event.date}>{formatEventDate(event.date)}</time></dd></div>
@@ -88,17 +93,17 @@ export default function EventPageTemplate({ event, onRequest, context }: {
         {capacityText && <div><dt className="inline text-muted-foreground">Capacity: </dt><dd className="inline">{capacityText}</dd></div>}
       </dl>
     </CopySection>
-    {!!event.programme?.length && <CopySection title="Programme"><ol className="space-y-4">{event.programme.map((item, i) => <li key={i} className="flex flex-wrap gap-x-4 gap-y-1">{item.time && <span className="font-medium text-primary">{item.time}</span>}<span>{item.description}</span></li>)}</ol></CopySection>}
+    {!editorial && !!event.programme?.length && <CopySection title="Programme"><ol className="space-y-4">{event.programme.map((item, i) => <li key={i} className="flex flex-wrap gap-x-4 gap-y-1">{item.time && <span className="font-medium text-primary">{item.time}</span>}<span>{item.description}</span></li>)}</ol></CopySection>}
     {partner && event.partnerEventCopy && <CopySection title="Partner Event"><Narrative text={event.partnerEventCopy} /></CopySection>}
-    {!!event.partners?.length && <CopySection title="In Association With"><ul className="flex flex-wrap gap-8">{event.partners.map((partner, i) => <li key={i}>
+    {!editorial && !!event.partners?.length && <CopySection title="In Association With"><ul className="flex flex-wrap gap-8">{event.partners.map((partner, i) => <li key={i}>
       {partner.logo && <img src={partner.logo} alt="" loading="lazy" className="mb-3 h-16 w-40 rounded-lg bg-white p-2 object-contain" />}
       {partner.url ? <a href={partner.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{partner.name}<span className="sr-only"> (opens in a new tab)</span></a> : <span>{partner.name}</span>}
     </li>)}</ul></CopySection>}
     {context && <div className="pb-10">{context}</div>}
   </div></div>
     <ClosingCTA
-      heading={closed ? "Registration Closed" : past ? "Interested in a future event?" : partner ? event.ctaHeading || "Request an Invitation" : "Want to join us?"}
-      support={past && !partner ? <p>This event has finished. You can register interest in future gatherings.</p> : partner ? <Narrative text={event.ctaCopy || "Please register your interest with the organisers. Paid tickets are limited and subject to availability."} /> : <p>{attendance}</p>}
+      heading={closed ? "Registration Closed" : past ? "Interested in a future event?" : partner || editorial ? event.ctaHeading || "Request an Invitation" : "Want to join us?"}
+      support={past && !partner ? <p>This event has finished. You can register interest in future gatherings.</p> : partner || editorial ? <Narrative text={event.ctaCopy || "Please register your interest with the organisers. Paid tickets are limited and subject to availability."} /> : <p>{attendance}</p>}
       action={hasAction ? action(true) : undefined}
     />
   </>;

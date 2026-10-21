@@ -261,7 +261,7 @@ test("Media Collective detail pages provide contextual invitation actions withou
     const markup = render(<PreviewProviders route={`/events/${event.id}`}>
       <Routes><Route path="/events/:id" element={<EventDetails />} /></Routes>
     </PreviewProviders>);
-    const heading = isPastEvent(event) ? "Interested in a future event?" : "Want to join us?";
+    const heading = isPastEvent(event) ? "Interested in a future event?" : event.id === 4 ? "Request an Invitation" : "Want to join us?";
     const action = isPastEvent(event) ? "Register interest" : event.ctaLabel || "Request an Invitation";
     assert.ok(markup.includes(`>${heading}</h2>`));
     assert.equal(markup.split(`>${action}</button>`).length - 1, 2);

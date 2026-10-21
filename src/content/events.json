@@ -149,12 +149,14 @@
     {
       "historyLabel": "New for 2026",
       "whyAttend": [
-        "Test assumptions about where media is heading",
-        "Hear perspectives from across broadcasting, streaming and technology",
-        "Put questions to the speakers and analysts"
+        "Compare notes with senior industry peers.",
+        "Hear perspectives from leading analysts and commentators.",
+        "Challenge conventional thinking and industry assumptions.",
+        "Gain practical insight into the future of media, streaming and broadcast.",
+        "Join discussions that continue beyond the formal programme."
       ],
       "themeTags": [],
-      "details": "24 November 2026, 15:00–18:00, at The Broadcaster, White City, London. The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards, followed by drinks and executive networking. The programme will evolve and be developed in consultation with Strategic Partners and invited industry figures.",
+      "details": "When the formal programme ends, the discussion doesn’t.\n\nStep away from the conference circuit, meet the people behind the headlines and continue the discussion over food, drinks and networking at The Broadcaster.",
       "startsAt": "2026-11-24T15:00:00+00:00",
       "topics": [
         "industry-strategy"
@@ -172,11 +174,13 @@
       "partners": [
         {
           "name": "Faultline",
-          "logo": "/uploads/featured-faultline.png"
+          "logo": "/uploads/featured-faultline.png",
+          "url": "https://rethinkresearch.biz"
         },
         {
           "name": "decodeTV",
-          "logo": "/uploads/featured-decodetv.jpg"
+          "logo": "/uploads/featured-decodetv.jpg",
+          "url": "https://decodetv.com"
         }
       ],
       "endsAt": "2026-11-24T18:00:00+00:00",
@@ -202,9 +206,30 @@
       "timeZone": "Europe/London",
       "id": 4,
       "image": "/uploads/off-air.png",
-      "whoAttends": "Leaders working across broadcasting, streaming, content and media technology.",
-      "description": "Presented by The Media Collective, Faultline and decodeTV, OFF AIR examines the technologies, business models and strategic choices shaping media.",
-      "seoDescription": "An invitation-only forum exploring media technology, business models and strategy at The Broadcaster, London, on 24 November 2026."
+      "whoAttends": "OFF AIR is designed for executives, strategists, founders, analysts and decision-makers working across:\n\nBroadcasting\nStreaming\nMedia Technology\nContent & Production\nAdvertising & Monetisation\nVideo Platforms\n\nAttendance is limited and invitations are carefully curated to keep the room relevant and the discussion useful.",
+      "description": "What happened? What matters now? What comes next?\n\nCreated by The Media Collective, Faultline and decodeTV, OFF AIR brings together the people shaping streaming, broadcast and media to examine the technologies, business models and industry shifts that defined the past year, and the forces set to shape the next era of video.\n\nFrom the lessons of streaming live sports at unprecedented scale and the changing relationship between broadcasters and platforms, to AI, monetisation and the infrastructure underpinning it all, OFF AIR asks where the industry goes next.\n\nPart survival guide, part crystal ball, expect blunt lessons, provocative predictions, practical insight and audience-led debate.",
+      "seoDescription": "An invitation-only forum exploring media technology, business models and strategy at The Broadcaster, London, on 24 November 2026.",
+      "subtitle": "OFF AIR brings media leaders together to unpack 2026, challenge the consensus and debate what comes next for broadcast, streaming and video.",
+      "attendanceStatement": "Attendance by invitation",
+      "ctaHeading": "Request an Invitation",
+      "ctaCopy": "Interested in attending OFF AIR?\n\nAttendance is limited and invitations are carefully curated to maintain the quality of the room and the connections made at every Media Collective event.",
+      "programme": [
+        {
+          "description": "THE DEBRIEF\n\nWhat did 2026 teach us?\n\nWe’ll revisit the moments, technologies and industry shifts that defined the year, exploring what worked, what didn’t and what the industry should take forward."
+        },
+        {
+          "description": "THE SURVIVAL GUIDE\n\nA practical look at what is changing across content, production and delivery, separating what matters from what doesn’t and identifying where attention should be focused next."
+        },
+        {
+          "description": "UNFILTERED: ASK THE ANALYSTS\n\nNo presentations. No safe talking points.\n\nAn audience-led discussion that puts leading analysts and commentators in the hot seat. Bring your questions, challenge assumptions and expect candid answers."
+        },
+        {
+          "description": "FAULTLINE FUTURES\n\nBold predictions, provocative thinking and an audience test of the ideas most likely and least likely to shape the future of media."
+        },
+        {
+          "description": "DECODETV IMPACT AWARDS\n\nRecognising the people, ideas and initiatives making an impact across broadcast, streaming and media technology."
+        }
+      ]
     },
     {
       "historyLabel": "Annual Gathering",

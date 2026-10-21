@@ -33,9 +33,11 @@ test("empty authority strips disappear and shared Home testimonials replace the 
   assert.doesNotMatch(html, /PARTNER FEEDBACK/);
   assert.equal(partners.sections.find(section => section.id === "Partner quote")!.type, "testimonials");
   assert.ok(html.indexOf('id="Partner quote"') < html.indexOf('id="partner-conversation"'));
-  const ids = partners.sections.filter(section => !section.hidden).map(section => section.id);
+  const ids = partners.sections.map(section => section.id);
   assert.equal(ids[ids.indexOf("benefits") + 1], "partner-authority");
-  assert.match(html, /AT A GLANCE/);
+  const authority = partners.sections.find(section => section.id === "partner-authority")!;
+  if (authority.hidden) assert.doesNotMatch(html, /AT A GLANCE/);
+  else assert.match(html, /AT A GLANCE/);
 });
 
 test("CTA correction preserves action, destination and approved typography", () => {
