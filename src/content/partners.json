@@ -168,6 +168,15 @@
         "Sony",
         "Warner Bros. Discovery"
       ]
+    },
+    {
+      "hidden": false,
+      "showHistory": false,
+      "id": "Partner quote",
+      "type": "authorityStrip",
+      "eyebrow": "",
+      "heading": "PARTNER FEEDBACK",
+      "body": "\nThe IBC Decompression Party started as a simple idea to throw a party with a partner company. The Media Collective transformed it into a highly successful multi-sponsor event with over 250 select attendees, managing every aspect from planning and promotion to delivery. Having them manage the event was a genuine game-changer, allowing us to focus on our core business while they handled every detail.\n\nDom Robinson\n\nCBDO — Norsk Video"
     }
   ]
 }
