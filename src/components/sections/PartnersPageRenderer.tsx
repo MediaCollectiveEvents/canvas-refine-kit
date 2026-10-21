@@ -38,10 +38,10 @@ const logoScale: Record<string, number> = {
   "BroadView Software": 1.6, "Convergent IDS": 1.75, "DCe Agency": 1.7,
   "Giant Worldwide": 1.3, "Invenio LSI": 1.2, "LucidLink": 1.6,
   "Matrix": 1.85, "Mr MXF": 1.1, "Rarecrew": 1.7, "RSG Media": 1.35,
-  "UHD Alliance": 1.7, "UIC Digital": 1.6, "UTO Solutions": 1.2,
+  "UHD Alliance": 1.7, "UIC Digital": 1.6, "UTO Solutions": 1.65,
   "Wagada Digital": 1.6, "Caretta Research": 0.9, "decodeTV": 0.9,
   "Fabric": 1.55, "FOO Engine": 1.35, "G&L": 0.9,
-  "Markham Digital Media": 1.1, "modula media": 1.5, "NetActuate": 0.9,
+  "Markham Digital Media": 1.45, "modula media": 1.5, "NetActuate": 0.9,
   "Norsk": 1.1, "realitech": 1.5, "Red5": 0.9, "Rightsline": 1.6,
   "Testronic": 1.6,
 };
@@ -84,7 +84,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
             return <OrganisationsRepresentedSection key={section.id ?? section.type} section={section as React.ComponentProps<typeof OrganisationsRepresentedSection>["section"]} />;
           case "partnersLogos":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 bg-background">
+              <PageSection key={section.id ?? section.type} id="partner-community" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">
                 <JourneyHeading step="THE PARTNER COMMUNITY" title="In good company." description={section.body} />
                 <div tabIndex={0} role="region" aria-label="Partner logos" aria-keyshortcuts="Space" aria-description={reducedMotion ? undefined : logosPaused ? "Logo movement paused. Press Space to resume." : "Press Space to pause logo movement."}
                   onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setLogosPaused(value => !value); } }} className="group overflow-hidden rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
@@ -133,7 +133,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
           case "partnersTiers":
             return (
               <PageSection key={section.id ?? section.type} id="partner-formats" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">
-                <JourneyHeading step={section.eyebrow} title={section.heading} description={section.body} className="mb-10 !max-w-none" />
+                <JourneyHeading step={section.eyebrow} title={section.heading} description={section.body} className="mb-10 !max-w-[70ch]" />
                 <div className="grid gap-8 md:grid-cols-3">
                   {(section.blocks ?? []).map(block => (
                     <article key={block.title} className="min-w-0 border-t border-white/10 pt-6">
