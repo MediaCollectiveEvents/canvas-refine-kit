@@ -5,6 +5,7 @@ import { PreviewProviders } from "../src/cms/previews/PreviewLayout";
 import Partners from "../src/pages/Partners";
 import OurEventsSection from "../src/components/sections/OurEventsSection";
 import AuthorityStrip from "../src/components/sections/AuthorityStrip";
+import homepage from "../src/content/homepage.json";
 import partners from "../src/content/partners.json";
 
 const renderPartners = () => renderToStaticMarkup(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
@@ -16,12 +17,21 @@ test("editorial event heading falls back to the label without empty headings", (
   assert.match(html, /max-w-\[65ch\]/);
 });
 
-test("empty authority strips disappear and populated editorial feedback survives", () => {
+test("empty authority strips disappear and shared Home testimonials replace the single quote", () => {
   assert.equal(renderToStaticMarkup(<AuthorityStrip section={{ heading: " ", body: "\n" }} />), "");
   const html = renderPartners();
-  const feedback = partners.sections.find(section => section.id === "Partner quote")!;
-  assert.match(html, /PARTNER FEEDBACK/);
-  assert.ok(html.includes(feedback.body!.trim().replaceAll("'", "&#x27;")));
+  const shared = homepage.sections.find(section => section.type === "testimonials")!;
+  assert.match(html, /role="region" aria-label="Testimonials"/);
+  assert.ok(html.replace(/<[^>]*>/g, "").includes(shared.heading!));
+  for (const item of shared.items!) {
+    assert.ok(html.includes(item.name!), item.name);
+    for (const sentence of item.quote!.split("\n").map(line => line.trim()).filter(Boolean)) {
+      assert.ok(html.includes(sentence.replaceAll("'", "&#x27;").replaceAll("&", "&amp;").replaceAll("&amp;#x27;", "&#x27;")), sentence);
+    }
+  }
+  assert.equal((html.match(/aria-label="Show testimonial /g) ?? []).length, shared.items!.length);
+  assert.doesNotMatch(html, /PARTNER FEEDBACK/);
+  assert.equal(partners.sections.find(section => section.id === "Partner quote")!.type, "testimonials");
   assert.ok(html.indexOf('id="Partner quote"') < html.indexOf('id="partner-conversation"'));
   const ids = partners.sections.filter(section => !section.hidden).map(section => section.id);
   assert.equal(ids[ids.indexOf("benefits") + 1], "partner-authority");

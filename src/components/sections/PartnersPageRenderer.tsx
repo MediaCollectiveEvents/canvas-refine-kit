@@ -8,6 +8,8 @@ import { useReducedMotion } from "framer-motion";
 import React, { useState } from "react";
 import OurEventsSection from "./OurEventsSection";
 import AuthorityStrip from "./AuthorityStrip";
+import TestimonialsSection from "./TestimonialsSection";
+import homepageContent from "@/content/homepage.json";
 
 import PageSection from "@/components/shared/PageSection";
 import OrganisationsRepresentedSection from "@/components/shared/OrganisationsRepresentedSection";
@@ -65,6 +67,10 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
     <>
       {visibleSections.map(section => {
         switch (section.type) {
+          case "testimonials":
+            return <div key={section.id ?? section.type} id={section.id}>
+              <TestimonialsSection section={homepageContent.sections.find(item => item.type === "testimonials")} />
+            </div>;
           case "authorityStrip":
             return <AuthorityStrip key={section.id ?? section.type} section={section as React.ComponentProps<typeof AuthorityStrip>["section"]} />;
           case "partnerProcess":
