@@ -82,19 +82,19 @@
       "blocks": [
         {
           "title": "Share your vision",
-          "description": "Bring your perspective to the programme through a keynote, case study, fireside chat or other editorial contribution."
+          "description": "Bring your perspective to the programme through a keynote, case study, fireside chat or thought leadership."
         },
         {
-          "title": "Take part in a panel",
-          "description": "Join a discussion with other industry voices and share your experience on a topic relevant to the audience."
+          "title": "Join the conversation",
+          "description": "Take part in panel discussions and contribute your expertise and vision to topics that matter to the industry."
+        },
+        {
+          "title": "Present a case study",
+          "description": "Share practical insights, experiences and lessons learned from real-world projects."
         },
         {
           "title": "Host a session",
           "description": "Host a panel, fireside chat or focused session around a topic relevant to the audience."
-        },
-        {
-          "title": "Present a case study",
-          "description": "Use a real-world example to show how your organisation is approaching a challenge, delivering change or creating new opportunities."
         },
         {
           "title": "Help shape the programme",
