@@ -110,17 +110,17 @@
       "type": "whoAttends",
       "highlights": [
         {
-          "title": "TOP 3",
-          "subtitle": "Technology Giants",
+          "title": "THE 3",
+          "subtitle": "Top Technology Giants",
           "icon": "globe"
         },
         {
-          "title": "MAJOR 5",
-          "subtitle": "Hollywood Studios",
+          "title": "THE 5",
+          "subtitle": "Major Hollywood Studios",
           "icon": "film"
         },
         {
-          "title": "LEADING 8",
+          "title": "THE LEADING 8",
           "subtitle": "Streaming Platforms",
           "icon": "play"
         }
