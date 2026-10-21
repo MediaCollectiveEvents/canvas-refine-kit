@@ -10,7 +10,7 @@ import { writeApacheRouting } from "./generate-apache-routing.mjs";
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 
 export function initialResourceHints(path) {
-  return ["/", "/events", "/community", "/partners"].includes(path) ? mobileHeroPreload() : "";
+  return ["/", "/events", "/community", "/partners"].includes(path) ? mobileHeroPreload(path) : "";
 }
 
 export function injectHead(template, head) {

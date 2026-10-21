@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import MobileHeroArtwork from "../src/components/shared/MobileHeroArtwork";
-import { mobileHeroDelivery } from "../src/lib/mobileHero.mjs";
+import { mobileHeroDelivery, mobileHeroes } from "../src/lib/mobileHero.mjs";
 import { initialResourceHints } from "../scripts/generate-static-heads.mjs";
 import Home from "../src/pages/Home";
 import Events from "../src/pages/Events";
@@ -30,7 +30,7 @@ for (const [route, Page] of [["/", Home], ["/events", Events], ["/community", Co
       else Reflect.deleteProperty(globalThis, "window");
     }
     const sources = html.match(/<source\b[^>]*type="image\/webp"[^>]*>/g) ?? [];
-    const heroes = sources.filter(source => source.includes("website-hero-mobile-v2"));
+    const heroes = sources.filter(source => source.includes(mobileHeroes[route].fallback.replace(".webp", "")));
     assert.equal(heroes.length, 1);
     const hint = initialResourceHints(route);
     assert.equal((hint.match(/rel="preload"/g) ?? []).length, 1);
@@ -53,7 +53,10 @@ test("mobile preload and picture select identical responsive hero candidates", (
   const html = renderToStaticMarkup(createElement(MobileHeroArtwork));
   const source = html.match(/<source\b[^>]*type="image\/webp"[^>]*>/)?.[0] ?? "";
   const attr = (tag: string, name: string) => tag.match(new RegExp(`\\b${name}="([^"]*)"`))?.[1];
-  for (const path of ["/", "/events", "/community", "/partners"]) {
+  for (const path of ["/", "/events", "/community", "/partners"] as const) {
+    const routeHtml = renderToStaticMarkup(createElement(MobileHeroArtwork, { path }));
+    const source = routeHtml.match(/<source\b[^>]*type="image\/webp"[^>]*>/)?.[0] ?? "";
+    assert.ok(source.includes(mobileHeroes[path].srcSet));
     const hint = initialResourceHints(path).replaceAll("<", "&lt;").replaceAll(">", "&gt;");
     assert.equal(attr(hint, "imagesrcset"), attr(source, "srcSet"));
     assert.equal(attr(hint, "imagesizes"), attr(source, "sizes"));
@@ -66,7 +69,7 @@ test("mobile preload and picture select identical responsive hero candidates", (
   assert.equal(attr(source, "sizes"), "100vw");
   assert.match(source, /website-hero-mobile-v2-640.webp 640w/);
   for (const path of ["/faq", "/privacy-policy", "/events/4", "/missing"]) assert.equal(initialResourceHints(path), "");
-  for (const candidate of mobileHeroDelivery.srcSet.split(", ")) assert.ok(existsSync(`public${candidate.split(" ")[0]}`), candidate);
+  for (const delivery of Object.values(mobileHeroes)) for (const candidate of delivery.srcSet.split(", ")) assert.ok(existsSync(`public${candidate.split(" ")[0]}`), candidate);
 });
 
 test("full-width hero layouts keep their own size hint without changing candidates", () => {
@@ -93,4 +96,18 @@ test("fonts keep their families and weights but leave the CSS import waterfall",
   assert.match(html, /family=Satisfy&display=swap/);
   assert.match(html, /<noscript>[\s\S]*rel="stylesheet"[\s\S]*<\/noscript>/);
   assert.match(html, /rel="preconnect" href="https:\/\/fonts.gstatic.com" crossorigin/);
+});
+
+test("secondary mobile artwork uses the supplied page images, leaving Home unchanged", () => {
+  assert.equal(mobileHeroes["/events"].source, "/uploads/website-hero-events-mobile.png");
+  assert.equal(mobileHeroes["/community"].source, "/uploads/website-hero-community-mobile.png");
+  assert.equal(mobileHeroes["/partners"], mobileHeroes["/community"]);
+  assert.equal(mobileHeroes["/"], mobileHeroDelivery);
+  assert.equal(mobileHeroDelivery.source, "/uploads/website-hero-mobile-v2.png");
+  for (const path of ["/events", "/community", "/partners"] as const) {
+    const html = renderToStaticMarkup(createElement(MobileHeroArtwork, { path }));
+    assert.match(html, /width="675" height="844"/);
+    assert.doesNotMatch(html, /website-hero-mobile-v2/);
+    assert.match(html, /sm:hidden/);
+  }
 });

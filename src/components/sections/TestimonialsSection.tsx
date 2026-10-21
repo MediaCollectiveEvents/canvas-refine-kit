@@ -166,7 +166,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
             {section?.heading || "Community voices"}
           </SectionTitle>
 
-          <p className="mt-5 max-w-2xl xl:max-w-sm text-base leading-relaxed text-slate-300">{section?.styleTitle?.sub || "Thoughtful discussion, introductions and collaboration."}</p>
+          {section?.styleTitle?.sub?.trim() && <p className="mt-5 max-w-2xl xl:max-w-sm text-base leading-relaxed text-slate-300">{section.styleTitle.sub}</p>}
 
         </div>
 
