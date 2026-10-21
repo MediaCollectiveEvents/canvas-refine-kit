@@ -103,6 +103,24 @@
       ]
     },
     {
+      "id": "logos",
+      "type": "partnersLogos",
+      "hidden": false,
+      "body": "Working with organisations across media and technology."
+    },
+    {
+      "id": "cta",
+      "type": "joinUs",
+      "hidden": false,
+      "eyebrow": "PARTNER WITH US",
+      "heading": "Connect your brand with leaders across media and technology.with our community.",
+      "body": "Partnership opportunities are tailored to each event and partner.",
+      "cta": {
+        "label": "Arrange a Call",
+        "url": "https://calendly.com/mediacollective/call-with-chris"
+      }
+    },
+    {
       "id": "partner-authority",
       "type": "authorityStrip",
       "hidden": false,
@@ -121,33 +139,6 @@
         "London &",
         "Amsterdam"
       ]
-    },
-    {
-      "id": "logos",
-      "type": "partnersLogos",
-      "hidden": false,
-      "body": "Working with organisations across media and technology."
-    },
-    {
-      "hidden": false,
-      "showHistory": true,
-      "id": "Partner quote",
-      "type": "authorityStrip",
-      "eyebrow": "",
-      "heading": "PARTNER FEEDBACK",
-      "body": "\nThe IBC Decompression Party started as a simple idea to throw a party with a partner company. The Media Collective transformed it into a highly successful multi-sponsor event with over 250 select attendees, managing every aspect from planning and promotion to delivery. Having them manage the event was a genuine game-changer, allowing us to focus on our core business while they handled every detail.\n\nDom Robinson\n\nCBDO — Norsk Video"
-    },
-    {
-      "id": "cta",
-      "type": "joinUs",
-      "hidden": false,
-      "eyebrow": "PARTNER WITH US",
-      "heading": "Connect your brand with leaders across media and technology.",
-      "body": "Partnership opportunities are tailored to each event and partner.",
-      "cta": {
-        "label": "Arrange a Call",
-        "url": "https://calendly.com/mediacollective/call-with-chris"
-      }
     },
     {
       "id": "who-youll-meet",
@@ -177,6 +168,15 @@
         "Sony",
         "Warner Bros. Discovery"
       ]
+    },
+    {
+      "hidden": false,
+      "showHistory": true,
+      "id": "Partner quote",
+      "type": "authorityStrip",
+      "eyebrow": "",
+      "heading": "PARTNER FEEDBACK",
+      "body": "\nThe IBC Decompression Party started as a simple idea to throw a party with a partner company. The Media Collective transformed it into a highly successful multi-sponsor event with over 250 select attendees, managing every aspect from planning and promotion to delivery. Having them manage the event was a genuine game-changer, allowing us to focus on our core business while they handled every detail.\n\nDom Robinson\n\nCBDO — Norsk Video"
     }
   ]
 }
