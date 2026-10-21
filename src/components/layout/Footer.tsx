@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Linkedin } from "lucide-react";
+import { CookieSettingsButton } from "@/components/shared/CookieConsent";
 import AttendanceCTA from "@/components/shared/AttendanceCTA";
 
 export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCTA?: boolean }) {
@@ -26,6 +27,7 @@ export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCT
         <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-6 gap-y-1 xl:gap-x-8">
           <Link to="/faq" className={linkClassName}>FAQ</Link>
           <Link to="/privacy-policy" className={linkClassName}>Privacy Policy</Link>
+          {!isAdmin && <CookieSettingsButton className={linkClassName} />}
         </nav>
       </div>
     </footer>

@@ -291,8 +291,11 @@ test("audience proof preserves CMS statistics in order with the shared numeral t
 
 test("partner scope distinguishes benefits and optional programme participation", () => {
   const markup = render(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
-  for (const text of ["Visibility is only the start.", "Bring your perspective to the programme through a keynote, case study, fireside chat or other editorial contribution.", "while Media Collective retains responsibility for the final programme.", "For discussion-led events, there may also be opportunities to contribute to the programme.", "Where the format allows, opportunities to speak, host a session, join a panel or share a case study", "Ways to take part.", "Build your presence, meet the people you want to work with and take an active role before, during and after the event."]) {
-    assert.ok(markup.includes(text));
+  const text = markup.replace(/<[^>]*>/g, "").replaceAll("&#x27;", "'").replaceAll("&amp;", "&");
+  for (const section of partners.sections.filter(section => !section.hidden && ["partnersTiers", "partnersBenefits"].includes(section.type))) {
+    for (const copy of [section.heading, section.body, ...(section.blocks ?? []).flatMap(block => [block.title, block.description])]) {
+      for (const line of (copy ?? "").split("\n").filter(Boolean)) assert.ok(text.includes(line), line);
+    }
   }
   assert.doesNotMatch(markup, /id="partner-process"|A simple process\.|Identify the right fit/);
   assert.ok(markup.indexOf('id="partner-objectives"') < markup.indexOf('id="partner-conversation"'));
