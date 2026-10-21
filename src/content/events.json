@@ -397,21 +397,23 @@
     {
       "historyLabel": "Returning for 2027",
       "whyAttend": [
-        "Take a break after a busy week at IBC",
-        "Spend time with colleagues outside the show",
-        "Enjoy live music in an informal setting"
+        "Finish IBC somewhere you can actually hear each other.",
+        "Catch up with industry colleagues away from the show floor.",
+        "Meet people from across broadcast, streaming and media technology.",
+        "Enjoy live jazz, drinks and canapés in a relaxed setting.",
+        "Make the most of the final evening of IBC before everyone heads home."
       ],
       "themeTags": [],
       "imageKey": "ibc-decompression-party-2027",
-      "ctaCopy": "Request an invitation to join us.\n\nAttendance is curated.",
-      "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
+      "ctaCopy": "Attendance is limited and by invitation. Request a place to join us for live jazz, drinks, canapés and a relaxed evening with people from across the media industry.",
+      "attendanceStatement": "By invitation and advance registration only.\n\nPlaces are limited and registration is required in advance.",
       "experienceCategories": [
         "networking-social"
       ],
       "conferenceAlignment": [
         "IBC"
       ],
-      "time": "18:30 – Late",
+      "time": "18:30–21:30",
       "capacity_number": 200,
       "date": "2027-09-12",
       "venue": "Live Amsterdam Piano Bar",
@@ -421,17 +423,17 @@
         "social",
         "drinks"
       ],
-      "ctaHeading": "Request an Invitation",
+      "ctaHeading": "Join us for the final evening of IBC.",
       "location": "Amsterdam",
       "card_summary": "Round off IBC with live jazz, hospitality and industry peers.",
-      "subtitle": "A social evening with live jazz for people attending IBC.",
+      "subtitle": "Round off IBC with an invitation-only evening of live jazz, drinks, canapés and great company in the heart of Amsterdam.",
       "whatToExpect": [
         "Drinks and canapés",
         "Live jazz throughout the evening",
         "Performances from LDN2BTN and the IBC Allstars",
         "A carefully curated mix of IBC attendees"
       ],
-      "title": "IBC Decompression Party 2027",
+      "title": "IBC Decompression Party: Live Jazz and Great Company",
       "heroHighlights": [
         "IBC ATTENDEES",
         "SOCIAL EVENT",
@@ -441,9 +443,27 @@
       "type": "upcoming",
       "id": 7,
       "image": "/uploads/Venue tiles/Livepiano.png",
-      "whoAttends": "People attending IBC from across broadcasting, streaming, technology, production and the wider media industry.\n\nGuests include industry leaders, specialists, innovators, partners, customers, colleagues and friends of The Media Collective community.",
-      "description": "As IBC winds down, the party offers a break from the exhibition floor.\n\nThe evening is built around hospitality and live jazz in Amsterdam.\n\nIt gives guests space to unwind and enjoy the end of the week together.",
-      "seoDescription": "An IBC social evening with live jazz, drinks and canapés at Live Amsterdam Piano Bar on 12 September 2027, featuring LDN2BTN and the IBC Allstars."
+      "whoAttends": "The Decompression Party is for people working across:\n\nBroadcasting\nStreaming\nMedia Technology\nContent & Production\nPlatforms & Infrastructure\nAdvertising & Monetisation\n\nGuests include executives, founders, operators, technologists and industry specialists attending IBC from across the international media community.\n\nAttendance is limited and invitations are curated to keep the evening relaxed, relevant and easy to navigate.",
+      "description": "After four days of meetings, launches, panels and packed schedules, it is time to decompress.\n\nThe IBC Decompression Party brings together people from across broadcast, streaming and media technology for a relaxed final evening away from the exhibition floor.\n\nJoin us at Live Amsterdam Piano Bar for live jazz from LDN2BTN featuring the IBC Allstars, a Prosecco reception, complimentary drinks and canapés, with exclusive use of the outdoor terrace overlooking Thorbeckeplein.\n\nNo presentations. No conference agenda. Just a chance to unwind, catch up with familiar faces and meet a few new ones before IBC comes to a close.",
+      "seoDescription": "An IBC social evening with live jazz, drinks and canapés at Live Amsterdam Piano Bar on 12 September 2027, featuring LDN2BTN and the IBC Allstars.",
+      "programme": [
+        {
+          "description": "ARRIVE & DECOMPRESS\n\nStep away from the exhibition halls and start the evening with a Prosecco reception at Live Amsterdam Piano Bar."
+        },
+        {
+          "description": "LIVE JAZZ\n\nEnjoy live music from LDN2BTN featuring the IBC Allstars, bringing together musicians from across the industry for one of the more unusual fixtures of IBC week."
+        },
+        {
+          "description": "DRINKS & CANAPÉS\n\nComplimentary drinks and a selection of canapés will be served throughout the evening."
+        },
+        {
+          "description": "THE TERRACE\n\nTake advantage of exclusive access to the venue’s outdoor terrace overlooking Thorbeckeplein, right in the centre of Amsterdam."
+        },
+        {
+          "description": "GREAT COMPANY\n\nCatch up with colleagues, make new introductions and spend time with people you may only have passed between meetings during the week."
+        }
+      ],
+      "details": "IBC is busy by design. The Decompression Party is the opposite.\n\nIt is a chance to put the meetings and schedules aside, spend time with the people behind the industry and enjoy the final evening of the show without another presentation to get to.\n\nCome for a drink. Stay for the band."
     }
   ]
 }
