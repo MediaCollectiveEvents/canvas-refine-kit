@@ -94,11 +94,11 @@
         },
         {
           "title": "Host a session",
-          "description": "Host a panel, fireside chat or focused session around a topic relevant to the audience."
+          "description": "Create a focused discussion around a subject relevant to the audience."
         },
         {
           "title": "Help shape the programme",
-          "description": "Contribute ideas, themes and questions that could inform the event, while Media Collective retains responsibility for the final programme."
+          "description": "Contribute ideas, themes and speakers that help inform the editorial direction of an event."
         }
       ]
     },
@@ -113,8 +113,8 @@
       "type": "joinUs",
       "hidden": false,
       "eyebrow": "PARTNER WITH US",
-      "heading": "Talk to us about how we can connect you with our community.",
-      "body": "",
+      "heading": "Connect your brand with leaders across media and technology.with our community.",
+      "body": "Partnership opportunities are tailored to each event and partner.",
       "cta": {
         "label": "Arrange a Call",
         "url": "https://calendly.com/mediacollective/call-with-chris"
