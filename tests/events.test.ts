@@ -143,7 +143,8 @@ test("OFF AIR is upcoming, routable and remains explicitly unmapped for registra
   assert.equal(event.startsAt, "2026-11-24T15:00:00+00:00");
   assert.equal(event.endsAt, "2026-11-24T18:00:00+00:00");
   assert.equal(event.timeZone, "Europe/London");
-  assert.match(event.details!, /provisional programme/);
+  assert.equal(event.programme?.length, 5);
+  assert.match(event.details!, /continue the discussion over food, drinks and networking/);
   assert.equal(getRegistrationId(4), undefined);
   assert.equal(getRegistrationOptions().some(option => option.label.includes("OFF AIR")), false);
 });
@@ -216,14 +217,14 @@ test("2027 announcements are upcoming, ordered, routable and leave unknown detai
     [5, "MPTS Networking Reception 2027", "2027-05-12"],
     [8, "The Green Line to IBC 2027", "2027-09-09"],
     [6, "IBC Networking Breakfast 2027", "2027-09-11"],
-    [7, "IBC Decompression Party 2027", "2027-09-12"],
+    [7, "IBC Decompression Party: Live Jazz and Great Company", "2027-09-12"],
   ]);
   assert.deepEqual(getEventIssues(), []);
   for (const event of events) {
     assert.equal(getEventById(String(event.id))?.id, event.id);
     assert.equal(event.venue, event.id === 5 ? "Olympia" : event.id === 6 ? "The Traveller" : event.id === 8 ? "Eurostar" : "Live Amsterdam Piano Bar");
     assert.equal(event.location, event.id === 5 ? "London" : event.id === 8 ? "St Pancras to Amsterdam Centraal" : event.id === 6 ? "a one-minute walk from the main entrance of the RAI Amsterdam" : "Amsterdam");
-    assert.equal(event.time, event.id === 7 ? "18:30 – Late" : event.id === 6 ? "08:00–10:00 CET" : event.id === 8 ? "11:04–15:30" : "");
+    assert.equal(event.time, event.id === 7 ? "18:30–21:30" : event.id === 6 ? "08:00–10:00 CET" : event.id === 8 ? "11:04–15:30" : "");
     assert.ok(event.description, "Migrated events have an introduction without inventing logistics");
     assert.equal(event.startsAt, undefined);
     assert.equal(event.endsAt, undefined);

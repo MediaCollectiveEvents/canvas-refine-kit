@@ -149,12 +149,14 @@
     {
       "historyLabel": "New for 2026",
       "whyAttend": [
-        "Test assumptions about where media is heading",
-        "Hear perspectives from across broadcasting, streaming and technology",
-        "Put questions to the speakers and analysts"
+        "Compare notes with senior industry peers.",
+        "Hear perspectives from leading analysts and commentators.",
+        "Challenge conventional thinking and industry assumptions.",
+        "Gain practical insight into the future of media, streaming and broadcast.",
+        "Join discussions that continue beyond the formal programme."
       ],
       "themeTags": [],
-      "details": "24 November 2026, 15:00–18:00, at The Broadcaster, White City, London. The provisional programme includes The Debrief, The Survival Guide, Unfiltered: Ask the Analysts, Faultline Futures and the decodeTV Impact Awards, followed by drinks and executive networking. The programme will evolve and be developed in consultation with Strategic Partners and invited industry figures.",
+      "details": "When the formal programme ends, the discussion doesn’t.\n\nStep away from the conference circuit, meet the people behind the headlines and continue the discussion over food, drinks and networking at The Broadcaster.",
       "startsAt": "2026-11-24T15:00:00+00:00",
       "topics": [
         "industry-strategy"
@@ -172,11 +174,13 @@
       "partners": [
         {
           "name": "Faultline",
-          "logo": "/uploads/featured-faultline.png"
+          "logo": "/uploads/featured-faultline.png",
+          "url": "https://rethinkresearch.biz"
         },
         {
           "name": "decodeTV",
-          "logo": "/uploads/featured-decodetv.jpg"
+          "logo": "/uploads/featured-decodetv.jpg",
+          "url": "https://decodetv.com"
         }
       ],
       "endsAt": "2026-11-24T18:00:00+00:00",
@@ -202,9 +206,30 @@
       "timeZone": "Europe/London",
       "id": 4,
       "image": "/uploads/off-air.png",
-      "whoAttends": "Leaders working across broadcasting, streaming, content and media technology.",
-      "description": "Presented by The Media Collective, Faultline and decodeTV, OFF AIR examines the technologies, business models and strategic choices shaping media.",
-      "seoDescription": "An invitation-only forum exploring media technology, business models and strategy at The Broadcaster, London, on 24 November 2026."
+      "whoAttends": "OFF AIR is designed for executives, strategists, founders, analysts and decision-makers working across:\n\nBroadcasting\nStreaming\nMedia Technology\nContent & Production\nAdvertising & Monetisation\nVideo Platforms\n\nAttendance is limited and invitations are carefully curated to keep the room relevant and the discussion useful.",
+      "description": "What happened? What matters now? What comes next?\n\nCreated by The Media Collective, Faultline and decodeTV, OFF AIR brings together the people shaping streaming, broadcast and media to examine the technologies, business models and industry shifts that defined the past year, and the forces set to shape the next era of video.\n\nFrom the lessons of streaming live sports at unprecedented scale and the changing relationship between broadcasters and platforms, to AI, monetisation and the infrastructure underpinning it all, OFF AIR asks where the industry goes next.\n\nPart survival guide, part crystal ball, expect blunt lessons, provocative predictions, practical insight and audience-led debate.",
+      "seoDescription": "An invitation-only forum exploring media technology, business models and strategy at The Broadcaster, London, on 24 November 2026.",
+      "subtitle": "OFF AIR brings media leaders together to unpack 2026, challenge the consensus and debate what comes next for broadcast, streaming and video.",
+      "attendanceStatement": "Attendance by invitation",
+      "ctaHeading": "Request an Invitation",
+      "ctaCopy": "Interested in attending OFF AIR?\n\nAttendance is limited and invitations are carefully curated to maintain the quality of the room and the connections made at every Media Collective event.",
+      "programme": [
+        {
+          "description": "THE DEBRIEF\n\nWhat did 2026 teach us?\n\nWe’ll revisit the moments, technologies and industry shifts that defined the year, exploring what worked, what didn’t and what the industry should take forward."
+        },
+        {
+          "description": "THE SURVIVAL GUIDE\n\nA practical look at what is changing across content, production and delivery, separating what matters from what doesn’t and identifying where attention should be focused next."
+        },
+        {
+          "description": "UNFILTERED: ASK THE ANALYSTS\n\nNo presentations. No safe talking points.\n\nAn audience-led discussion that puts leading analysts and commentators in the hot seat. Bring your questions, challenge assumptions and expect candid answers."
+        },
+        {
+          "description": "FAULTLINE FUTURES\n\nBold predictions, provocative thinking and an audience test of the ideas most likely and least likely to shape the future of media."
+        },
+        {
+          "description": "DECODETV IMPACT AWARDS\n\nRecognising the people, ideas and initiatives making an impact across broadcast, streaming and media technology."
+        }
+      ]
     },
     {
       "historyLabel": "Annual Gathering",
@@ -372,21 +397,23 @@
     {
       "historyLabel": "Returning for 2027",
       "whyAttend": [
-        "Take a break after a busy week at IBC",
-        "Spend time with colleagues outside the show",
-        "Enjoy live music in an informal setting"
+        "Finish IBC somewhere you can actually hear each other.",
+        "Catch up with industry colleagues away from the show floor.",
+        "Meet people from across broadcast, streaming and media technology.",
+        "Enjoy live jazz, drinks and canapés in a relaxed setting.",
+        "Make the most of the final evening of IBC before everyone heads home."
       ],
       "themeTags": [],
       "imageKey": "ibc-decompression-party-2027",
-      "ctaCopy": "Request an invitation to join us.\n\nAttendance is curated.",
-      "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
+      "ctaCopy": "Attendance is limited and by invitation. Request a place to join us for live jazz, drinks, canapés and a relaxed evening with people from across the media industry.",
+      "attendanceStatement": "By invitation and advance registration only.\n\nPlaces are limited and registration is required in advance.",
       "experienceCategories": [
         "networking-social"
       ],
       "conferenceAlignment": [
         "IBC"
       ],
-      "time": "18:30 – Late",
+      "time": "18:30–21:30",
       "capacity_number": 200,
       "date": "2027-09-12",
       "venue": "Live Amsterdam Piano Bar",
@@ -396,17 +423,17 @@
         "social",
         "drinks"
       ],
-      "ctaHeading": "Request an Invitation",
+      "ctaHeading": "Join us for the final evening of IBC.",
       "location": "Amsterdam",
       "card_summary": "Round off IBC with live jazz, hospitality and industry peers.",
-      "subtitle": "A social evening with live jazz for people attending IBC.",
+      "subtitle": "Round off IBC with an invitation-only evening of live jazz, drinks, canapés and great company in the heart of Amsterdam.",
       "whatToExpect": [
         "Drinks and canapés",
         "Live jazz throughout the evening",
         "Performances from LDN2BTN and the IBC Allstars",
         "A carefully curated mix of IBC attendees"
       ],
-      "title": "IBC Decompression Party 2027",
+      "title": "IBC Decompression Party: Live Jazz and Great Company",
       "heroHighlights": [
         "IBC ATTENDEES",
         "SOCIAL EVENT",
@@ -416,9 +443,27 @@
       "type": "upcoming",
       "id": 7,
       "image": "/uploads/Venue tiles/Livepiano.png",
-      "whoAttends": "People attending IBC from across broadcasting, streaming, technology, production and the wider media industry.\n\nGuests include industry leaders, specialists, innovators, partners, customers, colleagues and friends of The Media Collective community.",
-      "description": "As IBC winds down, the party offers a break from the exhibition floor.\n\nThe evening is built around hospitality and live jazz in Amsterdam.\n\nIt gives guests space to unwind and enjoy the end of the week together.",
-      "seoDescription": "An IBC social evening with live jazz, drinks and canapés at Live Amsterdam Piano Bar on 12 September 2027, featuring LDN2BTN and the IBC Allstars."
+      "whoAttends": "The Decompression Party is for people working across:\n\nBroadcasting\nStreaming\nMedia Technology\nContent & Production\nPlatforms & Infrastructure\nAdvertising & Monetisation\n\nGuests include executives, founders, operators, technologists and industry specialists attending IBC from across the international media community.\n\nAttendance is limited and invitations are curated to keep the evening relaxed, relevant and easy to navigate.",
+      "description": "After four days of meetings, launches, panels and packed schedules, it is time to decompress.\n\nThe IBC Decompression Party brings together people from across broadcast, streaming and media technology for a relaxed final evening away from the exhibition floor.\n\nJoin us at Live Amsterdam Piano Bar for live jazz from LDN2BTN featuring the IBC Allstars, a Prosecco reception, complimentary drinks and canapés, with exclusive use of the outdoor terrace overlooking Thorbeckeplein.\n\nNo presentations. No conference agenda. Just a chance to unwind, catch up with familiar faces and meet a few new ones before IBC comes to a close.",
+      "seoDescription": "An IBC social evening with live jazz, drinks and canapés at Live Amsterdam Piano Bar on 12 September 2027, featuring LDN2BTN and the IBC Allstars.",
+      "programme": [
+        {
+          "description": "ARRIVE & DECOMPRESS\n\nStep away from the exhibition halls and start the evening with a Prosecco reception at Live Amsterdam Piano Bar."
+        },
+        {
+          "description": "LIVE JAZZ\n\nEnjoy live music from LDN2BTN featuring the IBC Allstars, bringing together musicians from across the industry for one of the more unusual fixtures of IBC week."
+        },
+        {
+          "description": "DRINKS & CANAPÉS\n\nComplimentary drinks and a selection of canapés will be served throughout the evening."
+        },
+        {
+          "description": "THE TERRACE\n\nTake advantage of exclusive access to the venue’s outdoor terrace overlooking Thorbeckeplein, right in the centre of Amsterdam."
+        },
+        {
+          "description": "GREAT COMPANY\n\nCatch up with colleagues, make new introductions and spend time with people you may only have passed between meetings during the week."
+        }
+      ],
+      "details": "IBC is busy by design. The Decompression Party is the opposite.\n\nIt is a chance to put the meetings and schedules aside, spend time with the people behind the industry and enjoy the final evening of the show without another presentation to get to.\n\nCome for a drink. Stay for the band."
     }
   ]
 }

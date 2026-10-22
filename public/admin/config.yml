@@ -832,10 +832,12 @@ collections:
               - label: Type
                 name: type
                 widget: select
+                hint: "Home Testimonials reuses the Homepage testimonial heading, supporting copy and quote list. Edit those in Homepage; they are shared, not duplicated here."
                 options:
                   - { label: Partners Logos Carousel, value: partnersLogos }
                   - { label: Event Programme, value: ourEvents }
                   - { label: Authority Strip, value: authorityStrip }
+                  - { label: Home Testimonials (shared), value: testimonials }
                   - { label: Partnership Process, value: partnerProcess }
                   - { label: Partnership Opportunities, value: partnersBenefits }
                   - { label: Organisations Represented, value: organisationsRepresented }

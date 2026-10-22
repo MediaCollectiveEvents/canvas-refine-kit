@@ -42,6 +42,7 @@ interface PageHeroProps {
   imageParallax?: boolean;
   backgroundImage?: string;
   image?: string;
+  mobileArtworkPath?: string;
 
   variant?: Variant;
   presentation?: "classic" | "business" | "editorial" | "public";
@@ -128,7 +129,7 @@ export default function PageHero(props: PageHeroProps) {
           backgroundPosition: "center bottom",
           ...(fadeArtwork ? { maskImage: "linear-gradient(to right, black 80%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, black 80%, transparent 100%)" } : {}),
         }} />
-        <MobileHeroArtwork />
+        <MobileHeroArtwork path={props.mobileArtworkPath} />
       </>}
       {!identity && <div ref={mobileReference} aria-hidden="true" className="pointer-events-none invisible absolute inset-x-0 top-0 site-gutter pt-8 pb-[60vw] sm:hidden">
         <div className="site-container py-4 text-left">
@@ -183,7 +184,7 @@ export default function PageHero(props: PageHeroProps) {
           aria-hidden="true"
         />
       )}
-      {variant === "image" && resolvedBackgroundImage && <MobileHeroArtwork sizes="100vw" />}
+      {variant === "image" && resolvedBackgroundImage && <MobileHeroArtwork sizes="100vw" path={props.mobileArtworkPath} />}
       {variant === "image" && resolvedBackgroundImage && imageOverlayClassName && <div aria-hidden="true" className={`pointer-events-none absolute inset-0 ${imageOverlayClassName}`} />}
 
       {variant === "solid" && (

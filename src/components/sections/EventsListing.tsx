@@ -1,6 +1,6 @@
 import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 // Shared listing content for the public events page and Decap draft preview.
-import React, { useState } from "react";
+import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import PageHero from "@/components/shared/PageHero";
@@ -66,7 +66,6 @@ export default function EventsListing({ content, layoutContent = eventsPageConte
   // Editors must still see historical records in the draft preview.
   showPastEventsInitially?: boolean;
 }) {
-  const [showPastEvents, setShowPastEvents] = useState(showPastEventsInitially);
   const { hero, intro } = getEventContent(content);
   const layoutIntro = layoutContent.sections.find(section => section.type === "eventsIntro" && !section.hidden);
   const displayedIntro = intro.title ? intro : layoutIntro;
@@ -76,7 +75,7 @@ export default function EventsListing({ content, layoutContent = eventsPageConte
       <main className="bg-[#101d24] site-header-clearance">
         {/* HERO */}
         <PageHero
-          presentation="public"
+          presentation="public" mobileArtworkPath="/events"
           eyebrow={hero.eyebrow}
           title={hero.title}
           description={hero.description}
@@ -109,24 +108,10 @@ export default function EventsListing({ content, layoutContent = eventsPageConte
           </div>
         </section>}
 
-        {pastEvents.length > 0 && <div className="site-gutter pb-12">
-          <div className="site-container">
-            <button
-              type="button"
-              aria-expanded={showPastEvents}
-              aria-controls="past-events"
-              onClick={() => setShowPastEvents(previous => !previous)}
-              className="site-secondary-action"
-            >
-              {showPastEvents ? "Hide past events" : "View past events"}
-            </button>
-          </div>
-        </div>}
-
         {/* PAST EVENTS */}
 
         {pastEvents.length > 0 && (
-          <section id="past-events" hidden={!showPastEvents} className="site-section border-b border-white/10">
+          <section id="past-events" hidden={!showPastEventsInitially} className="site-section border-b border-white/10">
             <div className="site-container">
               <h2 className="mb-8 font-display text-[30px] font-light leading-tight text-white md:mb-12 md:text-4xl">Past Events</h2>
               <ChronologicalGroups events={pastEvents} />

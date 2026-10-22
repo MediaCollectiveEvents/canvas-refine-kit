@@ -33,7 +33,7 @@ const Partners = () => {
           title={hero?.title}
           description={hero?.description}
           descriptionClassName="!text-[#9bd3c8]"
-          presentation="public"
+          presentation="public" mobileArtworkPath="/partners"
           primaryCtaText={hero?.primaryCta?.label ?? hero?.cta?.label}
           primaryCtaHref={(hero?.primaryCta ?? hero?.cta)?.url === "/register" ? undefined : (hero?.primaryCta ?? hero?.cta)?.url}
           onPrimaryClick={(hero?.primaryCta ?? hero?.cta)?.url === "/register" ? openRegister : undefined}

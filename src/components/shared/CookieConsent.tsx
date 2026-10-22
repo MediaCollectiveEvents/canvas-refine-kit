@@ -2,13 +2,22 @@ import { useEffect, useId, useRef, useState } from "react";
 import { getAnalyticsConsent, type AnalyticsChoice } from "@/lib/analyticsConsent";
 import { analyticsConsentPolicy } from "@/lib/analyticsConsentPolicy";
 
+const OPEN_COOKIE_SETTINGS = "tmc:open-cookie-settings";
+
+export function CookieSettingsButton({ className }: { className?: string }) {
+  return <button type="button" className={className} aria-controls="analytics-cookie-preferences"
+    onClick={event => window.dispatchEvent(new CustomEvent(OPEN_COOKIE_SETTINGS, { detail: event.currentTarget }))}>
+    Cookie settings
+  </button>;
+}
+
 export default function CookieConsent() {
   const [controller] = useState(() => typeof window === "undefined" ? null : getAnalyticsConsent());
   const [choice, setChoice] = useState<AnalyticsChoice>(() => controller?.getChoice() ?? null);
   const [editing, setEditing] = useState(false);
   const [confirmWithdrawal, setConfirmWithdrawal] = useState(false);
   const keepChoice = useRef<HTMLButtonElement>(null);
-  const settings = useRef<HTMLButtonElement>(null);
+  const settings = useRef<HTMLButtonElement | null>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const title = useId();
   const description = useId();
@@ -22,7 +31,15 @@ export default function CookieConsent() {
     const unsubscribe = controller.subscribe(() => setChoice(controller.getChoice()));
     controller.initialize();
     setChoice(controller.getChoice());
-    return unsubscribe;
+    const openSettings = (event: Event) => {
+      settings.current = (event as CustomEvent<HTMLButtonElement>).detail;
+      setEditing(true);
+    };
+    window.addEventListener(OPEN_COOKIE_SETTINGS, openSettings);
+    return () => {
+      unsubscribe();
+      window.removeEventListener(OPEN_COOKIE_SETTINGS, openSettings);
+    };
   }, [controller]);
 
   useEffect(() => { if (editing) heading.current?.focus(); }, [editing]);
@@ -43,11 +60,6 @@ export default function CookieConsent() {
   const button = "min-h-11 rounded-full border border-[#35C5BB] px-5 py-2 text-base font-medium text-[#9BF8ED] hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#35C5BB]";
 
   return <>
-    <button ref={settings} type="button" hidden={visible} onClick={() => setEditing(true)}
-      aria-expanded={visible} aria-controls="analytics-cookie-preferences"
-      className="fixed bottom-4 left-4 z-40 min-h-11 rounded-full border border-white/30 bg-[#08111f] px-4 py-2 text-base font-medium text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#35C5BB]">
-      Cookie settings
-    </button>
     {visible && <section id="analytics-cookie-preferences" role="region" aria-labelledby={title} aria-describedby={description}
       onKeyDown={event => { if (event.key === "Escape" && choice !== null) { event.preventDefault(); close(); } }}
       className="fixed inset-x-0 bottom-0 z-40 max-h-[85dvh] overflow-y-auto border-t border-white/20 bg-[#08111f] px-6 py-5 text-[#f7f3eb] shadow-lg">

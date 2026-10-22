@@ -19,12 +19,14 @@ export default function OurEventsSection({ section, content, presentation }: { s
   });
 
   const editorial = presentation === "editorial";
+  const heading = section.heading?.trim() || (editorial ? section.eyebrow : undefined);
+  const hasSeparateEyebrow = section.eyebrow && (!editorial || section.heading?.trim());
 
   return <PageSection id={section.id} className={`${editorial ? "site-section-compact " : ""}border-b border-white/10 bg-background text-[#f7f3eb]`}>
-    <p className="site-eyebrow mb-4 text-[#8FC7C1]">{section.eyebrow}</p>
+    {hasSeparateEyebrow && <p className="site-eyebrow mb-4 text-[#8FC7C1]">{section.eyebrow}</p>}
     <div className={editorial ? "space-y-4" : "grid gap-6 lg:grid-cols-12 lg:gap-10"}>
-      <h2 className="site-heading lg:col-span-5">{section.heading}</h2>
-      <p className={`${editorial ? "" : "max-w-[65ch]"} font-body text-base leading-[1.6] text-[#f7f3eb]/75 md:text-lg lg:col-span-7`}>{section.body}</p>
+      {heading && <h2 className="site-heading lg:col-span-5">{heading}</h2>}
+      <p className={`max-w-[65ch] font-body text-base leading-[1.6] text-[#f7f3eb]/75 md:text-lg lg:col-span-7`}>{section.body}</p>
     </div>
     <ul className={editorial ? "mt-6 grid gap-x-8 lg:grid-cols-2" : "mt-10 divide-y divide-white/10 md:mt-12"}>
       {items.map(({ event, capacity, title, summary }) => editorial ? <li key={event.id} className="min-w-0 space-y-2 border-b border-white/10 py-3">

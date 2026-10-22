@@ -1,3 +1,4 @@
+import { getOffAirUpcomingEvents, isOffAir } from "@/lib/offAirEditorial";
 import Seo from "@/components/shared/Seo";
 import { eventSeo, errorSeo } from "@/lib/pageSeo";
 // src/pages/EventDetails.tsx
@@ -44,7 +45,7 @@ const EventDetails = () => {
   const editionLabel = edition && edition.date > event.date ? "Next edition" : "Previous edition";
   const industryContext = getEventIndustryContext(event.id);
   // Apply eligibility before the helper ranks and limits candidates.
-  const relatedEvents = getRelatedEvents(event, {
+  const relatedEvents = isOffAir(event) ? getOffAirUpcomingEvents() : getRelatedEvents(event, {
     events: getUpcomingEvents().filter(candidate => Number.isFinite(Date.parse(candidate.date))),
   }).filter(related => related.id !== edition?.id);
 
@@ -72,9 +73,9 @@ const EventDetails = () => {
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </section>}
-        {relatedEvents.length > 0 && <section aria-label="Related events" className="mt-10 max-w-2xl md:mt-12">
-          <h2 className="mb-3 font-display text-2xl font-light">Related events</h2>
-          <p className="text-base text-muted-foreground">Other gatherings you may enjoy.</p>
+        {relatedEvents.length > 0 && <section aria-label={isOffAir(event) ? "Other Upcoming Events" : "Related events"} className="mt-10 max-w-2xl md:mt-12">
+          <h2 className="mb-3 font-display text-2xl font-light">{isOffAir(event) ? "Other Upcoming Events" : "Related events"}</h2>
+          {!isOffAir(event) && <p className="text-base text-muted-foreground">Other gatherings you may enjoy.</p>}
           <ul className="mt-5 space-y-6">
             {relatedEvents.map(related => <li key={related.id}>
               <h3 className="text-lg font-medium leading-relaxed"><Link to={`/events/${related.id}`} className="underline underline-offset-4 decoration-primary hover:text-primary">{related.title}</Link></h3>

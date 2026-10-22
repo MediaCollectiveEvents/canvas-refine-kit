@@ -24,7 +24,7 @@ function renderPage(path: string, date = "2026-10-13T12:00:00Z") {
   } finally { globalThis.Date = OriginalDate; }
 }
 
-test("OFF AIR filters upcoming candidates before relevance limiting", () => {
+test("OFF AIR resolves the requested existing upcoming editions", () => {
   const now = new Date("2026-10-13T12:00:00Z");
   const event = getEventById(4)!;
   assert.deepEqual(getRelatedEvents(event).filter(candidate => !isPastEvent(candidate, now)), []);
@@ -32,9 +32,10 @@ test("OFF AIR filters upcoming candidates before relevance limiting", () => {
   assert.deepEqual(related.map(candidate => candidate.id), [5, 8]);
   assert.ok(related.every(candidate => candidate.id !== event.id && !isPastEvent(candidate, now)));
   const html = renderPage("/events/4");
-  assert.match(html, /aria-label="Related events"/);
+  assert.match(html, /aria-label="Other Upcoming Events"/);
   assert.match(html, /href="\/events\/5"/);
   assert.match(html, /href="\/events\/8"/);
+  assert.match(html, /href="\/events\/6"/);
   assert.doesNotMatch(html, /href="\/events\/[123]"|Browse all events/);
 });
 

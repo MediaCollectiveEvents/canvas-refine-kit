@@ -23,7 +23,7 @@ export default function Community({ content = communityContent }: { content?: Co
     <Header />
     <ContactForm open={contactOpen} onOpenChange={setContactOpen} />
     <main className="site-header-clearance">
-      <PageHero {...content.hero} presentation="public" className="max-sm:!pb-[calc(60vw-1.82rem)]" descriptionClassName="!text-[#9bd3c8]" image="/uploads/website-hero-community.png" />
+      <PageHero {...content.hero} presentation="public" mobileArtworkPath="/community" className="max-sm:!pb-[calc(60vw-1.82rem)]" descriptionClassName="!text-[#9bd3c8]" image="/uploads/website-hero-community.png" />
       {content.sections.map(section => {
         if (section.type === "editorial" && section.id === AUDIENCE_SNAPSHOT_ID) {
           const parsed = parseAudienceSnapshot(section.heading);
@@ -45,10 +45,10 @@ export default function Community({ content = communityContent }: { content?: Co
         if (section.type === "editorial") return <OrganisationsRepresentedSection key={section.id} section={section} compact={section.id === "curated-attendance"} />;
         if (section.type === "organisations") return <PageSection key={section.id} id={section.id} className="border-b border-white/10">
           <h2 className="site-eyebrow mb-4 text-[#8FC7C1]">{section.eyebrow}</h2>
+          <p className="mb-6 font-body text-base leading-relaxed text-white/75">{section.body}</p>
           <ul className="w-full font-body text-base leading-8 text-[#f7f3eb]">
             {[...(section.organisations ?? [])].sort((a, b) => a.localeCompare(b, "en-GB", { sensitivity: "base" })).map((name, index, names) => <li key={name} className="inline-block">{name}{index < names.length - 1 && <span aria-hidden="true" className="mx-2 text-[#8FC7C1]/60">·</span>}</li>)}
           </ul>
-          <p className="mt-6 font-body text-base leading-relaxed text-white/75">{section.body}</p>
         </PageSection>;
         if (section.type === "faq") return <PageSection key={section.id} id={section.id} className="border-b border-white/10">
           <FAQSection expandable compact presentation="editorial" title={section.eyebrow} faqs={section.faqs} />

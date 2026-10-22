@@ -8,9 +8,9 @@
     {
       "id": "community-attendance",
       "type": "editorial",
-      "eyebrow": "WHO ATTENDS",
-      "heading": "A community built across the industry",
-      "body": "From broadcasters and rights holders to streamers, platforms and technology providers, our community reflects the breadth and diversity of the industry itself."
+      "eyebrow": "IN GOOD COMPANY",
+      "heading": "Where the Industry Connects",
+      "body": "Over the last six years, our free-to-attend, carefully curated events have brought together a community built on trust, relationships and a shared interest in the future of media and technology."
     },
     {
       "id": "community-organisations",
@@ -55,12 +55,13 @@
         "Warner Bros. Discovery",
         "YouView"
       ],
-      "body": "These are among more than 300 companies represented at Media Collective events across broadcasting, streaming, studios, sports, entertainment and media technology."
+      "body": "Representatives from some of the world's most influential media, technology and entertainment companies.",
+      "heading": ""
     },
     {
       "id": "community-audience-snapshot",
       "type": "editorial",
-      "eyebrow": "2026 AUDIENCE SNAPSHOT",
+      "eyebrow": "2026 COMMUNITY SNAPSHOT",
       "heading": "75 — C-suite guests\n321 — senior leaders*\n661 — guests across 6 events",
       "body": "* Founder, Executive, President, Director, Head of Function or equivalent senior leadership titles."
     },

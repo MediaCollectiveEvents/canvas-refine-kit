@@ -14,9 +14,9 @@
     },
     "overlayStrength": 0,
     "mobileCrop": "cover",
-    "title": "IN GOOD COMPANY",
+    "title": "Connect with the right audience",
     "image": "/uploads/website-hero-partners.png",
-    "description": "Partner with a community united by expertise, curiosity \nand a shared passion for our industry."
+    "description": "Build awareness, connect and form lasting relationships with a carefully curated audience."
   },
   "sections": [
     {
@@ -24,8 +24,8 @@
       "type": "ourEvents",
       "hidden": false,
       "eyebrow": "OUR EVENTS",
-      "heading": "Find the right event for your brand",
-      "body": "A curated community of executives, entrepreneurs, innovators and industry specialists who come together to share ideas, build relationships and create opportunities through meaningful events and conversations.\n",
+      "heading": "",
+      "body": "A curated programme of events bringing together executives, entrepreneurs, innovators and industry specialists across media and technology.\n",
       "items": [
         {
           "eventId": 4,
@@ -55,22 +55,22 @@
       "type": "partnersTiers",
       "hidden": false,
       "eyebrow": "PARTNERSHIP",
-      "body": "Build your presence, meet the people you want to work with and take an active role before, during and after the event.",
+      "body": "Partnerships are designed to create engagement before, during and after the event. Our programmes are designed to allow you to connect with our community.",
       "blocks": [
         {
           "title": "Before the event",
-          "description": "Branding and a listing on the event registration page\nInclusion in relevant event communications\nWe can invite the people you want to connect with, where appropriate\nOpportunities for you to invite relevant guests\nAssociation with the event and its themes"
+          "description": "Branding and recognition across event communications\nInclusion in relevant event promotion\nOpportunities to help shape discussions and themes\nAssociation with the event and its audience\nRegistration reporting"
         },
         {
           "title": "During the event",
-          "description": "Appropriate on-site branding and presence\nConnect with people from across our community\nWhere the format allows, opportunities to speak, host a session, join a panel or share a case study"
+          "description": "On-site branding and presence\nOpportunities to contribute to the programme\nParticipation in panels, discussions or case studies\nDirect engagement with attendees"
         },
         {
           "title": "After the event",
-          "description": "Inclusion in relevant follow-up communications\nContinued visibility through selected event content\nPhotography or video where available\nOpportunities to build on relationships started at the event\nOngoing association with relevant Media Collective activity where appropriate"
+          "description": "Inclusion in event-related content where appropriate\nContinued visibility through selected event covertage\nEvent attendance report\nOngoing association with The Media Collective community\nOngoing association with relevant Media Collective activity where appropriate"
         }
       ],
-      "heading": "Visibility is only the start."
+      "heading": "Visibility is only the start"
     },
     {
       "id": "benefits",
@@ -78,47 +78,29 @@
       "hidden": false,
       "eyebrow": "",
       "heading": "Ways to take part.",
-      "body": "For discussion-led events, there may also be opportunities to contribute to the programme.",
+      "body": "For discussion-led events, partners can contribute to the programme in a variety of ways.",
       "blocks": [
         {
           "title": "Share your vision",
-          "description": "Bring your perspective to the programme through a keynote, case study, fireside chat or other editorial contribution."
+          "description": "Bring your perspective to the programme through a keynote, case study, fireside chat or thought leadership."
         },
         {
-          "title": "Take part in a panel",
-          "description": "Join a discussion with other industry voices and share your experience on a topic relevant to the audience."
-        },
-        {
-          "title": "Host a session",
-          "description": "Host a panel, fireside chat or focused session around a topic relevant to the audience."
+          "title": "Join the conversation",
+          "description": "Take part in panel discussions and contribute your expertise and vision to topics that matter to the industry."
         },
         {
           "title": "Present a case study",
-          "description": "Use a real-world example to show how your organisation is approaching a challenge, delivering change or creating new opportunities."
+          "description": "Share practical insights, experiences and lessons learned from real-world projects."
+        },
+        {
+          "title": "Host a session",
+          "description": "Create a focused discussion around a subject relevant to the audience."
         },
         {
           "title": "Help shape the programme",
-          "description": "Contribute ideas, themes and questions that could inform the event, while Media Collective retains responsibility for the final programme."
+          "description": "Contribute ideas, themes and speakers that help inform the editorial direction of an event."
         }
       ]
-    },
-    {
-      "id": "logos",
-      "type": "partnersLogos",
-      "hidden": false,
-      "body": "Working with organisations across media and technology."
-    },
-    {
-      "id": "cta",
-      "type": "joinUs",
-      "hidden": false,
-      "eyebrow": "PARTNER WITH US",
-      "heading": "Talk to us about how we can connect you with our community.",
-      "body": "",
-      "cta": {
-        "label": "Arrange a Call",
-        "url": "https://calendly.com/mediacollective/call-with-chris"
-      }
     },
     {
       "id": "partner-authority",
@@ -139,6 +121,29 @@
         "London &",
         "Amsterdam"
       ]
+    },
+    {
+      "id": "logos",
+      "type": "partnersLogos",
+      "hidden": false,
+      "body": "Working with organisations across media and technology."
+    },
+    {
+      "id": "Partner quote",
+      "type": "testimonials",
+      "hidden": false
+    },
+    {
+      "id": "cta",
+      "type": "joinUs",
+      "hidden": false,
+      "eyebrow": "PARTNER WITH US",
+      "heading": "Connect your brand with leaders across media and technology.",
+      "body": "Partnership opportunities are tailored to each event and partner.",
+      "cta": {
+        "label": "Arrange a Call",
+        "url": "https://calendly.com/mediacollective/call-with-chris"
+      }
     },
     {
       "id": "who-youll-meet",
