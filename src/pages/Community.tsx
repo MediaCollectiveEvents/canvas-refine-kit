@@ -30,27 +30,27 @@ export default function Community({ content = communityContent }: { content?: Co
           const stats = parsed.issues.length
             ? parseAudienceSnapshot(communityContent.sections.find(item => item.id === AUDIENCE_SNAPSHOT_ID)?.heading).stats
             : parsed.stats;
-          return <PageSection key={section.id} id={section.id} className="site-section-compact border-b border-white/10" containerClassName="space-y-6">
-          <h2 className="site-eyebrow text-[#8FC7C1]">{section.eyebrow}</h2>
-          <dl className="grid gap-x-8 gap-y-6 sm:grid-cols-3">
+          return <PageSection key={section.id} id={section.id} className="border-b border-white/10">
+          <h2 className="site-eyebrow mb-8 text-[#8FC7C1]">{section.eyebrow}</h2>
+          <dl className="grid md:grid-cols-3 md:gap-x-8">
             {stats.map(({ value, label }) => {
-              return <div key={label} className="min-w-0 flex flex-col gap-3">
-                <dt className="order-2 font-body text-lg leading-[1.5] text-[#f7f3eb]">{label}</dt>
-                <dd className="order-1 flex items-end font-display text-6xl font-semibold leading-none text-[#35C5BB] md:text-8xl">{value}</dd>
+              return <div key={label} className="grid min-w-0 grid-cols-[112px_minmax(0,1fr)] items-center gap-x-5 border-t border-white/10 py-5 first:border-t-0 md:flex md:flex-col md:items-start md:gap-3 md:border-0 md:py-0">
+                <dt className="order-2 font-body text-base font-medium leading-[1.4] text-[#f7f3eb] md:text-xl">{label}</dt>
+                <dd className="order-1 flex items-end font-display text-[48px] font-medium leading-none text-[#35C5BB] md:text-[64px]">{value}</dd>
               </div>;
             })}
           </dl>
-          <p className="max-w-3xl font-body text-base leading-[1.6] text-white/65">{section.body}</p>
+          <p className="mt-6 max-w-3xl font-body text-sm leading-[1.6] text-white/65">{section.body}</p>
         </PageSection>; }
         if (section.type === "editorial") return <OrganisationsRepresentedSection key={section.id} section={section} compact={section.id === "curated-attendance"} />;
-        if (section.type === "organisations") return <PageSection key={section.id} id={section.id} className="border-b border-white/10 !py-12 md:!py-14">
+        if (section.type === "organisations") return <PageSection key={section.id} id={section.id} className="border-b border-white/10">
           <h2 className="site-eyebrow mb-4 text-[#8FC7C1]">{section.eyebrow}</h2>
           <p className="mb-6 font-body text-base leading-relaxed text-white/75">{section.body}</p>
           <ul className="w-full font-body text-base leading-8 text-[#f7f3eb]">
             {[...(section.organisations ?? [])].sort((a, b) => a.localeCompare(b, "en-GB", { sensitivity: "base" })).map((name, index, names) => <li key={name} className="inline-block">{name}{index < names.length - 1 && <span aria-hidden="true" className="mx-2 text-[#8FC7C1]/60">·</span>}</li>)}
           </ul>
         </PageSection>;
-        if (section.type === "faq") return <PageSection key={section.id} id={section.id} className="border-b border-white/10 !py-12 md:!py-14">
+        if (section.type === "faq") return <PageSection key={section.id} id={section.id} className="border-b border-white/10">
           <FAQSection expandable compact presentation="editorial" title={section.eyebrow} faqs={section.faqs} />
         </PageSection>;
         if (section.type === "cta") return <PageSection key={section.id} id={section.id}>
