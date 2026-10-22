@@ -32,19 +32,7 @@ interface PartnersPageRendererProps {
 
 const currentSponsors = getOrganisations();
 
-// Optical sizing compensates for whitespace already present in the source files.
-// CMS order/content and the original artwork remain unchanged.
-const logoScale: Record<string, number> = {
-  "BroadView Software": 1.6, "Convergent IDS": 1.75, "DCe Agency": 1.7,
-  "Giant Worldwide": 1.3, "Invenio LSI": 1.2, "LucidLink": 1.6,
-  "Matrix": 1.85, "Mr MXF": 1.1, "Rarecrew": 1.7, "RSG Media": 1.35,
-  "UHD Alliance": 1.7, "UIC Digital": 1.6, "UTO Solutions": 1.2,
-  "Wagada Digital": 1.6, "Caretta Research": 0.9, "decodeTV": 0.9,
-  "Fabric": 1.55, "FOO Engine": 1.35, "G&L": 0.9,
-  "Markham Digital Media": 1.1, "modula media": 1.5, "NetActuate": 0.9,
-  "Norsk": 1.1, "realitech": 1.5, "Red5": 0.9, "Rightsline": 1.6,
-  "Testronic": 1.6,
-};
+// Keep each complete source logo inside its padded tile; transforms can clip wordmarks.
 
 function JourneyHeading({ step, title, description, className = "mb-10" }: { step?: string; title?: string; description?: string; className?: string }) {
   return (
@@ -95,7 +83,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
                         className={`flex shrink-0 gap-3 pr-3 ${duplicate ? "motion-reduce:hidden" : "motion-reduce:grid motion-reduce:w-full motion-reduce:grid-cols-2 motion-reduce:pr-0 sm:motion-reduce:grid-cols-3 lg:motion-reduce:grid-cols-7"}`}>
                         {currentSponsors.map(sponsor => (
                           <li key={sponsor.src} id={!duplicate && sponsor.id && getOrganisationById(sponsor.id) ? `organisation-${sponsor.id}` : undefined} className="flex h-[7.8rem] w-[14.3rem] shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-4 motion-reduce:w-auto">
-                            <img src={contentImage(sponsor.src)} alt={duplicate ? "" : sponsor.alt || sponsor.name || "Organisation logo"} loading="eager" className="h-[5.2rem] w-full object-contain" style={{ transform: `scale(${logoScale[sponsor.name ?? ""] ?? 1})` }} />
+                            <img src={contentImage(sponsor.src)} alt={duplicate ? "" : sponsor.alt || sponsor.name || "Organisation logo"} loading="eager" className="h-[5.2rem] w-full max-w-full object-contain" />
                           </li>
                         ))}
                       </ul>
