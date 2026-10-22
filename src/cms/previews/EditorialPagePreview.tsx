@@ -27,7 +27,7 @@ export function PartnersPreview({ entry }: { entry: PreviewEntry }) {
   const { hero, sections } = readPreviewData<PageData>(entry);
   const primary = hero?.primaryCta ?? hero?.cta;
   return <PreviewLayout route="/partners">
-    <PageHero presentation="public" eyebrow={hero?.eyebrow} title={hero?.title ?? ""}
+    <PageHero presentation="public" mobileArtworkPath="/partners" eyebrow={hero?.eyebrow} title={hero?.title ?? ""}
       description={hero?.description} descriptionClassName="!text-[#9bd3c8]" image={hero?.image} primaryCtaText={primary?.label}
       primaryCtaHref={primary?.url === "/register" ? undefined : primary?.url} onPrimaryClick={primary?.url === "/register" ? noop : undefined} />
     <PartnersPageRenderer sections={sections as ComponentProps<typeof PartnersPageRenderer>["sections"]} onRegister={noop} />

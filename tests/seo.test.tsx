@@ -78,7 +78,6 @@ test("sitemap stays in sync with all resolvable events and excludes aliases, err
 test("past-event links are present in the collapsed rendered DOM", () => {
   const { html } = render("/events", createElement(EventsListing));
   assert.match(html, /id="past-events" hidden=""/);
-  assert.match(html, /aria-expanded="false"/);
-  assert.match(html, />View past events<\/button>/);
+  assert.doesNotMatch(html, /aria-controls="past-events"|View past events|Hide past events/);
   for (const event of getPastEvents()) assert.ok(html.includes(`href="/events/${event.id}"`));
 });

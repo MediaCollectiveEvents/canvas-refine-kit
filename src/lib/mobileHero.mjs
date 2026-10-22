@@ -12,7 +12,26 @@ export const mobileHeroDelivery = Object.freeze({
     .concat("/uploads/website-hero-mobile-v2.webp 1080w").join(", "),
 });
 
-export function mobileHeroPreload() {
-  const { fallback, media, sizes, srcSet } = mobileHeroDelivery;
+function secondaryHero(name) {
+  const base = `/uploads/website-hero-${name}-mobile`;
+  return Object.freeze({
+    source: `${base}.png`, fallback: `${base}.webp`, width: 675, height: 844,
+    media: mobileHeroDelivery.media, sizes: mobileHeroDelivery.sizes,
+    srcSet: [320, 480, 640].map(width => `${base}-${width}.webp ${width}w`)
+      .concat(`${base}.webp 675w`).join(", "),
+  });
+}
+
+const eventsHero = secondaryHero("events");
+const communityHero = secondaryHero("community");
+export const mobileHeroes = Object.freeze({
+  "/": mobileHeroDelivery,
+  "/events": eventsHero,
+  "/community": communityHero,
+  "/partners": communityHero,
+});
+
+export function mobileHeroPreload(path = "/") {
+  const { fallback, media, sizes, srcSet } = mobileHeroes[path] ?? mobileHeroDelivery;
   return `<link rel="preload" as="image" type="image/webp" href="${fallback}" media="${media}" imagesrcset="${srcSet}" imagesizes="${sizes}" fetchpriority="high">`;
 }

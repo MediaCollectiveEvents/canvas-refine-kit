@@ -8,6 +8,8 @@ import { useReducedMotion } from "framer-motion";
 import React, { useState } from "react";
 import OurEventsSection from "./OurEventsSection";
 import AuthorityStrip from "./AuthorityStrip";
+import TestimonialsSection from "./TestimonialsSection";
+import homepageContent from "@/content/homepage.json";
 
 import PageSection from "@/components/shared/PageSection";
 import OrganisationsRepresentedSection from "@/components/shared/OrganisationsRepresentedSection";
@@ -53,6 +55,10 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
     <>
       {visibleSections.map(section => {
         switch (section.type) {
+          case "testimonials":
+            return <div key={section.id ?? section.type} id={section.id}>
+              <TestimonialsSection section={homepageContent.sections.find(item => item.type === "testimonials")} />
+            </div>;
           case "authorityStrip":
             return <AuthorityStrip key={section.id ?? section.type} section={section as React.ComponentProps<typeof AuthorityStrip>["section"]} />;
           case "partnerProcess":
@@ -72,7 +78,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
             return <OrganisationsRepresentedSection key={section.id ?? section.type} section={section as React.ComponentProps<typeof OrganisationsRepresentedSection>["section"]} />;
           case "partnersLogos":
             return (
-              <PageSection key={section.id ?? section.type} id="partner-community" className="scroll-mt-28 border-b border-white/10 bg-background">
+              <PageSection key={section.id ?? section.type} id="partner-community" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">
                 <JourneyHeading step="THE PARTNER COMMUNITY" title="In good company." description={section.body} />
                 <div tabIndex={0} role="region" aria-label="Partner logos" aria-keyshortcuts="Space" aria-description={reducedMotion ? undefined : logosPaused ? "Logo movement paused. Press Space to resume." : "Press Space to pause logo movement."}
                   onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setLogosPaused(value => !value); } }} className="group overflow-hidden rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB]">
@@ -121,7 +127,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
           case "partnersTiers":
             return (
               <PageSection key={section.id ?? section.type} id="partner-formats" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">
-                <JourneyHeading step={section.eyebrow} title={section.heading} description={section.body} className="mb-10 !max-w-none" />
+                <JourneyHeading step={section.eyebrow} title={section.heading} description={section.body} className="mb-10 !max-w-[70ch]" />
                 <div className="grid gap-8 md:grid-cols-3">
                   {(section.blocks ?? []).map(block => (
                     <article key={block.title} className="min-w-0 border-t border-white/10 pt-6">

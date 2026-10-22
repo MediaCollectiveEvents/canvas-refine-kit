@@ -21,7 +21,7 @@
     "subtitle": "CURATED EVENTS & NETWORKING",
     "title": "THE MEDIA COLLECTIVE",
     "image": "/uploads/website-hero-home.png",
-    "description": "INSIGHTS. CONVERSATIONS. CONNECTIONS.",
+    "description": "Good company. Great conversations.",
     "secondaryCta": {
       "label": "Get involved",
       "url": "#get-involved"
@@ -29,7 +29,7 @@
   },
   "sections": [
     {
-      "body": "Our events give people across broadcasting, streaming and technology the space to connect, learn and collaborate.\n\nA welcoming, inclusive setting and limited attendance give people more time and space to talk.",
+      "body": "Our events bring together people from more than 300 companies across media and technology.\n\nCarefully chosen settings and curated attendance create an atmosphere that's relaxed, welcoming and conversational.",
       "styleWrapper": {
         "variant": "glow",
         "padding": "lux",
@@ -92,7 +92,7 @@
         "grid": true,
         "withFades": true
       },
-      "heading": "Who attends",
+      "heading": "In Good Company",
       "statistics": {
         "companies": "In 2026, our events brought together people from more than 300 companies.",
         "boardLevel": ".",
@@ -101,7 +101,7 @@
       "backgroundStyle": "light",
       "styleTitle": {
         "eyebrow": "",
-        "sub": "People working in broadcasting, studios, streaming and technology attend our events, including:",
+        "sub": "More than 300 companies have been represented at Media Collective events, from global technology leaders and Hollywood studios to leading streaming platforms.",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false
@@ -110,23 +110,19 @@
       "type": "whoAttends",
       "highlights": [
         {
-          "title": "TOP 3",
-          "subtitle": "Technology Giants",
+          "title": "THE 3",
+          "subtitle": "Top Tech Giants",
           "icon": "globe"
         },
         {
-          "title": "MAJOR 5",
-          "subtitle": "Hollywood Studios",
+          "title": "THE 5",
+          "subtitle": "Major Hollywood Studios",
           "icon": "film"
         },
         {
-          "title": "LEADING 8",
-          "subtitle": "Streaming Platforms",
+          "title": "THE 8",
+          "subtitle": "Leading Streamers",
           "icon": "play"
-        },
-        {
-          "title": "300+",
-          "subtitle": "Companies Represented"
         }
       ],
       "customBackground": null
@@ -159,7 +155,7 @@
       "hidden": false,
       "interestsLabel": "By interest",
       "resultsHeading": "Coming up for you",
-      "intro": "Flagship events",
+      "intro": "Signature events",
       "emptyBody": "Browse all upcoming events or register your interest in future gatherings.",
       "emptyCtaLabel": "Register interest",
       "emptyHeading": "Nothing quite right at the moment?",
@@ -233,7 +229,7 @@
       ],
       "styleTitle": {
         "eyebrow": "WHAT PEOPLE SAY",
-        "sub": "Experiences from attendees and event partners.",
+        "sub": "",
         "align": "center",
         "tone": "default",
         "disableEmphasis": false

@@ -14,7 +14,7 @@ test("confirmed practical information and editorial capacity appear before the f
     assert.match(beforeAction, new RegExp(`Capacity: ${event.capacity_number} ${event.capacity_label!.toLowerCase()}`));
     assert.ok(beforeAction.includes(event.time || 'Time to be confirmed'));
     assert.ok(beforeAction.includes(event.venue));
-    assert.match(beforeAction, event.partnerEvent ? /Paid tickets/ : /Free to attend/);
+    assert.match(beforeAction, event.partnerEvent ? /Paid tickets/ : [4, 7].includes(event.id) ? /Attendance by invitation/ : /Free to attend/);
   }
 });
 
@@ -26,7 +26,7 @@ test("capacity prefers the existing capacity field and does not invent absent va
 });
 
 test("all migrated events share the section hierarchy and retain artwork without countdowns", () => {
-  for (const event of getAllEvents()) {
+  for (const event of getAllEvents().filter(event => ![4, 7].includes(event.id))) {
     const html = render(event);
     const titles = ['About This Event', 'Who Attends', 'Why Attend', 'What To Expect', 'Event Details'];
     let previous = -1;

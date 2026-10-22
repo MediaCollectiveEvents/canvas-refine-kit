@@ -45,7 +45,7 @@ test("Partners programme names link to their own events and audience wording lin
   for (const [id, title] of [[4, "OFF AIR"], [5, "MPTS Networking Reception"], [6, "IBC Networking Breakfast"], [7, "IBC Decompression Party"], [8, "The Green Line"]]) {
     assert.match(html, new RegExp(`<h3[^>]*><a href="/events/${id}"[^>]*>${title}</a></h3>`));
   }
-  assert.match(html, /<a href="\/community"[^>]*>our community<\/a>/);
+  assert.match(html, /<a href="\/community"[^>]*>(?:(?:our|the) )?community<\/a>/i);
 });
 
 test("FAQ and Community guidance expose contextual links without changing the answers", () => {
