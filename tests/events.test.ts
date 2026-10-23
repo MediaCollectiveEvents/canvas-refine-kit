@@ -140,7 +140,7 @@ test("OFF AIR is upcoming, routable and remains explicitly unmapped for registra
   const event = getEventById("4")!;
   assert.equal(event.title, "OFF AIR: The Unfiltered Future of Media");
   assert.deepEqual(event.experienceCategories, ["networking-social", "knowledge-discussion"]);
-  assert.equal(event.startsAt, "2026-11-24T15:00:00+00:00");
+  assert.equal(event.startsAt, "2026-11-24T14:00:00+00:00");
   assert.equal(event.endsAt, "2026-11-24T18:00:00+00:00");
   assert.equal(event.timeZone, "Europe/London");
   assert.equal(event.programme?.length, 5);

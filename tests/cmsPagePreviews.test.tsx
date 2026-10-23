@@ -98,7 +98,7 @@ test("event layout CMS preview renders draft formats and identifies the canonica
 test("event format references use canonical capacity and omit unresolved records", () => {
   const html = render(createElement(OurEventsSection, { section: { heading: "Formats", items: [{ eventId: "4", title: "Referenced event" }, { eventId: 999, title: "Missing event" }] } }));
   assert.match(html, /Referenced event/);
-  assert.match(html, />100</);
+  assert.match(html, />120</);
   assert.doesNotMatch(html, /Missing event/);
 });
 
@@ -197,7 +197,7 @@ test("homepage event index shows all canonical upcoming events in order without 
   for (const image of ["Handandflower.png", "Eurostar.png", "RAI.png", "Livepiano.png"]) {
     assert.ok(markup.includes(responsiveEventImage(`/uploads/Venue tiles/${image}`, eventImageSizes.discovery).src));
   }
-  assert.ok(markup.includes("/uploads/Venue tiles/broadcaster.png"));
+  assert.ok(markup.includes("/uploads/optimised/soho-house-white-city-640.webp"));
   assert.match(markup, /href="\/events"[^>]*>View all events/);
   assert.ok(!markup.includes('href="/events/calendar"'));
   assert.ok(!markup.includes("aria-pressed"));

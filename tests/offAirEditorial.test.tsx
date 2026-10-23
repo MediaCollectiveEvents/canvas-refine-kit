@@ -22,7 +22,7 @@ test("OFF AIR has the requested editorial hierarchy, programme and host profiles
   }
   assert.match(html, /lg:grid-cols-3/);
   assert.match(html, /sm:grid-cols-2/);
-  assert.match(html, /Capacity: 100 attendees/);
+  assert.match(html, /Capacity: 120 attendees/);
   assert.match(html, /Attendance by invitation/);
   assert.match(html, /href="https:\/\/rethinkresearch.biz"/);
   assert.match(html, /href="https:\/\/decodetv.com"/);

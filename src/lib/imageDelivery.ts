@@ -1,5 +1,6 @@
 // Delivery variants for approved assets only. CMS source paths and originals stay intact.
 const variants: Record<string, { name: string; widths: number[] }> = {
+  "/uploads/soho-house-white-city.png": { name: "soho-house-white-city", widths: [320, 640, 960, 1200] },
   "/uploads/Venue tiles/RAI.png": { name: "rai", widths: [320, 640, 960, 1280, 1920] },
   "/uploads/Venue tiles/Handandflower.png": { name: "hand-and-flower", widths: [320, 640, 960, 1280, 1920] },
   "/uploads/Venue tiles/Eurostar.png": { name: "eurostar", widths: [320, 640, 960, 1280, 1920] },
