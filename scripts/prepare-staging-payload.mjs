@@ -1,4 +1,5 @@
 import { readFileSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { generateApacheRouting } from "./generate-apache-routing.mjs";
@@ -16,6 +17,20 @@ export function routingForTarget(base, target = deployTarget()) {
   return target === "staging" ? stagingHeader + base : base;
 }
 
+// Decap fetches an unversioned config by default and previews embed build-time
+// content. Version both staging URLs by their actual bytes, not a manual date.
+export function stagingCmsHtml(html, config, bundle) {
+  if (!html.includes("</head>") || !/src="\/admin\/cms\.bundle\.js(?:\?v=[a-f0-9]+)?"/.test(html)) {
+    throw new Error("Unexpected CMS launcher; refusing staging preparation.");
+  }
+  const digest = value => createHash("sha256").update(value).digest("hex").slice(0, 16);
+  const link = `    <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml?v=${digest(config)}" />\n`;
+  return html
+    .replace(/^ *<link rel="cms-config-url"[^>]*>\r?\n?/gm, "")
+    .replace(/^( *)<\/head>/m, `${link}$1</head>`)
+    .replace(/src="\/admin\/cms\.bundle\.js(?:\?v=[a-f0-9]+)?"/, `src="/admin/cms.bundle.js?v=${digest(bundle)}"`);
+}
+
 // Operate on the built artifact only. Production routing/content stay unchanged.
 export function prepareStagingPayload(root = process.cwd(), payload = "dist", target = deployTarget()) {
   if (deployTarget(target) !== "staging") throw new Error("Staging payload preparation requires DEPLOY_TARGET=staging.");
@@ -25,7 +40,14 @@ export function prepareStagingPayload(root = process.cwd(), payload = "dist", ta
   const file = resolve(root, payload, ".htaccess");
   const current = readFileSync(file, "utf8");
   if (current !== base && current !== expected) throw new Error("Unexpected Apache routing; refusing staging preparation.");
+  const cmsFile = resolve(root, payload, "admin/index.html");
+  const cmsHtml = stagingCmsHtml(
+    readFileSync(cmsFile, "utf8"),
+    readFileSync(resolve(root, payload, "admin/config.yml")),
+    readFileSync(resolve(root, payload, "admin/cms.bundle.js")),
+  );
   writeFileSync(file, expected);
+  writeFileSync(cmsFile, cmsHtml);
 }
 
 if (process.argv[1] && pathToFileURL(resolve(process.argv[1])).href === import.meta.url) {

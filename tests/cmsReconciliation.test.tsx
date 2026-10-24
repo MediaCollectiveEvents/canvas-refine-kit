@@ -209,6 +209,11 @@ test("CMS section summaries and comma-containing labels reflect the current cont
   const section = home.sections.find((item: any) => item.type === "eventDiscovery");
   assert.equal(section.intro, "Signature events");
   assert.notEqual(section.heading, section.intro, "Legacy heading must not label the current section");
+  const require = decapModules();
+  const { fromJS } = require(46670);
+  const ListControl = require(11761).default;
+  const control = new ListControl({ field: fromJS(sections), value: fromJS(home.sections), entry: fromJS({ data: home }) });
+  assert.equal(control.objectLabel(fromJS(section)), "eventDiscovery – Signature events", "Pinned Decap runtime uses the current intro field");
   const imageKey = field(field(file("blogPosts").fields, "posts").fields, "imageKey");
   assert.equal(imageKey.label, "Hero Image Key (optional, for hero mapping)");
   assert.equal(Object.hasOwn(imageKey, "for hero mapping)"), false, "A label comma must not become a YAML property");

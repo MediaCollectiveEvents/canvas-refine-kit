@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync } from "nod
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import yaml from "js-yaml";
-import { deployTarget, routingForTarget, prepareStagingPayload } from "../scripts/prepare-staging-payload.mjs";
+import { deployTarget, routingForTarget, prepareStagingPayload, stagingCmsHtml } from "../scripts/prepare-staging-payload.mjs";
 import { generateApacheRouting } from "../scripts/generate-apache-routing.mjs";
 import { checkDeployPayload } from "../scripts/check-deploy-payload.mjs";
 import { generateSitemap } from "../scripts/generate-sitemap.mjs";
@@ -102,7 +102,7 @@ test("payload preparation and validation reject cross-target uploads and missing
     put("seo-pages/manifest.json", JSON.stringify({ routes, error: { file: ERROR_SHELL_FILE } }));
     put("sitemap.xml", generateSitemap(events));
     put("robots.txt", "Sitemap: https://mediacollective.events/sitemap.xml");
-    put("admin/index.html", "CMS"); put("admin/cms.bundle.js", "CMS");
+    put("admin/index.html", '<head>\n</head><script src="/admin/cms.bundle.js"></script>'); put("admin/cms.bundle.js", "CMS"); put("admin/config.yml", "backend:\n  branch: staging\n");
     for (const route of routes) put(route.file, `<link rel="canonical" href="${route.url}"><div id="root"></div>`);
     put(ERROR_SHELL_FILE, '<meta name="robots" content="noindex, follow">');
     assert.doesNotThrow(() => checkDeployPayload(root, "dist", "production"));
@@ -120,4 +120,25 @@ test("payload preparation and validation reject cross-target uploads and missing
     assert.throws(() => prepareStagingPayload(root, "dist", "staging"), /Unexpected Apache/);
     assert.throws(() => checkDeployPayload(root, "dist", "other"), /Unsupported/);
   } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+
+test("staging CMS launcher versions config and preview bytes without changing source or backend", () => {
+  const source = readFileSync("public/admin/index.html", "utf8");
+  const config = readFileSync("public/admin/config.yml", "utf8");
+  const built = stagingCmsHtml(source, config, "preview one");
+  assert.match(built, /rel="cms-config-url" type="text\/yaml" href="\/admin\/config.yml\?v=[a-f0-9]{16}"/);
+  assert.match(built, /src="\/admin\/cms.bundle.js\?v=[a-f0-9]{16}"/);
+  assert.equal(stagingCmsHtml(built, config, "preview one"), built, "Preparation is idempotent");
+  const changedConfig = stagingCmsHtml(source, config + "\n", "preview one");
+  const changedPreview = stagingCmsHtml(source, config, "preview two");
+  const href = (html: string) => html.match(/href="(\/admin\/config.yml[^"]*)"/)![1];
+  const src = (html: string) => html.match(/src="(\/admin\/cms.bundle.js[^"]*)"/)![1];
+  assert.notEqual(href(changedConfig), href(built));
+  assert.equal(src(changedConfig), src(built));
+  assert.notEqual(src(changedPreview), src(built));
+  assert.equal(href(changedPreview), href(built));
+  assert.equal(readFileSync("public/admin/index.html", "utf8"), source);
+  assert.doesNotMatch(source, /cms-config-url|cms.bundle.js\?v=/, "Production launcher stays unchanged");
+  assert.throws(() => stagingCmsHtml("unexpected launcher", config, "preview"), /Unexpected CMS launcher/);
 });

@@ -53,11 +53,20 @@ DEPLOY_TARGET=staging node scripts/prepare-staging-payload.mjs
 DEPLOY_TARGET=staging node scripts/check-deploy-payload.mjs
 ```
 
-Preparation changes only built `dist/.htaccess`, prepending:
+Preparation changes only built staging artifacts. It prepends to `dist/.htaccess`:
 
 ```
 Header always set X-Robots-Tag "noindex, nofollow"
 ```
+
+It also versions the CMS configuration and preview bundle URLs in built
+`dist/admin/index.html` using hashes of their actual contents. Decap's supported
+`cms-config-url` link selects the same `/admin/config.yml`, with a new cache key
+when its bytes change. The preview bundle gets its own content hash because it
+contains snapshots of referenced content. Repeated preparation is idempotent.
+This does not change source `public/admin/index.html`, authentication, backend,
+branch, collection names, content paths, media paths or field nesting. The
+production workflow does not run this staging-only preparation step.
 
 Production validation defaults to `production`; staging validation requires the
 exact staging header plus the original generated rules. Missing protection,
