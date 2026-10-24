@@ -104,6 +104,7 @@ collections:
               - label: Events for you
                 name: eventDiscovery
                 widget: object
+                summary: "{{fields.type}} – {{fields.intro}}"
                 fields:
                   - { label: Type, name: type, widget: hidden, default: "eventDiscovery" }
                   - { label: Intro, name: intro, widget: text }
@@ -1099,7 +1100,7 @@ collections:
               - { label: Excerpt, name: excerpt, widget: text }
               - { label: Date, name: date, widget: datetime }
               - { label: Thumbnail Image, name: image, widget: image, required: false }
-              - { label: Hero Image Key (optional, for hero mapping), name: imageKey, widget: string, required: false }
+              - { label: "Hero Image Key (optional, for hero mapping)", name: imageKey, widget: string, required: false }
               - { label: Body, name: body, widget: text, required: false, hint: "Separate paragraphs with a blank line. Plain text; Markdown is not interpreted." }
 
   - name: sponsors
