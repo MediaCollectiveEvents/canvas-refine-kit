@@ -1,4 +1,5 @@
 import { getOffAirUpcomingEvents, isOffAir } from "@/lib/offAirEditorial";
+import { isMptsReception } from "@/components/shared/MptsEditorial";
 import Seo from "@/components/shared/Seo";
 import { eventSeo, errorSeo } from "@/lib/pageSeo";
 // src/pages/EventDetails.tsx
@@ -44,6 +45,8 @@ const EventDetails = () => {
   const edition = getEventById(editionIds[event.id]);
   const editionLabel = edition && edition.date > event.date ? "Next edition" : "Previous edition";
   const industryContext = getEventIndustryContext(event.id);
+  const mpts = isMptsReception(event);
+  const upcomingLabel = isOffAir(event) || mpts;
   // Apply eligibility before the helper ranks and limits candidates.
   const relatedEvents = isOffAir(event) ? getOffAirUpcomingEvents() : getRelatedEvents(event, {
     events: getUpcomingEvents().filter(candidate => Number.isFinite(Date.parse(candidate.date))),
@@ -60,7 +63,7 @@ const EventDetails = () => {
         {edition && <nav aria-label="Event editions" className="mt-10 md:mt-12">
           <Link to={`/events/${edition.id}`} className="text-base underline decoration-primary underline-offset-4 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{editionLabel}: {edition.title}</Link>
         </nav>}
-        {industryContext && <section aria-label={industryContext.label} className="mt-10 max-w-2xl md:mt-12">
+        {!mpts && industryContext && <section aria-label={industryContext.label} className="mt-10 max-w-2xl md:mt-12">
           <h2 className="mb-3 font-display text-2xl font-light">{industryContext.label}</h2>
           <p className="text-base leading-relaxed text-foreground/80">
             {industryContext.event.name}
@@ -73,9 +76,9 @@ const EventDetails = () => {
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         </section>}
-        {relatedEvents.length > 0 && <section aria-label={isOffAir(event) ? "Other Upcoming Events" : "Related events"} className="mt-10 max-w-2xl md:mt-12">
-          <h2 className="mb-3 font-display text-2xl font-light">{isOffAir(event) ? "Other Upcoming Events" : "Related events"}</h2>
-          {!isOffAir(event) && <p className="text-base text-muted-foreground">Other gatherings you may enjoy.</p>}
+        {relatedEvents.length > 0 && <section aria-label={upcomingLabel ? "Other Upcoming Events" : "Related events"} className={mpts ? "border-t border-white/10 py-8 md:py-10" : "mt-10 max-w-2xl md:mt-12"}>
+          <h2 className={`font-display text-2xl font-light ${mpts ? "mb-5 md:text-3xl" : "mb-3"}`}>{upcomingLabel ? "Other Upcoming Events" : "Related events"}</h2>
+          {!upcomingLabel && <p className="text-base text-muted-foreground">Other gatherings you may enjoy.</p>}
           <ul className="mt-5 space-y-6">
             {relatedEvents.map(related => <li key={related.id}>
               <h3 className="text-lg font-medium leading-relaxed"><Link to={`/events/${related.id}`} className="underline underline-offset-4 decoration-primary hover:text-primary">{related.title}</Link></h3>

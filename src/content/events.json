@@ -234,8 +234,10 @@
     {
       "historyLabel": "Annual Gathering",
       "whyAttend": [
-        "Meet peers alongside MPTS",
-        "Continue conversations with people across media and technology"
+        "Continue conversations after Day One of MPTS.",
+        "Catch up with peers from across broadcast, streaming and media technology.",
+        "Enjoy complimentary Prosecco on arrival, with canapés and refreshments throughout the evening.",
+        "Spend time together in the private first-floor bar, one minute from the conference entrance."
       ],
       "themeTags": [],
       "imageKey": "mpts-networking-reception-2027",
@@ -248,25 +250,47 @@
       ],
       "capacity_number": 120,
       "date": "2027-05-12",
-      "venue": "Olympia",
+      "venue": "The Hand & Flower",
       "capacity_label": "Attendees",
       "formatTags": [
         "networking",
         "reception"
       ],
-      "location": "London",
+      "location": "Olympia, London — a one-minute walk from the conference entrance",
       "card_summary": "Connect with industry peers during MPTS.",
       "whatToExpect": [
-        "A networking reception alongside MPTS",
-        "Further programme details will be announced"
+        "Complimentary Prosecco on arrival",
+        "Canapés and refreshments throughout the evening",
+        "Exclusive use of the private first-floor bar",
+        "One minute from the conference entrance"
       ],
       "title": "MPTS Networking Reception 2027",
       "type": "upcoming",
       "id": 5,
       "image": "/uploads/Venue tiles/Handandflower.png",
-      "whoAttends": "People working across media and technology who are attending MPTS.",
-      "description": "A networking reception alongside MPTS in London. The gathering gives people working across media and technology time to meet and continue conversations around the show.",
-      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited."
+      "whoAttends": "The reception brings together professionals from across:\n\nBroadcast\nStreaming\nMedia Technology\n\nA select group of MPTS attendees, gathering for an informal evening away from the show floor.",
+      "description": "Join The Media Collective after Day One of MPTS as we return to The Hand & Flower for an informal reception, with exclusive use of the private first-floor bar.\n\nYou will be welcomed with complimentary Prosecco on arrival, with canapés and refreshments served throughout the evening.\n\nThe reception brings together a select group of professionals from across broadcast, streaming and media technology for a relaxed way to round off the show’s first day.",
+      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited.",
+      "subtitle": "Continue the conversation after Day One of MPTS with a relaxed evening of drinks, canapés and good company.",
+      "programme": [
+        {
+          "description": "PROSECCO RECEPTION\n\nYou will be welcomed with complimentary Prosecco on arrival."
+        },
+        {
+          "description": "CANAPÉS & REFRESHMENTS\n\nCanapés and refreshments will be served throughout the evening."
+        },
+        {
+          "description": "THE PRIVATE FIRST-FLOOR BAR\n\nEnjoy exclusive use of the private first-floor bar at The Hand & Flower for an informal reception."
+        },
+        {
+          "description": "GOOD COMPANY\n\nA relaxed way to round off the show’s first day with people from across broadcast, streaming and media technology."
+        }
+      ],
+      "details": "The Hand & Flower is a one-minute walk from the conference entrance.\n\nAfter Day One of MPTS, join us in the private first-floor bar for an informal reception and a relaxed way to round off the show’s first day.",
+      "attendanceStatement": "By invitation and advance registration only. Places are limited.",
+      "ctaHeading": "Join us after Day One of MPTS.",
+      "ctaCopy": "Request a place at The Hand & Flower for an informal reception, with complimentary Prosecco on arrival, canapés and refreshments throughout the evening.\n\nPlaces are limited and advance registration is required.",
+      "ctaLabel": "Request an Invitation"
     },
     {
       "historyLabel": "Partner Event",

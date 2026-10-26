@@ -1,5 +1,6 @@
 import DecompressionEditorial, { decompressionAddress, isDecompressionParty } from "./DecompressionEditorial";
 import OffAirEditorial from "./OffAirEditorial";
+import MptsEditorial, { isMptsReception } from "./MptsEditorial";
 import { isOffAir } from "@/lib/offAirEditorial";
 import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 import ClosingCTA from "./ClosingCTA";
@@ -29,7 +30,8 @@ export default function EventPageTemplate({ event, onRequest, context }: {
   event: EventItem; onRequest: () => void; context?: ReactNode;
 }) {
   const party = isDecompressionParty(event);
-  const editorial = isOffAir(event) || party;
+  const mpts = isMptsReception(event);
+  const editorial = isOffAir(event) || party || mpts;
   const highlights = !party && !!event.heroHighlights?.length;
   const dateLabel = party && Number.isFinite(Date.parse(event.date)) ? new Intl.DateTimeFormat("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(event.date)) : formatEventDate(event.date);
   const past = isPastEvent(event);
@@ -78,7 +80,7 @@ export default function EventPageTemplate({ event, onRequest, context }: {
       {image && <img {...responsiveEventImage(image, eventImageSizes.detail)} alt="" width={1080} height={1080} className="aspect-square w-full rounded-xl object-contain" />}
     </header>
 
-    {editorial ? party ? <DecompressionEditorial event={event} /> : <OffAirEditorial event={event} /> : <>
+    {editorial ? party ? <DecompressionEditorial event={event} /> : mpts ? <MptsEditorial event={event} /> : <OffAirEditorial event={event} /> : <>
     <CopySection title="About This Event"><Narrative text={event.description || event.summary || "Event details will be announced."} /></CopySection>
     {event.whoAttends && <CopySection title="Who Attends"><Narrative text={event.whoAttends} /></CopySection>}
     {!!event.whyAttend?.length && <CopySection title="Why Attend"><ul className="list-disc space-y-2 pl-5">{event.whyAttend.map((item, i) => <li key={i}>{item}</li>)}</ul></CopySection>}
