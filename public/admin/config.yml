@@ -601,8 +601,10 @@ collections:
               - { label: Venue, name: venue, widget: string, required: false }
               - label: Date
                 name: date
-                widget: date
+                widget: datetime
                 format: "YYYY-MM-DD"
+                date_format: "YYYY-MM-DD"
+                time_format: false
                 required: false
               - { label: Image Key (for mapping), name: imageKey, widget: string, required: false }
               - { label: Partner Event, name: partnerEvent, widget: boolean, required: false, default: false, hint: "Independent organiser; never uses the Media Collective invitation form." }

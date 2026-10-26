@@ -218,3 +218,25 @@ test("CMS section summaries and comma-containing labels reflect the current cont
   assert.equal(imageKey.label, "Hero Image Key (optional, for hero mapping)");
   assert.equal(Object.hasOwn(imageKey, "for hero mapping)"), false, "A label comma must not become a YAML property");
 });
+
+
+test("event date control avoids deprecated widgets and retains date-only serialization", () => {
+  const fields = field(file("events").fields, "events").fields;
+  const date = field(fields, "date");
+  assert.equal(date.widget, "datetime");
+  assert.equal(date.format, "YYYY-MM-DD");
+  assert.equal(date.date_format, "YYYY-MM-DD");
+  assert.equal(date.time_format, false);
+  assert.equal(date.required, false);
+  const require = decapModules();
+  const { fromJS } = require(46670);
+  const DateTimeControl = require(73811).default;
+  const saved = JSON.parse(readFileSync(file("events").file, "utf8"));
+  for (const event of saved.events) {
+    let changed: unknown;
+    const control = new DateTimeControl({ field: fromJS(date), value: event.date, onChange: (value: unknown) => { changed = value; } });
+    assert.equal(control.formats.timeFormat, false);
+    control.handleChange(new Date(`${event.date}T12:00:00Z`));
+    assert.equal(changed, event.date, `Event ${event.id} date remains unchanged`);
+  }
+});
