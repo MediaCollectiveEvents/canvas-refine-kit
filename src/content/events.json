@@ -352,13 +352,14 @@
     {
       "historyLabel": "Running Since 2023",
       "whyAttend": [
-        "Spend time with colleagues away from the exhibition floor",
-        "Renew existing relationships",
-        "Compare perspectives before the day begins"
+        "Catch up with colleagues before the day gets busy.",
+        "Make useful introductions in an informal setting.",
+        "Share perspectives with people from across media, broadcast and technology.",
+        "Start the morning with breakfast, coffee and conversation, close to the show."
       ],
       "themeTags": [],
       "imageKey": "ibc-networking-breakfast-2027",
-      "ctaCopy": "Request an invitation to the breakfast.\n\nAttendance is curated.",
+      "ctaCopy": "Join us at The Traveller for breakfast, coffee and easy conversation with people from across media, broadcast and technology.\n\nAttendance is free. Places are limited and invitations are carefully curated.",
       "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
       "experienceCategories": [
         "networking-social",
@@ -377,10 +378,10 @@
         "networking",
         "breakfast"
       ],
-      "ctaHeading": "Request an Invitation",
+      "ctaHeading": "Start your IBC morning with us.",
       "location": "a one-minute walk from the main entrance of the RAI Amsterdam",
       "card_summary": "Start your IBC day with conversation and introductions.",
-      "subtitle": "A morning gathering for people attending IBC.",
+      "subtitle": "Breakfast, coffee and good company before a busy day at IBC.",
       "whatToExpect": [
         "Breakfast, coffee and refreshments",
         "An informal gathering with a curated mix of IBC attendees",
@@ -396,27 +397,28 @@
       "type": "upcoming",
       "id": 6,
       "image": "/uploads/Venue tiles/RAI.png",
-      "whoAttends": "Attendees typically include professionals from broadcasters, streaming platforms, studios, technology providers, media organisations, production companies and industry suppliers.\n\nGuests range from senior executives and industry leaders to specialists, innovators and emerging talent working across the media ecosystem.",
+      "whoAttends": "The breakfast brings together people working across:\n\nBroadcasting\nStreaming\nStudios\nMedia Technology\nProduction\nMedia Organisations\nIndustry Suppliers\n\nGuests range from senior executives and industry leaders to specialists, innovators and emerging talent from across the media ecosystem.",
       "programme": [
         {
           "time": "08:00",
-          "description": "Arrival and breakfast"
+          "description": "ARRIVAL & BREAKFAST\n\nSettle in over breakfast, coffee and refreshments."
         },
         {
           "time": "08:30",
-          "description": "Networking and introductions"
+          "description": "NETWORKING & INTRODUCTIONS\n\nCatch up with familiar faces and make new introductions in an informal setting."
         },
         {
           "time": "09:15",
-          "description": "Industry conversations"
+          "description": "INDUSTRY CONVERSATIONS\n\nShare perspectives with people from across the media ecosystem before heading to the show."
         },
         {
           "time": "10:00",
-          "description": "Close"
+          "description": "OFF TO IBC\n\nThe breakfast comes to a close. The Traveller is a one-minute walk from the main entrance of the RAI Amsterdam."
         }
       ],
-      "description": "The breakfast offers an informal start to a busy day at IBC.\n\nAway from the exhibition floor, there is time to share perspectives over breakfast.\n\nThe Traveller is a one-minute walk from the main entrance of the RAI, so guests can head straight to the show afterwards.",
-      "seoDescription": "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated."
+      "description": "Start your IBC morning with a good conversation.\n\nJoin us at The Traveller for an informal breakfast with people from across media, broadcast and technology. Catch up with familiar faces, make a few new introductions and share perspectives before the show gets going.\n\nWith breakfast, coffee and refreshments, it is a relaxed way to ease into a busy day — and spend a little time together away from the exhibition floor.",
+      "seoDescription": "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated.",
+      "details": "A better start does not need a packed agenda. Sometimes it is breakfast, a familiar face and a conversation you have time to enjoy.\n\nThe Traveller is a one-minute walk from the main entrance of the RAI Amsterdam, so you can spend the morning with fellow IBC attendees before heading straight to the show."
     },
     {
       "historyLabel": "Returning for 2027",

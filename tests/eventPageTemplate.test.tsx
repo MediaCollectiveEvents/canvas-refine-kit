@@ -26,7 +26,7 @@ test("capacity prefers the existing capacity field and does not invent absent va
 });
 
 test("all migrated events share the section hierarchy and retain artwork without countdowns", () => {
-  for (const event of getAllEvents().filter(event => ![4, 5, 7].includes(event.id))) {
+  for (const event of getAllEvents().filter(event => ![4, 5, 6, 7].includes(event.id))) {
     const html = render(event);
     const titles = ['About This Event', 'Who Attends', 'Why Attend', 'What To Expect', 'Event Details'];
     let previous = -1;

@@ -1,6 +1,7 @@
 import { getOffAirUpcomingEvents, isOffAir } from "@/lib/offAirEditorial";
 import { isMptsReception } from "@/components/shared/MptsEditorial";
 import { isDecompressionParty } from "@/components/shared/DecompressionEditorial";
+import { isNetworkingBreakfast } from "@/components/shared/BreakfastEditorial";
 import Seo from "@/components/shared/Seo";
 import { eventSeo, errorSeo } from "@/lib/pageSeo";
 // src/pages/EventDetails.tsx
@@ -47,7 +48,7 @@ const EventDetails = () => {
   const editionLabel = edition && edition.date > event.date ? "Next edition" : "Previous edition";
   const industryContext = getEventIndustryContext(event.id);
   const mpts = isMptsReception(event);
-  const editorialRecommendations = mpts || isDecompressionParty(event);
+  const editorialRecommendations = mpts || isDecompressionParty(event) || isNetworkingBreakfast(event);
   const upcomingLabel = isOffAir(event) || editorialRecommendations;
   // Apply eligibility before the helper ranks and limits candidates.
   const relatedEvents = isOffAir(event) ? getOffAirUpcomingEvents() : getRelatedEvents(event, {
