@@ -222,8 +222,8 @@ test("2027 announcements are upcoming, ordered, routable and leave unknown detai
   assert.deepEqual(getEventIssues(), []);
   for (const event of events) {
     assert.equal(getEventById(String(event.id))?.id, event.id);
-    assert.equal(event.venue, event.id === 5 ? "Olympia" : event.id === 6 ? "The Traveller" : event.id === 8 ? "Eurostar" : "Live Amsterdam Piano Bar");
-    assert.equal(event.location, event.id === 5 ? "London" : event.id === 8 ? "St Pancras to Amsterdam Centraal" : event.id === 6 ? "a one-minute walk from the main entrance of the RAI Amsterdam" : "Amsterdam");
+    assert.equal(event.venue, event.id === 5 ? "The Hand & Flower" : event.id === 6 ? "The Traveller" : event.id === 8 ? "Eurostar" : "Live Amsterdam Piano Bar");
+    assert.equal(event.location, event.id === 5 ? "Olympia, London — a one-minute walk from the conference entrance" : event.id === 8 ? "St Pancras to Amsterdam Centraal" : event.id === 6 ? "a one-minute walk from the main entrance of the RAI Amsterdam" : "Amsterdam");
     assert.equal(event.time, event.id === 7 ? "18:30–21:30" : event.id === 6 ? "08:00–10:00 CET" : event.id === 8 ? "11:04–15:30" : "");
     assert.ok(event.description, "Migrated events have an introduction without inventing logistics");
     assert.equal(event.startsAt, undefined);

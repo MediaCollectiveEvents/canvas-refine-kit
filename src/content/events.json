@@ -234,8 +234,10 @@
     {
       "historyLabel": "Annual Gathering",
       "whyAttend": [
-        "Meet peers alongside MPTS",
-        "Continue conversations with people across media and technology"
+        "Continue conversations after Day One of MPTS.",
+        "Catch up with peers from across broadcast, streaming and media technology.",
+        "Enjoy complimentary Prosecco on arrival, with canapés and refreshments throughout the evening.",
+        "Spend time together in the private first-floor bar, one minute from the conference entrance."
       ],
       "themeTags": [],
       "imageKey": "mpts-networking-reception-2027",
@@ -248,25 +250,47 @@
       ],
       "capacity_number": 120,
       "date": "2027-05-12",
-      "venue": "Olympia",
+      "venue": "The Hand & Flower",
       "capacity_label": "Attendees",
       "formatTags": [
         "networking",
         "reception"
       ],
-      "location": "London",
+      "location": "Olympia, London — a one-minute walk from the conference entrance",
       "card_summary": "Connect with industry peers during MPTS.",
       "whatToExpect": [
-        "A networking reception alongside MPTS",
-        "Further programme details will be announced"
+        "Complimentary Prosecco on arrival",
+        "Canapés and refreshments throughout the evening",
+        "Exclusive use of the private first-floor bar",
+        "One minute from the conference entrance"
       ],
       "title": "MPTS Networking Reception 2027",
       "type": "upcoming",
       "id": 5,
       "image": "/uploads/Venue tiles/Handandflower.png",
-      "whoAttends": "People working across media and technology who are attending MPTS.",
-      "description": "A networking reception alongside MPTS in London. The gathering gives people working across media and technology time to meet and continue conversations around the show.",
-      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited."
+      "whoAttends": "The reception brings together professionals from across:\n\nBroadcast\nStreaming\nMedia Technology\n\nA select group of MPTS attendees, gathering for an informal evening away from the show floor.",
+      "description": "Join The Media Collective after Day One of MPTS as we return to The Hand & Flower for an informal reception, with exclusive use of the private first-floor bar.\n\nYou will be welcomed with complimentary Prosecco on arrival, with canapés and refreshments served throughout the evening.\n\nThe reception brings together a select group of professionals from across broadcast, streaming and media technology for a relaxed way to round off the show’s first day.",
+      "seoDescription": "A reception for media and technology professionals attending MPTS in London on 12 May 2027. Attendance is curated and places are limited.",
+      "subtitle": "Continue the conversation after Day One of MPTS with a relaxed evening of drinks, canapés and good company.",
+      "programme": [
+        {
+          "description": "PROSECCO RECEPTION\n\nYou will be welcomed with complimentary Prosecco on arrival."
+        },
+        {
+          "description": "CANAPÉS & REFRESHMENTS\n\nCanapés and refreshments will be served throughout the evening."
+        },
+        {
+          "description": "THE PRIVATE FIRST-FLOOR BAR\n\nEnjoy exclusive use of the private first-floor bar at The Hand & Flower for an informal reception."
+        },
+        {
+          "description": "GOOD COMPANY\n\nA relaxed way to round off the show’s first day with people from across broadcast, streaming and media technology."
+        }
+      ],
+      "details": "The Hand & Flower is a one-minute walk from the conference entrance.\n\nAfter Day One of MPTS, join us in the private first-floor bar for an informal reception and a relaxed way to round off the show’s first day.",
+      "attendanceStatement": "By invitation and advance registration only. Places are limited.",
+      "ctaHeading": "Join us after Day One of MPTS.",
+      "ctaCopy": "Request a place at The Hand & Flower for an informal reception, with complimentary Prosecco on arrival, canapés and refreshments throughout the evening.\n\nPlaces are limited and advance registration is required.",
+      "ctaLabel": "Request an Invitation"
     },
     {
       "historyLabel": "Partner Event",
@@ -328,13 +352,14 @@
     {
       "historyLabel": "Running Since 2023",
       "whyAttend": [
-        "Spend time with colleagues away from the exhibition floor",
-        "Renew existing relationships",
-        "Compare perspectives before the day begins"
+        "Catch up with colleagues before the day gets busy.",
+        "Make useful introductions in an informal setting.",
+        "Share perspectives with people from across media, broadcast and technology.",
+        "Start the morning with breakfast, coffee and conversation, close to the show."
       ],
       "themeTags": [],
       "imageKey": "ibc-networking-breakfast-2027",
-      "ctaCopy": "Request an invitation to the breakfast.\n\nAttendance is curated.",
+      "ctaCopy": "Join us at The Traveller for breakfast, coffee and easy conversation with people from across media, broadcast and technology.\n\nAttendance is free. Places are limited and invitations are carefully curated.",
       "attendanceStatement": "Free to attend. Places are limited and invitations are carefully curated.",
       "experienceCategories": [
         "networking-social",
@@ -353,10 +378,10 @@
         "networking",
         "breakfast"
       ],
-      "ctaHeading": "Request an Invitation",
+      "ctaHeading": "Start your IBC morning with us.",
       "location": "a one-minute walk from the main entrance of the RAI Amsterdam",
       "card_summary": "Start your IBC day with conversation and introductions.",
-      "subtitle": "A morning gathering for people attending IBC.",
+      "subtitle": "Breakfast, coffee and good company before a busy day at IBC.",
       "whatToExpect": [
         "Breakfast, coffee and refreshments",
         "An informal gathering with a curated mix of IBC attendees",
@@ -372,27 +397,28 @@
       "type": "upcoming",
       "id": 6,
       "image": "/uploads/Venue tiles/RAI.png",
-      "whoAttends": "Attendees typically include professionals from broadcasters, streaming platforms, studios, technology providers, media organisations, production companies and industry suppliers.\n\nGuests range from senior executives and industry leaders to specialists, innovators and emerging talent working across the media ecosystem.",
+      "whoAttends": "The breakfast brings together people working across:\n\nBroadcasting\nStreaming\nStudios\nMedia Technology\nProduction\nMedia Organisations\nIndustry Suppliers\n\nGuests range from senior executives and industry leaders to specialists, innovators and emerging talent from across the media ecosystem.",
       "programme": [
         {
           "time": "08:00",
-          "description": "Arrival and breakfast"
+          "description": "ARRIVAL & BREAKFAST\n\nSettle in over breakfast, coffee and refreshments."
         },
         {
           "time": "08:30",
-          "description": "Networking and introductions"
+          "description": "NETWORKING & INTRODUCTIONS\n\nCatch up with familiar faces and make new introductions in an informal setting."
         },
         {
           "time": "09:15",
-          "description": "Industry conversations"
+          "description": "INDUSTRY CONVERSATIONS\n\nShare perspectives with people from across the media ecosystem before heading to the show."
         },
         {
           "time": "10:00",
-          "description": "Close"
+          "description": "OFF TO IBC\n\nThe breakfast comes to a close. The Traveller is a one-minute walk from the main entrance of the RAI Amsterdam."
         }
       ],
-      "description": "The breakfast offers an informal start to a busy day at IBC.\n\nAway from the exhibition floor, there is time to share perspectives over breakfast.\n\nThe Traveller is a one-minute walk from the main entrance of the RAI, so guests can head straight to the show afterwards.",
-      "seoDescription": "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated."
+      "description": "Start your IBC morning with a good conversation.\n\nJoin us at The Traveller for an informal breakfast with people from across media, broadcast and technology. Catch up with familiar faces, make a few new introductions and share perspectives before the show gets going.\n\nWith breakfast, coffee and refreshments, it is a relaxed way to ease into a busy day — and spend a little time together away from the exhibition floor.",
+      "seoDescription": "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated.",
+      "details": "A better start does not need a packed agenda. Sometimes it is breakfast, a familiar face and a conversation you have time to enjoy.\n\nThe Traveller is a one-minute walk from the main entrance of the RAI Amsterdam, so you can spend the morning with fellow IBC attendees before heading straight to the show."
     },
     {
       "historyLabel": "Returning for 2027",

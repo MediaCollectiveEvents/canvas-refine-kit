@@ -199,3 +199,44 @@ test("unrelated Partners edits preserve all CTA values through native Decap save
   assert.deepEqual(reloaded.hero.cta, saved.hero.cta);
   assert.deepEqual(reloaded.sections.map((s: any) => s.cta), saved.sections.map((s: any) => s.cta));
 });
+
+
+test("CMS section summaries and comma-containing labels reflect the current content fields", () => {
+  const sections = field(file("homepage").fields, "sections");
+  const discovery = sections.types.find((item: any) => item.name === "eventDiscovery");
+  assert.equal(discovery.summary, "{{fields.type}} – {{fields.intro}}");
+  const home = JSON.parse(readFileSync(file("homepage").file, "utf8"));
+  const section = home.sections.find((item: any) => item.type === "eventDiscovery");
+  assert.equal(section.intro, "Signature events");
+  assert.notEqual(section.heading, section.intro, "Legacy heading must not label the current section");
+  const require = decapModules();
+  const { fromJS } = require(46670);
+  const ListControl = require(11761).default;
+  const control = new ListControl({ field: fromJS(sections), value: fromJS(home.sections), entry: fromJS({ data: home }) });
+  assert.equal(control.objectLabel(fromJS(section)), "eventDiscovery – Signature events", "Pinned Decap runtime uses the current intro field");
+  const imageKey = field(field(file("blogPosts").fields, "posts").fields, "imageKey");
+  assert.equal(imageKey.label, "Hero Image Key (optional, for hero mapping)");
+  assert.equal(Object.hasOwn(imageKey, "for hero mapping)"), false, "A label comma must not become a YAML property");
+});
+
+
+test("event date control avoids deprecated widgets and retains date-only serialization", () => {
+  const fields = field(file("events").fields, "events").fields;
+  const date = field(fields, "date");
+  assert.equal(date.widget, "datetime");
+  assert.equal(date.format, "YYYY-MM-DD");
+  assert.equal(date.date_format, "YYYY-MM-DD");
+  assert.equal(date.time_format, false);
+  assert.equal(date.required, false);
+  const require = decapModules();
+  const { fromJS } = require(46670);
+  const DateTimeControl = require(73811).default;
+  const saved = JSON.parse(readFileSync(file("events").file, "utf8"));
+  for (const event of saved.events) {
+    let changed: unknown;
+    const control = new DateTimeControl({ field: fromJS(date), value: event.date, onChange: (value: unknown) => { changed = value; } });
+    assert.equal(control.formats.timeFormat, false);
+    control.handleChange(new Date(`${event.date}T12:00:00Z`));
+    assert.equal(changed, event.date, `Event ${event.id} date remains unchanged`);
+  }
+});
