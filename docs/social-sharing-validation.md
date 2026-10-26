@@ -8,7 +8,7 @@ Social-sharing configuration and generated HTML verification. Deployment is auth
 
 ## Default image and overrides
 
-Explicit default: `https://mediacollective.events/uploads/media-collective-social-default.png`. This is the supplied `MediaCollectiveSocial.png` (1200×630), copied byte-for-byte without generation, cropping or resizing. It replaces the provisional logo fallback.
+Explicit default: `https://www.mediacollective.events/uploads/media-collective-social-default.png`. This is the supplied `MediaCollectiveSocial.png` (1200×630), copied byte-for-byte without generation, cropping or resizing. It replaces the provisional logo fallback.
 
 Home retains its existing `seo.ogImage` override field, now set to the brand fallback. Event routes `/events/1` through `/events/8` retain `socialImage` first, then the existing event-image mapping. No current event sets `socialImage`; the event artwork is used. Standard pages never fall back to hero artwork. Existing explicit HTTP(S) image URLs are supported; unsafe schemes, embedded credentials, empty and malformed URLs use the brand fallback. No CMS schema or routing changes.
 
@@ -23,13 +23,13 @@ All 14 canonical generated HTML heads contain exactly one of every required tag.
 ```html
 <meta property="og:title" content="Media &amp; Broadcast Events — The Media Collective">
 <meta property="og:description" content="Curated events for people working across broadcasting, streaming and media technology. Explore the programme and request an invitation.">
-<meta property="og:url" content="https://mediacollective.events/">
+<meta property="og:url" content="https://www.mediacollective.events/">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta property="og:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Media &amp; Broadcast Events — The Media Collective">
 <meta name="twitter:description" content="Curated events for people working across broadcasting, streaming and media technology. Explore the programme and request an invitation.">
-<meta name="twitter:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta name="twitter:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 ```
 
 ### /community
@@ -37,13 +37,13 @@ All 14 canonical generated HTML heads contain exactly one of every required tag.
 ```html
 <meta property="og:title" content="Media &amp; Technology Community — The Media Collective">
 <meta property="og:description" content="See who attends Media Collective events, from broadcasters and studios to streaming and technology businesses, and how invitations work.">
-<meta property="og:url" content="https://mediacollective.events/community">
+<meta property="og:url" content="https://www.mediacollective.events/community">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta property="og:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Media &amp; Technology Community — The Media Collective">
 <meta name="twitter:description" content="See who attends Media Collective events, from broadcasters and studios to streaming and technology businesses, and how invitations work.">
-<meta name="twitter:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta name="twitter:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 ```
 
 ### /events
@@ -51,13 +51,13 @@ All 14 canonical generated HTML heads contain exactly one of every required tag.
 ```html
 <meta property="og:title" content="Upcoming Media &amp; Broadcast Events — The Media Collective">
 <meta property="og:description" content="Browse upcoming discussions, breakfasts, receptions and social events, plus independent partner events. Find dates, locations and attendance details.">
-<meta property="og:url" content="https://mediacollective.events/events">
+<meta property="og:url" content="https://www.mediacollective.events/events">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta property="og:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Upcoming Media &amp; Broadcast Events — The Media Collective">
 <meta name="twitter:description" content="Browse upcoming discussions, breakfasts, receptions and social events, plus independent partner events. Find dates, locations and attendance details.">
-<meta name="twitter:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta name="twitter:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 ```
 
 ### /partners
@@ -65,13 +65,13 @@ All 14 canonical generated HTML heads contain exactly one of every required tag.
 ```html
 <meta property="og:title" content="Event Partnerships — The Media Collective">
 <meta property="og:description" content="Explore ways to support Media Collective events, build your presence and contribute to discussion-led programmes where the format allows.">
-<meta property="og:url" content="https://mediacollective.events/partners">
+<meta property="og:url" content="https://www.mediacollective.events/partners">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta property="og:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Event Partnerships — The Media Collective">
 <meta name="twitter:description" content="Explore ways to support Media Collective events, build your presence and contribute to discussion-led programmes where the format allows.">
-<meta name="twitter:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta name="twitter:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 ```
 
 ### /faq
@@ -79,13 +79,13 @@ All 14 canonical generated HTML heads contain exactly one of every required tag.
 ```html
 <meta property="og:title" content="Event FAQs — The Media Collective">
 <meta property="og:description" content="Answers about invitations, attendance, event costs, partnerships and how guest contact details are used at The Media Collective.">
-<meta property="og:url" content="https://mediacollective.events/faq">
+<meta property="og:url" content="https://www.mediacollective.events/faq">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta property="og:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Event FAQs — The Media Collective">
 <meta name="twitter:description" content="Answers about invitations, attendance, event costs, partnerships and how guest contact details are used at The Media Collective.">
-<meta name="twitter:image" content="https://mediacollective.events/uploads/media-collective-social-default.png">
+<meta name="twitter:image" content="https://www.mediacollective.events/uploads/media-collective-social-default.png">
 ```
 
 ### /events/4
@@ -93,13 +93,13 @@ All 14 canonical generated HTML heads contain exactly one of every required tag.
 ```html
 <meta property="og:title" content="OFF AIR: The Unfiltered Future of Media — The Media Collective">
 <meta property="og:description" content="An invitation-only forum exploring media technology, business models and strategy at Soho House, London, on 24 November 2026.">
-<meta property="og:url" content="https://mediacollective.events/events/4">
+<meta property="og:url" content="https://www.mediacollective.events/events/4">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://mediacollective.events/uploads/off-air.png">
+<meta property="og:image" content="https://www.mediacollective.events/uploads/off-air.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="OFF AIR: The Unfiltered Future of Media — The Media Collective">
 <meta name="twitter:description" content="An invitation-only forum exploring media technology, business models and strategy at Soho House, London, on 24 November 2026.">
-<meta name="twitter:image" content="https://mediacollective.events/uploads/off-air.png">
+<meta name="twitter:image" content="https://www.mediacollective.events/uploads/off-air.png">
 ```
 
 ## Social-preview caches

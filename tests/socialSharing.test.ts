@@ -22,7 +22,7 @@ test("all canonical routes have one complete, consistent set of social tags", ()
     assert.equal(meta(head, "og:image")[0].content, meta(head, "twitter:image")[0].content);
     assert.equal(meta(head, "og:url")[0].content, route.url);
     assert.equal(meta(head, "twitter:card")[0].content, "summary_large_image");
-    assert.match(meta(head, "og:image")[0].content, /^https:\/\/mediacollective\.events\//);
+    assert.match(meta(head, "og:image")[0].content, /^https:\/\/www\.mediacollective\.events\//);
     assert.doesNotMatch(meta(head, "og:image")[0].content, /chatgpt-image-mar-23/);
   }
 });
@@ -36,14 +36,14 @@ test("standard pages use the explicit branded default, independent of homepage a
   assert.equal(card.readUInt32BE(16), 1200, "Approved social-card width");
   assert.equal(card.readUInt32BE(20), 630, "Approved social-card height");
   const draftHome = homeSeo({ ...homepage, seo: { ...homepage.seo, ogImage: "/uploads/off-air.png" } });
-  assert.equal(resolveSocialImage(draftHome.ogImage), "https://mediacollective.events/uploads/off-air.png");
+  assert.equal(resolveSocialImage(draftHome.ogImage), "https://www.mediacollective.events/uploads/off-air.png");
   assert.equal(meta(createSeoHead(getPageSeo("/community"), "/community"), "og:image")[0].content, DEFAULT_SOCIAL_IMAGE);
 });
 
 test("existing explicit and event-artwork overrides remain supported without changing structured data", () => {
   const event = getEventById(4)!;
   const override = eventSeo({ ...event, socialImage: "/uploads/soho-house-white-city.png" });
-  assert.equal(resolveSocialImage(override.ogImage), "https://mediacollective.events/uploads/soho-house-white-city.png");
+  assert.equal(resolveSocialImage(override.ogImage), "https://www.mediacollective.events/uploads/soho-house-white-city.png");
   assert.deepEqual(override.structuredData, eventSeo(event).structuredData);
   for (const item of getAllEvents()) assert.ok(eventSeo(item).ogImage, `Existing event ${item.id} image is retained`);
 });
@@ -52,6 +52,6 @@ test("empty, unsafe and malformed image overrides fall back to the explicit bran
   for (const value of [undefined, "", "  ", "javascript:alert(1)", "data:image/png;base64,abcd", "https://[broken", "https://user:password@example.com/image.png"]) {
     assert.equal(resolveSocialImage(value), DEFAULT_SOCIAL_IMAGE);
   }
-  assert.equal(resolveSocialImage("/uploads/off-air.png"), "https://mediacollective.events/uploads/off-air.png");
+  assert.equal(resolveSocialImage("/uploads/off-air.png"), "https://www.mediacollective.events/uploads/off-air.png");
   assert.equal(resolveSocialImage("https://example.com/approved-event.png"), "https://example.com/approved-event.png");
 });
