@@ -16,7 +16,7 @@ test("London Google URL retains BST local time through UTC instants and zone", (
   assert.equal(url.searchParams.get("ctz"), "Europe/London");
   assert.equal(url.searchParams.get("text"), event.title);
   assert.equal(url.searchParams.get("details"), event.description);
-  assert.equal(url.searchParams.get("location"), "The Broadcaster, White City, London");
+  assert.equal(url.searchParams.get("location"), "Soho House, White City, London");
 });
 
 test("Amsterdam CEST timing is correct for Google, Outlook and ICS", () => {
@@ -38,7 +38,7 @@ test("OFF AIR generates an importable ICS with stable identity and canonical con
   assert.ok(ics.endsWith("END:VEVENT\r\nEND:VCALENDAR\r\n"));
   assert.match(ics, /UID:event-4@mediacollective.events\r\n/);
   assert.match(ics, /DTSTAMP:20261002T120000Z\r\n/);
-  assert.match(ics, /DTSTART:20261124T150000Z\r\nDTEND:20261124T180000Z\r\n/);
+  assert.match(ics, /DTSTART:20261124T140000Z\r\nDTEND:20261124T180000Z\r\n/);
   assert.match(ics, /SUMMARY:OFF AIR: The Unfiltered Future of Media\r\n/);
   assert.equal(calendar.filename, "media-collective-event-4.ics");
   assert.equal(getCalendarUid(4), getCalendarUid(getEventById(4)!.id));

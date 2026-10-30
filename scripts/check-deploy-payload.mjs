@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { getCanonicalRoutes, ERROR_SHELL_FILE } from "../src/lib/canonicalRoutes.mjs";
+import { getCanonicalRoutes, ERROR_SHELL_FILE, SITE_ORIGIN } from "../src/lib/canonicalRoutes.mjs";
 import { generateSitemap } from "./generate-sitemap.mjs";
 import { generateApacheRouting } from "./generate-apache-routing.mjs";
 import { deployTarget, routingForTarget } from "./prepare-staging-payload.mjs";
@@ -16,7 +16,7 @@ export function checkDeployPayload(root = process.cwd(), payload = "dist", targe
   assert.deepEqual(manifest, { routes, error: { file: ERROR_SHELL_FILE } }, "Generated route inventory is stale");
   assert.equal(read(`${payload}/.htaccess`), routingForTarget(generateApacheRouting(content), target), `Missing/stale ${target} root .htaccess`);
   assert.equal(read(`${payload}/sitemap.xml`), generateSitemap(content), "Sitemap is stale");
-  assert.match(read(`${payload}/robots.txt`), /https:\/\/mediacollective\.events\/sitemap\.xml/);
+  assert.ok(read(`${payload}/robots.txt`).split(/\r?\n/).includes(`Sitemap: ${SITE_ORIGIN}/sitemap.xml`), "Robots sitemap must use the canonical origin");
   const expected = [...routes.map(route => route.file.split("/").pop()), "404.html"].sort();
   assert.deepEqual(readdirSync(resolve(root, payload, "seo-pages")).filter(file => file.endsWith(".html")).sort(), expected, "Missing or obsolete generated shells");
   for (const route of routes) {

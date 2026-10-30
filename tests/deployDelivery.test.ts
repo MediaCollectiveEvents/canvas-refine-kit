@@ -23,7 +23,7 @@ test("deployment payload fails closed for missing routing/shells or stale invent
     put("seo-pages/manifest.json", JSON.stringify(manifest));
     put(".htaccess", generateApacheRouting(events));
     put("sitemap.xml", generateSitemap(events));
-    put("robots.txt", "Sitemap: https://mediacollective.events/sitemap.xml");
+    put("robots.txt", "Sitemap: https://www.mediacollective.events/sitemap.xml");
     put("admin/index.html", "CMS"); put("admin/cms.bundle.js", "CMS");
     for (const route of routes) put(route.file, `<link rel="canonical" href="${route.url}"><div id="root"></div>`);
     put(ERROR_SHELL_FILE, '<meta name="robots" content="noindex, follow">');
