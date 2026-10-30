@@ -164,7 +164,8 @@
       "description": "Waldo is a London-based product, UX, and service design consultancy that helps organizations design complex software, digital products, and internal systems.",
       "relatedEventIds": [
         4
-      ]
+      ],
+      "id": "waldo"
     }
   ]
 }
