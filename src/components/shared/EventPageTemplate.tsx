@@ -1,4 +1,5 @@
 import EventParticipants from "./EventParticipants";
+import type { EventParticipantSources } from "@/lib/eventParticipants";
 import DecompressionEditorial, { decompressionAddress, isDecompressionParty } from "./DecompressionEditorial";
 import OffAirEditorial from "./OffAirEditorial";
 import MptsEditorial, { isMptsReception } from "./MptsEditorial";
@@ -28,8 +29,8 @@ function CopySection({ title, children }: { title: string; children: ReactNode }
   </section>;
 }
 
-export default function EventPageTemplate({ event, onRequest, context }: {
-  event: EventItem; onRequest: () => void; context?: ReactNode;
+export default function EventPageTemplate({ event, onRequest, context, participantSources }: {
+  event: EventItem; onRequest: () => void; context?: ReactNode; participantSources?: EventParticipantSources;
 }) {
   const party = isDecompressionParty(event);
   const mpts = isMptsReception(event);
@@ -103,7 +104,7 @@ export default function EventPageTemplate({ event, onRequest, context }: {
       </dl>
     </CopySection>
     {!editorial && !!event.programme?.length && <CopySection title="Programme"><ol className="space-y-4">{event.programme.map((item, i) => <li key={i} className="flex flex-wrap gap-x-4 gap-y-1">{item.time && <span className="font-medium text-primary">{item.time}</span>}<span>{item.description}</span></li>)}</ol></CopySection>}
-    <EventParticipants event={event} />
+    <EventParticipants event={event} sources={participantSources} />
     {partner && event.partnerEventCopy && <CopySection title="Partner Event"><Narrative text={event.partnerEventCopy} /></CopySection>}
     {!editorial && !!event.partners?.length && <CopySection title="In Association With"><ul className="flex flex-wrap gap-8">{event.partners.map((partner, i) => <li key={i}>
       {partner.logo && <img src={partner.logo} alt="" loading="lazy" className="mb-3 h-16 w-40 rounded-lg bg-white p-2 object-contain" />}

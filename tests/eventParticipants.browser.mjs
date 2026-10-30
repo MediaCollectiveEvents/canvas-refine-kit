@@ -18,12 +18,14 @@ test('CMS event selector resets route context and preserves editorial panel orde
     import React from 'react';
     import { createRoot } from 'react-dom/client';
     import EventsPreview from '@/cms/previews/EventsPreview';
+    const sponsor = { id: 'waldo', name: 'Waldo', src: '/uploads/waldo.png', website: 'https://www.waldo.consulting' };
+    const fieldsMetaData = { toJS: () => ({ events: { 0: { sponsorIds: { sponsors: { waldo: { logos: [sponsor] } } } } } }) };
     const draft = { events: [
-      { id: 99, title: 'Draft Event A', date: '2099-01-01', panels: [{title:'First panel'}, {title:'Second panel'}] },
+      { id: 99, title: 'Draft Event A', date: '2099-01-01', sponsorIds: ['waldo'], panels: [{title:'First panel'}, {title:'Second panel'}] },
       { id: 100, title: 'Draft Event B', date: '2099-01-02', panels: [{title:'Another panel'}] }
     ] };
     const entry = { getIn: () => ({ toJS: () => draft }) };
-    createRoot(document.querySelector('#root')).render(<EventsPreview entry={entry} />);
+    createRoot(document.querySelector('#root')).render(<EventsPreview entry={entry} fieldsMetaData={fieldsMetaData} />);
   `);
   const server = await createServer({
     resolve: { dedupe: ['react', 'react-dom'] },
@@ -55,6 +57,9 @@ test('CMS event selector resets route context and preserves editorial panel orde
         await selector.selectOption('99');
         await page.getByRole('heading', { name: 'Draft Event A', exact: true }).waitFor();
         assert.equal(await footerCTA.count(), 0, 'event detail must not keep the listing footer CTA');
+        await page.getByRole('heading', { name: 'Sponsors', exact: true }).waitFor();
+        assert.equal(await page.getByRole('link', { name: 'Waldo (opens in a new tab)', exact: true }).getAttribute('href'), 'https://www.waldo.consulting');
+        assert.doesNotMatch(await page.locator('body').innerText(), /unresolved sponsor waldo/, 'staging-only sponsor must resolve in the draft preview');
         assert.deepEqual(await page.locator('main h3').allTextContents(), ['First panel', 'Second panel']);
         await selector.selectOption('100');
         await page.getByRole('heading', { name: 'Draft Event B', exact: true }).waitFor();

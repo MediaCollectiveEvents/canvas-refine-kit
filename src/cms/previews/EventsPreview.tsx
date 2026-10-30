@@ -6,16 +6,17 @@ import EventPageTemplate from "../../components/shared/EventPageTemplate";
 import type { PreviewEntry } from "./HomepagePreview";
 import PreviewLayout from "./PreviewLayout";
 import eventsPageContent from "@/content/eventsPage.json";
-import { readPreviewData } from "./previewData";
+import { readPreviewData, previewSponsorSources } from "./previewData";
 
-export default function EventsPreview({ entry, initialEventId }: { entry: PreviewEntry; initialEventId?: number }) {
+export default function EventsPreview({ entry, initialEventId, fieldsMetaData }: { entry: PreviewEntry; initialEventId?: number; fieldsMetaData?: unknown }) {
   const [selection, setSelection] = useState(initialEventId ? String(initialEventId) : "listing");
   const value = entry.getIn(["data"]);
   const content = value && typeof value === "object" && "toJS" in value && typeof value.toJS === "function"
     ? value.toJS() : value;
   const events = normalizeEvents(content);
   const selected = events.find(event => String(event.id) === selection);
-  const issues = [...getEventEditIssues(content), ...events.flatMap(event => getEventParticipantIssues(event))];
+  const participantSources = previewSponsorSources(fieldsMetaData);
+  const issues = [...getEventEditIssues(content), ...events.flatMap(event => getEventParticipantIssues(event, participantSources))];
   return (
     <PreviewLayout key={selected ? selected.id : "listing"} route={selected ? `/events/${selected.id}` : "/events"} ownMain>
       <label className="relative z-[60] block bg-[#101d24] p-4 text-sm text-slate-300">
@@ -26,7 +27,7 @@ export default function EventsPreview({ entry, initialEventId }: { entry: Previe
         </select>
       </label>
       {issues.length > 0 && <div role="alert" className="p-4 text-red-300">{issues.join(" ")}</div>}
-      {selected ? <main className="site-header-clearance font-body"><EventPageTemplate event={selected} onRequest={() => {}} /></main>
+      {selected ? <main className="site-header-clearance font-body"><EventPageTemplate event={selected} onRequest={() => {}} participantSources={participantSources} /></main>
         : <EventsListing content={content} showPastEventsInitially />}
     </PreviewLayout>
   );
