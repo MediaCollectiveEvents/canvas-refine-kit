@@ -1,4 +1,5 @@
 import EventsListing from "../../components/sections/EventsListing";
+import { getEventParticipantIssues } from "../../lib/eventParticipants";
 import { useState } from "react";
 import { getEventEditIssues, normalizeEvents } from "../../lib/events";
 import EventPageTemplate from "../../components/shared/EventPageTemplate";
@@ -14,7 +15,7 @@ export default function EventsPreview({ entry, initialEventId }: { entry: Previe
     ? value.toJS() : value;
   const events = normalizeEvents(content);
   const selected = events.find(event => String(event.id) === selection);
-  const issues = getEventEditIssues(content);
+  const issues = [...getEventEditIssues(content), ...events.flatMap(event => getEventParticipantIssues(event))];
   return (
     <PreviewLayout key={selected ? selected.id : "listing"} route={selected ? `/events/${selected.id}` : "/events"} ownMain>
       <label className="relative z-[60] block bg-[#101d24] p-4 text-sm text-slate-300">
