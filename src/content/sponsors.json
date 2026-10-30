@@ -156,6 +156,15 @@
       "src": "/uploads/appearlogo.png",
       "name": "Appear",
       "website": "https://www.appear.net/"
+    },
+    {
+      "name": "Waldo",
+      "src": "/uploads/waldo.png",
+      "website": "https://www.waldo.consulting",
+      "description": "Waldo is a London-based product, UX, and service design consultancy that helps organizations design complex software, digital products, and internal systems.",
+      "relatedEventIds": [
+        4
+      ]
     }
   ]
 }
