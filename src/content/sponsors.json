@@ -144,6 +144,11 @@
       "name": "Zille",
       "src": "/src/assets/sponsors/zille.png",
       "alt": "Zille"
+    },
+    {
+      "src": "/uploads/appearlogo.png",
+      "name": "Appear",
+      "website": "https://www.appear.net/"
     }
   ]
 }
