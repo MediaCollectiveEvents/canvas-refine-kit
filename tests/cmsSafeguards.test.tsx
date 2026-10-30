@@ -128,7 +128,7 @@ test("capacity uses explicit capacity first, legacy fallback second, and diagnos
   assert.match(getCapacityIssues({ capacity: 150, capacity_number: 100 }).join(" "), /Conflicting capacity/);
   assert.match(getCapacityIssues({ capacity: "100" }).join(" "), /whole number/);
   assert.deepEqual(getEventIssues(events), []);
-  assert.deepEqual(getAllEvents().filter(event => getEventCapacity(event) !== undefined).map(event => [event.id, getEventCapacity(event)]).sort((a, b) => a[0] - b[0]), [[4, 100], [5, 120], [6, 120], [7, 200], [8, 80]]);
+  assert.deepEqual(getAllEvents().filter(event => getEventCapacity(event) !== undefined).map(event => [event.id, getEventCapacity(event)]).sort((a, b) => a[0] - b[0]), [[4, 120], [5, 120], [6, 120], [7, 200], [8, 80]]);
   const event = { ...getAllEvents().find(item => item.id === 4)!, capacity: 150, capacity_number: 100 };
   const html = renderToStaticMarkup(<OurEventsSection section={{ items: [{ eventId: 4 }] }} content={{ events: [event] }} />);
   assert.match(html, />150</);

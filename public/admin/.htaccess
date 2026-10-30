@@ -1,6 +1,16 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
+
+  # Canonical production hostname and HTTPS before internal route/asset rewrites.
+  # Excludes staging, localhost and unrelated hosts; query strings are retained.
+  RewriteCond %{HTTP_HOST} ^(?:www\.)?mediacollective\.events(?::[0-9]+)?$ [NC]
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} !^www\.mediacollective\.events$ [NC]
+  # Use the original encoded path: REQUEST_URI can be decoded in .htaccess.
+  RewriteCond %{THE_REQUEST} \s(/[^?\s]*)
+  RewriteRule ^ https://www.mediacollective.events%1 [R=301,END,NE]
+
   RewriteRule ^index\.html$ - [L]
   # Don’t rewrite existing files or directories
   RewriteCond %{REQUEST_FILENAME} -f [OR]

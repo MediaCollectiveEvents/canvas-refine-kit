@@ -62,12 +62,12 @@ test("Breakfast SEO and Event JSON-LD retain the existing canonical, description
   assert.equal(seo.description, "An informal IBC breakfast at The Traveller, a one-minute walk from the RAI Amsterdam entrance, on 11 September 2027. Attendance is curated.");
   const html = renderSeoHead(createSeoHead(seo, "/events/6"));
   const data = JSON.parse(html.match(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/)?.[1] || "null")["@graph"].find((node: any) => node["@type"] === "Event");
-  assert.equal(data.url, "https://mediacollective.events/events/6");
+  assert.equal(data.url, "https://www.mediacollective.events/events/6");
   assert.equal(data.startDate, "2027-09-11");
   assert.equal(data.maximumAttendeeCapacity, 120);
   assert.equal(data.location.name, `${event.venue} · ${event.location}`);
   assert.equal(data.name, event.title);
-  assert.ok(html.includes('rel="canonical" href="https://mediacollective.events/events/6"'));
+  assert.ok(html.includes('rel="canonical" href="https://www.mediacollective.events/events/6"'));
 });
 
 test("Decap events preview displays a Breakfast draft through the existing collection", () => {

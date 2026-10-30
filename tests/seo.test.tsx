@@ -23,7 +23,7 @@ function render(path: string, element: React.ReactNode) {
 test("valid pages retain canonical indexing and parseable organisation JSON-LD", () => {
   for (const path of ["/", "/events", "/community", "/partners", "/faq", "/privacy-policy"]) {
     const { head } = render(path, createElement(Seo, { title: "Test" }));
-    assert.match(head, new RegExp(`rel="canonical" href="https://mediacollective.events${path}"`));
+    assert.match(head, new RegExp(`rel="canonical" href="https://www.mediacollective.events${path}"`));
     assert.doesNotMatch(head, /noindex/);
     const data = JSON.parse(head.match(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/s)![1]);
     assert.deepEqual(data["@graph"], [organisationData()]);
@@ -48,7 +48,7 @@ test("event JSON-LD preserves confirmed data and independent organiser without i
     const graph = JSON.parse(head.match(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/s)![1])["@graph"];
     const data = graph.find((node: any) => node["@type"] === "Event");
     assert.equal(data.name, event.title);
-    assert.equal(data.url, `https://mediacollective.events/events/${event.id}`);
+    assert.equal(data.url, `https://www.mediacollective.events/events/${event.id}`);
     assert.equal(data.startDate, event.startsAt || event.date);
     assert.equal(data.endDate, event.endsAt || undefined);
     assert.equal(data.offers, undefined);
@@ -67,9 +67,9 @@ test("sitemap stays in sync with all resolvable events and excludes aliases, err
   const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(match => match[1]);
   assert.equal(urls.length, 6 + getAllEvents().length);
   assert.equal(new Set(urls).size, urls.length);
-  assert.deepEqual(urls.filter(url => /\/events\/\d+$/.test(url)), getAllEvents().map(e => e.id).sort((a, b) => a - b).map(id => `https://mediacollective.events/events/${id}`));
+  assert.deepEqual(urls.filter(url => /\/events\/\d+$/.test(url)), getAllEvents().map(e => e.id).sort((a, b) => a - b).map(id => `https://www.mediacollective.events/events/${id}`));
   assert.doesNotMatch(sitemap, /\/privacy<|\/events\/calendar|\/blog|\/manage|missing/);
-  assert.match(readFileSync("public/robots.txt", "utf8"), /^Sitemap: https:\/\/mediacollective.events\/sitemap.xml$/m);
+  assert.ok(readFileSync("public/robots.txt", "utf8").split(/\r?\n/).includes("Sitemap: https://www.mediacollective.events/sitemap.xml"));
   const filtered = generateSitemap({ events: [{ id: 1 }, { id: 1 }, { id: -1 }, { id: "2" }, { id: 3 }] });
   assert.match(filtered, /\/events\/3</);
   assert.doesNotMatch(filtered, /\/events\/[12]</);

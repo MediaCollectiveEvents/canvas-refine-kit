@@ -79,13 +79,13 @@ test("Decompression retains parseable SEO metadata and existing repository facts
   const html = renderSeoHead(createSeoHead(seo, "/events/7"));
   const json = JSON.parse(html.match(/<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/)?.[1] || "null");
   const data = json["@graph"].find((node: any) => node["@type"] === "Event");
-  assert.equal(data.url, "https://mediacollective.events/events/7");
+  assert.equal(data.url, "https://www.mediacollective.events/events/7");
   assert.equal(data.startDate, "2027-09-12");
   assert.equal(data.maximumAttendeeCapacity, 200);
   assert.equal(data.location.name, "Live Amsterdam Piano Bar · Amsterdam");
   assert.equal(event.image, "/uploads/Venue tiles/Livepiano.png");
   assert.equal(event.imageKey, "ibc-decompression-party-2027");
-  assert.ok(html.includes('rel="canonical" href="https://mediacollective.events/events/7"'));
+  assert.ok(html.includes('rel="canonical" href="https://www.mediacollective.events/events/7"'));
   assert.ok(html.includes('property="og:title"'));
   assert.equal(seo.description, event.seoDescription);
 });

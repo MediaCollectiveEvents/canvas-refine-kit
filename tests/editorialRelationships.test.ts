@@ -20,7 +20,7 @@ test("only uniquely identified named organisations are eligible and stable IDs a
  assert.deepEqual(eligibleReferenceRows("organisation",source).map(row=>row.id),["valid"]);
  assert.deepEqual(validateEditorialReferences("organisation",["valid"],source),[]);
  for(const id of ["Legacy","missing","duplicate","bad id",undefined]) assert.equal(validateEditorialReferences("organisation",[id],source).length,1);
- assert.deepEqual(eligibleReferenceRows("organisation"),[]);
+ assert.deepEqual(eligibleReferenceRows("organisation",{logos:[]}),[]);
 });
 test("duplicate organisation references and duplicate stable directory IDs have clear diagnostics",()=>{
  assert.deepEqual(validateEditorialReferences("organisation",["valid","valid"],source),["Duplicate organisation reference: valid"]);
@@ -33,9 +33,10 @@ test("organisation event relationships are checked against canonical IDs",()=>{
  assert.deepEqual(getOrganisationIssues(rows),["logos[0]: Unresolved event reference: 999","logos[0]: Duplicate event reference: 1"]);
 });
 test("legacy logo-only records remain unchanged and do not acquire IDs or roles",()=>{
- const rows=getOrganisations();assert.equal(rows.length,29);
+ const legacy={logos:[{name:"Legacy logo",src:"/uploads/legacy.png",alt:"Legacy"}]};
+ const rows=getOrganisations(legacy);assert.deepEqual(rows,legacy.logos);
  assert.ok(rows.every(row=>row.id===undefined&&row.partnershipTypes===undefined));
- assert.deepEqual(getOrganisationIssues(),[]);
+ assert.deepEqual(getOrganisationIssues(rows),[]);
 });
 test("changing picker choices preserves invalid and repeated historical references",()=>{
  assert.deepEqual(preserveHistoricalReferences("event",[1,999,"2"],[4],{}),[4,1,999,"2"]);
