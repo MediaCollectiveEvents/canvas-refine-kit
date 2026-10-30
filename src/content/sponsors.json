@@ -113,7 +113,14 @@
     {
       "name": "Norsk",
       "src": "/src/assets/sponsors/Norsk logo.png",
-      "alt": "Norsk"
+      "alt": "Norsk",
+      "id": "norsk",
+      "website": "https://norsk.video/",
+      "description": "Norsk Video develops cloud-native live video production technology that enables broadcasters, content owners and media organisations to produce, process and distribute live video with greater flexibility, efficiency and scale. Norsk's innovative platform simplifies complex workflows while delivering broadcast-quality performance across modern IP infrastructures.",
+      "relatedEventIds": [
+        7,
+        4
+      ]
     },
     {
       "name": "realitech",
