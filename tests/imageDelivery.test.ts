@@ -4,7 +4,7 @@ import { existsSync, statSync } from "node:fs";
 import { responsiveEventImage, eventImageSizes, headerLogoImage } from "../src/lib/imageDelivery";
 
 test("only approved event images get responsive delivery; original sources remain available", () => {
-  for (const source of ["/uploads/Venue tiles/RAI.png", "/uploads/Venue tiles/Handandflower.png", "/uploads/Venue tiles/Eurostar.png", "/uploads/off-air.png"]) {
+  for (const source of ["/uploads/Venue tiles/RAI.png", "/uploads/Venue tiles/Handandflower.png", "/uploads/Venue tiles/Eurostar.png", "/uploads/off-air.png", "/uploads/soho-house-white-city.png"]) {
     assert.ok(existsSync(`public${source}`));
     const image = responsiveEventImage(source, eventImageSizes.discovery);
     assert.equal(image.sizes, eventImageSizes.discovery);

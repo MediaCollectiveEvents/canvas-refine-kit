@@ -645,6 +645,58 @@ collections:
                 fields:
                   - { label: Time, name: time, widget: string, required: false }
                   - { label: Description, name: description, widget: text }
+              - label: Sponsors
+                name: sponsorIds
+                widget: organisation-relation
+                required: false
+                collection: sponsors
+                file: sponsors
+                search_fields: ["logos.*.name", "logos.*.id"]
+                display_fields: ["logos.*.name"]
+                value_field: "logos.*.id"
+                multiple: true
+                hint: "Explicit sponsors of this event only. Add a unique Profile ID and name in Sponsor Logos first. Existing logos and Partners are not automatically sponsors."
+              - label: Speakers
+                name: speakerIds
+                widget: relation
+                required: false
+                collection: contributors
+                file: contributors
+                search_fields: ["contributors.*.displayName", "contributors.*.id"]
+                display_fields: ["contributors.*.displayName"]
+                value_field: "contributors.*.id"
+                multiple: true
+                hint: "Select people from Contributors & Speakers. Existing article authors are not automatically event speakers."
+              - label: Panels
+                name: panels
+                widget: list
+                required: false
+                summary: "{{fields.title}}"
+                fields:
+                  - { label: Title, name: title, widget: string }
+                  - { label: Time, name: time, widget: string, required: false, hint: "Optional display time, following the event's existing timezone conventions." }
+                  - { label: Description, name: description, widget: text, required: false }
+                  - label: Moderator
+                    name: moderatorId
+                    widget: relation
+                    required: false
+                    collection: contributors
+                    file: contributors
+                    search_fields: ["contributors.*.displayName", "contributors.*.id"]
+                    display_fields: ["contributors.*.displayName"]
+                    value_field: "contributors.*.id"
+                    multiple: false
+                  - label: Panellists
+                    name: speakerIds
+                    widget: relation
+                    required: false
+                    collection: contributors
+                    file: contributors
+                    search_fields: ["contributors.*.displayName", "contributors.*.id"]
+                    display_fields: ["contributors.*.displayName"]
+                    value_field: "contributors.*.id"
+                    multiple: true
+                    hint: "Select people from the shared directory. Panels do not require a second copy of their biographies."
               - label: Partners
                 name: partners
                 widget: list
@@ -1187,10 +1239,10 @@ collections:
                   - { label: FAQ, value: faq }
               - { label: URL Override (optional), name: url, widget: string, required: false, hint: "If set, this link will go here instead of the standard page route." }
   - name: contributors
-    label: Editorial Contributors
+    label: Contributors & Speakers
     files:
       - name: contributors
-        label: Editorial Contributors
+        label: Contributors & Speakers
         file: "src/content/contributors.json"
         format: json
         fields:
@@ -1200,7 +1252,7 @@ collections:
             allow_add: true
             summary: "{{fields.displayName}} ({{fields.id}})"
             fields:
-              - { label: Stable ID, name: id, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Must be unique. Keep unchanged once referenced by articles." }
+              - { label: Stable ID, name: id, widget: string, pattern: ['^[a-z0-9]+(?:-[a-z0-9]+)*$', "Use lowercase letters, numbers and hyphens."], hint: "Must be unique. Keep unchanged once referenced by articles or events." }
               - { label: Display Name, name: displayName, widget: string }
               - label: Areas
                 name: areas

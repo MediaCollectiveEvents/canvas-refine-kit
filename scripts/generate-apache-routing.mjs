@@ -1,12 +1,15 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { getCanonicalRoutes, ERROR_SHELL_FILE } from "../src/lib/canonicalRoutes.mjs";
+import { getCanonicalRoutes, ERROR_SHELL_FILE, SITE_ORIGIN } from "../src/lib/canonicalRoutes.mjs";
 
 const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 const escapePattern = value => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export function generateApacheRouting(content) {
+  const canonicalHost = new URL(SITE_ORIGIN).hostname;
+  const apexHost = canonicalHost.replace(/^www\./, "");
+  const productionHosts = `^(?:www\\.)?${escapePattern(apexHost)}(?::[0-9]+)?$`;
   const canonicalRules = getCanonicalRoutes(content).map(route => {
     const pattern = route.path === "/" ? "^$" : `^${escapePattern(route.path.slice(1))}/?$`;
     return `RewriteRule ${pattern} /${route.file} [END,NC]`;
@@ -45,6 +48,15 @@ export function generateApacheRouting(content) {
     `ErrorDocument 404 /${ERROR_SHELL_FILE}`,
     "RewriteEngine On",
     "RewriteBase /",
+    "",
+    "# Canonical production hostname and HTTPS before internal route/asset rewrites.",
+    "# Excludes staging, localhost and unrelated hosts; query strings are retained.",
+    `RewriteCond %{HTTP_HOST} ${productionHosts} [NC]`,
+    "RewriteCond %{HTTPS} !=on [OR]",
+    `RewriteCond %{HTTP_HOST} !^${escapePattern(canonicalHost)}$ [NC]`,
+    "# Use the original encoded path: REQUEST_URI can be decoded in .htaccess.",
+    "RewriteCond %{THE_REQUEST} \\s(/[^?\\s]*)",
+    `RewriteRule ^ ${SITE_ORIGIN}%1 [R=301,END,NE]`,
     "",
     "# Match Home before the existing-directory bypass. Queries are retained.",
     ...canonicalRules,

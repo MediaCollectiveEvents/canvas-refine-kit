@@ -1,5 +1,18 @@
-import homepageContent from "@/content/homepage.json";
 import { organisationData, serializeStructuredData, SITE_ORIGIN } from "./structuredData";
+
+// Explicit branded fallback, independent of page/hero content. This is the
+// supplied 1200×630 social card is preserved unchanged.
+export const DEFAULT_SOCIAL_IMAGE = `${SITE_ORIGIN}/uploads/media-collective-social-default.png`;
+
+export function resolveSocialImage(image?: string): string {
+  try {
+    const url = new URL(image?.trim() || DEFAULT_SOCIAL_IMAGE, SITE_ORIGIN);
+    return ["https:", "http:"].includes(url.protocol) && !url.username && !url.password
+      ? url.href : DEFAULT_SOCIAL_IMAGE;
+  } catch {
+    return DEFAULT_SOCIAL_IMAGE;
+  }
+}
 
 export interface SeoProps {
   title?: string;
@@ -15,8 +28,7 @@ export interface SeoProps {
 export function createSeoHead(props: SeoProps, pathname: string) {
   const { title, description, keywords, noindex = false, type = "website" } = props;
   const canonical = new URL(props.url ?? pathname, SITE_ORIGIN).href;
-  const image = props.ogImage ?? homepageContent.seo.ogImage;
-  const socialImage = image ? new URL(image, SITE_ORIGIN).href : undefined;
+  const socialImage = resolveSocialImage(props.ogImage);
   const meta: { name?: string; property?: string; content: string }[] = [];
   if (description) meta.push({ name: "description", content: description });
   if (keywords) meta.push({ name: "keywords", content: keywords });

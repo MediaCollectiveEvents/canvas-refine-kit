@@ -1,4 +1,4 @@
-export const SITE_ORIGIN = "https://mediacollective.events";
+export const SITE_ORIGIN = "https://www.mediacollective.events";
 
 const pages = [
   ["/", "home"], ["/events", "events"], ["/community", "community"],

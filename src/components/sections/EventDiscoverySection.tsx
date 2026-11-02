@@ -7,7 +7,7 @@ import type { EventDiscoverySection as DiscoveryContent } from "@/lib/homepage";
 // Reuse the existing event image keys and published artwork paths.
 const eventImages: Record<string, string> = {
   greenline: "/uploads/Venue tiles/Eurostar.png",
-  "off-air": "/uploads/Venue tiles/broadcaster.png",
+  "off-air": "/uploads/soho-house-white-city.png",
   "mpts-networking-reception-2027": "/uploads/Venue tiles/Handandflower.png",
   "ibc-networking-breakfast-2027": "/uploads/Venue tiles/RAI.png",
   "ibc-decompression-party-2027": "/uploads/Venue tiles/Livepiano.png",

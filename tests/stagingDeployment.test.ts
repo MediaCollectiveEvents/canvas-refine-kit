@@ -101,7 +101,7 @@ test("payload preparation and validation reject cross-target uploads and missing
     put(".htaccess", base);
     put("seo-pages/manifest.json", JSON.stringify({ routes, error: { file: ERROR_SHELL_FILE } }));
     put("sitemap.xml", generateSitemap(events));
-    put("robots.txt", "Sitemap: https://mediacollective.events/sitemap.xml");
+    put("robots.txt", "Sitemap: https://www.mediacollective.events/sitemap.xml");
     put("admin/index.html", '<head>\n</head><script src="/admin/cms.bundle.js"></script>'); put("admin/cms.bundle.js", "CMS"); put("admin/config.yml", "backend:\n  branch: staging\n");
     for (const route of routes) put(route.file, `<link rel="canonical" href="${route.url}"><div id="root"></div>`);
     put(ERROR_SHELL_FILE, '<meta name="robots" content="noindex, follow">');

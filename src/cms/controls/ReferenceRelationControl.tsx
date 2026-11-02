@@ -41,7 +41,20 @@ function createControl(kind: ReferenceKind, Relation: React.ComponentType<Refere
    const emptyLegacy=kind === "organisation" && !eligible.length && directoryRows(this.source,"logos").length>0;
    return <div>
     <Relation {...props} queryHits={queryHits}
-     query={async(...args)=>{const result=await props.query(...args);return {...result,payload:{...result.payload,hits:this.filterHits(result.payload.hits ?? [])}};}}
+     query={async(...args)=>{
+      // Decap limits matching nested fields before returning a file's rows. Read
+      // the complete directory before validating identities, then search locally.
+      // Otherwise legacy rows can fill the first page and hide eligible sponsors.
+      const search = typeof args[3] === "string" ? args[3].trim().toLowerCase() : "";
+      const queryArgs = kind === "organisation" ? [...args] : args;
+      if (kind === "organisation") { queryArgs[3] = ""; queryArgs[5] = 0; }
+      const result = await props.query(...queryArgs);
+      const hits = this.filterHits(result.payload.hits ?? []);
+      return {...result,payload:{...result.payload,hits:kind === "organisation" && search ? hits.map(hit => ({
+       ...hit, data: {...hit.data as object, logos: eligibleReferenceRows(kind, hit.data).filter(row =>
+        [row.id, row.name].some(value => typeof value === "string" && value.toLowerCase().includes(search)))},
+      })) : hits}};
+     }}
      onChange={(value,metadata)=>{
       const merged=preserveHistoricalReferences(kind,values(this.props.value),values(value),this.source);
       const output=value && typeof value === "object" && "clear" in value && typeof value.clear === "function" ? (value as ListValue).clear().concat(merged) : merged;

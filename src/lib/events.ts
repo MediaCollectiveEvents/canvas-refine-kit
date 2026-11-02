@@ -73,8 +73,19 @@ function normalizeControlledTags<T extends string>(value: unknown, allowed: read
 export const normalizeEventConferenceTags = (value: unknown) => normalizeControlledTags(value, EVENT_CONFERENCE_TAGS);
 export const normalizeEventThemeTags = (value: unknown) => normalizeControlledTags(value, EVENT_THEME_TAGS);
 
+export interface EventPanel {
+  title: string;
+  time?: string;
+  description?: string;
+  moderatorId?: string;
+  speakerIds?: string[];
+}
+
 export interface EventItem extends TaxonomyMetadata {
   id: number;
+  sponsorIds?: string[];
+  speakerIds?: string[];
+  panels?: EventPanel[];
   capacity?: number;
   historyLabel?: string;
   capacity_number?: number;
@@ -154,6 +165,10 @@ function textList(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string" && !!item.trim()) : [];
 }
 
+function referenceIds(value: unknown): string[] {
+  return [...new Set(textList(value).filter(id => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)))];
+}
+
 // Editorial links can be local paths or HTTP(S), never executable URL schemes.
 function editorialUrl(value: unknown): string {
   const url = text(value).trim();
@@ -189,12 +204,32 @@ export function getCapacityIssues(event: { capacity?: unknown; capacity_number?:
 export function getEventIssues(source: unknown = aggregateContent): string[] {
   const counts = new Map<number, number>();
   const issues: string[] = [];
+  const checkReferences = (value: unknown, label: string) => {
+    if (value === undefined) return;
+    if (!Array.isArray(value)) { issues.push(`${label} must be a list of stable IDs.`); return; }
+    const seen = new Set<string>();
+    value.forEach(id => {
+      if (typeof id !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id)) issues.push(`${label} contains an invalid stable ID.`);
+      else if (seen.has(id)) issues.push(`${label} repeats ${id}.`);
+      else seen.add(id);
+    });
+  };
   rows(source).forEach((value, index) => {
     const row = record(value);
     const { id } = row;
     if (!validId(id)) issues.push(`Event ${index + 1} needs a unique positive integer ID.`);
     else counts.set(id, (counts.get(id) ?? 0) + 1);
     issues.push(...getCapacityIssues(row).map(issue => `Event ${id ?? index + 1}: ${issue}`));
+    checkReferences(row.sponsorIds, `Event ${index + 1} sponsors`);
+    checkReferences(row.speakerIds, `Event ${index + 1} speakers`);
+    if (row.panels !== undefined && !Array.isArray(row.panels)) issues.push(`Event ${index + 1} panels must be a list.`);
+    if (Array.isArray(row.panels)) row.panels.forEach((value, panelIndex) => {
+      const panel = record(value);
+      const label = `Event ${index + 1} panel ${panelIndex + 1}`;
+      if (!text(panel.title).trim()) issues.push(`${label} needs a title.`);
+      checkReferences(panel.speakerIds, `${label} speakers`);
+      if (panel.moderatorId !== undefined && panel.moderatorId !== "") checkReferences([panel.moderatorId], `${label} moderator`);
+    });
   });
   counts.forEach((count, id) => {
     if (count > 1) issues.push(`Event ID ${id} is duplicated; its records cannot be resolved safely.`);
@@ -218,6 +253,11 @@ export function normalizeEvents(source: unknown = aggregateContent): EventItem[]
   });
   return records.filter(row => validId(row.id) && counts.get(row.id) === 1).map(row => ({
     id: row.id as number,
+    sponsorIds: referenceIds(row.sponsorIds),
+    speakerIds: referenceIds(row.speakerIds),
+    panels: Array.isArray(row.panels) ? row.panels.map(record).filter(item => text(item.title).trim())
+      .map(item => ({ title: text(item.title).trim(), time: text(item.time), description: text(item.description),
+        moderatorId: referenceIds([item.moderatorId])[0], speakerIds: referenceIds(item.speakerIds) })) : [],
     historyLabel: text(row.historyLabel),
     heroHighlights: textList(row.heroHighlights),
     partnerEvent: row.partnerEvent === true, partnerEventCopy: text(row.partnerEventCopy),
