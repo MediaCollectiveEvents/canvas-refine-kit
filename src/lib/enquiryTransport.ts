@@ -21,7 +21,7 @@ export async function sendEnquiry(payload: unknown): Promise<void> {
     if (!response.ok || response.type === "opaque") throw new EnquiryDeliveryError(false);
     const receipt: unknown = await response.json();
     if (!receipt || typeof receipt !== "object" || !("success" in receipt)) throw new EnquiryDeliveryError(false);
-    if (receipt.success === false) throw new EnquiryDeliveryError(true);
+    if (receipt.success === false) throw new EnquiryDeliveryError(!("outcomeUnknown" in receipt && receipt.outcomeUnknown === true));
     if (receipt.success !== true) throw new EnquiryDeliveryError(false);
   } catch (error) {
     if (error instanceof EnquiryDeliveryError) throw error;

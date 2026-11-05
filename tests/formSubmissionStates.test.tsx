@@ -3,6 +3,7 @@ import test from "node:test";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import ts from "typescript";
+import * as eventUpdates from "../src/lib/eventUpdates";
 import { EnquiryDeliveryError, sendEnquiry } from "../src/lib/enquiryTransport";
 
 const require = createRequire(import.meta.url);
@@ -35,6 +36,7 @@ function mount(kind: "registration" | "contact") {
       useRef(initial: any) { const index = cursor++; return slots[index] ??= { current: initial }; },
       useMemo(compute: any) { return compute(); }, useEffect() {},
     },
+    "@/lib/eventUpdates": eventUpdates,
     "@/lib/unsavedForm": { protectUnsavedForm: () => () => {} },
     "react-hook-form": { useForm: () => form },
     "@hookform/resolvers/zod": { zodResolver: () => undefined },
