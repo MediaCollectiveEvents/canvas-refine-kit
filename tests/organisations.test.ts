@@ -1,3 +1,4 @@
+import sponsors from "../src/content/sponsors.json";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import ArticleContent from "../src/components/shared/ArticleContent";
@@ -9,7 +10,7 @@ const organisations = getOrganisations({logos:[{src:"logo.png"},{id:"company-one
 const article: Article = {title:"Test",slug:"test",date:"2026-10-02",category:"Analysis",excerpt:"Example",relatedPartnerIds:["company-one","missing","duplicate","company-one"]};
 test("legacy records remain valid and unsafe metadata remains unlinked",()=>{
  assert.deepEqual(organisations[0],{src:"logo.png"}); assert.equal(organisations[4].id,undefined);assert.equal(organisations[4].website,undefined);
- assert.equal(getOrganisations().length,29);
+ assert.equal(getOrganisations().length,sponsors.logos.length);
 });
 test("only unique stable IDs resolve; duplicate IDs produce diagnostics",()=>{
  assert.equal(getOrganisationById("company-one",organisations)?.name,"One");
