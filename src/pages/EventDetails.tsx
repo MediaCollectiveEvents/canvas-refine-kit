@@ -27,7 +27,7 @@ const EventDetails = () => {
       <div className="min-h-screen bg-background text-foreground">
         <Seo {...errorSeo(true)} />
         <Header />
-        <main className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
+        <main id="main-content" tabIndex={-1} className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
           <h1 className="site-page-h1 mb-4 break-words font-display text-3xl font-light md:text-5xl">Event not found</h1>
           <p className="text-muted-foreground">
             We couldn’t find this event. Browse the programme to find another gathering.
@@ -61,7 +61,7 @@ const EventDetails = () => {
       <Header />
       {!event.partnerEvent && <EventRegistrationForm attendanceOnly event={event} open={isFormOpen} onOpenChange={setIsFormOpen} />}
 
-      <main className="site-header-clearance font-body">
+      <main id="main-content" tabIndex={-1} className="site-header-clearance font-body">
         <EventPageTemplate event={event} onRequest={() => setIsFormOpen(true)} context={<>
         {edition && <nav aria-label="Event editions" className="mt-10 md:mt-12">
           <Link to={`/events/${edition.id}`} className="text-base underline decoration-primary underline-offset-4 hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">{editionLabel}: {edition.title}</Link>

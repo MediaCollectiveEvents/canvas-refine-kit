@@ -1,4 +1,3 @@
-import { useLayoutEffect, useRef, useState } from "react";
 import homepageContent from "@/content/homepage.json";
 import { heroBackground } from "@/lib/heroImages";
 import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
@@ -95,20 +94,6 @@ export default function PageHero(props: PageHeroProps) {
     variant = "image",
   } = props;
 
-  // Use Home's actual mobile composition as the artwork reference, independent
-  // of a page's copy length or CTA. ResizeObserver also follows font loading.
-  const mobileReference = useRef<HTMLDivElement>(null);
-  const [mobileReferenceHeight, setMobileReferenceHeight] = useState<number>();
-  useLayoutEffect(() => {
-    const reference = mobileReference.current;
-    if (!reference) return;
-    const measure = () => setMobileReferenceHeight(reference.getBoundingClientRect().height || undefined);
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(reference);
-    return () => observer.disconnect();
-  }, [presentation, props.identity]);
-
   const resolvedBackgroundImage = image || backgroundImage || undefined;
   const eyebrowText = eyebrow ?? subtitle;
   const isModern = presentation !== "classic";
@@ -120,30 +105,29 @@ export default function PageHero(props: PageHeroProps) {
   if (presentation === "public") {
     const identity = props.identity ?? false;
     const fadeArtwork = props.fadeArtwork ?? true;
-    return <header style={!identity ? { "--home-artwork-width": "max(100%, calc(clamp(480px, calc(100svh - 270px), 660px) * 16 / 9))", ...(mobileReferenceHeight ? { "--hero-mobile-artwork-height": `${mobileReferenceHeight * 0.75}px` } : {}) } as React.CSSProperties : undefined} className={`site-gutter relative flex w-full items-start justify-center overflow-hidden bg-[#101d24] pt-8 pb-[60vw] sm:min-h-[440px] sm:pb-8 lg:min-h-0 ${identity ? "lg:h-[clamp(480px,calc(100svh-270px),660px)]" : "lg:h-[clamp(480px,calc(100svh-270px),560px)]"} [&_picture_img]:absolute [&_picture_img]:bottom-0 [&_picture_img]:!h-[var(--hero-mobile-artwork-height,75%)] max-sm:[&_picture_img]:!object-left-bottom max-sm:[&_picture_img]:!object-cover ${className}`}>
-      {resolvedBackgroundImage && <>
-        <div aria-hidden="true" className={`absolute inset-0 hidden bg-cover bg-no-repeat sm:block ${identity ? "" : "lg:bg-[length:var(--home-artwork-width)_auto]"}`} style={{
-          backgroundImage: heroBackground(resolvedBackgroundImage),
-          // Match Home's canvas mapping, including cover's horizontal crop
-          // at laptop widths; moving the inset 85% artwork alone exposes its edge.
-          backgroundPosition: "center bottom",
-          ...(fadeArtwork ? { maskImage: "linear-gradient(to right, black 80%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, black 80%, transparent 100%)" } : {}),
-        }} />
-        <MobileHeroArtwork path={props.mobileArtworkPath} />
-      </>}
-      {!identity && <div ref={mobileReference} aria-hidden="true" className="pointer-events-none invisible absolute inset-x-0 top-0 site-gutter pt-8 pb-[60vw] sm:hidden">
-        <div className="site-container py-4 text-left">
-          <p className="mb-6 flex items-center gap-4 site-eyebrow text-[#9bd3c8]"><span className="h-px w-10 shrink-0 bg-current" />{homepageContent.hero.subtitle}</p>
-          <div className="mb-5 max-w-2xl text-balance font-display text-[32px] font-light leading-[1.12] tracking-[-0.035em] text-[#f7f3eb]">{homepageContent.hero.title.slice(0, homepageContent.hero.title.lastIndexOf(" "))}{" "}<br />{homepageContent.hero.title.slice(homepageContent.hero.title.lastIndexOf(" ") + 1)}</div>
-          <p className="max-w-3xl font-body text-base leading-relaxed text-[#9bd3c8]">{homepageContent.hero.description.split("\n").map((line, index) => <span key={index} className={`block ${(index > 0 || line === "INSIGHTS. CONVERSATIONS. CONNECTIONS.") ? "uppercase tracking-[0.08em]" : ""}`}>{line}</span>)}</p>
+    // Keep artwork in its own grid cell so long headings and CTAs never overlap it.
+    const trimHomeArtwork = resolvedBackgroundImage === "/uploads/website-hero-home.png";
+    return <header className={`site-gutter overflow-hidden bg-[#101d24] py-8 sm:py-12 ${className}`}>
+      <div className="site-container grid items-center gap-6 md:grid-cols-2 md:gap-10">
+        <div className={`min-w-0 py-4 text-left ${contentClassName}`}>
+          {eyebrowText && <p className="mb-6 flex items-center gap-4 site-eyebrow text-[#9bd3c8]"><span aria-hidden="true" className="h-px w-10 shrink-0 bg-current" />{eyebrowText}</p>}
+          <h1 className={`site-page-h1 mb-5 max-w-2xl text-balance font-display font-light leading-[1.12] tracking-[-0.035em] text-[#f7f3eb] ${identity ? "text-[32px] sm:text-[40px] lg:text-5xl" : "text-[26px] sm:text-[32px] lg:text-4xl"}`}>{identity && title === homepageContent.hero.title ? <>{title.slice(0, title.lastIndexOf(" "))}{" "}<br />{title.slice(title.lastIndexOf(" ") + 1)}</> : title}</h1>
+          {description && <p className={`${identity ? "max-w-3xl text-[#9bd3c8]" : "max-w-xl text-[#f7f3eb]"} font-body text-base leading-relaxed ${descriptionClassName ?? ""}`}>{description.split("\n").map((line, index) => <span key={index} className={`block ${identity && (index > 0 || line === "INSIGHTS. CONVERSATIONS. CONNECTIONS.") ? "uppercase tracking-[0.08em]" : ""}`}>{line}</span>)}</p>}
+          {showCtas && (primaryCtaText || secondaryCtaText) && <div className="mt-6 flex flex-wrap items-center gap-4">
+            {primaryCtaText && <Button size="lg" variant="brand" className="h-12 w-full font-semibold sm:w-auto" asChild={!!primaryCtaHref && !onPrimaryClick} onClick={onPrimaryClick}>{primaryCtaHref && !onPrimaryClick ? <a href={primaryCtaHref}>{primaryCtaText}</a> : primaryCtaText}</Button>}
+            {secondaryCtaText && secondaryCtaHref && <a href={secondaryCtaHref} className="site-secondary-action text-[#9bd3c8]">{secondaryCtaText}</a>}
+          </div>}
         </div>
-      </div>}
-      <motion.div initial={reducedMotion ? false : { opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: reducedMotion ? 0 : 0.6 }} className="relative z-10 site-container py-4 text-left">
-        {eyebrowText && <p className="mb-6 flex items-center gap-4 site-eyebrow text-[#9bd3c8]"><span aria-hidden="true" className="h-px w-10 shrink-0 bg-current" />{eyebrowText}</p>}
-        <h1 className={`site-page-h1 mb-5 max-w-2xl text-balance font-display font-light leading-[1.12] tracking-[-0.035em] text-[#f7f3eb] ${identity ? "text-[32px] sm:text-[40px] lg:text-5xl" : "text-[26px] sm:text-[32px] lg:text-4xl"}`}>{identity && title === homepageContent.hero.title ? <>{title.slice(0, title.lastIndexOf(" "))}{" "}<br />{title.slice(title.lastIndexOf(" ") + 1)}</> : title}</h1>
-        {description && <p className={`${identity ? "max-w-3xl text-[#9bd3c8]" : "max-w-xl text-[#f7f3eb]"} font-body text-base leading-relaxed ${descriptionClassName ?? ""}`}>{description.split("\n").map((line, index) => <span key={index} className={`block ${identity && (index > 0 || line === "INSIGHTS. CONVERSATIONS. CONNECTIONS.") ? "uppercase tracking-[0.08em]" : ""}`}>{line}</span>)}</p>}
-        {showCtas && primaryCtaText && <Button size="lg" variant="brand" className="mt-6 h-12 w-full font-semibold sm:w-auto" asChild={!!primaryCtaHref && !onPrimaryClick} onClick={onPrimaryClick}>{primaryCtaHref && !onPrimaryClick ? <a href={primaryCtaHref}>{primaryCtaText}</a> : primaryCtaText}</Button>}
-      </motion.div>
+        {resolvedBackgroundImage && <>
+          <div aria-hidden="true" className={`relative hidden min-w-0 overflow-hidden sm:block md:order-first ${trimHomeArtwork ? "aspect-[3233/1214]" : "aspect-video"}`} style={fadeArtwork ? { maskImage: "linear-gradient(to right, black 80%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, black 80%, transparent 100%)" } : undefined}>
+            <div className={trimHomeArtwork ? "absolute left-[-11.35%] top-[-66.8%] h-[166.8%] w-[111.35%] bg-contain bg-no-repeat" : "absolute inset-0 bg-contain bg-left bg-no-repeat"} style={{ backgroundImage: heroBackground(resolvedBackgroundImage) }} />
+          </div>
+          <div className="relative aspect-[1080/656] min-w-0 overflow-hidden sm:hidden [&_picture_img]:absolute [&_picture_img]:top-[-105.8%] [&_picture_img]:!h-auto [&_picture_img]:w-full" style={fadeArtwork ? { maskImage: "linear-gradient(to right, black 80%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, black 80%, transparent 100%)" } : undefined}>
+            <MobileHeroArtwork path={props.mobileArtworkPath} />
+          </div>
+        </>}
+
+      </div>
     </header>;
   }
 

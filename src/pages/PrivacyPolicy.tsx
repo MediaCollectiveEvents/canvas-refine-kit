@@ -14,7 +14,7 @@ const PrivacyPolicy = () => {
       <Header />
 
       {/* Hero Section */}
-      <main className="site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="site-header-clearance">
       <section className="site-section border-b border-white/10">
         <div className="site-container">
           <motion.div

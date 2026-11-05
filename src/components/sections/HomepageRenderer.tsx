@@ -1,3 +1,4 @@
+import communityContent from "@/content/community.json";
 import React from "react";
 import OurEventsSection from "./OurEventsSection";
 import AuthorityStrip from "./AuthorityStrip";
@@ -44,7 +45,10 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
       case "getInvolved": return <GetInvolvedSection key={key} section={section as unknown as React.ComponentProps<typeof GetInvolvedSection>["section"]} onRegister={onRegister} />;
       case "aboutIntro": return <AboutIntroSection key={key} section={section as React.ComponentProps<typeof AboutIntroSection>["section"]} />;
       case "upcomingEventsIntro": return <EventsSection key={key} section={section as React.ComponentProps<typeof EventsSection>["section"]} onRegisterClick={onRegister} />;
-      case "whoAttends": return <WhoAttendsSection key={key} section={section as React.ComponentProps<typeof WhoAttendsSection>["section"]} />;
+      case "whoAttends": return <React.Fragment key={key}>
+        <WhoAttendsSection section={section as React.ComponentProps<typeof WhoAttendsSection>["section"]} />
+        <OrganisationsRepresentedSection section={{ heading: "Organisations represented", organisations: communityContent.sections.find(item => item.type === "organisations")?.organisations ?? [] }} />
+      </React.Fragment>;
       case "testimonials": return <TestimonialsSection key={key} section={section as React.ComponentProps<typeof TestimonialsSection>["section"]} />;
       case "joinCommunity": return <JoinCommunitySection key={key} section={section as React.ComponentProps<typeof JoinCommunitySection>["section"]} onRegisterClick={onRegister} />;
       case "newHere": return <NewHereSection key={key} section={section as React.ComponentProps<typeof NewHereSection>["section"]} onRegisterClick={onRegister} />;
@@ -55,7 +59,7 @@ export default function HomepageRenderer({ sections, onRegister }: HomepageRende
   }
   return (
     <>
-      {["aboutIntro", "upcomingEventsIntro", "whoAttends", "authorityStrip", "organisationsRepresented", "ourEvents", "partners", "eventDiscovery", "getInvolved", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
+      {["upcomingEventsIntro", "aboutIntro", "whoAttends", "authorityStrip", "organisationsRepresented", "ourEvents", "partners", "eventDiscovery", "getInvolved", "testimonials"].flatMap(type => visible.filter(section => section.type === type).map(render))}
       {visible.filter(section => !["eventDiscovery", "getInvolved", "aboutIntro", "upcomingEventsIntro", "whoAttends", "testimonials", "partners", "organisationsRepresented", "ourEvents", "authorityStrip", "joinCommunity"].includes(section.type)).map(render)}
       {visible.filter(section => section.type === "joinCommunity").map(render)}
     </>

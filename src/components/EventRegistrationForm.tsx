@@ -1,6 +1,7 @@
+import { EVENT_UPDATES_CONSENT_TEXT, getEventUpdatesMetadata } from "@/lib/eventUpdates";
 import { protectUnsavedForm } from "@/lib/unsavedForm";
 import { sendEnquiry, EnquiryDeliveryError } from "@/lib/enquiryTransport";
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, type ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,13 +12,18 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, useFormField } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 import useEnquiryVerification from "@/hooks/useEnquiryVerification";
 
 import { getRegistrationOptions, type EventItem } from "@/lib/events";
 import { getAttendanceOptions, getAttendanceSelection, getAttendanceStages } from "@/lib/attendance";
 import partnersContent from "@/content/partners.json";
+
+function RegistrationControl(props: ComponentProps<typeof FormControl>) {
+  const { error, formMessageId } = useFormField();
+  return <FormControl aria-describedby={error ? formMessageId : undefined} {...props} />;
+}
 
 const legacyEventOptions = getRegistrationOptions();
 const engagementOptions = [{
@@ -56,6 +62,8 @@ interface EventRegistrationFormProps {
   onOpenChange: (open: boolean) => void;
   preselectedEvent?: string;
   attendanceOnly?: boolean;
+  eventUpdatesOnly?: boolean;
+  onCloseAutoFocus?: ComponentProps<typeof DialogContent>["onCloseAutoFocus"];
   event?: EventItem;
 }
 const stageLabels = ["Details", "Events", "Engagement", "Consent"];
@@ -69,7 +77,7 @@ const ProgressIndicator = ({
   labels?: string[];
 }) => <>
   <p role="status" aria-live="polite" className="sr-only">Step {currentStage} of {totalStages}: {labels[currentStage - 1]}</p>
-  <ol aria-label="Invitation progress" className="flex items-center justify-center gap-2 mb-8">
+  <ol aria-label="Form progress" className="flex items-center justify-center gap-2 mb-4 sm:mb-8">
     {Array.from({
     length: totalStages
   }, (_, i) => <li key={i} aria-current={i + 1 === currentStage ? "step" : undefined} className="flex items-center">
@@ -90,11 +98,13 @@ const EventRegistrationForm = ({
   onOpenChange,
   preselectedEvent,
   attendanceOnly = false,
+  eventUpdatesOnly = false,
+  onCloseAutoFocus,
   event
 }: EventRegistrationFormProps) => {
   const eventOptions = useMemo(() => attendanceOnly ? getAttendanceOptions() : legacyEventOptions, [attendanceOnly]);
-  const selectedId = attendanceOnly ? getAttendanceSelection(event) ?? preselectedEvent : preselectedEvent;
-  const stages = attendanceOnly ? getAttendanceStages(!!getAttendanceSelection(event)) : [1, 2, 3, 4];
+  const selectedId = eventUpdatesOnly ? "all-events" : attendanceOnly ? getAttendanceSelection(event) ?? preselectedEvent : preselectedEvent;
+  const stages = eventUpdatesOnly ? [1, 4] : attendanceOnly ? getAttendanceStages(!!getAttendanceSelection(event)) : [1, 2, 3, 4];
   const labels = stages.map(stage => stage === 1 ? "Details" : stage === 2 ? "Event" : stage === 3 ? "Engagement" : "Consent");
   const [currentStage, setCurrentStage] = useState(1);
   const reducedMotion = useReducedMotion();
@@ -103,6 +113,7 @@ const EventRegistrationForm = ({
   const [submissionError, setSubmissionError] = useState("");
   const lastSelectedId = useRef(selectedId);
   const submissionLock = useRef(false);
+  const updatesRequestId = useRef<string>();
   const [submissionPhase, setSubmissionPhase] = useState<"idle" | "verifying" | "sending">("idle");
   const isSubmitting = submissionPhase !== "idle";
   const [submitted, setSubmitted] = useState(false);
@@ -113,7 +124,7 @@ const EventRegistrationForm = ({
       fullName: "",
       companyName: "",
       email: "",
-      engagementTypes: attendanceOnly ? ["attend"] : [],
+      engagementTypes: eventUpdatesOnly ? ["notifications"] : attendanceOnly ? ["attend"] : [],
       interestedEvents: eventOptions.some(option => option.id === selectedId) ? [selectedId] : [],
       gdprConsent: false
     },
@@ -127,14 +138,15 @@ const EventRegistrationForm = ({
   const { setValue } = form;
   useEffect(() => {
     if (open) {
-      if (attendanceOnly) setValue("engagementTypes", ["attend"], { shouldValidate: false });
+      if (eventUpdatesOnly) setValue("engagementTypes", ["notifications"], { shouldValidate: false });
+      else if (attendanceOnly) setValue("engagementTypes", ["attend"], { shouldValidate: false });
       if (lastSelectedId.current !== selectedId) {
         setCurrentStage(1);
         setValue("interestedEvents", eventOptions.some(option => option.id === selectedId) ? [selectedId] : [], { shouldValidate: false });
         lastSelectedId.current = selectedId;
       }
     }
-  }, [open, selectedId, attendanceOnly, eventOptions, setValue]);
+  }, [open, selectedId, attendanceOnly, eventUpdatesOnly, eventOptions, setValue]);
 
   const validateCurrentStage = async () => {
     let isValid = false;
@@ -204,8 +216,8 @@ const EventRegistrationForm = ({
         event: eventLabels,
         howEngage: engagementLabels,
         consent: data.gdprConsent ? "Y" : "N",
+        ...(eventUpdatesOnly ? getEventUpdatesMetadata(updatesRequestId.current ??= crypto.randomUUID()) : {}),
         "g-recaptcha-response": captchaToken,
-        token: "3Fv9XqT7bLpK2zR8YwS6dN1mHjUaV5eG"
       };
 
       setSubmissionPhase("sending");
@@ -226,10 +238,11 @@ const EventRegistrationForm = ({
   const handleClose = () => {
     if (isSubmitting) return;
     if (submitted) {
-      form.reset({ fullName: "", companyName: "", email: "", engagementTypes: attendanceOnly ? ["attend"] : [],
+      form.reset({ fullName: "", companyName: "", email: "", engagementTypes: eventUpdatesOnly ? ["notifications"] : attendanceOnly ? ["attend"] : [],
         interestedEvents: eventOptions.some(option => option.id === selectedId) ? [selectedId] : [], gdprConsent: false });
       setCurrentStage(1);
       setSubmitted(false);
+      updatesRequestId.current = undefined;
       setSubmissionError("");
     }
     captchaRef.current?.reset();
@@ -250,30 +263,30 @@ const EventRegistrationForm = ({
     })
   };
   return <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[540px] max-h-[90vh] overflow-y-auto bg-background border-border">
-        <DialogHeader className={attendanceOnly ? "" : "sr-only"}>
-          <DialogTitle>{attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
-          <DialogDescription>Send your details so we can review your request. Submitting does not confirm attendance.</DialogDescription>
+      <DialogContent onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
+        <DialogHeader className={attendanceOnly || eventUpdatesOnly ? "pr-6" : "sr-only"}>
+          <DialogTitle>{eventUpdatesOnly ? "Be the first to hear about new events" : attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
+          <DialogDescription>{eventUpdatesOnly ? "Subscribe to emails announcing new Media Collective events. This does not request an event invitation." : "Send your details so we can review your request. Submitting does not confirm attendance."}</DialogDescription>
         </DialogHeader>
 
         {submitted ? <div role="status" className="space-y-4 py-4">
-          <h3 className="font-display text-xl">{attendanceOnly ? "Request sent" : "Enquiry sent"}</h3>
+          <h3 className="font-display text-xl">{eventUpdatesOnly ? "Event updates requested" : attendanceOnly ? "Request sent" : "Enquiry sent"}</h3>
           <p>Your request has been received.</p>
-          <p>{attendanceOnly ? "Requests are reviewed. If accepted, you receive a link to register. Sending a request does not confirm attendance." : "Sending an enquiry does not confirm attendance or a partnership. Your details are used to respond to your enquiry."}</p>
+          <p>{eventUpdatesOnly ? "Your request to receive new-event emails has been received. If your address needs verification, follow the link in the confirmation email. This does not request or confirm attendance at an event." : attendanceOnly ? "Requests are reviewed. If accepted, you receive a link to register. Sending a request does not confirm attendance." : "Sending an enquiry does not confirm attendance or a partnership. Your details are used to respond to your enquiry."}</p>
           <Button variant="brand" onClick={handleClose}>Close</Button>
         </div> : <>
-        {attendanceOnly && <div className="mb-6"><p className="mt-2 text-base text-muted-foreground">{event && getAttendanceSelection(event) ? eventOptions.find(option => option.id === selectedId)?.displayLabel : "Choose an upcoming event or express interest in future gatherings."}</p><p className="mt-2 text-base text-muted-foreground">A request does not confirm attendance. Invitations are subject to event curation.</p></div>}
+        {attendanceOnly && <div className="mb-2"><p className="mt-1 text-base text-muted-foreground">{event && getAttendanceSelection(event) ? eventOptions.find(option => option.id === selectedId)?.displayLabel : "Choose an upcoming event or express interest in future gatherings."}</p></div>}
         <ProgressIndicator currentStage={stages.indexOf(currentStage) + 1} totalStages={stages.length} labels={labels} />
 
         <Form {...form}>
-          <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }} className="space-y-6">
-            <fieldset disabled={isSubmitting} className="space-y-6">
+          <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }} className="min-w-0 space-y-4 sm:space-y-6">
+            <fieldset disabled={isSubmitting} className="min-w-0 space-y-4 sm:space-y-6">
             <AnimatePresence mode="wait" custom={currentStage}>
               {/* Stage 1: Personal Details */}
               {currentStage === 1 && <motion.div key="stage1" custom={1} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Your details</h3>
                   </div>
 
@@ -281,9 +294,9 @@ const EventRegistrationForm = ({
                 field
               }) => <FormItem>
                         <FormLabel className="text-foreground">Full Name *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your full name" {...field} className="bg-background border-input" />
-                        </FormControl>
+                        <RegistrationControl>
+                          <Input autoComplete="name" required placeholder="Enter your full name" {...field} className="bg-background border-input" />
+                        </RegistrationControl>
                         <FormMessage />
                       </FormItem>} />
 
@@ -291,9 +304,9 @@ const EventRegistrationForm = ({
                 field
               }) => <FormItem>
                         <FormLabel className="text-foreground">Company Name *</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your company name" {...field} className="bg-background border-input" />
-                        </FormControl>
+                        <RegistrationControl>
+                          <Input autoComplete="organization" required placeholder="Enter your company name" {...field} className="bg-background border-input" />
+                        </RegistrationControl>
                         <FormMessage />
                       </FormItem>} />
 
@@ -301,9 +314,9 @@ const EventRegistrationForm = ({
                 field
               }) => <FormItem>
                         <FormLabel className="text-foreground">Email Address *</FormLabel>
-                        <FormControl>
-                          <Input type="email" placeholder="Enter your email address" {...field} className="bg-background border-input" />
-                        </FormControl>
+                        <RegistrationControl>
+                          <Input autoComplete="email" required type="email" placeholder="Enter your email address" {...field} className="bg-background border-input" />
+                        </RegistrationControl>
                         <FormMessage />
                       </FormItem>} />
                 </motion.div>}
@@ -311,8 +324,8 @@ const EventRegistrationForm = ({
               {/* Stage 2: Event Interest */}
               {currentStage === 2 && <motion.div key="stage2" custom={2} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">{attendanceOnly ? "Which event interests you?" : "Which event series interest you?"}</h3>
                     <p className="text-muted-foreground text-base mt-2">{attendanceOnly ? "Select the upcoming events you would like to attend, or choose future gatherings." : "Select the event series you’re interested in hearing about for future editions. Select all that apply."}</p>
                   </div>
@@ -326,7 +339,7 @@ const EventRegistrationForm = ({
                           {eventOptions.map(event => <FormField key={event.id} control={form.control} name="interestedEvents" render={({
                     field
                   }) => <FormItem className="flex items-center space-x-3 space-y-0 p-3 rounded-lg border border-input hover:border-primary transition-colors cursor-pointer">
-                                  <FormControl>
+                                  <RegistrationControl>
                                     <Checkbox checked={field.value?.includes(event.id)} onCheckedChange={checked => {
                         const selected = field.value || [];
                         const newValue = checked
@@ -336,7 +349,7 @@ const EventRegistrationForm = ({
                           : selected.filter(id => id !== event.id);
                         field.onChange(newValue);
                       }} />
-                                  </FormControl>
+                                  </RegistrationControl>
                                   <FormLabel className="font-normal cursor-pointer flex-1 text-base text-foreground">
                                     {event.displayLabel}
                                   </FormLabel>
@@ -349,8 +362,8 @@ const EventRegistrationForm = ({
               {/* Stage 3: Engagement Types */}
               {currentStage === 3 && <motion.div key="stage3" custom={3} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">What are you interested in?</h3>
                     <p className="text-muted-foreground text-base mt-2">Select all that apply. These choices express your interest; they do not confirm attendance or a partnership.</p>
                   </div>
@@ -360,12 +373,12 @@ const EventRegistrationForm = ({
                           {engagementOptions.filter(option => option.id !== "notifications").map(option => <FormField key={option.id} control={form.control} name="engagementTypes" render={({
                     field
                   }) => <FormItem className="flex items-center space-x-3 space-y-0 p-3 rounded-lg border border-input hover:border-primary transition-colors cursor-pointer">
-                                  <FormControl>
+                                  <RegistrationControl>
                                     <Checkbox checked={field.value?.includes(option.id)} onCheckedChange={checked => {
                         const newValue = checked ? [...(field.value || []), option.id] : field.value?.filter(val => val !== option.id) || [];
                         field.onChange(newValue);
                       }} />
-                                  </FormControl>
+                                  </RegistrationControl>
                                   <FormLabel className="font-normal cursor-pointer flex-1 text-foreground">
                                     {option.label}
                                   </FormLabel>
@@ -378,15 +391,15 @@ const EventRegistrationForm = ({
               {/* Stage 4: GDPR Consent & Submit */}
               {currentStage === 4 && <motion.div key="stage4" custom={4} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Privacy and consent</h3>
                   </div>
 
 
                   <div className="p-4 bg-muted/50 rounded-lg text-base text-muted-foreground leading-relaxed">
                     <p>
-                      We use the details you provide to handle your enquiry and any relevant event follow-up. Contact information is not automatically shared with all partners. Any sharing remains subject to explicit consent and our Privacy Policy. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
+                      {eventUpdatesOnly ? "We use your details to record your request for emails announcing new Media Collective events." : "We use the details you provide to handle your enquiry and any relevant event follow-up."} Contact information is not automatically shared with all partners. Any sharing remains subject to explicit consent and our Privacy Policy. You can withdraw your consent at any time by contacting us. For full details, please review our{" "}
                       <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a>.
                     </p>
                   </div>
@@ -394,12 +407,12 @@ const EventRegistrationForm = ({
                   <FormField control={form.control} name="gdprConsent" render={({
                 field
               }) => <FormItem className="flex items-start space-x-3 space-y-0">
-                        <FormControl>
+                        <RegistrationControl>
                           <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-                        </FormControl>
+                        </RegistrationControl>
                         <div className="space-y-1 leading-none">
                           <FormLabel className="text-foreground">
-                            I consent to the processing of my personal data to handle this enquiry, as described above.
+                            {eventUpdatesOnly ? EVENT_UPDATES_CONSENT_TEXT : "I consent to the processing of my personal data to handle this enquiry, as described above."}
                           </FormLabel>
                           <FormMessage />
                         </div>
@@ -426,7 +439,7 @@ const EventRegistrationForm = ({
             </div>}
             {isSubmitting && <p role="status" className="text-base text-muted-foreground">{submissionPhase === "verifying" ? "Verifying… If reCAPTCHA asks you to complete a challenge, follow its instructions to continue." : "Sending… Please wait for confirmation before closing this form."}</p>}
             {/* Navigation Buttons */}
-            <div className="flex justify-between pt-4 border-t border-border">
+            <div className="flex justify-between gap-2 pt-4 border-t border-border">
               {currentStage > 1 ? <Button type="button" disabled={isSubmitting} variant="ghost" onClick={prevStage} className="gap-2">
                   <ChevronLeft className="w-4 h-4" />
                   Previous
@@ -435,8 +448,8 @@ const EventRegistrationForm = ({
               {currentStage < 4 ? <Button key="next" type="button" onClick={nextStage} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                   Next
                   <ChevronRight className="w-4 h-4" />
-                </Button> : <Button key="submit" type="submit" disabled={isSubmitting || !captchaReady} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
-                  {isSubmitting ? submissionPhase === "verifying" ? "Verifying…" : "Sending…" : attendanceOnly ? "Request an invitation" : "Submit enquiry"}
+                </Button> : <Button key="submit" type="submit" disabled={isSubmitting || !captchaReady} className="h-auto min-h-10 whitespace-normal gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                  {isSubmitting ? submissionPhase === "verifying" ? "Verifying…" : "Sending…" : eventUpdatesOnly ? "Subscribe to event updates" : attendanceOnly ? "Request an invitation" : "Submit enquiry"}
                 </Button>}
             </div>
             </fieldset>

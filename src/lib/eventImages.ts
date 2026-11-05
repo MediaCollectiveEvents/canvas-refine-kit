@@ -1,8 +1,8 @@
 import type { EventItem } from "./events";
 // Event artwork from assets
-import broadcaster from "@/assets/events/broadcaster.png";
-import handandflower from "@/assets/events/handandflower.png";
-import traveller from "@/assets/events/traveller.png";
+import broadcaster from "@/assets/events/broadcaster.webp";
+import handandflower from "@/assets/events/handandflower.webp";
+import traveller from "@/assets/events/traveller.webp";
 
 const eventImages: Record<string, string> = {
   "off-air": "/uploads/off-air.png",

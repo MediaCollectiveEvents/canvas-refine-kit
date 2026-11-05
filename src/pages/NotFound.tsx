@@ -16,7 +16,7 @@ const NotFound = () => {
     <div className="min-h-screen bg-background text-foreground">
       <Seo {...errorSeo()} />
       <Header />
-      <main className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
+      <main id="main-content" tabIndex={-1} className="site-gutter site-header-clearance pb-16"><div className="site-container py-8">
         <p className="site-eyebrow mb-4 text-primary">404</p>
         <h1 className="site-page-h1 mb-4 break-words font-display text-3xl font-light md:text-5xl">Page not found</h1>
         <p className="text-muted-foreground">We couldn’t find this page. Choose where to go next.</p>

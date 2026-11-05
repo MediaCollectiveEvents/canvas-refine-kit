@@ -15,13 +15,16 @@ test("only approved event images get responsive delivery; original sources remai
       assert.ok(statSync(`public${url}`).size < statSync(`public${source}`).size, url);
     }
   }
-  for (const source of ["/uploads/custom.png", "/uploads/Venue tiles/Livepiano.png", "/uploads/website-hero-mobile.png"]) {
+  const piano = responsiveEventImage("/uploads/Venue tiles/Livepiano.png", eventImageSizes.detail);
+  assert.equal(piano.src, "/uploads/Venue tiles/Livepiano.webp");
+  assert.ok(statSync(`public${piano.src}`).size < statSync("public/uploads/Venue tiles/Livepiano.png").size);
+  for (const source of ["/uploads/custom.png", "/uploads/website-hero-mobile.png"]) {
     assert.deepEqual(responsiveEventImage(source, eventImageSizes.detail), { src: source });
   }
 });
 
 test("header logo shares candidates and sizes across both responsive header instances", () => {
-  assert.equal(headerLogoImage.sizes, "(min-width: 1024px) 180px, 160px");
+  assert.equal(headerLogoImage.sizes, "(min-width: 1024px) 180px, 128px");
   for (const candidate of headerLogoImage.srcSet.split(", ")) {
     const [url] = candidate.split(" ");
     assert.ok(existsSync(`public${url}`));

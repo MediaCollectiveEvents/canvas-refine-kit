@@ -1,5 +1,6 @@
 // Lossless delivery variants only: source artwork and CMS image paths stay intact.
 const losslessHeroes: Readonly<Record<string, string>> = {
+  "/uploads/website-hero-home.png": "/uploads/website-hero-home.webp",
   "/uploads/website-hero-mobile-v2.png": "/uploads/website-hero-mobile-v2.webp",
   "/uploads/home-hero-v14.png": "/uploads/home-hero-v14.webp",
   "/uploads/events-hero-event-v3.png": "/uploads/events-hero-event-v3.webp",

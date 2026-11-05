@@ -101,6 +101,7 @@ const Header = () => {
 
   return (
     <>
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-[#35C5BB] focus:px-4 focus:py-3 focus:text-[#101d24]">Skip to main content</a>
       <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} fallbackFocusRef={menuToggle} />
 
       <header
@@ -108,7 +109,7 @@ const Header = () => {
           site-gutter fixed top-0 left-0 right-0 z-50
           bg-[#08111f]
           backdrop-blur-md
-          transition-all duration-300 ease-out
+          transition-all duration-300 ease-out motion-reduce:transition-none
         "
       >
         {/* top glow line */}
@@ -137,8 +138,8 @@ const Header = () => {
         <div
           className={`
             relative site-container
-            transition-all duration-300 ease-out
-            ${scrolled ? "h-[108px] lg:h-[164px]" : "h-[116px] lg:h-[170px]"}
+            transition-all duration-300 ease-out motion-reduce:transition-none
+            ${scrolled ? "h-[88px] lg:h-[164px]" : "h-[96px] lg:h-[170px]"}
           `}
         >
           {/* MOBILE HEADER */}
@@ -148,7 +149,7 @@ const Header = () => {
               <img
                 {...headerLogoImage}
                 alt="The Media Collective"
-                className="h-auto w-[160px] shrink-0 object-contain"
+                className="h-auto w-[128px] shrink-0 object-contain"
               />
             </Link>
 
@@ -248,8 +249,8 @@ const Header = () => {
 
         {/* MOBILE MENU PANEL */}
 
-        {isMenuOpen && (
-          <nav id="mobile-navigation" className="bg-[#08111f] backdrop-blur-md lg:hidden">
+        {(
+          <nav id="mobile-navigation" hidden={!isMenuOpen} className="max-h-[calc(100svh-96px)] overflow-y-auto bg-[#08111f] backdrop-blur-md lg:hidden">
             <div className="site-container flex flex-col gap-1 py-5">
               {navItems.map((item) => {
                 const isActive =

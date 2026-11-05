@@ -5,7 +5,7 @@ import { analyticsConsentPolicy } from "@/lib/analyticsConsentPolicy";
 const OPEN_COOKIE_SETTINGS = "tmc:open-cookie-settings";
 
 export function CookieSettingsButton({ className }: { className?: string }) {
-  return <button type="button" className={className} aria-controls="analytics-cookie-preferences"
+  return <button type="button" className={className}
     onClick={event => window.dispatchEvent(new CustomEvent(OPEN_COOKIE_SETTINGS, { detail: event.currentTarget }))}>
     Cookie settings
   </button>;

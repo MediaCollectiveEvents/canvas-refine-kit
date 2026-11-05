@@ -23,7 +23,7 @@ export default function FAQ() {
       <Header />
       <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} />
 
-      <main className="site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="site-header-clearance">
         <PageHero {...(hero as ComponentProps<typeof PageHero>)} presentation="business" editorialCoherence className="!min-h-0 sm:!min-h-0 lg:!min-h-0 lg:!pb-40" titleSizeClassName="text-[28px] md:text-4xl" titleClassName="!max-w-2xl" descriptionClassName="mb-0 sm:mb-10 max-w-3xl font-body text-base leading-[1.6] text-slate-200 md:text-lg" />
 
         {/* FAQ Sections */}

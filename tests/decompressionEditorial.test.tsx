@@ -48,7 +48,7 @@ test("Decompression renders draft content and keeps safe past/closed registratio
   const html = render({ ...event, programme: [{ description: "DRAFT EVENING\n\nDraft description" }], details: "Draft social copy", whoAttends: "Draft audience" });
   assert.match(html, />DRAFT EVENING<\/h3>/);
   assert.match(html, /Draft description|Draft social copy|Draft audience/);
-  assert.match(render({ ...event, date: "2000-01-01" }), />Register interest<\/button>/);
+  assert.match(render({ ...event, date: "2000-01-01" }), /href="\/events"[^>]*>View upcoming events<\/a>/);
   assert.doesNotMatch(render({ ...event, statusLabel: "Registration Closed" }), /<button/);
   assert.doesNotThrow(() => render({ ...event, date: "" }));
 });

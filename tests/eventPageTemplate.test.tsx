@@ -3,7 +3,7 @@ import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import EventPageTemplate from "../src/components/shared/EventPageTemplate";
-import { getAllEvents, normalizeEvents } from "../src/lib/events";
+import { getAllEvents, normalizeEvents, isPastEvent } from "../src/lib/events";
 
 const render = (event: ReturnType<typeof getAllEvents>[number]) => renderToStaticMarkup(createElement(EventPageTemplate, { event, onRequest: () => {} }));
 
@@ -28,7 +28,7 @@ test("capacity prefers the existing capacity field and does not invent absent va
 test("all migrated events share the section hierarchy and retain artwork without countdowns", () => {
   for (const event of getAllEvents().filter(event => ![4, 5, 6, 7].includes(event.id))) {
     const html = render(event);
-    const titles = ['About This Event', 'Who Attends', 'Why Attend', 'What To Expect', 'Event Details'];
+    const titles = ['About This Event', 'Who Attends', isPastEvent(event) ? 'Event focus' : 'Why Attend', isPastEvent(event) ? 'Event format' : 'What To Expect', 'Event Details'];
     let previous = -1;
     for (const title of titles) { const position = html.indexOf('>'+title+'</h2>'); assert.ok(position > previous, title); previous = position; }
     assert.match(html, /object-contain/);
@@ -70,7 +70,9 @@ test("empty optional sections stay hidden; unsafe URLs and malformed CMS arrays 
 
 test("past events and closed registration never invite visitors to a finished or closed event", () => {
   const past = normalizeEvents([{ id: 99, date: '2000-01-01', registrationLink: 'https://example.com/register' }])[0];
-  assert.match(render(past), /Register interest/);
+  assert.match(render(past), /href="\/events"[^>]*>View upcoming events/);
+  assert.doesNotMatch(render(past), /Register interest|Request an Invitation/);
+  assert.doesNotMatch(render({ ...past, partnerEvent: true }), /example.com\/register/);
   assert.doesNotMatch(render(past), /href="https:\/\/example.com\/register"/);
   const closed = normalizeEvents([{ id: 99, date: '2099-01-01', statusLabel: 'Registration Closed' }])[0];
   assert.match(render(closed), /Registration closed/);

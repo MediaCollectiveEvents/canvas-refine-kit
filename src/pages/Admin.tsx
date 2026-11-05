@@ -9,7 +9,7 @@ const Admin = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
 
-      <main className="flex-1 container mx-auto max-w-3xl px-4 py-16">
+      <main id="main-content" tabIndex={-1} className="flex-1 container mx-auto max-w-3xl px-4 py-16">
         <Card>
           <CardHeader>
             <CardTitle>Content Manager</CardTitle>

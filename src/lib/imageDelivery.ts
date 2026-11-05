@@ -9,7 +9,7 @@ const variants: Record<string, { name: string; widths: number[] }> = {
 
 export function responsiveEventImage(src: string, sizes: string) {
   const variant = variants[src];
-  if (!variant) return { src };
+  if (!variant) return { src: src === "/uploads/Venue tiles/Livepiano.png" ? "/uploads/Venue tiles/Livepiano.webp" : src };
   const url = (width: number) => `/uploads/optimised/${variant.name}-${width}.webp`;
   return {
     src: url(640),
@@ -28,5 +28,5 @@ export const eventImageSizes = {
 export const headerLogoImage = {
   src: "/uploads/optimised/header-logo-320.webp",
   srcSet: [160, 320, 540, 800].map(width => `/uploads/optimised/header-logo-${width}.webp ${width}w`).join(", "),
-  sizes: "(min-width: 1024px) 180px, 160px",
+  sizes: "(min-width: 1024px) 180px, 128px",
 };

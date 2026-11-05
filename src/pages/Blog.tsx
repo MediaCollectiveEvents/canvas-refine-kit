@@ -21,7 +21,7 @@ const Blog: React.FC = () => {
       <Header />
 
       {/* Match header clearance with other pages */}
-      <main className="site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="site-header-clearance">
         <PageHero
           presentation="business"
           editorialCoherence

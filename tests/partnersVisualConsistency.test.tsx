@@ -37,7 +37,7 @@ test("empty authority strips disappear and shared Home testimonials replace the 
   assert.equal(ids[ids.indexOf("benefits") + 1], "partner-authority");
   const authority = partners.sections.find(section => section.id === "partner-authority")!;
   if (authority.hidden) assert.doesNotMatch(html, /AT A GLANCE/);
-  else assert.match(html, /AT A GLANCE/);
+  else assert.match(html, /2026 COMMUNITY SNAPSHOT/);
 });
 
 test("CTA correction preserves action, destination and approved typography", () => {

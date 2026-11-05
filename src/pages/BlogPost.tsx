@@ -26,7 +26,7 @@ const BlogPostPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-background">
         <Header />
-        <main className="pt-20 sm:pt-24 lg:pt-28">
+        <main id="main-content" tabIndex={-1} className="pt-20 sm:pt-24 lg:pt-28">
           <div className="container mx-auto max-w-3xl px-6 py-16">
             <h1 className="font-display text-2xl md:text-3xl text-foreground mb-4">
               Post not found
@@ -64,7 +64,7 @@ const BlogPostPage: React.FC = () => {
       <Seo title={`${post.title} — The Media Collective`} description={post.excerpt} url={`/blog/${post.slug}`} type="article" />
       <Header />
 
-      <main className="bg-[#101d24] site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="bg-[#101d24] site-header-clearance">
         <header className="px-6 pt-12 md:pt-16"
           style={hero.image ? {
             backgroundImage: `linear-gradient(90deg, rgba(16,29,36,0.95), rgba(16,29,36,0.85)), url(${hero.image})`,

@@ -50,6 +50,6 @@ test("OFF AIR recommendations resolve the three existing canonical upcoming edit
 test("other events keep the shared listing layout and past/closed OFF AIR keeps safe registration behaviour", () => {
   assert.match(render(getEventById(3)!), />About This Event<\/h2>/);
   assert.doesNotMatch(render(getEventById(5)!), /Meet the Hosts/);
-  assert.match(render({ ...event, date: "2000-01-01" }), />Register interest<\/button>/);
+  assert.match(render({ ...event, date: "2000-01-01" }), /href="\/events"[^>]*>View upcoming events<\/a>/);
   assert.doesNotMatch(render({ ...event, statusLabel: "Registration Closed" }), /<button/);
 });
