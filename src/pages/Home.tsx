@@ -30,9 +30,11 @@ const Home = ({ content = homepageContent }: { content?: typeof homepageContent 
         onOpenChange={setIsFormOpen}
       />
 
-      <main className="site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="site-header-clearance">
         <PageHero presentation="public" identity eyebrow={hero.eyebrow ?? hero.subtitle}
-          title={hero.title} description={hero.description} image={hero.image} />
+          title={hero.title} description={hero.description} image={hero.image}
+          showCtas primaryCtaText="Request an invitation" onPrimaryClick={handleOpenRegister}
+          secondaryCtaText="See the next event" secondaryCtaHref="#next-event" />
 
       <div className="w-full">
         <HomepageRenderer

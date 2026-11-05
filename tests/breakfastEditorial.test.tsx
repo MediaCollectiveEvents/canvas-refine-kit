@@ -53,7 +53,7 @@ test("Breakfast preserves repository event facts and never introduces host or sp
 test("Breakfast editorial copy and timed programme remain editable in existing CMS fields", () => {
   const html = render({ ...event, description: "Draft introduction", whoAttends: "Draft audience", programme: [{ time: "08:00", description: "DRAFT MORNING\n\nDraft breakfast copy" }], details: "Draft morning narrative", ctaCopy: "Draft invitation" });
   for (const copy of ["Draft introduction", "Draft audience", "DRAFT MORNING", "Draft breakfast copy", "Draft morning narrative", "Draft invitation", "08:00"]) assert.ok(html.includes(copy), copy);
-  assert.match(render({ ...event, date: "2000-01-01" }), />Register interest<\/button>/);
+  assert.match(render({ ...event, date: "2000-01-01" }), /href="\/events"[^>]*>View upcoming events<\/a>/);
   assert.doesNotMatch(render({ ...event, statusLabel: "Registration Closed" }), /<button/);
 });
 

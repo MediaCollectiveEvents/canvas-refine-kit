@@ -29,7 +29,7 @@ export default function EventPlanner() {
     <div className="min-h-screen site-surface-dark text-[#f7f3eb] font-body">
       <Seo title={`${year} Calendar — The Media Collective`} description={description} url="/events/calendar" />
       <Header />
-      <main className="site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="site-header-clearance">
         <PageSection className="border-b border-white/10">
           <h1 className="font-display text-[40px] font-light leading-tight md:text-5xl">{year} Calendar</h1>
           <p className="mt-5 max-w-[65ch] text-base leading-relaxed text-[#f7f3eb]/75">{description}</p>

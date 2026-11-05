@@ -77,7 +77,7 @@ const ProgressIndicator = ({
   labels?: string[];
 }) => <>
   <p role="status" aria-live="polite" className="sr-only">Step {currentStage} of {totalStages}: {labels[currentStage - 1]}</p>
-  <ol aria-label="Form progress" className="flex items-center justify-center gap-2 mb-8">
+  <ol aria-label="Form progress" className="flex items-center justify-center gap-2 mb-4 sm:mb-8">
     {Array.from({
     length: totalStages
   }, (_, i) => <li key={i} aria-current={i + 1 === currentStage ? "step" : undefined} className="flex items-center">
@@ -263,7 +263,7 @@ const EventRegistrationForm = ({
     })
   };
   return <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent onCloseAutoFocus={onCloseAutoFocus} className="sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border">
+      <DialogContent onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
         <DialogHeader className={attendanceOnly || eventUpdatesOnly ? "pr-6" : "sr-only"}>
           <DialogTitle>{eventUpdatesOnly ? "Be the first to hear about new events" : attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
           <DialogDescription>{eventUpdatesOnly ? "Subscribe to emails announcing new Media Collective events. This does not request an event invitation." : "Send your details so we can review your request. Submitting does not confirm attendance."}</DialogDescription>
@@ -275,18 +275,18 @@ const EventRegistrationForm = ({
           <p>{eventUpdatesOnly ? "Your request to receive new-event emails has been received. If your address needs verification, follow the link in the confirmation email. This does not request or confirm attendance at an event." : attendanceOnly ? "Requests are reviewed. If accepted, you receive a link to register. Sending a request does not confirm attendance." : "Sending an enquiry does not confirm attendance or a partnership. Your details are used to respond to your enquiry."}</p>
           <Button variant="brand" onClick={handleClose}>Close</Button>
         </div> : <>
-        {attendanceOnly && <div className="mb-6"><p className="mt-2 text-base text-muted-foreground">{event && getAttendanceSelection(event) ? eventOptions.find(option => option.id === selectedId)?.displayLabel : "Choose an upcoming event or express interest in future gatherings."}</p><p className="mt-2 text-base text-muted-foreground">A request does not confirm attendance. Invitations are subject to event curation.</p></div>}
+        {attendanceOnly && <div className="mb-2"><p className="mt-1 text-base text-muted-foreground">{event && getAttendanceSelection(event) ? eventOptions.find(option => option.id === selectedId)?.displayLabel : "Choose an upcoming event or express interest in future gatherings."}</p></div>}
         <ProgressIndicator currentStage={stages.indexOf(currentStage) + 1} totalStages={stages.length} labels={labels} />
 
         <Form {...form}>
-          <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }} className="min-w-0 space-y-6">
-            <fieldset disabled={isSubmitting} className="min-w-0 space-y-6">
+          <form onSubmit={(e) => { e.preventDefault(); handleFormSubmit(); }} className="min-w-0 space-y-4 sm:space-y-6">
+            <fieldset disabled={isSubmitting} className="min-w-0 space-y-4 sm:space-y-6">
             <AnimatePresence mode="wait" custom={currentStage}>
               {/* Stage 1: Personal Details */}
               {currentStage === 1 && <motion.div key="stage1" custom={1} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Your details</h3>
                   </div>
 
@@ -324,8 +324,8 @@ const EventRegistrationForm = ({
               {/* Stage 2: Event Interest */}
               {currentStage === 2 && <motion.div key="stage2" custom={2} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">{attendanceOnly ? "Which event interests you?" : "Which event series interest you?"}</h3>
                     <p className="text-muted-foreground text-base mt-2">{attendanceOnly ? "Select the upcoming events you would like to attend, or choose future gatherings." : "Select the event series you’re interested in hearing about for future editions. Select all that apply."}</p>
                   </div>
@@ -362,8 +362,8 @@ const EventRegistrationForm = ({
               {/* Stage 3: Engagement Types */}
               {currentStage === 3 && <motion.div key="stage3" custom={3} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">What are you interested in?</h3>
                     <p className="text-muted-foreground text-base mt-2">Select all that apply. These choices express your interest; they do not confirm attendance or a partnership.</p>
                   </div>
@@ -391,8 +391,8 @@ const EventRegistrationForm = ({
               {/* Stage 4: GDPR Consent & Submit */}
               {currentStage === 4 && <motion.div key="stage4" custom={4} variants={slideVariants} initial="enter" animate="center" exit="exit" transition={{
               duration: reducedMotion ? 0 : 0.3
-            }} className="space-y-6">
-                  <div className="text-center mb-6">
+            }} className="space-y-4 sm:space-y-6">
+                  <div className="text-center mb-3 sm:mb-6">
                     <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Privacy and consent</h3>
                   </div>
 

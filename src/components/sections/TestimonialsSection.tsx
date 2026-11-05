@@ -268,6 +268,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           {testimonials.length > 1 && (
             <div className="mt-4 flex flex-wrap items-center gap-1">
 
+              {!reducedMotion && <button type="button" aria-label={userPaused ? "Play testimonials" : "Pause testimonials"} aria-pressed={userPaused} onClick={() => setUserPaused(value => !value)} className="mr-3 min-h-11 rounded-sm px-3 text-sm text-[#9bd3c8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300">{userPaused ? "Play" : "Pause"}</button>}
               {testimonials.map((_, dotIndex) => {
                 const active = dotIndex === index;
 
@@ -277,7 +278,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
                     type="button"
                     aria-label={`Show testimonial ${dotIndex + 1}`}
                     aria-pressed={active}
-                    onClick={() => setIndex(dotIndex)}
+                    onClick={() => { setUserPaused(true); setIndex(dotIndex); }}
                     className="flex h-11 w-11 items-center justify-center rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300"
                   >
                     <span aria-hidden="true" className={`h-1 rounded-full transition-all ${active ? "w-7 bg-[#9bd3c8]" : "w-2 bg-slate-500"}`} />

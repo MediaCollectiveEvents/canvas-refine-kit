@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import SectionWrapper from "../layout/SectionWrapper";
-import broadcasterImg from "@/assets/events/broadcaster.png";
-import handandflowerImg from "@/assets/events/handandflower.png";
-import travellerImg from "@/assets/events/traveller.png";
+import broadcasterImg from "@/assets/events/broadcaster.webp";
+import handandflowerImg from "@/assets/events/handandflower.webp";
+import travellerImg from "@/assets/events/traveller.webp";
 import { getEventCapacity, getUpcomingEvents } from "@/lib/events";
 
 type Cta = { label?: string; url?: string };
@@ -44,16 +44,13 @@ export default function EventsSection(_props: EventsSectionProps) {
   const displayed = getUpcomingEvents().filter(event => !event.partnerEvent).slice(0, 1);
   const [invitationOpen, setInvitationOpen] = useState(false);
   return (
-    <SectionWrapper variant="dark" padding="lux" className="border-b border-white/10 lg:!pb-12">
+    <div id="next-event" className="scroll-mt-32"><SectionWrapper variant="dark" padding="regular" animateOnScroll={false} className="border-b border-white/10 lg:!pb-12">
       <EventRegistrationForm attendanceOnly event={displayed[0]} open={invitationOpen} onOpenChange={setInvitationOpen} />
       {displayed.map(event => {
         const capacity = getEventCapacity(event);
         return (
         <article key={event.id} className="grid items-start gap-8 text-[#f7f3eb] md:grid-cols-[minmax(0,38fr)_minmax(0,62fr)] lg:grid-cols-[minmax(0,34fr)_minmax(0,66fr)] lg:gap-12">
-          <figure className="w-full max-w-[440px] lg:max-w-[396px]">
-            <img {...responsiveEventImage(getImageForKey(event.imageKey, event.venue, event.title), eventImageSizes.next)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full rounded-xl object-contain" />
-          </figure>
-          <div className="min-w-0">
+          <div className="min-w-0 md:col-start-2 md:row-start-1">
             <p className="mb-4 site-eyebrow text-[#8FC7C1]">NEXT EVENT</p>
             <h2 className="font-display text-3xl font-medium leading-tight md:text-4xl">{event.title}</h2>
             {event.imageKey === "off-air" && <ul aria-label="Event highlights" className="mt-4 flex flex-wrap gap-2 lg:flex-nowrap">
@@ -63,6 +60,11 @@ export default function EventsSection(_props: EventsSectionProps) {
               <p>{event.imageKey === "off-air" ? "Join broadcasters, streamers, publishers and technology leaders to examine the shifts shaping media in 2027." : event.summary || event.description}</p>
               <p className="mt-3 font-semibold text-[#f7f3eb]">Attendance is free but places are limited and invitations are carefully curated.</p>
             </div>
+          </div>
+          <figure className="w-full max-w-[440px] md:col-start-1 md:row-start-1 md:row-span-2 lg:max-w-[396px]">
+            <img {...responsiveEventImage(getImageForKey(event.imageKey, event.venue, event.title), eventImageSizes.next)} alt={event.imageKey === "off-air" ? "OFF AIR event artwork" : event.venue} className="aspect-square h-auto w-full rounded-xl object-contain" />
+          </figure>
+          <div className="min-w-0 md:col-start-2 md:row-start-2">
             <ul aria-label="Event details" className="mt-6 grid gap-4 rounded-xl border border-white/10 bg-white/5 p-4 font-body text-base font-medium sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2">
               <li className="flex items-start gap-3"><CalendarDays aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><time dateTime={event.date}>{formatInternationalDate(event.date)}</time></li>
               {event.time && <li className="flex items-start gap-3"><Clock3 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-[#35C5BB]" /><span>{event.time}</span></li>}
@@ -80,6 +82,6 @@ export default function EventsSection(_props: EventsSectionProps) {
         </article>
       ); })}
       {!displayed.length && <p className="text-slate-300">New event dates will be announced here.</p>}
-    </SectionWrapper>
+    </SectionWrapper></div>
   );
 }

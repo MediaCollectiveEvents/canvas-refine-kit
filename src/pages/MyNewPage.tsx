@@ -7,7 +7,7 @@ const MyNewPage = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="max-w-5xl mx-auto px-6 py-24">
+      <main id="main-content" tabIndex={-1} className="max-w-5xl mx-auto px-6 py-24">
         <h1 className="text-4xl font-display mb-4">My New Page</h1>
         <p className="text-muted-foreground text-lg">
           This is a brand new route added to the Canvas Refine Kit.

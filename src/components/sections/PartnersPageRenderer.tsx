@@ -1,3 +1,5 @@
+import { AUDIENCE_SNAPSHOT_ID, parseAudienceSnapshot } from "@/lib/audienceSnapshot";
+import communityContent from "@/content/community.json";
 import ContextualText from "@/components/shared/ContextualText";
 import { COMMUNITY_CONTEXT_LINKS } from "@/lib/contextualLinks";
 import ClosingCTA from "@/components/shared/ClosingCTA";
@@ -33,6 +35,8 @@ interface PartnersPageRendererProps {
 }
 
 const currentSponsors = getOrganisations();
+const audienceSnapshot = communityContent.sections.find(section => section.id === AUDIENCE_SNAPSHOT_ID);
+const audienceMetrics = parseAudienceSnapshot(audienceSnapshot?.heading).stats;
 
 // Keep each complete source logo inside its padded tile; transforms can clip wordmarks.
 
@@ -50,7 +54,9 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
   const reducedMotion = useReducedMotion();
   const [logosPaused, setLogosPaused] = useState(false);
   if (!Array.isArray(sections)) return null;
-  const visibleSections = sections.filter(section => !section.hidden);
+  const visible = sections.filter(section => !section.hidden);
+  const proof = (section: BaseSection) => ["authorityStrip", "organisationsRepresented"].includes(section.type);
+  const visibleSections = [...visible.filter(proof), ...visible.filter(section => !proof(section))];
   return (
     <>
       {visibleSections.map(section => {
@@ -60,7 +66,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
               <TestimonialsSection section={homepageContent.sections.find(item => item.type === "testimonials")} />
             </div>;
           case "authorityStrip":
-            return <AuthorityStrip key={section.id ?? section.type} section={section as React.ComponentProps<typeof AuthorityStrip>["section"]} />;
+            return <AuthorityStrip key={section.id ?? section.type} section={{ ...section, eyebrow: audienceSnapshot?.eyebrow, body: audienceSnapshot?.body, metrics: audienceMetrics }} />;
           case "partnerProcess":
             return <PageSection key={section.id ?? section.type} id={section.id} className="site-section-compact border-b border-white/10 bg-background">
               <JourneyHeading step={section.eyebrow} title={section.heading} />
@@ -75,7 +81,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
           case "ourEvents":
             return <OurEventsSection presentation="editorial" key={section.id ?? section.type} section={section as React.ComponentProps<typeof OurEventsSection>["section"]} />;
           case "organisationsRepresented":
-            return <OrganisationsRepresentedSection key={section.id ?? section.type} section={section as React.ComponentProps<typeof OrganisationsRepresentedSection>["section"]} />;
+            return <OrganisationsRepresentedSection key={section.id ?? section.type} section={{ ...section, organisations: communityContent.sections.find(item => item.type === "organisations")?.organisations ?? [] }} />;
           case "partnersLogos":
             return (
               <PageSection key={section.id ?? section.type} id="partner-community" className="site-section-compact scroll-mt-28 border-b border-white/10 bg-background">

@@ -36,5 +36,13 @@ test("Community reduces its figures, matches label typography and keeps snapshot
   assert.match(snapshot, /grid-cols-\[112px_minmax\(0,1fr\)\]/);
   assert.match(snapshot, /mt-6 max-w-3xl font-body text-sm/);
   assert.doesNotMatch(snapshot, /text-8xl|text-6xl|site-section-compact/);
-  for (const value of ['75', '321', '661', 'C-suite guests', 'senior leaders*', 'guests across 6 events']) assert.ok(snapshot.includes(value));
+  for (const value of ['75', '321', '661', 'C-suite guests', 'senior leaders*', 'unique guests across 6 events']) assert.ok(snapshot.includes(value));
+});
+
+test("Partners reuses the current Community snapshot and footnote before its commercial sections", async () => {
+  const { default: Partners } = await import('../src/pages/Partners');
+  const html = renderToStaticMarkup(<PreviewProviders route="/partners"><Partners /></PreviewProviders>);
+  const proof = html.slice(html.indexOf('id="partner-authority"'), html.indexOf('id="partner-events"'));
+  for (const text of ['75', '321', '661', 'C-suite guests', 'senior leaders*', 'unique guests across 6 events', 'Founder, Executive, President, Director, Head of Function', 'Skydance']) assert.ok(proof.includes(text), text);
+  assert.match(proof, /unique guests across 6 events/);
 });

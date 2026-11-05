@@ -44,16 +44,17 @@ export default function EventPageTemplate({ event, onRequest, context, participa
   const zone = getEventTimeZoneLabel(event);
   const time = event.time ? `${event.time}${zone && !event.time.includes(zone) ? ` (${zone})` : ""}` : "Time to be confirmed";
   const partner = event.partnerEvent;
-  const hasAction = !partner || !!event.registrationLink;
+  const hasAction = past || !partner || !!event.registrationLink;
   const capacity = getEventCapacity(event);
   const capacityText = capacity !== undefined ? `${capacity}${event.capacity_label ? ` ${event.capacity_label.toLowerCase()}` : ""}` : undefined;
   const attendance = event.attendanceStatement || (partner ? "Paid tickets. Places are limited and advance booking is required." : DEFAULT_EVENT_ATTENDANCE);
   const actionLabel = event.ctaLabel || (partner ? "Register Interest" : "Request an Invitation");
-  const action = (large = false) => partner
+  const action = (large = false) => past
+    ? <Button asChild variant="brand" size={large ? "lg" : "default"}><a href="/events">View upcoming events</a></Button>
+    : partner
     ? event.registrationLink
       ? <Button asChild variant="brand" size={large ? "lg" : "default"}><a href={event.registrationLink}>{actionLabel}</a></Button>
       : null
-    : past ? <Button variant="brand" size={large ? "lg" : "default"} onClick={onRequest}>Register interest</Button>
     : closed ? <p className="text-muted-foreground">Registration closed</p>
     : event.registrationLink ? <Button asChild variant="brand" size={large ? "lg" : "default"}><a href={event.registrationLink}>{actionLabel}</a></Button>
     : <Button variant="brand" size={large ? "lg" : "default"} onClick={onRequest}>{actionLabel}</Button>;
@@ -87,8 +88,8 @@ export default function EventPageTemplate({ event, onRequest, context, participa
     {editorial ? party ? <DecompressionEditorial event={event} /> : mpts ? <MptsEditorial event={event} /> : breakfast ? <BreakfastEditorial event={event} /> : <OffAirEditorial event={event} /> : <>
     <CopySection title="About This Event"><Narrative text={event.description || event.summary || "Event details will be announced."} /></CopySection>
     {event.whoAttends && <CopySection title="Who Attends"><Narrative text={event.whoAttends} /></CopySection>}
-    {!!event.whyAttend?.length && <CopySection title="Why Attend"><ul className="list-disc space-y-2 pl-5">{event.whyAttend.map((item, i) => <li key={i}>{item}</li>)}</ul></CopySection>}
-    {(!!event.whatToExpect?.length || event.details) && <CopySection title="What To Expect">
+    {!!event.whyAttend?.length && <CopySection title={past ? "Event focus" : "Why Attend"}><ul className="list-disc space-y-2 pl-5">{event.whyAttend.map((item, i) => <li key={i}>{item}</li>)}</ul></CopySection>}
+    {(!!event.whatToExpect?.length || event.details) && <CopySection title={past ? "Event format" : "What To Expect"}>
       {event.whatToExpect?.length ? <ul className="list-disc space-y-2 pl-5">{event.whatToExpect.map((item, i) => <li key={i}>{item}</li>)}</ul> : <Narrative text={event.details!} />}
     </CopySection>}
     </>}
@@ -114,8 +115,8 @@ export default function EventPageTemplate({ event, onRequest, context, participa
   </div></div>
     <ClosingCTA
       eyebrow={party ? "IBC DECOMPRESSION PARTY" : undefined}
-      heading={closed ? "Registration Closed" : past ? "Interested in a future event?" : partner || editorial ? event.ctaHeading || "Request an Invitation" : "Want to join us?"}
-      support={past && !partner ? <p>This event has finished. You can register interest in future gatherings.</p> : partner || editorial ? <Narrative text={event.ctaCopy || "Please register your interest with the organisers. Paid tickets are limited and subject to availability."} /> : <p>{attendance}</p>}
+      heading={past ? "Interested in a future event?" : closed ? "Registration Closed" : partner || editorial ? event.ctaHeading || "Request an Invitation" : "Want to join us?"}
+      support={past ? <p>This event has finished. Explore our upcoming gatherings.</p> : partner || editorial ? <Narrative text={event.ctaCopy || "Please register your interest with the organisers. Paid tickets are limited and subject to availability."} /> : <p>{attendance}</p>}
       action={hasAction ? action(true) : undefined}
     />
   </>;

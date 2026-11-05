@@ -87,7 +87,7 @@ export default function WhoAttendsSection({ section = {} }: WhoAttendsSectionPro
           <div className="lg:col-span-4">
             <h2 className="site-heading !font-medium text-[#f7f3eb]">{section.heading || "In The Room"}</h2>
           </div>
-          <p className="max-w-3xl text-base leading-[1.5] text-[#f7f3eb]/75 lg:col-span-8">{intro.split(/(In 2026)/).map((part, index) => part === "In 2026" ? <strong key={index} className="font-semibold">{part}</strong> : part)}</p>
+          <p className="max-w-3xl text-base leading-[1.5] text-[#f7f3eb]/75 lg:col-span-8">{intro.split(/(In 2026|300\+)/).map((part, index) => part === "In 2026" || part === "300+" ? <strong key={index} className={part === "300+" ? "font-semibold text-[#35C5BB]" : "font-semibold"}>{part}</strong> : part)}</p>
         </div>
           <div ref={credentialRow} className={`mt-8 grid ${highlights.length === 3 ? "md:grid-cols-3" : "md:grid-cols-2 xl:grid-cols-4"}`}>
             {highlights.map((item, index) => {

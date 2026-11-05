@@ -22,7 +22,7 @@ export default function Community({ content = communityContent }: { content?: Co
     <Seo {...communitySeo(content)} />
     <Header />
     <ContactForm open={contactOpen} onOpenChange={setContactOpen} />
-    <main className="site-header-clearance">
+    <main id="main-content" tabIndex={-1} className="site-header-clearance">
       <PageHero {...content.hero} presentation="public" mobileArtworkPath="/community" className="max-sm:!pb-[calc(60vw-1.82rem)]" descriptionClassName="!text-[#9bd3c8]" image="/uploads/website-hero-community.png" />
       {content.sections.map(section => {
         if (section.type === "editorial" && section.id === AUDIENCE_SNAPSHOT_ID) {

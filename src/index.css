@@ -177,7 +177,7 @@
   }
 
   .site-header-clearance {
-    @apply pt-[116px] lg:pt-[170px];
+    @apply pt-[96px] lg:pt-[170px];
   }
 
   .site-heading {

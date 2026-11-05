@@ -1,6 +1,6 @@
 import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 // Shared listing content for the public events page and Decap draft preview.
-import React from "react";
+import React, { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import PageHero from "@/components/shared/PageHero";
@@ -46,7 +46,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
         {event.partnerEvent && event.attendanceStatement && <p className="font-body text-base leading-[1.6] text-white/65">{event.attendanceStatement}</p>}
         <EventTags event={event} />
         <p className="max-w-[75ch] font-body text-base leading-[1.7] text-muted-foreground">{event.summary || event.description || "Programme details will be announced."}</p>
-        <a href={`/events/${event.id}`} className="site-secondary-action">Learn more</a>
+        <a href={`/events/${event.id}`} className="site-secondary-action">{isPastEvent(event) ? "View event" : "Learn more"}</a>
       </div>
     </motion.article>
   );
@@ -66,13 +66,14 @@ export default function EventsListing({ content, layoutContent = eventsPageConte
   // Editors must still see historical records in the draft preview.
   showPastEventsInitially?: boolean;
 }) {
+  const [showPastEvents, setShowPastEvents] = useState(showPastEventsInitially);
   const { hero, intro } = getEventContent(content);
   const layoutIntro = layoutContent.sections.find(section => section.type === "eventsIntro" && !section.hidden);
   const displayedIntro = intro.title ? intro : layoutIntro;
   const upcomingEvents = getUpcomingEvents(undefined, content);
   const pastEvents = getPastEvents(content);
   return (
-      <main className="bg-[#101d24] site-header-clearance">
+      <main id="main-content" tabIndex={-1} className="bg-[#101d24] site-header-clearance">
         {/* HERO */}
         <PageHero
           presentation="public" mobileArtworkPath="/events"
@@ -109,9 +110,12 @@ export default function EventsListing({ content, layoutContent = eventsPageConte
         </section>}
 
         {/* PAST EVENTS */}
+        {pastEvents.length > 0 && <div className="site-container py-6">
+          <button type="button" aria-expanded={showPastEvents} aria-controls="past-events" onClick={() => setShowPastEvents(value => !value)} className="site-secondary-action min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary">{showPastEvents ? "Hide past events" : "View past events"}</button>
+        </div>}
 
         {pastEvents.length > 0 && (
-          <section id="past-events" hidden={!showPastEventsInitially} className="site-section border-b border-white/10">
+          <section id="past-events" hidden={!showPastEvents} className="site-section border-b border-white/10">
             <div className="site-container">
               <h2 className="mb-8 font-display text-[30px] font-light leading-tight text-white md:mb-12 md:text-4xl">Past Events</h2>
               <ChronologicalGroups events={pastEvents} />

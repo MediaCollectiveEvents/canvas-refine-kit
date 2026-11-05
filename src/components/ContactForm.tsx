@@ -8,11 +8,16 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, useFormField } from "@/components/ui/form";
 import { toast } from "@/hooks/use-toast";
 import useEnquiryVerification from "@/hooks/useEnquiryVerification";
 import { contactSchema, sendContact, type ContactData } from "@/lib/contact";
 import partnersContent from "@/content/partners.json";
+
+function ContactControl(props: React.ComponentProps<typeof FormControl>) {
+  const { error, formMessageId } = useFormField();
+  return <FormControl aria-describedby={error ? formMessageId : undefined} {...props} />;
+}
 
 export default function ContactForm({ open, onOpenChange, context }: {
   context?: string;
@@ -97,21 +102,21 @@ export default function ContactForm({ open, onOpenChange, context }: {
             <FormField control={form.control} name="fullName" render={({ field }) => (
               <FormItem>
                 <FormLabel>Name</FormLabel>
-                <FormControl><Input autoComplete="name" maxLength={100} required disabled={isSubmitting} {...field} /></FormControl>
+                <ContactControl><Input autoComplete="name" maxLength={100} required disabled={isSubmitting} {...field} /></ContactControl>
                 <FormMessage />
               </FormItem>
             )} />
             <FormField control={form.control} name="email" render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl><Input type="email" autoComplete="email" maxLength={255} required disabled={isSubmitting} {...field} /></FormControl>
+                <ContactControl><Input type="email" autoComplete="email" maxLength={255} required disabled={isSubmitting} {...field} /></ContactControl>
                 <FormMessage />
               </FormItem>
             )} />
             <FormField control={form.control} name="message" render={({ field }) => (
               <FormItem>
                 <FormLabel>Message</FormLabel>
-                <FormControl><Textarea rows={5} maxLength={5000} required disabled={isSubmitting} {...field} /></FormControl>
+                <ContactControl><Textarea rows={5} maxLength={5000} required disabled={isSubmitting} {...field} /></ContactControl>
                 <FormMessage />
               </FormItem>
             )} />
