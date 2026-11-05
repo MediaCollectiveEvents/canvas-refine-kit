@@ -1,10 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
+import { useRef, useState } from "react";
+import { EventRegistrationForm } from "@/components/shared/LazyEnquiryForms";
 import { Linkedin } from "lucide-react";
 import { CookieSettingsButton } from "@/components/shared/CookieConsent";
 import AttendanceCTA from "@/components/shared/AttendanceCTA";
 
 export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCTA?: boolean }) {
   const { pathname } = useLocation();
+  const [updatesOpen, setUpdatesOpen] = useState(false);
+  const updatesTrigger = useRef<HTMLButtonElement>(null);
   const hasContextualEnding =
     /^\/(?:faq|partners|privacy-policy|blog)\/?$/.test(pathname) ||
     /^\/events\/(?!calendar(?:\/|$))[^/]+\/?$/.test(pathname);
@@ -13,6 +17,7 @@ export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCT
 
   return (
     <>
+      {!isAdmin && <EventRegistrationForm eventUpdatesOnly open={updatesOpen} onOpenChange={setUpdatesOpen} onCloseAutoFocus={event => { event.preventDefault(); updatesTrigger.current?.focus(); }} />}
       {!hideAttendanceCTA && !isAdmin && !hasContextualEnding && <AttendanceCTA calendarContext={pathname === "/events/calendar"} />}
     <footer id="contact" className="site-gutter border-t border-white/10 bg-[#08111f]">
       <div className="site-container flex flex-col items-start gap-3 py-4 sm:flex-row sm:items-center sm:justify-center sm:gap-6 sm:py-3 xl:gap-10">
@@ -25,6 +30,7 @@ export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCT
         </a>
 
         <nav aria-label="Footer" className="flex flex-wrap items-center gap-x-6 gap-y-1 xl:gap-x-8">
+          {!isAdmin && <button ref={updatesTrigger} type="button" className={linkClassName} onClick={() => setUpdatesOpen(true)}>Be the first to hear about new events</button>}
           <Link to="/faq" className={linkClassName}>FAQ</Link>
           <Link to="/privacy-policy" className={linkClassName}>Privacy Policy</Link>
           {!isAdmin && <CookieSettingsButton className={linkClassName} />}
