@@ -34,7 +34,11 @@ interface PartnersPageRendererProps {
   onRegister: () => void;
 }
 
-const currentSponsors = getOrganisations();
+// Event-specific sponsors remain in the directory and on their event pages.
+const excludedFromPartners = new Set(["norsk", "appear", "waldo"]);
+const currentSponsors = getOrganisations().filter(organisation =>
+  !excludedFromPartners.has((organisation.id || organisation.name || "").trim().toLowerCase())
+);
 const audienceSnapshot = communityContent.sections.find(section => section.id === AUDIENCE_SNAPSHOT_ID);
 const audienceMetrics = parseAudienceSnapshot(audienceSnapshot?.heading).stats;
 
@@ -149,7 +153,7 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
             );
           case "joinUs":
             return (
-              <ClosingCTA key={section.id ?? section.type} id="partner-conversation" eyebrow={section.eyebrow} heading={section.heading} headingClassName="!text-[25.6px] !leading-[37.5px] md:!leading-10"
+              <ClosingCTA key={section.id ?? section.type} id="partner-conversation" eyebrow={section.eyebrow} heading={section.heading}
                 action={section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>} />
             );
           default:

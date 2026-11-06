@@ -144,6 +144,11 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
     return () => clearInterval(timer);
   }, [reducedMotion, paused, userPaused, testimonials.length]);
 
+  const playbackPaused = paused || userPaused;
+  const togglePlayback = () => {
+    if (playbackPaused) { setPaused(false); setUserPaused(false); }
+    else setUserPaused(true);
+  };
   const current = testimonials[index % testimonials.length];
 
   if (!current) return null;
@@ -175,11 +180,9 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           role="region"
           aria-label="Testimonials"
           aria-keyshortcuts="Space"
-          aria-description={reducedMotion ? undefined : userPaused ? "Automatic rotation paused. Press Space to resume." : "Press Space to pause automatic rotation."}
-          onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); setUserPaused(value => !value); } }}
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocusCapture={() => setPaused(true)}
+          aria-description={reducedMotion ? undefined : playbackPaused ? "Automatic rotation paused. Press Space to resume." : "Press Space to pause automatic rotation."}
+          onKeyDown={event => { if (!reducedMotion && event.target === event.currentTarget && event.key === " ") { event.preventDefault(); togglePlayback(); } }}
+          onFocusCapture={event => { if (!(event.target as HTMLElement).closest("[data-carousel-playback]")) setPaused(true); }}
           onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false); }}
           className="relative min-w-0 pt-6 font-body xl:col-span-3 xl:pl-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300"
         >
@@ -268,7 +271,7 @@ const TestimonialsSection = ({ section }: TestimonialsSectionProps) => {
           {testimonials.length > 1 && (
             <div className="mt-4 flex flex-wrap items-center gap-1">
 
-              {!reducedMotion && <button type="button" aria-label={userPaused ? "Play testimonials" : "Pause testimonials"} aria-pressed={userPaused} onClick={() => setUserPaused(value => !value)} className="mr-3 min-h-11 rounded-sm px-3 text-sm text-[#9bd3c8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300">{userPaused ? "Play" : "Pause"}</button>}
+              {!reducedMotion && <button type="button" data-carousel-playback aria-label={playbackPaused ? "Play testimonials" : "Pause testimonials"} aria-pressed={playbackPaused} onClick={togglePlayback} className="mr-3 min-h-11 rounded-sm px-3 text-sm text-[#9bd3c8] focus-visible:outline focus-visible:outline-2 focus-visible:outline-teal-300">{playbackPaused ? "Play" : "Pause"}</button>}
               {testimonials.map((_, dotIndex) => {
                 const active = dotIndex === index;
 
