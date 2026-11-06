@@ -47,7 +47,7 @@ test("CTA correction preserves action, destination and approved typography", () 
   assert.equal(cta.cta!.label, "Arrange a Call");
   assert.equal(cta.cta!.url, "https://calendly.com/mediacollective/call-with-chris");
   assert.doesNotMatch(html, /!text-\[25\.6px\]/);
-  assert.match(html, /text-\[30px\]/);
+  assert.match(html, /xl:text-\[72px\]/);
   assert.match(html, /h-\[7\.8rem\] w-\[14\.3rem\]/);
   assert.match(html, /id="partner-community"[^>]*site-section-compact/);
 });
