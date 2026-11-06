@@ -46,7 +46,15 @@ test("CTA correction preserves action, destination and approved typography", () 
   assert.equal(cta.heading, "Connect your brand with leaders across media and technology.");
   assert.equal(cta.cta!.label, "Arrange a Call");
   assert.equal(cta.cta!.url, "https://calendly.com/mediacollective/call-with-chris");
-  assert.match(html, /!text-\[25\.6px\]/);
+  assert.doesNotMatch(html, /!text-\[25\.6px\]/);
+  assert.match(html, /text-\[30px\]/);
   assert.match(html, /h-\[7\.8rem\] w-\[14\.3rem\]/);
   assert.match(html, /id="partner-community"[^>]*site-section-compact/);
+});
+
+
+test("event-only sponsors are absent from Partners without deleting their directory records", () => {
+  const html = renderPartners();
+  const community = html.slice(html.indexOf('id="partner-community"'), html.indexOf('</section>', html.indexOf('id="partner-community"')));
+  for (const name of ["Norsk", "Appear", "Waldo"]) assert.ok(!community.includes(name), name);
 });

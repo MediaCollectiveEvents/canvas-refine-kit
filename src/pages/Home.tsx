@@ -32,9 +32,7 @@ const Home = ({ content = homepageContent }: { content?: typeof homepageContent 
 
       <main id="main-content" tabIndex={-1} className="site-header-clearance">
         <PageHero presentation="public" identity eyebrow={hero.eyebrow ?? hero.subtitle}
-          title={hero.title} description={hero.description} image={hero.image}
-          showCtas primaryCtaText="Request an invitation" onPrimaryClick={handleOpenRegister}
-          secondaryCtaText="See the next event" secondaryCtaHref="#next-event" />
+          title={hero.title} description={hero.description} image={hero.image} />
 
       <div className="w-full">
         <HomepageRenderer

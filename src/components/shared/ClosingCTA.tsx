@@ -9,7 +9,7 @@ export default function ClosingCTA({ id, eyebrow, heading, support, action, head
   action?: ReactNode;
 }) {
   return <section id={id} className="site-section border-b border-white/10 bg-[#172b31]">
-    <div className="site-container grid items-start gap-8 lg:grid-cols-12">
+    <div className="site-container grid items-center gap-8 lg:grid-cols-12">
       <div className="min-w-0 lg:col-span-8">
         {eyebrow && <p className="site-eyebrow mb-3 text-[#9bd3c8]">{eyebrow}</p>}
         <h2 className={`font-display text-[30px] font-light leading-tight text-white md:text-4xl ${headingClassName}`}>{heading}</h2>
