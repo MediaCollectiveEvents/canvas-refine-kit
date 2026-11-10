@@ -6,6 +6,8 @@ import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
+const controllerName = "Modula Media";
+const controllerAddress = "10 Heathfield Terrace, London, W4 4JE";
 const privacyEmail = "chris@mediacollective.events";
 
 function PrivacyEmailLink() {
@@ -61,7 +63,7 @@ const PrivacyPolicy = () => {
                 1. Introduction
               </h2>
               <p className="text-muted-foreground font-body leading-[1.7] mb-4">
-                The Media Collective ("we," "our," or "us") is committed to protecting your privacy and ensuring the security of your personal data. This Privacy Policy explains how we collect, use, store, and protect your information when you use our website, register for our events, or interact with our services.
+                This Privacy Policy explains how {controllerName} ("we", "our" or "us") handles personal data when you use The Media Collective website, register for our events, or interact with our services.
               </p>
               <p className="text-muted-foreground font-body leading-[1.7]">
                 This policy complies with the General Data Protection Regulation (GDPR) (EU) 2016/679 and the UK GDPR. By using our services, you acknowledge that you have read and understood this Privacy Policy.
@@ -74,12 +76,12 @@ const PrivacyPolicy = () => {
                 2. Data Controller
               </h2>
               <p className="text-muted-foreground font-body leading-[1.7] mb-4">
-                The Media Collective is the data controller responsible for your personal data. If you have any questions about this Privacy Policy or our data practices, please contact us at:
+                {controllerName} is the data controller responsible for the personal data covered by this notice. If you have any questions about this Privacy Policy or our data practices, please contact us at:
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="text-foreground font-body">
                   <strong>Email:</strong> <PrivacyEmailLink /><br />
-                  <strong>Address:</strong> The Media Collective, London, United Kingdom
+                  <strong>Address:</strong> {controllerName}, {controllerAddress}
                 </p>
               </div>
             </div>
@@ -325,7 +327,7 @@ const PrivacyPolicy = () => {
       </section>
 
       <ClosingCTA heading="Contact Us"
-        support={<><p>For any questions or concerns about this Privacy Policy or your personal data, please contact:</p><p><strong>The Media Collective</strong><br />London, United Kingdom</p></>}
+        support={<><p>For any questions or concerns about this Privacy Policy or your personal data, please contact:</p><p><strong>{controllerName}</strong><br />{controllerAddress}</p></>}
         action={<Button variant="brand" size="lg" asChild><a href={`mailto:${privacyEmail}`}>Email: {privacyEmail}</a></Button>} />
       </main>
       <Footer />
