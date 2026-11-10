@@ -113,6 +113,10 @@ const EventRegistrationForm = ({
   const [submissionError, setSubmissionError] = useState("");
   const lastSelectedId = useRef(selectedId);
   const submissionLock = useRef(false);
+  const cancelAttempt = useRef<(() => void) | null>(null);
+  const recoveryFocus = useRef<"retry" | "submit" | null>(null);
+  const verificationStatus = useRef<HTMLParagraphElement>(null);
+  const cancelVerification = () => cancelAttempt.current?.();
   const updatesRequestId = useRef<string>();
   const [submissionPhase, setSubmissionPhase] = useState<"idle" | "verifying" | "sending">("idle");
   const isSubmitting = submissionPhase !== "idle";
@@ -175,6 +179,7 @@ const EventRegistrationForm = ({
   const handleFormSubmit = async () => {
     if (submissionLock.current || !captchaReady || captchaRef.current?.getWidgetId() == null) return;
     submissionLock.current = true;
+    let cancelled = false;
     let verificationTimeout: ReturnType<typeof setTimeout> | undefined;
     try {
       if (!await form.trigger(undefined, { shouldFocus: true })) return;
@@ -183,15 +188,25 @@ const EventRegistrationForm = ({
       const token = await Promise.race([
         captchaRef.current?.executeAsync(),
         new Promise<never>((_, reject) => {
+          cancelAttempt.current = () => {
+            cancelled = true;
+            cancelAttempt.current = null;
+            reject(new Error("Verification cancelled"));
+          };
           verificationTimeout = setTimeout(() => reject(new Error("Verification timed out")), 60000);
         }),
       ]);
+      cancelAttempt.current = null;
       if (!token) throw new Error("Verification unavailable");
       await submitForm(form.getValues(), token);
     } catch {
+      if (cancelled) recoveryFocus.current = "retry";
       verification.failed();
-      setSubmissionError("Verification could not be completed. Try verification again; your entries are kept.");
+      setSubmissionError(cancelled
+        ? "Verification cancelled. Your entries are kept."
+        : "Verification could not be completed. Try verification again; your entries are kept.");
     } finally {
+      cancelAttempt.current = null;
       clearTimeout(verificationTimeout);
       captchaRef.current?.reset();
       submissionLock.current = false;
@@ -236,6 +251,10 @@ const EventRegistrationForm = ({
     }
   };
   const handleClose = () => {
+    if (submissionPhase === "verifying") {
+      cancelVerification();
+      return;
+    }
     if (isSubmitting) return;
     if (submitted) {
       form.reset({ fullName: "", companyName: "", email: "", engagementTypes: eventUpdatesOnly ? ["notifications"] : attendanceOnly ? ["attend"] : [],
@@ -263,7 +282,7 @@ const EventRegistrationForm = ({
     })
   };
   return <Dialog modal={false} open={open} onOpenChange={handleClose}>
-      <DialogContent externalVerification onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
+      <DialogContent externalVerification onVerificationCancel={submissionPhase === "verifying" ? cancelVerification : undefined} onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
         <DialogHeader className={attendanceOnly || eventUpdatesOnly ? "pr-6" : "sr-only"}>
           <DialogTitle>{eventUpdatesOnly ? "Be the first to hear about new events" : attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
           <DialogDescription>{eventUpdatesOnly ? "Subscribe to emails announcing new Media Collective events. This does not request an event invitation." : "Send your details so we can review your request. Submitting does not confirm attendance."}</DialogDescription>
@@ -433,8 +452,15 @@ const EventRegistrationForm = ({
             </AnimatePresence>
 
             {currentStage === 4 && !captchaReady && <div className="space-y-2">
-              <p role="status" className="text-base text-muted-foreground">{verification.message}</p>
-              {verification.canRetry && <Button type="button" variant="ghost" onClick={() => {
+              <p ref={verificationStatus} tabIndex={-1} role="status" className="text-base text-muted-foreground">{verification.message}</p>
+              {verification.canRetry && <Button type="button" variant="ghost" ref={button => {
+                if (button && recoveryFocus.current) {
+                  recoveryFocus.current = null;
+                  button.focus();
+                }
+              }} onClick={() => {
+                verificationStatus.current?.focus();
+                recoveryFocus.current = "submit";
                 setSubmissionError("");
                 verification.retry();
               }}>Try verification again</Button>}
@@ -454,11 +480,17 @@ const EventRegistrationForm = ({
               {currentStage < 4 ? <Button key="next" type="button" onClick={nextStage} className="gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                   Next
                   <ChevronRight className="w-4 h-4" />
-                </Button> : <Button key="submit" type="submit" disabled={isSubmitting || !captchaReady} className="h-auto min-h-10 whitespace-normal gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
+                </Button> : <Button key="submit" type="submit" ref={button => {
+              if (button && !button.disabled && recoveryFocus.current === "submit") {
+                recoveryFocus.current = null;
+                button.focus();
+              }
+            }} disabled={isSubmitting || !captchaReady} className="h-auto min-h-10 whitespace-normal gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                   {isSubmitting ? submissionPhase === "verifying" ? "Verifying…" : "Sending…" : eventUpdatesOnly ? "Subscribe to event updates" : attendanceOnly ? "Request an invitation" : "Submit enquiry"}
                 </Button>}
             </div>
             </fieldset>
+            {submissionPhase === "verifying" && <Button type="button" variant="ghost" onClick={cancelVerification}>Cancel verification</Button>}
           </form>
         </Form>
         </>}

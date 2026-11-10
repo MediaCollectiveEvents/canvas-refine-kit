@@ -26,6 +26,10 @@ export default function ContactForm({ open, onOpenChange, context }: {
 }) {
   const captchaRef = useRef<ReCAPTCHA>(null);
   const submissionLock = useRef(false);
+  const cancelAttempt = useRef<(() => void) | null>(null);
+  const recoveryFocus = useRef<"retry" | "submit" | null>(null);
+  const verificationStatus = useRef<HTMLParagraphElement>(null);
+  const cancelVerification = () => cancelAttempt.current?.();
   const verification = useEnquiryVerification(open);
   const captchaReady = verification.ready;
   const [submissionError, setSubmissionError] = useState("");
@@ -43,6 +47,10 @@ export default function ContactForm({ open, onOpenChange, context }: {
   }, [form.formState?.isDirty, submitted]);
 
   const changeOpen = (value: boolean) => {
+    if (submissionPhase === "verifying") {
+      cancelVerification();
+      return;
+    }
     if (isSubmitting) return;
     if (!value) {
       if (submitted) {
@@ -58,6 +66,7 @@ export default function ContactForm({ open, onOpenChange, context }: {
   const submit = async (data: ContactData) => {
     if (submissionLock.current || !captchaReady || captchaRef.current?.getWidgetId() == null) return;
     submissionLock.current = true;
+    let cancelled = false;
     setSubmissionPhase("verifying");
     setSubmissionError("");
     let timeout: ReturnType<typeof setTimeout>;
@@ -65,19 +74,32 @@ export default function ContactForm({ open, onOpenChange, context }: {
       const token = await Promise.race([
         captchaRef.current?.executeAsync(),
         new Promise<never>((_, reject) => {
+          cancelAttempt.current = () => {
+            cancelled = true;
+            cancelAttempt.current = null;
+            reject(new Error("Verification cancelled"));
+          };
           timeout = setTimeout(() => reject(new Error("Verification timed out")), 60000);
         }),
       ]);
+      cancelAttempt.current = null;
       if (!token) throw new Error("Verification unavailable");
       setSubmissionPhase("sending");
       await sendContact(data, token);
       setSubmitted(true);
     } catch (error) {
+      if (cancelled) {
+        recoveryFocus.current = "retry";
+        verification.failed();
+        setSubmissionError("Verification cancelled. Your entries are kept.");
+        return;
+      }
       if (!(error instanceof EnquiryDeliveryError)) verification.failed();
       const message = error instanceof EnquiryDeliveryError ? error.message : "Verification could not be completed. Try verification again; your entries are kept.";
       setSubmissionError(message);
       toast({ title: "Unable to confirm", description: message, variant: "destructive" });
     } finally {
+      cancelAttempt.current = null;
       clearTimeout(timeout!);
       captchaRef.current?.reset();
       submissionLock.current = false;
@@ -87,7 +109,7 @@ export default function ContactForm({ open, onOpenChange, context }: {
 
   return (
     <Dialog modal={false} open={open} onOpenChange={changeOpen}>
-      <DialogContent externalVerification className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto sm:max-w-[540px]">
+      <DialogContent externalVerification onVerificationCancel={submissionPhase === "verifying" ? cancelVerification : undefined} className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto sm:max-w-[540px]">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Contact us</DialogTitle>
           <DialogDescription>{context || "Send us a general enquiry."}</DialogDescription>
@@ -135,8 +157,15 @@ export default function ContactForm({ open, onOpenChange, context }: {
               onErrored={verification.failed}
             />}
             {!captchaReady && <div className="space-y-2">
-              <p role="status" className="text-base text-muted-foreground">{verification.message}</p>
-              {verification.canRetry && <Button type="button" variant="ghost" onClick={() => {
+              <p ref={verificationStatus} tabIndex={-1} role="status" className="text-base text-muted-foreground">{verification.message}</p>
+              {verification.canRetry && <Button type="button" variant="ghost" ref={button => {
+                if (button && recoveryFocus.current) {
+                  recoveryFocus.current = null;
+                  button.focus();
+                }
+              }} onClick={() => {
+                verificationStatus.current?.focus();
+                recoveryFocus.current = "submit";
                 setSubmissionError("");
                 verification.retry();
               }}>Try verification again</Button>}
@@ -146,7 +175,13 @@ export default function ContactForm({ open, onOpenChange, context }: {
               <p><a href={partnersContent.hero.primaryCta.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Arrange a call<span className="sr-only"> (opens in a new tab)</span></a> if you need help.</p>
             </div>}
             {isSubmitting && <p role="status" className="text-base text-muted-foreground">{submissionPhase === "verifying" ? "Verifying… If reCAPTCHA asks you to complete a challenge, follow its instructions to continue." : "Sending… Please wait for confirmation before closing this form."}</p>}
-            <Button type="submit" variant="brand" className="rounded-full" disabled={isSubmitting || !captchaReady}>
+            {submissionPhase === "verifying" && <Button type="button" variant="ghost" onClick={cancelVerification}>Cancel verification</Button>}
+            <Button type="submit" ref={button => {
+              if (button && !button.disabled && recoveryFocus.current === "submit") {
+                recoveryFocus.current = null;
+                button.focus();
+              }
+            }} variant="brand" className="rounded-full" disabled={isSubmitting || !captchaReady}>
               {isSubmitting ? submissionPhase === "verifying" ? "Verifying…" : "Sending…" : "Submit"}
             </Button>
           </form>

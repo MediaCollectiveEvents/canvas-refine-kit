@@ -27,10 +27,18 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+function isRecaptchaFrame(element: Element | null, page: "anchor" | "bframe") {
+  if (!(element instanceof HTMLIFrameElement)) return false;
+  const source = new URL(element.src || "about:blank", element.ownerDocument.baseURI);
+  return source.protocol === "https:" &&
+    ["www.google.com", "www.recaptcha.net"].includes(source.hostname) &&
+    [`/recaptcha/api2/${page}`, `/recaptcha/enterprise/${page}`].includes(source.pathname);
+}
+
 // Google appends its challenge iframe outside the form's portal. These two
 // forms use inert background elements so the challenge can receive input
 // without opening the rest of the page to clicks or keyboard focus.
-const VerificationDialogLayer = React.forwardRef<HTMLDivElement, React.PropsWithChildren>(({ children }, ref) => {
+const VerificationDialogLayer = React.forwardRef<HTMLDivElement, React.PropsWithChildren<{ onVerificationCancel?: () => void }>>(({ children, onVerificationCancel }, ref) => {
   const layer = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => layer.current!);
   React.useLayoutEffect(() => {
@@ -44,12 +52,8 @@ const VerificationDialogLayer = React.forwardRef<HTMLDivElement, React.PropsWith
     body.style.overflow = "hidden";
 
     const allowChallenge = (element: HTMLElement) =>
-      (element instanceof HTMLIFrameElement ? [element] : Array.from(element.querySelectorAll("iframe"))).some(frame => {
-        const source = new URL(frame.src || "about:blank", portal.ownerDocument.baseURI);
-        return source.protocol === "https:" &&
-          ["www.google.com", "www.recaptcha.net"].includes(source.hostname) &&
-          /^\/recaptcha\/(api2|enterprise)\/bframe$/.test(source.pathname);
-      });
+      isRecaptchaFrame(element, "bframe") ||
+      Array.from(element.querySelectorAll("iframe")).some(frame => isRecaptchaFrame(frame, "bframe"));
 
     const updateBackground = () => {
       for (const child of body.children) {
@@ -78,6 +82,28 @@ const VerificationDialogLayer = React.forwardRef<HTMLDivElement, React.PropsWith
     };
   }, []);
 
+  React.useEffect(() => {
+    const portal = layer.current;
+    if (!portal || !onVerificationCancel) return;
+
+    // Escape inside Google's cross-origin challenge never reaches the dialog.
+    // Google hands focus back to its own anchor when the user dismisses it.
+    let wasInChallenge = false;
+    let returnedToAnchor = false;
+    const timer = setInterval(() => {
+      const focused = portal.ownerDocument.activeElement;
+      if (isRecaptchaFrame(focused, "bframe")) wasInChallenge = true;
+      if (wasInChallenge && focused && portal.contains(focused) && isRecaptchaFrame(focused, "anchor")) {
+        // Give the normal token callback time to finish when Google has verified.
+        if (returnedToAnchor) onVerificationCancel();
+        returnedToAnchor = true;
+      } else {
+        returnedToAnchor = false;
+      }
+    }, 100);
+    return () => clearInterval(timer);
+  }, [onVerificationCancel]);
+
   return <div ref={layer}>
     <div data-verification-backdrop aria-hidden="true" className="fixed inset-0 z-50 bg-black/80" />
     {children}
@@ -87,8 +113,8 @@ VerificationDialogLayer.displayName = "VerificationDialogLayer";
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { externalVerification?: boolean }
->(({ className, children, externalVerification, onInteractOutside, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & { externalVerification?: boolean; onVerificationCancel?: () => void }
+>(({ className, children, externalVerification, onVerificationCancel, onInteractOutside, ...props }, ref) => {
   const content = <DialogPrimitive.Content
       onInteractOutside={event => {
         onInteractOutside?.(event);
@@ -112,7 +138,7 @@ const DialogContent = React.forwardRef<
     </DialogPrimitive.Content>;
 
   if (externalVerification) {
-    return <DialogPortal><VerificationDialogLayer>{content}</VerificationDialogLayer></DialogPortal>;
+    return <DialogPortal><VerificationDialogLayer onVerificationCancel={onVerificationCancel}>{content}</VerificationDialogLayer></DialogPortal>;
   }
   return <DialogPortal>
     <DialogOverlay />

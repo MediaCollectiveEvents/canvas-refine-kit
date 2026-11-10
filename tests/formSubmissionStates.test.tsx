@@ -70,7 +70,8 @@ function mount(kind: "registration" | "contact") {
   const button = () => nodes(render()).find(node => node.props?.type === "submit");
   const status = () => nodes(render()).filter(node => node.props?.role === "status").map(text).join(" ");
   const closeSuccess = () => nodes(render()).find(node => node.props?.children === "Close").props.onClick();
-  return { render, submit, button, status, closeSuccess, text: () => text(render()), token, delivery, timers, values, originalValues, counts: () => ({ captchaCalls, sends, resets }) };
+  const cancel = () => nodes(render()).find(node => node.props?.children === "Cancel verification").props.onClick();
+  return { render, submit, button, status, closeSuccess, cancel, text: () => text(render()), token, delivery, timers, values, originalValues, counts: () => ({ captchaCalls, sends, resets }) };
 }
 
 for (const kind of ["registration", "contact"] as const) {
@@ -106,6 +107,16 @@ for (const kind of ["registration", "contact"] as const) {
     assert.equal(h.button().props.disabled, true, "verification must be retried before another submit");
     assert.match(h.text(), /Verification could not be completed/);
     assert.doesNotMatch(h.status(), /Sending|Verifying/);
+    assert.deepEqual(h.values, h.originalValues);
+  });
+
+  test(`${kind}: cancellation keeps the draft and ignores a late token`, async () => {
+    const h = mount(kind); const pending = h.submit(); await flush();
+    h.cancel(); await pending;
+    h.token.resolve("late-token"); await flush();
+    assert.equal(h.counts().sends, 0);
+    assert.equal(h.timers.size, 0);
+    assert.match(h.text(), /Verification cancelled/);
     assert.deepEqual(h.values, h.originalValues);
   });
 
