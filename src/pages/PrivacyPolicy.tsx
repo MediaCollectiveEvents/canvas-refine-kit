@@ -185,14 +185,14 @@ const PrivacyPolicy = () => {
                 7. Data Retention
               </h2>
               <p className="text-muted-foreground font-body leading-[1.7] mb-4">
-                We retain your personal data only for as long as necessary to fulfill the purposes for which it was collected:
+                We keep personal data for as long as we need it for the purposes described in this notice. We may keep relevant records for longer where needed for an ongoing relationship, a legal obligation or a dispute.
               </p>
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
-                <li><strong>Event Registration Data:</strong> 3 years after the event date</li>
-                <li><strong>Marketing Consent Records:</strong> Until consent is withdrawn, plus 1 year for audit purposes</li>
+                <li><strong>Enquiries:</strong> We generally keep them for up to 12 months after they close.</li>
+                <li><strong>Event and invitation requests:</strong> We generally keep them for up to 12 months after the event or final decision, whichever is later.</li>
+                <li><strong>Event updates:</strong> We review subscriptions after 12 months without meaningful engagement, such as a reply, link click or event registration. If you unsubscribe, we stop sending you those updates and keep only the information needed to respect your choice and demonstrate compliance where necessary.</li>
                 <li><strong>Google Analytics:</strong> Event-data and user-data retention are both set to 2 months, with reset on new user activity disabled. These controls concern detailed data associated with identifiers and do not limit most standard aggregated reports.</li>
                 <li><strong>Cloudflare Web Analytics:</strong> Published reporting and aggregation periods are described below. Total deletion timing remains unverified.</li>
-                <li><strong>Correspondence:</strong> 3 years from last communication</li>
               </ul>
             </div>
 
