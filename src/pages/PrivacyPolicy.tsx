@@ -7,7 +7,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const controllerName = "Modula Media Ltd";
-const controllerAddress = "10 Heathfield Terrace, London, W4 4JE";
+const controllerAddress = "10 Heathfield Terrace, Chiswick, London, UK, W4 4JE";
 const privacyEmail = "chris@mediacollective.events";
 
 function PrivacyEmailLink() {
