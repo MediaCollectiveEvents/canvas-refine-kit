@@ -6,6 +6,19 @@ import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
+const privacyEmail = "chris@mediacollective.events";
+
+function PrivacyEmailLink() {
+  return (
+    <a
+      href={`mailto:${privacyEmail}`}
+      className="text-primary underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+    >
+      {privacyEmail}
+    </a>
+  );
+}
+
 const PrivacyPolicy = () => {
   const reducedMotion = useReducedMotion();
   return (
@@ -65,7 +78,7 @@ const PrivacyPolicy = () => {
               </p>
               <div className="bg-muted/50 p-6 rounded-lg">
                 <p className="text-foreground font-body">
-                  <strong>Email:</strong> chris@mediacollective.events<br />
+                  <strong>Email:</strong> <PrivacyEmailLink /><br />
                   <strong>Address:</strong> The Media Collective, London, United Kingdom
                 </p>
               </div>
@@ -213,7 +226,7 @@ const PrivacyPolicy = () => {
                 </li>
               </ul>
               <p className="text-muted-foreground font-body leading-[1.7] mt-4">
-                To exercise any of these rights, please contact us at <a href="mailto:chris@mediacollective.events" className="text-primary hover:underline">chris@mediacollective.events</a>. We will respond within 30 days.
+                To exercise any of these rights, please contact us at <PrivacyEmailLink />. We respond without undue delay and normally within one calendar month. If the law allows more time, we will tell you within that month and explain why.
               </p>
             </div>
 
@@ -223,7 +236,7 @@ const PrivacyPolicy = () => {
                 9. International Data Transfers
               </h2>
               <p className="text-muted-foreground font-body leading-[1.7]">
-                Your data is primarily processed within the European Economic Area (EEA) and the United Kingdom. Where we transfer data outside these regions, we ensure appropriate safeguards are in place, including Standard Contractual Clauses approved by the European Commission, or transfers to countries with an adequacy decision.
+                The service providers described in this notice may process personal data outside the UK. You can contact us for details about where your information is processed and the safeguards that apply to any international transfer.
               </p>
             </div>
 
@@ -232,16 +245,9 @@ const PrivacyPolicy = () => {
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 10. Data Security
               </h2>
-              <p className="text-muted-foreground font-body leading-[1.7] mb-4">
-                We implement appropriate technical and organizational measures to protect your personal data, including:
+              <p className="text-muted-foreground font-body leading-[1.7]">
+                Information you send through our website forms is transmitted over HTTPS.
               </p>
-              <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
-                <li>Encryption of data in transit and at rest</li>
-                <li>Regular security assessments and penetration testing</li>
-                <li>Access controls and authentication measures</li>
-                <li>Staff training on data protection</li>
-                <li>Incident response procedures</li>
-              </ul>
             </div>
 
             {/* Cookies */}
@@ -307,7 +313,7 @@ const PrivacyPolicy = () => {
                 14. Complaints
               </h2>
               <p className="text-muted-foreground font-body leading-[1.7] mb-4">
-                If you have concerns about how we handle your personal data, please contact us first at <a href="mailto:chris@mediacollective.events" className="text-primary hover:underline">chris@mediacollective.events</a>.
+                If you have concerns about how we handle your personal data, you can contact us at <PrivacyEmailLink />.
               </p>
               <p className="text-muted-foreground font-body leading-[1.7]">
                 You also have the right to lodge a complaint with a supervisory authority. In the UK, this is the Information Commissioner's Office (ICO): <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ico.org.uk</a>
@@ -320,7 +326,7 @@ const PrivacyPolicy = () => {
 
       <ClosingCTA heading="Contact Us"
         support={<><p>For any questions or concerns about this Privacy Policy or your personal data, please contact:</p><p><strong>The Media Collective</strong><br />London, United Kingdom</p></>}
-        action={<Button variant="brand" size="lg" asChild><a href="mailto:chris@mediacollective.events">Email: chris@mediacollective.events</a></Button>} />
+        action={<Button variant="brand" size="lg" asChild><a href={`mailto:${privacyEmail}`}>Email: {privacyEmail}</a></Button>} />
       </main>
       <Footer />
     </div>
