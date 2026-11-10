@@ -61,7 +61,7 @@ function mount(kind: "registration" | "contact") {
   const render = () => {
     cursor = 0;
     tree = exports.default({ open: true, onOpenChange() {}, attendanceOnly: true });
-    for (const node of nodes(tree)) if (node.type === Dummy && node.ref) node.ref.current = { executeAsync: () => { captchaCalls++; return token.promise; }, reset() {} };
+    for (const node of nodes(tree)) if (node.type === Dummy && node.ref) node.ref.current = { getWidgetId: () => 0, executeAsync: () => { captchaCalls++; return token.promise; }, reset() {} };
     return tree;
   };
   const submit = () => nodes(render()).find(node => node.type === "form").props.onSubmit({ preventDefault() {} });
