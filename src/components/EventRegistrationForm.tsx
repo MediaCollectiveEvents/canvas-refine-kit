@@ -173,7 +173,7 @@ const EventRegistrationForm = ({
     }
   };
   const handleFormSubmit = async () => {
-    if (submissionLock.current || !captchaReady) return;
+    if (submissionLock.current || !captchaReady || captchaRef.current?.getWidgetId() == null) return;
     submissionLock.current = true;
     let verificationTimeout: ReturnType<typeof setTimeout> | undefined;
     try {
@@ -262,8 +262,8 @@ const EventRegistrationForm = ({
       opacity: reducedMotion ? 1 : 0
     })
   };
-  return <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
+  return <Dialog modal={false} open={open} onOpenChange={handleClose}>
+      <DialogContent externalVerification onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
         <DialogHeader className={attendanceOnly || eventUpdatesOnly ? "pr-6" : "sr-only"}>
           <DialogTitle>{eventUpdatesOnly ? "Be the first to hear about new events" : attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
           <DialogDescription>{eventUpdatesOnly ? "Subscribe to emails announcing new Media Collective events. This does not request an event invitation." : "Send your details so we can review your request. Submitting does not confirm attendance."}</DialogDescription>
@@ -423,7 +423,10 @@ const EventRegistrationForm = ({
                     ref={captchaRef}
                     sitekey={verification.siteKey}
                     size="invisible"
-                    asyncScriptOnLoad={verification.loaded}
+                    asyncScriptOnLoad={() => {
+                      if (captchaRef.current?.getWidgetId() != null) verification.loaded();
+                      else verification.failed();
+                    }}
                     onErrored={verification.failed}
                   />}
                 </motion.div>}
@@ -431,7 +434,10 @@ const EventRegistrationForm = ({
 
             {currentStage === 4 && !captchaReady && <div className="space-y-2">
               <p role="status" className="text-base text-muted-foreground">{verification.message}</p>
-              {verification.canRetry && <Button type="button" variant="ghost" onClick={verification.retry}>Try verification again</Button>}
+              {verification.canRetry && <Button type="button" variant="ghost" onClick={() => {
+                setSubmissionError("");
+                verification.retry();
+              }}>Try verification again</Button>}
             </div>}
             {submissionError && <div role="alert" className="space-y-2 text-base text-destructive">
               <p>{submissionError}</p>

@@ -56,7 +56,7 @@ export default function ContactForm({ open, onOpenChange, context }: {
   };
 
   const submit = async (data: ContactData) => {
-    if (submissionLock.current || !captchaReady) return;
+    if (submissionLock.current || !captchaReady || captchaRef.current?.getWidgetId() == null) return;
     submissionLock.current = true;
     setSubmissionPhase("verifying");
     setSubmissionError("");
@@ -86,8 +86,8 @@ export default function ContactForm({ open, onOpenChange, context }: {
   };
 
   return (
-    <Dialog open={open} onOpenChange={changeOpen}>
-      <DialogContent className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto sm:max-w-[540px]">
+    <Dialog modal={false} open={open} onOpenChange={changeOpen}>
+      <DialogContent externalVerification className="max-h-[90vh] w-[calc(100%-2rem)] overflow-y-auto sm:max-w-[540px]">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Contact us</DialogTitle>
           <DialogDescription>{context || "Send us a general enquiry."}</DialogDescription>
@@ -123,10 +123,23 @@ export default function ContactForm({ open, onOpenChange, context }: {
             <p className="text-base leading-relaxed text-muted-foreground">
               We use your details to respond to your enquiry. Read our <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a>.
             </p>
-            {verification.siteKey && <ReCAPTCHA key={verification.attempt} ref={captchaRef} sitekey={verification.siteKey} size="invisible" asyncScriptOnLoad={verification.loaded} onErrored={verification.failed} />}
+            {verification.siteKey && <ReCAPTCHA
+              key={verification.attempt}
+              ref={captchaRef}
+              sitekey={verification.siteKey}
+              size="invisible"
+              asyncScriptOnLoad={() => {
+                if (captchaRef.current?.getWidgetId() != null) verification.loaded();
+                else verification.failed();
+              }}
+              onErrored={verification.failed}
+            />}
             {!captchaReady && <div className="space-y-2">
               <p role="status" className="text-base text-muted-foreground">{verification.message}</p>
-              {verification.canRetry && <Button type="button" variant="ghost" onClick={verification.retry}>Try verification again</Button>}
+              {verification.canRetry && <Button type="button" variant="ghost" onClick={() => {
+                setSubmissionError("");
+                verification.retry();
+              }}>Try verification again</Button>}
             </div>}
             {submissionError && <div role="alert" className="space-y-2 text-base text-destructive">
               <p>{submissionError}</p>

@@ -283,6 +283,7 @@ const Header = () => {
               <Button
                 variant="brand"
                 onClick={() => {
+                  menuToggle.current?.focus();
                   setIsMenuOpen(false);
                   setIsFormOpen(true);
                 }}
