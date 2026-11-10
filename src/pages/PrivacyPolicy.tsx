@@ -6,7 +6,7 @@ import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
-const controllerName = "Modula Media";
+const controllerName = "Modula Media Ltd";
 const controllerAddress = "10 Heathfield Terrace, London, W4 4JE";
 const privacyEmail = "chris@mediacollective.events";
 
