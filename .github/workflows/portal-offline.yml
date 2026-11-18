@@ -32,6 +32,9 @@ jobs:
               target.write_bytes(z.read(name));target.chmod(0o644)
           pathlib.Path('activation').mkdir()
           pathlib.Path('payload/partner-portal/index.html').replace('activation/index.html')
+          owner=pathlib.Path('payload/partner-portal/owner/index.html')
+          owner.parent.mkdir(parents=True,exist_ok=True)
+          owner.write_bytes(pathlib.Path('activation/index.html').read_bytes());owner.chmod(0o644)
       - name: Upload portal assets only
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -61,4 +64,5 @@ jobs:
             for name in z.namelist():
               url='https://www.mediacollective.events/'+name+'?release='+str(time.time_ns())
               assert urllib.request.urlopen(url,timeout=30).read()==z.read(name),name
-          print('All 33 portal files verified. Main website routing unchanged.')
+          assert urllib.request.urlopen('https://www.mediacollective.events/partner-portal/owner/',timeout=30).read()==pathlib.Path('activation/index.html').read_bytes()
+          print('All 33 portal files and owner route verified. Main website routing unchanged.')
