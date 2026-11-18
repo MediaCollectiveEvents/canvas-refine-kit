@@ -1,4 +1,4 @@
-name: Publish prepared owner offline portal
+name: Publish owner registration deletion
 on:
   push:
     branches: [codex/portal-offline-20261118]
@@ -19,10 +19,10 @@ jobs:
         shell: python
         run: |
           import base64,hashlib,pathlib,zipfile,io
-          data=base64.b64decode(pathlib.Path('portal-release/owner-offline.zip.b64').read_text(),validate=True)
-          assert hashlib.sha256(data).hexdigest()=='17c0b18bd663a187382e1bf607141c8cfe78f000b1273502c47ed93f204568b8'
+          data=base64.b64decode(pathlib.Path('portal-release/registration-delete.zip.b64').read_text(),validate=True)
+          assert hashlib.sha256(data).hexdigest()=='9fc4199ebdabc7f2e421bc3193663d1c4c7a025c5f3a11c2c329800e18707f97'
           with zipfile.ZipFile(io.BytesIO(data)) as z:
-            assert len(z.namelist())==33
+            assert len(z.namelist())==24
             for name in z.namelist():
               p=pathlib.PurePosixPath(name)
               assert p.parts[0]=='partner-portal' and '..' not in p.parts
@@ -59,10 +59,10 @@ jobs:
         shell: python
         run: |
           import base64,pathlib,zipfile,io,urllib.request,time
-          data=base64.b64decode(pathlib.Path('portal-release/owner-offline.zip.b64').read_text(),validate=True)
+          data=base64.b64decode(pathlib.Path('portal-release/registration-delete.zip.b64').read_text(),validate=True)
           with zipfile.ZipFile(io.BytesIO(data)) as z:
             for name in z.namelist():
               url='https://www.mediacollective.events/'+name+'?release='+str(time.time_ns())
               assert urllib.request.urlopen(url,timeout=30).read()==z.read(name),name
           assert urllib.request.urlopen('https://www.mediacollective.events/partner-portal/owner/',timeout=30).read()==pathlib.Path('activation/index.html').read_bytes()
-          print('All 33 portal files and owner route verified. Main website routing unchanged.')
+          print('All 24 portal files and owner route verified. Main website routing unchanged.')
