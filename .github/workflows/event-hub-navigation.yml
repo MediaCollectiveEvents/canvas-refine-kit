@@ -14,48 +14,16 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Check the public homepage before activation
-        shell: python
-        run: |
-          import pathlib, urllib.request
-          updated = pathlib.Path('portal-release/event-hub-navigation/index.html').read_bytes()
-          assert updated.count(b'/event-hub-nav-v3.js') == 1
-          with urllib.request.urlopen('https://www.mediacollective.events/', timeout=30) as response:
-            assert response.read() in (updated, updated.replace(b'/event-hub-nav-v3.js', b'/event-hub-nav-v1.js')), 'Public homepage changed since the release was prepared'
-      - name: Upload both navigation script URLs
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          username: ${{ secrets.SFTP_USERNAME }}
-          server: access-5017155687.webspace-host.com
-          port: 22
-          password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: portal-release/event-hub-navigation/*.js
-          remote_path: ./
-          sftp_only: true
-      - name: Verify the navigation scripts
-        shell: python
-        run: |
-          import pathlib, time, urllib.request
-          for script in pathlib.Path('portal-release/event-hub-navigation').glob('*.js'):
-            with urllib.request.urlopen(f'https://www.mediacollective.events/{script.name}?release={time.time_ns()}', timeout=30) as response:
-              assert response.read() == script.read_bytes(), script.name
-      - name: Activate the homepage navigation
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
-        with:
-          username: ${{ secrets.SFTP_USERNAME }}
-          server: access-5017155687.webspace-host.com
-          port: 22
-          password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: portal-release/event-hub-navigation/index.html
-          remote_path: ./
-          sftp_only: true
       - name: Locate the homepage entry used by Apache
         env:
           SSHPASS: ${{ secrets.SFTP_PASSWORD }}
           IONOS_USER: ${{ secrets.SFTP_USERNAME }}
         run: |
           sudo apt-get install -y -qq sshpass
-          printf '%s\n' 'ls -a' '-get .htaccess /tmp/public-home-routing' 'bye' | sshpass -e sftp -o StrictHostKeyChecking=accept-new -o BatchMode=no "$IONOS_USER@access-5017155687.webspace-host.com" 2>/dev/null | tr ' ' '\n' | grep -Ei '(^|/)(index[^/]*|home[^/]*|\.htaccess)$' || true
+          printf '%s\n' 'pwd' 'ls -a' '-get .htaccess /tmp/public-home-routing' '-get index.html /tmp/public-home-entry' 'bye' | sshpass -e sftp -o StrictHostKeyChecking=accept-new -o BatchMode=no "$IONOS_USER@access-5017155687.webspace-host.com" 2>/dev/null | tr ' ' '\n' | grep -Ei '(^|/)([^/]*\.(html?|php|gz|br)|\.htaccess)$' || true
           if [ -f /tmp/public-home-routing ]; then
-            awk 'tolower($0) ~ /directoryindex|rewrite(rule|cond).*index|fallbackresource/' /tmp/public-home-routing
+            awk 'tolower($0) ~ /^[[:space:]]*(directoryindex|rewriterule|rewritecond|redirect(match)?|fallbackresource)[[:space:]]/' /tmp/public-home-routing
+          fi
+          if [ -f /tmp/public-home-entry ]; then
+            sha256sum /tmp/public-home-entry portal-release/event-hub-navigation/index.html
           fi
