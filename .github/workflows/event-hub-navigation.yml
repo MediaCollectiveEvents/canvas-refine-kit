@@ -1,0 +1,57 @@
+name: Fix public Event Hub navigation
+on:
+  push:
+    branches: [codex/portal-offline-20261118]
+    paths: [.github/workflows/event-hub-navigation.yml, 'portal-release/event-hub-navigation/**']
+permissions:
+  contents: read
+concurrency:
+  group: ionos-public-site
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the public homepage before activation
+        shell: python
+        run: |
+          import pathlib, urllib.request
+          updated = pathlib.Path('portal-release/event-hub-navigation/index.html').read_bytes()
+          assert updated.count(b'/event-hub-nav-v3.js') == 1
+          with urllib.request.urlopen('https://www.mediacollective.events/', timeout=30) as response:
+            assert response.read() in (updated, updated.replace(b'/event-hub-nav-v3.js', b'/event-hub-nav-v1.js')), 'Public homepage changed since the release was prepared'
+      - name: Upload both navigation script URLs
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_path: portal-release/event-hub-navigation/*.js
+          remote_path: ./
+          sftp_only: true
+      - name: Verify the navigation scripts
+        shell: python
+        run: |
+          import pathlib, time, urllib.request
+          for script in pathlib.Path('portal-release/event-hub-navigation').glob('*.js'):
+            with urllib.request.urlopen(f'https://www.mediacollective.events/{script.name}?release={time.time_ns()}', timeout=30) as response:
+              assert response.read() == script.read_bytes(), script.name
+      - name: Activate the homepage navigation
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_path: portal-release/event-hub-navigation/index.html
+          remote_path: ./
+          sftp_only: true
+      - name: Verify the live homepage
+        shell: python
+        run: |
+          import pathlib, time, urllib.request
+          with urllib.request.urlopen(f'https://www.mediacollective.events/?release={time.time_ns()}', timeout=30) as response:
+            assert response.read() == pathlib.Path('portal-release/event-hub-navigation/index.html').read_bytes()
