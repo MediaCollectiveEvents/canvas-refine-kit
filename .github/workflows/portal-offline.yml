@@ -20,7 +20,7 @@ jobs:
         run: |
           import hashlib, pathlib, zipfile
           archive = pathlib.Path('portal-release/event-hub-attendance.zip')
-          assert hashlib.sha256(archive.read_bytes()).hexdigest() == 'bbe920cc031a3d965aa7d9ce1d3b4ceb9d8556e28ab9a9f5f755092060b3aebd'
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == 'eadaee0d1a220ba008e3a70b1a5db148ac255691ee61a5b11321906c98da5aa8'
           with zipfile.ZipFile(archive) as release:
             for item in release.namelist():
               path = pathlib.PurePosixPath(item)
