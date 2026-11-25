@@ -66,3 +66,6 @@ jobs:
           url = f'https://www.mediacollective.events/eventhub/?release={time.time_ns()}'
           with urllib.request.urlopen(url, timeout=30) as response:
             assert response.read() == pathlib.Path('activation/index.html').read_bytes()
+          mpts_url = f'https://www.mediacollective.events/eventhub/mpts-reception-2027?release={time.time_ns()}'
+          with urllib.request.urlopen(mpts_url, timeout=30) as response:
+            assert response.read() == pathlib.Path('activation/index.html').read_bytes(), 'MPTS route failed to serve the Event Hub entry point'
