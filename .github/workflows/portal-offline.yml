@@ -1,4 +1,4 @@
-name: Publish partner email-code access
+name: Publish Event Hub sign-in
 on:
   push:
     branches: [codex/portal-offline-20261118]
@@ -15,37 +15,41 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Validate and unpack exact prepared release
+      - name: Validate and unpack Event Hub release
         shell: python
         run: |
-          import base64,hashlib,pathlib,zipfile,io
-          data=base64.b64decode(pathlib.Path('portal-release/partner-email-code.zip.b64').read_text(),validate=True)
-          assert hashlib.sha256(data).hexdigest()=='eef7bff3ee82f9248c9c47177fcb090507dc713f84cfa2120125776f02246f5d'
-          with zipfile.ZipFile(io.BytesIO(data)) as z:
-            assert len(z.namelist())==42
-            for name in z.namelist():
-              p=pathlib.PurePosixPath(name)
-              assert p.parts[0]=='partner-portal' and '..' not in p.parts
-              assert p.suffix in ['.js','.css','.png','.html','.webmanifest']
-              target=pathlib.Path('payload')/p
-              target.parent.mkdir(parents=True,exist_ok=True)
-              target.write_bytes(z.read(name));target.chmod(0o644)
-          pathlib.Path('activation').mkdir()
-          pathlib.Path('payload/partner-portal/index.html').replace('activation/index.html')
-          owner=pathlib.Path('payload/partner-portal/owner/index.html')
-          owner.parent.mkdir(parents=True,exist_ok=True)
-          owner.write_bytes(pathlib.Path('activation/index.html').read_bytes());owner.chmod(0o644)
-      - name: Upload portal assets only
+          import hashlib, pathlib, zipfile
+          archive = pathlib.Path('portal-release/event-hub-sign-in.zip')
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == '7ecab9dac04b14991921e166f68dcecddec9767a904b03d1aca4d47b5222a68a'
+          with zipfile.ZipFile(archive) as release:
+            for item in release.namelist():
+              path = pathlib.PurePosixPath(item)
+              assert item == 'index.html' or (len(path.parts) == 2 and path.parts[0] == 'assets' and path.suffix in {'.js', '.css', '.png', '.jpg', '.jpeg', '.svg', '.webp'})
+              destination = (pathlib.Path('activation') if item == 'index.html' else pathlib.Path('payload')) / path
+              destination.parent.mkdir(parents=True, exist_ok=True)
+              destination.write_bytes(release.read(item))
+              destination.chmod(0o644)
+      - name: Upload Event Hub assets
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{ secrets.SFTP_USERNAME }}
           server: access-5017155687.webspace-host.com
           port: 22
           password: ${{ secrets.SFTP_PASSWORD }}
-          local_path: payload/partner-portal/*
-          remote_path: ./partner-portal/
+          local_path: payload/assets/*
+          remote_path: ./eventhub/assets/
           sftp_only: true
-      - name: Activate portal index last
+      - name: Verify assets before activating
+        shell: python
+        run: |
+          import concurrent.futures, pathlib, time, urllib.request
+          def verify(asset):
+            url = f'https://www.mediacollective.events/eventhub/assets/{asset.name}?release={time.time_ns()}'
+            with urllib.request.urlopen(url, timeout=30) as response:
+              assert response.read() == asset.read_bytes(), asset.name
+          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+            list(pool.map(verify, pathlib.Path('payload/assets').iterdir()))
+      - name: Activate Event Hub index
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: ${{ secrets.SFTP_USERNAME }}
@@ -53,16 +57,12 @@ jobs:
           port: 22
           password: ${{ secrets.SFTP_PASSWORD }}
           local_path: activation/index.html
-          remote_path: ./partner-portal/
+          remote_path: ./eventhub/
           sftp_only: true
-      - name: Verify every published file over HTTPS
+      - name: Verify the live Event Hub entry point
         shell: python
         run: |
-          import base64,pathlib,zipfile,io,urllib.request,time
-          data=base64.b64decode(pathlib.Path('portal-release/partner-email-code.zip.b64').read_text(),validate=True)
-          with zipfile.ZipFile(io.BytesIO(data)) as z:
-            for name in z.namelist():
-              url='https://www.mediacollective.events/'+name+'?release='+str(time.time_ns())
-              assert urllib.request.urlopen(url,timeout=30).read()==z.read(name),name
-          assert urllib.request.urlopen('https://www.mediacollective.events/partner-portal/owner/',timeout=30).read()==pathlib.Path('activation/index.html').read_bytes()
-          print('All 42 portal files and owner route verified. Main website routing unchanged.')
+          import pathlib, time, urllib.request
+          url = f'https://www.mediacollective.events/eventhub/?release={time.time_ns()}'
+          with urllib.request.urlopen(url, timeout=30) as response:
+            assert response.read() == pathlib.Path('activation/index.html').read_bytes()
