@@ -14,16 +14,50 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Locate the homepage entry used by Apache
+      - name: Activate the current navigation on the public entry pages
         env:
           SSHPASS: ${{ secrets.SFTP_PASSWORD }}
           IONOS_USER: ${{ secrets.SFTP_USERNAME }}
         run: |
           sudo apt-get install -y -qq sshpass
-          printf '%s\n' 'pwd' 'ls -a' '-get .htaccess /tmp/public-home-routing' '-get index.html /tmp/public-home-entry' 'bye' | sshpass -e sftp -o StrictHostKeyChecking=accept-new -o BatchMode=no "$IONOS_USER@access-5017155687.webspace-host.com" 2>/dev/null | tr ' ' '\n' | grep -Ei '(^|/)([^/]*\.(html?|php|gz|br)|\.htaccess)$' || true
-          if [ -f /tmp/public-home-routing ]; then
-            awk 'tolower($0) ~ /^[[:space:]]*(directoryindex|rewriterule|rewritecond|redirect(match)?|fallbackresource)[[:space:]]/' /tmp/public-home-routing
-          fi
-          if [ -f /tmp/public-home-entry ]; then
-            sha256sum /tmp/public-home-entry portal-release/event-hub-navigation/index.html
-          fi
+          mkdir -p public-entry/seo-pages public-entry/OFFAIR26
+          {
+            for entry in home events community partners faq privacy-policy event-{1..8}; do
+              printf 'get seo-pages/%s.html public-entry/seo-pages/%s.html\n' "$entry" "$entry"
+            done
+            printf '%s\n' '-get OFFAIR26/index.html public-entry/OFFAIR26/index.html' 'bye'
+          } | sshpass -e sftp -o StrictHostKeyChecking=accept-new -o BatchMode=no "$IONOS_USER@access-5017155687.webspace-host.com"
+          python3 - <<'PYTHON'
+          from pathlib import Path
+          public = Path('public-entry')
+          entries = sorted((public/'seo-pages').glob('*.html'))
+          assert len(entries) == 14, 'Expected 14 explicitly routed public pages'
+          special = public/'OFFAIR26/index.html'
+          if special.exists():
+              entries.append(special)
+          with (public/'upload.sftp').open('w') as batch:
+              for entry in entries:
+                  before = entry.read_bytes()
+                  after = before.replace(b'/event-hub-nav-v1.js', b'/event-hub-nav-v3.js').replace(b'/event-hub-nav-v2.js', b'/event-hub-nav-v3.js')
+                  if after != before:
+                      assert after.count(b'/event-hub-nav-v3.js') == 1, entry.name
+                      entry.write_bytes(after)
+                      batch.write(f'put {entry} {entry.relative_to(public)}\n')
+              batch.write('bye\n')
+          PYTHON
+          sshpass -e sftp -o StrictHostKeyChecking=accept-new -o BatchMode=no "$IONOS_USER@access-5017155687.webspace-host.com" < public-entry/upload.sftp
+      - name: Verify the public menu entry points
+        shell: python
+        run: |
+          import concurrent.futures, pathlib, time, urllib.request
+          root = pathlib.Path('public-entry')
+          routes = [('', 'home'), *[(name+'/',name) for name in ('events','community','partners','faq','privacy-policy')],
+                    *[(f'events/{i}/',f'event-{i}') for i in range(1,9)]]
+          def verify(pair):
+              route, name = pair
+              expected = (root/f'seo-pages/{name}.html').read_bytes()
+              with urllib.request.urlopen(f'https://www.mediacollective.events/{route}?nav={time.time_ns()}', timeout=30) as response:
+                  body=response.read()
+                  assert body == expected, route or '/'
+          with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+              list(pool.map(verify,routes))
