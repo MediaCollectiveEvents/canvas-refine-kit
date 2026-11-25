@@ -20,7 +20,7 @@ jobs:
         run: |
           import hashlib, pathlib, zipfile
           archive = pathlib.Path('portal-release/event-hub-attendance.zip')
-          assert hashlib.sha256(archive.read_bytes()).hexdigest() == '40b2349e8019a214c5c6c4130d1e71eea8686347f6f08b082e5d4e210b9cbf14'
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == '15b052be0c60f1f67dc64f381ad3ef35dcea821a2666213aedecc2e82344e400'
           with zipfile.ZipFile(archive) as release:
             for item in release.namelist():
               path = pathlib.PurePosixPath(item)
@@ -59,6 +59,16 @@ jobs:
           local_path: activation/index.html
           remote_path: ./eventhub/
           sftp_only: true
+      - name: Activate the owner Event Hub index
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: ${{ secrets.SFTP_USERNAME }}
+          server: access-5017155687.webspace-host.com
+          port: 22
+          password: ${{ secrets.SFTP_PASSWORD }}
+          local_path: activation/index.html
+          remote_path: ./eventhub/owner/
+          sftp_only: true
       - name: Verify the live Event Hub entry point
         shell: python
         run: |
@@ -69,3 +79,6 @@ jobs:
           mpts_url = f'https://www.mediacollective.events/eventhub/mpts-reception-2027?release={time.time_ns()}'
           with urllib.request.urlopen(mpts_url, timeout=30) as response:
             assert response.read() == pathlib.Path('activation/index.html').read_bytes(), 'MPTS route failed to serve the Event Hub entry point'
+          owner_url = f'https://www.mediacollective.events/eventhub/owner/?release={time.time_ns()}'
+          with urllib.request.urlopen(owner_url, timeout=30) as response:
+            assert response.read() == pathlib.Path('activation/index.html').read_bytes(), 'Owner route is not serving the release'
