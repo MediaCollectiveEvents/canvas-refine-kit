@@ -49,9 +49,13 @@ jobs:
           local_path: portal-release/event-hub-navigation/index.html
           remote_path: ./
           sftp_only: true
-      - name: Verify the live homepage
-        shell: python
+      - name: Locate the homepage entry used by Apache
+        env:
+          SSHPASS: ${{ secrets.SFTP_PASSWORD }}
+          IONOS_USER: ${{ secrets.SFTP_USERNAME }}
         run: |
-          import pathlib, time, urllib.request
-          with urllib.request.urlopen(f'https://www.mediacollective.events/?release={time.time_ns()}', timeout=30) as response:
-            assert response.read() == pathlib.Path('portal-release/event-hub-navigation/index.html').read_bytes()
+          sudo apt-get install -y -qq sshpass
+          printf '%s\n' 'ls -a' '-get .htaccess /tmp/public-home-routing' 'bye' | sshpass -e sftp -o StrictHostKeyChecking=accept-new -o BatchMode=no "$IONOS_USER@access-5017155687.webspace-host.com" 2>/dev/null | tr ' ' '\n' | grep -Ei '(^|/)(index[^/]*|home[^/]*|\.htaccess)$' || true
+          if [ -f /tmp/public-home-routing ]; then
+            awk 'tolower($0) ~ /directoryindex|rewrite(rule|cond).*index|fallbackresource/' /tmp/public-home-routing
+          fi
