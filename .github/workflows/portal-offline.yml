@@ -1,4 +1,4 @@
-name: Publish Event Hub sign-in
+name: Publish Event Hub attendance
 on:
   push:
     branches: [codex/portal-offline-20261118]
@@ -19,8 +19,8 @@ jobs:
         shell: python
         run: |
           import hashlib, pathlib, zipfile
-          archive = pathlib.Path('portal-release/event-hub-sign-in.zip')
-          assert hashlib.sha256(archive.read_bytes()).hexdigest() == '7ecab9dac04b14991921e166f68dcecddec9767a904b03d1aca4d47b5222a68a'
+          archive = pathlib.Path('portal-release/event-hub-attendance.zip')
+          assert hashlib.sha256(archive.read_bytes()).hexdigest() == 'e6f1f4669bb0e0d6726e81c15de5069fb0aba80a2c524f9e8132d4d3a1ffa9a3'
           with zipfile.ZipFile(archive) as release:
             for item in release.namelist():
               path = pathlib.PurePosixPath(item)
