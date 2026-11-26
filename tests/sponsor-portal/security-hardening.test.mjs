@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';import ts from 'typescript';import assert from 'node:assert/strict';
+const load=async path=>{const source=await fs.readFile(path,'utf8');return import('data:text/javascript;base64,'+Buffer.from(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64'));};
+const {encryptRecoveryBackup,checkRecoveryBackup}=await load('src/lib/sponsor-reports/recovery-backup.ts');
+const payload={format:'media-collective-portal-recovery',version:1,exportedAt:'2026-11-17',tables:{report_versions:[{records:[{email:'fixture@example.com'}]}],report_current:[{}],memberships:[{}]},files:[{path:'example.png',base64:'fixture'}]};
+const pass='synthetic test passphrase only';const encrypted=await encryptRecoveryBackup(payload,pass);
+assert(!JSON.stringify(encrypted).includes('fixture@example.com'));assert.deepEqual(await checkRecoveryBackup(encrypted,pass),{exportedAt:'2026-11-17',versions:1,partners:1,files:1});
+await assert.rejects(checkRecoveryBackup(encrypted,'wrong synthetic password'));
+const damaged={...encrypted,ciphertext:(encrypted.ciphertext[0]==='A'?'B':'A')+encrypted.ciphertext.slice(1)};await assert.rejects(checkRecoveryBackup(damaged,pass));await assert.rejects(encryptRecoveryBackup(payload,'short'));
+const {guestListDownloadsAvailable:f}=await load('src/lib/sponsor-reports/download-availability.ts');assert(!f(new Date('2026-11-24T23:59:59Z')));assert(f(new Date('2026-11-25T00:00:00Z')));assert(f(new Date('2026-12-15T23:59:59Z')));assert(!f(new Date('2026-12-16T00:00:00Z')));
+console.log('PASS authenticated encryption roundtrip, plaintext exclusion, wrong-key/tamper rejection and 21-day date boundaries');

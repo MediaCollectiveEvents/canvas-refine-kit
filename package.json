@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:cms && vite build --manifest && node scripts/generate-static-heads.mjs",
+    "build": "npm run build:cms && vite build --manifest && node scripts/generate-static-heads.mjs && node scripts/prepare-event-hub.mjs",
     "build:cms": "vite build --config vite.cms.config.ts",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
@@ -52,6 +52,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
+    "exceljs": "^4.4.0",
     "framer-motion": "^12.35.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
@@ -75,6 +76,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.3.0",
     "@eslint/js": "^9.32.0",
     "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^22.16.5",

@@ -105,3 +105,6 @@ jobs:
           local_path: ${{ env.BUILD_DIR }}/.htaccess
           remote_path: .
           sftp_only: true
+
+      - name: Verify deployed site, CMS and Event Hub
+        run: node scripts/verify-live-release.mjs https://www.mediacollective.events

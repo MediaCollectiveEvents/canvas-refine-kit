@@ -1,0 +1,28 @@
+name: Verify site release
+on:
+  pull_request:
+    branches: [main, staging]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [production, staging]
+    env:
+      DEPLOY_TARGET: ${{ matrix.target }}
+      VITE_EVENT_HUB_STAGING: ${{ matrix.target == 'staging' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install tsc --noEmit -p tsconfig.app.json
+      - run: node --test tests/sponsor-portal/*.test.mjs tests/walk-in/*.test.mjs
+      - run: npm run build
+      - run: node scripts/prepare-staging-payload.mjs
+        if: matrix.target == 'staging'
+      - run: node scripts/check-deploy-payload.mjs

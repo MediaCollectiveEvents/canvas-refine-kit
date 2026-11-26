@@ -113,7 +113,14 @@
     {
       "name": "Norsk",
       "src": "/src/assets/sponsors/Norsk logo.png",
-      "alt": "Norsk"
+      "alt": "Norsk",
+      "id": "norsk",
+      "website": "https://norsk.video/",
+      "description": "Norsk Video develops cloud-native live video production technology that enables broadcasters, content owners and media organisations to produce, process and distribute live video with greater flexibility, efficiency and scale. Norsk's innovative platform simplifies complex workflows while delivering broadcast-quality performance across modern IP infrastructures.",
+      "relatedEventIds": [
+        7,
+        4
+      ]
     },
     {
       "name": "realitech",
@@ -144,6 +151,21 @@
       "name": "Zille",
       "src": "/src/assets/sponsors/zille.png",
       "alt": "Zille"
+    },
+    {
+      "src": "/uploads/appearlogo.png",
+      "name": "Appear",
+      "website": "https://www.appear.net/"
+    },
+    {
+      "name": "Waldo",
+      "src": "/uploads/waldo.png",
+      "website": "https://www.waldo.consulting",
+      "description": "Waldo is a London-based product, UX, and service design consultancy that helps organizations design complex software, digital products, and internal systems.",
+      "relatedEventIds": [
+        4
+      ],
+      "id": "waldo"
     }
   ]
 }

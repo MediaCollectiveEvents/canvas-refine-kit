@@ -17,6 +17,7 @@ env:
   NODE_VERSION: "20"
   BUILD_DIR: dist
   DEPLOY_TARGET: staging
+  VITE_EVENT_HUB_STAGING: "true"
 
 jobs:
   build:
@@ -122,3 +123,6 @@ jobs:
           local_path: ${{ env.BUILD_DIR }}/.htaccess
           remote_path: .
           sftp_only: true
+
+      - name: Verify deployed site, CMS and Event Hub
+        run: node scripts/verify-live-release.mjs https://staging.mediacollective.events

@@ -1,0 +1,11 @@
+import fs from 'node:fs/promises';import ts from 'typescript';import assert from 'node:assert/strict';
+const source=await fs.readFile('supabase/functions/eventbrite-sync/index.ts','utf8');
+const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const {fetchAttendees}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+const pages=[];const fake=async(url,options)=>{pages.push(url);assert.equal(options.headers.Authorization,'Bearer synthetic-token');assert.equal(options.redirect,'error');const page=new URL(url).searchParams.get('page');return new Response(JSON.stringify({attendees:[{id:page,profile:{first_name:'Alex',last_name:'Test',email:'alex@example.com',company:'',job_title:''},ticket_class:{name:'Complimentary'},status:'Attending',created:'2026-11-16T10:00:00Z',barcodes:[{barcode:'DO-NOT-IMPORT'}]}],pagination:{has_more_items:page==='1'}}));};
+const rows=await fetchAttendees('synthetic-token',fake);assert.equal(rows.length,2);assert.equal(pages.length,2);assert(rows.every(r=>r.company===''&&r.jobTitle===''));assert(!JSON.stringify(rows).includes('DO-NOT-IMPORT'));assert(!('linkedin' in rows[0]));
+await assert.rejects(()=>fetchAttendees('synthetic-token',async()=>new Response('',{status:403})),/authorisation/);
+await assert.rejects(()=>fetchAttendees('synthetic-token',async()=>new Response(JSON.stringify({attendees:[],pagination:{}}))),/invalid_eventbrite_response/);
+let p=0;await assert.rejects(()=>fetchAttendees('synthetic-token',async()=>new Response(JSON.stringify({attendees:[{id:'1'}],pagination:{has_more_items:++p<2}}))),/duplicate/);
+let calls=0;await assert.rejects(()=>fetchAttendees('synthetic-token',async()=>++calls===1?new Response(JSON.stringify({attendees:[{id:'1'}],pagination:{has_more_items:true}})):new Response('',{status:500})),/unavailable/);
+console.log('PASS Eventbrite pagination, original blanks, field allowlist, duplicate rejection, auth failure and partial-fetch rejection');

@@ -30,6 +30,12 @@ export function checkDeployPayload(root = process.cwd(), payload = "dist", targe
   assert.doesNotMatch(error, /rel="canonical"|property="og:url"/);
   assert.ok(read(`${payload}/admin/index.html`).length, "CMS admin missing");
   assert.ok(read(`${payload}/admin/cms.bundle.js`).length, "CMS bundle missing");
+  for (const entry of ["eventhub/index.html", "eventhub/owner/index.html"]) {
+    assert.equal(read(`${payload}/${entry}`), read(`${payload}/index.html`), `Stale Hub entry ${entry}`);
+  }
+  assert.match(read(`${payload}/eventhub/.htaccess`), /noindex/);
+  assert.match(read(`${payload}/admin/index.html`), /cms\.bundle\.js\?v=[a-f0-9]+/);
+  assert.match(read(`${payload}/admin/index.html`), /config\.yml\?v=[a-f0-9]+/);
   console.log(`Deploy payload validated (${target}): ${routes.length} canonical shells, error shell, root .htaccess, sitemap and CMS.`);
 }
 

@@ -10,6 +10,15 @@ const EventDetails = lazy(() => import("@/pages/EventDetails"));
 const Partners = lazy(() => import("@/pages/Partners"));
 const Community = lazy(() => import("@/pages/Community"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
+const SponsorReportsFrankfurt = lazy(() => import("@/pages/SponsorReportsFrankfurt"));
+const SponsorReportFrankfurtOwner = lazy(() => import("@/pages/SponsorReportFrankfurtOwner"));
+const MptsReceptionReport = lazy(() => import("@/pages/MptsReceptionReport"));
+const PartnerPasswordReset = lazy(() => import("@/pages/PartnerPasswordReset"));
+const SponsorOwnerPasswordReset = lazy(() => import("@/pages/SponsorOwnerPasswordReset"));
+const SponsorActivate = lazy(() => import("@/pages/SponsorActivate"));
+const WalkInKiosk = lazy(() => import("@/components/walk-in/WalkInKiosk"));
+const SpeakerProfile = lazy(() => import("@/pages/SpeakerProfile"));
+const SpeakerEdit = lazy(() => import("@/pages/SpeakerEdit"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const MyNewPage = lazy(() => import("@/pages/MyNewPage"));
 const Admin = lazy(() => import("@/pages/Admin"));
@@ -17,6 +26,13 @@ const Wireframe = lazy(() => import("@/pages/Wireframe"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 import Maintenance from "@/pages/Maintenance";
 import CookieConsent from "@/components/shared/CookieConsent";
+
+function eventHubScreen(page: React.ReactNode) {
+  if (import.meta.env.VITE_EVENT_HUB_STAGING === 'true' || (typeof window !== 'undefined' && window.location.hostname === 'staging.mediacollective.events')) {
+    return <main className="site-container py-24"><h1>Event Hub staging</h1><p>This preview is waiting for a separate test backend.</p></main>;
+  }
+  return page;
+}
 
 const App = () => {
   // Inject CMS colour palette into CSS variables
@@ -76,6 +92,16 @@ const App = () => {
               {/* FAQ & Policy */}
               <Route path="/faq" element={<FAQ />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+
+              <Route path="/eventhub" element={eventHubScreen(<SponsorReportsFrankfurt />)} />
+              <Route path="/eventhub/owner" element={eventHubScreen(<SponsorReportFrankfurtOwner />)} />
+              <Route path="/eventhub/mpts-reception-2027" element={eventHubScreen(<MptsReceptionReport />)} />
+              <Route path="/eventhub/partner-password-reset" element={eventHubScreen(<PartnerPasswordReset />)} />
+              <Route path="/eventhub/reset-password" element={eventHubScreen(<SponsorOwnerPasswordReset />)} />
+              <Route path="/eventhub/activate" element={eventHubScreen(<SponsorActivate />)} />
+              <Route path="/eventhub/walk-in" element={eventHubScreen(<WalkInKiosk />)} />
+              <Route path="/eventhub/speakers/:id" element={eventHubScreen(<SpeakerProfile />)} />
+              <Route path="/eventhub/speaker-edit" element={eventHubScreen(<SpeakerEdit />)} />
 
               {/* Extra pages */}
               {import.meta.env.DEV && <Route path="/my-new-page" element={<MyNewPage />} />}

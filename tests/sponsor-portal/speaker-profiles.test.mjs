@@ -1,0 +1,16 @@
+import fs from 'node:fs/promises';import ts from 'typescript';import assert from 'node:assert/strict';
+const errorJs=ts.transpile(await fs.readFile('src/lib/speakers/errors.ts','utf8'),{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022});const errorUrl='data:text/javascript;base64,'+Buffer.from(errorJs).toString('base64');
+const source=(await fs.readFile('src/lib/speakers/profiles.ts','utf8')).replace(/^import .*supabase-connection';/m,"const projectUrl='https://example.test',publishableKey='test';").replace("'./errors'",JSON.stringify(errorUrl));const js=ts.transpile(source,{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022});const {wordCount,validateBio,normalizeBio,validateDraft,safeSpeakerLink}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+const valid={name:'Example Speaker',company:'Example',jobTitle:'Director',companyUrl:'https://example.com',linkedinUrl:'https://www.linkedin.com/in/example/',bio:'One short biography.',headshot:'data:image/jpeg;base64,/9j/'};
+assert.equal(wordCount('  one\n two\tthree  '),3);validateBio(valid);validateBio({...valid,bio:Array(120).fill('word').join(' ')});assert.throws(()=>validateBio({...valid,bio:Array(121).fill('word').join(' ')}),/120/);
+for(const companyUrl of ['javascript:alert(1)','http://example.com','https://user:pass@example.com'])assert.throws(()=>validateBio({...valid,companyUrl}));
+for(const linkedinUrl of ['https://linkedin.com.evil.test/in/a','https://www.linkedin.com/company/a','javascript:alert(1)'])assert.throws(()=>validateBio({...valid,linkedinUrl}));
+assert.throws(()=>validateBio({...valid,headshot:'data:image/svg+xml;base64,abc'}));assert.throws(()=>validateBio({...valid,name:' '}));
+console.log('PASS speaker word limit, required fields, safe professional links and image restrictions');
+
+for(const companyUrl of [' HTTPS://EXAMPLE.COM/path ', 'https://example.com/a page', 'https://例え.jp/', 'https://[2001:db8::1]/']){const clean=normalizeBio({...valid,companyUrl});validateBio(clean);assert(!/\s/.test(clean.companyUrl));assert(clean.companyUrl.startsWith('https://'));}
+const {speakerError}=await import(errorUrl);assert.match(speakerError('invalid_company_url'),/company website/);assert.match(speakerError('invalid_linkedin_url'),/LinkedIn/);assert(!speakerError('secret server detail').includes('secret'));
+console.log('PASS canonical URL normalization and safe, field-specific rejection messages');
+
+const partial={name:'Partial example',company:'',jobTitle:'',companyUrl:'https://unfinished link',linkedinUrl:'incomplete',bio:'',headshot:''};validateDraft(partial);assert.throws(()=>validateBio(partial),/Complete/);validateDraft({...partial,bio:Array(121).fill('word').join(' ')});assert.throws(()=>validateBio({...valid,bio:Array(121).fill('word').join(' ')}),/120/);assert.equal(safeSpeakerLink('javascript:alert(1)'),undefined);assert.equal(safeSpeakerLink('https://linkedin.com.evil.test/in/a',true),undefined);assert.equal(safeSpeakerLink(valid.linkedinUrl,true),valid.linkedinUrl);assert.throws(()=>validateDraft({...partial,headshot:'data:image/svg+xml,malicious'}));
+console.log('PASS incomplete draft saving, publication validation and safe draft preview links');

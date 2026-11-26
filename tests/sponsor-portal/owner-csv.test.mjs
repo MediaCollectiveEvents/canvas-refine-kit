@@ -1,0 +1,12 @@
+import fs from 'node:fs/promises';import ts from 'typescript';import assert from 'node:assert/strict';
+const js=ts.transpileModule(await fs.readFile('src/lib/sponsor-reports/owner-registrants-csv.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const{ownerRegistrantsCsv}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+const csv=ownerRegistrantsCsv([{firstName:'Zoë',lastName:'Smith, Jones',email:'test@example.invalid',company:'A "Company"',jobTitle:' =HYPERLINK("bad")',linkedin:'https://www.linkedin.com/in/test'}]);
+assert(csv.startsWith('\uFEFF'));assert(csv.includes('"Smith, Jones"'));assert(csv.includes('"A ""Company"""'));assert(csv.includes('"\' =HYPERLINK'));assert(csv.includes('Zoë'));assert(csv.includes('test@example.invalid'));assert(csv.includes('\r\n'));
+console.log('PASS owner CSV preserves Unicode and quoted fields and neutralises spreadsheet formulas');
+const{withRegistrationDates}=await import('data:text/javascript;base64,'+Buffer.from(js).toString('base64'));
+const base={firstName:'Example',lastName:'Guest',email:'e@example.invalid',company:'Example',jobTitle:'Director'};
+let dated=withRegistrationDates([base],[{...base,registeredAt:'2026-11-19T10:30:00Z'}]);assert.equal(dated[0].registeredAt,'2026-11-19T10:30:00Z');assert(ownerRegistrantsCsv(dated).includes('19/11/2026'));
+assert.equal(withRegistrationDates([base],[{...base,registeredAt:'2026-11-18T10:30:00Z'},{...base,registeredAt:'2026-11-19T10:30:00Z'}])[0].registeredAt,'');
+assert(ownerRegistrantsCsv([{...base,registeredAt:'2026-06-01T23:30:00Z'}]).includes('02/06/2026'));
+console.log('PASS matched registration dates, unknown/ambiguous dates blank and London timezone');

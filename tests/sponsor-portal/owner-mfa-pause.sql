@@ -1,0 +1,35 @@
+begin;
+do $$
+declare owner_id uuid:='50a047a3-600d-47ed-941f-140fd7058396'; sid uuid:=gen_random_uuid(); other_id uuid:=gen_random_uuid(); other_sid uuid:=gen_random_uuid(); expiry timestamptz:=now()+interval '7 days'; factors_before bigint; factors_after bigint;
+begin
+ if not portal_private.owner_mfa_required(owner_id) then raise exception 'Pause already active unexpectedly';end if;
+ if has_table_privilege('authenticated','portal_private.owner_mfa_pauses','INSERT') or has_function_privilege('authenticated','portal_private.owner_mfa_required(uuid,timestamptz)','EXECUTE') then raise exception 'Policy exposed';end if;
+ select count(*) into factors_before from auth.mfa_factors where user_id=owner_id;
+ insert into auth.sessions(id,user_id,created_at,updated_at) values(sid,owner_id,now(),now());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'session_id',sid,'role','authenticated','aal','aal1')::text,true);
+ begin perform portal_private.require_owner();raise exception 'MFA not enforced before activation';exception when insufficient_privilege then if sqlerrm<>'owner_mfa_required' then raise;end if;end;
+ insert into portal_private.owner_mfa_pauses(user_id,starts_at,ends_at) values(owner_id,now(),expiry);
+ if portal_private.require_owner()<>owner_id then raise exception 'Scoped pause not accepted';end if;
+ perform public.portal_owner_sponsors();
+ if not portal_private.owner_mfa_required(owner_id,expiry) then raise exception 'Exact expiry failed';end if;
+ if not portal_private.owner_mfa_required(owner_id,now()-interval '1 second') then raise exception 'Pause applied before start';end if;
+ insert into auth.users(id,email,email_confirmed_at,aud,role) values(other_id,other_id||'@example.invalid',now(),'authenticated','authenticated');
+ insert into portal_private.owners(user_id) values(other_id);
+ insert into auth.sessions(id,user_id,created_at,updated_at) values(other_sid,other_id,now(),now());
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',other_id,'session_id',other_sid,'role','authenticated','aal','aal1')::text,true);
+ begin perform portal_private.require_owner();raise exception 'Other owner bypassed MFA';exception when insufficient_privilege then if sqlerrm<>'owner_mfa_required' then raise;end if;end;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'session_id',sid,'role','authenticated','aal','aal1')::text,true);
+ update auth.sessions set created_at=now()-interval '9 hours' where id=sid;
+ begin perform portal_private.require_owner();raise exception 'Old session accepted';exception when insufficient_privilege then if sqlerrm<>'owner_access_required' then raise;end if;end;
+ update auth.sessions set created_at=now() where id=sid;
+ update portal_private.session_activity set last_seen=now()-interval '31 minutes' where session_id=sid;
+ begin perform portal_private.require_owner();raise exception 'Idle timeout bypassed';exception when insufficient_privilege then if sqlerrm<>'session_expired' then raise;end if;end;
+ update portal_private.session_activity set last_seen=now() where session_id=sid;
+ update portal_private.owner_mfa_pauses set starts_at=now()-interval '8 days',ends_at=now()-interval '1 day' where user_id=owner_id;
+ begin perform portal_private.require_owner();raise exception 'Expired pause still accepted';exception when insufficient_privilege then if sqlerrm<>'owner_mfa_required' then raise;end if;end;
+ perform set_config('request.jwt.claims',jsonb_build_object('sub',owner_id,'session_id',sid,'role','authenticated','aal','aal2')::text,true);
+ perform portal_private.require_owner();
+ select count(*) into factors_after from auth.mfa_factors where user_id=owner_id;
+ if factors_after<>factors_before then raise exception 'Authenticator enrollment changed';end if;
+end $$;
+rollback;

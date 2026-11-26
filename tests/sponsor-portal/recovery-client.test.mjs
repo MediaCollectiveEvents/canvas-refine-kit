@@ -1,0 +1,15 @@
+import {connectionSource} from './load-connection.mjs';
+import fs from 'node:fs/promises';import ts from 'typescript';import assert from 'node:assert/strict';
+const connection=ts.transpileModule(await connectionSource(),{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const connectionUrl=`data:text/javascript;base64,${Buffer.from(connection).toString('base64')}`;
+const recoverySource=(await fs.readFile('src/lib/sponsor-reports/supabase-recovery.ts','utf8')).replace("'./supabase-connection'",JSON.stringify(connectionUrl));
+const recovery=ts.transpileModule(recoverySource,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const {OwnerRecoveryClient}=await import(`data:text/javascript;base64,${Buffer.from(recovery).toString('base64')}`);
+const calls=[];globalThis.fetch=async(url,options)=>{calls.push({url,options});if(url.includes('/verify'))return new Response(JSON.stringify({access_token:'fictional-recovery-token',user:{id:'50a047a3-600d-47ed-941f-140fd7058396',email:'chris@mediacollective.events'}}));if(url.includes('/logout'))return new Response(null,{status:204});return new Response('{}');};
+const client=new OwnerRecoveryClient();await assert.rejects(()=>client.setPassword('NeverSentPassword'),/valid owner reset/);
+const token='a'.repeat(64);await Promise.all([client.verify(token),client.verify(token)]);assert.equal(calls.length,1);assert.equal(JSON.parse(calls[0].options.body).type,'recovery');
+await assert.rejects(()=>client.setPassword('short'),/12/);assert.equal(calls.length,1);
+assert.equal((await client.setPassword('Fictional-test-password-123')).signedOut,true);assert.equal(calls[1].options.method,'PUT');assert.equal(calls[1].options.credentials,'omit');assert.equal(calls[1].options.cache,'no-store');assert.equal(calls[1].options.headers.Authorization,'Bearer fictional-recovery-token');
+await assert.rejects(()=>client.setPassword('Fictional-test-password-456'),/valid owner reset/);
+const other=new OwnerRecoveryClient();globalThis.fetch=async()=>new Response(JSON.stringify({access_token:'wrong-account',user:{id:'other',email:'other@example.com'}}));await assert.rejects(()=>other.verify(token),/not for your portal owner/);
+console.log('PASS recovery: token verified once, owner identity checked, passwords validated, session cleared, no storage');
