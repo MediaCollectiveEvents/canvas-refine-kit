@@ -103,3 +103,28 @@ this project. The `partner-code-request` function uses rehearsal Supabase Auth
 and suppresses access-request notification emails when deployed to the rehearsal
 project. Walk-in registration stays disabled on staging until it has a separate
 backend setup.
+
+## Website invitation intake rehearsal
+
+Apply the website invitation intake and event-update consent migrations to
+the Event Hub rehearsal Supabase project. Register the SHA-256 hash of the
+staging intake key in `portal_private.website_invitation_key`.
+
+Deploy `website-enquiry` to the rehearsal project with JWT verification disabled
+for this function. The function verifies reCAPTCHA and its staging hostname
+server-side before writing data. Configure `WEBSITE_ENQUIRY_RECAPTCHA_SECRET`,
+`WEBSITE_INVITATION_WRITE_KEY`, and `WEBSITE_INVITATION_PUBLISHABLE_KEY` in
+Supabase Edge Function secrets. The function uses the runtime-provided service
+role for the private consent audit RPCs.
+
+Set the staging GitHub environment's `STAGING_ENQUIRY_ENDPOINT` to
+`https://ioynilkvrfujnmudaped.supabase.co/functions/v1/website-enquiry`
+before rebuilding staging. This routes attendance and event-update submissions
+to Supabase. Contact and other enquiries use their existing handler.
+
+Verify one attendance request in `portal_private.website_invitation_requests`.
+An OFF AIR 2026 request also appears in the Event Hub owner queue. For the
+subscription test, set `HUBSPOT_EVENT_UPDATES_ENABLED=true` for the test window
+and use an authorised, controlled inbox. Verify the consent record in
+`portal_private.event_update_consents`, confirm the subscription in HubSpot,
+and check that the signup added no invitation request.
