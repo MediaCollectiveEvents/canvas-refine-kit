@@ -1,0 +1,4 @@
+import OffAirLogo from './OffAirLogo';
+export default function SponsorPortalWelcome({showTitle=true}:{showTitle?:boolean}){
+ return <section aria-label="Welcome to the OFF AIR Event Hub" className="my-8 rounded-2xl border border-primary/25 bg-white/[0.03] p-6 sm:p-8"><div className="flex flex-col gap-7 md:flex-row md:items-center"><div className="w-full max-w-[280px] shrink-0"><OffAirLogo/></div><div>{showTitle&&<h2 className="font-display text-2xl sm:text-3xl">Welcome to the Event Hub</h2>}<p className={`${showTitle?'mt-3 ':''}max-w-2xl leading-relaxed text-white/75`}>Thank you for supporting OFF AIR — The Unfiltered Future of Media. Here you can review who registered, check attendance and access materials from the event.</p><p className="mt-3 text-sm leading-relaxed text-white/55">24 November 2026 · White City House, London. Guest information is shared for communications directly related to OFF AIR, in line with the portal terms.</p></div></div></section>;
+}

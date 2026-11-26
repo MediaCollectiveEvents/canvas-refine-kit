@@ -1,0 +1,11 @@
+export type OffAirSession = {time:string;title:string;description:string;speakers?:string;moderator?:string;presenter?:string};
+export const offAirProgramme: OffAirSession[] = [
+{time:'13:30',title:'Doors open',description:'Guest arrival, check-in and networking.'},
+{time:'14:00–14:10',title:'Welcome',description:'Introduction to the programme and its connected themes.'},
+{time:'14:10–14:50',title:'The Debrief',description:'What did 2026 teach us? A practical look at the moments, technologies and industry shifts that defined the year: what worked, what didn’t and what we should take forward. Discussion will cover content, production and delivery, changing broadcast business models, delivery constraints, the DTT-to-IP switchover and broadcasters’ relationship with YouTube. Audience participation is actively encouraged; exact content may change.',speakers:'Ian Nock · Gary Woolf · Xavier Leclerq · Tuncay Pervaz',moderator:'Stuart Thomson'},
+{time:'14:55–15:35',title:'AI Survival Guide',description:'A practical discussion of AI in media workflows: where it helps teams do or make more with less, where human judgment matters, and how to manage changing tools and results. Real-life experiences with AI, generative AI and agents, including regulatory and ethical concerns, opportunities and disruption.',speakers:'Nic Kemp — Adobe · Lily Videnova — Waldo · Maria Ingold',moderator:'Damon Neale — Metadata-AI'},
+{time:'15:35–15:50',title:'Break',description:'Refreshments will be available.'},
+{time:'15:50–16:30',title:'Faultline Futures',description:'Predictions, provocative thinking and an audience test of the ideas most—and least—likely to shape media technology by 2030. From AI pushback and live production to cloud-native workflows, distributed infrastructure and balancing sustainability, performance and cost. The audience will test the panellists’ predictions with a little healthy scepticism.',speakers:'Dom Robinson — id3as · Ian Wagdin — Appear · Caroline Baines — GCSC',moderator:'Tommy Flanagan'},
+{time:'16:35–17:05',title:'decodeTV Impact Awards',description:'Recognising people, ideas and initiatives making an impact across the industry.',presenter:'Stuart Thompson'},
+{time:'17:05–19:00',title:'Prosecco reception and networking',description:'Join us for a Prosecco reception and networking after the programme.'},
+];

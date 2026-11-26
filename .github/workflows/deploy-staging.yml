@@ -17,11 +17,16 @@ env:
   NODE_VERSION: "20"
   BUILD_DIR: dist
   DEPLOY_TARGET: staging
+  VITE_EVENT_HUB_STAGING: "true"
+  VITE_PARTNER_EMAIL_CODE_ENABLED: "true"
 
 jobs:
   build:
     if: github.ref == 'refs/heads/staging'
     name: Build Vite site
+    environment: staging
+    env:
+      VITE_EVENT_HUB_STAGING_PUBLISHABLE_KEY: ${{ vars.EVENT_HUB_REHEARSAL_PUBLISHABLE_KEY }}
     runs-on: ubuntu-latest
 
     steps:
@@ -122,3 +127,6 @@ jobs:
           local_path: ${{ env.BUILD_DIR }}/.htaccess
           remote_path: .
           sftp_only: true
+
+      - name: Verify deployed site, CMS and Event Hub
+        run: node scripts/verify-live-release.mjs https://staging.mediacollective.events

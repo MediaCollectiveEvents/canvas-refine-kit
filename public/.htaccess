@@ -57,6 +57,10 @@ RewriteRule ^events/6/?$ /seo-pages/event-6.html [END,NC]
 RewriteRule ^events/7/?$ /seo-pages/event-7.html [END,NC]
 RewriteRule ^events/8/?$ /seo-pages/event-8.html [END,NC]
 
+# Keep existing direct Hub links and send old portal links to the current entry.
+RewriteRule ^partner-portal(?:/(.*))?$ /eventhub/$1 [R=302,END,NE]
+RewriteRule ^eventhub/(?:mpts-reception-2027|partner-password-reset|reset-password|activate|walk-in|speaker-edit|speakers/[^/]+)/?$ /eventhub/index.html [END,NC]
+
 # Existing React compatibility redirects and the Decap launcher remain client-side.
 RewriteRule ^(?:about|events/calendar|blog(?:/[^/]+)?|manage)/?$ /index.html [END,NC]
 

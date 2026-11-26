@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';import ts from 'typescript';import fs from 'node:fs/promises';import {connectionSource} from './load-connection.mjs';
+const compile=s=>'data:text/javascript;base64,'+Buffer.from(ts.transpileModule(s,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64');
+const {validateGalleryImage}=await import(compile(await fs.readFile('src/lib/sponsor-reports/gallery.ts','utf8')));
+const image=new File([new Uint8Array([137,80,78,71,13,10,26,10,0,0,0,0])],'event.png',{type:'image/png'});
+assert.equal(await validateGalleryImage(image),'image/png');
+await assert.rejects(validateGalleryImage(new File(['<svg/>'],'bad.png',{type:'image/png'})));
+await assert.rejects(validateGalleryImage(new File([image],'wrong.jpg',{type:'image/jpeg'})));
+await assert.rejects(validateGalleryImage(new File([new Uint8Array(10485761)],'huge.png',{type:'image/png'})));
+const {FrankfurtOwnerClient}=await import(compile(await connectionSource()));const requests=[];
+globalThis.fetch=async(url,options)=>{requests.push({url,options});const value=url.includes('/token?')?{access_token:'synthetic',expires_in:3600}:(url.endsWith('portal_gallery_reserve')||url.endsWith('portal_gallery_reserve_partner'))?{id:'00000000-0000-4000-8000-000000000001',path:'off-air/gallery/00000000-0000-4000-8000-000000000001.png'}:url.endsWith('portal_gallery_list')?{images:[]}:{};return new Response(JSON.stringify(value));};
+const client=new FrankfurtOwnerClient();await assert.rejects(client.uploadGallery(image,''));assert.equal(requests.length,0);await client.signIn('test@example.com','synthetic');await client.uploadGallery(image,'Event photo');assert(requests.at(-1).url.endsWith('portal_gallery_publish'));const upload=requests.find(r=>r.url.includes('/storage/v1/object/event-gallery-private/'));assert.equal(upload.options.headers['x-upsert'],'false');assert.equal(upload.options.credentials,'omit');assert.equal(upload.options.body,image);await client.gallery('partner-id');assert.equal(JSON.parse(requests.at(-1).options.body).p_partner,'partner-id');
+await client.uploadGallery(image,'Partner photo','partner-id');const reservation=requests.find(r=>r.url.endsWith('portal_gallery_reserve_partner'));assert.equal(JSON.parse(reservation.options.body).p_partner,'partner-id');
+console.log('PASS gallery MIME/signature/size checks, authenticated upload, immutable object write, publish ordering and partner-scoped listing');

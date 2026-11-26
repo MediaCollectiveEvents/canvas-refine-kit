@@ -1,0 +1,9 @@
+import {useEffect,useState} from 'react';
+import {Dialog,DialogContent,DialogHeader,DialogTitle,DialogDescription} from '@/components/ui/dialog';
+import SponsorReportDashboard from './SponsorReportDashboard';
+import type {FrankfurtOwnerClient} from '@/lib/sponsor-reports/supabase-connection';
+export default function OwnerSponsorPreview({client,onClose}:{client:FrankfurtOwnerClient;onClose:()=>void}){
+ const [data,setData]=useState<Awaited<ReturnType<FrankfurtOwnerClient['sponsorPreview']>>|null>(null),[error,setError]=useState('');
+ useEffect(()=>{let active=true;client.sponsorPreview().then(value=>{if(active)setData(value);}).catch(()=>{if(active)setError('Sponsor preview could not be loaded. Your owner session may have expired.');});return()=>{active=false;};},[client]);
+ return <Dialog open onOpenChange={open=>{if(!open)onClose();}}><DialogContent className="max-h-[92vh] overflow-y-auto border-white/20 bg-[#101d24] text-white sm:max-w-[95vw]"><DialogHeader><DialogTitle>OFF AIR · Partner view</DialogTitle><DialogDescription className="text-white/65">Read the shared OFF AIR attendance record as sponsors see it.</DialogDescription></DialogHeader>{error?<p role="alert" className="text-red-200">{error}</p>:data?<SponsorReportDashboard attendance={{load:()=>client.attendance()}} report={data.report} loadDownload={()=>client.exportRegistrants()} loadMarketing={file=>client.marketingFile(file)} marketing={{list:()=>client.marketingImages(),file:image=>client.galleryFile(image)}} gallery={{list:()=>client.gallery(),file:image=>client.galleryFile(image),upload:(file,caption)=>client.uploadGallery(file,caption),remove:(image,remove)=>client.archiveGallery(image.id,remove)}} loadEventbrite={async()=>(await client.sponsorPreview()).raw}/>:<p role="status">Loading sponsor view…</p>}</DialogContent></Dialog>;
+}

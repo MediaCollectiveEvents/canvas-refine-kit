@@ -105,7 +105,7 @@
     {
       "id": "partner-authority",
       "type": "authorityStrip",
-      "hidden": true,
+      "hidden": false,
       "eyebrow": "AT A GLANCE",
       "metrics": [
         {
@@ -148,7 +148,7 @@
     {
       "id": "who-youll-meet",
       "type": "organisationsRepresented",
-      "hidden": true,
+      "hidden": false,
       "eyebrow": "WHO ATTENDS",
       "heading": "People from across the industry.",
       "body": "Representatives from these organisations have attended our events. They work across broadcasting, streaming, studios, sports and media technology.",

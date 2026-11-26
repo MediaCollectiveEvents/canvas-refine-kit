@@ -1,0 +1,34 @@
+/* EventHub phone layout; desktop and security behaviour remain unchanged. */
+@media(max-width:639px){
+ .eventhub-mobile main,.eventhub-owner-mobile main{overflow-wrap:anywhere}
+ .eventhub-mobile main>.site-container,.eventhub-owner-mobile main>.site-container{padding:24px 16px;min-width:0}
+ .eventhub-mobile main h1,.eventhub-owner-mobile main h1{font-size:28px;line-height:1.2}
+ .eventhub-mobile main input,.eventhub-mobile main textarea,.eventhub-mobile main select,.eventhub-owner-mobile main input,.eventhub-owner-mobile main textarea,.eventhub-owner-mobile main select{font-size:16px;min-width:0;max-width:100%}
+ .eventhub-mobile main button,.eventhub-owner-mobile main button,.eventhub-mobile main select,.eventhub-owner-mobile main select{min-height:44px;max-width:100%;white-space:normal;height:auto}
+ .eventhub-mobile main form,.eventhub-owner-mobile main form{min-width:0;padding:16px}
+ .eventhub-mobile main form label,.eventhub-owner-mobile main form label{min-width:0}
+ .eventhub-owner-mobile main section{padding:16px;min-width:0;scroll-margin-top:110px}
+ .eventhub-owner-mobile main h2{font-size:22px;line-height:1.3}
+ .eventhub-owner-mobile main .ml-3{margin-left:0;margin-top:10px;margin-right:8px}
+ .eventhub-owner-mobile main input[type=file]{font-size:13px;padding:10px}
+ .eventhub-owner-mobile main [data-mobile-table]{display:block;width:100%;min-width:0}
+ .eventhub-owner-mobile main [data-mobile-table] thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+ .eventhub-owner-mobile main [data-mobile-table] tbody{display:grid;gap:14px}
+ .eventhub-owner-mobile main [data-mobile-table] tbody tr{display:block;padding:12px;border:1px solid #ffffff25;border-radius:12px;background:#10242e}
+ .eventhub-owner-mobile main [data-mobile-table] td{display:grid;grid-template-columns:minmax(80px,32%) minmax(0,1fr);gap:10px;width:100%;padding:8px 0;white-space:normal;min-width:0;font-size:13px;align-items:start}
+ .eventhub-owner-mobile main [data-mobile-table] td::before{content:attr(data-cell-label);font-weight:600;color:#ffffff99;font-size:12px}
+ .eventhub-owner-mobile main [data-mobile-table] td>*{min-width:0;max-width:100%}
+ .eventhub-owner-mobile main [data-mobile-table] td button{font-size:12px;padding:8px 10px;line-height:1.3}
+ .eventhub-owner-mobile main [data-mobile-table] td:has(button){grid-template-columns:1fr}
+ .eventhub-owner-mobile main [data-mobile-table] td:has(button)::before{margin-top:4px}
+ .eventhub-owner-mobile main [data-mobile-table] td a{overflow-wrap:anywhere}
+ .eventhub-mobile .partner-list-filters{flex-wrap:wrap;min-width:0}
+ .eventhub-mobile .partner-list-filters>label:not(:first-child){flex:1 1 140px;max-width:100%}
+ .eventhub-mobile .partner-list-filters select{min-width:0;width:100%;max-width:100%;min-height:44px}
+ .eventhub-mobile .partner-resource-tabs>[role=tablist]{position:relative;width:100%;gap:4px}
+ .eventhub-mobile .partner-resource-tabs>[role=tablist]>button{font-size:12px;min-width:0;overflow-wrap:normal}
+ .eventhub-mobile main [role=dialog],.eventhub-owner-mobile main [role=dialog]{max-width:calc(100vw - 24px)}
+ .eventhub-owner-jump{display:block;margin:20px 0}
+ .eventhub-owner-jump select{display:block;width:100%;border:1px solid #35c6bd88;border-radius:10px;background:#10242e;padding:12px;color:white}
+}
+@media(min-width:640px){.eventhub-owner-jump{display:none}}
