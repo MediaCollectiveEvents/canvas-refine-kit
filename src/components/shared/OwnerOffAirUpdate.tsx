@@ -15,25 +15,28 @@ The three OFF AIR panel recordings and their working transcripts are now availab
 Sign in with the email address you use for OFF AIR and open Event information → Panel recordings and transcripts:
 https://www.mediacollective.events/eventhub/
 
-If you use an event-specific sign-in link, you can continue to use that link.
-
-Best,
-Chris
-The Media Collective`;
+If you use an event-specific sign-in link, you can continue to use that link.`;
+const defaultSignature = `Best,
+Chris Parry
+The Media Collective
+https://www.mediacollective.events/`;
 
 export default function OwnerOffAirUpdate({ client }: { client: FrankfurtOwnerClient }) {
   const [recipients, setRecipients] = useState<string[] | null>(null);
   const [selected, setSelected] = useState<string[]>([]);
   const [subject, setSubject] = useState(defaultSubject);
   const [message, setMessage] = useState(defaultMessage);
+  const [signature, setSignature] = useState(defaultSignature);
   const [tested, setTested] = useState('');
   const [confirmSend, setConfirmSend] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [status, setStatus] = useState('');
   const retry = useRef<{ fingerprint: string; requestId: string } | null>(null);
-  const content = JSON.stringify([subject.trim(), message]);
-  const canSend = !!subject.trim() && !!message.trim() && !busy && !isEventHubStaging;
+  const emailMessage = [message.trimEnd(), signature.trim()].filter(Boolean).join('\n\n');
+  const content = JSON.stringify([subject.trim(), emailMessage]);
+  const tooLong = emailMessage.length > 10000;
+  const canSend = !!subject.trim() && !!message.trim() && !tooLong && !busy && !isEventHubStaging;
 
   async function refreshRecipients() {
     setBusy(true);
@@ -64,7 +67,7 @@ export default function OwnerOffAirUpdate({ client }: { client: FrankfurtOwnerCl
     setStatus('');
     setError('');
     try {
-      const accepted = await client.sendOffAirUpdate({ action, subject: subject.trim(), message, recipients: addresses, requestId });
+      const accepted = await client.sendOffAirUpdate({ action, subject: subject.trim(), message: emailMessage, recipients: addresses, requestId });
       retry.current = null;
       if (action === 'test') {
         setTested(content);
@@ -93,6 +96,11 @@ export default function OwnerOffAirUpdate({ client }: { client: FrankfurtOwnerCl
       <textarea className="mt-2 block w-full rounded border border-white/25 bg-transparent p-3" rows={12} value={message} disabled={busy}
         onChange={event => { setMessage(event.target.value); setConfirmSend(false); }} maxLength={10000} />
     </label>
+    <label className="block">Email signature
+      <textarea className="mt-2 block w-full rounded border border-white/25 bg-transparent p-3" rows={5} value={signature} disabled={busy}
+        onChange={event => { setSignature(event.target.value); setConfirmSend(false); }} maxLength={500} />
+    </label>
+    {tooLong && <p role="alert" className="text-red-200">The message and signature together must be 10,000 characters or fewer.</p>}
     <Button type="button" variant="outline" disabled={!canSend} onClick={() => void send('test')}>Send test to my email</Button>
     <fieldset className="space-y-3" disabled={busy}>
       <legend className="font-medium">Recipients</legend>
