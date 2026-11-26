@@ -111,7 +111,7 @@ const Header = () => {
 
       <header
         className="
-          site-gutter fixed top-0 left-0 right-0 z-50
+          site-gutter fixed top-0 left-0 right-0 z-50 lg:max-xl:!px-[clamp(32px,calc(37.5vw-352px),128px)]
           bg-[#08111f]
           backdrop-blur-md
           transition-all duration-300 ease-out motion-reduce:transition-none
@@ -172,19 +172,19 @@ const Header = () => {
 
           {/* DESKTOP HEADER */}
 
-          <div className="hidden h-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-6 lg:grid xl:gap-8">
+          <div className="hidden h-full grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-6 lg:grid xl:gap-10">
             <Link to="/" className="relative z-10 shrink-0 justify-self-start">
               <img
                 {...headerLogoImage}
                 alt="The Media Collective"
-                className="h-auto w-[180px] shrink-0 object-contain"
+                className="h-auto w-[148px] shrink-0 object-contain xl:w-[168px]"
               />
             </Link>
 
             {/* NAVIGATION */}
 
             <nav className="relative flex min-w-0 items-center justify-center">
-              <div className="flex items-center gap-6 xl:gap-10 2xl:gap-12">
+              <div className="flex items-center gap-5 xl:gap-8">
                 {navItems.map((item) => {
                   const isActive =
                     item.href === activeHref;
@@ -198,7 +198,7 @@ const Header = () => {
                       className={`
                         relative inline-flex min-h-11 items-center whitespace-nowrap pb-1
                         font-display font-medium uppercase
-                        tracking-[0.1em] xl:tracking-[0.18em]
+                        tracking-[0.1em] xl:tracking-[0.14em]
                         text-sm xl:text-[0.9rem]
                         transition-all duration-200
                         ${
@@ -237,14 +237,14 @@ const Header = () => {
                 variant="brand"
                 onClick={() => setIsFormOpen(true)}
                 className="
-                  min-w-[190px] xl:min-w-[210px]
+                  min-h-11 whitespace-nowrap
                   rounded-full
-                  px-5 xl:px-7 py-3.5
+                  px-5 xl:px-6
                   font-display
-                  text-base
+                  text-sm
                   font-semibold
                   uppercase
-                  tracking-[0.14em]
+                  tracking-[0.1em]
                 "
               >
                 Contact us
@@ -299,10 +299,10 @@ const Header = () => {
                   rounded-full
                   py-3.5
                   font-display
-                  text-base
+                  text-sm
                   font-semibold
                   uppercase
-                  tracking-[0.14em]
+                  tracking-[0.1em]
                 "
               >
                 Contact us

@@ -1,3 +1,4 @@
+import {isEventHubStaging} from '@/lib/event-hub-backend';
 import {useEffect,useRef,useState,type FormEvent} from 'react';
 import {Link,useSearchParams} from 'react-router-dom';
 import Header from '@/components/layout/Header';
@@ -29,7 +30,7 @@ export default function MptsReceptionReport(){
  const [params]=useSearchParams();
  const [session,setSession]=useState<Session|null>(null);
  const [ownerGate,setOwnerGate]=useState(false);
- const [useCode,setUseCode]=useState(false);
+ const [useCode,setUseCode]=useState(isEventHubStaging);
  const [busy,setBusy]=useState(false);
  const [error,setError]=useState('');
  const [agreed,setAgreed]=useState(false);
@@ -135,6 +136,7 @@ export default function MptsReceptionReport(){
     {ownerGate?<OwnerMfaGate client={client} onReady={openOwner} onSignOut={()=>void logout()}/>
     :teams.length>0?<section className="mt-6 space-y-3"><h2 className="text-xl">Choose a sponsor team</h2>{teams.map(team=><Button key={team.sponsorId} variant="outline" onClick={()=>{setError('');void openTeam(team.sponsorId).catch(e=>setError(e.message));}}>{team.company}</Button>)}</section>
     :!session?<>
+     {isEventHubStaging&&<p className="mt-4 max-w-lg text-sm leading-relaxed text-white/75">Use the email approved for the staging rehearsal. <a className="text-primary underline underline-offset-4" href="https://www.mediacollective.events/eventhub/mpts-reception-2027">Open the live MPTS report</a> to use your existing account.</p>}
      {useCode?<PartnerEmailSignIn client={client} onSignedIn={openReport}/>
      :<form onSubmit={signIn} className="mt-8 max-w-lg space-y-5 rounded-xl border border-white/20 p-6">
       <h2 className="font-display text-xl">Sign in to the MPTS report</h2>

@@ -23,7 +23,7 @@ export default function Community({ content = communityContent }: { content?: Co
     <Header />
     <ContactForm open={contactOpen} onOpenChange={setContactOpen} />
     <main id="main-content" tabIndex={-1} className="site-header-clearance">
-      <PageHero {...content.hero} presentation="public" mobileArtworkPath="/community" className="max-sm:!pb-[calc(60vw-1.82rem)]" descriptionClassName="!text-[#9bd3c8]" image="/uploads/website-hero-community.png" />
+      <PageHero {...content.hero} presentation="public" mobileArtworkPath="/community" className="max-sm:!pb-[calc(60vw-1.82rem)]" titleClassName="!leading-[1.16] !max-w-[23ch] [text-wrap:balance]" descriptionClassName="max-w-[52ch] text-base leading-relaxed text-[#9bd3c8] md:text-lg [text-wrap:pretty]" image="/uploads/website-hero-community.png" />
       {content.sections.map(section => {
         if (section.type === "editorial" && section.id === AUDIENCE_SNAPSHOT_ID) {
           const parsed = parseAudienceSnapshot(section.heading);
