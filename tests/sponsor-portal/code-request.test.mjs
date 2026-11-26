@@ -1,0 +1,32 @@
+import fs from 'node:fs/promises';import ts from 'typescript';import assert from 'node:assert/strict';
+let handler;globalThis.Deno={serve:fn=>handler=fn,env:{get:k=>k==='SUPABASE_SECRET_KEYS'?JSON.stringify({key:'sb_secret_TEST'}):k==='RESEND_API_KEY'?'re_TEST':undefined}};
+const source=await fs.readFile('supabase/functions/partner-code-request/index.ts','utf8');await import('data:text/javascript;base64,'+Buffer.from(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText).toString('base64'));
+let registered=false,confirmed=true,requestId='synthetic-id',calls=[];
+globalThis.fetch=async(url,opts)=>{calls.push({url,body:JSON.parse(opts.body),headers:opts.headers});if(url.endsWith('portal_code_request_route'))return new Response(JSON.stringify({registered,confirmed,requestId:registered?null:requestId}));if(url.endsWith('portal_code_request_result'))return new Response('null');if(url==='https://api.resend.com/emails')return new Response('{}');if(url.endsWith('/otp')||url.endsWith('/invite'))return new Response('{}');throw Error('Unexpected call');};
+const request=()=>new Request('https://example.test',{method:'POST',headers:{Origin:'https://www.mediacollective.events','Content-Type':'application/json'},body:JSON.stringify({email:'New@example.com'})});
+let r=await handler(request());assert.equal(r.status,200);assert.deepEqual(await r.json(),{accepted:true});let mail=calls.find(c=>c.url==='https://api.resend.com/emails');assert.deepEqual(mail.body.to,['chris@mediacollective.events']);assert(mail.body.text.includes('new@example.com'));assert(!calls.some(c=>c.url.endsWith('/otp')||c.url.includes('/admin/users')));assert.match(calls[0].body.p_ip_hash,/^[a-f0-9]{64}$/);
+calls=[];registered=true;r=await handler(request());assert.equal(r.status,200);assert(calls.some(c=>c.url.endsWith('/otp')&&c.body.create_user===false));assert(!calls.some(c=>c.url.includes('resend.com')));
+calls=[];confirmed=false;await handler(request());assert(calls.some(c=>c.url.endsWith('/invite')));assert(!calls.some(c=>c.url.includes('resend.com')));
+calls=[];registered=false;requestId=null;await handler(request());assert.equal(calls.length,1);
+assert.equal((await handler(new Request('https://example.test',{method:'POST',headers:{Origin:'https://evil.invalid'}}))).status,403);
+const productionEnv = globalThis.Deno.env.get;
+const rehearsalUrl = 'https://ioynilkvrfujnmudaped.supabase.co';
+globalThis.Deno.env.get = key => ({
+  SUPABASE_URL: rehearsalUrl,
+  SUPABASE_PUBLISHABLE_KEYS: JSON.stringify({key:'sb_publishable_REHEARSAL'}),
+}[key] ?? productionEnv(key));
+const stagingRequest = () => new Request('https://example.test', {
+  method:'POST',
+  headers:{Origin:'https://staging.mediacollective.events','Content-Type':'application/json'},
+  body:JSON.stringify({email:'stage@example.invalid'}),
+});
+calls=[];requestId='rehearsal-test';registered=false;
+assert.equal((await handler(stagingRequest())).status,200);
+assert.equal(calls.length,2);
+assert(calls.every(({url})=>url.startsWith(rehearsalUrl)));
+calls=[];registered=true;confirmed=true;
+assert.equal((await handler(stagingRequest())).status,200);
+assert.equal(calls.at(-1).headers.apikey,'sb_publishable_REHEARSAL');
+assert(calls.every(({url})=>url.startsWith(rehearsalUrl)));
+assert.equal((await handler(request())).status,403);
+delete globalThis.Deno;console.log('PASS unknown-address owner notification only, registered code-only email, unconfirmed code request, neutral responses, throttled suppression, hashed source and origin gate');

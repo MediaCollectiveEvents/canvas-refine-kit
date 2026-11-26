@@ -59,13 +59,18 @@ const Header = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  const navItems =
+  const configuredNavItems =
     typedSettings.nav?.length
       ? typedSettings.nav.map((i) => ({
           label: i.label,
           href: resolveHref(i),
         }))
       : fallbackNavItems;
+
+  const navItems = [
+    ...configuredNavItems.filter(item => !/^\/(?:eventhub|partner-portal)\/?$/.test(item.href)),
+    { label: "Event Hub", href: "/eventhub/" },
+  ];
 
   // Choose the longest matching route, respecting path segment boundaries.
   const activeHref = navItems
@@ -188,6 +193,7 @@ const Header = () => {
                     <Link
                       key={item.label}
                       to={item.href}
+                      reloadDocument={item.href === "/eventhub/"}
                       aria-current={isActive ? "page" : undefined}
                       className={`
                         relative inline-flex min-h-11 items-center whitespace-nowrap pb-1
@@ -260,6 +266,7 @@ const Header = () => {
                   <Link
                     key={item.label}
                     to={item.href}
+                      reloadDocument={item.href === "/eventhub/"}
                       aria-current={isActive ? "page" : undefined}
                     className={`
                       rounded-lg px-3 py-3

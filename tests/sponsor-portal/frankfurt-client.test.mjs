@@ -1,0 +1,41 @@
+import {connectionSource} from './load-connection.mjs';
+import fs from 'node:fs/promises';import assert from 'node:assert/strict';import ts from 'typescript';
+const source=await connectionSource();
+const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText;
+const {FrankfurtOwnerClient}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+const client=new FrankfurtOwnerClient();const requests=[];
+globalThis.fetch=async(url,options)=>{requests.push({url,options});if(url.includes('/token?'))return new Response(JSON.stringify({access_token:'fictional-test-token',expires_in:3600}));if(url.includes('/logout'))return new Response(null,{status:204});if(url.includes('portal_owner_publish'))return new Response(JSON.stringify({message:'stale_version'}),{status:409});return new Response(JSON.stringify({current:0,versions:[],introductions:[]}));};
+await assert.rejects(()=>client.state(),/sign in/);assert.equal(requests.length,0);
+await client.signIn('owner@example.com','Fictional password');assert(client.isSignedIn());
+assert.equal(requests[0].options.credentials,'omit');assert.equal(requests[0].options.cache,'no-store');assert.equal(requests[0].options.headers.Authorization,undefined);
+assert(requests[0].options.headers.apikey.startsWith('sb_publishable_'));
+assert.deepEqual(await client.state(),{current:0,versions:[],introductions:[]});assert.equal(requests[1].options.headers.Authorization,'Bearer fictional-test-token');
+await assert.rejects(()=>client.publish([],'test',0),/newer version/);
+await client.signOut();assert(!client.isSignedIn());await assert.rejects(()=>client.state(),/sign in/);
+console.log('PASS Frankfurt client: no anonymous RPC, publishable key only, memory sessions, no-store, stale-write message, logout');
+
+globalThis.fetch=async()=>new Response(JSON.stringify({error_code:'invalid_credentials',msg:'Invalid login credentials'}),{status:400});
+await assert.rejects(()=>client.signIn('owner@example.com','wrong'),/email or password was not recognised/);
+globalThis.fetch=async()=>new Response(JSON.stringify({error_code:'email_provider_disabled'}),{status:400});
+await assert.rejects(()=>client.signIn('owner@example.com','test'),/sign-in is disabled/);
+assert(!client.isSignedIn());console.log('PASS password rejection is distinguished from provider/configuration errors');
+
+const {FrankfurtSponsorClient}=await import(`data:text/javascript;base64,${Buffer.from(js).toString('base64')}`);
+const sponsorClient=new FrankfurtSponsorClient();let sponsorRequest;
+globalThis.fetch=async(url,options)=>{sponsorRequest={url,options};return new Response(JSON.stringify(url.includes('/token?')?{access_token:'synthetic-sponsor-token',expires_in:3600}:{accepted:false,rows:[],termsVersion:'off-air-2026-11-16-v2'}));};
+await assert.rejects(()=>sponsorClient.sponsorState('synthetic-sponsor'),/sign in/);
+await sponsorClient.signIn('sponsor@example.com','synthetic-password');
+await sponsorClient.sponsorState('synthetic-sponsor');
+assert(sponsorRequest.url.endsWith('/portal_sponsor_state'));assert.deepEqual(JSON.parse(sponsorRequest.options.body),{p_event:'off-air',p_sponsor:'synthetic-sponsor'});
+await sponsorClient.accept('synthetic-sponsor','off-air-2026-11-16-v2',false);
+assert.equal(JSON.parse(sponsorRequest.options.body).p_agreed,false);
+assert.equal(sponsorRequest.options.headers.Authorization,'Bearer synthetic-sponsor-token');
+console.log('PASS sponsor client requires authentication and sends event/sponsor/version/explicit agreement to guarded RPCs');
+
+const speakerClient=new FrankfurtOwnerClient();
+globalThis.fetch=async url=>new Response(JSON.stringify(url.includes('/token?')?{access_token:'synthetic-speaker-owner',expires_in:3600}:{message:'invalid_company_url'}),{status:url.includes('/token?')?200:400});
+await speakerClient.signIn('owner@example.com','synthetic-password');
+await assert.rejects(()=>speakerClient.speakers({p_action:'save'}),/company website.*HTTPS/);
+globalThis.fetch=async()=>new Response(JSON.stringify({message:'owner_mfa_required'}),{status:403});
+await assert.rejects(()=>speakerClient.speakers({p_action:'save'}),/two-step verification/);
+console.log('PASS speaker save identifies the invalid URL field and preserves owner MFA enforcement');

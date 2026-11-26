@@ -7,7 +7,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 
 const controllerName = "Modula Media Ltd";
-const controllerAddress = "10 Heathfield Terrace, London, W4 4JE";
+const controllerAddress = "10 Heathfield Terrace, Chiswick, London, UK, W4 4JE";
 const privacyEmail = "chris@mediacollective.events";
 
 function PrivacyEmailLink() {
@@ -29,7 +29,7 @@ const PrivacyPolicy = () => {
       <Header />
 
       {/* Hero Section */}
-      <main id="main-content" tabIndex={-1} className="site-header-clearance">
+      <main className="site-header-clearance">
       <section className="site-section border-b border-white/10">
         <div className="site-container">
           <motion.div

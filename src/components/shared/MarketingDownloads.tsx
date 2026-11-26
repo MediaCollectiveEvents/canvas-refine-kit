@@ -1,0 +1,15 @@
+import EventGallery,{type GalleryAccess} from './EventGallery';
+import {useEffect,useState} from 'react';
+import {Button} from '@/components/ui/button';
+export type MarketingFile={name:string;description:string;path:string;filename:string};
+export const marketingFiles:MarketingFile[]=[
+ {name:'OFF AIR logo',description:'Event logo · PNG',path:'off-air/marketing/off-air-logo.png',filename:'OFF_AIR_Logo.png'},
+ {name:'Email signature graphic',description:'Event banner for your email signature · PNG',path:'off-air/marketing/off-air-email-signature.png',filename:'OFF_AIR_Email_Signature.png'},
+ {name:'Social media graphic',description:'Event and partner artwork for social posts · PNG',path:'off-air/marketing/off-air-social-media.png',filename:'OFF_AIR_Social_Media.png'}
+];
+export default function MarketingDownloads({load,gallery,marketing,files=marketingFiles,eventName='OFF AIR'}:{files?:MarketingFile[];eventName?:string;load?:(file:MarketingFile)=>Promise<string>;gallery?:GalleryAccess;marketing?:GalleryAccess}){
+ const [previews,setPreviews]=useState<Record<string,string>>({}),[busy,setBusy]=useState(''),[error,setError]=useState('');
+ useEffect(()=>{let active=true;if(load)void Promise.all(files.map(async f=>[f.path,await load(f)] as const)).then(entries=>{if(active)setPreviews(Object.fromEntries(entries));}).catch(()=>{if(active)setError('Marketing files could not be loaded. Please try again or sign in again.');});return()=>{active=false;};},[]);
+ async function download(file:MarketingFile){if(!load)return;setBusy(file.path);setError('');try{const url=await load(file);const a=document.createElement('a');a.href=url;a.download=file.filename;a.rel='noopener';a.click();}catch{setError('The download could not be opened. Please try again or sign in again.');}finally{setBusy('');}}
+ return <section className="mt-8"><h2 className="font-display text-2xl">Marketing downloads</h2><p className="my-4 max-w-3xl text-white/65">Use these {eventName} materials for event communications and keep the partner credits intact.</p>{error&&<p role="alert" className="my-4 text-amber-200">{error}</p>}<div className="grid gap-5 md:grid-cols-3">{files.map(file=><article key={file.path} className="flex flex-col rounded-xl border border-white/15 bg-white/5 p-5"><div className="flex h-52 items-center justify-center overflow-hidden rounded-lg bg-white/5">{previews[file.path]?<img src={previews[file.path]} alt={file.name} className="max-h-full max-w-full object-contain"/>:<p className="text-sm text-white/50">{load?'Loading preview…':'Preview unavailable'}</p>}</div><h3 className="mt-5 text-lg font-semibold">{file.name}</h3><p className="mb-5 mt-2 text-sm text-white/60">{file.description}</p><Button variant="brand" className="mt-auto" disabled={!load||!!busy} onClick={()=>void download(file)}>{busy===file.path?'Preparing…':'Download PNG'}</Button></article>)}</div>{marketing&&<EventGallery access={marketing} marketing eventName={eventName}/>}{gallery&&<EventGallery access={gallery} eventName={eventName}/>}</section>;
+}
