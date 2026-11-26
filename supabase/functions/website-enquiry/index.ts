@@ -1,6 +1,11 @@
-const stagingOrigin = "https://staging.mediacollective.events";
+const projectUrl = Deno.env.get("SUPABASE_URL");
+const siteOrigin = projectUrl === "https://ioynilkvrfujnmudaped.supabase.co"
+  ? "https://staging.mediacollective.events"
+  : projectUrl === "https://qtmbioguefmtwtngbava.supabase.co"
+    ? "https://www.mediacollective.events"
+    : undefined;
 const responseHeaders = {
-  "Access-Control-Allow-Origin": stagingOrigin,
+  "Access-Control-Allow-Origin": siteOrigin ?? "null",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
   "Content-Type": "application/json",
@@ -12,14 +17,13 @@ const consentText = "I agree to receive emails about new Media Collective events
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const requestIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const engagementOptions = ["Attend", "Sponsor", "Co-host", "Receive new event notifications"];
-const rehearsalUrl = "https://ioynilkvrfujnmudaped.supabase.co";
 
 function receipt(success: boolean, outcomeUnknown = false) {
   return Response.json({ success, outcomeUnknown }, { headers: responseHeaders });
 }
 
 async function rpc(name: string, args: Record<string, unknown>, key: string) {
-  const response = await fetch(rehearsalUrl + "/rest/v1/rpc/" + name, {
+  const response = await fetch(projectUrl + "/rest/v1/rpc/" + name, {
     method: "POST",
     headers: {
       "Content-Type": "application/json", apikey: key,
@@ -73,9 +77,9 @@ function singleLine(value: unknown, max: number): value is string {
 }
 
 Deno.serve(async (request) => {
-  if (request.headers.get("origin") !== stagingOrigin) return new Response(null, { status: 403 });
+  if (!siteOrigin || request.headers.get("origin") !== siteOrigin) return new Response(null, { status: 403 });
   if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: responseHeaders });
-  if (request.method !== "POST" || Deno.env.get("SUPABASE_URL") !== rehearsalUrl) return receipt(false);
+  if (request.method !== "POST") return receipt(false);
 
   let data;
   try {
@@ -113,7 +117,7 @@ Deno.serve(async (request) => {
     });
     if (!verification.ok) return receipt(false);
     const captcha = await verification.json();
-    if (captcha.success !== true || captcha.hostname !== new URL(stagingOrigin).hostname) return receipt(false);
+    if (captcha.success !== true || captcha.hostname !== new URL(siteOrigin).hostname) return receipt(false);
   } catch {
     return receipt(false);
   }

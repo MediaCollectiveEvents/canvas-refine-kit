@@ -1,5 +1,5 @@
 import { privacySeo } from "@/lib/pageSeo";
-import { usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
+import { isStagingEnquiryBuild, usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
 import ClosingCTA from "@/components/shared/ClosingCTA";
 import { Button } from "@/components/ui/button";
 import { motion, useReducedMotion } from "framer-motion";
@@ -177,7 +177,9 @@ const PrivacyPolicy = () => {
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
                 {usesSupabaseEventEnquiries
-                  ? "On this staging site, we use Supabase to receive invitation requests and to keep a record of consent when event-update signups are enabled. We use Google Apps Script and Google Sheets for contact and other enquiries."
+                  ? isStagingEnquiryBuild
+                    ? "On this staging site, we use Supabase to receive invitation requests and to keep a record of consent when event-update signups are enabled. We use Google Apps Script and Google Sheets for contact and other enquiries."
+                    : "We use Supabase to receive invitation requests and to keep a record of consent when you sign up for event updates. We use Google Apps Script and Google Sheets for contact and other enquiries."
                   : "We use Google Apps Script and Google Sheets to receive and store website enquiries and invitation requests."}
                 {" "}We use Google reCAPTCHA to help prevent automated submissions.
               </p>

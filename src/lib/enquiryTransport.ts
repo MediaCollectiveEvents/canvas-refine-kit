@@ -1,19 +1,20 @@
-const productionEndpoint = "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec";
+const legacyEndpoint = "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec";
 
-const stagingEndpoint = import.meta.env?.VITE_EVENT_HUB_STAGING === "true"
+export const isStagingEnquiryBuild = import.meta.env?.VITE_EVENT_HUB_STAGING === "true";
+const eventEnquiryEndpoint = isStagingEnquiryBuild
   ? import.meta.env.VITE_STAGING_ENQUIRY_ENDPOINT
-  : undefined;
+  : import.meta.env?.VITE_PRODUCTION_ENQUIRY_ENDPOINT;
 
-export const usesSupabaseEventEnquiries = Boolean(stagingEndpoint);
+export const usesSupabaseEventEnquiries = Boolean(eventEnquiryEndpoint);
 
 function getEndpoint(payload: unknown) {
-  if (!stagingEndpoint || !payload || typeof payload !== "object") return productionEndpoint;
+  if (!eventEnquiryEndpoint || !payload || typeof payload !== "object") return legacyEndpoint;
   const enquiry = payload as { formType?: unknown; howEngage?: unknown };
   if (enquiry.formType === "event-updates" || (enquiry.formType === undefined &&
     typeof enquiry.howEngage === "string" && enquiry.howEngage.split(", ").includes("Attend"))) {
-    return stagingEndpoint;
+    return eventEnquiryEndpoint;
   }
-  return productionEndpoint;
+  return legacyEndpoint;
 }
 
 export class EnquiryDeliveryError extends Error {

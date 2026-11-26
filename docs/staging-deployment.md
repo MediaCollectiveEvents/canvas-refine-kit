@@ -128,3 +128,26 @@ subscription test, set `HUBSPOT_EVENT_UPDATES_ENABLED=true` for the test window
 and use an authorised, controlled inbox. Verify the consent record in
 `portal_private.event_update_consents`, confirm the subscription in HubSpot,
 and check that the signup added no invitation request.
+
+
+## Production cutover
+
+Apply the two invitation and consent migrations to the production project
+`qtmbioguefmtwtngbava`. Install a separate production intake key and deploy
+`website-enquiry` with the production project’s publishable key and the
+reCAPTCHA secret that matches the live form site key. Verify that the function
+accepts the canonical production origin and rejects the staging origin.
+
+Enable HubSpot delivery only after confirming the event-updates form and
+subscription type. Set the repository variable `PRODUCTION_ENQUIRY_ENDPOINT`
+to the deployed production function URL before triggering the website release.
+This switches the form delivery and privacy notice in the same build. Contact
+and other enquiries continue through their existing handler.
+
+Check one controlled invitation, one approved newsletter signup and one
+contact form. Confirm the invitation lands only in the invitation intake, the
+newsletter produces an accepted consent record and a HubSpot receipt, and the
+contact form reaches the existing destination. Check the live privacy notice
+on the deployed host. Removing the variable and rebuilding returns both form
+routing and the notice to their Google-handler configuration. Preserve the
+records already created in Supabase for reconciliation.
