@@ -27,6 +27,7 @@ export class FrankfurtOwnerClient {
       if(path.startsWith('/auth/v1/otp')&&response.status===400)return {};
       let friendly='The request was rejected. Nothing was published.';
       if(message.includes('stale_version'))friendly='A newer version exists. Sign out and back in to review against it.';
+      else if(message==='stale_website_invitation')friendly='This request changed. Refresh the list before recording a decision.';
       else if(path.includes('/functions/v1/partner-code-request'))friendly='Your request could not be completed. Please wait a moment and try again, or contact us.';
       else if(path.includes('portal_owner_walk_in'))friendly=response.status===404?'Walk-in setup has not been installed yet. Existing reports are unchanged.':message.includes('stale_walk_in')?'This registration changed. Refresh the walk-in list before editing.':code==='23505'?'This email is already on the walk-in list. Refresh and check the existing record.':'Walk-in changes could not be saved. Check your owner session and the fields, then refresh.';
       else if(path.includes('/functions/v1/sponsor-management'))friendly=code==='email_delivery_not_ready'?'Email invitations are not enabled yet. The sender and code email templates must be configured first.':code==='email_send_rate_limited'?'Access is saved. The email service has limited sending temporarily. Wait before trying again; repeated retries will not help.':code==='email_send_failed'?'Access is saved, but the invitation email could not be sent. Contact Chris if this persists.':code==='owner_access_required'?'Please sign in again as the portal owner.':code==='owner_account_protected'?'Owner accounts cannot be changed here.':code==='existing_company_mapping_protected'?'This email already belongs to another sponsor company. Its existing mapping was preserved.':code==='active_sponsor_required'?'Enable this sponsor account before creating a setup link.':code==='invitation_failed'?'The setup link could not be created. No email was sent.':code==='admin_not_configured'?'Account setup is not configured on the server yet.':'Sponsor access could not be saved. Check the company, email and future expiry date.';
@@ -134,6 +135,11 @@ export class FrankfurtOwnerClient {
   async exportRegistrants(partner?:string){return await this.call('/rest/v1/rpc/portal_registrants_export',{p_partner:partner??null}) as unknown as {rows:EventbriteReport['rows']};}
   async sponsorPreview(){return await this.call('/rest/v1/rpc/portal_owner_sponsor_preview') as unknown as {report:SponsorState;raw:EventbriteReport};}
   async invitationStatus(ref:string,added:boolean,expected:string){return await this.call('/rest/v1/rpc/portal_owner_invitation_status',{p_ref:ref,p_added:added,p_expected:expected}) as unknown as InvitationRequests;}
+  async websiteInvitationStatus(ref: string, status: WebsiteInvitationStatus, expectedVersion: number) {
+    return await this.call('/rest/v1/rpc/portal_owner_website_invitation_status', {
+      p_ref: ref, p_status: status, p_expected_version: expectedVersion,
+    }) as unknown as InvitationRequests;
+  }
   async invitations(){return await this.call('/rest/v1/rpc/portal_owner_invitations') as unknown as InvitationRequests;}
   async invitationKey(){return await this.call('/rest/v1/rpc/portal_owner_invitation_key') as unknown as {key:string};}
   async walkIns(){return await this.call('/rest/v1/rpc/portal_owner_walk_ins') as unknown as import('@/lib/walk-in/model').WalkInState;}
@@ -174,4 +180,16 @@ export type MeetingInterest={guestRef:string;guest:import('./guest-list').Sponso
 export type SponsorLogin={sponsorId:string;userId:string;company:string;email:string;active:boolean;confirmed:boolean;expiresAt:string;canViewEmail:boolean;deletedAt?:string|null;firstSignInAt?:string|null;lastSignInAt?:string|null;termsAcceptedAt?:string|null;termsVersion?:string};
 export type SponsorSetup={sponsors:SponsorLogin[];signInUrl:string;setupUrl:string|null;localOnly:boolean;emailSent:boolean};
 
-export type InvitationRequests={configured:boolean;rows:{sourceRef:string;fullName:string;company:string;email:string;requestedAt:string;status:string}[]};
+type InvitationRow = { sourceRef: string; fullName: string; company: string; email: string; requestedAt: string };
+export const websiteInvitationStatuses = ['Requested', 'Reviewed', 'Invited', 'Declined'] as const;
+export type WebsiteInvitationStatus = typeof websiteInvitationStatuses[number];
+export type WebsiteInvitation = InvitationRow & {
+  eventLabel: string;
+  status: WebsiteInvitationStatus;
+  decisionVersion: number;
+};
+export type InvitationRequests = {
+  configured: boolean;
+  rows: (InvitationRow & { status: string })[];
+  websiteRows?: WebsiteInvitation[];
+};
