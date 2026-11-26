@@ -47,6 +47,7 @@ function Panel({ slug, title, client }: { slug: string; title: string; client: F
 export default function OffAirPanelRecordings({ client, sponsor }: { client: FrankfurtOwnerClient; sponsor?: string }) {
   const [available, setAvailable] = useState<string[] | null>(null);
   const [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let current = true;
@@ -57,13 +58,16 @@ export default function OffAirPanelRecordings({ client, sponsor }: { client: Fra
       () => { if (current) setError(true); },
     );
     return () => { current = false; };
-  }, [client, sponsor]);
+  }, [attempt, client, sponsor]);
 
   if (sponsor && !error && available?.length === 0) return null;
 
   return <section aria-labelledby="off-air-panel-recordings" className="my-8 space-y-4">
     <h2 id="off-air-panel-recordings" className="font-display text-2xl font-semibold">Panel recordings and transcripts</h2>
-    {error ? <p role="alert">Panel recordings could not be loaded. Open this section again to retry.</p>
+    {error ? <div className="flex flex-wrap items-center gap-3">
+      <p role="alert">Panel recordings could not be loaded.</p>
+      <Button type="button" variant="outline" onClick={() => setAttempt(value => value + 1)}>Retry</Button>
+    </div>
       : available === null ? <p role="status">Loading panel recordings…</p>
       : available.length === 0 ? <p>No panel recordings have been published.</p>
       : <ul className="space-y-3">
