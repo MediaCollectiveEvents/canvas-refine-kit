@@ -17,7 +17,7 @@ const Blog: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} />
+      <Seo title={`${hero.title} — The Media Collective`} description={hero.description} url="/insights" />
       <Header />
 
       {/* Match header clearance with other pages */}

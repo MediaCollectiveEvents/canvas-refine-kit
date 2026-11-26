@@ -85,7 +85,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
                             </div>
                           </div>
 
-                          <Link to={`/blog/${post.slug}`}>
+                          <Link to={`/insights/${post.slug}`}>
                             <h3 className="font-display text-2xl font-light leading-snug text-white transition-colors hover:text-primary">
                               {post.title}
                             </h3>
@@ -98,7 +98,7 @@ const BlogPageRenderer: React.FC<BlogPageRendererProps> = ({
 
                           <div className="mt-2">
                             <Link
-                              to={`/blog/${post.slug}`}
+                              to={`/insights/${post.slug}`}
                               className="font-display inline-flex items-center text-primary font-medium hover:underline"
                             >
                               Read more

@@ -5,6 +5,8 @@ import settings from "@/content/settings.json";
 
 // Pages
 import Home from "@/pages/Home";
+const Blog = lazy(() => import("@/pages/Blog"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
 const Events = lazy(() => import("@/pages/Events"));
 const EventDetails = lazy(() => import("@/pages/EventDetails"));
 const Partners = lazy(() => import("@/pages/Partners"));
@@ -83,9 +85,11 @@ const App = () => {
               <Route path="/events/calendar" element={<Navigate to="/" replace />} />
               <Route path="/events/:id" element={<EventDetails />} />
 
-              {/* Phase 2: Insights listing + individual posts temporarily unavailable. */}
-              <Route path="/blog" element={<Navigate to="/" replace />} />
-              <Route path="/blog/:slug" element={<Navigate to="/" replace />} />
+              {/* Insights and legacy article links */}
+              <Route path="/insights" element={<Blog />} />
+              <Route path="/insights/:slug" element={<BlogPost />} />
+              <Route path="/blog" element={<Navigate to="/insights" replace />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
 
               {/* Partners & Sponsors */}
               <Route path="/partners" element={<Partners />} />

@@ -29,13 +29,13 @@ const BlogPostPage: React.FC = () => {
         <main id="main-content" tabIndex={-1} className="pt-20 sm:pt-24 lg:pt-28">
           <div className="container mx-auto max-w-3xl px-6 py-16">
             <h1 className="font-display text-2xl md:text-3xl text-foreground mb-4">
-              Post not found
+              Article not found
             </h1>
             <p className="text-muted-foreground mb-6">
-              We couldn’t find the blog post you were looking for.
+              We couldn’t find the article you were looking for.
             </p>
             <Link
-              to="/blog"
+              to="/insights"
               className="font-display text-sm font-medium text-primary hover:underline"
             >
               ← Back to Insights
@@ -61,7 +61,7 @@ const BlogPostPage: React.FC = () => {
   // -----------------------------------
   return (
     <div className="min-h-screen bg-background">
-      <Seo title={`${post.title} — The Media Collective`} description={post.excerpt} url={`/blog/${post.slug}`} type="article" />
+      <Seo title={`${post.title} — The Media Collective`} description={post.excerpt} url={`/insights/${post.slug}`} type="article" />
       <Header />
 
       <main id="main-content" tabIndex={-1} className="bg-[#101d24] site-header-clearance">
@@ -79,7 +79,7 @@ const BlogPostPage: React.FC = () => {
               <span>
                 {formatArticleDate(post.date)}
               </span>
-              <Link to="/blog" className="font-display text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
+              <Link to="/insights" className="font-display text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
             </div>
             <div className="mt-4 [&>div]:text-slate-300"><ArticleAttribution article={post} /></div>
           </div>
@@ -97,7 +97,7 @@ const BlogPostPage: React.FC = () => {
             )}
             <ContributorBiography article={post} />
             <ArticleRelatedEvents article={post} />
-            <Link to="/blog" className="font-display mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
+            <Link to="/insights" className="font-display mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
           </div>
         </section>
 

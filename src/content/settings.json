@@ -43,6 +43,11 @@
     {
       "label": "Partners",
       "type": "partners"
+    },
+    {
+      "label": "Insights",
+      "type": "blog",
+      "href": "/insights"
     }
   ]
 }

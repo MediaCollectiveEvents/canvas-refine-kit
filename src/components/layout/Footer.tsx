@@ -10,7 +10,7 @@ export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCT
   const [updatesOpen, setUpdatesOpen] = useState(false);
   const updatesTrigger = useRef<HTMLButtonElement>(null);
   const hasContextualEnding =
-    /^\/(?:faq|partners|privacy-policy|blog)\/?$/.test(pathname) ||
+    /^\/(?:faq|partners|privacy-policy|blog|insights)\/?$/.test(pathname) ||
     /^\/events\/(?!calendar(?:\/|$))[^/]+\/?$/.test(pathname);
   const isAdmin = /^\/(?:admin|manage)(?:\/|$)/.test(pathname);
   const linkClassName = "inline-flex min-h-11 items-center font-display text-sm font-medium uppercase tracking-[0.1em] text-white/90 transition-colors hover:text-[#9BF8ED] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#35C5BB] xl:text-[0.9rem] xl:tracking-[0.18em]";
