@@ -30,14 +30,41 @@ async function privateCall(action:string,token:string,data:object={}):Promise<Su
  if(!r.ok)throw Error('Invitation or submission rejected. Check the link, required fields, image sizes and whether a newer revision exists.');
  return r.json();
 }
+function consumeInvitation() {
+ const next = new URLSearchParams(location.hash.slice(1)).get('key') ?? '';
+ if(next) history.replaceState(null, '', location.pathname + location.search);
+ return next;
+}
 export default function InsightsSubmit(){
- const [token]=useState(()=>{const t=new URLSearchParams(location.hash.slice(1)).get('key')??'';if(t)history.replaceState(null,'',location.pathname+location.search);return t;});
+ const [token,setToken]=useState(consumeInvitation);
+ useEffect(()=>{
+  const openInvitation=()=>{
+   const next=consumeInvitation();
+   if(next)setToken(next);
+  };
+  window.addEventListener('hashchange',openInvitation);
+  return ()=>window.removeEventListener('hashchange',openInvitation);
+ },[]);
+ return <InsightsEditor key={token} token={token}/>;
+}
+function InsightsEditor({token}:{token:string}){
  const demo=!token&&new URLSearchParams(location.search).get('demo')==='tommy';
  const [remote,setRemote]=useState<Submission|null>(null);
  const locked=!!remote&&!['draft','changes_requested'].includes(remote.status);
  const [profile,setProfile]=useState({...emptyBio,name:'Tommy Flanagan',company:'Faultline'});
  const [editing,setEditing]=useState(false),[logo,setLogo]=useState(''),[title,setTitle]=useState('Beyond the hype: What will really shape the future of media?'),[standfirst,setStandfirst]=useState('Distinguishing genuine commercial opportunities from technology hype.'),[body,setBody]=useState(exampleBody),[category,setCategory]=useState(categories[0]),[series,setSeries]=useState('OFF AIR 2026'),[selected,setSelected]=useState<string[]>([]),[keywords,setKeywords]=useState(''),[quick,setQuick]=useState(true),[summary,setSummary]=useState('Prioritise measurable commercial outcomes. Build stronger audience relationships. Invest selectively in technology.'),[images,setImages]=useState<Picture[]>([]),[preview,setPreview]=useState(false),[mobile,setMobile]=useState(false),[permission,setPermission]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('');
- useEffect(()=>{if(demo)return;if(!/^[a-f0-9]{64}$/.test(token)){setError('A private contributor invitation is required.');return;}privateCall('get',token).then(r=>{const d=r.draft;setProfile({...emptyBio,...d.profile});setLogo(d.logo);setTitle(d.title);setStandfirst(d.standfirst);setBody(d.body);setCategory(d.category);setSeries(d.series);setSelected(d.selected);setKeywords(d.keywords);setQuick(d.quick);setSummary(d.summary);setImages(d.images);setPermission(d.permission);setRemote(r);}).catch(e=>setError(e.message));},[token,demo]);
+ useEffect(()=>{
+  let current=true;
+  if(demo)return;
+  if(!/^[a-f0-9]{64}$/.test(token)){setError('A private contributor invitation is required.');return;}
+  privateCall('get',token).then(r=>{
+   if(!current)return;
+   const d=r.draft;setProfile({...emptyBio,...d.profile});setLogo(d.logo);setTitle(d.title);setStandfirst(d.standfirst);
+   setBody(d.body);setCategory(d.category);setSeries(d.series);setSelected(d.selected);setKeywords(d.keywords);
+   setQuick(d.quick);setSummary(d.summary);setImages(d.images);setPermission(d.permission);setRemote(r);
+  }).catch(e=>{if(current)setError(e.message);});
+  return ()=>{current=false;};
+ },[token,demo]);
  async function save(submit:boolean){if(demo){setMessage('Demonstration only — nothing sent.');return;}if(!remote||locked)return;setBusy(true);setError('');setMessage('');try{const clean=normalizeBio(profile);if(submit){validateBio(clean);if(!permission||!title.trim()||!standfirst.trim()||!body.trim()||(quick&&!summary.trim())||images.some(i=>!i.permission||!i.alt.trim()))throw Error('Complete the article, image alternative text and permissions.');}else validateDraft(clean);const draft={profile:clean,logo,title,standfirst,body,category,series,selected,keywords,quick,summary,images,permission};if(new Blob([JSON.stringify(draft)]).size>8000000)throw Error('The combined images and article exceed 8 MB. Remove or reduce an image.');const next=await privateCall(submit?'submit':'save',token,{draft,revision:remote.revision});setRemote(next);setMessage(submit?'Submitted for editorial review. Nothing published.':'Draft saved. Reopen your original invitation to continue.');}catch(e){setError(e instanceof Error?e.message:'Could not save.');}finally{setBusy(false);}}
  function update(i:number,p:Partial<Picture>){setImages(old=>old.map((v,j)=>i===j?{...v,...p}:v));}
  async function upload(file:File,kind:'logo'|'image',replaceIndex?:number){setBusy(true);setError('');try{const src=await picture(file,kind==='logo');if(kind==='logo')setLogo(src);else if(replaceIndex!==undefined)update(replaceIndex,{src,permission:false});else setImages(old=>old.length>=8?old:[...old,{src,caption:'',credit:'',alt:'',placement:old.some(x=>x.placement==='cover')?'inline':'cover',permission:false}]);}catch(e){setError(e instanceof Error?e.message:'Upload failed.');}finally{setBusy(false);}}
