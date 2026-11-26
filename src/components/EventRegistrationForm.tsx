@@ -1,6 +1,6 @@
 import { EVENT_UPDATES_CONSENT_TEXT, getEventUpdatesMetadata } from "@/lib/eventUpdates";
 import { protectUnsavedForm } from "@/lib/unsavedForm";
-import { sendEnquiry, EnquiryDeliveryError } from "@/lib/enquiryTransport";
+import { sendEnquiry, EnquiryDeliveryError, usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
 import { useState, useRef, useEffect, useMemo, type ComponentProps } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -217,7 +217,11 @@ const EventRegistrationForm = ({
   const submitForm = async (data: Omit<FormData, 'captchaToken'>, captchaToken: string) => {
     try {
       const eventLabels = data.interestedEvents
-        .map(id => eventOptions.find(e => e.id === id)?.label || id)
+        .map(id => {
+          const option = eventOptions.find(event => event.id === id);
+          const seriesEnquiry = usesSupabaseEventEnquiries && !attendanceOnly && !eventUpdatesOnly;
+          return (seriesEnquiry ? option?.displayLabel : option?.label) || id;
+        })
         .join(", ");
 
       const engagementLabels = data.engagementTypes
