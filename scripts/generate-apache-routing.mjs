@@ -66,6 +66,8 @@ export function generateApacheRouting(content) {
     "RewriteRule ^eventhub/(?:mpts-reception-2027|partner-password-reset|reset-password|activate|walk-in|speaker-edit|speakers/[^/]+)/?$ /eventhub/index.html [END,NC]",
     "",
     "# Existing React compatibility redirects and the Decap launcher remain client-side.",
+    "RewriteCond %{HTTP_HOST} ^staging[.]mediacollective[.]events$ [NC]",
+    "RewriteRule ^media-library/?$ /index.html [END,NC]",
     "RewriteRule ^(?:about|events/calendar|(?:blog|insights)(?:/[^/]+)?|manage)/?$ /index.html [END,NC]",
     "",
     "# Leave real assets and directories (including /admin/) to Apache.",

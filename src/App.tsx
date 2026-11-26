@@ -15,6 +15,7 @@ const EventDetails = lazy(() => import("@/pages/EventDetails"));
 const Partners = lazy(() => import("@/pages/Partners"));
 const Community = lazy(() => import("@/pages/Community"));
 const FAQ = lazy(() => import("@/pages/FAQ"));
+const MediaLibrary = lazy(() => import("@/pages/MediaLibrary"));
 const SponsorReportsFrankfurt = lazy(() => import("@/pages/SponsorReportsFrankfurt"));
 const SponsorReportFrankfurtOwner = lazy(() => import("@/pages/SponsorReportFrankfurtOwner"));
 const MptsReceptionReport = lazy(() => import("@/pages/MptsReceptionReport"));
@@ -89,6 +90,7 @@ const App = () => {
               <Route path="/events/:id" element={<EventDetails />} />
 
               {/* Insights and legacy article links */}
+              <Route path="/media-library" element={window.location.hostname === "staging.mediacollective.events" ? <MediaLibrary /> : <NotFound />} />
               <Route path="/insights" element={<Blog />} />
               <Route path="/insights/design-comparison" element={import.meta.env.DEV || window.location.hostname === "staging.mediacollective.events" ? <InsightsComparison /> : <NotFound />} />
               <Route path="/insights/submit" element={import.meta.env.DEV || window.location.hostname === "staging.mediacollective.events" ? <InsightsSubmit /> : <NotFound />} />

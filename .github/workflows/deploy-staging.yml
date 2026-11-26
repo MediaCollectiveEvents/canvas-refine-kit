@@ -49,6 +49,9 @@ jobs:
       - name: Build Vite site
         run: npm run build
 
+      - name: Index website images for the staging Media Library
+        run: node scripts/build-staging-media-inventory.mjs
+
       - name: Add staging-only indexing protection
         run: node scripts/prepare-staging-payload.mjs
 
