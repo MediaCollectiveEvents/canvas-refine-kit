@@ -3,6 +3,9 @@ const productionEndpoint = "https://script.google.com/macros/s/AKfycbxDtoPvPsdOw
 const stagingEndpoint = import.meta.env?.VITE_EVENT_HUB_STAGING === "true"
   ? import.meta.env.VITE_STAGING_ENQUIRY_ENDPOINT
   : undefined;
+
+export const usesSupabaseEventEnquiries = Boolean(stagingEndpoint);
+
 function getEndpoint(payload: unknown) {
   if (!stagingEndpoint || !payload || typeof payload !== "object") return productionEndpoint;
   const enquiry = payload as { formType?: unknown; howEngage?: unknown };
