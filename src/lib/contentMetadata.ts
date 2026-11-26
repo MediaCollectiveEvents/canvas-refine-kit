@@ -23,6 +23,9 @@ export interface Contributor extends TaxonomyMetadata {
   organisation?: string;
   biography?: string;
   image?: string;
+  linkedinUrl?: string;
+  teamGroup?: 'founder' | 'core' | 'collaborator';
+  teamOrder?: number;
 }
 
 export interface ArticleMetadata extends TaxonomyMetadata {

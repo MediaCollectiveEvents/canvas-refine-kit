@@ -20,6 +20,9 @@ export function getContributors(source: unknown = directory): Contributor[] {
       if (typeof row[key] === "string" && row[key].trim()) contributor[key] = row[key].trim();
     }
     if (typeof row.image === "string" && safeImage(row.image)) contributor.image = row.image;
+    if (row.teamGroup === "founder" || row.teamGroup === "core" || row.teamGroup === "collaborator") contributor.teamGroup = row.teamGroup;
+    if (typeof row.teamOrder === "number" && Number.isInteger(row.teamOrder)) contributor.teamOrder = row.teamOrder;
+    if (typeof row.linkedinUrl === "string" && /^https:\/\/(www\.)?linkedin\.com\/in\/[A-Za-z0-9%_-]+\/?$/.test(row.linkedinUrl)) contributor.linkedinUrl = row.linkedinUrl;
     return [contributor];
   });
 }

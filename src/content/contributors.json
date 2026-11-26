@@ -5,6 +5,14 @@
       "displayName": "The Media Collective",
       "role": "Editorial team",
       "biography": "The Media Collective brings together professionals across broadcasting, streaming, content and media technology. Our Insights articles explore industry perspectives and discussions from our community and events."
+    },
+    {
+      "id": "chris-parry",
+      "displayName": "Chris Parry",
+      "role": "Founder",
+      "organisation": "The Media Collective",
+      "teamGroup": "founder",
+      "teamOrder": 0
     }
   ]
 }

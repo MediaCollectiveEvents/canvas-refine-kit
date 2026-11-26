@@ -1282,6 +1282,9 @@ collections:
               - { label: Role, name: role, widget: string, required: false }
               - { label: Organisation, name: organisation, widget: string, required: false }
               - { label: Short Biography, name: biography, widget: text, required: false }
+              - { label: LinkedIn profile, name: linkedinUrl, widget: string, required: false }
+              - { label: Team group, name: teamGroup, widget: select, options: [{label: Founder, value: founder}, {label: Core team, value: core}, {label: Collaborator, value: collaborator}], required: false, hint: "Only select for profiles approved to appear on the team page." }
+              - { label: Team display order, name: teamOrder, widget: number, value_type: int, required: false }
               - { label: Image, name: image, widget: image, required: false }
 
   - name: taxonomy

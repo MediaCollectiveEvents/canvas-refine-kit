@@ -5,6 +5,7 @@ import settings from "@/content/settings.json";
 
 // Pages
 import Home from "@/pages/Home";
+const Team = lazy(() => import("@/pages/Team"));
 const InsightsComparison = lazy(() => import("@/pages/InsightsComparison"));
 const InsightsSubmit = lazy(() => import("@/pages/InsightsSubmit"));
 const Blog = lazy(() => import("@/pages/Blog"));
@@ -79,7 +80,7 @@ const App = () => {
             <>
               {/* Core pages */}
               <Route path="/" element={<Home />} />
-              <Route path="/about" element={<Navigate to="/" replace />} />
+              <Route path="/about" element={import.meta.env.DEV || window.location.hostname === "staging.mediacollective.events" ? <Team /> : <Navigate to="/" replace />} />
 
               {/* Events */}
               <Route path="/events" element={<Events />} />
