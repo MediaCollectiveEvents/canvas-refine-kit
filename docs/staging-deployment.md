@@ -134,3 +134,19 @@ subscriptions when a separate destination is absent.
 
 The enquiry intake stores a receipt and exposes it to the owner. Email
 acknowledgements are a separate workflow.
+
+### Staging acknowledgement email tests
+
+Deploy the revised `website-enquiry` function only to rehearsal. Set
+`STAGING_ENQUIRY_RESEND_API_KEY` to a staging-specific, sending-only key
+restricted to the verified sending domain. Set `STAGING_ENQUIRY_TEST_RECIPIENT`
+to the approved controlled mailbox in staging secrets. Both values are
+required for sending and the verified form email must match the configured
+address. Do not place either value in the browser build.
+
+Send test submissions through Contact us, the partnership enquiry form and
+the invitation form. Confirm one acknowledgement of each type. Retrying an
+identical message submits the same provider idempotency key during its
+deduplication window. The function logs provider failures without contact
+details. A verified saved enquiry still returns its receipt when email delivery
+fails. Event-updates double opt-in remains a separate HubSpot workflow.

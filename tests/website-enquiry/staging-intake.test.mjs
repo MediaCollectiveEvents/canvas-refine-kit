@@ -10,19 +10,21 @@ const { outputText } = ts.transpileModule(source, { compilerOptions: { target: t
 const registration = { fullName: "QA", emailAddress: "QA@example.com", companyName: "QA", event: "MPTS", consent: "Y" };
 const contact = { formType: "contact", fullName: "QA", emailAddress: "QA@example.com", message: "Test enquiry" };
 
-function mount({ hostname = new URL(origin).hostname, verified = true } = {}) {
+function mount({ hostname = new URL(origin).hostname, verified = true, mail = false, save = true, mailStatus = 200 } = {}) {
   const calls = [];
   let handler;
   const env = {
     SUPABASE_URL: project, SUPABASE_SERVICE_ROLE_KEY: "fixture", WEBSITE_ENQUIRY_RECAPTCHA_SECRET: "fixture",
     WEBSITE_INVITATION_WRITE_KEY: "fixture", WEBSITE_INVITATION_PUBLISHABLE_KEY: "fixture",
+    ...(mail ? { STAGING_ENQUIRY_TEST_RECIPIENT: "qa@example.com", STAGING_ENQUIRY_RESEND_API_KEY: "fixture" } : {}),
     HUBSPOT_EVENT_UPDATES_ENABLED: "true", STAGING_HUBSPOT_PORTAL_ID: "139602049",
   };
   const deno = { env: { get: name => env[name] }, serve: callback => { handler = callback; } };
   async function fakeFetch(url, options) {
     calls.push({ url, options });
     if (url === "https://www.google.com/recaptcha/api/siteverify") return Response.json({ success: verified, hostname });
-    if (url.startsWith(project + "/rest/v1/rpc/")) return Response.json(true);
+    if (url.startsWith(project + "/rest/v1/rpc/")) return Response.json(save);
+    if (url === "https://api.resend.com/emails") return Response.json({}, { status: mailStatus });
     throw new Error("Unexpected outbound request");
   }
   new Function("Deno", "fetch", outputText)(deno, fakeFetch);
@@ -66,4 +68,36 @@ test("staging subscriptions cannot fall back to the production CRM", async () =>
     requestId: crypto.randomUUID(), consentVersion: "event-updates-v1", howEngage: "Receive new event notifications" });
   assert.equal((await response.json()).success, false);
   assert.equal(calls.length, 1);
+});
+
+test("acknowledgements follow accepted intake and only go to the configured test inbox", async () => {
+  for (const [payload, subject] of [
+    [contact, "enquiry"],
+    [{ ...registration, howEngage: "Sponsor" }, "partnership enquiry"],
+    [{ ...registration, howEngage: "Attend" }, "invitation request"],
+  ]) {
+    const { submit, calls } = mount({ mail: true });
+    assert.equal((await (await submit(payload)).json()).success, true);
+    assert.equal(calls.length, 3);
+    assert.match(calls[1].url, /\/rpc\//);
+    assert.equal(calls[2].url, "https://api.resend.com/emails");
+    const message = JSON.parse(calls[2].options.body);
+    assert.deepEqual(message.to, ["qa@example.com"]);
+    assert.equal(message.subject, "[Staging test] We received your " + subject);
+    if (subject === "invitation request") assert.match(message.text, /awaiting review/);
+    await submit({ ...payload, "g-recaptcha-response": "retry-token" });
+    assert.equal(calls[2].options.headers["Idempotency-Key"], calls[5].options.headers["Idempotency-Key"]);
+  }
+  const { submit, calls } = mount({ mail: true });
+  await submit({ ...contact, emailAddress: "other@example.com" });
+  assert.equal(calls.length, 2);
+});
+
+test("rejected persistence never emails and provider failure preserves a saved receipt", async () => {
+  const rejected = mount({ mail: true, save: false });
+  assert.equal((await (await rejected.submit(contact)).json()).success, false);
+  assert.equal(rejected.calls.length, 2);
+  const unavailable = mount({ mail: true, mailStatus: 503 });
+  assert.equal((await (await unavailable.submit(contact)).json()).success, true);
+  assert.equal(unavailable.calls.length, 3);
 });

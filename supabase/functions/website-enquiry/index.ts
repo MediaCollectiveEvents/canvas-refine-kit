@@ -73,6 +73,51 @@ async function subscribe(email: string, requestId: string) {
   return status === 200 && recorded === true ? receipt(true) : receipt(false, true);
 }
 
+const acknowledgementCopy = {
+  contact: {
+    subject: "We received your enquiry",
+    text: "Thank you for contacting The Media Collective. We’ve received your enquiry and will review it.",
+  },
+  commercial: {
+    subject: "We received your partnership enquiry",
+    text: "Thank you for your interest in partnering with The Media Collective. We’ve received your enquiry and will review it before following up.",
+  },
+  invitation: {
+    subject: "We received your invitation request",
+    text: "Thank you for requesting an invitation. Your request is awaiting review. If we can offer you a place, we’ll send you a separate link to register.",
+  },
+} as const;
+
+async function acknowledge(kind: keyof typeof acknowledgementCopy, email: string, reference: string[]) {
+  const recipient = Deno.env.get("STAGING_ENQUIRY_TEST_RECIPIENT")?.trim().toLowerCase();
+  const key = Deno.env.get("STAGING_ENQUIRY_RESEND_API_KEY")?.trim();
+  if (!recipient || email !== recipient || !emailPattern.test(recipient) || !key) return;
+
+  try {
+    const fingerprint = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(JSON.stringify([kind, email, ...reference])));
+    const id = Array.from(new Uint8Array(fingerprint), byte => byte.toString(16).padStart(2, "0")).join("");
+    const copy = acknowledgementCopy[kind];
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + key,
+        "Content-Type": "application/json",
+        "Idempotency-Key": "staging-enquiry-" + id,
+      },
+      body: JSON.stringify({
+        from: "The Media Collective <chris@mediacollective.events>",
+        to: [recipient],
+        subject: "[Staging test] " + copy.subject,
+        text: copy.text + "\n\nThis is a staging test message.",
+      }),
+      signal: AbortSignal.timeout(5000),
+    });
+    if (!response.ok) console.error("Staging enquiry acknowledgement rejected", { kind, status: response.status });
+  } catch {
+    console.error("Staging enquiry acknowledgement delivery could not be confirmed", { kind });
+  }
+}
+
 function singleLine(value: unknown, max: number): value is string {
   return typeof value === "string" && value.length <= max &&
     value.trim().length > 0 && !/[\u0000-\u001f\u007f]/.test(value);
@@ -147,7 +192,11 @@ Deno.serve(async (request) => {
         p_event: contact ? null : data.event.trim(),
         p_engagement: contact ? null : data.howEngage,
       }, serviceKey!);
-      return saved === true ? receipt(true) : receipt(false, true);
+      if (saved !== true) return receipt(false, true);
+      await acknowledge(contact ? "contact" : "commercial", email, contact
+        ? [data.fullName.trim(), data.message.trim()]
+        : [data.fullName.trim(), data.companyName.trim(), data.event.trim(), data.howEngage]);
+      return receipt(true);
     }
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
     const sourceRef = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
@@ -155,7 +204,9 @@ Deno.serve(async (request) => {
       p_key: key, p_source_ref: sourceRef, p_name: data.fullName.trim(),
       p_company: data.companyName.trim(), p_email: email, p_event: data.event.trim(), p_engagement: data.howEngage,
     }, publishableKey!);
-    return saved === true ? receipt(true) : receipt(false, true);
+    if (saved !== true) return receipt(false, true);
+    await acknowledge("invitation", email, [data.fullName.trim(), data.companyName.trim(), data.event.trim(), data.howEngage]);
+    return receipt(true);
   } catch {
     return receipt(false, true);
   }
