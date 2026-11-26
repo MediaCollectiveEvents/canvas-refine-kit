@@ -86,3 +86,20 @@ Decap already targets `staging`; retain that setting. Verify the staging site an
 delivery before promotion. Promote reviewed staging commits through a pull
 request to `main`; production hotfixes should be merged back into staging.
 Keep collection schemas, media paths and the authentication provider unchanged.
+
+## Event Hub rehearsal backend
+
+The only Event Hub backend allowed by the staging artifact is
+`https://ioynilkvrfujnmudaped.supabase.co`. The staging deployment environment
+variable `EVENT_HUB_REHEARSAL_PUBLISHABLE_KEY` supplies its browser publishable
+key. Leave this variable unset until the isolated project's sign-in edge
+function, code email template, and staging Auth redirect allowlist are ready.
+The Hub shows a holding page until the variable is present, and a production
+artifact served on the staging hostname also shows the holding page.
+
+Use synthetic guest records and dedicated rehearsal accounts. The production
+Eventbrite scheduler migrations end in `0006` and `0007` and must be omitted in
+this project. The `partner-code-request` function uses rehearsal Supabase Auth
+and suppresses access-request notification emails when deployed to the rehearsal
+project. Walk-in registration stays disabled on staging until it has a separate
+backend setup.

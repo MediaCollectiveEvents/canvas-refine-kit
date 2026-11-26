@@ -7,7 +7,10 @@ if (!entry.includes('src="/assets/')) throw new Error('Event Hub requires an abs
 const hub = `${root}/eventhub`;
 mkdirSync(`${hub}/owner`, { recursive: true });
 for (const route of ['', '/owner']) writeFileSync(`${hub}${route}/index.html`, entry);
-cpSync('public/eventhub/.htaccess', `${hub}/.htaccess`);
+const hubRules = readFileSync('public/eventhub/.htaccess', 'utf8');
+writeFileSync(`${hub}/.htaccess`, process.env.DEPLOY_TARGET === 'staging'
+  ? hubRules.replace('https://qtmbioguefmtwtngbava.supabase.co', 'https://ioynilkvrfujnmudaped.supabase.co')
+  : hubRules);
 
 if (process.env.DEPLOY_TARGET !== 'staging') {
   cpSync('src/owner-offline', `${hub}/owner-offline`, { recursive: true });

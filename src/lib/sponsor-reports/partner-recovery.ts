@@ -5,7 +5,9 @@ const headers={apikey:publishableKey,'Content-Type':'application/json'};
 export async function requestPartnerReset(email:string,partner:string){
  if(!uuid.test(partner))throw new Error('Open the private event link supplied by Chris, then request a reset.');
  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())||email.length>254)throw new Error('Enter your portal email address.');
- const redirect=new URL('https://www.mediacollective.events/partner-portal/partner-password-reset');redirect.searchParams.set('partner',partner);
+ const redirect=new URL(typeof window!=='undefined'&&window.location.hostname==='staging.mediacollective.events'
+  ? 'https://staging.mediacollective.events/eventhub/partner-password-reset'
+  : 'https://www.mediacollective.events/partner-portal/partner-password-reset');redirect.searchParams.set('partner',partner);
  const response=await fetch(`${projectUrl}/auth/v1/recover?redirect_to=${encodeURIComponent(redirect.href)}`,{method:'POST',credentials:'omit',cache:'no-store',referrerPolicy:'no-referrer',headers,body:JSON.stringify({email:email.trim()})});
  if(!response.ok){if(response.status===429)throw new Error('Please wait before requesting another reset link.');throw new Error('The reset email could not be sent. Please contact Chris at chris@mediacollective.events for help.');}
 }

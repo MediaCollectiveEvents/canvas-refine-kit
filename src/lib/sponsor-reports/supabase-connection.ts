@@ -4,9 +4,8 @@ import {speakerError} from '@/lib/speakers/errors';
 import {validateGalleryImage,type GalleryImage} from './gallery';
 import type { Guest } from './enriched-review';
 import type { Version } from '@/pages/SponsorReportUploadPreview';
-// Publishable browser key only; private tables and server-side owner checks enforce access.
-export const projectUrl='https://qtmbioguefmtwtngbava.supabase.co';
-export const publishableKey='sb_publishable_yTuMYDTaCUuwamUptdI4xA_-ZBQRtVz';
+import {projectUrl,publishableKey} from '../event-hub-backend';
+export {projectUrl,publishableKey};
 export type OwnerState={current:number;versions:Version[];introductions:{guestName:string;sponsor:string;requester:string;requestedAt:number;status:string}[]};
 export class FrankfurtOwnerClient {
   private accessToken:string|null=null;

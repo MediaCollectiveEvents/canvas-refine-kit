@@ -27,8 +27,10 @@ const NotFound = lazy(() => import("@/pages/NotFound"));
 import Maintenance from "@/pages/Maintenance";
 import CookieConsent from "@/components/shared/CookieConsent";
 
-function eventHubScreen(page: React.ReactNode) {
-  if (import.meta.env.VITE_EVENT_HUB_STAGING === 'true' || (typeof window !== 'undefined' && window.location.hostname === 'staging.mediacollective.events')) {
+import { isEventHubStaging, isEventHubRehearsalReady } from "@/lib/event-hub-backend";
+
+function eventHubScreen(page: React.ReactNode, supportsRehearsal = true) {
+  if (isEventHubStaging && (!supportsRehearsal || !isEventHubRehearsalReady)) {
     return <main className="site-container py-24"><h1>Event Hub staging</h1><p>This preview is waiting for a separate test backend.</p></main>;
   }
   return page;
@@ -99,7 +101,7 @@ const App = () => {
               <Route path="/eventhub/partner-password-reset" element={eventHubScreen(<PartnerPasswordReset />)} />
               <Route path="/eventhub/reset-password" element={eventHubScreen(<SponsorOwnerPasswordReset />)} />
               <Route path="/eventhub/activate" element={eventHubScreen(<SponsorActivate />)} />
-              <Route path="/eventhub/walk-in" element={eventHubScreen(<WalkInKiosk />)} />
+              <Route path="/eventhub/walk-in" element={eventHubScreen(<WalkInKiosk />, false)} />
               <Route path="/eventhub/speakers/:id" element={eventHubScreen(<SpeakerProfile />)} />
               <Route path="/eventhub/speaker-edit" element={eventHubScreen(<SpeakerEdit />)} />
 

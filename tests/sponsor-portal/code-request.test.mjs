@@ -9,4 +9,24 @@ calls=[];registered=true;r=await handler(request());assert.equal(r.status,200);a
 calls=[];confirmed=false;await handler(request());assert(calls.some(c=>c.url.endsWith('/invite')));assert(!calls.some(c=>c.url.includes('resend.com')));
 calls=[];registered=false;requestId=null;await handler(request());assert.equal(calls.length,1);
 assert.equal((await handler(new Request('https://example.test',{method:'POST',headers:{Origin:'https://evil.invalid'}}))).status,403);
+const productionEnv = globalThis.Deno.env.get;
+const rehearsalUrl = 'https://ioynilkvrfujnmudaped.supabase.co';
+globalThis.Deno.env.get = key => ({
+  SUPABASE_URL: rehearsalUrl,
+  SUPABASE_PUBLISHABLE_KEYS: JSON.stringify({key:'sb_publishable_REHEARSAL'}),
+}[key] ?? productionEnv(key));
+const stagingRequest = () => new Request('https://example.test', {
+  method:'POST',
+  headers:{Origin:'https://staging.mediacollective.events','Content-Type':'application/json'},
+  body:JSON.stringify({email:'stage@example.invalid'}),
+});
+calls=[];requestId='rehearsal-test';registered=false;
+assert.equal((await handler(stagingRequest())).status,200);
+assert.equal(calls.length,2);
+assert(calls.every(({url})=>url.startsWith(rehearsalUrl)));
+calls=[];registered=true;confirmed=true;
+assert.equal((await handler(stagingRequest())).status,200);
+assert.equal(calls.at(-1).headers.apikey,'sb_publishable_REHEARSAL');
+assert(calls.every(({url})=>url.startsWith(rehearsalUrl)));
+assert.equal((await handler(request())).status,403);
 delete globalThis.Deno;console.log('PASS unknown-address owner notification only, registered code-only email, unconfirmed code request, neutral responses, throttled suppression, hashed source and origin gate');
