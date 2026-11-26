@@ -34,7 +34,13 @@ async function rpc(name: string, args: Record<string, unknown>, key: string) {
 
 async function subscribe(email: string, requestId: string) {
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  if (!serviceKey || Deno.env.get("HUBSPOT_EVENT_UPDATES_ENABLED") !== "true") return receipt(false);
+  const portal = Deno.env.get("STAGING_HUBSPOT_PORTAL_ID");
+  const form = Deno.env.get("STAGING_HUBSPOT_FORM_ID");
+  const subscription = Number(Deno.env.get("STAGING_HUBSPOT_SUBSCRIPTION_ID"));
+  if (!serviceKey || Deno.env.get("HUBSPOT_EVENT_UPDATES_ENABLED") !== "true" ||
+    !portal || !/^\d+$/.test(portal) || portal === "139602049" ||
+    !form || !/^[0-9a-f-]{36}$/i.test(form) ||
+    !Number.isSafeInteger(subscription) || subscription < 1) return receipt(false);
 
   const result = await rpc("portal_begin_event_update_consent", {
     p_request_id: requestId, p_email: email, p_version: consentVersion,
@@ -43,7 +49,7 @@ async function subscribe(email: string, requestId: string) {
 
   let status: number | null = null;
   try {
-    const provider = await fetch("https://api.hsforms.com/submissions/v3/integration/submit/139602049/8c503e92-d086-4931-bacb-ab3ccde5dbfa", {
+    const provider = await fetch(`https://api.hsforms.com/submissions/v3/integration/submit/${portal}/${form}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal: AbortSignal.timeout(8000),
@@ -52,7 +58,7 @@ async function subscribe(email: string, requestId: string) {
         legalConsentOptions: { consent: {
           consentToProcess: true,
           text: consentText,
-          communications: [{ value: true, subscriptionTypeId: 183441347, text: consentText }],
+          communications: [{ value: true, subscriptionTypeId: subscription, text: consentText }],
         } },
       }),
     });
@@ -89,21 +95,33 @@ Deno.serve(async (request) => {
   if (!data || typeof data !== "object" || Array.isArray(data)) return receipt(false);
   const token = data["g-recaptcha-response"];
   if (!singleLine(token, 4096) || !singleLine(data.emailAddress, 255) || !emailPattern.test(data.emailAddress.trim()) ||
-    !singleLine(data.fullName, 100) || !singleLine(data.companyName, 100) ||
-    !singleLine(data.event, 1000) || !singleLine(data.howEngage, 500) || data.consent !== "Y") return receipt(false);
+    !singleLine(data.fullName, 100)) return receipt(false);
 
+  const contact = data.formType === "contact";
   const updates = data.formType === "event-updates";
-  const choices = data.howEngage.split(", ");
-  if (updates) {
-    if (data.consentVersion !== consentVersion || typeof data.requestId !== "string" ||
-      !requestIdPattern.test(data.requestId) || data.howEngage !== "Receive new event notifications") return receipt(false);
-  } else if (data.formType !== undefined || !choices.includes("Attend") ||
-    choices.some((choice: string) => !engagementOptions.includes(choice)) || new Set(choices).size !== choices.length) return receipt(false);
+  let invitation = false;
+  if (contact) {
+    if (typeof data.message !== "string" || !data.message.trim() || data.message.length > 5000 ||
+      /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/.test(data.message)) return receipt(false);
+  } else {
+    if (!singleLine(data.companyName, 100) || !singleLine(data.event, 1000) ||
+      !singleLine(data.howEngage, 500) || data.consent !== "Y") return receipt(false);
+    const choices = data.howEngage.split(", ");
+    if (updates) {
+      if (data.consentVersion !== consentVersion || typeof data.requestId !== "string" ||
+        !requestIdPattern.test(data.requestId) || data.howEngage !== "Receive new event notifications") return receipt(false);
+    } else {
+      if (data.formType !== undefined || choices.some((choice: string) => !engagementOptions.includes(choice)) ||
+        new Set(choices).size !== choices.length) return receipt(false);
+      invitation = choices.includes("Attend");
+    }
+  }
 
   const secret = Deno.env.get("WEBSITE_ENQUIRY_RECAPTCHA_SECRET");
   const key = Deno.env.get("WEBSITE_INVITATION_WRITE_KEY");
   const publishableKey = Deno.env.get("WEBSITE_INVITATION_PUBLISHABLE_KEY");
-  if (!secret || (!updates && (!key || !publishableKey))) return receipt(false);
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!secret || (invitation && (!key || !publishableKey)) || (!invitation && !serviceKey)) return receipt(false);
 
   try {
     const verification = await fetch("https://www.google.com/recaptcha/api/siteverify", {
@@ -121,6 +139,16 @@ Deno.serve(async (request) => {
   try {
     const email = data.emailAddress.trim().toLowerCase();
     if (updates) return await subscribe(email, data.requestId);
+    if (!invitation) {
+      const saved = await rpc("portal_record_staging_website_enquiry", {
+        p_kind: contact ? "contact" : "commercial", p_name: data.fullName.trim(), p_email: email,
+        p_message: contact ? data.message.trim() : null,
+        p_company: contact ? null : data.companyName.trim(),
+        p_event: contact ? null : data.event.trim(),
+        p_engagement: contact ? null : data.howEngage,
+      }, serviceKey!);
+      return saved === true ? receipt(true) : receipt(false, true);
+    }
     const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(token));
     const sourceRef = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
     const saved = await rpc("portal_record_website_invitation", {

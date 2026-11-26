@@ -26,7 +26,6 @@ jobs:
     name: Build Vite site
     environment: staging
     env:
-      VITE_STAGING_ENQUIRY_ENDPOINT: ${{ vars.STAGING_ENQUIRY_ENDPOINT }}
       VITE_EVENT_HUB_STAGING_PUBLISHABLE_KEY: ${{ vars.EVENT_HUB_REHEARSAL_PUBLISHABLE_KEY }}
     runs-on: ubuntu-latest
 

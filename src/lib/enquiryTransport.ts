@@ -1,20 +1,11 @@
 const productionEndpoint = "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec";
 
-const stagingEndpoint = import.meta.env?.VITE_EVENT_HUB_STAGING === "true"
-  ? import.meta.env.VITE_STAGING_ENQUIRY_ENDPOINT
-  : undefined;
+const stagingOrigin = "https://staging.mediacollective.events";
+const isolatedEndpoint = "https://ioynilkvrfujnmudaped.supabase.co/functions/v1/website-enquiry";
+const staging = import.meta.env?.VITE_EVENT_HUB_STAGING === "true" ||
+  (typeof location !== "undefined" && location.origin === stagingOrigin);
 
-export const usesSupabaseEventEnquiries = Boolean(stagingEndpoint);
-
-function getEndpoint(payload: unknown) {
-  if (!stagingEndpoint || !payload || typeof payload !== "object") return productionEndpoint;
-  const enquiry = payload as { formType?: unknown; howEngage?: unknown };
-  if (enquiry.formType === "event-updates" || (enquiry.formType === undefined &&
-    typeof enquiry.howEngage === "string" && enquiry.howEngage.split(", ").includes("Attend"))) {
-    return stagingEndpoint;
-  }
-  return productionEndpoint;
-}
+export const usesSupabaseEventEnquiries = staging;
 
 export class EnquiryDeliveryError extends Error {
   constructor(public readonly confirmedRejection: boolean) {
@@ -27,7 +18,7 @@ export class EnquiryDeliveryError extends Error {
 /** The handler acknowledges only after the destination has accepted the submission. */
 export async function sendEnquiry(payload: unknown): Promise<void> {
   try {
-    const response = await fetch(getEndpoint(payload), {
+    const response = await fetch(staging ? isolatedEndpoint : productionEndpoint, {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },

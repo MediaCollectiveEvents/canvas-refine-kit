@@ -4,16 +4,20 @@ import {
   websiteInvitationStatuses,
   type FrankfurtOwnerClient,
   type InvitationRequests,
+  type StagingWebsiteEnquiry,
   type WebsiteInvitation,
   type WebsiteInvitationStatus,
 } from '@/lib/sponsor-reports/supabase-connection';
 
+const staging = window.location.hostname === 'staging.mediacollective.events';
 const selectClass = 'rounded border border-white/25 bg-background p-2 text-sm';
 const websiteHeading = ['Event', 'Name', 'Company', 'Email', 'Requested', 'Decision'];
 const legacyHeading = ['Name', 'Company', 'Email', 'Requested', 'Status', 'Action'];
 
 export default function OwnerInvitationRequests({ client }: { client: FrankfurtOwnerClient }) {
   const [data, setData] = useState<InvitationRequests | null>(null);
+  const [enquiries, setEnquiries] = useState<StagingWebsiteEnquiry[] | null>(null);
+  const [enquiryError, setEnquiryError] = useState(false);
   const [event, setEvent] = useState('');
   const [status, setStatus] = useState('');
   const [key, setKey] = useState('');
@@ -26,6 +30,15 @@ export default function OwnerInvitationRequests({ client }: { client: FrankfurtO
   const refresh = useCallback(async () => {
     if (mutation.current) return;
     const version = ++requestVersion.current;
+    if (staging) {
+      void client.stagingWebsiteEnquiries().then(rows => {
+        if (requestVersion.current !== version) return;
+        setEnquiries(rows);
+        setEnquiryError(false);
+      }).catch(() => {
+        if (requestVersion.current === version) setEnquiryError(true);
+      });
+    }
     try {
       const next = await client.invitations();
       if (requestVersion.current === version) {
@@ -97,6 +110,18 @@ export default function OwnerInvitationRequests({ client }: { client: FrankfurtO
       {message && <p role="status" className="my-4 text-primary">{message}</p>}
       {error && <p role="alert" className="my-4 text-red-200">{error}</p>}
       <Button variant="outline" disabled={!!saving} onClick={() => void refresh()}>Refresh requests</Button>
+
+      {staging && <div className="mt-6">
+        <h3 className="font-display text-xl">General and commercial enquiries</h3>
+        {enquiryError && <p role="alert">The staging enquiry inbox could not be refreshed.</p>}
+        {!enquiryError && enquiries?.length === 0 && <p className="text-sm text-white/65">No enquiries received.</p>}
+        {enquiries?.map(row => <details key={row.id} className="my-3 rounded border border-white/15 p-3">
+          <summary>{row.fullName} · {row.kind === 'contact' ? 'General contact' : row.engagement} · {new Date(row.receivedAt).toLocaleString('en-GB')}</summary>
+          <p className="mt-2 break-words">{row.email}</p>
+          {row.company && <p>{row.company} · {row.eventLabel}</p>}
+          {row.message && <p className="whitespace-pre-wrap break-words">{row.message}</p>}
+        </details>)}
+      </div>}
 
       {data?.websiteRows && <div className="mt-6">
         <h3 className="font-display text-xl">Website requests</h3>

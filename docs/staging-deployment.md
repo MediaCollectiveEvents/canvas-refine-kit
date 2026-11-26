@@ -117,14 +117,20 @@ server-side before writing data. Configure `WEBSITE_ENQUIRY_RECAPTCHA_SECRET`,
 Supabase Edge Function secrets. The function uses the runtime-provided service
 role for the private consent audit RPCs.
 
-Set the staging GitHub environment's `STAGING_ENQUIRY_ENDPOINT` to
-`https://ioynilkvrfujnmudaped.supabase.co/functions/v1/website-enquiry`
-before rebuilding staging. This routes attendance and event-update submissions
-to Supabase. Contact and other enquiries use their existing handler.
+The staging frontend sends all website enquiries to
+`https://ioynilkvrfujnmudaped.supabase.co/functions/v1/website-enquiry`.
+Apply `202611260056_staging_website_enquiries.sql` before deploying the revised
+function. General contact and commercial interest appear in the owner workspace
+under Invitation requests, in a separate enquiry inbox. Attendance requests
+continue through the existing invitation intake. The new inbox suppresses
+identical requests received within ten minutes.
 
-Verify one attendance request in `portal_private.website_invitation_requests`.
-An OFF AIR 2026 request also appears in the Event Hub owner queue. For the
-subscription test, set `HUBSPOT_EVENT_UPDATES_ENABLED=true` for the test window
-and use an authorised, controlled inbox. Verify the consent record in
-`portal_private.event_update_consents`, confirm the subscription in HubSpot,
-and check that the signup added no invitation request.
+For a subscription test, provision a separate HubSpot portal, form and subscription type
+using `STAGING_HUBSPOT_PORTAL_ID`, `STAGING_HUBSPOT_FORM_ID` and
+`STAGING_HUBSPOT_SUBSCRIPTION_ID`. Enable `HUBSPOT_EVENT_UPDATES_ENABLED` for
+the controlled test window. Verify the consent record, subscription, opt-in
+message and unsubscribe with a test inbox. The staging function rejects
+subscriptions when a separate destination is absent.
+
+The enquiry intake stores a receipt and exposes it to the owner. Email
+acknowledgements are a separate workflow.

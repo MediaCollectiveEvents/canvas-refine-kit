@@ -168,7 +168,8 @@ export class FrankfurtOwnerClient {
       p_ref: ref, p_status: status, p_expected_version: expectedVersion,
     }) as unknown as InvitationRequests;
   }
-  async invitations(){return await this.call('/rest/v1/rpc/portal_owner_invitations') as unknown as InvitationRequests;}
+  async stagingWebsiteEnquiries(){return await this.call('/rest/v1/rpc/portal_owner_staging_website_enquiries') as unknown as StagingWebsiteEnquiry[];}
+ async invitations(){return await this.call('/rest/v1/rpc/portal_owner_invitations') as unknown as InvitationRequests;}
   async invitationKey(){return await this.call('/rest/v1/rpc/portal_owner_invitation_key') as unknown as {key:string};}
   async walkIns(){return await this.call('/rest/v1/rpc/portal_owner_walk_ins') as unknown as import('@/lib/walk-in/model').WalkInState;}
   async saveWalkInSettings(enabled:boolean,opensAt:string,closesAt:string){return await this.call('/rest/v1/rpc/portal_owner_walk_in_settings',{p_enabled:enabled,p_opens:opensAt,p_closes:closesAt}) as unknown as import('@/lib/walk-in/model').WalkInState;}
@@ -227,4 +228,10 @@ export type InvitationRequests = {
   configured: boolean;
   rows: (InvitationRow & { status: string })[];
   websiteRows?: WebsiteInvitation[];
+};
+
+export type StagingWebsiteEnquiry = {
+  id: string; kind: 'contact' | 'commercial'; fullName: string; email: string;
+  message: string | null; company: string | null; eventLabel: string | null;
+  engagement: string | null; receivedAt: string;
 };
