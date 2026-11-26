@@ -1,4 +1,17 @@
-const endpoint = "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec";
+const productionEndpoint = "https://script.google.com/macros/s/AKfycbxDtoPvPsdOwB-j06Cf3WluKBY6v33Jndyvly5FMQr0Y0V4pmACrYHR0OyR1ieVSs1E/exec";
+
+const stagingEndpoint = import.meta.env?.VITE_EVENT_HUB_STAGING === "true"
+  ? import.meta.env.VITE_STAGING_ENQUIRY_ENDPOINT
+  : undefined;
+function getEndpoint(payload: unknown) {
+  if (!stagingEndpoint || !payload || typeof payload !== "object") return productionEndpoint;
+  const enquiry = payload as { formType?: unknown; howEngage?: unknown };
+  if (enquiry.formType === "event-updates" || (enquiry.formType === undefined &&
+    typeof enquiry.howEngage === "string" && enquiry.howEngage.split(", ").includes("Attend"))) {
+    return stagingEndpoint;
+  }
+  return productionEndpoint;
+}
 
 export class EnquiryDeliveryError extends Error {
   constructor(public readonly confirmedRejection: boolean) {
@@ -8,10 +21,10 @@ export class EnquiryDeliveryError extends Error {
   }
 }
 
-/** The deployed handler acknowledges only after appendEnquiry has completed. */
+/** The handler acknowledges only after the destination has accepted the submission. */
 export async function sendEnquiry(payload: unknown): Promise<void> {
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch(getEndpoint(payload), {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
