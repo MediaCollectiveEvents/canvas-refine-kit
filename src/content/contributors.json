@@ -13,6 +13,14 @@
       "organisation": "The Media Collective",
       "teamGroup": "founder",
       "teamOrder": 0
+    },
+    {
+      "id": "kaz-pearman",
+      "displayName": "Kaz Pearman",
+      "role": "Community Lead",
+      "organisation": "The Media Collective",
+      "teamGroup": "core",
+      "teamOrder": 10
     }
   ]
 }
