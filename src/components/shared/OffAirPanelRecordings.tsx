@@ -37,7 +37,7 @@ function Panel({ slug, title, client }: { slug: string; title: string; client: F
             {pending === 'm4a' ? 'Opening…' : 'Open recording'}
           </Button>}
       <Button type="button" variant="outline" disabled={!!pending} onClick={() => void open('docx')}>
-        {pending === 'docx' ? 'Preparing…' : 'Download transcript (Word)'}
+        {pending === 'docx' ? 'Preparing…' : 'Download working transcript (Word)'}
       </Button>
     </div>
     {error && <p role="alert" className="text-sm text-red-200">{error}</p>}
