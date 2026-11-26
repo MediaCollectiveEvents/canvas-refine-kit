@@ -5,7 +5,7 @@ const tools=[
  {id:'registrants',label:'Registrants',hint:'Find, edit and download guests',words:'email company guest download csv'},
  {id:'new',label:'New registrations',hint:'Review and enrich Eventbrite arrivals',words:'eventbrite sync enrich duplicate'},
  {id:'walkins',label:'Walk-in kiosk',hint:'On-site registrations and sign-ups',words:'tablet walk in notifications'},
- {id:'partners',label:'Partners & access',hint:'Logins, sign-ins and permissions',words:'sponsor password reset invite login'},
+ {id:'partners',label:'Partners & access',hint:'Logins, sign-ins and permissions',words:'sponsor password reset invite login email update'},
  {id:'speakers',label:'Speakers & bios',hint:'Profiles, approval and talking points',words:'headshot biography publish'},
  {id:'requests',label:'Invitation requests',hint:'Review website requests',words:'waiting list invite eventbrite'},
  {id:'connections',label:'Connection interests',hint:'Who partners would like to meet',words:'introduction sponsor networking'},
