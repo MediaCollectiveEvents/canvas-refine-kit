@@ -177,12 +177,15 @@ const PrivacyPolicy = () => {
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
                 {usesSupabaseEventEnquiries
-                  ? "On this staging site, we use Supabase to receive invitation requests and to keep a record of consent when event-update signups are enabled. We use Google Apps Script and Google Sheets for contact and other enquiries."
+                  ? "On this staging site, we use Supabase to receive and store website enquiries and invitation requests. We use Resend to send test acknowledgements to a designated test address."
                   : "We use Google Apps Script and Google Sheets to receive and store website enquiries and invitation requests."}
                 {" "}We use Google reCAPTCHA to help prevent automated submissions.
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
-                When you sign up for event updates, we use HubSpot to manage the email subscription and your unsubscribe preferences. We keep a record of the email address, the date and time of your signup, and the consent wording you agreed to. Requesting an event invitation does not subscribe you to event updates.
+                {usesSupabaseEventEnquiries
+                  ? "Event-update subscriptions are unavailable on this staging site until a separate HubSpot test account is configured."
+                  : "When you sign up for event updates, we use HubSpot to manage the email subscription and your unsubscribe preferences. We keep a record of the email address, the date and time of your signup, and the consent wording you agreed to."}
+                {" "}Requesting an event invitation does not subscribe you to event updates.
               </p>
             </div>
 
