@@ -1,4 +1,5 @@
 import { privacySeo } from "@/lib/pageSeo";
+import { usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
 import ClosingCTA from "@/components/shared/ClosingCTA";
 import { Button } from "@/components/ui/button";
 import { motion, useReducedMotion } from "framer-motion";
@@ -175,7 +176,13 @@ const PrivacyPolicy = () => {
                 All third-party processors are required to implement appropriate security measures and process data only on our instructions.
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
-                Website enquiries and invitation requests are processed through Google Apps Script and stored in Google Sheets. We use Google reCAPTCHA to help prevent automated submissions.
+                {usesSupabaseEventEnquiries
+                  ? "On this staging site, we use Supabase to receive invitation requests and to keep a record of consent when event-update signups are enabled. We use Google Apps Script and Google Sheets for contact and other enquiries."
+                  : "We use Google Apps Script and Google Sheets to receive and store website enquiries and invitation requests."}
+                {" "}We use Google reCAPTCHA to help prevent automated submissions.
+              </p>
+              <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
+                When you sign up for event updates, we use HubSpot to manage the email subscription and your unsubscribe preferences. We keep a record of the email address, the date and time of your signup, and the consent wording you agreed to. Requesting an event invitation does not subscribe you to event updates.
               </p>
             </div>
 
@@ -190,7 +197,7 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 text-muted-foreground font-body space-y-2">
                 <li><strong>Enquiries:</strong> We generally keep them for up to 12 months after they close.</li>
                 <li><strong>Event and invitation requests:</strong> We generally keep them for up to 12 months after the event or final decision, whichever is later.</li>
-                <li><strong>Event updates:</strong> We review subscriptions after 12 months without meaningful engagement, such as a reply, link click or event registration. If you unsubscribe, we stop sending you those updates and keep only the information needed to respect your choice and demonstrate compliance where necessary.</li>
+                <li><strong>Event updates:</strong> We review subscriptions after 12 months without meaningful engagement, such as a reply, link click or event registration. We keep evidence of consent while we rely on it to send you updates. After you unsubscribe, we review what evidence we still need to keep and retain the minimum information needed to respect your choice.</li>
                 <li><strong>Google Analytics:</strong> Event-data and user-data retention are both set to 2 months, with reset on new user activity disabled. These controls concern detailed data associated with identifiers and do not limit most standard aggregated reports.</li>
                 <li><strong>Cloudflare Web Analytics:</strong> Published reporting and aggregation periods are described below. Total deletion timing remains unverified.</li>
               </ul>
@@ -224,7 +231,7 @@ const PrivacyPolicy = () => {
                   <strong>Right to Object (Article 21):</strong> Object to processing based on legitimate interests or for direct marketing
                 </li>
                 <li>
-                  <strong>Right to Withdraw Consent:</strong> Withdraw consent at any time without affecting the lawfulness of prior processing
+                  <strong>Right to Withdraw Consent:</strong> Withdraw consent at any time without affecting the lawfulness of prior processing. For event updates, use the unsubscribe link in any update email or contact us at <PrivacyEmailLink />.
                 </li>
               </ul>
               <p className="text-muted-foreground font-body leading-[1.7] mt-4">
@@ -285,7 +292,7 @@ const PrivacyPolicy = () => {
                 Google reCAPTCHA helps assess automated form submissions and is independent of the analytics choice. No reCAPTCHA script is loaded by the closed lazy forms on initial Home/event load. Registration first loads its form on opening, and mounts reCAPTCHA at the consent/verification step. The contact form needs verification for its one-page submission flow and mounts reCAPTCHA on first opening. Once opened, form components remain mounted to preserve values; closing them does not unload third-party code that has already loaded. Google documents _GRECAPTCHA for its risk analysis, and other Google/partitioned storage depends on the browser and existing Google session. This description does not classify these services as legally necessary or exempt.
               </p>
               <p className="text-muted-foreground font-body leading-[1.7] mb-4">
-                Submitted invitation/enquiry details are processed using Google Apps Script/Google Sheets, as described in section 6.
+                Section 6 explains which services receive your data when you submit an enquiry, request an invitation or sign up for event updates.
               </p>
             </div>
 
