@@ -54,7 +54,7 @@ function JourneyHeading({ step, title, description, className = "mb-10" }: { ste
   );
 }
 
-export default function PartnersPageRenderer({ sections }: PartnersPageRendererProps) {
+export default function PartnersPageRenderer({ sections, onRegister }: PartnersPageRendererProps) {
   const reducedMotion = useReducedMotion();
   const [logosPaused, setLogosPaused] = useState(false);
   if (!Array.isArray(sections)) return null;
@@ -154,7 +154,14 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
           case "joinUs":
             return (
               <ClosingCTA key={section.id ?? section.type} id="partner-conversation" eyebrow={section.eyebrow} heading={section.heading}
-                action={section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>} />
+                action={
+                  typeof window !== "undefined" && window.location.hostname === "staging.mediacollective.events"
+                    ? <div className="flex flex-wrap gap-3">
+                        {section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>}
+                        <Button variant="outline" size="lg" onClick={onRegister}>Send a partnership enquiry</Button>
+                      </div>
+                    : section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>
+                } />
             );
           default:
             return null;
