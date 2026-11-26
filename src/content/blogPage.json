@@ -18,11 +18,11 @@
       "authorLabel": "The Media Collective",
       "hidden": false,
       "layout": "two-column",
-      "title": "Insights from the collective",
+      "title": "Latest insights",
       "linkLabel": "Read more",
       "type": "postsGrid",
       "id": "posts-grid",
-      "description": "Browse the most recent articles from our team."
+      "description": "Explore analysis, perspectives and discussions from across the media industry."
     },
     {
       "id": "divider",

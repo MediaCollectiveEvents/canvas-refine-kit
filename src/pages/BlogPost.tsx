@@ -2,7 +2,7 @@ import ContributorBiography from "@/components/shared/ContributorBiography";
 import ArticleContent from "@/components/shared/ArticleContent";
 import ArticleAttribution from "@/components/shared/ArticleAttribution";
 import { contentImage } from "@/lib/contentImages";
-import { formatArticleDate, getArticleBySlug } from "@/lib/articles";
+import { formatArticleDate, getArticleBySlug, getArticles } from "@/lib/articles";
 import ArticleRelatedEvents from "@/components/shared/ArticleRelatedEvents";
 import Seo from "@/components/shared/Seo";
 // src/pages/BlogPost.tsx
@@ -47,6 +47,8 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
+  const related = getArticles().filter(a => a.slug !== post.slug && ((post.series && a.series === post.series) || a.category === post.category || a.topics?.some(t => post.topics?.includes(t)) || a.relatedEventIds?.some(id => post.relatedEventIds?.includes(id)))).slice(0, 3);
+
   // -----------------------------------
   // 🎨 Build Hero Image (imageKey first)
   // -----------------------------------
@@ -72,7 +74,7 @@ const BlogPostPage: React.FC = () => {
             backgroundPosition: "center bottom",
           } : undefined}>
           <div className="container mx-auto max-w-3xl">
-            {post.category && <p className="font-display mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]">{post.category}</p>}
+            {post.category && <p className="font-display mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[#9bd3c8]">{[post.series, post.category].filter(Boolean).join(" · ")}</p>}
             <h1 className="font-display text-[40px] font-light leading-[1.1] tracking-tight text-[#f7f3eb] [overflow-wrap:anywhere] md:text-[56px]">{post.title}</h1>
             {post.excerpt && <p className="mt-6 text-base leading-[1.8] text-slate-200 md:text-lg">{post.excerpt}</p>}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-300">
@@ -97,6 +99,7 @@ const BlogPostPage: React.FC = () => {
             )}
             <ContributorBiography article={post} />
             <ArticleRelatedEvents article={post} />
+            {related.length > 0 && <section aria-label="Related articles" className="mt-12 border-t border-white/15 pt-8"><h2 className="mb-5 font-display text-2xl font-light">Related insights</h2><ul className="space-y-5">{related.map(a => <li key={a.slug}><Link className="font-display text-lg text-primary hover:underline" to={`/insights/${a.slug}`}>{a.title}</Link><p className="mt-2 text-sm text-slate-300">{a.excerpt}</p></li>)}</ul></section>}
             <Link to="/insights" className="font-display mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
           </div>
         </section>

@@ -1092,6 +1092,8 @@ collections:
               - { label: Title, name: title, widget: string }
               - { label: Slug, name: slug, widget: string }
               - { label: Category, name: category, widget: string }
+              - { label: Editorial Series, name: series, widget: string, required: false }
+              - { label: Featured Article, name: featured, widget: boolean, required: false, default: false }
               - label: Areas
                 name: areas
                 widget: relation
@@ -1155,7 +1157,7 @@ collections:
               - { label: Date, name: date, widget: datetime }
               - { label: Thumbnail Image, name: image, widget: image, required: false }
               - { label: "Hero Image Key (optional, for hero mapping)", name: imageKey, widget: string, required: false }
-              - { label: Body, name: body, widget: text, required: false, hint: "Separate paragraphs with a blank line. Plain text; Markdown is not interpreted." }
+              - { label: Body, name: body, widget: text, required: false, hint: "Separate paragraphs with a blank line. Use ## for section headings and - for bullet lists; separate blocks with a blank line." }
 
   - name: sponsors
     label: Sponsor Logos

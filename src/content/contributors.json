@@ -1,3 +1,10 @@
 {
-  "contributors": []
+  "contributors": [
+    {
+      "id": "media-collective-editorial",
+      "displayName": "The Media Collective",
+      "role": "Editorial team",
+      "biography": "The Media Collective brings together professionals across broadcasting, streaming, content and media technology. Our Insights articles explore industry perspectives and discussions from our community and events."
+    }
+  ]
 }

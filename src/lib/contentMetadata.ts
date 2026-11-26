@@ -26,6 +26,8 @@ export interface Contributor extends TaxonomyMetadata {
 }
 
 export interface ArticleMetadata extends TaxonomyMetadata {
+  series?: string;
+  featured?: boolean;
   writerId?: string;
   author?: string;
   organisation?: string;
