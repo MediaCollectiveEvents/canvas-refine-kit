@@ -4,8 +4,8 @@ import {speakerError} from '@/lib/speakers/errors';
 import {validateGalleryImage,type GalleryImage} from './gallery';
 import type { Guest } from './enriched-review';
 import type { Version } from '@/pages/SponsorReportUploadPreview';
-import {projectUrl,publishableKey} from '../event-hub-backend';
-export {projectUrl,publishableKey};
+import {isEventHubRehearsalReady,projectUrl,publishableKey} from '../event-hub-backend';
+export {isEventHubRehearsalReady,projectUrl,publishableKey};
 export type OwnerState={current:number;versions:Version[];introductions:{guestName:string;sponsor:string;requester:string;requestedAt:number;status:string}[]};
 export class FrankfurtOwnerClient {
   private accessToken:string|null=null;

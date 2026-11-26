@@ -1,4 +1,4 @@
-import { projectUrl, publishableKey } from './supabase-connection';
+import { isEventHubRehearsalReady, projectUrl, publishableKey } from './supabase-connection';
 // One in-memory recovery session. No passwords or bearer tokens enter browser storage.
 export class OwnerRecoveryClient {
  private verification:Promise<void>|null=null;
@@ -10,7 +10,13 @@ export class OwnerRecoveryClient {
    const r=await fetch(`${projectUrl}/auth/v1/verify`,{method:'POST',credentials:'omit',cache:'no-store',referrerPolicy:'no-referrer',headers:{apikey:publishableKey,'Content-Type':'application/json'},body:JSON.stringify({token_hash:tokenHash,type:'recovery'})});
    const value=await r.json();
    if(!r.ok||typeof value.access_token!=='string')throw new Error('This reset link has expired or has already been used.');
-   if(value.user?.id!=='50a047a3-600d-47ed-941f-140fd7058396'||value.user?.email?.toLowerCase()!=='chris@mediacollective.events')throw new Error('This link is not for your portal owner account.');
+   const user = value.user;
+   const matchesProductionOwner = user?.id === '50a047a3-600d-47ed-941f-140fd7058396';
+   // Rehearsal has a separate user ID. The verified recovery session still belongs to the same mailbox.
+   const matchesRehearsalAccount = isEventHubRehearsalReady && typeof user?.id === 'string' && user.id.length > 0;
+   if (user?.email?.toLowerCase() !== 'chris@mediacollective.events' || (!matchesProductionOwner && !matchesRehearsalAccount)) {
+    throw new Error('This link is not for your portal owner account.');
+   }
    this.accessToken=value.access_token;
   })();return this.verification;
  }

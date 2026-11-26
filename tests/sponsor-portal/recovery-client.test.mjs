@@ -13,3 +13,21 @@ assert.equal((await client.setPassword('Fictional-test-password-123')).signedOut
 await assert.rejects(()=>client.setPassword('Fictional-test-password-456'),/valid owner reset/);
 const other=new OwnerRecoveryClient();globalThis.fetch=async()=>new Response(JSON.stringify({access_token:'wrong-account',user:{id:'other',email:'other@example.com'}}));await assert.rejects(()=>other.verify(token),/not for your portal owner/);
 console.log('PASS recovery: token verified once, owner identity checked, passwords validated, session cleared, no storage');
+
+const rehearseConnection = `data:text/javascript;base64,${Buffer.from(
+  "export const isEventHubRehearsalReady=true; export const projectUrl='https://rehearsal.example.invalid'; export const publishableKey='test';",
+).toString('base64')}`;
+const rehearsalRecovery = recovery.replace(connectionUrl, rehearseConnection);
+const {OwnerRecoveryClient: RehearsalRecoveryClient} = await import(
+  `data:text/javascript;base64,${Buffer.from(rehearsalRecovery).toString('base64')}`
+);
+const rehearsalUser = {id:'rehearsal-owner-id',email:'chris@mediacollective.events'};
+globalThis.fetch = async () => new Response(JSON.stringify({access_token:'fictional-recovery-token',user:rehearsalUser}));
+await assert.rejects(() => new OwnerRecoveryClient().verify(token), /not for your portal owner/);
+await new RehearsalRecoveryClient().verify(token);
+globalThis.fetch = async () => new Response(JSON.stringify({
+  access_token:'fictional-recovery-token',
+  user:{...rehearsalUser,email:'other@example.com'},
+}));
+await assert.rejects(() => new RehearsalRecoveryClient().verify(token), /not for your portal owner/);
+console.log('PASS recovery: separate rehearsal ID accepted only for the approved mailbox on rehearsal');
