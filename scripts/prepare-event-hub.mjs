@@ -9,7 +9,7 @@ mkdirSync(`${hub}/owner`, { recursive: true });
 for (const route of ['', '/owner']) writeFileSync(`${hub}${route}/index.html`, entry);
 const hubRules = readFileSync('public/eventhub/.htaccess', 'utf8');
 writeFileSync(`${hub}/.htaccess`, process.env.DEPLOY_TARGET === 'staging'
-  ? hubRules.replace('https://qtmbioguefmtwtngbava.supabase.co', 'https://ioynilkvrfujnmudaped.supabase.co')
+  ? hubRules.replaceAll('https://qtmbioguefmtwtngbava.supabase.co', 'https://ioynilkvrfujnmudaped.supabase.co')
   : hubRules);
 
 if (process.env.DEPLOY_TARGET !== 'staging') {
