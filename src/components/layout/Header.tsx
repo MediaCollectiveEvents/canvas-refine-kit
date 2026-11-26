@@ -114,7 +114,6 @@ const Header = () => {
           site-gutter fixed top-0 left-0 right-0 z-50 lg:max-xl:!px-[clamp(32px,calc(37.5vw-352px),128px)]
           bg-[#08111f]
           backdrop-blur-md
-          transition-all duration-300 ease-out motion-reduce:transition-none
         "
       >
         {/* top glow line */}
@@ -143,7 +142,7 @@ const Header = () => {
         <div
           className={`
             relative site-container
-            transition-all duration-300 ease-out motion-reduce:transition-none
+            transition-[height] duration-300 ease-out motion-reduce:transition-none
             ${scrolled ? "h-[88px] lg:h-[164px]" : "h-[96px] lg:h-[170px]"}
           `}
         >
