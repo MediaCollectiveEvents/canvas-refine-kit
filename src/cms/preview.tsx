@@ -5,6 +5,7 @@ import adaptPreview from "./React18PreviewAdapter";
 import FaqAnswersPreview from "./previews/FaqAnswersPreview";
 import { registerFaqRootArrayAdapter, type FaqBackendCMS } from "./faqRootArray";
 import { registerContentValidation, type ContentValidationCMS } from "./contentValidation";
+import ApprovedTaxonomyControl from "./controls/ApprovedTaxonomyControl";
 import StableEventIdControl from "./controls/StableEventIdControl";
 // src/cms/preview.tsx
 
@@ -68,6 +69,7 @@ async function boot() {
     registerFaqRootArrayAdapter(CMS);
     registerReferenceWidgets(CMS);
     CMS.registerWidget("stable-event-id", StableEventIdControl);
+    CMS.registerWidget("approved-taxonomy", ApprovedTaxonomyControl);
     registerContentValidation(CMS);
     CMS.registerPreviewTemplate("blogPosts", adaptPreview(ArticlesPreview));
 

@@ -22,8 +22,8 @@ export function formatArticleDate(value: string): string {
 
 export function normalizeArticles(articles: readonly Article[] = blogPosts.posts): Article[] {
   return articles.map(article => {
-    const { areas, topics, ...rest } = article;
-    return { ...rest, ...normalizeTaxonomyMetadata({ areas, topics }) };
+    const { areas, topics, keywordIds, ...rest } = article;
+    return { ...rest, ...normalizeTaxonomyMetadata({ areas, topics, keywordIds }) };
   });
 }
 

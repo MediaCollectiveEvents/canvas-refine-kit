@@ -1,3 +1,5 @@
+import blogPosts from "../src/content/blogPosts.json";
+
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createElement } from "react";
@@ -41,7 +43,7 @@ test("reverse lookup uses explicit valid relationships and publication ordering 
   assert.deepEqual(getArticlesForEvent(4, posts).map(p => p.slug), ["new"]);
   assert.deepEqual(getArticlesForEvent(999, posts), []);
   assert.deepEqual(getArticlesForEvent(1), []);
-  assert.equal(getArticles().length, 1);
+  assert.deepEqual(getArticles().map(post => post.slug).sort(), blogPosts.posts.map(post => post.slug).sort());
 });
 test("article relationship UI is conditional and uses numeric detail routes", () => {
   const render = (post: Article) => renderToStaticMarkup(createElement(MemoryRouter, null, createElement(ArticleRelatedEvents, { article: post })));

@@ -1,9 +1,11 @@
+import keywords from "@/content/taxonomy-keywords.generated.json";
 import source from "@/content/taxonomy.json";
 
 export type TaxonomyDimension = "areas" | "topics";
 export interface TaxonomyValue { id: string; label: string; description: string; active: boolean }
 export interface Taxonomy { areas: TaxonomyValue[]; topics: TaxonomyValue[] }
-export interface TaxonomyMetadata { areas?: string[]; topics?: string[] }
+export interface TaxonomyMetadata { areas?: string[]; topics?: string[]; keywordIds?: string[] }
+export function getKeywordSnapshot(): TaxonomyValue[] { return keywords; }
 const dimensions: TaxonomyDimension[] = ["areas", "topics"];
 const validId = (id: unknown): id is string => typeof id === "string" && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(id);
 const record = (value: unknown): Record<string, unknown> => value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
@@ -71,5 +73,7 @@ export function normalizeTaxonomyMetadata(value: unknown, taxonomy = getTaxonomy
     const items = record(value)[dimension];
     if (Array.isArray(items)) result[dimension] = validateTaxonomyIds(dimension, items, {}, taxonomy).ids;
   }
+  const keywordIds=record(value).keywordIds;
+  if(Array.isArray(keywordIds)) result.keywordIds=[...new Set(keywordIds.filter(validId))];
   return result;
 }

@@ -73,7 +73,7 @@ function normalizeControlledTags<T extends string>(value: unknown, allowed: read
 export const normalizeEventConferenceTags = (value: unknown) => normalizeControlledTags(value, EVENT_CONFERENCE_TAGS);
 export const normalizeEventThemeTags = (value: unknown) => normalizeControlledTags(value, EVENT_THEME_TAGS);
 
-export interface EventPanel {
+export interface EventPanel extends TaxonomyMetadata {
   title: string;
   time?: string;
   description?: string;
@@ -256,7 +256,7 @@ export function normalizeEvents(source: unknown = aggregateContent): EventItem[]
     sponsorIds: referenceIds(row.sponsorIds),
     speakerIds: referenceIds(row.speakerIds),
     panels: Array.isArray(row.panels) ? row.panels.map(record).filter(item => text(item.title).trim())
-      .map(item => ({ title: text(item.title).trim(), time: text(item.time), description: text(item.description),
+      .map(item => ({ ...normalizeTaxonomyMetadata(item), title: text(item.title).trim(), time: text(item.time), description: text(item.description),
         moderatorId: referenceIds([item.moderatorId])[0], speakerIds: referenceIds(item.speakerIds) })) : [],
     historyLabel: text(row.historyLabel),
     heroHighlights: textList(row.heroHighlights),

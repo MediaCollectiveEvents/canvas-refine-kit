@@ -5,17 +5,16 @@ import {emptyBio, type SpeakerBio, type SpeakerProfile} from '@/lib/speakers/pro
 import SpeakerBioFields from '@/components/speakers/SpeakerBioFields';
 import InsightArticleBody from './InsightArticleBody';
 import type {InsightPicture} from '@/lib/contentMetadata';
-import {getTaxonomy} from '@/lib/taxonomy';
+import InsightTaxonomyFields from './InsightTaxonomyFields';
 
 type Draft = {
   profile: SpeakerBio; title: string; standfirst: string; body: string; summary: string;
-  quick: boolean; category: string; series: string; keywords: string; selected: string[];
+  quick: boolean; category: string; series: string; keywords: string; selected: string[]; keywordIds?: string[];
   logo: string; images: (InsightPicture & {permission: boolean})[]; featured?: boolean; relatedEventIds?: number[];
 };
 type Row = { id: string; draft: Draft; revision: number; status: string; feedback: string; publishedSlug?: string; expiresAt?: string };
 
 const categories = ['Industry Analysis', 'Perspectives', 'Event Insights', 'Research & Intelligence', 'Community Stories'];
-const topics = getTaxonomy().topics.filter(topic => topic.active);
 const field = 'mt-2 block w-full rounded border border-white/20 bg-[#102630] p-3';
 const tommyProfile = {
   ...emptyBio, name: 'Tommy Flanagan', jobTitle: 'Editor', company: 'Faultline',
@@ -106,12 +105,13 @@ export default function OwnerInsights({client}: {client: FrankfurtOwnerClient}) 
       </div>
       {editing ? <div className="space-y-4">
         <SpeakerBioFields value={draft.profile} onChange={profile=>change({profile})} onBusy={setBusy}/>
-        {(['title','standfirst','body','summary','series','keywords'] as const).map(key =>
+        {(['title','standfirst','body','summary' ,'series'] as const).map(key =>
           <label className="block capitalize" key={key}>{key}<textarea className={field} rows={key === 'body' ? 12 : 2} value={draft[key]} onChange={event=>change({[key]:event.target.value})}/></label>)}
         <label className="block">Category<select className={field} value={draft.category} onChange={event=>change({category:event.target.value})}>{categories.map(category=><option key={category}>{category}</option>)}</select></label>
         <label className="flex gap-2"><input type="checkbox" checked={draft.quick} onChange={event=>change({quick:event.target.checked})}/>Include Quick Read</label>
         <label className="flex gap-2"><input type="checkbox" checked={!!draft.featured} onChange={event=>change({featured:event.target.checked})}/>Feature on Insights</label>
-        <fieldset className="space-y-2"><legend>Topics</legend>{topics.map(topic=><label key={topic.id} className="flex gap-2"><input type="checkbox" checked={draft.selected.includes(topic.id)} onChange={event=>change({selected:event.target.checked ? [...draft.selected,topic.id] : draft.selected.filter(id=>id!==topic.id)})}/>{topic.label}</label>)}</fieldset>
+        <InsightTaxonomyFields text={[draft.title,draft.standfirst,draft.body].join('\n')} themes={draft.selected} keywords={draft.keywordIds??[]}
+          onChange={(themes,keywords)=>change({selected:themes,keywordIds:keywords})}/>
         <label className="block">Related event IDs<input className={field} value={related} onChange={event=>setRelated(event.target.value)}/></label>
         <Button disabled={busy || (related.trim() !== '' && !/^\s*[1-9]\d{0,8}(\s*,\s*[1-9]\d{0,8}){0,9}\s*$/.test(related))} onClick={()=>void run('edit',{...args,draft:{...draft,relatedEventIds:related.trim()?related.split(',').map(Number):[]}})}>Save editorial edits for review</Button>
       </div> : <article className={'mx-auto space-y-5 bg-[#101d24] p-5 '+(mobile?'max-w-[375px]':'max-w-3xl')}>

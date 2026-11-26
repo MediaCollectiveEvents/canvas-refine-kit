@@ -40,6 +40,10 @@ export class FrankfurtOwnerClient {
       // An unconfirmed invitee already has a code in their invitation email.
       if(path.startsWith('/auth/v1/otp')&&response.status===422&&code==='signup_disabled')return {invitationRequired:true};
       if(path.startsWith('/auth/v1/otp')&&response.status===400)return {};
+      if(path.endsWith('/insights_owner') && message==='inactive_or_unknown_insights_term') throw new Error('Remove inactive taxonomy selections and save again before publication.');
+      if(path.endsWith('/taxonomy_owner') && ['stale_taxonomy_revision','duplicate_term_or_alias','duplicate_or_invalid_id','invalid_keyword_themes','invalid_taxonomy_transition','active_theme_required','invalid_replacement','duplicate_or_invalid_alias','invalid_term','reactivate_before_editing'].includes(message)){
+        throw new Error(message.replaceAll('_',' '));
+      }
       let friendly='The request was rejected. Nothing was published.';
       if(message.includes('stale_version'))friendly='A newer version exists. Sign out and back in to review against it.';
       else if(message==='stale_website_invitation')friendly='This request changed. Refresh the list before recording a decision.';
@@ -133,6 +137,7 @@ export class FrankfurtOwnerClient {
     await this.storeGalleryImage(reserved.path,file,mime);
     await this.mptsMedia('publish',sponsor,{id:reserved.id});
   }
+  async taxonomy(action:string,data:object={}){if(!isEventHubRehearsalReady)throw Error('Staging backend not ready.');return this.call('/rest/v1/rpc/taxonomy_owner',{p_action:action,p_data:data});}
   async insights(body:object){if(!isEventHubRehearsalReady)throw Error('Staging backend not ready.');return this.call('/rest/v1/rpc/insights_owner',body);}
   async speakers(body:object){return this.call('/rest/v1/rpc/speaker_owner',body);}
   async recoveryExport(){return this.call('/rest/v1/rpc/portal_owner_recovery_export');}

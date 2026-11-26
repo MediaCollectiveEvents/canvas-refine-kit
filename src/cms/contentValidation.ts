@@ -7,6 +7,7 @@ interface CmsEntry {
 }
 
 export function getCmsContentIssues(path: string, data: unknown): string[] {
+  if (path === "src/content/taxonomy.json") return ["Manage the shared vocabulary in the Event Hub Taxonomy & Keyword Management section."];
   if (path === "src/content/events.json") return getEventEditIssues(data);
   if (path === "src/content/community.json") return getAudienceSnapshotIssues(data);
   return [];
