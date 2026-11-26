@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import type { FrankfurtSponsorClient } from '@/lib/sponsor-reports/supabase-connection';
+import type { FrankfurtOwnerClient } from '@/lib/sponsor-reports/supabase-connection';
 
 const panels = [
   { slug: 'the-debrief', title: 'The Debrief' },
@@ -8,7 +8,7 @@ const panels = [
   { slug: 'faultline-futures', title: 'Faultline Futures' },
 ];
 
-function Panel({ slug, title, client }: { slug: string; title: string; client: FrankfurtSponsorClient }) {
+function Panel({ slug, title, client }: { slug: string; title: string; client: FrankfurtOwnerClient }) {
   const [audio, setAudio] = useState('');
   const [pending, setPending] = useState('');
   const [error, setError] = useState('');
@@ -44,9 +44,10 @@ function Panel({ slug, title, client }: { slug: string; title: string; client: F
   </li>;
 }
 
-export default function OffAirPanelRecordings({ client, sponsor }: { client: FrankfurtSponsorClient; sponsor: string }) {
+export default function OffAirPanelRecordings({ client, sponsor }: { client: FrankfurtOwnerClient; sponsor?: string }) {
   const [available, setAvailable] = useState<string[] | null>(null);
   const [error, setError] = useState(false);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
     let current = true;
@@ -57,14 +58,18 @@ export default function OffAirPanelRecordings({ client, sponsor }: { client: Fra
       () => { if (current) setError(true); },
     );
     return () => { current = false; };
-  }, [client, sponsor]);
+  }, [attempt, client, sponsor]);
 
-  if (!error && available?.length === 0) return null;
+  if (sponsor && !error && available?.length === 0) return null;
 
   return <section aria-labelledby="off-air-panel-recordings" className="my-8 space-y-4">
     <h2 id="off-air-panel-recordings" className="font-display text-2xl font-semibold">Panel recordings and transcripts</h2>
-    {error ? <p role="alert">Panel recordings could not be loaded. Reopen Event information to try again.</p>
+    {error ? <div className="flex flex-wrap items-center gap-3">
+      <p role="alert">Panel recordings could not be loaded.</p>
+      <Button type="button" variant="outline" onClick={() => setAttempt(value => value + 1)}>Retry</Button>
+    </div>
       : available === null ? <p role="status">Loading panel recordings…</p>
+      : available.length === 0 ? <p>No panel recordings have been published.</p>
       : <ul className="space-y-3">
           {panels.filter(panel => available.includes(panel.slug)).map(panel => <Panel key={panel.slug} {...panel} client={client} />)}
         </ul>}

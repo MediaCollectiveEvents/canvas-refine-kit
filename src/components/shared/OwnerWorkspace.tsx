@@ -9,7 +9,7 @@ const tools=[
  {id:'speakers',label:'Speakers & bios',hint:'Profiles, approval and talking points',words:'headshot biography publish'},
  {id:'requests',label:'Invitation requests',hint:'Review website requests',words:'waiting list invite eventbrite'},
  {id:'connections',label:'Connection interests',hint:'Who partners would like to meet',words:'introduction sponsor networking'},
- {id:'marketing',label:'Marketing & gallery',hint:'Upload and manage event materials',words:'photos image download collateral'},
+ {id:'marketing',label:'Marketing & gallery',hint:'Event materials, recordings and transcripts',words:'photos image download collateral audio panel'},
  {id:'reports',label:'Reports & backups',hint:'Upload, publish, restore and save offline',words:'excel xlsx history version encrypted recovery app'},
 ] as const;
 const Workspace=createContext<{active:string;go:(id:string)=>void}|null>(null);
