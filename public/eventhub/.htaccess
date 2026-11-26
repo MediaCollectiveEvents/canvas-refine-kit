@@ -9,7 +9,7 @@ Options -Indexes
 </IfModule>
 <IfModule mod_headers.c>
  Header always set Strict-Transport-Security "max-age=31536000"
- Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://qtmbioguefmtwtngbava.supabase.co https://script.google.com https://script.googleusercontent.com https://www.google.com/recaptcha/; frame-src https://www.google.com/maps https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+ Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://qtmbioguefmtwtngbava.supabase.co https://script.google.com https://script.googleusercontent.com https://www.google.com/recaptcha/; media-src 'self' https://qtmbioguefmtwtngbava.supabase.co; frame-src https://www.google.com/maps https://www.google.com/recaptcha/ https://recaptcha.google.com/recaptcha/; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
  Header always set X-Content-Type-Options "nosniff"
  Header always set Referrer-Policy "no-referrer"
  Header always set X-Frame-Options "DENY"

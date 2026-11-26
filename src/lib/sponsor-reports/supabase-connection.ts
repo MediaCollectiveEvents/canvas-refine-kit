@@ -163,6 +163,21 @@ export class FrankfurtOwnerClient {
 
 export type SponsorState={sponsor:string;event:string;accepted:boolean;termsVersion:string;canViewEmail:boolean;rows:(Pick<Guest,'firstName'|'lastName'|'company'|'jobTitle'|'linkedin'>&{email?:string})[]};
 export class FrankfurtSponsorClient extends FrankfurtOwnerClient {
+  async panelRecordings(sponsor: string): Promise<string[]> {
+    const result = await this.call('/rest/v1/rpc/portal_offair_panel_recordings', { p_partner: sponsor });
+    if (!Array.isArray(result)) throw new Error('Panel recordings unavailable.');
+    return result.filter((item): item is string => typeof item === 'string');
+  }
+
+  async panelFile(slug: string, format: 'm4a' | 'docx'): Promise<string> {
+    const path = `/object/sign/offair-panel-recordings/${encodeURIComponent(slug)}.${format}`;
+    const result = await this.call(`/storage/v1${path}`, { expiresIn: format === 'm4a' ? 3600 : 300 });
+    if (typeof result.signedURL !== 'string' || !result.signedURL.startsWith(`${path}?`)) {
+      throw new Error('Panel file unavailable.');
+    }
+    return `${projectUrl}/storage/v1${result.signedURL}${format === 'docx' ? '&download' : ''}`;
+  }
+
  async setAttendance(sponsor:string,guest:string,status:AttendanceStatus){
   return await this.call('/rest/v1/rpc/portal_sponsor_attendance_set',{p_sponsor:sponsor,p_guest:guest,p_status:status}) as unknown as AttendanceReport;
  }
