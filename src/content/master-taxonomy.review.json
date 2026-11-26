@@ -1,6 +1,6 @@
 {
   "version": "0.1-review",
-  "status": "draft-not-active",
+  "status": "structure-approved-not-active",
   "date": "2026-11-26",
   "notes": [
     "Current areas and topics are retained verbatim with their existing IDs.",
@@ -1648,5 +1648,9 @@
         ]
       }
     }
+  },
+  "structureApproval": {
+    "date": "2026-11-26",
+    "scope": "Three-layer structure approved by owner; individual proposed terms not automatically activated."
   }
 }
