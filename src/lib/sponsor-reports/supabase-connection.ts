@@ -45,6 +45,13 @@ export class FrankfurtOwnerClient {
       else if(message==='stale_website_invitation')friendly='This request changed. Refresh the list before recording a decision.';
       else if(path.includes('/functions/v1/partner-code-request'))friendly='Your request could not be completed. Please wait a moment and try again, or contact us.';
       else if(path.includes('portal_owner_walk_in'))friendly=response.status===404?'Walk-in setup has not been installed yet. Existing reports are unchanged.':message.includes('stale_walk_in')?'This registration changed. Refresh the walk-in list before editing.':code==='23505'?'This email is already on the walk-in list. Refresh and check the existing record.':'Walk-in changes could not be saved. Check your owner session and the fields, then refresh.';
+      else if(path.includes('/functions/v1/offair-owner-update'))friendly=({
+        owner_access_required:'Sign in again as the Event Hub owner.',
+        owner_email_unavailable:'Your owner account needs a confirmed email address.',
+        recipient_access_changed:'A selected recipient no longer has access. Refresh the recipient list.',
+        delivery_unavailable:'Email delivery is unavailable.',
+        invalid_message:'Check the subject, message and selected recipients.',
+      }[code]??'Email acceptance could not be confirmed. Retry this same message to avoid duplicate sends.');
       else if(path.includes('/functions/v1/sponsor-management'))friendly=code==='email_delivery_not_ready'?'Email invitations are not enabled yet. The sender and code email templates must be configured first.':code==='email_send_rate_limited'?'Access is saved. The email service has limited sending temporarily. Wait before trying again; repeated retries will not help.':code==='email_send_failed'?'Access is saved, but the invitation email could not be sent. Contact Chris if this persists.':code==='owner_access_required'?'Please sign in again as the portal owner.':code==='owner_account_protected'?'Owner accounts cannot be changed here.':code==='existing_company_mapping_protected'?'This email already belongs to another sponsor company. Its existing mapping was preserved.':code==='active_sponsor_required'?'Enable this sponsor account before creating a setup link.':code==='invitation_failed'?'The setup link could not be created. No email was sent.':code==='admin_not_configured'?'Account setup is not configured on the server yet.':'Sponsor access could not be saved. Check the company, email and future expiry date.';
       else if(path.includes('/functions/v1/eventbrite-sync'))friendly=code==='eventbrite_not_configured'?'Eventbrite needs its private token added to backend secrets.':code==='eventbrite_authorisation_required'?'The Eventbrite account does not have access to OFF AIR, or its token has expired.':'Eventbrite sync failed. The last saved registration report is unchanged.';
       else if(path==='/rest/v1/rpc/speaker_owner'&&!['owner_access_required','owner_mfa_required','session_expired'].includes(message))friendly=speakerError(message);
@@ -160,6 +167,12 @@ export class FrankfurtOwnerClient {
   async walkIns(){return await this.call('/rest/v1/rpc/portal_owner_walk_ins') as unknown as import('@/lib/walk-in/model').WalkInState;}
   async saveWalkInSettings(enabled:boolean,opensAt:string,closesAt:string){return await this.call('/rest/v1/rpc/portal_owner_walk_in_settings',{p_enabled:enabled,p_opens:opensAt,p_closes:closesAt}) as unknown as import('@/lib/walk-in/model').WalkInState;}
   async updateWalkIn(row:import('@/lib/walk-in/model').WalkInRow,fields:import('@/lib/walk-in/model').WalkInFields,deleted:boolean){return await this.call('/rest/v1/rpc/portal_owner_walk_in_update',{p_id:row.id,p_fields:fields,p_deleted:deleted,p_revision:row.revision}) as unknown as import('@/lib/walk-in/model').WalkInState;}
+  async sendOffAirUpdate(input:{action:'test'|'send';subject:string;message:string;recipients:string[];requestId:string}){
+    const result=await this.call('/functions/v1/offair-owner-update',input);
+    if(typeof result.accepted!=='number')throw new Error('Email acceptance could not be confirmed.');
+    return result.accepted;
+  }
+
   async sponsors(){return await this.call('/rest/v1/rpc/portal_owner_sponsors') as unknown as SponsorLogin[];}
   async meetingInterests(){return await this.call('/rest/v1/rpc/portal_owner_meeting_interests') as unknown as MeetingInterest[];}
   async saveSponsor(details:{email:string;company:string;expiresAt:string;agreed:boolean}){return await this.call('/functions/v1/sponsor-management',{action:'create',...details}) as unknown as SponsorSetup;}
