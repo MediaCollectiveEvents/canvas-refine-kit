@@ -25,7 +25,7 @@ Deno.serve(async(req:Request)=>{
    : PRODUCTION_PUBLIC_KEY;
   const ip=req.headers.get('x-forwarded-for')?.split(',')[0].trim()??'unknown';
   const ipHash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(key+':'+ip)))).map(x=>x.toString(16).padStart(2,'0')).join('');
-  async function rpc(name:string,body:object){const r=await fetch(`${project}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key!,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('unavailable');return r.json();}
+  async function rpc(name:string,body:object){const r=await fetch(`${project}/rest/v1/rpc/${name}`,{method:'POST',headers:{apikey:key!,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)});if(!r.ok)throw Error('unavailable');return r.status===204?null:r.json();}
   const route=await rpc('portal_code_request_route',{p_email:email,p_ip_hash:ipHash});
   if(route.registered){
    if(route.confirmed&&!publicKey)throw Error('unavailable');
