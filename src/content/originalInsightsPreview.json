@@ -1,0 +1,47 @@
+{
+  "hero": {
+    "imagePosition": "center",
+    "variant": "solid",
+    "align": "center",
+    "theme": "dark",
+    "eyebrow": "Insights & Updates",
+    "imageOffset": 0,
+    "overlayStrength": 0,
+    "mobileCrop": "cover",
+    "title": "Insights",
+    "image": "/uploads/insights-hero-v4.png",
+    "description": "Ideas, perspectives and event stories from people working across the media industry."
+  },
+  "sections": [
+    {
+      "variant": "default",
+      "authorLabel": "The Media Collective",
+      "hidden": false,
+      "layout": "two-column",
+      "title": "Insights from the collective",
+      "linkLabel": "Read more",
+      "type": "postsGrid",
+      "id": "posts-grid",
+      "description": "Browse the most recent articles from our team."
+    },
+    {
+      "id": "divider",
+      "type": "divider",
+      "variant": "default",
+      "hidden": false,
+      "style": "triple",
+      "spacing": "large"
+    },
+    {
+      "id": "cta",
+      "type": "cta",
+      "variant": "accent",
+      "hidden": false,
+      "title": "Explore our",
+      "accentWord": "Events",
+      "description": "Discover Media Collective gatherings and explore what to expect at each event.",
+      "buttonLabel": "View events",
+      "url": "/events"
+    }
+  ]
+}

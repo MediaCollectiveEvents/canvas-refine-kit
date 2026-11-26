@@ -5,6 +5,7 @@ import settings from "@/content/settings.json";
 
 // Pages
 import Home from "@/pages/Home";
+const InsightsComparison = lazy(() => import("@/pages/InsightsComparison"));
 const Blog = lazy(() => import("@/pages/Blog"));
 const BlogPost = lazy(() => import("@/pages/BlogPost"));
 const Events = lazy(() => import("@/pages/Events"));
@@ -87,6 +88,7 @@ const App = () => {
 
               {/* Insights and legacy article links */}
               <Route path="/insights" element={<Blog />} />
+              <Route path="/insights/design-comparison" element={import.meta.env.DEV || window.location.hostname === "staging.mediacollective.events" ? <InsightsComparison /> : <NotFound />} />
               <Route path="/insights/:slug" element={<BlogPost />} />
               <Route path="/blog" element={<Navigate to="/insights" replace />} />
               <Route path="/blog/:slug" element={<BlogPost />} />

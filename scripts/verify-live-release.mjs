@@ -10,7 +10,7 @@ const entries = [
   ['/eventhub/owner/', 'eventhub/owner/index.html'],
   ['/eventhub/mpts-reception-2027', 'eventhub/index.html'],
 ];
-if (new URL(base).hostname === 'staging.mediacollective.events') entries.push(['/insights/', 'index.html'], ['/insights/off-air-2026-beyond-broadcast', 'index.html']);
+if (new URL(base).hostname === 'staging.mediacollective.events') entries.push(['/insights/', 'index.html'], ['/insights/off-air-2026-beyond-broadcast', 'index.html'], ['/insights/design-comparison', 'index.html']);
 await Promise.all(entries.map(async ([route, file]) => {
   const url = new URL(route, base);
   url.searchParams.set('verify-release', Date.now().toString());
