@@ -26,7 +26,7 @@ function ArticleCard({ post, featured = false }: { post: Article; featured?: boo
     <div className="space-y-4">
       <p className="font-display text-xs uppercase tracking-[0.12em] text-[#9bd3c8]">{[post.series, post.category].filter(Boolean).join(" · ")}</p>
       <h3 className={featured ? "font-display text-3xl font-light leading-tight text-white md:text-4xl" : "font-display text-2xl font-light leading-snug text-white"}><Link to={`/insights/${post.slug}`} className="hover:text-primary">{post.title}</Link></h3>
-      <p className="text-sm text-slate-400">{formatArticleDate(post.date)}</p>
+      <p className="text-sm text-slate-400">{formatArticleDate(post.date)}{post.readingMinutes && ` · ${post.readingMinutes} min read`}</p>
       <ArticleAttribution article={post} />
       <p className="text-base leading-[1.8] text-slate-300">{post.excerpt}</p>
       <Link to={`/insights/${post.slug}`} className="font-display inline-flex min-h-11 items-center gap-2 font-medium text-primary hover:underline">Read article <ArrowRight size={16} aria-hidden="true" /></Link>

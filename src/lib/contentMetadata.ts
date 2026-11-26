@@ -38,7 +38,20 @@ export interface ArticleMetadata extends TaxonomyMetadata {
   relatedPartnerIds?: string[];
 }
 
+export interface InsightPicture {
+  src: string;
+  alt: string;
+  caption: string;
+  credit: string;
+  placement: 'cover' | 'inline' | 'end';
+}
+
 export interface Article extends ArticleMetadata {
+  readingMinutes?: number;
+  summary?: string;
+  logo?: string;
+  images?: InsightPicture[];
+  profile?: import('./speakers/profiles').SpeakerBio;
   title: string;
   slug: string;
   date: string;

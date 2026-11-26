@@ -1,3 +1,5 @@
+import { usePublishedInsights } from "@/lib/publishedInsights";
+import InsightArticleBody from "@/components/insights/InsightArticleBody";
 import ContributorBiography from "@/components/shared/ContributorBiography";
 import ArticleContent from "@/components/shared/ArticleContent";
 import ArticleAttribution from "@/components/shared/ArticleAttribution";
@@ -17,7 +19,11 @@ import Footer from "@/components/layout/Footer";
 const BlogPostPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
 
-  const post = getArticleBySlug(slug);
+  const published = usePublishedInsights(slug);
+  const feed = usePublishedInsights();
+  const post = getArticleBySlug(slug, [...published.articles, ...getArticles()]);
+
+  if (published.loading && !post) return <p role="status">Loading article…</p>;
 
   // -----------------------------
   // ❌ Not Found Case
@@ -47,13 +53,13 @@ const BlogPostPage: React.FC = () => {
     );
   }
 
-  const related = getArticles().filter(a => a.slug !== post.slug && ((post.series && a.series === post.series) || a.category === post.category || a.topics?.some(t => post.topics?.includes(t)) || a.relatedEventIds?.some(id => post.relatedEventIds?.includes(id)))).slice(0, 3);
+  const related = [...feed.articles, ...getArticles()].filter(a => a.slug !== post.slug && ((post.series && a.series === post.series) || a.category === post.category || a.topics?.some(t => post.topics?.includes(t)) || a.relatedEventIds?.some(id => post.relatedEventIds?.includes(id)))).slice(0, 3);
 
   // -----------------------------------
   // 🎨 Build Hero Image (imageKey first)
   // -----------------------------------
   const hero = {
-    image: post.imageKey
+    image: post.profile ? undefined : post.imageKey
       ? `/images/blog/${post.imageKey}.jpg`
       : contentImage(post.image),
   };
@@ -79,7 +85,7 @@ const BlogPostPage: React.FC = () => {
             {post.excerpt && <p className="mt-6 text-base leading-[1.8] text-slate-200 md:text-lg">{post.excerpt}</p>}
             <div className="mt-6 flex flex-wrap items-center justify-between gap-4 text-sm text-slate-300">
               <span>
-                {formatArticleDate(post.date)}
+                {formatArticleDate(post.date)}{post.readingMinutes && ` · ${post.readingMinutes} min read`}
               </span>
               <Link to="/insights" className="font-display text-sm font-medium text-primary hover:underline">← Back to Insights</Link>
             </div>
@@ -90,14 +96,14 @@ const BlogPostPage: React.FC = () => {
         <section className="px-6 pb-16 pt-8 md:pb-20 md:pt-10">
           <div className="container mx-auto max-w-3xl [&_.prose]:text-slate-200">
             {/* Post Body */}
-            {post.body ? (
+            {post.profile ? <InsightArticleBody article={post}/> : post.body ? (
               <ArticleContent body={post.body} />
             ) : (
               <p className="text-muted-foreground">
                 Full content for this post is coming soon.
               </p>
             )}
-            <ContributorBiography article={post} />
+            {!post.profile && <ContributorBiography article={post} />}
             <ArticleRelatedEvents article={post} />
             {related.length > 0 && <section aria-label="Related articles" className="mt-12 border-t border-white/15 pt-8"><h2 className="mb-5 font-display text-2xl font-light">Related insights</h2><ul className="space-y-5">{related.map(a => <li key={a.slug}><Link className="font-display text-lg text-primary hover:underline" to={`/insights/${a.slug}`}>{a.title}</Link><p className="mt-2 text-sm text-slate-300">{a.excerpt}</p></li>)}</ul></section>}
             <Link to="/insights" className="font-display mt-10 inline-block text-sm font-medium text-primary hover:underline">← Back to Insights</Link>

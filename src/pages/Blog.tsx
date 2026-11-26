@@ -1,3 +1,4 @@
+import { usePublishedInsights } from "@/lib/publishedInsights";
 import { getArticles } from "@/lib/articles";
 import Seo from "@/components/shared/Seo";
 // src/pages/Blog.tsx
@@ -13,7 +14,7 @@ import blogPage from "@/content/blogPage.json";
 
 const Blog: React.FC = () => {
   const { hero, sections } = blogPage;
-  const posts = getArticles();
+  const posts = [...usePublishedInsights().articles, ...getArticles()];
 
   return (
     <div className="min-h-screen bg-background">
