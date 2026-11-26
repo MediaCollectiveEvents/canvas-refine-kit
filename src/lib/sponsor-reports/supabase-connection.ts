@@ -133,6 +133,7 @@ export class FrankfurtOwnerClient {
     await this.storeGalleryImage(reserved.path,file,mime);
     await this.mptsMedia('publish',sponsor,{id:reserved.id});
   }
+  async insights(body:object){if(!isEventHubRehearsalReady)throw Error('Staging backend not ready.');return this.call('/rest/v1/rpc/insights_owner',body);}
   async speakers(body:object){return this.call('/rest/v1/rpc/speaker_owner',body);}
   async recoveryExport(){return this.call('/rest/v1/rpc/portal_owner_recovery_export');}
   async ownerMfaFactors(){const user=await this.call('/auth/v1/user',undefined,true,'GET');return (Array.isArray(user.factors)?user.factors:[]) as {id:string;status:string;factor_type:string}[];}
