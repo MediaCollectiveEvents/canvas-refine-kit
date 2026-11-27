@@ -33,6 +33,7 @@ export default function Footer({ hideAttendanceCTA = false }: { hideAttendanceCT
           {!isAdmin && <button ref={updatesTrigger} type="button" className={linkClassName} onClick={() => setUpdatesOpen(true)}>Be the first to hear about new events</button>}
           <Link to="/faq" className={linkClassName}>FAQ</Link>
           <Link to="/privacy-policy" className={linkClassName}>Privacy Policy</Link>
+          <Link to="/privacy-policy#cookies" className={linkClassName}>Cookies</Link>
           {!isAdmin && <CookieSettingsButton className={linkClassName} />}
         </nav>
       </div>
