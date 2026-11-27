@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { responsiveEventImage, eventImageSizes } from "@/lib/imageDelivery";
 // Shared listing content for the public events page and Decap draft preview.
 import React, { useState } from "react";
@@ -46,7 +47,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, index }) => {
         {event.partnerEvent && event.attendanceStatement && <p className="font-body text-base leading-[1.6] text-white/65">{event.attendanceStatement}</p>}
         <EventTags event={event} />
         <p className="max-w-[75ch] font-body text-base leading-[1.7] text-muted-foreground">{event.summary || event.description || "Programme details will be announced."}</p>
-        <a href={`/events/${event.id}`} className="site-secondary-action">{isPastEvent(event) ? "View event" : "Learn more"}</a>
+        <Link to={`/events/${event.id}`} className="site-secondary-action">{isPastEvent(event) ? "View event" : "Learn more"}</Link>
       </div>
     </motion.article>
   );
