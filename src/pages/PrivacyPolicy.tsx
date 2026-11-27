@@ -201,6 +201,52 @@ const PrivacyPolicy = () => {
                   : "When you sign up for event updates, we use HubSpot to manage the email subscription and your unsubscribe preferences. We keep a record of the email address, the date and time of your signup, and the consent wording you agreed to."}
                 {" "}Requesting an event invitation does not subscribe you to event updates.
               </p>
+              <h3 className="font-display text-lg text-foreground mb-3 mt-6" id="website-form-data">Website form data</h3>
+              <div className="overflow-x-auto rounded-lg border border-border text-muted-foreground font-body">
+                <table className="w-full border-collapse text-left text-sm">
+                  <caption className="sr-only">Data collected through public website forms, service providers and retention</caption>
+                  <thead>
+                    <tr className="border-b border-border text-foreground">
+                      <th scope="col" className="p-3">Form</th>
+                      <th scope="col" className="p-3">What you provide</th>
+                      <th scope="col" className="p-3">How we use it and who receives it</th>
+                      <th scope="col" className="p-3">How long we keep it</th>
+                    </tr>
+                  </thead>
+                  <tbody className="[&_td]:p-3 [&_th]:p-3 [&_tr]:border-b [&_tr]:border-border [&_tr]:align-top">
+                    <tr>
+                      <th scope="row">Contact enquiry</th>
+                      <td>Name, email address and message.</td>
+                      <td>We record the enquiry in {usesSupabaseEventEnquiries ? "Supabase" : "Google Sheets via Google Apps Script"} so we can respond and follow up.</td>
+                      <td>Generally up to 12 months after the enquiry closes.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Partnership and other event enquiries</th>
+                      <td>Name, email address, company, event or series of interest, how you want to take part and consent to process the request.</td>
+                      <td>We record the enquiry in {usesSupabaseEventEnquiries ? "Supabase" : "Google Sheets via Google Apps Script"} so we can review your interests and follow up.</td>
+                      <td>Generally up to 12 months after the enquiry closes.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Event invitation request</th>
+                      <td>Name, email address, company, event of interest, attendance choice and consent to process the request.</td>
+                      <td>We record the request in {usesSupabaseEventEnquiries ? "Supabase" : "Google Sheets via Google Apps Script"} to review it and contact you about the outcome.</td>
+                      <td>Generally up to 12 months after the event or final decision, whichever is later.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Event-update subscription</th>
+                      {usesSupabaseEventEnquiries ? (
+                        <td colSpan={3}>Subscriptions are unavailable on this staging site.</td>
+                      ) : (
+                        <>
+                          <td>Name, email address, company, event and notification choices, and signup consent. We also record the time and the consent wording you agreed to.</td>
+                          <td>We record the request and consent evidence in Google Sheets via Google Apps Script. We send your email address and consent details to HubSpot to manage event updates and unsubscribe preferences.</td>
+                          <td>We review subscriptions after 12 months without meaningful engagement. We keep consent evidence while we rely on it and review what we need to retain after you unsubscribe.</td>
+                        </>
+                      )}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Data Retention */}
