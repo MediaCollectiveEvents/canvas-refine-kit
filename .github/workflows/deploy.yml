@@ -20,6 +20,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     name: Build Vite site
     env:
+      VITE_PRODUCTION_PARTNERSHIP_ENQUIRIES: ${{ vars.PRODUCTION_PARTNERSHIP_ENQUIRIES }}
       VITE_PRODUCTION_ENQUIRY_ENDPOINT: ${{ vars.PRODUCTION_ENQUIRY_ENDPOINT }}
     runs-on: ubuntu-latest
 

@@ -151,3 +151,26 @@ contact form reaches the existing destination. Check the live privacy notice
 on the deployed host. Removing the variable and rebuilding returns both form
 routing and the notice to their Google-handler configuration. Preserve the
 records already created in Supabase for reconciliation.
+
+## Production partnership enquiry release
+
+The production Partners page keeps Arrange a Call as the primary action. The
+separate partnership form and owner inbox section are enabled in the production
+build only when the repository variable `PRODUCTION_PARTNERSHIP_ENQUIRIES` is
+set to `true`. The contact, invitation and event-update transports use their
+existing configuration.
+
+Apply `202611270057_production_partnership_enquiries.sql` in the production
+project and deploy the separate `partnership-enquiry` Edge Function with gateway
+JWT verification disabled. The function accepts only the canonical production
+origin, requires the matching live reCAPTCHA hostname and writes through its
+service-role RPC. Configure `PARTNERSHIP_RESEND_API_KEY` (sending-only, restricted
+to the verified sending domain) and `PARTNERSHIP_ACKNOWLEDGEMENT_FROM` in the
+production Edge Function secrets. It uses the existing production
+`WEBSITE_ENQUIRY_RECAPTCHA_SECRET`.
+
+For release verification, use one approved synthetic prospect and confirm a
+single owner inbox row with the selected series and engagement, plus a received
+acknowledgement. The receipt confirms that the record was stored. Check Resend
+delivery separately. If the production check fails, clear the build flag and
+redeploy to remove the button. Keep stored enquiries available for review.

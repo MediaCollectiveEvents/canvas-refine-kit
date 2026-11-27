@@ -162,6 +162,9 @@ export class FrankfurtOwnerClient {
       p_ref: ref, p_status: status, p_expected_version: expectedVersion,
     }) as unknown as InvitationRequests;
   }
+  async partnershipEnquiries() {
+    return await this.call('/rest/v1/rpc/portal_owner_partnership_enquiries') as unknown as PartnershipEnquiry[];
+  }
   async invitations(){return await this.call('/rest/v1/rpc/portal_owner_invitations') as unknown as InvitationRequests;}
   async invitationKey(){return await this.call('/rest/v1/rpc/portal_owner_invitation_key') as unknown as {key:string};}
   async walkIns(){return await this.call('/rest/v1/rpc/portal_owner_walk_ins') as unknown as import('@/lib/walk-in/model').WalkInState;}
@@ -221,4 +224,15 @@ export type InvitationRequests = {
   configured: boolean;
   rows: (InvitationRow & { status: string })[];
   websiteRows?: WebsiteInvitation[];
+};
+
+
+export type PartnershipEnquiry = {
+  id: string;
+  fullName: string;
+  company: string;
+  email: string;
+  eventLabel: string;
+  engagement: string;
+  receivedAt: string;
 };

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { CookieSettingsButton } from "@/components/shared/CookieConsent";
 import { analyticsConsentPolicy } from "@/lib/analyticsConsentPolicy";
 import { privacySeo } from "@/lib/pageSeo";
-import { isStagingEnquiryBuild, usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
+import { isStagingEnquiryBuild, partnershipEnquiriesEnabled, usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
 import ClosingCTA from "@/components/shared/ClosingCTA";
 import { Button } from "@/components/ui/button";
 import { motion, useReducedMotion } from "framer-motion";
@@ -190,7 +190,7 @@ const PrivacyPolicy = () => {
                 All third-party processors are required to implement appropriate security measures and process data only on our instructions.
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
-                We use Google Apps Script and Google Sheets for contact and partnership enquiries. We use Google reCAPTCHA to help prevent automated submissions.
+                We use Google Apps Script and Google Sheets for contact enquiries. We use Google reCAPTCHA to help prevent automated submissions.
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
                 Requesting an event invitation does not subscribe you to event updates.
@@ -217,7 +217,9 @@ const PrivacyPolicy = () => {
                     <tr>
                       <th scope="row">Partnership and other event enquiries</th>
                       <td>Name, email address, company, event or series of interest, how you want to take part and consent to process the request.</td>
-                      <td>We record the enquiry in Google Sheets via Google Apps Script so we can review your interests and follow up.</td>
+                      <td>{partnershipEnquiriesEnabled
+                        ? "We record partnership enquiries in Supabase so we can review your interests and follow up. Resend uses your email address to send an acknowledgement."
+                        : "We record the enquiry in Google Sheets via Google Apps Script so we can review your interests and follow up."}</td>
                       <td>Generally up to 12 months after the enquiry closes.</td>
                     </tr>
                     <tr>

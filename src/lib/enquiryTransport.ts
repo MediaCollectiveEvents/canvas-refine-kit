@@ -5,6 +5,9 @@ const eventEnquiryEndpoint = isStagingEnquiryBuild
   ? import.meta.env.VITE_STAGING_ENQUIRY_ENDPOINT
   : import.meta.env?.VITE_PRODUCTION_ENQUIRY_ENDPOINT;
 
+export const partnershipEnquiriesEnabled = !isStagingEnquiryBuild && import.meta.env?.VITE_PRODUCTION_PARTNERSHIP_ENQUIRIES === "true";
+const partnershipEndpoint = "https://qtmbioguefmtwtngbava.supabase.co/functions/v1/partnership-enquiry";
+
 export const usesSupabaseEventEnquiries = Boolean(eventEnquiryEndpoint);
 
 function getEndpoint(payload: unknown) {
@@ -26,9 +29,10 @@ export class EnquiryDeliveryError extends Error {
 }
 
 /** The handler acknowledges only after the destination has accepted the submission. */
-export async function sendEnquiry(payload: unknown): Promise<void> {
+export async function sendEnquiry(payload: unknown, partnership = false): Promise<void> {
+  if (partnership && !partnershipEnquiriesEnabled) throw new EnquiryDeliveryError(true);
   try {
-    const response = await fetch(getEndpoint(payload), {
+    const response = await fetch(partnership ? partnershipEndpoint : getEndpoint(payload), {
       method: "POST",
       mode: "cors",
       headers: { "Content-Type": "text/plain;charset=UTF-8" },
