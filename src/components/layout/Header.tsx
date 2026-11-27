@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 import { Button } from "../ui/button";
+import { focusMainContent } from "@/lib/navigationFocus";
 import { headerLogoImage } from "@/lib/imageDelivery";
 import { ContactForm } from "@/components/shared/LazyEnquiryForms";
 import settings from "../../content/settings.json";
@@ -106,7 +107,9 @@ const Header = () => {
 
   return (
     <>
-      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-[#35C5BB] focus:px-4 focus:py-3 focus:text-[#101d24]">Skip to main content</a>
+      <a href="#main-content" onClick={event => {
+        if (focusMainContent(true)) event.preventDefault();
+      }} className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-[#35C5BB] focus:px-4 focus:py-3 focus:text-[#101d24]">Skip to main content</a>
       <ContactForm open={isFormOpen} onOpenChange={setIsFormOpen} fallbackFocusRef={menuToggle} />
 
       <header

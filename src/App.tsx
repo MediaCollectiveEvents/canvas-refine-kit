@@ -1,7 +1,8 @@
 // src/App.tsx
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { lazy, Suspense, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigationType } from "react-router-dom";
+import { lazy, Suspense, useEffect, useLayoutEffect, useRef } from "react";
 import settings from "@/content/settings.json";
+import { focusMainContent } from "@/lib/navigationFocus";
 
 // Pages
 import Home from "@/pages/Home";
@@ -40,6 +41,22 @@ function eventHubScreen(page: React.ReactNode, supportsRehearsal = true) {
     return <main className="site-container py-24"><h1>Event Hub staging</h1><p>This preview is waiting for a separate test backend.</p></main>;
   }
   return page;
+}
+
+function RouteFocus() {
+  const { pathname, hash } = useLocation();
+  const navigationType = useNavigationType();
+  const previousPath = useRef(pathname);
+
+  useLayoutEffect(() => {
+    if (previousPath.current === pathname) return;
+    previousPath.current = pathname;
+
+    // In-page links own their scroll and focus behaviour.
+    if (!hash) focusMainContent(navigationType !== "POP");
+  }, [pathname, hash, navigationType]);
+
+  return null;
 }
 
 const App = () => {
@@ -129,6 +146,7 @@ const App = () => {
             </>
           )}
         </Routes>
+        <RouteFocus />
         </Suspense>
       </Router>
       <CookieConsent />
