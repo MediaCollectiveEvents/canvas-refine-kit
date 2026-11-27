@@ -1,3 +1,4 @@
+import { partnershipEnquiriesEnabled } from "@/lib/enquiryTransport";
 import ContextualText from "@/components/shared/ContextualText";
 import { COMMUNITY_CONTEXT_LINKS } from "@/lib/contextualLinks";
 import ClosingCTA from "@/components/shared/ClosingCTA";
@@ -46,7 +47,7 @@ function JourneyHeading({ step, title, description, className = "mb-10" }: { ste
   );
 }
 
-export default function PartnersPageRenderer({ sections }: PartnersPageRendererProps) {
+export default function PartnersPageRenderer({ sections, onRegister }: PartnersPageRendererProps) {
   const reducedMotion = useReducedMotion();
   const [logosPaused, setLogosPaused] = useState(false);
   if (!Array.isArray(sections)) return null;
@@ -144,7 +145,12 @@ export default function PartnersPageRenderer({ sections }: PartnersPageRendererP
           case "joinUs":
             return (
               <ClosingCTA key={section.id ?? section.type} id="partner-conversation" eyebrow={section.eyebrow} heading={section.heading} headingClassName="!text-[25.6px] !leading-[37.5px] md:!leading-10"
-                action={section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>} />
+                action={partnershipEnquiriesEnabled
+                  ? <div className="flex flex-wrap gap-3">
+                      {section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>}
+                      <Button variant="outline" size="lg" onClick={onRegister}>Send a partnership enquiry</Button>
+                    </div>
+                  : section.cta && <Button variant="brand" size="lg" asChild><a href={section.cta.url}>{section.cta.label}</a></Button>} />
             );
           default:
             return null;

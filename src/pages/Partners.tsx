@@ -1,6 +1,7 @@
 import { partnersSeo } from "@/lib/pageSeo";
 import Seo from "@/components/shared/Seo";
 // src/pages/Partners.tsx
+import { partnershipEnquiriesEnabled } from "@/lib/enquiryTransport";
 import { useState } from "react";
 
 import Header from "@/components/layout/Header";
@@ -23,7 +24,7 @@ const Partners = () => {
       <Seo {...partnersSeo()} />
       <Header />
 
-      <EventRegistrationForm open={isFormOpen} onOpenChange={setIsFormOpen} />
+      <EventRegistrationForm partnershipOnly={partnershipEnquiriesEnabled} open={isFormOpen} onOpenChange={setIsFormOpen} />
 
       {/* Match header clearance with other pages */}
       <main className="site-header-clearance">

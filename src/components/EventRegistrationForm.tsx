@@ -63,6 +63,7 @@ interface EventRegistrationFormProps {
   preselectedEvent?: string;
   attendanceOnly?: boolean;
   eventUpdatesOnly?: boolean;
+  partnershipOnly?: boolean;
   onCloseAutoFocus?: ComponentProps<typeof DialogContent>["onCloseAutoFocus"];
   event?: EventItem;
 }
@@ -99,6 +100,7 @@ const EventRegistrationForm = ({
   preselectedEvent,
   attendanceOnly = false,
   eventUpdatesOnly = false,
+  partnershipOnly = false,
   onCloseAutoFocus,
   event
 }: EventRegistrationFormProps) => {
@@ -217,7 +219,10 @@ const EventRegistrationForm = ({
   const submitForm = async (data: Omit<FormData, 'captchaToken'>, captchaToken: string) => {
     try {
       const eventLabels = data.interestedEvents
-        .map(id => eventOptions.find(e => e.id === id)?.label || id)
+        .map(id => {
+          const option = eventOptions.find(event => event.id === id);
+          return (partnershipOnly ? option?.displayLabel : option?.label) || id;
+        })
         .join(", ");
 
       const engagementLabels = data.engagementTypes
@@ -233,11 +238,11 @@ const EventRegistrationForm = ({
         consent: data.gdprConsent ? "Y" : "N",
         ...(eventUpdatesOnly ? getEventUpdatesMetadata(updatesRequestId.current ??= crypto.randomUUID()) : {}),
         "g-recaptcha-response": captchaToken,
-        token: "3Fv9XqT7bLpK2zR8YwS6dN1mHjUaV5eG",
+        ...(!partnershipOnly ? { token: "3Fv9XqT7bLpK2zR8YwS6dN1mHjUaV5eG" } : {}),
       };
 
       setSubmissionPhase("sending");
-      await sendEnquiry(webhookData);
+      await sendEnquiry(webhookData, partnershipOnly);
 
       setSubmitted(true);
       captchaRef.current?.reset();
@@ -284,8 +289,8 @@ const EventRegistrationForm = ({
   };
   return <Dialog modal={false} open={open} onOpenChange={handleClose}>
       <DialogContent externalVerification onVerificationCancel={submissionPhase === "verifying" ? cancelVerification : undefined} onCloseAutoFocus={onCloseAutoFocus} className="w-[calc(100%-2rem)] sm:max-w-[540px] max-h-[90svh] overflow-y-auto bg-background border-border p-4 sm:p-6 gap-3 sm:gap-4">
-        <DialogHeader className={attendanceOnly || eventUpdatesOnly ? "pr-6" : "sr-only"}>
-          <DialogTitle>{eventUpdatesOnly ? "Be the first to hear about new events" : attendanceOnly ? "Request an invitation" : "Register interest or enquire"}</DialogTitle>
+        <DialogHeader className={attendanceOnly || eventUpdatesOnly || partnershipOnly ? "pr-6" : "sr-only"}>
+          <DialogTitle>{eventUpdatesOnly ? "Be the first to hear about new events" : attendanceOnly ? "Request an invitation" : partnershipOnly ? "Send a partnership enquiry" : "Register interest or enquire"}</DialogTitle>
           <DialogDescription>{eventUpdatesOnly ? "Subscribe to emails announcing new Media Collective events. This does not request an event invitation." : "Send your details so we can review your request. Submitting does not confirm attendance."}</DialogDescription>
         </DialogHeader>
 
@@ -390,7 +395,7 @@ const EventRegistrationForm = ({
 
                   <FormField control={form.control} name="engagementTypes" render={() => <FormItem>
                         <div className="grid grid-cols-1 gap-3">
-                          {engagementOptions.filter(option => option.id !== "notifications").map(option => <FormField key={option.id} control={form.control} name="engagementTypes" render={({
+                          {engagementOptions.filter(option => option.id !== "notifications" && (!partnershipOnly || option.id !== "attend")).map(option => <FormField key={option.id} control={form.control} name="engagementTypes" render={({
                     field
                   }) => <FormItem className="flex items-center space-x-3 space-y-0 p-3 rounded-lg border border-input hover:border-primary transition-colors cursor-pointer">
                                   <RegistrationControl>

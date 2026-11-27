@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { partnershipEnquiriesEnabled } from '@/lib/enquiryTransport';
 import { Button } from '@/components/ui/button';
 import {
   websiteInvitationStatuses,
   type FrankfurtOwnerClient,
   type InvitationRequests,
+  type PartnershipEnquiry,
   type WebsiteInvitation,
   type WebsiteInvitationStatus,
 } from '@/lib/sponsor-reports/supabase-connection';
@@ -14,6 +16,8 @@ const legacyHeading = ['Name', 'Company', 'Email', 'Requested', 'Status', 'Actio
 
 export default function OwnerInvitationRequests({ client }: { client: FrankfurtOwnerClient }) {
   const [data, setData] = useState<InvitationRequests | null>(null);
+  const [partnerships, setPartnerships] = useState<PartnershipEnquiry[] | null>(null);
+  const [partnershipError, setPartnershipError] = useState(false);
   const [event, setEvent] = useState('');
   const [status, setStatus] = useState('');
   const [key, setKey] = useState('');
@@ -26,6 +30,15 @@ export default function OwnerInvitationRequests({ client }: { client: FrankfurtO
   const refresh = useCallback(async () => {
     if (mutation.current) return;
     const version = ++requestVersion.current;
+    if (partnershipEnquiriesEnabled) {
+      void client.partnershipEnquiries().then(rows => {
+        if (requestVersion.current !== version) return;
+        setPartnerships(rows);
+        setPartnershipError(false);
+      }).catch(() => {
+        if (requestVersion.current === version) setPartnershipError(true);
+      });
+    }
     try {
       const next = await client.invitations();
       if (requestVersion.current === version) {
@@ -97,6 +110,17 @@ export default function OwnerInvitationRequests({ client }: { client: FrankfurtO
       {message && <p role="status" className="my-4 text-primary">{message}</p>}
       {error && <p role="alert" className="my-4 text-red-200">{error}</p>}
       <Button variant="outline" disabled={!!saving} onClick={() => void refresh()}>Refresh requests</Button>
+
+      {partnershipEnquiriesEnabled && <div className="mt-6">
+        <h3 className="font-display text-xl">Partnership enquiries</h3>
+        {partnershipError && <p role="alert">Partnership enquiries could not be refreshed.</p>}
+        {!partnershipError && partnerships?.length === 0 && <p className="text-sm text-white/65">No partnership enquiries received.</p>}
+        {partnerships?.map(row => <details key={row.id} className="my-3 rounded border border-white/15 p-3">
+          <summary>{row.fullName} · {row.company} · {new Date(row.receivedAt).toLocaleString('en-GB')}</summary>
+          <p className="mt-2 break-words">{row.email}</p>
+          <p>{row.eventLabel} · {row.engagement}</p>
+        </details>)}
+      </div>}
 
       {data?.websiteRows && <div className="mt-6">
         <h3 className="font-display text-xl">Website requests</h3>
