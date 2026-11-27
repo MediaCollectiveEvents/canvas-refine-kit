@@ -1,3 +1,7 @@
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { CookieSettingsButton } from "@/components/shared/CookieConsent";
+import { analyticsConsentPolicy } from "@/lib/analyticsConsentPolicy";
 import { privacySeo } from "@/lib/pageSeo";
 import { isStagingEnquiryBuild, usesSupabaseEventEnquiries } from "@/lib/enquiryTransport";
 import ClosingCTA from "@/components/shared/ClosingCTA";
@@ -6,6 +10,8 @@ import { motion, useReducedMotion } from "framer-motion";
 import Seo from "@/components/shared/Seo";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+
+const preferenceDays = analyticsConsentPolicy.maxAgeMs === null ? null : analyticsConsentPolicy.maxAgeMs / 86_400_000;
 
 const controllerName = "Modula Media Ltd";
 const controllerAddress = "10 Heathfield Terrace, Chiswick, London, UK, W4 4JE";
@@ -24,6 +30,14 @@ function PrivacyEmailLink() {
 
 const PrivacyPolicy = () => {
   const reducedMotion = useReducedMotion();
+  const { hash, key } = useLocation();
+  const cookiesSection = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (hash !== "#cookies") return;
+    cookiesSection.current?.scrollIntoView({ block: "start" });
+    cookiesSection.current?.focus({ preventScroll: true });
+  }, [hash, key]);
   return (
     <div className="min-h-screen bg-background">
       <Seo {...privacySeo()} />
@@ -43,7 +57,7 @@ const PrivacyPolicy = () => {
               Privacy Policy
             </h1>
             <p className="text-muted-foreground font-display text-sm uppercase tracking-widest">
-              Last Updated: 26 November 2026
+              Last Updated: 27 November 2026
             </p>
           </motion.div>
         </div>
@@ -176,16 +190,59 @@ const PrivacyPolicy = () => {
                 All third-party processors are required to implement appropriate security measures and process data only on our instructions.
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
-                {usesSupabaseEventEnquiries
-                  ? isStagingEnquiryBuild
-                    ? "On this staging site, we use Supabase to receive invitation requests and to keep a record of consent when event-update signups are enabled. We use Google Apps Script and Google Sheets for contact and other enquiries."
-                    : "We use Supabase to receive invitation requests and to keep a record of consent when you sign up for event updates. We use Google Apps Script and Google Sheets for contact and other enquiries."
-                  : "We use Google Apps Script and Google Sheets to receive and store website enquiries and invitation requests."}
-                {" "}We use Google reCAPTCHA to help prevent automated submissions.
+                We use Google Apps Script and Google Sheets for contact and partnership enquiries. We use Google reCAPTCHA to help prevent automated submissions.
               </p>
               <p className="mt-4 text-muted-foreground font-body leading-[1.7]">
-                When you sign up for event updates, we use HubSpot to manage the email subscription and your unsubscribe preferences. We keep a record of the email address, the date and time of your signup, and the consent wording you agreed to. Requesting an event invitation does not subscribe you to event updates.
+                Requesting an event invitation does not subscribe you to event updates.
               </p>
+              <h3 className="font-display text-lg text-foreground mb-3 mt-6" id="website-form-data">Website form data</h3>
+              <div className="overflow-x-auto rounded-lg border border-border text-muted-foreground font-body">
+                <table className="w-full border-collapse text-left text-sm">
+                  <caption className="sr-only">Data collected through public website forms, service providers and retention</caption>
+                  <thead>
+                    <tr className="border-b border-border text-foreground">
+                      <th scope="col" className="p-3">Form</th>
+                      <th scope="col" className="p-3">What you provide</th>
+                      <th scope="col" className="p-3">How we use it and who receives it</th>
+                      <th scope="col" className="p-3">How long we keep it</th>
+                    </tr>
+                  </thead>
+                  <tbody className="[&_td]:p-3 [&_th]:p-3 [&_tr]:border-b [&_tr]:border-border [&_tr]:align-top">
+                    <tr>
+                      <th scope="row">Contact enquiry</th>
+                      <td>Name, email address and message.</td>
+                      <td>We record the enquiry in Google Sheets via Google Apps Script so we can respond and follow up.</td>
+                      <td>Generally up to 12 months after the enquiry closes.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Partnership and other event enquiries</th>
+                      <td>Name, email address, company, event or series of interest, how you want to take part and consent to process the request.</td>
+                      <td>We record the enquiry in Google Sheets via Google Apps Script so we can review your interests and follow up.</td>
+                      <td>Generally up to 12 months after the enquiry closes.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Event invitation request</th>
+                      <td>Name, email address, company, event of interest, attendance choice and consent to process the request.</td>
+                      <td>We record the request in {usesSupabaseEventEnquiries ? "Supabase" : "Google Sheets via Google Apps Script"} to review it and contact you about the outcome.</td>
+                      <td>Generally up to 12 months after the event or final decision, whichever is later.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Event-update subscription</th>
+                      {isStagingEnquiryBuild && !usesSupabaseEventEnquiries ? (
+                        <td colSpan={3}>Subscriptions are unavailable on this staging site.</td>
+                      ) : (
+                        <>
+                          <td>Name, email address, company, event and notification choices, and signup consent. We also record the time and the consent wording you agreed to.</td>
+                          <td>{usesSupabaseEventEnquiries
+                            ? "We keep evidence of your consent in Supabase."
+                            : "We record the request and consent evidence in Google Sheets via Google Apps Script."} We use HubSpot to manage event updates and unsubscribe preferences.</td>
+                          <td>We review subscriptions after 12 months without meaningful engagement. We keep consent evidence while we rely on it and review what we need to retain after you unsubscribe.</td>
+                        </>
+                      )}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
 
             {/* Data Retention */}
@@ -262,10 +319,48 @@ const PrivacyPolicy = () => {
             </div>
 
             {/* Cookies */}
-            <div id="cookies" className="mb-12 scroll-mt-28">
+            <div id="cookies" ref={cookiesSection} tabIndex={-1} className="mb-12 scroll-mt-44">
               <h2 className="font-display text-2xl font-medium text-foreground mb-4">
                 11. Cookies
               </h2>
+              <CookieSettingsButton className="my-3 min-h-11 rounded-full border border-primary px-5 font-medium text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary" />
+              <h3 className="mb-3 mt-6 font-display text-lg text-foreground">Cookies and browser storage</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse text-left text-sm">
+                  <caption className="sr-only">Website cookies, storage and retention</caption>
+                  <thead>
+                    <tr className="border-b border-border text-foreground">
+                      <th scope="col" className="p-3">Service or item</th>
+                      <th scope="col" className="p-3">Purpose</th>
+                      <th scope="col" className="p-3">Duration</th>
+                    </tr>
+                  </thead>
+                  <tbody className="[&_td]:p-3 [&_th]:p-3 [&_tr]:border-b [&_tr]:border-border">
+                    <tr>
+                      <th scope="row">Analytics preference <code className="break-all">tmc.analytics-consent.v{analyticsConsentPolicy.version}</code></th>
+                      <td>First-party local storage remembers whether you accept or reject analytics.</td>
+                      <td>{preferenceDays === null
+                        ? "The site keeps your choice until you change it or clear site data."
+                        : `The site honours your choice for ${preferenceDays} days. You can change it or clear browser storage sooner.`}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Google Analytics <code>_ga</code> and <code>_ga_…</code></th>
+                      <td>First-party cookies distinguish browsers and preserve analytics session state after you accept.</td>
+                      <td>Google documents a default lifetime of two years. Browser limits and clearing site data can shorten it.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cloudflare Web Analytics</th>
+                      <td>Measures page views and performance after you accept. Cloudflare documents that the beacon uses no cookies or browser storage.</td>
+                      <td>No browser storage duration.</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Google reCAPTCHA <code>_GRECAPTCHA</code></th>
+                      <td>Google uses this cookie for automated submission checks when reCAPTCHA runs. Form verification operates independently of your analytics choice.</td>
+                      <td>Google controls the expiry. We have not verified a fixed lifetime for this site.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <h3 className="font-display text-lg text-foreground mb-3 mt-6">Analytics and preferences</h3>
               <p className="text-muted-foreground font-body leading-[1.7] mb-4">
                 With your permission, we use Google Analytics and Cloudflare Web Analytics to understand site usage and performance and improve the website. Neither analytics script loads or sends measurement requests until you accept analytics. Rejecting analytics leaves both services off. Google Analytics uses first-party _ga and _ga_… cookies; Cloudflare documents its beacon as not using cookies or browser storage. That description does not decide its privacy classification.
