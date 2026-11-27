@@ -446,6 +446,7 @@ const EventRegistrationForm = ({
                     ref={captchaRef}
                     sitekey={verification.siteKey}
                     size="invisible"
+                    badge="inline"
                     asyncScriptOnLoad={() => {
                       if (captchaRef.current?.getWidgetId() != null) verification.loaded();
                       else verification.failed();
