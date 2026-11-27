@@ -145,6 +145,7 @@ export default function ContactForm({ open, onOpenChange, context }: {
               ref={captchaRef}
               sitekey={verification.siteKey}
               size="invisible"
+              badge="inline"
               asyncScriptOnLoad={() => {
                 if (captchaRef.current?.getWidgetId() != null) verification.loaded();
                 else verification.failed();
